@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="org.wella.houtai.sxsz.mapper.HoutaiSxszDegreeMapper">
+  <!-- wa_degree表 -->
+  	<!-- select -->
+  	<!-- 用户等级目录获得函数 -->
+	<select id = "getUserDengjiList" parameterType="java.util.Map" resultType = "java.util.Map">
+	   SELECT * 
+	   FROM wa_degree
+	   <where>
+	   		<if test = "moneyFw != null">
+	   			AND money_fw >= #{moneyFw}
+	   		</if>
+	   		<if test = "moneyFw1!=null">
+	   			AND money_fw1 &lt;= #{moneyFw1}
+	   		</if>
+	   </where> 
+	   ORDER BY degree_id 
+	   <if test = "noPage == null ">
+		   LIMIT ${start}, ${size}
+	   </if>
+	   
+	</select>
+	<!-- 用户等级目录个数获得函数  -->
+	<select id = "getUserDengjiListCount" parameterType="java.util.Map" resultType = "int">
+	   SELECT COUNT(*) 
+	   FROM wa_degree
+	   <where>
+	   		<if test = "moneyFw != null">
+	   			AND money_fw >= ${moneyFw}
+	   		</if>
+	   		<if test = "moneyFw1 != null">
+	   			AND money_fw1 &lt;= ${moneyFw1}
+	   		</if>
+	   </where>  
+	</select>
+	<!-- select -->  
+	
+	
+	
+	
+	 
+</mapper>

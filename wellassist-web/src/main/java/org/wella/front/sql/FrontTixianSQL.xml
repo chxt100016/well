@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="org.wella.front.mapper.FrontTixianMapper">
+	<!-- select -->
+	<!-- 获得未提现信息的函数 -->
+	<select id = "getTixianMoneyInfo" parameterType = "java.util.Map" resultType = "java.util.Map">
+		SELECT IFNULL(SUM(tx_money), 0.00) txMoney 
+		FROM wa_tixian
+		<where> 
+			<if test = "userId != null">
+				AND user_id = #{userId}
+			</if>
+			<if test = "txState == null and geTxState != null">
+				AND tx_state >= #{geTxState}
+			</if>
+			<if test = "txState == null and ltTxState != null">
+				AND tx_state &lt; #{ltTxState}
+			</if>
+			<if test = "txState != null">
+				AND tx_state = #{txState}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 获得提现目录的函数 -->
+	<select id = "getTxList" parameterType = "java.util.Map" resultType = "java.util.Map">
+		SELECT * 
+		FROM wa_tixian 
+		<where>
+			<if test = "userId != null">
+				AND user_id = #{userId}
+			</if>
+			<if test = "txState != null">
+				AND tx_state = #{txState}
+			</if>
+		</where>
+		ORDER BY tx_date DESC
+		LIMIT ${start}, ${size}
+	</select>	
+	<!-- 获得提现目录个数的函数 -->
+	<select id = "getTxListCount" parameterType = "java.util.Map" resultType = "int">
+		SELECT COUNT(*) 
+		FROM wa_tixian 
+		<where>
+			<if test = "userId != null">
+				AND user_id = #{userId}
+			</if>
+			<if test = "txState != null">
+				AND tx_state = #{txState}
+			</if>
+		</where>
+	</select>
+</mapper>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="org.wella.common.mapper.CommonMapper">
+
+	<!-- delete -->
+	<!-- 一个记录删除函数 -->
+	<delete id="deleteSingleBO" parameterType="java.util.Map">
+		delete from
+		${tableName} where ${keyName} = #{keyValue}
+	</delete>
+	<!-- delete -->
+
+	<!-- insert -->
+	<!-- 一个记录添加函数 -->
+	<insert id="insertSingleBO" parameterType="java.util.Map">
+		insert into ${tableName} set
+		<foreach collection="mapClass" index="key" item="ent"
+			separator=",">
+			${key} = #{ent}
+		</foreach>
+		<selectKey keyProperty="newId" resultType="String">select
+			last_insert_id()</selectKey>
+	</insert>
+	<!-- insert -->
+
+	<!-- select -->
+	<!-- 表的field名称获得函数 -->
+	<select id="getTableAllFieldNames" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		SHOW COLUMNS FROM ${tableName}
+	</select>
+	<!-- 一个记录获得函数 -->
+	<select id="selectOneSingleBO" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		select * from ${tableName} where ${keyName} = #{keyValue} LIMIT 1
+	</select>
+	<!-- 一般记录获得函数 -->
+	<select id="selectSingleBO" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		select * from ${tableName}
+		<where>
+			<foreach collection="condition" index="key" item="ent"
+				separator="and">
+				${key} = #{ent}
+			</foreach>
+		</where>
+	</select>
+
+	<select id="simpleSelectReturnList" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		${strsql}
+	</select>
+
+	<select id="simpleSelectReturnObject" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		${strsql} limit 1
+
+	</select>
+
+	<select id="simpleSelectReturnInt" parameterType="java.util.Map"
+		resultType="int">
+		${strsql}
+	</select>
+	
+	<update id = "simpleUpdate" parameterType = "java.util.Map">
+  		${strsql}
+  	</update>
+  	
+  	
+  	<!-- 一般记录添加函数 -->
+  	<insert id = "simpleInsertReturnVoid" parameterType="java.util.Map">
+			${strsql}
+	</insert>
+	
+	
+	<select id="simpleSelectReturnString" parameterType="java.util.Map"
+		resultType="String">
+		${strsql}
+	</select>
+
+	<!-- select -->
+
+
+
+	<!-- update -->
+	<!-- 一个记录更新函数 -->
+	<update id="updateSingleBO" parameterType="java.util.Map">
+		update ${tableName} set
+		<foreach collection="mapClass" index="key" item="ent"
+			separator=",">
+			${key} = #{ent}
+		</foreach>
+		where ${keyName} = #{keyValue}
+	</update>
+
+	<!-- update -->
+
+	<!-- 获得地区详细名称的函数 -->
+	<select id="getRegionDetailName" parameterType="java.util.Map"
+		resultType="String">
+		SELECT GROUP_CONCAT(region_name ORDER BY region_id
+		SEPARATOR ' ' ) AS regionName FROM wa_region WHERE region_id =
+		CONCAT(SUBSTR(${regionId},1,2),"0000") OR region_id =
+		CONCAT(SUBSTR(${regionId},1,4),"00") OR region_id = ${regionId}
+	</select>
+	<!-- 获得地区详细名称的函数 -->
+        <!-- 获取下地区列表 -->
+	<select id = "getChildRegionList" parameterType = "java.util.Map" resultType = "java.util.Map">
+		SELECT region_id, region_name FROM wa_region WHERE parent_region_id = ${regionId} ORDER BY order_id 
+	</select>
+	
+	<!-- 获得用户信息的函数 -->
+	<select id = "getUserInfo" parameterType = "java.util.Map" resultType = "java.util.Map">
+		SELECT * 
+		FROM wa_user a 
+		INNER JOIN wa_userinfo b ON a.user_id = b.user_id 
+		<where>
+			<if test = "userId != null">
+				AND a.user_id = #{userId} 
+			</if>
+		</where> 
+	</select>
+</mapper>

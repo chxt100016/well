@@ -1,0 +1,69 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+		<groupId>io.wellassist</groupId>
+		<artifactId>wellassist-security</artifactId>
+		<version>${wellassist-version}</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>wellassist-web</artifactId>
+	<packaging>war</packaging>
+    <description>管理后台</description>
+	<properties>
+        <org.poi-version>3.10.1-20140818</org.poi-version>
+    </properties>
+	<dependencies>
+        <dependency>
+            <groupId>io.wellassist</groupId>
+            <artifactId>wellassist-common</artifactId>
+            <version>${wellassist-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.wellassist</groupId>
+            <artifactId>wellassist-shiro</artifactId>
+            <version>${wellassist-version}</version>
+        </dependency>
+		<dependency>
+            <groupId>io.wellassist</groupId>
+            <artifactId>wellassist-gen</artifactId>
+            <version>${wellassist-version}</version>
+        </dependency>
+		<dependency>
+            <groupId>io.wellassist</groupId>
+            <artifactId>wellassist-schedule</artifactId>
+            <version>${wellassist-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.wellassist</groupId>
+            <artifactId>wellassist-api</artifactId>
+            <version>${wellassist-version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.6</version>
+        </dependency>
+
+
+
+
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
+
+    </dependencies>
+	<build>
+		<finalName>renren-security</finalName>
+	</build>
+	
+</project>

@@ -1,0 +1,19 @@
+div.dateselect{
+	margin-left: 20px;
+	font-size:14px;
+	color:black;
+	display:inline-block;
+	float:left;
+	width:9%;
+}
+
+div.labelitem{
+	padding: 5px;
+	margin: 10px;
+	font-size:14px;
+	width: 13%;
+	display:inline-block;
+	float:left;
+}
+
+

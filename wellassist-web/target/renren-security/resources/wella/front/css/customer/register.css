@@ -1,0 +1,17 @@
+div.zizhixinxi{
+	border: dashed 2px #b0b0b0;
+	padding: 5px;
+	margin: 10px;
+}
+
+div.zizhixinxi>.zizhititle{
+	text-align: center;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.titlewithline{
+	background: url('../resources/wella/images/breakline_1.png') no-repeat 93px 50%;
+	background-size:600px 10px;
+	background-position-y:5px;
+}

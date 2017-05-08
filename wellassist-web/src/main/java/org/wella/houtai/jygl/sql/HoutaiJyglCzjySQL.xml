@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="org.wella.houtai.jygl.mapper.HoutaiJyglCzjyMapper">
+  	<!-- select -->
+  	<!-- -->
+	<select id = "getJyglCzjyList" parameterType="java.util.Map" resultType = "java.util.Map">
+	   SELECT a.order_id, a.bank_name, a.zf_money, a.zf_date, a.zf_type, a.zf_state, b.user_name
+		FROM wa_bank_order AS a
+			INNER JOIN wa_user AS b ON a.user_id = b.user_id
+		<where>
+			<if test = "userName != null">
+				AND b.user_name LIKE '%${userName}%'		
+			</if>	
+			<if test = "zfState != null">
+				AND a.zf_state LIKE #{zfState}
+			</if>
+		</where>	
+		ORDER BY a.order_id DESC
+		LIMIT ${start}, ${size}    
+	</select>
+	
+	<!--  -->
+	<select id = "getJyglCzjyListCount" parameterType="java.util.Map" resultType = "int">
+	   SELECT COUNT(*) 
+		FROM wa_bank_order AS a
+			INNER JOIN wa_user AS b ON a.user_id = b.user_id
+		<where>
+			<if test = "userName != null">
+				AND b.user_name LIKE '%${userName}%'		
+			</if>	
+			<if test = "zfState != null">
+				AND a.zf_state LIKE #{zfState}
+			</if>
+		</where>
+	</select>
+</mapper>

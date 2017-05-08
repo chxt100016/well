@@ -1,0 +1,91 @@
+@CHARSET "UTF-8";
+/*
+ * ERP global style file
+ * @ author RYK
+ * @ date 2015-05-25
+ *
+ */
+ 
+ /*-------- main -----*/
+._blank_h30{
+	clear:both;
+	width:100%;
+	height:30px;
+}
+._blank_h15{
+	clear:both;
+	width:100%;
+	height:15px;
+}
+.ctgr_h3{
+	line-height: 40px;
+	height:40px;
+}
+.ctgr_title_div{
+	float:left;
+	margin-left:10px;
+	font-size:16px;
+}
+.ctgr_action_div{
+	float:right;
+	margin-right:10px;
+}
+.dropdown-menu{
+	width:85px;
+	min-width: 85px;
+}
+.text-align-left{
+	text-align: left !important;
+	width:400px !important;
+}
+.text-align-center{
+	text-align: center !important;
+}
+.widget-container{
+	padding:20px !important;
+}
+.form-white{
+	background-color: #f9f9f9 !important;
+	height:50px !important;
+	line-height:50px !important;
+}
+.margin_0_auto{
+	margin:0px auto !important;
+}
+.width-100{
+	width:100px !important;
+}
+.width-120{
+	width:120px !important;
+}
+.margin-left-120{
+	margin-left: 120px !important;
+}
+.margin-left-140{
+	margin-left: 140px !important;
+}
+.margin-left-120 select{
+	width:183px;
+}
+.content-label{
+	padding-top: 5px;
+	line-height: 20px;
+}
+.prl_crgr_label{
+	text-align:center;
+	font-size:14px;
+	font-weight:bold;
+	line-height: 30px;
+}
+.img_100_100{
+	width:100px;
+	height:100px;
+	border:none;
+}
+.table_th_bg {
+	background: #686765;
+}
+.detail_div_bg{
+	background:#f7f7f7;
+}
+ /*-------- main -----*/

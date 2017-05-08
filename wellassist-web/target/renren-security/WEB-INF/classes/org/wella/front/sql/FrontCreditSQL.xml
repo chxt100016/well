@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="org.wella.front.mapper.FrontCreditMapper">
+	<!-- select -->
+	<!-- 获得授信目录的函数 -->
+	<select id = "getCreditList" parameterType = "java.util.Map" resultType = "java.util.Map">
+		SELECT * 
+		FROM wa_credit 
+		<where>
+			<if test = "userId != null">
+				AND user_id = #{userId}
+			</if>
+			<if test = "creditState == null and  geCreditState != null">
+				AND credit_state >= #{geCreditState}
+			</if>
+			<if test = "creditState == null and  leCreditState != null">
+				AND credit_state &lt;= #{leCreditState}
+			</if>
+			<if test = "creditState != null">
+				AND credit_state = #{creditState}
+			</if>
+		</where>
+		ORDER BY credit_id DESC
+		LIMIT ${start}, ${size}
+	</select>	
+	<!-- 获得授信目录个数的函数 -->
+	<select id = "getCreditListCount" parameterType = "java.util.Map" resultType = "int">
+		SELECT COUNT(*) 
+		FROM wa_credit 
+		<where>
+			<if test = "userId != null">
+				AND user_id = #{userId}
+			</if>
+			<if test = "creditState == null and  geCreditState != null">
+				AND credit_state >= #{geCreditState}
+			</if>
+			<if test = "creditState == null and  leCreditState != null">
+				AND credit_state &lt;= #{leCreditState}
+			</if>
+			<if test = "creditState != null">
+				AND credit_state = #{creditState}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 获得授信信息的函数 -->
+	<select id = "getCreditInfo" parameterType = "java.util.Map" resultType = "java.util.Map">
+		SELECT a.* , b.user_name creditUserName
+		FROM wa_credit a 
+		INNER JOIN wa_user b ON a.credit_user_id = b.user_id
+		<where>
+			<if test = "creditId != null">
+				AND a.credit_id =#{creditId} 
+			</if>
+		</where>
+	</select>
+</mapper>

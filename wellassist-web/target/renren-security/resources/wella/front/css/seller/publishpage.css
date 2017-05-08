@@ -1,0 +1,11 @@
+div.itemlabel
+{
+	width:20%;
+	display:inline-block;
+}
+div.rowfluid
+{
+	height:55px;
+	clear:both;
+}
+

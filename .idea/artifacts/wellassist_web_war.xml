@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="wellassist-web:war">
+    <output-path>$PROJECT_DIR$/wellassist-web/target</output-path>
+    <root id="archive" name="renren-security.war">
+      <element id="artifact" artifact-name="wellassist-web:war exploded" />
+    </root>
+  </artifact>
+</component>

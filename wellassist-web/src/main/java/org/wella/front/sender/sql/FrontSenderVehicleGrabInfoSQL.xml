@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="org.wella.front.sender.mapper.FrontSenderVehicleGrabInfoMapper">
+	<!-- 获得抢单运输列表的函数 -->				
+	<select id="getGrabInfoList" parameterType="java.util.Map"  resultType = "java.util.Map"  >
+		SELECT * FROM 
+		wa_vehicle_grab_info  
+		<where> 
+			<if test = "grabId != null" >
+				AND grab_id = #{grabId}
+			</if>
+		</where> 
+		ORDER BY info_id
+	</select>
+	
+</mapper>

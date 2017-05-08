@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="org.wella.houtai.jygl.mapper.HoutaiJyglTixianMapper">
+  	<!-- select -->
+  	<!-- 提现目录获得函数 -->
+	<select id = "getTxList" parameterType="java.util.Map" resultType = "java.util.Map">
+	    SELECT * 
+		FROM wa_tixian a 
+		INNER JOIN wa_user b ON a.user_id = b.user_id 
+		INNER JOIN wa_userinfo c ON b.user_id = c.user_id 
+		<where>
+			<if test = "userName != null">
+				AND b.user_name LIKE '%${userName}%'		
+			</if>
+			<if test = "txState != null">
+				AND a.tx_state = ${txState} 
+			</if>
+			<if test = "startDate != null">
+				AND a.tx_date >= ${startDate}		
+			</if>
+			<if test = "endDate != null">
+				AND a.tx_date &lt;= ${endDate}		
+			</if>
+		</where>	
+		ORDER BY a.tx_id DESC
+		LIMIT ${start}, ${size}    
+	</select>
+	
+	<!-- 提现目录个数获得函数 -->
+	<select id = "getTxListCount" parameterType="java.util.Map" resultType = "int">
+	    SELECT COUNT(*) 
+		FROM wa_tixian a 
+		INNER JOIN wa_user b ON a.user_id = b.user_id 
+		INNER JOIN wa_userinfo c ON b.user_id = c.user_id 
+		<where>
+			<if test = "userName != null">
+				AND b.user_name LIKE '%${userName}%'		
+			</if>
+			<if test = "txState != null">
+				AND a.tx_state = ${txState} 
+			</if>
+			<if test = "startDate != null">
+				AND a.tx_date >= ${startDate}		
+			</if>
+			<if test = "endDate != null">
+				AND a.tx_date &lt;= ${endDate}		
+			</if>
+		</where>	
+	</select>
+	 
+</mapper>

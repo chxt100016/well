@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="org.wella.front.sender.mapper.FrontSenderOrderMapper">
+	
+	<!-- 获取订单列表 -->
+	<select id="getWaUserVehicleList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT a.vehicle_trans, a.order_id, a.order_no, a.user_id, a.grab_id, a.money_id, a.pay_money, DATE(a.create_date) as create_date, a.vehicle_size, a.vehicle_state, b.prod_id, b.prod_name, b.prod_img, c.sale_sj_num 
+			FROM wa_user_vehicle as a INNER JOIN wa_prod as b ON a.prod_id = b.prod_id INNER JOIN wa_order as c ON a.order_id = c.order_id
+			WHERE a.wl_user_id = #{userId} and a.vehicle_state > 1
+			<if test="vehicleState!=null and vehicleState!=''">
+				AND a.vehicle_state = #{vehicleState} 
+			</if>
+			ORDER BY a.vehicle_trans DESC
+			LIMIT ${start} , ${size}
+	</select>
+	
+	<select id="getWaUserVehicleListCount" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) 
+			FROM wa_user_vehicle as a INNER JOIN wa_prod as b ON a.prod_id = b.prod_id INNER JOIN wa_order as c ON a.order_id = c.order_id
+			WHERE a.wl_user_id = #{userId} and a.vehicle_state > 1
+			<if test="vehicleState!=null and vehicleState!=''">
+				AND a.vehicle_state = #{vehicleState} 
+			</if>
+	</select>
+
+</mapper>

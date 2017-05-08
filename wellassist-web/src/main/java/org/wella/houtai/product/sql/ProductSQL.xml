@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="org.wella.houtai.product.mapper.ProductMapper">
+	<!-- 获取商品列表 -->
+	<select id="getProductList" parameterType="java.util.Map"	resultType="java.util.Map">
+		SELECT a.*, b.user_name 
+			FROM wa_prod as a 
+				INNER JOIN wa_user as b on a.user_id = b.user_id 
+			WHERE (a.prod_state = -2 OR a.prod_state = 1 OR a.prod_state = 2)
+				<if test="prodName!=null">
+					AND a.prod_name LIKE CONCAT('%', '${prodName}', '%') 
+				</if>
+				<if test="userName!=null">
+					AND b.user_name LIKE CONCAT('%', '${userName}', '%') 
+				</if>
+				<if test="prodState!=null">
+					AND a.prod_state = ${prodState} 
+				</if>
+			ORDER BY a.prod_id DESC
+			LIMIT ${start} , ${size}
+	</select>
+	
+	<select id="getProductListCount" parameterType="java.util.Map"	resultType="int">
+		SELECT count(*)
+			FROM wa_prod as a 
+				INNER JOIN wa_user as b on a.user_id = b.user_id 
+			WHERE (a.prod_state = -2 OR a.prod_state = 1 OR a.prod_state = 2)
+				<if test="prodName!=null">
+					AND a.prod_name LIKE CONCAT('%', '${prodName}', '%') 
+				</if>
+				<if test="userName!=null">
+					AND b.user_name LIKE CONCAT('%', '${userName}', '%') 
+				</if>
+				<if test="prodState!=null">
+					AND a.prod_state = ${prodState} 
+				</if>  	
+	</select>
+</mapper>

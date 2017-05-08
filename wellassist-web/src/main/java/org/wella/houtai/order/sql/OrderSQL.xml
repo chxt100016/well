@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="org.wella.houtai.order.mapper.OrderMapper">
+	<!-- 获取订单列表 -->
+	<select id="getOrderList" parameterType="java.util.Map"	resultType="java.util.Map">
+		SELECT a.*, b.user_name 
+			FROM wa_order as a 
+				INNER JOIN wa_user as b on a.user_id = b.user_id 
+			<where>
+				<if test="prodName!=null">
+					AND a.prod_name LIKE CONCAT('%', '${prodName}', '%') 
+				</if>
+				<if test="userName!=null">
+					AND b.user_name LIKE CONCAT('%', '${userName}', '%') 
+				</if>
+				<if test="orderState!=null">
+					AND a.order_state = ${orderState} 
+				</if>
+			</where>
+			ORDER BY a.order_id DESC
+			LIMIT ${start} , ${size}
+	</select>
+	
+	<select id="getOrderListCount" parameterType="java.util.Map" resultType="int">
+		SELECT count(*)
+			FROM wa_order as a 
+				INNER JOIN wa_user as b on a.user_id = b.user_id 
+			<where>
+				<if test="prodName!=null">
+					AND a.prod_name LIKE CONCAT('%', '${prodName}', '%') 
+				</if>
+				<if test="userName!=null">
+					AND b.user_name LIKE CONCAT('%', '${userName}', '%') 
+				</if>
+				<if test="orderState!=null">
+					AND a.order_state = ${orderState} 
+				</if>
+			</where>  	
+	</select>
+	
+	<!-- 获取订单历史列表 -->
+	<select id="getOrderInfoList" parameterType="java.util.Map"	resultType="java.util.Map">
+		SELECT a.*, b.user_name 
+			FROM wa_order_info as a 
+				INNER JOIN wa_user as b on a.mgr_user_id = b.user_id 
+			WHERE a.order_id = #{orderId}
+	</select>
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="org.wella.houtai.order.mapper.HoutaiOrderOrderTransMapper">
+	<!-- 线下支付申请目录获得函数 -->
+	<select id="getZfQrList" parameterType="java.util.Map"	resultType="java.util.Map">
+		SELECT * 
+		FROM wa_order_trans a 
+		INNER JOIN wa_order b ON a.order_id = b.order_id 
+		WHERE 
+		a.trans_state = -1 
+		<if test = "orderNo != null">
+			AND b.order_no LIKE '%${orderNo}%'
+		</if>
+		<if test = "prodName !=null ">
+			AND b.prod_name LIKE '%${prodName}%'
+		</if>
+		ORDER BY a.trans_id 
+		LIMIT ${start} , ${size}
+	</select>
+	<!-- 线下支付申请目录个数获得函数 -->
+	<select id="getZfQrListCount" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(*)
+		FROM wa_order_trans a 
+		INNER JOIN wa_order b ON a.order_id = b.order_id 
+		WHERE 
+		a.trans_state = -1 
+		<if test = "orderNo != null">
+			AND b.order_no LIKE '%${orderNo}%'
+		</if>
+		<if test = "prodName !=null ">
+			AND b.prod_name LIKE '%${prodName}%'
+		</if>	
+	</select>
+	
+</mapper>

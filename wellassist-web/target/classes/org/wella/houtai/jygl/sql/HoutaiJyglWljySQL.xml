@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="org.wella.houtai.jygl.mapper.HoutaiJyglWljyMapper">
+  	<!-- select -->
+  	<!-- -->
+	<select id = "getJyglWljyList" parameterType="java.util.Map" resultType = "java.util.Map">
+	   SELECT a.vehicle_trans, a.order_id, a.order_no, a.vehicle_lxr, a.vehicle_lxr_phone, a.pay_money, a.vehicle_size, a.vehicle_state, b.user_name, c.prod_name, c.prod_img
+		FROM wa_user_vehicle AS a
+			INNER JOIN wa_user AS b ON a.user_id = b.user_id
+			INNER JOIN wa_prod AS c ON a.prod_id = c.prod_id  
+		<where>
+			a.vehicle_state > 0
+			<if test = "userName != null">
+				AND b.user_name LIKE '%${userName}%'		
+			</if>	
+		</where>	
+		ORDER BY a.vehicle_trans DESC
+		LIMIT ${start}, ${size}    
+	</select>
+	
+	<!--  -->
+	<select id = "getJyglWljyListCount" parameterType="java.util.Map" resultType = "int">
+	   SELECT COUNT(*) 
+		FROM wa_user_vehicle AS a
+			INNER JOIN wa_user AS b ON a.user_id = b.user_id
+			INNER JOIN wa_prod AS c ON a.prod_id = c.prod_id  
+		<where>
+			a.vehicle_state > 0
+			<if test = "userName != null">
+				AND b.user_name LIKE '%${userName}%'		
+			</if>	
+		</where>	
+	</select>
+</mapper>

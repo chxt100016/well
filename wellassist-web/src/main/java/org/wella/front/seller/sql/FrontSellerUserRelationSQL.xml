@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="org.wella.front.seller.mapper.FrontSellerUserRelationMapper">
+	<!-- select -->
+	<!-- 自己联系的买家目录获得函数 -->
+	<select id = "getUserList" parameterType = "java.util.Map" resultType = "java.util.Map">
+		SELECT a.* , b.* , c.*
+		FROM wa_user_relation a
+		INNER JOIN wa_user b ON  a.user_id = b.user_id
+		INNER JOIN wa_userinfo c ON  b.user_id = c.user_id
+		WHERE 
+			a.gys_id = #{gysId}
+			<if test = "userName != null">
+				AND b.user_name LIKE '%${userName}%'
+			</if>
+		ORDER BY rel_id DESC 
+		LIMIT ${start}, ${size}
+	</select>	
+	<!-- 自己联系的买家目录个数获得函数 -->
+	<select id = "getUserListCount" parameterType = "java.util.Map" resultType = "int">
+		SELECT COUNT(*)
+		FROM wa_user_relation a
+		INNER JOIN wa_user b ON  a.user_id = b.user_id
+		INNER JOIN wa_userinfo c ON  b.user_id = c.user_id
+		WHERE 
+			a.gys_id = #{gysId}
+			<if test = "userName != null">
+				AND b.user_name LIKE '%${userName}%'
+			</if>
+	</select>
+	<!-- select -->
+</mapper>

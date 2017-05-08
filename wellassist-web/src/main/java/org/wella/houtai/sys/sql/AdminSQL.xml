@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="org.wella.houtai.sys.mapper.AdminMapper">
+	<!-- wa_user_role表 -->
+  	<!-- select -->
+	<select id = "getAdminList" parameterType="java.util.Map" resultType = "java.util.Map">
+	   SELECT * FROM wa_admin left join wa_user_role on wa_admin.role = wa_user_role.role_id <if test = "where!=null">${where}</if> order by id <if test = "pageNum!=null">${pageNum} </if>
+	</select>
+	
+	<select id = "getAdminListCount" parameterType="java.util.Map" resultType = "int">
+	   SELECT count(*) cn FROM wa_admin <if test = "where!=null">${where} </if> 
+	</select> 
+</mapper>

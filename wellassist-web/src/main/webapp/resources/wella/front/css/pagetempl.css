@@ -1,0 +1,188 @@
+.dropdown{
+	cursor:pointer;
+}
+
+div.dropdown-menu{
+	background: white !important;
+    box-shadow: 3px 3px 8px black;
+	min-width: 120px;
+}
+
+div.dropdown-menu > div{
+	padding-top:4px;
+	padding-bottom:4px;
+	padding-left: 12px;
+	padding-right: 12px;
+	cursor:pointer;
+}
+
+div.dropdown-menu > div:hover{
+	background: #bbb;
+	
+}
+
+div.abovenavbar {
+	padding-top:12px;
+	padding-bottom:12px;
+	margin-bottom:1px;
+	font-size:14px;
+	background: white;
+	height: 18px;
+	box-shadow: 0 -1px 6px rgba(0, 0, 0, 0.5);
+}
+
+div.main-wrapper{
+	background: #f5f5f5;
+}
+
+.label-heading3{
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.box-in-level1{
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.box-in-level2{
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.box-in-level3{
+	font-size: 15px;
+}
+
+.blue-button{
+	font-size: 16px;
+	background: #0077dd;
+    border-radius: 5px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 12px;
+    padding-right: 12px;
+    border-width: 0px;
+	margin-top: 12px;
+	margin-bottom: 12px;
+	color: white;
+	font-family: SimSun;
+}
+
+.page-heading1{
+	font-size: 24px;
+}
+
+.page-heading2{
+	font-size: 20px;
+}
+
+.underline-title{
+    border-bottom: solid 2px #c0c0c0;
+    padding-bottom: 6px;
+
+}
+
+.title_account{
+	width:180px;
+	text-align:center;
+	margin-top: 16px;
+	color: white;
+	float: left;
+	font-size:32px;
+}
+
+.menu-break-left{
+    border-left-color: #AEAEB4;
+    border-left-style: solid;
+    border-left-width: 1px;
+}
+
+.menu-break-right{
+    border-right-color: #AEAEB4;
+    border-right-style: solid;
+    border-right-width: 1px;
+}
+
+.graybox{
+	border:solid 1px #d0d0d0;
+}
+
+.grayboxwithoutleft{
+	border-top:solid 1px #d0d0d0;
+	border-right:solid 1px #d0d0d0;
+	border-bottom:solid 1px #d0d0d0;
+}
+
+.graybutton{
+	border: solid 1px #c0c0c0;
+	padding: 5px 10px;
+	border-radius: 5px;
+	background: #e0e0e0;
+	text-align:center;
+	cursor:pointer;
+	color:black;
+}
+
+.grayrectbutton{
+	border: solid 1px #c0c0c0;
+	padding: 5px 5px;
+	background: #e0e0e0;
+	font-size:14px;
+	text-align:center;
+	cursor:pointer;
+}
+
+.graywhitebutton{
+	border: solid 1px #c0c0c0;
+	padding: 5px 5px;
+	background: white;
+	font-size:14px;
+	text-align:center;
+	cursor:pointer;
+}
+
+.redwhitebutton{
+	border: solid 1px red;
+	border-radius: 5px;
+	padding: 5px 10px;
+	background: white;
+	color: red;
+	text-align: center;
+	cursor:pointer;
+}
+
+.bluebutton{
+	padding: 5px 20px;
+	background: #4488CE;
+	color:white;
+	font-size: 14px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.redbutton{
+	padding: 5px 20px;
+	background: #e13538;
+	color:white;
+	font-size: 14px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.leftmenulevel1{
+    font-size: 20px;
+    color: blue;
+}
+
+#back{
+	font-weight: bold;
+	cursor:pointer;
+	color: #2482df;
+}
+
+.textlink{
+	font-weight: bold;
+	cursor:pointer;
+	color: #2482df;
+}

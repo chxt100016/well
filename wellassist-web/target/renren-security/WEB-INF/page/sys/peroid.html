@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Title</title>
+    #parse("sys/header.html")
+</head>
+<body>
+<div id="app">
+    <div id="message" class="panel panel-default">
+        <p>{{ message }}</p>
+        <p>{{message2}}</p>
+        <input v-model="message">
+        <input v-model="message2">
+    </div>
+</div>
+
+<div id="example-5" class="demo">
+    <select v-model="selected" @click="clicktest">
+        <option>A</option>
+        <option>B</option>
+        <option>C</option>
+    </select>
+    <span>Selected: {{ selected }}</span>
+    <div>${date.systemTime}</div>
+</div>
+
+ <script src="${rc.contextPath}/js/sys/peroid.js?_${date.systemTime}"></script>
+</body>
+</html>

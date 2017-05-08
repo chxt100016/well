@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="org.wella.houtai.sxgl.mapper.HoutaiSxglRateInfoMapper">
+  	<!-- select -->
+  	<!-- 利息目录获得函数 -->
+	<select id = "getLixiHisList" parameterType="java.util.Map" resultType = "java.util.Map">
+	   SELECT  *
+	   FROM wa_rate_info
+	   <where> 
+			<if test = "creditId != null">
+				credit_id = #{creditId}
+			</if>
+	   	</where>
+	   ORDER BY info_id   
+	   LIMIT ${start}, ${size}
+	</select>
+</mapper>

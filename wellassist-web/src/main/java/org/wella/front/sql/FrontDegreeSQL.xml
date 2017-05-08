@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="org.wella.front.mapper.FrontDegreeMapper">
+	<!-- select -->
+	<!-- 获得等级目录的函数 -->
+	<select id = "getDegreeInfo" parameterType = "java.util.Map" resultType = "java.util.Map">
+		SELECT * 
+		FROM wa_degree
+		<where>
+			<if test = "degreeId != null">
+				AND degree_id = #{degreeId}
+			</if>
+		</where>
+	</select>	
+</mapper>
