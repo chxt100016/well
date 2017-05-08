@@ -12,6 +12,7 @@
         <module name="renren-schedule" />
         <module name="renren-shiro" />
         <module name="renren-web" />
+        <module name="wellassist-api" />
         <module name="wellassist-common" />
         <module name="wellassist-gen" />
         <module name="wellassist-schedule" />
