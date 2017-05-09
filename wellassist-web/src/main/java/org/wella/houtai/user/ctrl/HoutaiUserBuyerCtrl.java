@@ -62,7 +62,7 @@ public class HoutaiUserBuyerCtrl extends BaseController {
         }
 
         model.addAttribute("userId", userId);
-        return "houtai/user/buyer/buyer_detail";
+        return "views/houtai/user/buyer/buyer_detail.jsp";
     }
 
     @RequestMapping({"/houtai/user/HoutaiUserBuyerCtrl-editBuyerInfo"})
@@ -82,7 +82,7 @@ public class HoutaiUserBuyerCtrl extends BaseController {
         ConvertUtil.convertDataBaseMapToJavaMap(regionList1);
         model.addAttribute("userId", userId);
         model.addAttribute("regionList", regionList1);
-        return "houtai/user/buyer/buyer_edit";
+        return "views/houtai/user/buyer/buyer_edit.jsp";
     }
 
     @RequestMapping(

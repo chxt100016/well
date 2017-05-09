@@ -42,7 +42,7 @@ public class CompanyCtrl extends BaseController {
         strsql = "SELECT COUNT(*) FROM wa_user_money WHERE user_id = \'" + myInfo.getUserId() + "\' AND jy_state = 1";
         param1.put("strsql", strsql);
         model.addAttribute("ingJyCn", Integer.valueOf(this.commonMapper.simpleSelectReturnInt(param1)));
-        return "/front/sender/company/companyInfo";
+        return "views/front/sender/company/companyInfo.jsp";
     }
 
     @RequestMapping({"/front/sender/CompanyCtrl-contactMode"})
@@ -53,7 +53,7 @@ public class CompanyCtrl extends BaseController {
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("provinceList", this.getChildRegionList(0));
         model.addAttribute("myInfo", myInfo);
-        return "/front/sender/company/contactMode";
+        return "views/front/sender/company/contactMode.jsp";
     }
 
     @RequestMapping({"front/sender/CompanyController-contactModeUpdate"})
@@ -127,7 +127,7 @@ public class CompanyCtrl extends BaseController {
         model.addAttribute("childMenuNo", "3");
         MyInfo myInfo = this.getMyInfo(request);
         model.addAttribute("userName", myInfo.getUserName());
-        return "/front/sender/company/changePass";
+        return "views/front/sender/company/changePass.jsp";
     }
 
     @RequestMapping({"/front/sender/CompanyCtrl-checkOrgPass"})

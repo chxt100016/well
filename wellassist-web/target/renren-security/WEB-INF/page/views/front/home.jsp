@@ -3,7 +3,7 @@
 <html>
 <head>
     <!-- custom css -->
-    <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
+    <link rel="stylesheet" href="{rc.contextPaht}resources/wella/front/css/pagetempl.css">
     
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>WellAssist供应链系统</title>
@@ -35,7 +35,7 @@
 					<span style="float: right;padding-left:12px;padding-right:12px;">|</span>
 					<span style="float: right;"><a href="<c:url value="/front/customer/CustomerLoginCtrl-login"/>">买家登录</a></span>
 					<span style="float: right;padding-left:12px;padding-right:12px;">|</span>
-					<span style="float: right;"><a href="<c:url value="/back"/>">管理员登录</a></span>
+					<span style="float: right;"><a href="<c:url value="/login.html"/>">管理员登录</a></span>
 					<span>WellAssist供应链系统</span>
 				</div>
 			</div>

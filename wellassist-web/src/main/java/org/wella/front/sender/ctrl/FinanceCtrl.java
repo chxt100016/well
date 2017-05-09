@@ -30,7 +30,7 @@ public class FinanceCtrl extends BaseController {
 
     @RequestMapping({"/front/sender/finance/fill_money"})
     public String fill_money(HttpServletRequest request, HttpServletResponse response) {
-        return "/front/sender/finance/fill_money";
+        return "views/front/sender/finance/fill_money.jsp";
     }
 
     @RequestMapping({"/front/sender/FinanceCtrl-accountInfo"})
@@ -50,7 +50,7 @@ public class FinanceCtrl extends BaseController {
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("userMoney", userInfo.get("userMoney"));
         model.addAttribute("list", list);
-        return "/front/sender/finance/accountInfo";
+        return "views/front/sender/finance/accountInfo.jsp";
     }
 
     @RequestMapping({"front/sender/FinanceCtrl-txSq"})
@@ -62,7 +62,7 @@ public class FinanceCtrl extends BaseController {
         model.addAttribute("userId", userId);
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("parentMenuNo", Integer.valueOf(2));
-        return "front/seller/finance/txSq";
+        return "views/front/seller/finance/txSq.jsp";
     }
 
     @RequestMapping({"front/sender/FinanceCtrl-checkWorkPass"})
@@ -136,11 +136,11 @@ public class FinanceCtrl extends BaseController {
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("txMoney", retInfo.get("txMoney"));
         model.addAttribute("list", list);
-        return "front/sender/finance/txList";
+        return "views/front/sender/finance/txList.jsp";
     }
 
     @RequestMapping({"/front/sender/finance/get_money"})
     public String get_money(HttpServletRequest request, HttpServletResponse response) {
-        return "/front/sender/finance/get_money";
+        return "views/front/sender/finance/get_money.jsp";
     }
 }

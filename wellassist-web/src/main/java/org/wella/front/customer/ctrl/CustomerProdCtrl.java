@@ -38,6 +38,6 @@ public class CustomerProdCtrl extends BaseController {
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("parentMenuNo", "5");
         model.addAttribute("childMenuNo", "0");
-        return "front/customer/prod/prodList";
+        return "views/front/customer/prod/prodList.jsp";
     }
 }

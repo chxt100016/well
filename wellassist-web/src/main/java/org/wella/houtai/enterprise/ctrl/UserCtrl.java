@@ -30,13 +30,13 @@ public class UserCtrl extends BaseController {
     @RequestMapping({"/ht/Enterprise/UserCtrl-userList/userType/{userType}"})
     public String start(@PathVariable int userType, HttpServletRequest request, HttpServletResponse response, Model model) {
         model.addAttribute("userType", Integer.valueOf(userType));
-        return "houtai/enterprise/user_list";
+        return "views/houtai/enterprise/user_list.jsp";
     }
 
     @RequestMapping({"/ht/Enterprise/UserCtrl-shenheList"})
     public String shenheList(HttpServletRequest request, HttpServletResponse response, Model model) {
         model.addAttribute("userType", "4");
-        return "houtai/enterprise/shenhe_list";
+        return "views/houtai/enterprise/shenhe_list.jsp";
     }
 
     @RequestMapping(
@@ -84,7 +84,7 @@ public class UserCtrl extends BaseController {
         ConvertUtil.convertDataBaseMapToJavaMap(arrayList);
         model.addAttribute("totalCount", totalCount);
         model.addAttribute("arrayList", arrayList);
-        return "4".equals(userType)?"houtai/enterprise/shenhe_table":"houtai/enterprise/user_table";
+        return "4".equals(userType)? "views/houtai/enterprise/shenhe_table.jsp" :  "views/houtai/enterprise/user_table.jsp";
     }
 
     @RequestMapping({"/ht/Enterprise/UserCtrl-onSetLockState"})
@@ -119,9 +119,9 @@ public class UserCtrl extends BaseController {
             arrayList1 = this.userMapper.getGonghuofangList();
             ConvertUtil.convertDataBaseMapToJavaMap(arrayList1);
             model.addAttribute("arrayList", arrayList1);
-            return "houtai/common/dlg_shenhe";
+            return "views/houtai/common/dlg_shenhe.jsp";
         } else {
-            return "houtai/common/dlg_edit";
+            return "views/houtai/common/dlg_edit.jsp";
         }
     }
 
@@ -161,7 +161,7 @@ public class UserCtrl extends BaseController {
         Map userInfo = this.userMapper.getUserInfo(param);
         ConvertUtil.convertDataBaseMapToJavaMap(userInfo);
         model.addAttribute("userInfo", userInfo);
-        return "houtai/enterprise/user_edit";
+        return "views/houtai/enterprise/user_edit.jsp";
     }
 
     @RequestMapping({"/ht/Enterprise/UserCtrl-saveUserInfo"})

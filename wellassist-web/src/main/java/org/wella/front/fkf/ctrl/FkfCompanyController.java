@@ -42,7 +42,7 @@ public class FkfCompanyController extends BaseController {
         strsql = "SELECT COUNT(*) FROM wa_user_money WHERE user_id = \'" + myInfo.getUserId() + "\' AND jy_state = 1";
         param1.put("strsql", strsql);
         model.addAttribute("ingJyCn", Integer.valueOf(this.commonMapper.simpleSelectReturnInt(param1)));
-        return "front/fkf/company/companyInfo";
+        return "views/front/fkf/company/companyInfo.jsp";
     }
 
     @RequestMapping({"front/fkf/FkfCompanyController-contactMode"})
@@ -53,7 +53,7 @@ public class FkfCompanyController extends BaseController {
         model.addAttribute("parentMenuNo", "4");
         model.addAttribute("childMenuNo", "2");
         model.addAttribute("userName", myInfo.getUserName());
-        return "front/fkf/company/contactMode";
+        return "views/front/fkf/company/contactMode.jsp";
     }
 
     @RequestMapping({"front/fkf/FkfCompanyController-contactModeUpdate"})
@@ -127,7 +127,7 @@ public class FkfCompanyController extends BaseController {
         model.addAttribute("childMenuNo", "3");
         MyInfo myInfo = this.getMyInfo(request);
         model.addAttribute("userName", myInfo.getUserName());
-        return "front/fkf/company/changePass";
+        return "views/front/fkf/company/changePass.jsp";
     }
 
     @RequestMapping({"front/fkf/FkfCompanyController-checkOrgPass"})

@@ -66,16 +66,22 @@ public class SenderHomeController extends BaseController {
         model.addAttribute("noticeList", noticeList);
         model.addAttribute("recVehicleList", recVehicleList1);
         model.addAttribute("myInfo", myInfo);
-        return "/front/sender/home";
+        return "views/front/sender/home.jsp";
     }
 
     @RequestMapping({"/front/sender/SenderHomeController-main"})
     public String main(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return "redirect:/front/sender/FrontSenderOrderCtrl-orderList";
+        return "redirect:views/front/sender/FrontSenderOrderCtrl-orderList.jsp";
     }
 
+    /**
+     * 页面未完成
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping({"/front/sender/sender/zifu"})
     public String zifu(HttpServletRequest request, HttpServletResponse response) {
-        return "/front/sender/zifu";
+        return "views/front/sender/zifu.jsp";
     }
 }

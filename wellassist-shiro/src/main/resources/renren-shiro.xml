@@ -48,7 +48,8 @@
 	        	/login.html=anon
 	        	/sys/login=anon
 	        	/captcha.jpg=anon
-	        	/**=authc
+				/**=anon
+	        	<!--/**=authc-->
 	        </value>
 	    </property>
 	</bean>

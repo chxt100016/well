@@ -53,7 +53,7 @@ public class CompanyController extends BaseController {
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("provinceList", this.getChildRegionList(0));
         model.addAttribute("myInfo", myInfo);
-        return "front/customer/company/contactMode";
+        return "views/front/customer/company/contactMode.jsp";
     }
 
     @RequestMapping({"front/customer/CompanyController-contactModeUpdate"})
@@ -127,7 +127,7 @@ public class CompanyController extends BaseController {
         model.addAttribute("childMenuNo", "3");
         MyInfo myInfo = this.getMyInfo(request);
         model.addAttribute("userName", myInfo.getUserName());
-        return "front/customer/company/changePass";
+        return "views/front/customer/company/changePass.jsp";
     }
 
     @RequestMapping({"front/customer/CompanyController-checkOrgPass"})

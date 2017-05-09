@@ -60,6 +60,6 @@ public class OrderCtrl extends BaseController {
         ConvertUtil.convertDataBaseMapToJavaMap(orderInfoList);
         model.addAttribute("orderInfo", orderInfo);
         model.addAttribute("orderInfoList", orderInfoList);
-        return "houtai/order/order_detail";
+        return "views/houtai/order/order_detail.jsp";
     }
 }

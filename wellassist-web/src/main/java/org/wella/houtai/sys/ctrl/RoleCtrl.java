@@ -41,7 +41,7 @@ public class RoleCtrl extends BaseController {
         request.setAttribute("totalCount", Integer.valueOf(totalCount));
         request.setAttribute("page", Integer.valueOf(page));
         request.setAttribute("act", act);
-        return "houtai/sys/role_list";
+        return "views/houtai/sys/role_list.jsp";
     }
 
     @RequestMapping({"ht/sys/RoleCtrl-editRole"})
@@ -62,7 +62,7 @@ public class RoleCtrl extends BaseController {
         }
 
         model.addAttribute("menuList", menuList);
-        return "houtai/sys/role_edit";
+        return "views/houtai/sys/role_edit.jsp";
     }
 
     @RequestMapping({"ht/sys/RoleCtrl-updateRoleInfo"})

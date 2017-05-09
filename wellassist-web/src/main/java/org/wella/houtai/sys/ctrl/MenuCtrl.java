@@ -50,7 +50,7 @@ public class MenuCtrl extends BaseController {
         request.setAttribute("page", Integer.valueOf(page));
         request.setAttribute("parent_id", parent_id);
         request.setAttribute("act", act);
-        return "houtai/sys/menu";
+        return "views/houtai/sys/menu.jsp";
     }
 
     @RequestMapping({"ht/sys/MenuCtrl-getDetailData"})
@@ -65,7 +65,7 @@ public class MenuCtrl extends BaseController {
         Map menuInfo = this.menuMapper.getMenuInfo(param);
         ConvertUtil.convertDataBaseMapToJavaMap(menuInfo);
         model.addAttribute("menuInfo", menuInfo);
-        return "houtai/sys/menu_edit";
+        return "views/houtai/sys/menu_edit.jsp";
     }
 
     @RequestMapping({"/ht/sys/MenuCtrl-saveMenuInfo"})
@@ -149,7 +149,7 @@ public class MenuCtrl extends BaseController {
         model.addAttribute("pageNumber", Integer.valueOf(pageNumber));
         model.addAttribute("sortFld", sortFld);
         model.addAttribute("sortDesc", sortDesc);
-        return "houtai/sys/menu_list";
+        return "views/houtai/sys/menu_list.jsp";
     }
 
     @RequestMapping({"/ht/sys/MenuCtrl-getMenuInfo"})

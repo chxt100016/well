@@ -49,7 +49,7 @@ public class HoutaiSxglSxListCtrl extends BaseController {
         ConvertUtil.convertDataBaseMapToJavaMap(list);
         model.addAttribute("info", info);
         model.addAttribute("list", list);
-        return "houtai/sxgl/sxDetail";
+        return "views/houtai/sxgl/sxDetail.jsp";
     }
 
     @RequestMapping({"houtai/sxsz/HoutaiSxglSxListCtrl-changeState"})

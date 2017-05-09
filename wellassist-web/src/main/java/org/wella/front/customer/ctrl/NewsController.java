@@ -42,7 +42,7 @@ public class NewsController extends BaseController {
         model.addAttribute("parentMenuNo", "3");
         model.addAttribute("childMenuNo", "1");
         model.addAttribute("userName", myInfo.getUserName());
-        return "front/customer/news/xxList";
+        return "views/front/customer/news/xxList.jsp";
     }
 
     @RequestMapping(

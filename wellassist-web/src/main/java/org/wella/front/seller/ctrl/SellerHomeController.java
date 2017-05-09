@@ -41,11 +41,11 @@ public class SellerHomeController extends BaseController {
         model.addAttribute("spList", spList);
         model.addAttribute("noticeList", noticeList);
         model.addAttribute("myInfo", myInfo);
-        return "front/seller/home";
+        return "views/front/seller/home.jsp";
     }
 
     @RequestMapping({"/front/SellerHomeController-main"})
     public String main(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return "redirect:/front/seller/SellerOrderController-prodPub";
+        return "redirect:views/front/seller/SellerOrderController-prodPub.jsp";
     }
 }

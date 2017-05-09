@@ -50,7 +50,7 @@ public class FrontSenderOrderCtrl extends BaseController {
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "1");
         model.addAttribute("userName", myInfo.getUserName());
-        return "/front/sender/order/orderList";
+        return "views/front/sender/order/orderList.jsp";
     }
 
     @RequestMapping({"/front/sender/FrontSenderOrderCtrl-editFahuo"})
@@ -61,7 +61,7 @@ public class FrontSenderOrderCtrl extends BaseController {
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "2");
         model.addAttribute("userName", myInfo.getUserName());
-        return "/front/sender/order/editFahuo";
+        return "views/front/sender/order/editFahuo.jsp";
     }
 
     @RequestMapping(
@@ -135,7 +135,7 @@ public class FrontSenderOrderCtrl extends BaseController {
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "2");
         model.addAttribute("userName", myInfo.getUserName());
-        return "/front/sender/order/detailVehicle";
+        return "views/front/sender/order/detailVehicle.jsp";
     }
 
     @RequestMapping({"/front/sender/FrontSenderOrderCtrl-qdPage"})
@@ -161,7 +161,7 @@ public class FrontSenderOrderCtrl extends BaseController {
 
         model.addAttribute("info", info);
         model.addAttribute("wlUserId", myInfo.getUserId());
-        return "/front/sender/order/qdPage";
+        return "views/front/sender/order/qdPage.jsp";
     }
 
     @RequestMapping({"/front/sender/FrontSenderOrderCtrl-sqQd"})
@@ -231,12 +231,12 @@ public class FrontSenderOrderCtrl extends BaseController {
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("list", list0);
         this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
-        return "front/sender/order/qdList";
+        return "views/front/sender/order/qdList.jsp";
     }
 
     @RequestMapping({"/front/sender/FrontSenderOrderCtrl-sqResult"})
     public String sqResult(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return "front/sender/order/qdResult";
+        return "views/front/sender/order/qdResult.jsp";
     }
 
     @RequestMapping({"/front/sender/FrontSenderOrderCtrl-qdDetail"})
@@ -263,7 +263,7 @@ public class FrontSenderOrderCtrl extends BaseController {
         model.addAttribute("info", info);
         model.addAttribute("infoList", infoList);
         model.addAttribute("wlUserId", myInfo.getUserId());
-        return "/front/sender/order/qdDetail";
+        return "views/front/sender/order/qdDetail.jsp";
     }
 
     @RequestMapping({"/front/sender/FrontSenderOrderCtrl-updateQd"})
@@ -319,11 +319,11 @@ public class FrontSenderOrderCtrl extends BaseController {
 
     @RequestMapping({"/front/sender/order/sender_detail"})
     public String sender_detail(HttpServletRequest request, HttpServletResponse response) {
-        return "/front/sender/order/sender_detail";
+        return "views/front/sender/order/sender_detail.jsp";
     }
 
     @RequestMapping({"/front/sender/order/sender"})
     public String sender(HttpServletRequest request, HttpServletResponse response) {
-        return "/front/sender/order/sender";
+        return "views/front/sender/order/sender.jsp";
     }
 }

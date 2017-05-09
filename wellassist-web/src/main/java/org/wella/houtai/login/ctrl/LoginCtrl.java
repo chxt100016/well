@@ -38,7 +38,7 @@ public class LoginCtrl extends BaseController {
     public String startBack(HttpServletRequest request, HttpServletResponse response, Model model) {
         HttpSession session = request.getSession();
         session.setAttribute("MY_INFO", (Object)null);
-        return "houtai/login/login";
+        return "views/houtai/login/login.jsp";
     }
 
     @RequestMapping(
@@ -135,7 +135,7 @@ public class LoginCtrl extends BaseController {
         ((Map)userInfo1).put("userImg", ConstantUtil.defaultUserImg);
         ((Map)userInfo1).put("userName", myInfo.getUserName());
         model.addAttribute("userInfo", userInfo1);
-        return "houtai/main";
+        return "views/houtai/main.jsp";
     }
 
     @RequestMapping(
@@ -143,7 +143,7 @@ public class LoginCtrl extends BaseController {
             method = {RequestMethod.GET}
     )
     public String getMyInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return "houtai/login/info";
+        return "views/houtai/login/info.jsp";
     }
 
     private String getCtrlName(String pathInfo) {
