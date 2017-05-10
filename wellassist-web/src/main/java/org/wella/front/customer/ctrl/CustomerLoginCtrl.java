@@ -39,7 +39,7 @@ public class CustomerLoginCtrl extends BaseController {
 
     @RequestMapping({"/front/customer/CustomerLoginCtrl-login"})
     public String login(HttpServletRequest request, HttpServletResponse response) {
-        return "front/customer/login/login";
+        return "views/front/customer/login/login.jsp";
     }
 
     @RequestMapping({"/front/customer/CustomerLoginCtrl-register"})
@@ -50,7 +50,7 @@ public class CustomerLoginCtrl extends BaseController {
         customerList = this.commonMapper.simpleSelectReturnList(param);
         model.addAttribute("customerList", customerList);
         model.addAttribute("provinceList", this.getChildRegionList(0));
-        return "front/customer/login/register";
+        return "views/front/customer/login/register.jsp";
     }
 
     @RequestMapping({"/front/customer/CustomerLoginCtrl-registerNew"})
@@ -147,7 +147,7 @@ public class CustomerLoginCtrl extends BaseController {
 
     @RequestMapping({"/front/customer/CustomerLoginCtrl-registerNext"})
     public String registerNext(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return "front/customer/login/registerNext";
+        return "views/front/customer/login/registerNext.jsp";
     }
 
     @RequestMapping(
@@ -204,14 +204,14 @@ public class CustomerLoginCtrl extends BaseController {
     @RequestMapping({"/front/customer/CustomerLoginCtrl-logout"})
     public String logout(HttpServletRequest request, HttpServletResponse response, Model model) {
         this.clearSession(request);
-        return "front/customer/login/login";
+        return "views/front/customer/login/login.jsp";
     }
 
     @RequestMapping({"/front/customer/CustomerLoginCtrl-getPass"})
     public String getPass(HttpServletRequest request, HttpServletResponse response, Model model) {
         String userType = CommonUtil.GetRequestParam(request, "userType", "0");
         model.addAttribute("userType", userType);
-        return "front/customer/login/getPassInfo";
+        return "views/front/customer/login/getPassInfo.jsp";
     }
 
     @RequestMapping({"/front/customer/CustomerLoginCtrl-checkUserAndEmail"})
@@ -282,7 +282,7 @@ public class CustomerLoginCtrl extends BaseController {
         } else {
             model.addAttribute("userName", userName);
             model.addAttribute("userType", userType);
-            return "front/customer/login/setNewPass";
+            return "views/front/customer/login/setNewPass.jsp";
         }
     }
 
@@ -300,7 +300,7 @@ public class CustomerLoginCtrl extends BaseController {
         model.addAttribute("userName", userName);
         model.addAttribute("userType", userType);
         model.addAttribute("eMail", userInfo.get("user_email").toString());
-        return "front/customer/login/sendEmailSuccess";
+        return "views/front/customer/login/sendEmailSuccess.jsp";
     }
 
     @RequestMapping({"/front/customer/CustomerLoginCtrl-setNewPass"})
@@ -342,7 +342,7 @@ public class CustomerLoginCtrl extends BaseController {
         model.addAttribute("userName", userName);
         model.addAttribute("userType", userType);
         model.addAttribute("userPass", userPass);
-        return "front/customer/login/registerSuccess";
+        return "views/front/customer/login/registerSuccess.jsp";
     }
 
     @RequestMapping({"/front/customer/CustomerLoginCtrl-getVerifyImage"})

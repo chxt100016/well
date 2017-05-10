@@ -62,7 +62,7 @@ public class HoutaiUserLenderCtrl extends BaseController {
         }
 
         model.addAttribute("userId", userId);
-        return "houtai/user/lender/lender_detail";
+        return "views/houtai/user/lender/lender_detail.jsp";
     }
 
     @RequestMapping({"/houtai/user/HoutaiUserLenderCtrl-editLenderInfo"})
@@ -82,7 +82,7 @@ public class HoutaiUserLenderCtrl extends BaseController {
         ConvertUtil.convertDataBaseMapToJavaMap(regionList1);
         model.addAttribute("userId", userId);
         model.addAttribute("regionList", regionList1);
-        return "houtai/user/lender/lender_edit";
+        return "views/houtai/user/lender/lender_edit.jsp";
     }
 
     @RequestMapping(

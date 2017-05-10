@@ -69,7 +69,7 @@ public class CustomerHomeCtrl extends BaseController {
         model.addAttribute("noticeList", noticeList);
         model.addAttribute("myInfo", myInfo);
         model.addAttribute("userInfo", userInfo);
-        return "front/customer/home";
+        return "views/front/customer/home.jsp";
     }
 
     @RequestMapping({"front/customer/CustomerHomeCtrl-prodDetail"})
@@ -110,12 +110,12 @@ public class CustomerHomeCtrl extends BaseController {
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "2");
         model.addAttribute("userName", myInfo.getUserName());
-        return "front/customer/order/prodDetail";
+        return "views/front/customer/order/prodDetail.jsp";
     }
 
     @RequestMapping({"/front/customer/CustomerHomeCtrl-main"})
     public String main(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return "redirect:/front/customer/CustomerBackOrderCtrl-prodOrderList";
+        return "redirect:views/front/customer/CustomerBackOrderCtrl-prodOrderList.jsp";
     }
 
     @RequestMapping({"front/customer/CustomerHomeCtrl-makeOrder"})
@@ -149,7 +149,7 @@ public class CustomerHomeCtrl extends BaseController {
         model.addAttribute("prodId", prodId);
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "1");
-        return "front/customer/orderPage";
+        return "views/front/customer/orderPage.jsp";
     }
 
     @RequestMapping({"front/customer/CustomerHomeCtrl-createOrder"})
@@ -245,11 +245,11 @@ public class CustomerHomeCtrl extends BaseController {
     public String prod_details(HttpServletRequest request, HttpServletResponse response, Model model) {
         String prodid = CommonUtil.GetRequestParam(request, "id", "");
         model.addAttribute("id", prodid);
-        return "front/customer/prod_details";
+        return "views/front/customer/prod_details.jsp";
     }
 
     @RequestMapping({"front/customer/CustomerHomeCtrl-orderSuccess"})
     public String orderSuccess(HttpServletRequest request, HttpServletResponse response) {
-        return "front/customer/ordersheetresult";
+        return "views/front/customer/ordersheetresult.jsp";
     }
 }

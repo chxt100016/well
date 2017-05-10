@@ -41,6 +41,6 @@ public class HoutaiJyglJyListCtrl extends BaseController {
         ArrayList list = this.userMoneyInfoMapper.getJyDetailList(param);
         ConvertUtil.convertDataBaseMapToJavaMap(list);
         model.addAttribute("list", list);
-        return "houtai/jygl/jyDetailList";
+        return "views/houtai/jygl/jyDetailList.jsp";
     }
 }

@@ -45,12 +45,12 @@ public class SellerFinanceController extends BaseController {
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("userMoney", userInfo.get("userMoney"));
         model.addAttribute("list", list);
-        return "front/seller/finance/accountInfo";
+        return "views/front/seller/finance/accountInfo.jsp";
     }
 
     @RequestMapping({"front/seller/finance/fill_money "})
     public String fill_money(HttpServletRequest request, HttpServletResponse response) {
-        return "front/seller/finance/fill_money";
+        return "views/front/seller/finance/fill_money.jsp";
     }
 
     @RequestMapping({"front/seller/SellerFinanceController-txSq"})
@@ -62,7 +62,7 @@ public class SellerFinanceController extends BaseController {
         model.addAttribute("userId", userId);
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("parentMenuNo", Integer.valueOf(2));
-        return "front/sender/finance/txSq";
+        return "views/front/sender/finance/txSq.jsp";
     }
 
     @RequestMapping({"front/seller/SellerFinanceController-checkWorkPass"})
@@ -136,6 +136,6 @@ public class SellerFinanceController extends BaseController {
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("txMoney", retInfo.get("txMoney"));
         model.addAttribute("list", list);
-        return "front/seller/finance/txList";
+        return "views/front/seller/finance/txList.jsp";
     }
 }

@@ -37,7 +37,7 @@ public class FkfFinanceController extends BaseController {
         model.addAttribute("childMenuNo", "1");
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("list", list);
-        return "front/fkf/finance/lixiList";
+        return "views/front/fkf/finance/lixiList.jsp";
     }
 
     @RequestMapping({"front/fkf/FkfFinanceController-hkList"})
@@ -54,6 +54,6 @@ public class FkfFinanceController extends BaseController {
         model.addAttribute("childMenuNo", "2");
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("list", list);
-        return "front/fkf/finance/hkList";
+        return "views/front/fkf/finance/hkList.jsp";
     }
 }

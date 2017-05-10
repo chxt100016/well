@@ -47,6 +47,6 @@ public class HoutaiJyglWljyListCtrl extends BaseController {
             model.addAttribute("list", list);
         }
 
-        return "houtai/jygl/wljyDetail";
+        return "views/houtai/jygl/wljyDetail.jsp";
     }
 }

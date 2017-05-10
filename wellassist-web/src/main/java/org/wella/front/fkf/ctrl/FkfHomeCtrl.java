@@ -74,30 +74,30 @@ public class FkfHomeCtrl extends BaseController {
         model.addAttribute("spList", spList);
         model.addAttribute("noticeList", noticeList);
         model.addAttribute("myInfo", myInfo);
-        return "front/fkf/home";
+        return "views/front/fkf/home.jsp";
     }
 
     @RequestMapping({"/front/fkf/FkfHomeCtrl-main"})
     public String home(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return "redirect:/front/fkf/FkfOrderCtrl-sxList";
+        return "redirect:views/front/fkf/FkfOrderCtrl-sxList.jsp";
     }
 
     @RequestMapping({"front/fkf/FkfHomeCtrl-prod_details"})
     public String prod_details(HttpServletRequest request, HttpServletResponse response, Model model) {
         String prodid = CommonUtil.GetRequestParam(request, "id", "");
         model.addAttribute("id", prodid);
-        return "front/customer/prod_details";
+        return "views/front/customer/prod_details.jsp";
     }
 
     @RequestMapping({"front/customer/FkfHomeCtrl-makeOrder"})
     public String makeOrder(HttpServletRequest request, HttpServletResponse response, Model model) {
         String prodid = CommonUtil.GetRequestParam(request, "id", "");
         model.addAttribute("id", prodid);
-        return "front/customer/writeordersheet";
+        return "views/front/customer/writeordersheet.jsp";
     }
 
     @RequestMapping({"front/fkf/FkfHomeCtrl-orderSuccess"})
     public String orderSuccess(HttpServletRequest request, HttpServletResponse response) {
-        return "front/customer/ordersheetresult";
+        return "views/front/customer/ordersheetresult.jsp";
     }
 }

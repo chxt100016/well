@@ -97,7 +97,7 @@ public class CustomerBackOrderCtrl extends BaseController {
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "1");
-        return "front/customer/order/orderDetail";
+        return "views/front/customer/order/orderDetail.jsp";
     }
 
     @RequestMapping({"front/customer/CustomerBackOrderCtrl-querenShouhuo"})
@@ -119,7 +119,7 @@ public class CustomerBackOrderCtrl extends BaseController {
 
         model.addAttribute("parentMenuNo", Integer.valueOf(1));
         model.addAttribute("userName", myInfo.getUserName());
-        return "front/customer/order/editFukuan";
+        return "views/front/customer/order/editFukuan.jsp";
     }
 
     @RequestMapping({"front/customer/CustomerBackOrderCtrl-editFukuan"})
@@ -145,7 +145,7 @@ public class CustomerBackOrderCtrl extends BaseController {
 
         model.addAttribute("parentMenuNo", Integer.valueOf(1));
         model.addAttribute("userName", myInfo.getUserName());
-        return "front/customer/order/editFukuan";
+        return "views/front/customer/order/editFukuan.jsp";
     }
 
     @RequestMapping(
@@ -265,7 +265,7 @@ public class CustomerBackOrderCtrl extends BaseController {
 
         model.addAttribute("parentMenuNo", Integer.valueOf(1));
         model.addAttribute("userName", myInfo.getUserName());
-        return "front/customer/order/editPingjia";
+        return "views/front/customer/order/editPingjia.jsp";
     }
 
     @RequestMapping(
@@ -334,10 +334,10 @@ public class CustomerBackOrderCtrl extends BaseController {
                 model.addAttribute("zorderList", zorderList);
                 model.addAttribute("parentMenuNo", Integer.valueOf(1));
                 if(eFlag) {
-                    return "front/customer/order/editFahuo";
+                    return "views/front/customer/order/editFahuo.jsp";
                 }
 
-                return "front/customer/order/editShouhuo";
+                return "views/front/customer/order/editShouhuo.jsp";
             }
         }
 
@@ -525,7 +525,7 @@ public class CustomerBackOrderCtrl extends BaseController {
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "2");
-        return "front/customer/order/wlOrderList";
+        return "views/front/customer/order/wlOrderList.jsp";
     }
 
     @RequestMapping({"front/customer/CustomerBackOrderCtrl-detailVehicle"})
@@ -555,7 +555,7 @@ public class CustomerBackOrderCtrl extends BaseController {
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "2");
         model.addAttribute("userName", myInfo.getUserName());
-        return "front/customer/order/detailVehicle";
+        return "views/front/customer/order/detailVehicle.jsp";
     }
 
     @RequestMapping({"front/customer/CustomerBackOrderCtrl-editQiangdan"})
@@ -582,7 +582,7 @@ public class CustomerBackOrderCtrl extends BaseController {
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("vehicleTrans", vehicleTrans);
         model.addAttribute("parentMenuNo", Integer.valueOf(1));
-        return "front/customer/order/editQiangdan";
+        return "views/front/customer/order/editQiangdan.jsp";
     }
 
     @RequestMapping(
@@ -660,7 +660,7 @@ public class CustomerBackOrderCtrl extends BaseController {
 
         model.addAttribute("orderId", orderId);
         model.addAttribute("vehicleTrans", vehicleTrans);
-        return "front/customer/order/editVehicleShouhuo";
+        return "views/front/customer/order/editVehicleShouhuo.jsp";
     }
 
     @RequestMapping(
@@ -775,31 +775,31 @@ public class CustomerBackOrderCtrl extends BaseController {
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "3");
-        return "front/customer/order/estiList";
+        return "views/front/customer/order/estiList.jsp";
     }
 
     @RequestMapping({"front/customer/CustomerBackOrderCtrl-detailWuliu"})
     public String detailWuliu(HttpServletRequest request, HttpServletResponse response) {
-        return "front/customer/ordersheet/sendsheet_detail";
+        return "views/front/customer/ordersheet/sendsheet_detail.jsp";
     }
 
     @RequestMapping({"front/customer/ordersheet_center"})
     public String ordersheet_center(HttpServletRequest request, HttpServletResponse response) {
-        return "front/customer/ordersheet_center";
+        return "views/front/customer/ordersheet_center.jsp";
     }
 
     @RequestMapping({"front/customer/ordersheet/estimate"})
     public String estimate(HttpServletRequest request, HttpServletResponse response) {
-        return "front/customer/ordersheet/estimate";
+        return "views/front/customer/ordersheet/estimate.jsp";
     }
 
     @RequestMapping({"front/customer/ordersheet/payment"})
     public String pay_money(HttpServletRequest request, HttpServletResponse response) {
-        return "front/customer/ordersheet/payment";
+        return "views/front/customer/ordersheet/payment.jsp";
     }
 
     @RequestMapping({"front/customer/ordersheet/cancel"})
     public String cancel(HttpServletRequest request, HttpServletResponse response) {
-        return "front/customer/ordersheet/cancel";
+        return "views/front/customer/ordersheet/cancel.jsp";
     }
 }

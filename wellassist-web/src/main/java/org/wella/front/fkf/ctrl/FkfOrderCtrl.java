@@ -39,7 +39,7 @@ public class FkfOrderCtrl extends BaseController {
         model.addAttribute("childMenuNo", "1");
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("list", list);
-        return "front/fkf/order/sxList";
+        return "views/front/fkf/order/sxList.jsp";
     }
 
     @RequestMapping({"front/fkf/FkfOrderCtrl-sxDetail"})
@@ -50,7 +50,7 @@ public class FkfOrderCtrl extends BaseController {
         Map info = this.creditMapper.getCreditInfo(param);
         ConvertUtil.convertDataBaseMapToJavaMap(info);
         model.addAttribute("info", info);
-        return "front/fkf/order/sxDetail";
+        return "views/front/fkf/order/sxDetail.jsp";
     }
 
     @RequestMapping({"front/fkf/FkfOrderCtrl-sxProcess"})
@@ -81,16 +81,16 @@ public class FkfOrderCtrl extends BaseController {
 
     @RequestMapping({"front/fkf/FkfOrderCtrl-send_sheet"})
     public String send_ordersheet(HttpServletRequest request, HttpServletResponse response) {
-        return "front/customer/ordersheet/send_sheet";
+        return "views/front/customer/ordersheet/send_sheet.jsp";
     }
 
     @RequestMapping({"front/fkf/FkfOrderCtrl-esti_list"})
     public String estimate_list(HttpServletRequest request, HttpServletResponse response) {
-        return "front/customer/ordersheet/esti_list";
+        return "views/front/customer/ordersheet/esti_list.jsp";
     }
 
     @RequestMapping({"front/fkf/FkfOrderCtrl-detailOrder"})
     public String detailOrder(HttpServletRequest request, HttpServletResponse response) {
-        return "front/customer/ordersheet/prodsheet_detail";
+        return "views/front/customer/ordersheet/prodsheet_detail.jsp";
     }
 }

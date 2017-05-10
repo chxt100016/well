@@ -41,7 +41,7 @@ public class AdminCtrl extends BaseController {
         request.setAttribute("totalCount", Integer.valueOf(totalCount));
         request.setAttribute("page", Integer.valueOf(page));
         request.setAttribute("act", act);
-        return "houtai/sys/admin_list";
+        return "views/houtai/sys/admin_list.jsp";
     }
 
     @RequestMapping({"ht/sys/AdminCtrl-editAdmin"})
@@ -54,7 +54,7 @@ public class AdminCtrl extends BaseController {
         ArrayList roleList = this.commonMapper.simpleSelectReturnList(param);
         ConvertUtil.convertDataBaseMapToJavaMap(roleList);
         model.addAttribute("roleList", roleList);
-        return "houtai/sys/admin_edit";
+        return "views/houtai/sys/admin_edit.jsp";
     }
 
     @RequestMapping({"ht/sys/AdminCtrl-updateAdminInfo"})

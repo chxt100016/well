@@ -68,12 +68,12 @@ public class FinanceController extends BaseController {
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("userMoney", userInfo.get("userMoney"));
         model.addAttribute("list", list);
-        return "front/customer/finance/accountInfo";
+        return "views/front/customer/finance/accountInfo.jsp";
     }
 
     @RequestMapping({"front/customer/FinanceController-czSq"})
     public String czSq(HttpServletRequest request, HttpServletResponse response) {
-        return "front/customer/finance/czSq";
+        return "views/front/customer/finance/czSq.jsp";
     }
 
     @RequestMapping({"front/customer/FinanceController-addCz"})
@@ -118,7 +118,7 @@ public class FinanceController extends BaseController {
         model.addAttribute("userId", userId);
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("parentMenuNo", Integer.valueOf(2));
-        return "front/customer/finance/txSq";
+        return "views/front/customer/finance/txSq.jsp";
     }
 
     @RequestMapping({"front/customer/FinanceControlle-addTx"})
@@ -169,7 +169,7 @@ public class FinanceController extends BaseController {
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("txMoney", retInfo.get("txMoney"));
         model.addAttribute("list", list);
-        return "front/customer/finance/txList";
+        return "views/front/customer/finance/txList.jsp";
     }
 
     @RequestMapping({"front/customer/FinanceController-czList"})
@@ -188,7 +188,7 @@ public class FinanceController extends BaseController {
         model.addAttribute("childMenuNo", "5");
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("zfMoney", retInfo.get("zfMoney"));
-        return "front/customer/finance/czSqList";
+        return "views/front/customer/finance/czSqList.jsp";
     }
 
     @RequestMapping({"front/customer/FinanceController-returnMoney"})
@@ -204,7 +204,7 @@ public class FinanceController extends BaseController {
         ConvertUtil.convertDataBaseMapToJavaMap(info);
         model.addAttribute("info", info);
         model.addAttribute("userInfo", userInfo);
-        return "front/customer/finance/returnMoney";
+        return "views/front/customer/finance/returnMoney.jsp";
     }
 
     @RequestMapping({"front/customer/FinanceControlle-clHk"})
@@ -252,7 +252,7 @@ public class FinanceController extends BaseController {
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("sxMoney", userInfo.get("userCreditMoney"));
         model.addAttribute("list", list);
-        return "front/customer/finance/creditAccount";
+        return "views/front/customer/finance/creditAccount.jsp";
     }
 
     @RequestMapping({"front/customer/FinanceControlle-addSx"})
@@ -304,7 +304,7 @@ public class FinanceController extends BaseController {
         model.addAttribute("minMoney", minMoney);
         model.addAttribute("maxMoney", maxMoney);
         model.addAttribute("creditDengji", creditDengji);
-        return "front/customer/finance/sxSq";
+        return "views/front/customer/finance/sxSq.jsp";
     }
 
     @RequestMapping({"front/customer/FinanceController-sxSqList"})
@@ -322,7 +322,7 @@ public class FinanceController extends BaseController {
         model.addAttribute("childMenuNo", "3");
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("list", list);
-        return "front/customer/finance/sxSqList";
+        return "views/front/customer/finance/sxSqList.jsp";
     }
 
     @RequestMapping({"front/customer/FinanceController-hkList"})
@@ -340,7 +340,7 @@ public class FinanceController extends BaseController {
         model.addAttribute("childMenuNo", "4");
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("list", list);
-        return "front/customer/finance/hkList";
+        return "views/front/customer/finance/hkList.jsp";
     }
 
     @RequestMapping({"front/customer/FinanceController-fapiaoList"})
@@ -357,7 +357,7 @@ public class FinanceController extends BaseController {
         model.addAttribute("parentMenuNo", "2");
         model.addAttribute("childMenuNo", "6");
         model.addAttribute("userName", myInfo.getUserName());
-        return "front/customer/finance/fapiaoList";
+        return "views/front/customer/finance/fapiaoList.jsp";
     }
 
     @RequestMapping({"front/customer/FinanceController-setFapiao"})

@@ -45,6 +45,6 @@ public class HoutaiSxglSxHkListCtrl extends BaseController {
         ConvertUtil.convertDataBaseMapToJavaMap(list);
         model.addAttribute("info", info);
         model.addAttribute("list", list);
-        return "houtai/sxgl/sxLoanDetail";
+        return "views/houtai/sxgl/sxLoanDetail.jsp";
     }
 }

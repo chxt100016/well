@@ -28,30 +28,36 @@ public class SellerLoginController extends BaseController {
 
     @RequestMapping({"/front/SellerLoginController-login"})
     public String login(HttpServletRequest request, HttpServletResponse response) {
-        return "front/seller/login/login";
+        return "views/front/seller/login/login.jsp";
     }
 
     @RequestMapping({"/front/seller/SellerLoginController-register"})
     public String register(HttpServletRequest request, HttpServletResponse response, Model model) {
         model.addAttribute("provinceList", this.getChildRegionList(0));
-        return "front/seller/login/register";
+        return "views/front/seller/login/register.jsp";
     }
 
+    /**
+     * 未完成相关页面
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping({"/front/seller/register_result"})
     public String register_result(HttpServletRequest request, HttpServletResponse response) {
-        return "front/seller/login/register_result";
+        return "views/front/seller/login/register_result.jsp";
     }
 
     @RequestMapping({"/seller/ordergoods"})
     public String order_goods(HttpServletRequest request, HttpServletResponse response) {
-        return "wella/seller/ordergoods";
+        return "views/front/seller/ordergoods.jsp";
     }
 
     @RequestMapping({"front/seller/prod_details"})
     public String prod_details(HttpServletRequest request, HttpServletResponse response, Model model) {
         String prodid = CommonUtil.GetRequestParam(request, "id", "");
         model.addAttribute("id", prodid);
-        return "front/seller/prod_details";
+        return "views/front/seller/prod_details.jsp";
     }
 
     @RequestMapping(
@@ -108,7 +114,7 @@ public class SellerLoginController extends BaseController {
     @RequestMapping({"/front/front/SellerLoginController-logout"})
     public String logout(HttpServletRequest request, HttpServletResponse response, Model model) {
         this.clearSession(request);
-        return "front/seller/login/login";
+        return "views/front/seller/login/login.jsp";
     }
 
     @RequestMapping({"/front/seller/SellerLoginController-registerNew"})
@@ -196,6 +202,6 @@ public class SellerLoginController extends BaseController {
 
     @RequestMapping({"/front/seller/SellerLoginController-registerNext"})
     public String registerNext(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return "front/customer/login/registerNext";
+        return "views/front/customer/login/registerNext.jsp";
     }
 }

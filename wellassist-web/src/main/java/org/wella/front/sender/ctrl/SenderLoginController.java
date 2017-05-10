@@ -34,13 +34,13 @@ public class SenderLoginController extends BaseController {
     public String login(HttpServletRequest request, HttpServletResponse response, Model model) {
         String vehicleTrans = CommonUtil.GetRequestParam(request, "vehicleTrans", "0");
         model.addAttribute("vehicleTrans", vehicleTrans);
-        return "/front/sender/login/login";
+        return "views/front/sender/login/login.jsp";
     }
 
     @RequestMapping({"/front/sender/SenderLoginController-register"})
     public String register(HttpServletRequest request, HttpServletResponse response, Model model) {
         model.addAttribute("provinceList", this.getChildRegionList(0));
-        return "/front/sender/login/register";
+        return "views/front/sender/login/register.jsp";
     }
 
     public ArrayList<Map<String, Object>> getChildRegionList(int regionId) {
@@ -58,9 +58,15 @@ public class SenderLoginController extends BaseController {
         return ret;
     }
 
+    /**
+     * 页面未完成
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping({"/front/sender/SenderLoginController-register_result"})
     public String register_result(HttpServletRequest request, HttpServletResponse response) {
-        return "/front/sender/login/register_result";
+        return "views/front/sender/login/register_result.jsp";
     }
 
     @RequestMapping({"/front/sender/SenderLoginController-getVerifyImage"})
@@ -265,12 +271,12 @@ public class SenderLoginController extends BaseController {
 
     @RequestMapping({"/front/sender/SenderLoginController-registerNext"})
     public String registerNext(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return "front/customer/login/registerNext";
+        return "views/front/customer/login/registerNext.jsp";
     }
 
     @RequestMapping({"/front/sender/SenderLoginController-logout"})
     public String logout(HttpServletRequest request, HttpServletResponse response, Model model) {
         this.clearSession(request);
-        return "front/sender/login/login";
+        return "views/front/sender/login/login.jsp";
     }
 }

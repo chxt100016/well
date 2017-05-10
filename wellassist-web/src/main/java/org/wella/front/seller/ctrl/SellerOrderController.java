@@ -48,7 +48,7 @@ public class SellerOrderController extends BaseController {
     public String prod_publish(HttpServletRequest request, HttpServletResponse response, Model model) {
         MyInfo myInfo = this.getMyInfo(request);
         if(myInfo == null) {
-            return "redirect:/front/SellerLoginController-login";
+            return "redirect:views/front/SellerLoginController-login.jsp";
         } else {
             String isAllEdit = "0";
             String prodId = CommonUtil.GetRequestParam(request, "prodId", "0");
@@ -96,7 +96,7 @@ public class SellerOrderController extends BaseController {
             model.addAttribute("parentMenuNo", "1");
             model.addAttribute("childMenuNo", "1");
             model.addAttribute("userName", myInfo.getUserName());
-            return "front/seller/order/prodPub";
+            return "views/front/seller/order/prodPub.jsp";
         }
     }
 
@@ -178,45 +178,46 @@ public class SellerOrderController extends BaseController {
         HttpSession session = request.getSession();
         MyInfo myInfo = (MyInfo)session.getAttribute("MY_INFO");
         if(myInfo == null) {
-            return "redirect:/front/SellerLoginController-login";
+            return "redirect:views/front/SellerLoginController-login.jsp";
         } else {
             Map param = this.getConditionParam(request);
             param.put("userId", myInfo.getUserId());
             ArrayList waProdList = this.sellerOrderMapper.getWaProdList(param);
             ConvertUtil.convertDataBaseMapToJavaMap(waProdList);
-            if(waProdList != null && waProdList.size() > 0) {
-                String totalCount = "";
-                String dateObjStr = "";
-
-                for(int strsql = 0; strsql < waProdList.size(); ++strsql) {
-                    dateObjStr = "\'" + (((Map)waProdList.get(strsql)).get("createDate") != null?((Map)waProdList.get(strsql)).get("createDate").toString():"0000-00-00") + "\'";
-                    totalCount = totalCount + "," + dateObjStr;
-                }
-
-                if(!totalCount.equals("")) {
-                    String var17 = "SELECT prod_id, prod_name, prod_img, prod_num, prod_money, prod_state, DATE(create_date) as create_date FROM wa_prod WHERE user_id = \'" + myInfo.getUserId() + "\' AND prod_state > -3 AND DATE(create_date) in (" + totalCount + ")";
-                    String prodState = CommonUtil.GetRequestParam(request, "prodState", "");
-                    if(!prodState.equals("")) {
-                        var17 = var17 + " AND prod_state = " + prodState;
-                    }
-
-                    param.put("strsql", var17);
-                    ArrayList spList = this.commonMapper.simpleSelectReturnList(param);
-                    ConvertUtil.convertDataBaseMapToJavaMap(spList);
-
-                    for(int i = 0; i < waProdList.size(); ++i) {
-                        ArrayList spSubList = new ArrayList();
-
-                        for(int j = 0; j < spList.size(); ++j) {
-                            if(((Map)waProdList.get(i)).get("createDate") != null && ((Map)spList.get(j)).get("createDate") != null && ((Map)waProdList.get(i)).get("createDate").toString().equals(((Map)spList.get(j)).get("createDate").toString())) {
-                                spSubList.add((Map)spList.get(j));
-                            }
-                        }
-
-                        ((Map)waProdList.get(i)).put("spList", spSubList);
-                    }
-                }
-            }
+//
+//            if(waProdList != null && waProdList.size() > 0) {
+//                String totalCount = "";
+//                String dateObjStr = "";
+//
+//                for(int strsql = 0; strsql < waProdList.size(); ++strsql) {
+//                    dateObjStr = "\'" + (((Map)waProdList.get(strsql)).get("createDate") != null?((Map)waProdList.get(strsql)).get("createDate").toString():"0000-00-00") + "\'";
+//                    totalCount = totalCount + "," + dateObjStr;
+//                }
+//
+//                if(!totalCount.equals("")) {
+//                    String var17 = "SELECT prod_id, prod_name, prod_img, prod_num, prod_money, prod_state, DATE(create_date) as create_date FROM wa_prod WHERE user_id = \'" + myInfo.getUserId() + "\' AND prod_state > -3 AND DATE(create_date) in (" + totalCount + ")";
+//                    String prodState = CommonUtil.GetRequestParam(request, "prodState", "");
+//                    if(!prodState.equals("")) {
+//                        var17 = var17 + " AND prod_state = " + prodState;
+//                    }
+//
+//                    param.put("strsql", var17);
+//                    ArrayList spList = this.commonMapper.simpleSelectReturnList(param);
+//                    ConvertUtil.convertDataBaseMapToJavaMap(spList);
+//
+//                    for(int i = 0; i < waProdList.size(); ++i) {
+//                        ArrayList spSubList = new ArrayList();
+//
+//                        for(int j = 0; j < spList.size(); ++j) {
+//                            if(((Map)waProdList.get(i)).get("createDate") != null && ((Map)spList.get(j)).get("createDate") != null && ((Map)waProdList.get(i)).get("createDate").toString().equals(((Map)spList.get(j)).get("createDate").toString())) {
+//                                spSubList.add((Map)spList.get(j));
+//                            }
+//                        }
+//
+//                        ((Map)waProdList.get(i)).put("spList", spSubList);
+//                    }
+//                }
+//            }
 
             model.addAttribute("waProdList", waProdList);
             int var16 = this.sellerOrderMapper.getWaProdListCount(param);
@@ -224,7 +225,7 @@ public class SellerOrderController extends BaseController {
             model.addAttribute("parentMenuNo", "1");
             model.addAttribute("childMenuNo", "2");
             model.addAttribute("userName", myInfo.getUserName());
-            return "front/seller/order/prodList";
+            return "views/front/seller/order/prodList.jsp";
         }
     }
 
@@ -270,7 +271,7 @@ public class SellerOrderController extends BaseController {
             model.addAttribute("userName", myInfo.getUserName());
             return "front/seller/order/prodDetail";
         } else {
-            return "redirect:/front/SellerLoginController-login";
+            return "redirect:views/front/SellerLoginController-login.jsp";
         }
     }
 
@@ -376,9 +377,9 @@ public class SellerOrderController extends BaseController {
             model.addAttribute("parentMenuNo", "1");
             model.addAttribute("childMenuNo", "3");
             model.addAttribute("userName", myInfo.getUserName());
-            return "front/seller/order/orderList";
+            return "views/front/seller/order/orderList.jsp";
         } else {
-            return "redirect:/front/SellerLoginController-login";
+            return "redirect:views/front/SellerLoginController-login.jsp";
         }
     }
 
@@ -387,7 +388,7 @@ public class SellerOrderController extends BaseController {
         HttpSession session = request.getSession();
         MyInfo myInfo = (MyInfo)session.getAttribute("MY_INFO");
         if(myInfo == null) {
-            return "redirect:/front/SellerLoginController-login";
+            return "redirect:views/front/SellerLoginController-login.jsp";
         } else {
             Map param = this.getConditionParam(request);
             param.put("userId", myInfo.getUserId());
@@ -455,7 +456,7 @@ public class SellerOrderController extends BaseController {
             model.addAttribute("parentMenuNo", "1");
             model.addAttribute("childMenuNo", "3");
             model.addAttribute("userName", myInfo.getUserName());
-            return "front/seller/order/orderDetail";
+            return "views/front/seller/order/orderDetail.jsp";
         }
     }
 
@@ -475,7 +476,7 @@ public class SellerOrderController extends BaseController {
             }
         }
 
-        return "front/seller/order/editFapiao";
+        return "views/front/seller/order/editFapiao.jsp";
     }
 
     @RequestMapping(
@@ -781,7 +782,7 @@ public class SellerOrderController extends BaseController {
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "4");
         model.addAttribute("userName", myInfo.getUserName());
-        return "front/seller/order/userOrderList";
+        return "views/front/seller/order/userOrderList.jsp";
     }
 
     @RequestMapping({"front/seller/SellerOrderController-userProdList"})
@@ -821,7 +822,7 @@ public class SellerOrderController extends BaseController {
         model.addAttribute("childMenuNo", "6");
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("list", list);
-        return "front/seller/order/userProdList";
+        return "views/front/seller/order/userProdList.jsp";
     }
 
     @RequestMapping({"front/seller/SellerOrderController-addProdList"})
@@ -832,7 +833,7 @@ public class SellerOrderController extends BaseController {
         int totalCount = this.prodMapper.getAddUserProdListCount(param);
         this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
         model.addAttribute("list", list);
-        return "front/seller/order/dlgAddProdList";
+        return "views/front/seller/order/dlgAddProdList.jsp";
     }
 
     @RequestMapping({"front/seller/SellerOrderController-delUserProd"})
@@ -887,12 +888,12 @@ public class SellerOrderController extends BaseController {
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "5");
         model.addAttribute("userName", myInfo.getUserName());
-        return "front/seller/order/estiList";
+        return "views/front/seller/order/estiList.jsp";
     }
 
     @RequestMapping({"front/seller/SellerOrderController-cancel"})
     public String cancel(HttpServletRequest request, HttpServletResponse response) {
-        return "front/seller/order/cancel";
+        return "views/front/seller/order/cancel.jsp";
     }
 
     @RequestMapping(

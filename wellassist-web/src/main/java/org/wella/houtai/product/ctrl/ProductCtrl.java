@@ -58,7 +58,7 @@ public class ProductCtrl extends BaseController {
         }
 
         model.addAttribute("prodInfo", prodInfo);
-        return "houtai/product/product_detail";
+        return "views/houtai/product/product_detail.jsp";
     }
 
     @RequestMapping(

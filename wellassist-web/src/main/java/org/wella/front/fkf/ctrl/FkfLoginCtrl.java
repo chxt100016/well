@@ -28,13 +28,13 @@ public class FkfLoginCtrl extends BaseController {
 
     @RequestMapping({"/front/fkf/FkfLoginCtrl-login"})
     public String login(HttpServletRequest request, HttpServletResponse response) {
-        return "front/fkf/login/login";
+        return "views/front/fkf/login/login.jsp";
     }
 
     @RequestMapping({"/front/fkf/FkfLoginCtrl-register"})
     public String register(HttpServletRequest request, HttpServletResponse response, Model model) {
         model.addAttribute("provinceList", this.getChildRegionList(0));
-        return "front/fkf/login/register";
+        return "views/front/fkf/login/register.jsp";
     }
 
     @RequestMapping({"/front/fkf/FkfLoginCtrl-registerNew"})
@@ -122,7 +122,7 @@ public class FkfLoginCtrl extends BaseController {
 
     @RequestMapping({"/front/fkf/FkfLoginCtrl-registerNext"})
     public String register_result(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return "front/customer/login/registerNext";
+        return "views/front/customer/login/registerNext.jsp";
     }
 
     @RequestMapping(
@@ -179,6 +179,6 @@ public class FkfLoginCtrl extends BaseController {
     @RequestMapping({"/front/fkf/FkfLoginCtrl-logout"})
     public String logout(HttpServletRequest request, HttpServletResponse response, Model model) {
         this.clearSession(request);
-        return "front/fkf/login/login";
+        return "views/front/fkf/login/login.jsp";
     }
 }
