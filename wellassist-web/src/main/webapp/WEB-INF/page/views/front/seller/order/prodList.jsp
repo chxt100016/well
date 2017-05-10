@@ -158,4 +158,4 @@
 	}
 </script>
 
-<%@ include file="../footer.jsp"%>
+<%@ include file="../footer.html"%>

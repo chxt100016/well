@@ -1,0 +1,53 @@
+/*顶部导航栏样式*/
+
+
+/*
+.navbar-sec-fixed-top {}*/
+
+.navbar-inner {
+    background-color: #20a0ff;
+}
+
+.nav-collapse .nav {
+    margin-left: 20px;
+}
+
+.navbar .brand {
+    padding-left: 30px;
+    line-height: 40px;
+    color: #fff;
+}
+
+.navbar .nav>li {
+    padding-left: 20px;
+}
+
+li.topmenuselected>a {
+    /*background: #0557ab;*/
+    color: #fff !important;
+    text-decoration: none;
+    opacity: 1 !important;
+    /*background-color: #99d2fc;*/
+}
+
+
+/*li.topmenuselected>a:before {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 66px;
+    height: 3px;
+    background: #99d2fc
+}*/
+
+.navbar .nav>li>a {
+    text-shadow: none;
+    font-size: 14px;
+}
+
+.navbar .nav>li>a {
+    color: #fff;
+    opacity: .8;
+}

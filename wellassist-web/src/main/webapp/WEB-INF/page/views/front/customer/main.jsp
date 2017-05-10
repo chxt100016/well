@@ -24,7 +24,8 @@
 	href="<c:url value="/resources/library/css/chosen.css"/>">
 <link rel="stylesheet"
 	href="<c:url value="/resources/wella/front/css/styles.css"/>">
-
+<link rel="stylesheet"
+	href="<c:url value="/resources/wella/front/css/new_style.css"/>">
 <link rel="stylesheet"
 	href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
 <link rel="stylesheet"
@@ -65,8 +66,13 @@
 	background: #71160d;
 }
 
-li.topmenuselected{
-	background: #0557ab;
+li.topmenuselected>a{
+	/*background: #0557ab;*/
+	color: #fff !important;
+    text-decoration: none;
+	  opacity: 1 !important;
+    /*background-color: #99d2fc;*/
+
 }
 
 </style>
@@ -90,8 +96,8 @@ li.topmenuselected{
 	</div>
 
 	<!-- top menu -->
-	<div class="navbar navbar-inverse top-nav" align=center style="height:50px;overflow:hidden">
-		<div class="navbar-inner">
+	<%--<div class="navbar navbar-inverse top-nav" align=center style="height:50px;overflow:hidden">--%>
+		<%--<div class="navbar-inner">
 			<div class="container">
 				<div align=left style="width:1100px;">
 					<span class="title_account" style="line-height:100%; margin-top:9px">管理员</span>
@@ -113,9 +119,41 @@ li.topmenuselected{
 					</div>
 				</div>
 			</div>
+		</div>--%>
+	<%--</div>--%>
+	<%--顶部导航条--%>
+		<div class="navbar">
+				<div class="navbar-inner">
+					<div class="container">
+				
+					<!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</a>
+				
+					<!-- Be sure to leave the brand out there if you want it shown -->
+					<a class="brand" href="#">管理员</a>
+				
+					<!-- Everything you want hidden at 940px or less, place within here -->
+					<div class="nav-collapse collapse" style="height:0px">
+						<!-- .nav, .navbar-search, .navbar-form, etc -->
+						 <ul class="nav">
+						
+      						<li class="topmenuselected" id="dingdancenter"><a href="#">订单中心</a></li>
+      						<li id="financecenter"><a href="#">财务中心</a></li>
+      						<li id="newscenter"><a href="#">消息中心</a></li>
+							<li id="company_manage"><a href="#">财务管理</a></li>
+                         </ul>
+
+					</div>
+				
+					</div>
+				</div>
 		</div>
-	</div>
-	
+<%--顶部导航条end--%>
+
 	<div id="main_content" align=center style="background:white;">
 		<div align=left style="width:1100px;padding-top:32px;">
 
@@ -161,6 +199,7 @@ li.topmenuselected{
 
 	function topmenu_sel_clear(){
 		$("li").removeClass("topmenuselected");
+		$("li").removeClass("active");
 	}
 
 	function page_loaded() {

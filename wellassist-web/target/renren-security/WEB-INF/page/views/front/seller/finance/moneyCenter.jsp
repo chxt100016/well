@@ -83,4 +83,4 @@
 		<div class="graywhitebutton" style="float:right;width:24px;">&lt;</div>
 	</div>
 </div>
-<%@ include file="../footer.jsp"%>
+<%@ include file="../footer.html"%>

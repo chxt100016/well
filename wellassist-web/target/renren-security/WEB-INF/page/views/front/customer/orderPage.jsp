@@ -132,8 +132,8 @@
 					</div>
 					
 					<div align=center style="margin-bottom: 24px;">
-						<input type="button" id="back" class="bluebutton" style="padding-left: 16px;padding-right: 16px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;border:none;" value="返回">
-						<input type="submit" id="submit" class="bluebutton" style="padding-left: 16px;padding-right: 16px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;border:none;" value="确认下单">
+						<input type="button" id="back" class="green-button" style=" padding-left: 16px;padding-right: 16px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;border:none;" value="返回">
+						<input type="submit" id="submit" class="blue-button" style="padding-left: 16px;padding-right: 16px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;border:none;" value="确认下单">
 					</div>
 				</div>
 			</form>
@@ -199,6 +199,7 @@
 		    	}else if(isSelfCar == '0'){ // 我有车的话
 		    		var cfDate = $("#cfDate").val();
 					var ddDate = $("#ddDate").val();
+					
 					var itemNum = 0;
 					
 					jQuery("input[name='sjmc']").each(function(i){

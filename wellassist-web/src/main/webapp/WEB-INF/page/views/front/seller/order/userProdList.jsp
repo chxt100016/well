@@ -110,4 +110,4 @@
 		window.open(url, "选择添加商品", " height = 500, width = 500, top = 300 , left = 300  ");
 	}
 </script>
-<%@ include file="../footer.jsp"%>
+<%@ include file="../footer.html"%>
