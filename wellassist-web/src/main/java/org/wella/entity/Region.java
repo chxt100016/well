@@ -10,7 +10,7 @@ public class Region {
     private Long regionId;
     private String regionName;
     private String regionCode;
-    private int parentRegionId;
+    private Long parentRegionId;
     private int layer;
     private int orderId;
     private int zipPhone;
@@ -48,11 +48,11 @@ public class Region {
         this.regionCode = regionCode;
     }
 
-    public int getParentRegionId() {
+    public Long getParentRegionId() {
         return parentRegionId;
     }
 
-    public void setParentRegionId(int parentRegionId) {
+    public void setParentRegionId(Long parentRegionId) {
         this.parentRegionId = parentRegionId;
     }
 
@@ -152,52 +152,5 @@ public class Region {
         this.regionOnlineDate = regionOnlineDate;
     }
 
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        Region waRegion = (Region) o;
-
-        if (parentRegionId != waRegion.parentRegionId) return false;
-        if (layer != waRegion.layer) return false;
-        if (orderId != waRegion.orderId) return false;
-        if (zipPhone != waRegion.zipPhone) return false;
-        if (regionPost != waRegion.regionPost) return false;
-        if (regionOnlineTotal != waRegion.regionOnlineTotal) return false;
-        if (regionOnlineToday != waRegion.regionOnlineToday) return false;
-        if (regionId != null ? !regionId.equals(waRegion.regionId) : waRegion.regionId != null) return false;
-        if (regionName != null ? !regionName.equals(waRegion.regionName) : waRegion.regionName != null) return false;
-        if (regionCode != null ? !regionCode.equals(waRegion.regionCode) : waRegion.regionCode != null) return false;
-        if (isCity != null ? !isCity.equals(waRegion.isCity) : waRegion.isCity != null) return false;
-        if (regionMask != null ? !regionMask.equals(waRegion.regionMask) : waRegion.regionMask != null) return false;
-        if (regionBanner != null ? !regionBanner.equals(waRegion.regionBanner) : waRegion.regionBanner != null)
-            return false;
-        if (regionIcon != null ? !regionIcon.equals(waRegion.regionIcon) : waRegion.regionIcon != null) return false;
-        if (regionBannerOld != null ? !regionBannerOld.equals(waRegion.regionBannerOld) : waRegion.regionBannerOld != null)
-            return false;
-        if (regionOnlineDate != null ? !regionOnlineDate.equals(waRegion.regionOnlineDate) : waRegion.regionOnlineDate != null)
-            return false;
-
-        return true;
-    }
-
-    public int hashCode() {
-        int result = regionId != null ? regionId.hashCode() : 0;
-        result = 31 * result + (regionName != null ? regionName.hashCode() : 0);
-        result = 31 * result + (regionCode != null ? regionCode.hashCode() : 0);
-        result = 31 * result + parentRegionId;
-        result = 31 * result + layer;
-        result = 31 * result + orderId;
-        result = 31 * result + zipPhone;
-        result = 31 * result + regionPost;
-        result = 31 * result + (isCity != null ? isCity.hashCode() : 0);
-        result = 31 * result + (regionMask != null ? regionMask.hashCode() : 0);
-        result = 31 * result + (regionBanner != null ? regionBanner.hashCode() : 0);
-        result = 31 * result + (regionIcon != null ? regionIcon.hashCode() : 0);
-        result = 31 * result + (regionBannerOld != null ? regionBannerOld.hashCode() : 0);
-        result = 31 * result + regionOnlineTotal;
-        result = 31 * result + regionOnlineToday;
-        result = 31 * result + (regionOnlineDate != null ? regionOnlineDate.hashCode() : 0);
-        return result;
-    }
 }
