@@ -12,8 +12,8 @@
 		<meta name="description" content="Admin Panel Template">
 		<meta name="author" content="Westilian: Kamrujaman Shohel">
 		<!-- styles -->
-		<link rel="stylesheet" href="<c:url value="/resources/library/css/bootstrap.css"/>">
-		<link rel="stylesheet" href="<c:url value="/resources/library/css/bootstrap-responsive.css"/>">
+		<link rel="stylesheet" href="<c:url value="/resources/library/css/bootstrap.min.css"/>">
+		<%--<link rel="stylesheet" href="<c:url value="/resources/library/css/bootstrap-responsive.css"/>">--%>
 		<link rel="stylesheet" href="<c:url value="/resources/library/css/font-awesome.css"/>">
 		<!--[if IE 7]>
 		<link rel="stylesheet" href="<c:url value="/resources/library/css/font-awesome-ie7.min.css"/>">
@@ -42,7 +42,7 @@
 		<!--============ javascript ===========-->
 		<script src="<c:url value="/resources/library/js/jquery.js"/>"></script>
 		<script src="<c:url value="/resources/library/js/jquery-ui-1.10.1.custom.min.js"/>"></script>
-		<script src="<c:url value="/resources/library/js/bootstrap.js"/>"></script>
+		<script src="<c:url value="/resources/library/js/bootstrap.min.js"/>"></script>
 		<script src="<c:url value="/resources/wella/common/js/accordion.nav.js"/>"></script>
 		<script src="<c:url value="/resources/common/js/global.js"/>"></script>
 		<script src="<c:url value="/resources/common/js/AlertWindow.js"/>"></script>
@@ -70,7 +70,7 @@
 	</style>
 
 	<!-- navigation bar -->
-	<div class="abovenavbar">
+	<div class="abovenavbar" style="height:45px;">
 		<div align=center>
 			<div style="width:1100px;">
  					<span class="dropdown" style="float:left;">
@@ -114,28 +114,24 @@
 		</div>
 	</div>--%>
 	<%--顶部导航条--%>
-		<div class="navbar">
-				<div class="navbar-inner">
-					<div class="container">
-				
-					<!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</a>
-				
-					<!-- Be sure to leave the brand out there if you want it shown -->
-					<a class="brand" href="#">管理员</a>
-				
-					<!-- Everything you want hidden at 940px or less, place within here -->
-					<div class="nav-collapse collapse" style="height:0px">
-						<!-- .nav, .navbar-search, .navbar-form, etc -->
-						 <ul class="nav">
-						    <li id="chanpincenter" class="dropdown menu-break-left <c:if test = "${parentMenuNo == '5' }"> topmenuselected</c:if>">
+		
+<div class="navbar navbar-blue " style="margin-top:5px;">
+      <div class="container">
+        <div class="navbar-header">
+          <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand hidden-sm" href="#" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">管理员</a>
+        </div>
+        <div class="navbar-collapse collapse" role="navigation" aria-expanded="false" style="height: 1px;">
+          <ul class="nav navbar-nav">
+               <li id="chanpincenter" class=" <c:if test = "${parentMenuNo == '5' }"> topmenuselected</c:if>">
 								<a  href="${pageContext.request.contextPath}/front/customer/CustomerProdCtrl-prodList">产品中心</a>
 							</li>
-      						<li class="topmenuselected" class="dropdown <c:if test = "${parentMenuNo == '1' }"> topmenuselected </c:if>" id="dingdancenter">
+      						<li class="topmenuselected" class=" <c:if test = "${parentMenuNo == '1' }"> topmenuselected </c:if>" id="dingdancenter">
 							  <a href="${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-prodOrderList">订单中心</a></li>
       						<li id="financecenter" class="<c:if test = "${parentMenuNo == '2' }"> topmenuselected</c:if>" >
 							  <a href="${pageContext.request.contextPath}/front/customer/FinanceController-accountInfo">财务中心</a></li>
@@ -143,14 +139,15 @@
 							  <a href="${pageContext.request.contextPath}/front/customer/NewsController-xxList">消息中心</a></li>
 							<li id="company_manage" class="<c:if test = "${parentMenuNo == '4' }"> topmenuselected</c:if>">
 							<a href="${pageContext.request.contextPath}/front/customer/CompanyController-companyInfo">财务管理</a></li>
-                         </ul>
-
-					</div>
-				
-					</div>
-				</div>
-		</div>
+          </ul>
+          <ul class="nav navbar-nav navbar-right hidden-sm">
+            <li><a href="/about/" onclick="#">关于</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
 <%--顶部导航条end--%>
+
 	
 	<div id="main_content" align=center style="background:white;width: 1100px;margin: 0px auto;padding-top: 32px;">
 		<div id="leftmenu" class="" style="border:solid 1px #d0d0d0;width:190px;float:left;display:none;">

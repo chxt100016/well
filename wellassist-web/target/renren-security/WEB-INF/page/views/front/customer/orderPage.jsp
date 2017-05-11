@@ -63,20 +63,20 @@
 					<div id="wlxxDiv">
 						<div class="row-fld">
 							<span style = "margin-right: 64px;">发货时间:</span>
-							<input id="cfDate" name = "cfDate" style="height:18px;width:150px;" value="" class="Wdate" type="text" onfocus="var ddDate=$dp.$('ddDate');WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){ddDate.focus();},maxDate:'#F{$dp.$D(\'ddDate\')}'})">
+							<input id="cfDate" name = "cfDate" style="height:25px;width:185px;" value="" class="Wdate" type="text" onfocus="var ddDate=$dp.$('ddDate');WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){ddDate.focus();},maxDate:'#F{$dp.$D(\'ddDate\')}'})">
 							<span style = "margin-right: 64px; margin-left:64px;">预计收货时间:</span>
-							<input id="ddDate"  name="ddDate" style="height:18px;width:150px;" value="" class="Wdate" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'cfDate\')}'})">
+							<input id="ddDate"  name="ddDate" style="height:25px;width:185px;" value="" class="Wdate" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'cfDate\')}'})">
 						</div>
 						<div style="border:solid 1px #d0d0d0;font-size:24px;margin:16px 48px;overflow:auto;">
 							<div style="border-bottom: solid 1px#E0E0E0; overflow:auto;">
 								<div class="graybox" 			style="width:30%;line-height:50px;font-size:14px;float:left; border:none; border-right: solid 1px #d0d0d0;">
-									&nbsp; 司机名称 : <input type="text" id="sjmc" style="width:130px;" />
+									&nbsp; 司机名称 : <input type="text" id="sjmc" style="width:130px; line-height:normal" />
 								</div>
 								<div class="grayboxwithoutleft" style="width:30%;line-height:50px;font-size:14px;float:left;border:none; border-right: solid 1px #d0d0d0;">
-									&nbsp; 电话 : <input type="text" id="sjdh" style="width:130px;" />
+									&nbsp; 电话 : <input type="text" id="sjdh" style="width:130px;line-height:normal" />
 								</div>
 								<div class="grayboxwithoutleft" style="width:30%;line-height:50px;font-size:14px;float:left;border:none; border-right: solid 1px #d0d0d0;">
-									&nbsp; 车牌号 : <input type="text" id="cph" style="width:130px;" />
+									&nbsp; 车牌号 : <input type="text" id="cph" style="width:130px;line-height:normal" />
 								</div>
 								<div class="grayboxwithoutleft" style="width:8%;line-height:50px;font-size:14px;float:left;border:none; text-align:center;">
 									<a style="cursor:pointer;color:black;" onclick="addSj()">添加</a>
@@ -140,11 +140,27 @@
 		</div>
 
 	</div>
+<%--别动这个是弹出的警告modal框--%>
+<div class="modal fade warming_modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+     <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">提示</h4>
+      </div>
+	  <div class="modal-body">
+          ...
+        </div>
+    </div>
+  </div>
+</div>
+<%--modal框end	--%>
 </body>
 <script type="text/javascript">
 	// 初始化函数
 	$(function(){
 		// 检查模块
+	
 		$("#infoForm").validate({
 		    rules: {
 		    	saleNum: {required:true},
@@ -167,16 +183,18 @@
 		    	var toRegionId = "";
 		    	if(isSelfCar == '1'){
 		    	  if($("#vehicleLxr").val() == undefined || $("#vehicleLxr").val() == ""){
-		    	  	alert("请输入联系人!");
+		    	  	// alert("请输入联系人!");
+						showalert("请输入联系人!");
 		    	  	return;
 		    	  }
 		    	  
 		    	  var vehicleLxrPhone = $("#vehicleLxrPhone").val();
 		    	  if(vehicleLxrPhone == undefined || vehicleLxrPhone == ""){
-			    	  	alert("请输入联系电话!");
+						  showalert("请输入联系电话!");
 			    	  	return;
 		    	  }else if(!checkPhone(vehicleLxrPhone)){
-		    	  		alert("不正确联系电话!");
+		    	  		// alert("不正确联系电话!");
+						  showalert("不正确的联系电话!");
 		    	  		return;
 		    	  }
 		    	  
@@ -188,12 +206,14 @@
 		    	  if($("select[name='prodRegionId_1']").val() != undefined && $("select[name='prodRegionId_2']").val() != '')
 		    	  	  toRegionId = $("select[name='prodRegionId_2']").val();
 		    	  if(toRegionId == ""){
-			    	  	alert("请选择配送地址!");
+			    	  	// alert("请选择配送地址!");
+						  showalert("请选择配送地址!");
 			    	  	return;
 		    	  }
 		    	  
 		    	  if($("#toRegionAddr").val() == undefined || $("#toRegionAddr").val() == ""){
-		    	  	    alert("请输入详细地址!");
+		    	  	    // alert("请输入详细地址!");
+                         showalert("请输入详细地址!");
 		    	  	    return;
 		    	  }
 		    	}else if(isSelfCar == '0'){ // 我有车的话
@@ -207,19 +227,22 @@
 					});
 					
 					if(cfDate==""){
-						alert("请输入发货时间!");
+						// alert("请输入发货时间!");
+						showalert("请输入发货时间!");
 						$("#cfDate").focus();
 						return;
 					}
 					
 					if(ddDate==""){
-						alert("请输入预计收货时间!");
+						// alert("请输入预计收货时间!");
+						showalert("请输入预计收货时间");
 						$("#ddDate").focus();
 						return;
 					}
 					
 					if(itemNum==0){
-						alert("请输入司机信息!");
+						// alert("请输入司机信息!");
+						showalert("请输入司机信息!");
 						$("#sjmc").focus();
 						return;
 					}
@@ -245,6 +268,7 @@
 		    	if(confirm("你要确定操作吗?")){
 			    	$.post($(form).attr("action"),$(form).serialize(),function(data){
 			    		alert(data.content);
+						// showalert(data.content);
 			            if(data.state==1 ){
 			            	window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerHomeCtrl-orderSuccess";
 			            }
@@ -339,23 +363,26 @@
 		var cph  = $("#cph").val();
 		
 		if(sjmc==""){
-			alert("请输入司机名称!");
+			// alert("请输入司机名称!");
+			showalert("请输入司机名称!");
 			$("#sjmc").focus();
 			return;
 		}
 		
 		if(sjdh==""){
-			alert("请输入电话!");
+			// alert("请输入电话!");
+			showalert("请输入电话!");
 			$("#sjdh").focus();
 			return;
 		}else if(!checkPhone(sjdh)){
-			alert("不正确电话!");
+			// alert("不正确电话!");
+	       showalert("不正确电话!");
 			$("#sjdh").focus();
 			return;
 		}
 		
 		if(cph==""){
-			alert("请输入车牌号!");
+			showalert("请输入车牌号!");
 			$("#cph").focus();
 			return;
 		}
@@ -403,6 +430,10 @@
 		}
 	}	
 	
+	function showalert(xx){
+		$('.modal-body').html(xx);
+	   $('.warming_modal').modal('show');
+	};
 		
 		
 	$("#youche").click( function(){
