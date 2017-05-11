@@ -47,13 +47,19 @@ public class CustomerLoginCtrl extends BaseController {
         Map map=new HashMap();
         map.put("userId",2L);
         map.put("prodId",1L);
-        map.put("toRegionId","0");
-        map.put("toRegionAddr","0");
+        map.put("toRegionId",330104L);
+        map.put("toRegionAddr","asdfrgrehgtr");
         map.put("saleNum",new BigDecimal("10"));
         map.put("saleMoney",new BigDecimal("500"));
         map.put("orderIp","123456");
-        map.put("isSelfCar",(byte)0);
+        map.put("isSelfCar",(byte)1);
+        /*map.put("orderData","[{\"sjmc\":\"丁建文1\",\"sjdh\":\"13145678923\",\"cph\":\"scdsgv\"},{\"sjmc\":\"丁建文2\",\"sjdh\":\"13245678965\",\"cph\":\"vfdbg\"}]");
+        map.put("ccDate","2017-05-18 13:58:05");
+        map.put("ddDate","2017-05-31 13:58:05");*/
+        map.put("vehicleLxr","DINGJIANWEN");
+        map.put("vehicleLxrPhone","13616546855");
         customerServiceImpl.order(map);
+
         return "views/front/customer/login/login.jsp";
     }
 

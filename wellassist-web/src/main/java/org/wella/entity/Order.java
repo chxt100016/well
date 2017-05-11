@@ -11,9 +11,9 @@ public class Order {
     private String orderNo;
     private long prodId;
     private String prodName;
-    private String fromRegionId;
+    private long fromRegionId;
     private String fromRegionAddr;
-    private String toRegionId;
+    private long toRegionId;
     private String toRegionAddr;
     private long userId;
     private String userLxr;
@@ -68,14 +68,6 @@ public class Order {
         this.prodName = prodName;
     }
 
-    public String getFromRegionId() {
-        return fromRegionId;
-    }
-
-    public void setFromRegionId(String fromRegionId) {
-        this.fromRegionId = fromRegionId;
-    }
-
     public String getFromRegionAddr() {
         return fromRegionAddr;
     }
@@ -84,11 +76,19 @@ public class Order {
         this.fromRegionAddr = fromRegionAddr;
     }
 
-    public String getToRegionId() {
+    public long getFromRegionId() {
+        return fromRegionId;
+    }
+
+    public void setFromRegionId(long fromRegionId) {
+        this.fromRegionId = fromRegionId;
+    }
+
+    public long getToRegionId() {
         return toRegionId;
     }
 
-    public void setToRegionId(String toRegionId) {
+    public void setToRegionId(long toRegionId) {
         this.toRegionId = toRegionId;
     }
 
@@ -264,79 +264,5 @@ public class Order {
         this.pjContent = pjContent;
     }
 
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        Order waOrder = (Order) o;
-
-        if (orderId != waOrder.orderId) return false;
-        if (prodId != waOrder.prodId) return false;
-        if (userId != waOrder.userId) return false;
-        if (supplierId != waOrder.supplierId) return false;
-        if (orderState != waOrder.orderState) return false;
-        if (orderType != waOrder.orderType) return false;
-        if (kpState != waOrder.kpState) return false;
-        if (isSelfCar != waOrder.isSelfCar) return false;
-        if (pjState != waOrder.pjState) return false;
-        if (orderNo != null ? !orderNo.equals(waOrder.orderNo) : waOrder.orderNo != null) return false;
-        if (prodName != null ? !prodName.equals(waOrder.prodName) : waOrder.prodName != null) return false;
-        if (fromRegionId != null ? !fromRegionId.equals(waOrder.fromRegionId) : waOrder.fromRegionId != null)
-            return false;
-        if (fromRegionAddr != null ? !fromRegionAddr.equals(waOrder.fromRegionAddr) : waOrder.fromRegionAddr != null)
-            return false;
-        if (toRegionId != null ? !toRegionId.equals(waOrder.toRegionId) : waOrder.toRegionId != null) return false;
-        if (toRegionAddr != null ? !toRegionAddr.equals(waOrder.toRegionAddr) : waOrder.toRegionAddr != null)
-            return false;
-        if (userLxr != null ? !userLxr.equals(waOrder.userLxr) : waOrder.userLxr != null) return false;
-        if (userLxrPhone != null ? !userLxrPhone.equals(waOrder.userLxrPhone) : waOrder.userLxrPhone != null)
-            return false;
-        if (saleNum != null ? !saleNum.equals(waOrder.saleNum) : waOrder.saleNum != null) return false;
-        if (saleMoney != null ? !saleMoney.equals(waOrder.saleMoney) : waOrder.saleMoney != null) return false;
-        if (djModifyDate != null ? !djModifyDate.equals(waOrder.djModifyDate) : waOrder.djModifyDate != null)
-            return false;
-        if (saleSjNum != null ? !saleSjNum.equals(waOrder.saleSjNum) : waOrder.saleSjNum != null) return false;
-        if (saleSjMoney != null ? !saleSjMoney.equals(waOrder.saleSjMoney) : waOrder.saleSjMoney != null) return false;
-        if (sqMoney != null ? !sqMoney.equals(waOrder.sqMoney) : waOrder.sqMoney != null) return false;
-        if (orderDate != null ? !orderDate.equals(waOrder.orderDate) : waOrder.orderDate != null) return false;
-        if (orderIp != null ? !orderIp.equals(waOrder.orderIp) : waOrder.orderIp != null) return false;
-        if (kpCompleteDate != null ? !kpCompleteDate.equals(waOrder.kpCompleteDate) : waOrder.kpCompleteDate != null)
-            return false;
-        if (pjDate != null ? !pjDate.equals(waOrder.pjDate) : waOrder.pjDate != null) return false;
-        if (pjContent != null ? !pjContent.equals(waOrder.pjContent) : waOrder.pjContent != null) return false;
-
-        return true;
-    }
-
-    public int hashCode() {
-        int result = (int) (orderId ^ (orderId >>> 32));
-        result = 31 * result + (orderNo != null ? orderNo.hashCode() : 0);
-        result = 31 * result + (int) (prodId ^ (prodId >>> 32));
-        result = 31 * result + (prodName != null ? prodName.hashCode() : 0);
-        result = 31 * result + (fromRegionId != null ? fromRegionId.hashCode() : 0);
-        result = 31 * result + (fromRegionAddr != null ? fromRegionAddr.hashCode() : 0);
-        result = 31 * result + (toRegionId != null ? toRegionId.hashCode() : 0);
-        result = 31 * result + (toRegionAddr != null ? toRegionAddr.hashCode() : 0);
-        result = 31 * result + (int) (userId ^ (userId >>> 32));
-        result = 31 * result + (userLxr != null ? userLxr.hashCode() : 0);
-        result = 31 * result + (userLxrPhone != null ? userLxrPhone.hashCode() : 0);
-        result = 31 * result + (int) (supplierId ^ (supplierId >>> 32));
-        result = 31 * result + (saleNum != null ? saleNum.hashCode() : 0);
-        result = 31 * result + (saleMoney != null ? saleMoney.hashCode() : 0);
-        result = 31 * result + (djModifyDate != null ? djModifyDate.hashCode() : 0);
-        result = 31 * result + (saleSjNum != null ? saleSjNum.hashCode() : 0);
-        result = 31 * result + (saleSjMoney != null ? saleSjMoney.hashCode() : 0);
-        result = 31 * result + (sqMoney != null ? sqMoney.hashCode() : 0);
-        result = 31 * result + (int) orderState;
-        result = 31 * result + (int) orderType;
-        result = 31 * result + (orderDate != null ? orderDate.hashCode() : 0);
-        result = 31 * result + (orderIp != null ? orderIp.hashCode() : 0);
-        result = 31 * result + (int) kpState;
-        result = 31 * result + (kpCompleteDate != null ? kpCompleteDate.hashCode() : 0);
-        result = 31 * result + (int) isSelfCar;
-        result = 31 * result + (int) pjState;
-        result = 31 * result + (pjDate != null ? pjDate.hashCode() : 0);
-        result = 31 * result + (pjContent != null ? pjContent.hashCode() : 0);
-        return result;
-    }
 }
