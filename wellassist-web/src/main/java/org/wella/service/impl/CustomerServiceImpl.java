@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * Created by liuwen on 2017/5/10.
  */
-@Service
+@Service("customerServiceImpl")
 public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
