@@ -13,6 +13,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,17 +31,6 @@ public class CustomerController {
 //       HttpServletRequest servletRequest =(HttpRequest) RequestContextHolder.getRequestAttributes();
 //       ServletContext servletContext =(ServletContext) SpringContextUtils.applicationContext;
        Map map = new HashMap();
-//       String prodId = CommonUtil.GetRequestParam(request, "prodId", "0");
-//       String saleNum = CommonUtil.GetRequestParam(request, "saleNum", "0");
-//       String saleMoney = CommonUtil.GetRequestParam(request, "saleMoney", "0.00");
-//       String isSelfCar = CommonUtil.GetRequestParam(request, "isSelfCar", "0");
-//       String vehicleLxr = CommonUtil.GetRequestParam(request, "vehicleLxr", "");
-//       String vehicleLxrPhone = CommonUtil.GetRequestParam(request, "vehicleLxrPhone", "");
-//       String toRegionId = CommonUtil.GetRequestParam(request, "toRegionId", "0");
-//       String toRegionAddr = CommonUtil.GetRequestParam(request, "toRegionAddr", "0");
-//       String orderData = CommonUtil.GetRequestParam(request, "orderData", "");
-//       String cfDate = CommonUtil.GetRequestParam(request, "cfDate", "2016-12-12 00:00:00");
-//       String ddDate = CommonUtil.GetRequestParam(request, "ddDate", "2016-12-12 00:00:00");
        map.put("prodId",request.getParameter("prodId"));
        map.put("saleNum",request.getParameter("saleNum"));
        map.put("saleMoney",request.getParameter("saleMoney"));
@@ -51,10 +41,7 @@ public class CustomerController {
        map.put("orderData",request.getParameter("orderData"));
        map.put("cfDate",request.getParameter("cfDate"));
        map.put("ddDate",request.getParameter("ddDate"));
-
-//       map.put("vehi")
-
-
+       customerService.order(map);
    }
 
 }
