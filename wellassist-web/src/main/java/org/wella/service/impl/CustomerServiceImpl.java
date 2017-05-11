@@ -40,7 +40,7 @@ public class CustomerServiceImpl implements CustomerService {
     /**
      * 需要进行事务控制
      * @param map 表单中提交的内容(String):userId,prodId,toRegionId,toRegionAddr,saleNum,saleMoney,orderIp,isSelfCar,orderData
-     *                              ccDate,ddDate,vehicleLxr,vehicleLxrPhone
+     *                              cfDate,ddDate,vehicleLxr,vehicleLxrPhone
      */
     @Override
     public void order(Map map) {
@@ -93,7 +93,7 @@ public class CustomerServiceImpl implements CustomerService {
                 vInfo.setCarCode((String)vehivleMap.get("cph"));
                 vehicleInfoDao.createVehicleInfo(vInfo);
             }
-            Date ccDate=str2Date((String)map.get("ccDate"),"yyyy-MM-dd HH:mm:ss");
+            Date ccDate=str2Date((String)map.get("cfDate"),"yyyy-MM-dd HH:mm:ss");
             Date ddDate=str2Date((String)map.get("ddDate"),"yyyy-MM-dd HH:mm:ss");
             OrderLogisticsInfo orderLogisticsInfo=new OrderLogisticsInfo();
             orderLogisticsInfo.setOrderId(order.getOrderId());
