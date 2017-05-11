@@ -26,7 +26,8 @@
 				</div>
 			</div>
 
-			<form id = "infoForm" action="<c:url value="/front/customer/CustomerHomeCtrl-createOrder"/>" method="post">
+			<%--<form id = "infoForm" action="<c:url value="/front/customer/CustomerHomeCtrl-createOrder"/>" method="post">--%>
+				<form id = "infoForm" action="<c:url value="/customer/order"/>" method="post">
 				<input type = "hidden" name = "toRegionId"  id = "toRegionId" />
 			    <input type = "hidden" name = "prodId"  value = "${spInfo.prodId}" />
 			    <input type = "hidden" name = "orderData" id = "orderData"  />

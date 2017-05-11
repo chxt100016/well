@@ -139,6 +139,9 @@ public class ConvertUtil {
     }
 
     public static ArrayList<Map<String, Object>> converJSONtoArrayListMap(String json) {
+        if(json.contains("&quot;")){
+            json = json.replaceAll("&quot","\'");
+        }
         JSONArray array = JSONArray.parseArray(json);
         ArrayList ret = new ArrayList();
 
