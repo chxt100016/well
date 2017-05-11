@@ -43,12 +43,14 @@ public class CustomerController extends BaseController{
           map.put("saleNum", request.getParameter("saleNum"));
           map.put("saleMoney", request.getParameter("saleMoney"));
           map.put("isSelfCar", request.getParameter("isSelfCar"));
+          map.put("vehicleLxr", request.getParameter("vehicleLxr"));
           map.put("vehicleLxrPhone", request.getParameter("vehicleLxrPhone"));
           map.put("toRegionId", request.getParameter("toRegionId") != "" ? request.getParameter("toRegionId") : "1");
           map.put("toRegionAddr", request.getParameter("toRegionAddr"));
           map.put("orderData", request.getParameter("orderData"));
-          map.put("cfDate", request.getParameter("cfDate") != "");
-          map.put("ddDate", request.getParameter("ddDate") != "");
+          map.put("cfDate", request.getParameter("cfDate"));
+          map.put("ddDate", request.getParameter("ddDate"));
+          map.put("orderIp",getIpAddr(request));
        }catch (Exception e){
           e.printStackTrace();
           res.put("state", "2");

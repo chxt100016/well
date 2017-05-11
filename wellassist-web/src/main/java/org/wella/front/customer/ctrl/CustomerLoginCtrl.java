@@ -44,7 +44,7 @@ public class CustomerLoginCtrl extends BaseController {
 /*(long)userId,(long)prodId,(S)toRegionId,toRegionAddr,saleNum,saleMoney,orderIp,isSelfCar*/
     @RequestMapping({"/front/customer/CustomerLoginCtrl-login"})
     public String login(HttpServletRequest request, HttpServletResponse response) {
-        Map map=new HashMap();
+        /*Map map=new HashMap();
         map.put("userId","2");
         map.put("prodId","1");
         map.put("toRegionId","330104");
@@ -53,12 +53,12 @@ public class CustomerLoginCtrl extends BaseController {
         map.put("saleMoney","500");
         map.put("orderIp","123456");
         map.put("isSelfCar","1");
-        /*map.put("orderData","[{\"sjmc\":\"丁建文1\",\"sjdh\":\"13145678923\",\"cph\":\"scdsgv\"},{\"sjmc\":\"丁建文2\",\"sjdh\":\"13245678965\",\"cph\":\"vfdbg\"}]");
+        map.put("orderData","[{\"sjmc\":\"丁建文1\",\"sjdh\":\"13145678923\",\"cph\":\"scdsgv\"},{\"sjmc\":\"丁建文2\",\"sjdh\":\"13245678965\",\"cph\":\"vfdbg\"}]");
         map.put("ccDate","2017-05-18 13:58:05");
-        map.put("ddDate","2017-05-31 13:58:05");*/
+        map.put("ddDate","2017-05-31 13:58:05");
         map.put("vehicleLxr","DINGJIANWEN");
         map.put("vehicleLxrPhone","13616546855");
-        customerServiceImpl.order(map);
+        customerServiceImpl.order(map);*/
 
         return "views/front/customer/login/login.jsp";
     }
