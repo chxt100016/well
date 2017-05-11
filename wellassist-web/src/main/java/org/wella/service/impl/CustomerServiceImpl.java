@@ -39,15 +39,15 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * 需要进行事务控制
-     * @param map 表单中提交的内容:(long)userId,(long)prodId,(long)toRegionId,(String)toRegionAddr,(BigDecimal)saleNum,(BigDecimal)saleMoney,(String)orderIp,(byte)isSelfCar,(String)orderData
-     *                              (String)ccDate,(String)ddDate,(String)vehicleLxr,(String)vehicleLxrPhone
+     * @param map 表单中提交的内容(String):userId,prodId,toRegionId,toRegionAddr,saleNum,saleMoney,orderIp,isSelfCar,orderData
+     *                              ccDate,ddDate,vehicleLxr,vehicleLxrPhone
      */
     @Override
     public void order(Map map) {
         //获取与用户和产品相关联的信息写入订单表中
-        long userId=(long)map.get("userId");
+        long userId=Long.parseLong((String)map.get("userId"));
         Userinfo userinfo=userinfoDao.getOrderUserinfoByUserid(userId);
-        long prodId=(long)map.get("prodId");
+        long prodId=Long.parseLong((String)map.get("prodId"));
         Prod prod=prodDao.getOrderProdByProdid(prodId);
 
         Order order=new Order();
@@ -58,18 +58,18 @@ public class CustomerServiceImpl implements CustomerService {
         order.setFromRegionAddr(prod.getProdRegionAddr());
         order.setSupplierId(prod.getUserId());
 
-        order.setToRegionId((long) map.get("toRegionId"));
+        order.setToRegionId(Long.parseLong((String) map.get("toRegionId")));
         order.setToRegionAddr((String) map.get("toRegionAddr"));
 
         order.setUserId(userId);
         order.setUserLxr(userinfo.getCompanyLxr());
         order.setUserLxrPhone(userinfo.getCompanyLxrPhone());
 
-        order.setSaleNum((BigDecimal)map.get("saleNum"));
-        order.setSaleMoney((BigDecimal)map.get("saleMoney"));
+        order.setSaleNum(new BigDecimal((String)map.get("saleNum")));
+        order.setSaleMoney(new BigDecimal((String)map.get("saleMoney")));
         order.setOrderDate(new Date());
         order.setOrderIp((String)map.get("orderIp"));
-        order.setIsSelfCar((byte)map.get("isSelfCar"));
+        order.setIsSelfCar(Byte.parseByte((String)map.get("isSelfCar")));
 
         order.setOrderType((byte)0);
 
@@ -106,7 +106,7 @@ public class CustomerServiceImpl implements CustomerService {
             orderLogisticsInfo.setOrderId(order.getOrderId());
             orderLogisticsInfo.setContactPerson((String)map.get("vehicleLxr"));
             orderLogisticsInfo.setContactPhone((String)map.get("vehicleLxrPhone"));
-            String addr=getAddrByRegionId("",(long)map.get("toRegionId"))+(String)map.get("toRegionAddr");
+            String addr=getAddrByRegionId("",order.getToRegionId())+(String)map.get("toRegionAddr");
             orderLogisticsInfo.setAddress(addr);
             orderLogisticsInfoDao.createOrderLogisticsInfoDao(orderLogisticsInfo);
         }
