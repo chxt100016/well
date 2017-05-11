@@ -6,17 +6,22 @@ import java.util.Iterator;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.wella.common.ctrl.BaseController;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.common.vo.MyInfo;
+import org.wella.front.sender.mapper.FrontSenderOrderMapper;
 
 @Controller
 public class SenderHomeController extends BaseController {
     public SenderHomeController() {
     }
+    @Autowired
+    private FrontSenderOrderMapper frontSenderOrderMapper;
 
     @RequestMapping({"/front/sender/SenderHomeController-home"})
     public String before_start(HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -71,7 +76,19 @@ public class SenderHomeController extends BaseController {
 
     @RequestMapping({"/front/sender/SenderHomeController-main"})
     public String main(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return "redirect:views/front/sender/FrontSenderOrderCtrl-orderList.jsp";
+//        return "redirect:/front/sender/FrontSenderOrderCtrl-orderList";
+        MyInfo myInfo = this.getMyInfo(request);
+        Map param = this.getConditionParam(request);
+        param.put("userId", myInfo.getUserId());
+        ArrayList waUserVehicleList = this.frontSenderOrderMapper.getWaUserVehicleList(param);
+        ConvertUtil.convertDataBaseMapToJavaMap(waUserVehicleList);
+        model.addAttribute("waUserVehicleList", waUserVehicleList);
+        int totalCount = this.frontSenderOrderMapper.getWaUserVehicleListCount(param);
+        this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
+        model.addAttribute("parentMenuNo", "1");
+        model.addAttribute("childMenuNo", "1");
+        model.addAttribute("userName", myInfo.getUserName());
+        return "views/front/sender/order/orderList.jsp";
     }
 
     /**
@@ -84,4 +101,5 @@ public class SenderHomeController extends BaseController {
     public String zifu(HttpServletRequest request, HttpServletResponse response) {
         return "views/front/sender/zifu.jsp";
     }
+    
 }

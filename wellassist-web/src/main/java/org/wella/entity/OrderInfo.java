@@ -9,7 +9,7 @@ import java.util.Date;
 public class OrderInfo {
     private long infoId;
     private long orderId;
-    private String infoType;
+    private byte infoType;
     private long mgrUserId;
     private Date mgrDate;
     private String mgrContent;
@@ -31,11 +31,11 @@ public class OrderInfo {
         this.orderId = orderId;
     }
 
-    public String getInfoType() {
+    public byte getInfoType() {
         return infoType;
     }
 
-    public void setInfoType(String infoType) {
+    public void setInfoType(byte infoType) {
         this.infoType = infoType;
     }
 
@@ -71,31 +71,5 @@ public class OrderInfo {
         this.mgrIp = mgrIp;
     }
 
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        OrderInfo that = (OrderInfo) o;
-
-        if (infoId != that.infoId) return false;
-        if (orderId != that.orderId) return false;
-        if (mgrUserId != that.mgrUserId) return false;
-        if (infoType != null ? !infoType.equals(that.infoType) : that.infoType != null) return false;
-        if (mgrDate != null ? !mgrDate.equals(that.mgrDate) : that.mgrDate != null) return false;
-        if (mgrContent != null ? !mgrContent.equals(that.mgrContent) : that.mgrContent != null) return false;
-        if (mgrIp != null ? !mgrIp.equals(that.mgrIp) : that.mgrIp != null) return false;
-
-        return true;
-    }
-
-    public int hashCode() {
-        int result = (int) (infoId ^ (infoId >>> 32));
-        result = 31 * result + (int) (orderId ^ (orderId >>> 32));
-        result = 31 * result + (infoType != null ? infoType.hashCode() : 0);
-        result = 31 * result + (int) (mgrUserId ^ (mgrUserId >>> 32));
-        result = 31 * result + (mgrDate != null ? mgrDate.hashCode() : 0);
-        result = 31 * result + (mgrContent != null ? mgrContent.hashCode() : 0);
-        result = 31 * result + (mgrIp != null ? mgrIp.hashCode() : 0);
-        return result;
-    }
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.UserinfoDao">
+
+
+    <select id="getOrderUserinfoByUserid" parameterType="long" resultType="org.wella.entity.Userinfo">
+        SELECT  b.company_lxr, b.company_lxr_phone
+        from wa_user a inner join wa_userinfo b on a.user_id = b.user_id
+        where a.user_id = #{userId}
+    </select>
+
+</mapper>

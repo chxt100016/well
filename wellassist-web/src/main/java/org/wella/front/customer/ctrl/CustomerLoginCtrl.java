@@ -2,7 +2,8 @@ package org.wella.front.customer.ctrl;
 
  import com.alibaba.fastjson.JSONObject;
 import java.io.IOException;
-import java.util.ArrayList;
+ import java.math.BigDecimal;
+ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +25,8 @@ import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.common.vo.MyInfo;
 import org.wella.front.customer.mapper.CustomerLoginMapper;
+ import org.wella.service.CustomerService;
+ import org.wella.service.impl.CustomerServiceImpl;
 
 @Controller
 public class CustomerLoginCtrl extends BaseController {
@@ -33,12 +36,30 @@ public class CustomerLoginCtrl extends BaseController {
     private CustomerLoginMapper loginMapper;
     @Autowired
     CheckCodeCtrl checkCodeService;
+    @Autowired
+    CustomerService customerServiceImpl;
 
     public CustomerLoginCtrl() {
     }
-
+/*(long)userId,(long)prodId,(S)toRegionId,toRegionAddr,saleNum,saleMoney,orderIp,isSelfCar*/
     @RequestMapping({"/front/customer/CustomerLoginCtrl-login"})
     public String login(HttpServletRequest request, HttpServletResponse response) {
+        Map map=new HashMap();
+        map.put("userId",2L);
+        map.put("prodId",1L);
+        map.put("toRegionId",330104L);
+        map.put("toRegionAddr","asdfrgrehgtr");
+        map.put("saleNum",new BigDecimal("10"));
+        map.put("saleMoney",new BigDecimal("500"));
+        map.put("orderIp","123456");
+        map.put("isSelfCar",(byte)1);
+        /*map.put("orderData","[{\"sjmc\":\"丁建文1\",\"sjdh\":\"13145678923\",\"cph\":\"scdsgv\"},{\"sjmc\":\"丁建文2\",\"sjdh\":\"13245678965\",\"cph\":\"vfdbg\"}]");
+        map.put("ccDate","2017-05-18 13:58:05");
+        map.put("ddDate","2017-05-31 13:58:05");*/
+        map.put("vehicleLxr","DINGJIANWEN");
+        map.put("vehicleLxrPhone","13616546855");
+        customerServiceImpl.order(map);
+
         return "views/front/customer/login/login.jsp";
     }
 
