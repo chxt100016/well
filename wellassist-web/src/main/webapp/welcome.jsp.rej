@@ -1,9 +1,0 @@
-diff a/wellassist-web/src/main/webapp/welcome.jsp b/wellassist-web/src/main/webapp/welcome.jsp	(rejected hunks)
-@@ -14,6 +14,7 @@
- </head>
- <body>
- <jsp:forward page="WEB-INF/page/views/front/customer/main.jsp"></jsp:forward>
-+=======
-     <jsp:forward page="/WEB-INF/page/views/front/home.jsp"/>
- >>>>>>> ed77b2eca065836e0643b9370158f193aadafc0a
- </body>
