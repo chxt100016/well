@@ -2,7 +2,8 @@ package org.wella.front.customer.ctrl;
 
  import com.alibaba.fastjson.JSONObject;
 import java.io.IOException;
-import java.util.ArrayList;
+ import java.math.BigDecimal;
+ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +25,8 @@ import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.common.vo.MyInfo;
 import org.wella.front.customer.mapper.CustomerLoginMapper;
+ import org.wella.service.CustomerService;
+ import org.wella.service.impl.CustomerServiceImpl;
 
 @Controller
 public class CustomerLoginCtrl extends BaseController {
@@ -33,12 +36,24 @@ public class CustomerLoginCtrl extends BaseController {
     private CustomerLoginMapper loginMapper;
     @Autowired
     CheckCodeCtrl checkCodeService;
+    @Autowired
+    CustomerService customerServiceImpl;
 
     public CustomerLoginCtrl() {
     }
-
+/*(long)userId,(long)prodId,(S)toRegionId,toRegionAddr,saleNum,saleMoney,orderIp,isSelfCar*/
     @RequestMapping({"/front/customer/CustomerLoginCtrl-login"})
     public String login(HttpServletRequest request, HttpServletResponse response) {
+        Map map=new HashMap();
+        map.put("userId",2L);
+        map.put("prodId",1L);
+        map.put("toRegionId","0");
+        map.put("toRegionAddr","0");
+        map.put("saleNum",new BigDecimal("10"));
+        map.put("saleMoney",new BigDecimal("500"));
+        map.put("orderIp","123456");
+        map.put("isSelfCar",(byte)0);
+        customerServiceImpl.order(map);
         return "views/front/customer/login/login.jsp";
     }
 

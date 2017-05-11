@@ -83,6 +83,6 @@
 	</bean>
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="io.wellassist.dao;org.wella" />
+		<property name="basePackage" value="io.wellassist.dao;org.wella;org.wella.dao" />
 	</bean>
 </beans>

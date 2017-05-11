@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.OrderDao">
+
+	<insert id="createOrder" useGeneratedKeys="true" keyProperty="orderId" parameterType="org.wella.entity.Order">
+		INSERT INTO wa_order
+        SET order_no = #{orderNo}, prod_id = #{prodId}, prod_name = #{prodName}, from_region_id = #{fromRegionId},
+             from_region_addr = #{fromRegionAddr}, to_region_id = #{toRegionId}, to_region_addr = #{toRegionAddr},
+             user_id = #{userId} , user_lxr = #{userLxr}, user_lxr_phone = #{userLxrPhone}, supplier_id = #{supplierId},
+             sale_num = #{saleNum}, sale_money = #{saleMoney}, order_date = #{orderDate}, order_ip = #{orderIp},
+             is_self_car = #{isSelfCar};
+	</insert>
+</mapper>
