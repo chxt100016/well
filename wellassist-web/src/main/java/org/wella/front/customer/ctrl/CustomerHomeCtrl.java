@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 import org.wella.common.ctrl.BaseController;
 import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
@@ -115,7 +116,18 @@ public class CustomerHomeCtrl extends BaseController {
 
     @RequestMapping({"/front/customer/CustomerHomeCtrl-main"})
     public String main(HttpServletRequest request, HttpServletResponse response, Model model) {
-        return "redirect:views/front/customer/CustomerBackOrderCtrl-prodOrderList.jsp";
+        MyInfo myInfo = this.getMyInfo(request);
+        String userId = myInfo.getUserId();
+        HashMap param = new HashMap();
+        param.put("userId", userId);
+        ArrayList spList = this.prodUserMapper.getUserProdList(param);
+        ConvertUtil.convertDataBaseMapToJavaMap(spList);
+        model.addAttribute("spList", spList);
+        model.addAttribute("userName", myInfo.getUserName());
+        model.addAttribute("parentMenuNo", "5");
+        model.addAttribute("childMenuNo", "0");
+        return "views/front/customer/prod/prodList.jsp";
+//       return new ModelAndView("redirect/front/customer/CustomerBackOrderCtrl-prodOrderList");
     }
 
     @RequestMapping({"front/customer/CustomerHomeCtrl-makeOrder"})
@@ -173,6 +185,9 @@ public class CustomerHomeCtrl extends BaseController {
         String cphList = "";
         String sjdhList = "";
         String sjmcList = "";
+        if(orderData.contains("&quot;")){
+           orderData= orderData.replaceAll("&quot;","\"");
+        }
         if(isSelfCar.equals("0")) {
             if(orderData.equals("")) {
                 res.put("state", "2");

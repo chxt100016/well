@@ -36,6 +36,7 @@ public class CustomerBackOrderCtrl extends BaseController {
     public CustomerBackOrderCtrl() {
     }
 
+
     @RequestMapping({"front/customer/CustomerBackOrderCtrl-prodOrderList"})
     public String prodOrderList(HttpServletRequest request, HttpServletResponse response, Model model) {
         MyInfo myInfo = this.getMyInfo(request);
@@ -49,7 +50,7 @@ public class CustomerBackOrderCtrl extends BaseController {
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "1");
-        return "front/customer/order/prodOrderList";
+        return "views/front/customer/order/prodOrderList.jsp";
     }
 
     @RequestMapping({"front/customer/CustomerBackOrderCtrl-detailOrder"})
