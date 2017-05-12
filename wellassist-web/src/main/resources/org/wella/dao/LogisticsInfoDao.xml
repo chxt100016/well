@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.LogisticsInfoDao">
+
+
+    <insert id="createLogisticsInfo" parameterType="org.wella.entity.LogisticsInfo">
+        INSERT INTO wa_logistics_info
+        SET order_id = #{orderId},
+            from_address = #{fromAddress},
+            to_address = #{toAddress},
+            num = #{number},
+            pre_payment = #{prePayment},
+            state = #{state},
+            order_date = #{orderDate},
+            deliver_date = #{deliver_date}
+    </insert>
+
+</mapper>

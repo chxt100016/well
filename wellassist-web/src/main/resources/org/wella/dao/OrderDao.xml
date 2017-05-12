@@ -11,4 +11,11 @@
              sale_num = #{saleNum}, sale_money = #{saleMoney}, order_date = #{orderDate}, order_ip = #{orderIp},
              is_self_car = #{isSelfCar};
 	</insert>
+
+    <update id="updateOrderByID" parameterType="map">
+        UPDATE  wa_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="confirmPrice != null">confirm_price = #{confirmPrice},</if> 
+        </trim>
+    </update>
 </mapper>

@@ -15,6 +15,8 @@ public class OrderLogisticsInfo {
     private String contactPerson;
     private String contactPhone;
     private String address;
+    private Date orderDate;
+    private Date deliverDate;
 
     public long getId() {
         return id;
@@ -70,5 +72,21 @@ public class OrderLogisticsInfo {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public Date getDeliverDate() {
+        return deliverDate;
+    }
+
+    public void setDeliverDate(Date deliverDate) {
+        this.deliverDate = deliverDate;
     }
 }
