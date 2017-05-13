@@ -35,6 +35,8 @@ public class Order {
     private byte pjState;
     private Date pjDate;
     private String pjContent;
+    private BigDecimal confirmPrice;
+    private BigDecimal confirmNumber;
 
     public long getOrderId() {
         return orderId;
@@ -206,8 +208,6 @@ public class Order {
         this.kpState = kpState;
     }
 
-
-
     public byte getIsSelfCar() {
         return isSelfCar;
     }
@@ -264,5 +264,19 @@ public class Order {
         this.pjContent = pjContent;
     }
 
+    public BigDecimal getConfirmPrice() {
+        return confirmPrice;
+    }
 
+    public void setConfirmPrice(BigDecimal confirmPrice) {
+        this.confirmPrice = confirmPrice;
+    }
+
+    public BigDecimal getConfirmNumber() {
+        return confirmNumber;
+    }
+
+    public void setConfirmNumber(BigDecimal confirmNumber) {
+        this.confirmNumber = confirmNumber;
+    }
 }

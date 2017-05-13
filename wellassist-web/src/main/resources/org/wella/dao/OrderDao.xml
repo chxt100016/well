@@ -3,6 +3,51 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.wella.dao.OrderDao">
 
+    <resultMap id="order" type="org.wella.entity.Order">
+        <id column="order_id" property="orderId"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="prod_id" property="prodId"/>
+        <result column="prod_name" property="prodName"/>
+        <result column="from_region_id" property="fromRegionId"/>
+
+        <result column="from_region_addr" property="fromRegionAddr"/>
+        <result column="to_region_id" property="toRegionId"/>
+        <result column="to_region_addr" property="toRegionAddr"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_lxr" property="userLxr"/>
+
+        <result column="to_region_id" property="toRegionId"/>
+        <result column="user_lxr_phone" property="userLxrPhone"/>
+        <result column="supplier_id" property="supplierId"/>
+        <result column="sale_num" property="saleNum"/>
+        <result column="sale_money" property="saleMoney"/>
+
+        <result column="order_date" property="orderDate"/>
+        <result column="order_ip" property="orderIp"/>
+        <result column="is_self_car" property="isSelfCar"/>
+        <result column="confirm_number" property="confirmNumber"/>
+        <result column="confirm_price" property="confirmPrice"/>
+
+        <result column="order_date" property="orderDate"/>
+        <result column="order_ip" property="orderIp"/>
+        <result column="is_self_car" property="isSelfCar"/>
+        <result column="confirm_number" property="confirmNumber"/>
+        <result column="confirm_price" property="confirmPrice"/>
+
+        <result column="pj_state" property="pjState"/>
+        <result column="pj_date" property="pjDate"/>
+        <result column="pj_content" property="pjContent"/>
+        <result column="kp_complete_date" property="kpCompleteDate"/>
+        <result column="kp_state" property="kpState"/>
+
+        <result column="dj_modify_date" property="djModifyDate"/>
+        <result column="sale_sj_num" property="saleSjNum"/>
+        <result column="sale_sj_money" property="saleSjMoney"/>
+        <result column="sq_money" property="sqMoney"/>
+        <result column="order_type" property="orderType"/>
+
+    </resultMap>
+
 	<insert id="createOrder" useGeneratedKeys="true" keyProperty="orderId" parameterType="org.wella.entity.Order">
 		INSERT INTO wa_order
         SET order_no = #{orderNo}, prod_id = #{prodId}, prod_name = #{prodName}, from_region_id = #{fromRegionId},
@@ -12,10 +57,37 @@
              is_self_car = #{isSelfCar};
 	</insert>
 
+    <!--根据订单id更新订单，在卖家确认时，支付时等情况对其进行操作-->
     <update id="updateOrderByID" parameterType="map">
         UPDATE  wa_order
         <trim prefix="SET" suffixOverrides=",">
-            <if test="confirmPrice != null">confirm_price = #{confirmPrice},</if> 
+            <if test="confirmPrice != null">confirm_price = #{confirmPrice},</if>
+            <if test="confirmNumber != null">confirm_number = #{confirmNumber},</if>
+            <if test="saleSjNum != null">sale_sj_num = #{saleSjNum},</if>
+            <if test="saleSjMoney != null">sale_sj_money = #{saleSjMoney},</if>
+            <if test="pjState != null">pj_state = #{pjState},</if>
+            <if test="pjDate != null">pj_date = #{pjDate},</if>
+            <if test="pjContent != null">pj_content = #{pj_Content},</if>
+            <if test="orderState != null">order_state = #{orderState},</if>
+            <if test="djModifyDate != null">dj_modify_date = #{djModifyDate}</if>
         </trim>
+        where order_id = #{orderId}
     </update>
+
+    <select id="findOrder" parameterType="map" resultMap="order">
+        SELECT *
+        FROM wa_order
+        WHERE 1 = 1
+        <if test="orderId != null">
+            AND order_id LIKE '%${orderId}%'
+        </if>
+        <if test="orderNo != null">
+            AND order_no LIKE '%${orderNo}%'
+        </if>
+        <if test="prodName != null">
+            AND prod_name LIKE '%${prodName}%'
+        </if>
+
+    </select>
+
 </mapper>

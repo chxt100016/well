@@ -10,5 +10,5 @@ public interface LogisticsInfoDao {
      * 生成物流订单，当卖家确认，并且买家选择配送时的逻辑处理
      * @param logisticsInfo
      */
-    void createLogisticsInfoDao(LogisticsInfo logisticsInfo);
+    void createLogisticsInfo(LogisticsInfo logisticsInfo);
 }

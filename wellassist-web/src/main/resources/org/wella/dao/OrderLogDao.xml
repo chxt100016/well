@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.wella.dao.OrderInfoDao">
-
-	<insert id="createOrderInfo" parameterType="org.wella.entity.OrderInfo">
-		INSERT INTO wa_order_info (order_id,info_type,mgr_user_id,mgr_date,mgr_content,mgr_ip)
-		VALUES (#{orderId},#{infoType},#{mgrUserId},#{mgrDate},#{mgrContent},#{mgrIp})
+<mapper namespace="org.wella.dao.OrderLogDao">
+	<insert id="createOrderLog" parameterType="org.wella.entity.OrderLog">
+		INSERT  INTO wa_order_log (order_id,order_price,order_number,operation_time,user_id,operation_ip)
+		VALUES (#{orderId},#{orderPrice},#{orderNumber},#{operationTime},#{userId},#{operationIp})
 	</insert>
+
 
 </mapper>

@@ -54,7 +54,8 @@
 				<div style="text-align:center;font-size:24px;">订单详情</div>
 			</div>
 		</div>
-		<form id="ddxqForm" action="${pageContext.request.contextPath}/front/seller/SellerOrderController-setOrderInfo" method="post">
+		<form id="ddxqForm" action="${pageContext.request.contextPath}/seller/processOrder" method="post">
+		<%--<form id="ddxqForm" action="${pageContext.request.contextPath}/front/seller/SellerOrderController-setOrderInfo" method="post">--%>
 			<div class="formDd">
 				<div class="headDd">订单详情</div>
 				<div class="rowDd">
@@ -127,7 +128,8 @@
 				<div style="text-align:center;font-size:24px;">物流信息</div>
 			</div>
 		</div>
-		<form id="wlxxForm" action="${pageContext.request.contextPath}/front/seller/SellerOrderController-setOrderInfo" method="post">
+		<form id="wlxxForm" action="${pageContext.request.contextPath}/seller/processOrder" method="post">
+			<%--<form id="wlxxForm" action="${pageContext.request.contextPath}/front/seller/SellerOrderController-setOrderInfo" method="post">--%>
 			<div class="formDd">
 				<div class="headDd">物流信息 <a id="qrvhAllBtn" style="display: none; float: right; font-size: 14px; color: #1177dd; cursor: pointer;" onclick="setAllVehicle()">全部确认</a></div>
 				
