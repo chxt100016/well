@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.VehicleGrabInfoDao">
+
+    <insert id="createVehicleGrabInfo" useGeneratedKeys="true" keyProperty="orderId" parameterType="org.wella.entity.VehicleGrab">
+        INSERT INTO wa_vehicle_grab_info
+        SET grab_id=#{grabId},sj_lxr=#{sjLxr},sj_lxr_phone=#{sjLxrPhone},vehicle_no=#{vehicleNo};
+    </insert>
+
+</mapper>

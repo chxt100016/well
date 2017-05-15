@@ -16,4 +16,43 @@
             deliver_date = #{deliver_date}
     </insert>
 
+    <select id="findLogisticsInfos" parameterType="java.util.Map" resultType="org.wella.entity.LogisticsInfo">
+        SELECT * from wa_logistics_info
+        <where>
+            <if test = "orderId != null" >
+                AND order_id = #{orderId}
+            </if>
+            <if test = "logistics != null" >
+                AND logistics_id = #{logisticsId}
+            </if>
+            <if test = "userName != null">
+                AND (customer_user_name LIKE '%${userName}%' OR seller_user_name LIKE '%${userName}%')
+            </if>
+        </where>
+        ORDER BY order_date DESC
+        <if test="start !=null and size !=null">
+        LIMIT ${start} , ${size}
+        </if>
+    </select>
+
+    <select id="findLogisticsInfosCount" parameterType="java.util.Map" resultType="int">
+        SELECT count(*) from wa_logistics_info
+        <where>
+            <if test = "orderId != null" >
+                AND order_id = #{orderId}
+            </if>
+            <if test = "userName != null">
+                AND (customer_user_name LIKE '%${userName}%' OR seller_user_name LIKE '%${userName}%')
+            </if>
+        </where>
+    </select>
+
+    <select id="findLogisticsInfo" parameterType="java.util.Map" resultType="org.wella.entity.LogisticsInfo">
+        SELECT * FROM wa_logistics_info
+        <where>
+            <if test = "logisticsId != null" >
+                AND logistics_id = #{logisticsId}
+            </if>
+        </where>
+    </select>
 </mapper>

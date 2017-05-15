@@ -1,6 +1,7 @@
 package org.wella.utils;
 
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -25,5 +26,21 @@ public class CommonUtil {
         }
 
         return sb.toString();
+    }
+    /**
+     * 字符串转Date
+     * @param dateStr
+     * @param format
+     * @return
+     */
+    public Date str2Date(String dateStr,String format){
+        SimpleDateFormat sdf=new SimpleDateFormat(format);
+        Date date=null;
+        try {
+            date=sdf.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 }

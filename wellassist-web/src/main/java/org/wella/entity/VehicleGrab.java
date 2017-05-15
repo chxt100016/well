@@ -8,6 +8,7 @@ import java.util.Date;
  */
 public class VehicleGrab {
     private long grabId;
+    private long logisticsId;
     private long orderId;
     private long wlUserId;
     private String vehicleNo;
@@ -27,6 +28,14 @@ public class VehicleGrab {
 
     public void setGrabId(long grabId) {
         this.grabId = grabId;
+    }
+
+    public long getLogisticsId() {
+        return logisticsId;
+    }
+
+    public void setLogisticsId(long logisticsId) {
+        this.logisticsId = logisticsId;
     }
 
     public long getOrderId() {
@@ -126,43 +135,4 @@ public class VehicleGrab {
         this.grabState = grabState;
     }
 
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        VehicleGrab that = (VehicleGrab) o;
-
-        if (grabId != that.grabId) return false;
-        if (orderId != that.orderId) return false;
-        if (wlUserId != that.wlUserId) return false;
-        if (vehicleSize != that.vehicleSize) return false;
-        if (grabState != that.grabState) return false;
-        if (vehicleNo != null ? !vehicleNo.equals(that.vehicleNo) : that.vehicleNo != null) return false;
-        if (grabMoney != null ? !grabMoney.equals(that.grabMoney) : that.grabMoney != null) return false;
-        if (cfDate != null ? !cfDate.equals(that.cfDate) : that.cfDate != null) return false;
-        if (ddDate != null ? !ddDate.equals(that.ddDate) : that.ddDate != null) return false;
-        if (sjLxr != null ? !sjLxr.equals(that.sjLxr) : that.sjLxr != null) return false;
-        if (sjLxPhone != null ? !sjLxPhone.equals(that.sjLxPhone) : that.sjLxPhone != null) return false;
-        if (grabDate != null ? !grabDate.equals(that.grabDate) : that.grabDate != null) return false;
-        if (grabReason != null ? !grabReason.equals(that.grabReason) : that.grabReason != null) return false;
-
-        return true;
-    }
-
-    public int hashCode() {
-        int result = (int) (grabId ^ (grabId >>> 32));
-        result = 31 * result + (int) (orderId ^ (orderId >>> 32));
-        result = 31 * result + (int) (wlUserId ^ (wlUserId >>> 32));
-        result = 31 * result + (vehicleNo != null ? vehicleNo.hashCode() : 0);
-        result = 31 * result + vehicleSize;
-        result = 31 * result + (grabMoney != null ? grabMoney.hashCode() : 0);
-        result = 31 * result + (cfDate != null ? cfDate.hashCode() : 0);
-        result = 31 * result + (ddDate != null ? ddDate.hashCode() : 0);
-        result = 31 * result + (sjLxr != null ? sjLxr.hashCode() : 0);
-        result = 31 * result + (sjLxPhone != null ? sjLxPhone.hashCode() : 0);
-        result = 31 * result + (grabDate != null ? grabDate.hashCode() : 0);
-        result = 31 * result + (grabReason != null ? grabReason.hashCode() : 0);
-        result = 31 * result + (int) grabState;
-        return result;
-    }
 }

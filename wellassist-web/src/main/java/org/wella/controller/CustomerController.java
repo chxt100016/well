@@ -65,7 +65,6 @@ public class CustomerController extends BaseController{
              res.put("state", "2");
              res.put("content", ConstantUtil.MSG_FAILS);
              e.printStackTrace();
-
           }finally {
             this.echo(response,res);
           }
