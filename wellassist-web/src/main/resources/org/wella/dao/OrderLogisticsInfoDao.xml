@@ -3,8 +3,29 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.wella.dao.OrderLogisticsInfoDao">
 
+	<resultMap id="orderLogistInfo" type="org.wella.entity.OrderLogisticsInfo">
+		<id property="id" column="id"/>
+		<result column="order_id" property="orderId"/>
+		<result column="delivery_time" property="deliveryTime"/>
+		<result column="receive_time" property="receiveTime"/>
+		<result column="contact_person" property="contactPerson"/>
+		<result column="contact_phone" property="contactPhone"/>
+		<result column="address" property="address"/>
+	</resultMap>
+
 	<insert id="createOrderLogisticsInfoDao" parameterType="org.wella.entity.OrderLogisticsInfo">
 		INSERT INTO wa_order_logistics_info(order_id,delivery_time,receive_time,contact_person,contact_phone,address)
 		VALUES (#{orderId},#{deliveryTime},#{receiveTime},#{contactPerson},#{contactPhone},#{address})
 	</insert>
+
+	<select id="findUser" parameterType="map" resultMap="orderLogistInfo">
+		SELECT *
+		FROM wa_order
+		WHERE 1 = 1
+		<if test="orderId != null">
+			AND order_id LIKE '%${orderId}%'
+		</if>
+	</select>
+
+
 </mapper>

@@ -18,7 +18,7 @@ public interface SellerService {
      * 1.确认订单后，修改订单表wa_order表中的信息，并在wa_order_info中生成一条记录，对当前的订单状态进行标记
      * 2.如果订单通过卖家确认，若干自提，则向运输表
      */
-    void processOrder(int orderId);
+    void processOrder(long orderId,Map map);
 
 
     /**

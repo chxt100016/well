@@ -18,6 +18,7 @@ public class OrderLogisticsInfo {
     private Date orderDate;
     private Date deliverDate;
 
+
     public long getId() {
         return id;
     }
@@ -89,4 +90,6 @@ public class OrderLogisticsInfo {
     public void setDeliverDate(Date deliverDate) {
         this.deliverDate = deliverDate;
     }
+
+
 }

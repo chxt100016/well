@@ -2,23 +2,33 @@ package org.wella.entity;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Date;
 
 /**
  * Created by liuwen on 2017/5/12.
  */
 public class OrderLog {
-    private byte[] id;
+    private Long id;
     private Long orderId;
     private Double orderPrice;
     private Double orderNumber;
-    private Timestamp operationTime;
+    private Date operationTime;
     private Long userId;
+    private String operationIp;
 
-    public byte[] getId() {
+    public String getOperationIp() {
+        return operationIp;
+    }
+
+    public void setOperationIp(String operationIip) {
+        this.operationIp = operationIip;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(byte[] id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -46,11 +56,11 @@ public class OrderLog {
         this.orderNumber = orderNumber;
     }
 
-    public Timestamp getOperationTime() {
+    public Date getOperationTime() {
         return operationTime;
     }
 
-    public void setOperationTime(Timestamp operationTime) {
+    public void setOperationTime(Date operationTime) {
         this.operationTime = operationTime;
     }
 
@@ -67,8 +77,6 @@ public class OrderLog {
         if (o == null || getClass() != o.getClass()) return false;
 
         OrderLog that = (OrderLog) o;
-
-        if (!Arrays.equals(id, that.id)) return false;
         if (orderId != null ? !orderId.equals(that.orderId) : that.orderId != null) return false;
         if (orderPrice != null ? !orderPrice.equals(that.orderPrice) : that.orderPrice != null) return false;
         if (orderNumber != null ? !orderNumber.equals(that.orderNumber) : that.orderNumber != null) return false;
@@ -80,7 +88,7 @@ public class OrderLog {
     }
 
     public int hashCode() {
-        int result = Arrays.hashCode(id);
+        int result = 0;
         result = 31 * result + (orderId != null ? orderId.hashCode() : 0);
         result = 31 * result + (orderPrice != null ? orderPrice.hashCode() : 0);
         result = 31 * result + (orderNumber != null ? orderNumber.hashCode() : 0);

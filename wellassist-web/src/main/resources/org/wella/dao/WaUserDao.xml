@@ -2,6 +2,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.wella.dao.WaUserDao">
+    <resultMap id="waUser" type="org.wella.entity.User">
+        <id property="user_id" column="userId"/>
+        <result column="user_accout" property="userAccout"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_reg_no" property="userRegNo"/>
+        <result column="user_type" property="userType"/>
+        <result column="cz_pass" property="czPass"/>
+        <result column="create_date" property="createDate"/>
+        <result column="cz_fail_num" property="czFailNum"/>
+        <result column="user_money" property="userMoney"/>
+        <result column="user_lock_money" property="userLockMoney"/>
+        <result column="user_credit_money" property="userCreditMoney"/>
+        <result column="user_lock_credit_money" property="userLockCreditMoney"/>
+        <result column="user_lx_money" property="userLxMoney"/>
+        <result column="user_email" property="userEmail"/>
+        <result column="user_pass" property="userPass"/>
+        <result column="create_user_id" property="createUserId"/>
+        <result column="recent_date" property="recentDate"/>
+        <result column="recent_ip" property="recentIp"/>
+        <result column="login_fail_num" property="loginFailNum"/>
+        <result column="lixi_rate" property="lixiRate"/>
+        <result column="lixi_type" property="lixiType"/>
+        <result column="credit_dengji" property="creditDengji"/>
+        <result column="credit_pf" property="creditPf"/>
+        <result column="commet" property="commet"/>
+        <result column="user_state" property="userState"/>
+    </resultMap>
 
+    <select id="findUser" parameterType="map" resultMap="waUser">
+        SELECT *
+        FROM wa_user
+        WHERE 1 = 1
+        <if test="userId != null">
+            AND user_id = #{userId}
+        </if>
+    </select>
 
 </mapper>

@@ -13,7 +13,13 @@
             pre_payment = #{prePayment},
             state = #{state},
             order_date = #{orderDate},
-            deliver_date = #{deliver_date}
+            deliver_date = #{deliverDate},
+            prod_id = #{prodId},
+            prod_name = #{prodName},
+            seller_user_name = #{sellerUserName},
+            seller_user_id = #{sellerUserId},
+            customer_user_name = #{customerUserName},
+            customer_user_id = #{customerUserId}
     </insert>
 
     <select id="findLogisticsInfos" parameterType="java.util.Map" resultType="org.wella.entity.LogisticsInfo">
