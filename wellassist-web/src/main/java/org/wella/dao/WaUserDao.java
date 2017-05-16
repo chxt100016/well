@@ -3,6 +3,7 @@ package org.wella.dao;
 import org.apache.ibatis.annotations.Param;
 import org.wella.entity.User;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,4 +13,14 @@ import java.util.Map;
 public interface WaUserDao {
 
     List<User> findUser(Map map);
+
+    //返回插入的条数
+    void createUser(Map map);
+
+    HashMap getCountByName(Map map);
+
+    int updateUserByCode(String code);
+
+    //找回密码时，后台生成验证码，并将验证码发到用户邮箱，并将该验证码写入到数据库，提交时根据此验证
+    void updateUserByEmail(Map map);
 }

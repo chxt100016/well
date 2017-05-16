@@ -27,6 +27,7 @@ import org.wella.common.vo.MyInfo;
 import org.wella.front.customer.mapper.CustomerLoginMapper;
  import org.wella.service.CustomerService;
  import org.wella.service.impl.CustomerServiceImpl;
+ import org.wella.service.impl.MailServiceImpl;
 
 @Controller
 public class CustomerLoginCtrl extends BaseController {
@@ -39,26 +40,14 @@ public class CustomerLoginCtrl extends BaseController {
     @Autowired
     CustomerService customerServiceImpl;
 
+    @Autowired
+    private MailServiceImpl mailServiceImpl;
+
     public CustomerLoginCtrl() {
     }
 /*(long)userId,(long)prodId,(S)toRegionId,toRegionAddr,saleNum,saleMoney,orderIp,isSelfCar*/
     @RequestMapping({"/front/customer/CustomerLoginCtrl-login"})
     public String login(HttpServletRequest request, HttpServletResponse response) {
-        /*Map map=new HashMap();
-        map.put("userId","2");
-        map.put("prodId","1");
-        map.put("toRegionId","330104");
-        map.put("toRegionAddr","asdfrgrehgtr");
-        map.put("saleNum","10");
-        map.put("saleMoney","500");
-        map.put("orderIp","123456");
-        map.put("isSelfCar","1");
-        map.put("orderData","[{\"sjmc\":\"丁建文1\",\"sjdh\":\"13145678923\",\"cph\":\"scdsgv\"},{\"sjmc\":\"丁建文2\",\"sjdh\":\"13245678965\",\"cph\":\"vfdbg\"}]");
-        map.put("ccDate","2017-05-18 13:58:05");
-        map.put("ddDate","2017-05-31 13:58:05");
-        map.put("vehicleLxr","DINGJIANWEN");
-        map.put("vehicleLxrPhone","13616546855");
-        customerServiceImpl.order(map);*/
 
         return "views/front/customer/login/login.jsp";
     }
@@ -74,96 +63,109 @@ public class CustomerLoginCtrl extends BaseController {
         return "views/front/customer/login/register.jsp";
     }
 
+    /**
+     * 注册时的业务逻辑
+     * @param request
+     * @param response
+     * @param model
+     */
     @RequestMapping({"/front/customer/CustomerLoginCtrl-registerNew"})
     public void registerNew(HttpServletRequest request, HttpServletResponse response, Model model) {
-        HashMap paramlist = new HashMap();
-        String companyname = CommonUtil.GetRequestParam(request, "companyname", "");
-        paramlist.put("company_name", companyname);
-        new HashMap();
-        new HashMap();
-        JSONObject res = new JSONObject();
-        Map ret = this.loginMapper.get_user_count(paramlist);
-        if(CommonUtil.getIntFromString(ret.get("cn").toString()) > 0) {
-            res.put("state", Integer.valueOf(-1));
-            res.put("content", "该企业已经存在！");
-        } else {
-            model.addAttribute("exist_count", ret.get("cn").toString());
-            HttpSession session = request.getSession();
-            Map userinfo = (Map)session.getAttribute("userinfo");
-            HashMap wa_user = new HashMap();
-            String user_name = CommonUtil.GetRequestParam(request, "companyname", "");
-            String user_reg_no = CommonUtil.GetRequestParam(request, "companyaccount", "");
-            String contactcustomer = CommonUtil.GetRequestParam(request, "contactcustomer", "");
-            String user_type = "1";
-            String user_phone = CommonUtil.GetRequestParam(request, "contactphone", "");
-            String user_email = CommonUtil.GetRequestParam(request, "contactemail", "");
-            String user_pass = CommonUtil.GetRequestParam(request, "pass1", "");
-            wa_user.put("user_type", user_type);
-            wa_user.put("user_pass", CommonUtil.MD5(user_pass));
-            wa_user.put("user_email", user_email);
-            wa_user.put("user_phone", user_phone);
-            wa_user.put("user_reg_no", user_reg_no);
-            wa_user.put("user_name", user_name);
-            this.loginMapper.insertWaUser(wa_user);
-            String userId = wa_user.get("newId").toString();
-            String waUserInfoId = "";
-            if(CommonUtil.getIntFromString(userId) > 0) {
-                HashMap wa_userinfo = new HashMap();
-                String company_type = CommonUtil.GetRequestParam(request, "compkind", "");
-                String sp_type = CommonUtil.GetRequestParam(request, "prodkind", "");
-                String company_img = CommonUtil.GetRequestParam(request, "yingye_img4", "");
-                String company_name = CommonUtil.GetRequestParam(request, "companyname", "");
-                String company_yy_zz_img = CommonUtil.GetRequestParam(request, "yingye_img1", "");
-                String company_xkz_img = CommonUtil.GetRequestParam(request, "yingye_img2", "");
-                String company_txkz_img = CommonUtil.GetRequestParam(request, "yingye_img3", "");
-                String company_yy_zz = CommonUtil.GetRequestParam(request, "company_yy_zz", "");
-                String company_kh_xkz = CommonUtil.GetRequestParam(request, "company_xkz", "");
-                String company_txkz = CommonUtil.GetRequestParam(request, "company_txkz", "");
-                String zc_region_id = CommonUtil.GetRequestParam(request, "zc_region_id", "");
-                String zc_xx_address = CommonUtil.GetRequestParam(request, "address", "");
-                String company_lxr = CommonUtil.GetRequestParam(request, "contact", "");
-                String company_lxr_phone = CommonUtil.GetRequestParam(request, "contactseat", "");
-                wa_userinfo.put("company_type", company_type);
-                wa_userinfo.put("info_userId", userId);
-                wa_userinfo.put("sp_type", sp_type);
-                wa_userinfo.put("company_name", company_name);
-                wa_userinfo.put("company_img", company_img);
-                wa_userinfo.put("company_yy_zz_img", company_yy_zz_img);
-                wa_userinfo.put("company_xkz_img", company_xkz_img);
-                wa_userinfo.put("company_txkz_img", company_txkz_img);
-                wa_userinfo.put("company_yy_zz", company_yy_zz);
-                wa_userinfo.put("company_kh_xkz", company_kh_xkz);
-                wa_userinfo.put("company_txkz", company_txkz);
-                wa_userinfo.put("zc_region_id", zc_region_id);
-                wa_userinfo.put("zc_xx_address", zc_xx_address);
-                wa_userinfo.put("cz_pass", CommonUtil.MD5("123456"));
-                wa_userinfo.put("company_lxr", company_lxr);
-                wa_userinfo.put("company_lxr_phone", company_lxr_phone);
 
-                try {
-                    this.loginMapper.insertWaUserInfo(wa_userinfo);
-                    HashMap e = new HashMap();
-                    HashMap mapClass = new HashMap();
-                    mapClass.put("user_id", userId);
-                    mapClass.put("gys_id", contactcustomer);
-                    mapClass.put("rel_state", "0");
-                    mapClass.put("rel_date", new Date());
-                    e.put("mapClass", mapClass);
-                    e.put("tableName", "wa_user_relation");
-                    this.commonMapper.insertSingleBO(e);
-                    res.put("state", Integer.valueOf(1));
-                    res.put("content", "注册成功！");
-                } catch (Exception var39) {
-                    res.put("state", Integer.valueOf(-1));
-                    res.put("content", "注册失败！");
-                }
-            } else {
-                res.put("state", Integer.valueOf(-1));
-                res.put("content", "注册失败！");
-            }
-        }
 
-        this.echoJSON(response, res);
+//        HashMap paramlist = new HashMap();
+//        String companyname = CommonUtil.GetRequestParam(request, "companyname", "");
+//        paramlist.put("company_name", companyname);
+//        new HashMap();
+//        new HashMap();
+//        JSONObject res = new JSONObject();
+//        Map ret = this.loginMapper.get_user_count(paramlist);
+//        if(CommonUtil.getIntFromString(ret.get("cn").toString()) > 0) {
+//            res.put("state", Integer.valueOf(-1));
+//            res.put("content", "该企业已经存在！");
+//        } else {
+//            model.addAttribute("exist_count", ret.get("cn").toString());
+//            HttpSession session = request.getSession();
+//            Map userinfo = (Map)session.getAttribute("userinfo");
+//            HashMap wa_user = new HashMap();
+//            String user_name = CommonUtil.GetRequestParam(request, "companyname", "");
+//            String user_reg_no = CommonUtil.GetRequestParam(request, "companyaccount", "");
+//            String contactcustomer = CommonUtil.GetRequestParam(request, "contactcustomer", "");
+//            String user_type = "1";
+//            String user_phone = CommonUtil.GetRequestParam(request, "contactphone", "");
+//            String user_email = CommonUtil.GetRequestParam(request, "contactemail", "");
+//            String user_pass = CommonUtil.GetRequestParam(request, "pass1", "");
+//            wa_user.put("user_type", user_type);
+//            wa_user.put("user_pass", CommonUtil.MD5(user_pass));
+//            wa_user.put("user_email", user_email);
+//            wa_user.put("user_phone", user_phone);
+//            wa_user.put("user_reg_no", user_reg_no);
+//            wa_user.put("user_name", user_name);
+//            this.loginMapper.insertWaUser(wa_user);
+//            String userId = wa_user.get("newId").toString();
+//            String waUserInfoId = "";
+//            if(CommonUtil.getIntFromString(userId) > 0) {
+//                HashMap wa_userinfo = new HashMap();
+//                String company_type = CommonUtil.GetRequestParam(request, "compkind", "");
+//                String sp_type = CommonUtil.GetRequestParam(request, "prodkind", "");
+//                String company_img = CommonUtil.GetRequestParam(request, "yingye_img4", "");
+//                String company_name = CommonUtil.GetRequestParam(request, "companyname", "");
+//                String company_yy_zz_img = CommonUtil.GetRequestParam(request, "yingye_img1", "");
+//                String company_xkz_img = CommonUtil.GetRequestParam(request, "yingye_img2", "");
+//                String company_txkz_img = CommonUtil.GetRequestParam(request, "yingye_img3", "");
+//                String company_yy_zz = CommonUtil.GetRequestParam(request, "company_yy_zz", "");
+//                String company_kh_xkz = CommonUtil.GetRequestParam(request, "company_xkz", "");
+//                String company_txkz = CommonUtil.GetRequestParam(request, "company_txkz", "");
+//                String zc_region_id = CommonUtil.GetRequestParam(request, "zc_region_id", "");
+//                String zc_xx_address = CommonUtil.GetRequestParam(request, "address", "");
+//                String company_lxr = CommonUtil.GetRequestParam(request, "contact", "");
+//                String company_lxr_phone = CommonUtil.GetRequestParam(request, "contactseat", "");
+//                wa_userinfo.put("company_type", company_type);
+//                wa_userinfo.put("info_userId", userId);
+//                wa_userinfo.put("sp_type", sp_type);
+//                wa_userinfo.put("company_name", company_name);
+//                wa_userinfo.put("company_img", company_img);
+//                wa_userinfo.put("company_yy_zz_img", company_yy_zz_img);
+//                wa_userinfo.put("company_xkz_img", company_xkz_img);
+//                wa_userinfo.put("company_txkz_img", company_txkz_img);
+//                wa_userinfo.put("company_yy_zz", company_yy_zz);
+//                wa_userinfo.put("company_kh_xkz", company_kh_xkz);
+//                wa_userinfo.put("company_txkz", company_txkz);
+//                wa_userinfo.put("zc_region_id", zc_region_id);
+//                wa_userinfo.put("zc_xx_address", zc_xx_address);
+//                wa_userinfo.put("cz_pass", CommonUtil.MD5("123456"));
+//                wa_userinfo.put("company_lxr", company_lxr);
+//                wa_userinfo.put("company_lxr_phone", company_lxr_phone);
+//
+//                try {
+//                    this.loginMapper.insertWaUserInfo(wa_userinfo);
+//                    HashMap e = new HashMap();
+//                    HashMap mapClass = new HashMap();
+//                    mapClass.put("user_id", userId);
+//                    mapClass.put("gys_id", contactcustomer);
+//                    mapClass.put("rel_state", "0");
+//                    mapClass.put("rel_date", new Date());
+//                    e.put("mapClass", mapClass);
+//                    e.put("tableName", "wa_user_relation");
+//                    this.commonMapper.insertSingleBO(e);
+//                    res.put("state", Integer.valueOf(1));
+//                    res.put("content", "注册成功！");
+//                    //注册成功后的邮件发送
+//
+//                } catch (Exception var39) {
+//                    res.put("state", Integer.valueOf(-1));
+//                    res.put("content", "注册失败！");
+//                }
+//            } else {
+//                res.put("state", Integer.valueOf(-1));
+//                res.put("content", "注册失败！");
+//            }
+//        }
+        HashMap result = mailServiceImpl.register(request);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("state",result.get("state"));
+        jsonObject.put("content",result.get("content"));
+        this.echoJSON(response, jsonObject);
     }
 
     @RequestMapping({"/front/customer/CustomerLoginCtrl-registerNext"})

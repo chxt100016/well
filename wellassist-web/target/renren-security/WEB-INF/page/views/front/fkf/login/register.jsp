@@ -83,7 +83,7 @@ div.kehu_item {
 
 		<!-- navigation bar -->
 		<div class="abovenavbar">
-			<span style="margin-left: 5%;">WellAssist供应链系统(买家端)</span>
+			<span style="margin-left: 5%;">WellAssist供应链系统(放款端)</span>
 			<span style="float: right; margin-right: 5%;"><a href="${pageContext.request.contextPath}/">返回首页</a></span>
 		</div>
 		
@@ -160,26 +160,19 @@ div.kehu_item {
 									style="width: 50%;" placeholder="请输入企业注册号"></td>
 							</tr>
 						</table>
-						<div class="box-in-level1 titlewithline" style="margin-left: 7%; margin-top: 40px; margin-bottom: 16px;background: url('${pageContext.request.contextPath}/resources/wella/front/images/breakline.png') no-repeat 93px 50%;background-size:600px 10px;background-position-y:6px;">密码信息</div>
+						<div class="box-in-level1 titlewithline" style="margin-left: 7%; margin-top: 40px; margin-bottom: 16px;background: url('${pageContext.request.contextPath}/resources/wella/front/images/breakline.png') no-repeat 93px 50%;background-size:600px 10px;background-position-y:6px;">账号信息</div>
 						<table style="margin-left: 15%; margin-right: 15%; width: 100%;">
 							<tr>
-								<td class="caption" style="width: 15%;"><span class="box-in-level2">登录密码</span></td>
-								<td style="width: 85%;">
-									<input type="password" name="pass1"  id="pass1" style="width: 50%;">
+								<td class="caption"><span class="box-in-level2">电子邮箱</span></td>
+								<td>
+									<input type="text" name="contactemail" style="width: 50%;" placeholder="请输入电子邮箱">
 								</td>
 							</tr>
 							<tr>
-								<td class="caption"><span class="box-in-level2">确认密码</span></td>
-								<td><input type="password" name="pass2" style="width: 50%;"></td>
-							</tr>
-							<tr style="display:none;">
-								<td class="caption"><span class="box-in-level2">验证码</span></td>
+								<td class="caption"><span class="box-in-level2">手机号码</span></td>
 								<td>
-									<input style="width: 20%; margin-right: 12px;" name="checkCode" id="checkCode"/>
-                					<div class="yzm" style="display: inline;"><img id='imageCode' onclick='changeCheckCode();' src='${pageContext.request.contextPath}/front/sender/SenderLoginController-getVerifyImage' style='cursor: pointer;width:75px;height:28px;margin: 0px 10px 4px 1px;' title='看不清，点击换一张' /></div>
-                					<div class="change" onclick='changeCheckCodeImage();' style="display: inline;">点击换一张</div>
+									<input type="text" name="contactphone" style="width: 50%;" placeholder="请输入手机号码">
 								</td>
-									 
 							</tr>
 							<tr>
 								<td></td>
@@ -296,16 +289,23 @@ div.kehu_item {
 								<td><input type="text" name="address" style="width: 50%;" placeholder="请输入详细地址"></td>
 							</tr>
 							<tr>
-								<td class="caption"><span class="box-in-level2">电子邮箱</span></td>
-								<td>
-									<input type="text" name="contactemail" style="width: 50%;" placeholder="请输入电子邮箱">
+								<td class="caption" style="width: 15%;"><span class="box-in-level2">登录密码</span></td>
+								<td style="width: 85%;">
+									<input type="password" name="pass1"  id="pass1" style="width: 50%;">
 								</td>
 							</tr>
 							<tr>
-								<td class="caption"><span class="box-in-level2">手机号码</span></td>
+								<td class="caption"><span class="box-in-level2">确认密码</span></td>
+								<td><input type="password" name="pass2" style="width: 50%;"></td>
+							</tr>
+							<tr style="display:none;">
+								<td class="caption"><span class="box-in-level2">验证码</span></td>
 								<td>
-									<input type="text" name="contactphone" style="width: 50%;" placeholder="请输入手机号码">
+									<input style="width: 20%; margin-right: 12px;" name="checkCode" id="checkCode"/>
+									<div class="yzm" style="display: inline;"><img id='imageCode' onclick='changeCheckCode();' src='${pageContext.request.contextPath}/front/sender/SenderLoginController-getVerifyImage' style='cursor: pointer;width:75px;height:28px;margin: 0px 10px 4px 1px;' title='看不清，点击换一张' /></div>
+									<div class="change" onclick='changeCheckCodeImage();' style="display: inline;">点击换一张</div>
 								</td>
+
 							</tr>
 							
 						</table>
@@ -365,9 +365,9 @@ div.kehu_item {
 
 							<tr>
 								<td></td>
-								
 								<td>
 									<input type="hidden" name="zc_region_id" id="zc_region_id" />
+									<input type="hidden" name="user_type" id="user_type" value="2">
 									<input id="submit" class="blue-button" type="submit" value="确定">
 								</td>
 							</tr>
@@ -429,7 +429,7 @@ div.kehu_item {
 	            	  if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
 	            	  //-----------
 	            	   $("input[name='yingye_img"+idx+"']").val(data.path);
-	            	  $("#yingye_imgpath"+idx).attr("src","${pageContext.request.contextPath}/" + data.path);
+	            	  $("#yingye_imgpath"+idx).attr("src", data.path);
 	            	  $("#yingye_imgpath"+idx).show();
 	            	  return;
 	            	  //-----------
@@ -574,7 +574,7 @@ div.kehu_item {
 									alert(data.content);
 									return false;
 								}else{
-									$(form).attr("action", "<c:url value="/front/fkf/FkfLoginCtrl-registerNew"/>");
+									$(form).attr("action", "<c:url value="/register/register"/>");
 									$.post($(form).attr("action"),$(form).serialize(),function(data){
 							    		data = $.parseJSON(data);
 							    		if(data.state==1){

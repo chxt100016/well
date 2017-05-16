@@ -28,6 +28,8 @@
         <result column="credit_pf" property="creditPf"/>
         <result column="commet" property="commet"/>
         <result column="user_state" property="userState"/>
+        <result column="activity_state" property="activityState"/>
+        <result column="activity_code" property="activityCode"/>
     </resultMap>
 
     <select id="findUser" parameterType="map" resultMap="waUser">
@@ -38,5 +40,45 @@
             AND user_id = #{userId}
         </if>
     </select>
+
+    <insert id="createUser" parameterType="map">
+        		insert into wa_user
+        		set user_type = #{user_type},
+        		create_date=NOW(),
+        		user_pass = #{user_pass},
+        		user_email = #{user_email},
+        		user_phone = #{user_phone},
+        		user_reg_no = #{user_reg_no},
+        		user_name = #{user_name},
+        		activity_code = #{activity_code}
+        <selectKey keyProperty="newId" resultType="String">
+            select last_insert_id()
+        </selectKey>
+    </insert>
+
+    <select id="getCountByName" parameterType="java.util.Map"  resultType = "java.util.HashMap"  >
+        SELECT COUNT(*) cn
+        FROM wa_user
+        where user_account
+        like #{company_name}
+    </select>
+
+    <!--根据激活码对用户的激活状态进行更新-->
+    <update id="updateUserByCode" parameterType="map">
+        UPDATE wa_user
+        SET activity_state = 1
+        WHERE activity_code = #{activity_code}
+    </update>
+
+    <!--重置密码时将表中的重置码属性更新,主要用于重置密码，重置激活码等相关操作-->
+    <update id="updateUserByEmail" parameterType="map">
+        UPDATE wa_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userPass != null">user_pass = #{userPassword},</if>
+            <if test="userEmail != null">user_email = #{userEmail},</if>
+        </trim>
+        WHERE user_email = #{userEmail}
+    </update>
+
 
 </mapper>

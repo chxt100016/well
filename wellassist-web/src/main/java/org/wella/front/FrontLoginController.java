@@ -51,7 +51,7 @@ public class FrontLoginController extends BaseController {
         }
 
         model.addAttribute("recVehicleList", recVehicleList);
-        return "front/home";
+        return "views/front/home.jsp";
     }
 
     @RequestMapping({"/front/login"})

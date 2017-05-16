@@ -12,7 +12,7 @@
 <div class="abovenavbar" align=center >
 	<div align=left style="width:1000px;">
 		<span style="float:right;"><a href="${pageContext.request.contextPath}/">返回首页</a></span>
-		<span>WellAssist供应链系统(放款放)</span>
+		<span>WellAssist供应链系统(放款方)</span>
 	</div>
 </div>
 

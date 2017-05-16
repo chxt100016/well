@@ -27,7 +27,7 @@
 	               		<dl>
 	               			<dt>企业图标 : </dt>
 	               			<dd>
-	               				<a class="fancybox" href="${pageContext.request.contextPath}/${userOtherInfo.companyImg}" data-fancybox-group="gallery" title=""><img src="${pageContext.request.contextPath}/${userOtherInfo.companyImg}" alt="" style="width:50px; height:50px;" /></a>
+	               				<a class="fancybox" href="${userOtherInfo.companyImg}" data-fancybox-group="gallery" title=""><img src="${userOtherInfo.companyImg}" alt="" style="width:50px; height:50px;" /></a>
 	               			</dd>
 	               		</dl>
 	               		</c:if>
@@ -95,7 +95,7 @@
 	               		<c:if test="${userOtherInfo.companyYyZzImg!=null && userOtherInfo.companyYyZzImg!=''}">
 	               		<dl>
 	               			<dd>
-	               				<a class="fancybox" href="${pageContext.request.contextPath}/${userOtherInfo.companyYyZzImg}" data-fancybox-group="gallery" title=""><img src="${pageContext.request.contextPath}/${userOtherInfo.companyYyZzImg}" alt="" style="width:50px; height:50px;" onerror = "noExitImg(this, '${pageContext.request.contextPath}');"/></a>
+	               				<a class="fancybox" href="${userOtherInfo.companyYyZzImg}" data-fancybox-group="gallery" title=""><img src="${userOtherInfo.companyYyZzImg}" alt="" style="width:50px; height:50px;" onerror = "noExitImg(this, '${pageContext.request.contextPath}');"/></a>
 	               			</dd>
 	               		</dl>
 	               		</c:if>
@@ -106,7 +106,7 @@
 	               		<c:if test="${userOtherInfo.companyXkzImg!=null && userOtherInfo.companyXkzImg!=''}">
 	               		<dl>
 	               			<dd>
-	               				<a class="fancybox" href="${pageContext.request.contextPath}/${userOtherInfo.companyXkzImg}" data-fancybox-group="gallery" title=""><img src="${pageContext.request.contextPath}/${userOtherInfo.companyXkzImg}" alt="" style="width:50px; height:50px;" onerror = "noExitImg(this, '${pageContext.request.contextPath}');"/></a>
+	               				<a class="fancybox" href="${userOtherInfo.companyXkzImg}" data-fancybox-group="gallery" title=""><img src="${userOtherInfo.companyXkzImg}" alt="" style="width:50px; height:50px;" onerror = "noExitImg(this, '${pageContext.request.contextPath}');"/></a>
 	               			</dd>
 	               		</dl>
 	               		</c:if>
@@ -117,7 +117,7 @@
 	               		<c:if test="${userOtherInfo.companyTxkzImg!=null && userOtherInfo.companyTxkzImg!=''}">
 	               		<dl>
 	               			<dd>
-	               				<a class="fancybox" href="${pageContext.request.contextPath}/${userOtherInfo.companyTxkzImg}" data-fancybox-group="gallery" title=""><img src="${pageContext.request.contextPath}/${userOtherInfo.companyTxkzImg}" alt="" style="width:50px; height:50px;" onerror = "noExitImg(this, '${pageContext.request.contextPath}');"/></a>
+	               				<a class="fancybox" href="${userOtherInfo.companyTxkzImg}" data-fancybox-group="gallery" title=""><img src="${userOtherInfo.companyTxkzImg}" alt="" style="width:50px; height:50px;" onerror = "noExitImg(this, '${pageContext.request.contextPath}');"/></a>
 	               			</dd>
 	               		</dl>
 	               		</c:if>
