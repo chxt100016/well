@@ -11,7 +11,7 @@
 	.row-fld{width: 230px; background-color: white;font-size: 13px;  overflow: auto; float: left;    padding: 0px 20px 20px 0px; display: inline-block;}
 </style>
 
-<div class="main-wrapper" style="margin-left: 0px;">
+<%--<div class="main-wrapper" style="margin-left: 0px;">
 	<div align="center" style="padding-top:12px;">
 		<div style="width:1000px;height:100%;">
 			<div style="border-bottom: solid 1px #e0e0e0; width: 1000px;padding-bottom:12px;margin-top:20px;margin-bottom: 56px;">
@@ -89,7 +89,59 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div>--%>
+ <div class="ui container segment" style="text-align:left">
+        <h2 class="ui header">昆仑燃气</h2>
+        <div class="ui list">
+            <div class="item">
+                <img class="ui image" src="http://www.semantic-ui.cn/images/avatar2/small/rachel.png">
+                <div class="content">
+                    <div class="pd-bt-10"><span class="pro_title">产品名称：</span> 12222</div>
+                    <div class="pd-bt-10"> <span class="pro_title">产品单价：</span> 12222</div>
+                    <div class="pd-bt-10"><span class="pro_title">储备：</span> 12222</div>
+                    <div class="pd-bt-10"><span class="pro_title">品类：</span> 12222</div>
+                    <div class="pd-bt-10"> <span class="pro_title">联系人：</span> 12222</div>
+                    <div class="pd-bt-10"><span class="pro_title">联系电话：</span> 12222</div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <h3 class="ui header">产品简介</h3>
+            <div class="ui raised segment">
+                <p>产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介产品简介</p>
+            </div>
+        </div>
+        <h3 class="ui header">其他产品</h3>
+
+        <div class="ui link cards">
+            <div class="card" style="width:163px;height:230px">
+                <div class="image">
+                    <img src="http://www.semantic-ui.cn/images/avatar2/small/rachel.png" width="200">
+                </div>
+                <div class="content">
+                    <div class="header">Matt Giampietro</div>
+                </div>
+            </div>
+            <div class="card" style="width:163px;height:230px">
+                <div class="image">
+                    <img src="http://www.semantic-ui.cn/images/avatar2/small/rachel.png">
+                </div>
+                <div class="content">
+                    <div class="header">Matt Giampietro</div>
+                </div>
+            </div>
+            <div class="card" style="width:163px;height:230px">
+                <div class="image">
+                    <img src="http://www.semantic-ui.cn/images/avatar2/small/rachel.png">
+                </div>
+                <div class="content">
+                    <div class="header">Matt Giampietro</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 
 <script type="text/javascript">
 	$("#lijigoumai").click( function(){

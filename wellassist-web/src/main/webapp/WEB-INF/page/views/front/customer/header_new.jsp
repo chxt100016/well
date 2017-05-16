@@ -14,6 +14,8 @@
 		<!-- styles -->
 		<link rel="stylesheet" href="<c:url value="/resources/library/css/bootstrap.min.css"/>">
 		<%--<link rel="stylesheet" href="<c:url value="/resources/library/css/bootstrap-responsive.css"/>">--%>
+		<%--<link rel="stylesheet" href="<c:url value="/resources/library/css/accordion.css"/>">--%>
+		<link rel="stylesheet" href="<c:url value="/resources/library/css/semantic.min.css"/>">
 		<link rel="stylesheet" href="<c:url value="/resources/library/css/font-awesome.css"/>">
 		<!--[if IE 7]>
 		<link rel="stylesheet" href="<c:url value="/resources/library/css/font-awesome-ie7.min.css"/>">
@@ -43,9 +45,11 @@
 		<script src="<c:url value="/resources/library/js/jquery.js"/>"></script>
 		<script src="<c:url value="/resources/library/js/jquery-ui-1.10.1.custom.min.js"/>"></script>
 		<script src="<c:url value="/resources/library/js/bootstrap.min.js"/>"></script>
+		<%--<script src="<c:url value="/resources/library/js/accordion.js"/>"></script>--%>
 		<script src="<c:url value="/resources/wella/common/js/accordion.nav.js"/>"></script>
 		<script src="<c:url value="/resources/common/js/global.js"/>"></script>
 		<script src="<c:url value="/resources/common/js/AlertWindow.js"/>"></script>
+		<script src="<c:url value="/resources/library/js/semantic.min.js"/>"></script>
 		
 		<script src="${pageContext.request.contextPath}/resources/common/js/jquery.validate.js"></script>
 	    <script src="${pageContext.request.contextPath}/resources/houtai/js/jquery.form.js"></script>
@@ -150,7 +154,7 @@
 
 	
 	<div id="main_content" align=center style="background:white;width: 1100px;margin: 0px auto;padding-top: 32px;">
-		<div id="leftmenu" class="" style="border:solid 1px #d0d0d0;width:190px;float:left;display:none;">
+		<%--<div id="leftmenu" class="" style="border:solid 1px #d0d0d0;width:190px;float:left;display:none;">
 			<c:if test = "${parentMenuNo == '1'}">
 				<ul>
 					<li class="leftmenulevel1" onclick="menuparentclicked( this);">
@@ -222,9 +226,8 @@
 					$("#leftmenu").hide();
 				</script>
 			</c:if>
-		</div>
-		
-			
+		</div>--%>
+	
 		
 	
 

@@ -13,7 +13,8 @@
 		<meta name="author" content="Westilian: Kamrujaman Shohel">
 		<!-- styles -->
 		<link rel="stylesheet" href="<c:url value="/resources/library/css/bootstrap.min.css"/>">
-		<link rel="stylesheet" href="<c:url value="/resources/library/css/bootstrap-responsive.css"/>">
+		<%--<link rel="stylesheet" href="<c:url value="/resources/library/css/bootstrap-responsive.css"/>">--%>
+		<link rel="stylesheet" href="<c:url value="/resources/library/css/semantic.min.css"/>">
 		<link rel="stylesheet" href="<c:url value="/resources/library/css/font-awesome.css"/>">
 		<!--[if IE 7]>
 		<link rel="stylesheet" href="<c:url value="/resources/library/css/font-awesome-ie7.min.css"/>">
@@ -43,6 +44,7 @@
 		<script src="<c:url value="/resources/library/js/jquery.js"/>"></script>
 		<script src="<c:url value="/resources/library/js/jquery-ui-1.10.1.custom.min.js"/>"></script>
 		<script src="<c:url value="/resources/library/js/bootstrap.min.js"/>"></script>
+		<script src="<c:url value="/resources/library/js/semantic.min.js"/>"></script>
 		<script src="<c:url value="/resources/wella/common/js/accordion.nav.js"/>"></script>
 		<script src="<c:url value="/resources/common/js/global.js"/>"></script>
 		
@@ -69,7 +71,7 @@
 	</style>
 
 	<!-- navigation bar -->
-	<div class="abovenavbar">
+	<div class="abovenavbar" style="height:45px">
 		<div align=center>
 			<div style="width:1100px;">
  					<span class="dropdown" style="float:left;">
@@ -128,9 +130,9 @@
         <div class="navbar-collapse collapse" role="navigation" aria-expanded="false" style="height: 1px;">
           <ul class="nav navbar-nav">
                <li id="chanpincenter" class=" <c:if test = "${parentMenuNo == '5' }"> topmenuselected</c:if>">
-								<a  href="${pageContext.request.contextPath}/front/customer/CustomerProdCtrl-prodList">产品中心</a>
+								<a  href="${pageContext.request.contextPath}/front/customer/CustomerProdCtrl-prodList"> <i class="block layout icon"></i>产品中心</a>
 							</li>
-      						<li class="topmenuselected" class=" <c:if test = "${parentMenuNo == '1' }"> topmenuselected </c:if>" id="dingdancenter">
+      						<li  class=" <c:if test = "${parentMenuNo == '1' }"> topmenuselected </c:if>" id="dingdancenter">
 							  <a href="${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-prodOrderList">订单中心</a></li>
       						<li id="financecenter" class="<c:if test = "${parentMenuNo == '2' }"> topmenuselected</c:if>" >
 							  <a href="${pageContext.request.contextPath}/front/customer/FinanceController-accountInfo">财务中心</a></li>
@@ -148,7 +150,7 @@
 <%--顶部导航条end--%>
 	
 	<div id="main_content" align=center style="background:white;width: 1100px;margin: 0px auto;padding-top: 32px;">
-		<div id="leftmenu" class="" style="border:solid 1px #d0d0d0;width:190px;float:left;">
+		<%--<div id="leftmenu" class="" style="border:solid 1px #d0d0d0;width:190px;float:left;">
 			<c:if test = "${parentMenuNo == '1'}">
 				<ul>
 					<li class="leftmenulevel1" onclick="menuparentclicked( this);">
@@ -220,13 +222,194 @@
 					$("#leftmenu").hide();
 				</script>
 			</c:if>
-		</div>
-		
-			
+		</div>--%>
+		<c:if test = "${parentMenuNo == '5'}">
+				<script type="text/javascript">
+						$("#leftmenu").hide();
+				</script>
+		</c:if>
+		<div class="ui vertical accordion menu" id="leftmenu" style="max-width:205px;float:left">
+		<c:if test = "${parentMenuNo == '2'}">
+          <div class="item">
+            <a class="title <c:if test="${childMenuNo == '1' or childMenuNo =='6'or childMenuNo =='5' }">active </c:if>"><i class="dropdown icon"></i> 财务中心 </a>
+            <div class="<c:if test="${childMenuNo == '1' or childMenuNo =='6'or childMenuNo =='5'}"> active </c:if> content">
+                <div class="ui form">
+                    <div class="grouped fields">
+                        <div class="field">
+                            <div class="ui  checkbox">
+                                <input type="checkbox" name="size"  <c:if test ="${childMenuNo == '1'}"> checked="checked" </c:if> >
+                                <label> <a href = "${pageContext.request.contextPath}/front/customer/FinanceController-accountInfo">账户信息</a></label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="size" <c:if test ="${childMenuNo == '6'}"> checked="checked" </c:if> >
+                                <label><a href = "${pageContext.request.contextPath}/front/customer/FinanceController-txList">提现记录</a></label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="size" <c:if test ="${childMenuNo == '5'}"> checked="checked" </c:if> >
+                                <label><a href = "${pageContext.request.contextPath}/front/customer/FinanceController-czList">充值记录</a></label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item">
+            <a class="title <c:if test="${childMenuNo == '2' or childMenuNo =='3'or childMenuNo =='4' }">active </c:if> "><i class="dropdown icon"></i> 授信中心 </a>
+            <div class="content <c:if test="${childMenuNo == '2' or childMenuNo =='3'or childMenuNo =='4'}"> active </c:if>">
+                <div class="ui form">
+                    <div class="grouped fields">
+                        <div class="field">
+                            <div class="ui  checkbox">
+                                <input type="checkbox" <c:if test ="${childMenuNo == '2'}"> checked="checked" </c:if>>
+                                <label><a href = "${pageContext.request.contextPath}/front/customer/FinanceController-creditAccount">授信账户</a></label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui  checkbox">
+                                <input type="checkbox" <c:if test ="${childMenuNo == '3'}"> checked="checked" </c:if>>
+                                <label><a href = "${pageContext.request.contextPath}/front/customer/FinanceController-sxSqList">申请记录</a></label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui  checkbox">
+                                <input type="checkbox" <c:if test ="${childMenuNo == '4'}"> checked="checked" </c:if>>
+                                <label><a href = "${pageContext.request.contextPath}/front/customer/FinanceController-hkList">还款记录</a></label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="item item3">
+            <a class="title <c:if test="${childMenuNo == '7'}">active </c:if>"><i class="dropdown icon"></i> 发票管理 </a>
+            <div class="content <c:if test="${childMenuNo == '7'}">active </c:if>">
+                <div class="ui form">
+                    <div class="grouped fields">
+                         <div class="field">
+                            <div class="ui  checkbox">
+                                <input type="checkbox" <c:if test ="${childMenuNo == '7'}"> checked="checked" </c:if>>
+                                <label><a href = "${pageContext.request.contextPath}/front/customer/FinanceController-fapiaoList">发票记录</a></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </c:if>
+<%--财务中心end--%>
+<%--消息中心--%>
+<c:if test = "${parentMenuNo == '3'}">
+          <div class="item">
+            <a class="title <c:if test="${childMenuNo == '1'  }">active </c:if>"><i class="dropdown icon"></i> 消息通知 </a>
+            <div class="<c:if test="${childMenuNo == '1' }"> active </c:if> content">
+                <div class="ui form">
+                    <div class="grouped fields">
+                       
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="size" <c:if test ="${childMenuNo == '1'}"> checked="checked" </c:if> >
+                                <label><a href = "${pageContext.request.contextPath}/front/customer/NewsController-xxList">消息列表</a></label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </c:if>
+<%--消息中心end	--%>
+
+<%--财务管理--%>
+<c:if test = "${parentMenuNo == '4'}">
+          <div class="item">
+            <a class="title active "><i class="dropdown icon"></i> 账户设置 </a>
+            <div class=" active content">
+                <div class="ui form">
+                    <div class="grouped fields">
+                        <div class="field">
+                            <div class="ui  checkbox">
+                                <input type="checkbox" name="size" <c:if test ="${childMenuNo == '1'}"> checked="checked" </c:if>  >
+                                <label> <a href = "${pageContext.request.contextPath}/front/customer/CompanyController-companyInfo">公司信息</a></label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="size" <c:if test ="${childMenuNo == '2'}"> checked="checked" </c:if> >
+                                <label><a href = "${pageContext.request.contextPath}/front/customer/CompanyController-contactMode">联系方式</a></label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="size" <c:if test ="${childMenuNo == '3'}"> checked="checked" </c:if> >
+                                <label><a href = "${pageContext.request.contextPath}/front/customer/CompanyController-changePass">修改密码</a></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ </c:if>
+<%--财务管理end--%>
+
+<%--订单中心--%>
+<c:if test = "${parentMenuNo == '1'}">
+          <div class="item">
+            <a class="title active "><i class="dropdown icon"></i> 订单管理 </a>
+            <div class=" active content">
+                <div class="ui form">
+                    <div class="grouped fields">
+                        <div class="field">
+                            <div class="ui  checkbox">
+                                <input type="checkbox" name="size" <c:if test ="${childMenuNo == '1'}"> checked="checked" </c:if>  >
+                                <label> <a href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-prodOrderList">产品订单</a></label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="size" <c:if test ="${childMenuNo == '2'}"> checked="checked" </c:if> >
+                                <label><a href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-wlOrderList">物流订单</a></label>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+		<div class="item">
+            <a class="title active "><i class="dropdown icon"></i> 评价反馈 </a>
+            <div class=" active content">
+                <div class="ui form">
+                    <div class="grouped fields">
+                        <div class="field">
+                            <div class="ui  checkbox">
+                                <input type="checkbox" name="size" <c:if test ="${childMenuNo == '3'}"> checked="checked" </c:if>  >
+                                <label> <a href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-estiList">评价列表</a></label>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+ </c:if>
+
+    </div>
+
 		
 	
 
 <script type="text/javascript">
+	$('.ui.accordion').accordion();
 	
 	function menuparentclicked( obj){
 		var nextobj = $(obj).nextAll("ul:first");
@@ -238,7 +421,7 @@
 			$(obj).css("list-style-image", "url('<c:url value="/resources/wella/front/images/lftmnuitmexpanded.png"/>')");
 		}
 	}
-	
+	$('.ui.accordion').accordion();	
 	/* function menuclicked( url, obj){
 		$("li.leftmenuleaf").removeClass("selected");
 		$(obj).addClass("selected");
