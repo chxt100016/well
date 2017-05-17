@@ -13,6 +13,11 @@ public interface RegionDao {
 
     Region getByRegionId(@Param("regionId")long regionId);
 
+    /**
+     * 通过regionId获取完整的地区名
+     * @param paramMap 传入参数(String)regionId
+     * @return
+     */
     String getRegionDetailName(Map<String, Object> paramMap);
 
     List<Map<String,Object>> getChildRegionList(Map<String,Object> param);

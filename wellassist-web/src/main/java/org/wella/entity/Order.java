@@ -3,46 +3,74 @@ package org.wella.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * Created by liuwen on 2017/5/9.
- */
 public class Order {
-    private long orderId;
+    private Long orderId;
+
     private String orderNo;
-    private long prodId;
+
+    private Long prodId;
+
     private String prodName;
-    private long fromRegionId;
+
+    private Long fromRegionId;
+
     private String fromRegionAddr;
-    private long toRegionId;
+
+    private Long toRegionId;
+
     private String toRegionAddr;
-    private long userId;
-    private String userLxr;
-    private String userLxrPhone;
-    private long supplierId;
+
+    private Long userId;
+
+    private String companyLxr;
+
+    private String companyLxrPhone;
+
+    private Long supplierId;
+
     private BigDecimal saleNum;
+
     private BigDecimal saleMoney;
+
     private Date djModifyDate;
+
     private BigDecimal saleSjNum;
+
     private BigDecimal saleSjMoney;
+
     private BigDecimal sqMoney;
-    private byte orderState;
-    private byte orderType;
+
+    private Byte orderState;
+
+    private Byte orderType;
+
     private Date orderDate;
+
     private String orderIp;
-    private byte kpState;
+
+    private Byte kpState;
+
     private Date kpCompleteDate;
-    private byte isSelfCar;
-    private byte pjState;
+
+    private Byte isSelfCar;
+
+    private Byte pjState;
+
     private Date pjDate;
+
     private String pjContent;
+
     private BigDecimal confirmPrice;
+
     private BigDecimal confirmNumber;
 
-    public long getOrderId() {
+    private BigDecimal customerExceptCarriage;
+
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(long orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 
@@ -51,14 +79,14 @@ public class Order {
     }
 
     public void setOrderNo(String orderNo) {
-        this.orderNo = orderNo;
+        this.orderNo = orderNo == null ? null : orderNo.trim();
     }
 
-    public long getProdId() {
+    public Long getProdId() {
         return prodId;
     }
 
-    public void setProdId(long prodId) {
+    public void setProdId(Long prodId) {
         this.prodId = prodId;
     }
 
@@ -67,7 +95,15 @@ public class Order {
     }
 
     public void setProdName(String prodName) {
-        this.prodName = prodName;
+        this.prodName = prodName == null ? null : prodName.trim();
+    }
+
+    public Long getFromRegionId() {
+        return fromRegionId;
+    }
+
+    public void setFromRegionId(Long fromRegionId) {
+        this.fromRegionId = fromRegionId;
     }
 
     public String getFromRegionAddr() {
@@ -75,22 +111,14 @@ public class Order {
     }
 
     public void setFromRegionAddr(String fromRegionAddr) {
-        this.fromRegionAddr = fromRegionAddr;
+        this.fromRegionAddr = fromRegionAddr == null ? null : fromRegionAddr.trim();
     }
 
-    public long getFromRegionId() {
-        return fromRegionId;
-    }
-
-    public void setFromRegionId(long fromRegionId) {
-        this.fromRegionId = fromRegionId;
-    }
-
-    public long getToRegionId() {
+    public Long getToRegionId() {
         return toRegionId;
     }
 
-    public void setToRegionId(long toRegionId) {
+    public void setToRegionId(Long toRegionId) {
         this.toRegionId = toRegionId;
     }
 
@@ -99,38 +127,38 @@ public class Order {
     }
 
     public void setToRegionAddr(String toRegionAddr) {
-        this.toRegionAddr = toRegionAddr;
+        this.toRegionAddr = toRegionAddr == null ? null : toRegionAddr.trim();
     }
 
-    public long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public String getUserLxr() {
-        return userLxr;
+    public String getCompanyLxr() {
+        return companyLxr;
     }
 
-    public void setUserLxr(String userLxr) {
-        this.userLxr = userLxr;
+    public void setCompanyLxr(String companyLxr) {
+        this.companyLxr = companyLxr == null ? null : companyLxr.trim();
     }
 
-    public String getUserLxrPhone() {
-        return userLxrPhone;
+    public String getCompanyLxrPhone() {
+        return companyLxrPhone;
     }
 
-    public void setUserLxrPhone(String userLxrPhone) {
-        this.userLxrPhone = userLxrPhone;
+    public void setCompanyLxrPhone(String companyLxrPhone) {
+        this.companyLxrPhone = companyLxrPhone == null ? null : companyLxrPhone.trim();
     }
 
-    public long getSupplierId() {
+    public Long getSupplierId() {
         return supplierId;
     }
 
-    public void setSupplierId(long supplierId) {
+    public void setSupplierId(Long supplierId) {
         this.supplierId = supplierId;
     }
 
@@ -150,6 +178,13 @@ public class Order {
         this.saleMoney = saleMoney;
     }
 
+    public Date getDjModifyDate() {
+        return djModifyDate;
+    }
+
+    public void setDjModifyDate(Date djModifyDate) {
+        this.djModifyDate = djModifyDate;
+    }
 
     public BigDecimal getSaleSjNum() {
         return saleSjNum;
@@ -175,61 +210,20 @@ public class Order {
         this.sqMoney = sqMoney;
     }
 
-    public byte getOrderState() {
+    public Byte getOrderState() {
         return orderState;
     }
 
-    public void setOrderState(byte orderState) {
+    public void setOrderState(Byte orderState) {
         this.orderState = orderState;
     }
 
-    public byte getOrderType() {
+    public Byte getOrderType() {
         return orderType;
     }
 
-    public void setOrderType(byte orderType) {
+    public void setOrderType(Byte orderType) {
         this.orderType = orderType;
-    }
-
-
-    public String getOrderIp() {
-        return orderIp;
-    }
-
-    public void setOrderIp(String orderIp) {
-        this.orderIp = orderIp;
-    }
-
-    public byte getKpState() {
-        return kpState;
-    }
-
-    public void setKpState(byte kpState) {
-        this.kpState = kpState;
-    }
-
-    public byte getIsSelfCar() {
-        return isSelfCar;
-    }
-
-    public void setIsSelfCar(byte isSelfCar) {
-        this.isSelfCar = isSelfCar;
-    }
-
-    public byte getPjState() {
-        return pjState;
-    }
-
-    public void setPjState(byte pjState) {
-        this.pjState = pjState;
-    }
-
-    public Date getDjModifyDate() {
-        return djModifyDate;
-    }
-
-    public void setDjModifyDate(Date djModifyDate) {
-        this.djModifyDate = djModifyDate;
     }
 
     public Date getOrderDate() {
@@ -240,12 +234,44 @@ public class Order {
         this.orderDate = orderDate;
     }
 
+    public String getOrderIp() {
+        return orderIp;
+    }
+
+    public void setOrderIp(String orderIp) {
+        this.orderIp = orderIp == null ? null : orderIp.trim();
+    }
+
+    public Byte getKpState() {
+        return kpState;
+    }
+
+    public void setKpState(Byte kpState) {
+        this.kpState = kpState;
+    }
+
     public Date getKpCompleteDate() {
         return kpCompleteDate;
     }
 
     public void setKpCompleteDate(Date kpCompleteDate) {
         this.kpCompleteDate = kpCompleteDate;
+    }
+
+    public Byte getIsSelfCar() {
+        return isSelfCar;
+    }
+
+    public void setIsSelfCar(Byte isSelfCar) {
+        this.isSelfCar = isSelfCar;
+    }
+
+    public Byte getPjState() {
+        return pjState;
+    }
+
+    public void setPjState(Byte pjState) {
+        this.pjState = pjState;
     }
 
     public Date getPjDate() {
@@ -261,7 +287,7 @@ public class Order {
     }
 
     public void setPjContent(String pjContent) {
-        this.pjContent = pjContent;
+        this.pjContent = pjContent == null ? null : pjContent.trim();
     }
 
     public BigDecimal getConfirmPrice() {
@@ -278,5 +304,13 @@ public class Order {
 
     public void setConfirmNumber(BigDecimal confirmNumber) {
         this.confirmNumber = confirmNumber;
+    }
+
+    public BigDecimal getCustomerExceptCarriage() {
+        return customerExceptCarriage;
+    }
+
+    public void setCustomerExceptCarriage(BigDecimal customerExceptCarriage) {
+        this.customerExceptCarriage = customerExceptCarriage;
     }
 }

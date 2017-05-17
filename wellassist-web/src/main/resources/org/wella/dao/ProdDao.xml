@@ -5,6 +5,7 @@
 
 	<!--商品的相关信息-->
 	<sql id="selectForOrder">
+		prod_id,
 		prod_name,
 		prod_type,
 		user_id,

@@ -36,8 +36,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * 需要进行事务控制
-     * @param map 表单中提交的内容(String):userId,prodId,toRegionId,toRegionAddr,saleNum,saleMoney,orderIp,isSelfCar,orderData
-     *                              cfDate,ddDate,vehicleLxr,vehicleLxrPhone
+     * @param map 表单中提交的内容(String):prodId，saleNum，danjia，saleMoney，isSelfCar，contacts，conTel，toRegionId
+     *                toRegionAddr，orderData，deliverDate，receiveDate，customerExceptCarriage
      */
     @Override
     public void order(Map map) {
@@ -59,16 +59,18 @@ public class CustomerServiceImpl implements CustomerService {
         order.setToRegionAddr((String) map.get("toRegionAddr"));
 
         order.setUserId(userId);
-        order.setUserLxr(userinfo.getCompanyLxr());
-        order.setUserLxrPhone(userinfo.getCompanyLxrPhone());
+        order.setCompanyLxr(userinfo.getCompanyLxr());
+        order.setCompanyLxrPhone(userinfo.getCompanyLxrPhone());
 
         order.setSaleNum(new BigDecimal((String)map.get("saleNum")));
         order.setSaleMoney(new BigDecimal((String)map.get("saleMoney")));
         order.setOrderDate(new Date());
+        order.setDjModifyDate(new Date());
         order.setOrderIp((String)map.get("orderIp"));
         order.setIsSelfCar(Byte.parseByte((String)map.get("isSelfCar")));
 
         order.setOrderType((byte)0);
+        order.setOrderState((byte)0);
 
         orderDao.createOrder(order);
         //生成一条wa_order_info记录
@@ -79,33 +81,34 @@ public class CustomerServiceImpl implements CustomerService {
         orderInfo.setMgrDate(order.getOrderDate());
         orderInfoDao.createOrderInfo(orderInfo);
 
+        OrderLogisticsInfo orderLogisticsInfo=new OrderLogisticsInfo();
+        Date ccDate=str2Date((String)map.get("deliverDate"),"yyyy-MM-dd HH:mm:ss");
+        Date ddDate=str2Date((String)map.get("receiveDate"),"yyyy-MM-dd HH:mm:ss");
+
+        orderLogisticsInfo.setOrderId(order.getOrderId());
+        orderLogisticsInfo.setDeliverDate(ccDate);
+        orderLogisticsInfo.setReceiveDate(ddDate);
+        orderLogisticsInfo.setContacts((String)map.get("contacts"));
+        orderLogisticsInfo.setConTel((String)map.get("conTel"));
+        HashMap paramMap=new HashMap();
+        paramMap.put("regionId",(String)map.get("toRegionId"));
+        String addr=regionDao.getRegionDetailName(paramMap)+" "+(String)map.get("toRegionAddr");
+        orderLogisticsInfo.setAddress(addr);
+        orderLogisticsInfoDao.createOrderLogisticsInfoDao(orderLogisticsInfo);
+
         if (order.getIsSelfCar()==0){
             //自提则将司机信息写入wa_vehicle_info表中，将出发时间和到达时间写入wa_order_logistics_info表中
             ArrayList<Map<String,Object>> vehicleList = ConvertUtil.converJSONtoArrayListMap((String)map.get("orderData"));
             for (Map vehivleMap:vehicleList) {
                 VehicleInfo vInfo=new VehicleInfo();
                 vInfo.setOrderId(order.getOrderId());
-                vInfo.setName((String) vehivleMap.get("sjmc"));
-                vInfo.setPhone((String)vehivleMap.get("sjdh"));
-                vInfo.setCarCode((String)vehivleMap.get("cph"));
+                vInfo.setName((String) vehivleMap.get("driverName"));
+                vInfo.setPhone((String)vehivleMap.get("driverPhone"));
+                vInfo.setCarCode((String)vehivleMap.get("carCode"));
                 vehicleInfoDao.createVehicleInfo(vInfo);
             }
-            Date ccDate=str2Date((String)map.get("cfDate"),"yyyy-MM-dd HH:mm:ss");
-            Date ddDate=str2Date((String)map.get("ddDate"),"yyyy-MM-dd HH:mm:ss");
-            OrderLogisticsInfo orderLogisticsInfo=new OrderLogisticsInfo();
-            orderLogisticsInfo.setOrderId(order.getOrderId());
-            orderLogisticsInfo.setDeliveryTime(ccDate);
-            orderLogisticsInfo.setReceiveTime(ddDate);
-            orderLogisticsInfoDao.createOrderLogisticsInfoDao(orderLogisticsInfo);
-        } else if (order.getIsSelfCar()==1){
-            //选择平台物流则将联系人信息和地址写入wa_order_logistics_info表中
-            OrderLogisticsInfo orderLogisticsInfo=new OrderLogisticsInfo();
-            orderLogisticsInfo.setOrderId(order.getOrderId());
-            orderLogisticsInfo.setContactPerson((String)map.get("vehicleLxr"));
-            orderLogisticsInfo.setContactPhone((String)map.get("vehicleLxrPhone"));
-            String addr=getAddrByRegionId("",order.getToRegionId())+(String)map.get("toRegionAddr");
-            orderLogisticsInfo.setAddress(addr);
-            orderLogisticsInfoDao.createOrderLogisticsInfoDao(orderLogisticsInfo);
+
+
         }
     }
 
