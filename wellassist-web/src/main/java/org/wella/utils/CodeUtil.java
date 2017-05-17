@@ -13,7 +13,7 @@ public class CodeUtil {
 
 		String result ="";
 		for(int i=0;i<6;i++){
-			result = result+chars[(int)Math.random()*16];
+			result = result+chars[(int)(Math.random()*16)];
 		}
 		return result;
 	}

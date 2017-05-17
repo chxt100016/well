@@ -12,6 +12,8 @@ import java.util.Iterator;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +24,7 @@ import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.common.vo.MyInfo;
+import org.wella.entity.Userinfo;
 import org.wella.front.customer.mapper.CustomerLoginMapper;
 import org.wella.front.customer.mapper.FrontCustomerProdMapper;
 import org.wella.front.customer.mapper.FrontCustomerProdUserMapper;
@@ -116,6 +119,8 @@ public class CustomerHomeCtrl extends BaseController {
 
     @RequestMapping({"/front/customer/CustomerHomeCtrl-main"})
     public String main(HttpServletRequest request, HttpServletResponse response, Model model) {
+        HttpSession session = request.getSession();
+//        User usersession.getAttribute("user");
         MyInfo myInfo = this.getMyInfo(request);
         String userId = myInfo.getUserId();
         HashMap param = new HashMap();

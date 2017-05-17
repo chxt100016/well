@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MyInfo {
+
     private String userId = "";
     private String adminLevel = "";
     private String userName = "";

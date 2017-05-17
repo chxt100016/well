@@ -33,6 +33,9 @@ public class User {
     private int creditPf;
     private String commet;
     private byte userState;
+    private byte activityState;
+    private String activityCode;
+    private String resetCode;
 
     public long getUserId() {
         return userId;
@@ -241,6 +244,30 @@ public class User {
 
     public void setUserState(byte userState) {
         this.userState = userState;
+    }
+
+    public byte getActivityState() {
+        return activityState;
+    }
+
+    public void setActivityState(byte activityState) {
+        this.activityState = activityState;
+    }
+
+    public String getActivityCode() {
+        return activityCode;
+    }
+
+    public void setActivityCode(String activityCode) {
+        this.activityCode = activityCode;
+    }
+
+    public String getResetCode() {
+        return resetCode;
+    }
+
+    public void setReset_Cde(String resetCode) {
+        this.resetCode = resetCode;
     }
 
     public boolean equals(Object o) {

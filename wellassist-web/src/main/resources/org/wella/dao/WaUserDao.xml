@@ -30,6 +30,7 @@
         <result column="user_state" property="userState"/>
         <result column="activity_state" property="activityState"/>
         <result column="activity_code" property="activityCode"/>
+        <result column="reset_code" property="resetCode"/>
     </resultMap>
 
     <select id="findUser" parameterType="map" resultMap="waUser">
@@ -74,11 +75,26 @@
     <update id="updateUserByEmail" parameterType="map">
         UPDATE wa_user
         <trim prefix="SET" suffixOverrides=",">
-            <if test="userPass != null">user_pass = #{userPassword},</if>
+            <if test="userPassword != null">user_pass = #{userPassword},</if>
             <if test="userEmail != null">user_email = #{userEmail},</if>
         </trim>
         WHERE user_email = #{userEmail}
     </update>
 
+    <!--登录时查询，根据登录号码进行查询，账号可以时邮箱也可以使用手机好-->
+    <select id="findUserByAccount" parameterType="string" resultMap="waUser">
+        SELECT *
+        FROM  wa_user
+        WHERE user_email = #{account}
+        OR  user_phone = #{account}
+    </select>
+
+    <!--找回密码时的现判断用户的phone与eamil是否一致-->
+    <select id="checkAccount" parameterType="string" resultType="int">
+        SELECT COUNT(*)
+        FROM  wa_user
+        WHERE user_email = #{email}
+        AND  user_phone = #{phone}
+    </select>
 
 </mapper>

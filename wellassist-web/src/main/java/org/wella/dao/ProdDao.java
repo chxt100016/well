@@ -3,6 +3,8 @@ package org.wella.dao;
 import org.apache.ibatis.annotations.Param;
 import org.wella.entity.Prod;
 
+import java.util.List;
+
 import java.util.Map;
 
 /**
@@ -16,5 +18,8 @@ public interface ProdDao {
      */
     Prod getOrderProdByProdid(@Param("prodId")long prodId);
 
+    List<Prod> findProd(Map map);
+
+    List<Map<String,Object>> findUserProdList(Map map);
     Map<String,Object> findProdById(Map param);
 }

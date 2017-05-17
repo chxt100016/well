@@ -17,8 +17,10 @@ public interface RegisterService {
 
     boolean activeUser(String code);
 
-    void resetPassword(String account,String password);
+    void resetPassword(String account,String password,String checkCode);
 
     void sentValidCode(String eamil);
+
+    boolean checkAccount(String email,String phone);
 
 }
