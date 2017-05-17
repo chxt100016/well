@@ -42,7 +42,7 @@
 		<div style="width:20%;text-align:center;font-size:16px;float:left;">操作</div>
 	</div>
 	<c:forEach var="item" items="${waOrderList}">
-		<div style="border:solid 1px #d0d0d0;font-size:24px;margin-top:16px; overflow:auto;"">
+		<div style="border:solid 1px #d0d0d0;font-size:24px;margin-top:16px; overflow:auto;">
 			<div style="height:30px;background:#e0e0e0;font-size:16px;">
 				<div style = "margin-left:10px;line-height:30px; color: #807B7B;float:left; font-size:10px;">
 					${item.orderDate} &nbsp;&nbsp;&nbsp;&nbsp; 订单编号：${item.orderNo}
@@ -99,7 +99,7 @@
 								<c:if test="${item.orderState=='-1'}">已取消</c:if>
 							</td>
 						</tr>
-						<c:if test="${item.orderState=='2' || item.orderState=='4' || item.orderState=='5' || item.orderState=='6' || item.orderState=='7'}">
+						<c:if test="${item.orderState==2 || item.orderState==4 || item.orderState==5 || item.orderState==6 || item.orderState==7}">
 							<tr>
 								<td>
 									<a style="cursor:pointer;color:black;" onclick="toURL('detailVehicle', '${item.orderId}')">物流信息</a>
@@ -114,16 +114,16 @@
 					</table>
 				</div>
 				<div class="grayboxwithoutleft" style="height:110px;font-size:16px; float:right; border:none;text-align:center; width:19%; ">
-					<c:if test="${item.orderState=='1'}">
+					<c:if test="${item.orderState==1}">
 						<span class="span_btn" onClick="toURL('editFukuan', '${item.orderId}')">付款</span>
 					</c:if>
-					<c:if test="${item.orderState=='2' or item.orderState=='3'}">
-						<c:if test="${item.isSelfCar=='0'}">
+					<c:if test="${item.orderState==2 or item.orderState==3}">
+						<c:if test="${item.isSelfCar==0}">
 							<span class="span_btn" onClick="toURL('editFahuo', '${item.orderId}')">发货详情</span>
 						</c:if>
 					</c:if>
 							
-					<c:if test="${item.orderState=='6'}">
+					<c:if test="${item.orderState==6}">
 						<span class="span_btn" onClick="toURL('editPingjia', '${item.orderId}')">评价</span>
 					</c:if>
 					<c:if test="${item.orderState==0 or item.orderState==1}">

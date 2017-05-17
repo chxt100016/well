@@ -17,8 +17,8 @@
 	</form>
 	
 	<div style="border:solid 1px #d0d0d0;padding:6px;font-size:24px;margin-top:16px;height:20px;">
-		<div style="width:40%;text-align:center;font-size:16px;float:left;">远输产品</div>
-		<div style="width:20%;text-align:center;font-size:16px;float:left;">远输</div>
+		<div style="width:40%;text-align:center;font-size:16px;float:left;">运输产品</div>
+		<div style="width:20%;text-align:center;font-size:16px;float:left;">运输</div>
 		<div style="width:20%;text-align:center;font-size:16px;float:left;">
 			<span class="dropdown">
 				<a data-toggle="dropdown" class="dropdown" style="color: #444444;">状态&nbsp;<b class="icon-angle-down"></b></a>
@@ -37,10 +37,10 @@
 			<c:forEach var = "item0" items = "${item}" begin = "0" end = "0">
 				<div style="height:60px;background:#e0e0e0;font-size:16px;">
 					<div style = "margin-left:10px;line-height:56px; float:left;">
-						<c:if test = "${item0.companyImg} == ''}">
+						<c:if test = "${item0.companyImg == '' or empty item0.companyImg}">
 							<a class="fancybox" href="${pageContext.request.contextPath}/resources/common/images/icon_user_def.jpg" data-fancybox-group="gallery" title=""><img src="${pageContext.request.contextPath}/resources/common/images/icon_user_def.jpg"  style="width:50px; height:50px;" /></a>
 						</c:if>
-						<c:if test = "${item0.companyImg} != ''}">	
+						<c:if test = "${item0.companyImg != '' and not empty item0.companyImg}">
 							<a class="fancybox" href="${pageContext.request.contextPath}/${item0.companyImg}" data-fancybox-group="gallery" title=""><img src="${pageContext.request.contextPath}/${item0.companyImg}"  style="width:50px; height:50px;" onerror = "noExitImg(this, '${pageContext.request.contextPath}');"/></a>
 						</c:if>
 					</div>
@@ -65,7 +65,7 @@
 							${item2.prodName}
 						</div>
 						<div style = "margin-right:10px;line-height:106px; float:right;color:#A1A2A9;">
-							${item2.vehicleSize}吨 
+							${item2.num}吨
 						</div>	
 					</div>
 					

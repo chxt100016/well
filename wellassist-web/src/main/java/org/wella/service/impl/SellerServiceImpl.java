@@ -151,7 +151,7 @@ public class SellerServiceImpl implements SellerService {
 
         logisticsInfo.setProdId(order.getProdId());
         logisticsInfo.setProdName(order.getProdName());
-        logisticsInfo.setNumber(order.getConfirmNumber().doubleValue());
+        logisticsInfo.setNum(order.getConfirmNumber().doubleValue());
         logisticsInfo.setState((byte) 0);
         double confirmNumber =Double.parseDouble(order.getConfirmNumber().toString());
         BigDecimal prePayment =order.getConfirmNumber().multiply(order.getConfirmPrice());

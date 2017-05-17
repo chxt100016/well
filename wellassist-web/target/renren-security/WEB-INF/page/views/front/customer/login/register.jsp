@@ -175,12 +175,14 @@ div.kehu_item {
 						<table style="margin-left: 15%; margin-right: 15%; width: 100%;">
 							<tr>
 								<td class="caption" style="width: 15%;"><span class="box-in-level2">电子邮箱</span></td>
+								<td class="caption"><span class="box-in-level2">电子邮箱</span></td>
 								<td>
 									<input type="text" name="contactemail" style="width: 50%;" placeholder="请输入电子邮箱">
 								</td>
 							</tr>
 							<tr>
 								<td class="caption" style="width: 15%;"><span class="box-in-level2">手机号码</span></td>
+								<td class="caption"><span class="box-in-level2">手机号码</span></td>
 								<td>
 									<input type="text" name="contactphone"  style="width: 50%;" placeholder="请输入手机号码">
 								</td>

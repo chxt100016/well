@@ -3,10 +3,8 @@ package org.wella.common.utils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+
+import java.util.*;
 
 public class ConvertUtil {
     public ConvertUtil() {
@@ -159,7 +157,7 @@ public class ConvertUtil {
         return ret;
     }
 
-    public static ArrayList<ArrayList<Map<String, Object>>> groupList(ArrayList<Map<String, Object>> list, String groupKey) {
+    public static ArrayList<ArrayList<Map<String, Object>>> groupList(List<Map<String, Object>> list, String groupKey) {
         ArrayList retList = new ArrayList();
         if(list.size() == 0) {
             return retList;

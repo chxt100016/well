@@ -11,10 +11,7 @@ import org.wella.utils.CommonUtil;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by liuwen on 2017/5/10.
@@ -217,5 +214,28 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public List<Prod> findProdList(Map map) {
         return null;
+    }
+
+    /**
+     * 获取产品信息，并将其中的prod_region_id(编码)转换成fromRegionName（字符串）
+     * @param param
+     * @return
+     */
+    @Override
+    public Map<String, Object> findProdById(Map param) {
+        Map<String,Object> prodMap=prodDao.findProdById(param);
+        ConvertUtil.convertDataBaseMapToJavaMap(prodMap);
+        HashMap<String,Object> paramMap=new HashMap<String,Object>();
+        paramMap.put("regionId",(long)prodMap.get("prodRegionId"));
+        String fromRegionName=regionDao.getRegionDetailName(paramMap);
+        prodMap.put("fromRegionName",fromRegionName);
+        return prodMap;
+    }
+
+    @Override
+    public List<Map<String, Object>> getRegionList(Map param) {
+        List resList=regionDao.getRegionList(param);
+        ConvertUtil.convertDataBaseMapToJavaMap(resList);
+        return resList;
     }
 }
