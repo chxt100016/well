@@ -362,6 +362,26 @@ public class SellerOrderController extends BaseController {
         this.echoJSON(response, obj);
     }
 
+    /*@RequestMapping({"front/seller/SellerOrderController-orderList"})
+    public String ordersheet_list(HttpServletRequest request, HttpServletResponse response, Model model) {
+        HttpSession session = request.getSession();
+        MyInfo myInfo = (MyInfo)session.getAttribute("MY_INFO");
+        if(myInfo != null) {
+            Map param = this.getConditionParam(request);
+            param.put("userId", myInfo.getUserId());
+            ArrayList waOrderList = this.sellerOrderMapper.getWaOrderList(param);
+            ConvertUtil.convertDataBaseMapToJavaMap(waOrderList);
+            model.addAttribute("waOrderList", waOrderList);
+            int totalCount = this.sellerOrderMapper.getWaOrderListCount(param);
+            this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
+            model.addAttribute("parentMenuNo", "1");
+            model.addAttribute("childMenuNo", "3");
+            model.addAttribute("userName", myInfo.getUserName());
+            return "views/front/seller/order/orderList.jsp";
+        } else {
+            return "redirect:views/front/SellerLoginController-login.jsp";
+        }
+    }*/
     @RequestMapping({"front/seller/SellerOrderController-orderList"})
     public String ordersheet_list(HttpServletRequest request, HttpServletResponse response, Model model) {
         HttpSession session = request.getSession();

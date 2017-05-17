@@ -14,8 +14,12 @@
 	</resultMap>
 
 	<insert id="createOrderLogisticsInfoDao" parameterType="org.wella.entity.OrderLogisticsInfo">
-		INSERT INTO wa_order_logistics_info(order_id,delivery_time,receive_time,contact_person,contact_phone,address)
-		VALUES (#{orderId},#{deliveryTime},#{receiveTime},#{contactPerson},#{contactPhone},#{address})
+		insert into wa_order_logistics_info (order_id, deliver_date,
+		  receive_date, contacts, con_tel,
+		  address)
+		values (#{orderId,jdbcType=BIGINT}, #{deliverDate,jdbcType=DATE},
+		  #{receiveDate,jdbcType=DATE}, #{contacts,jdbcType=VARCHAR}, #{conTel,jdbcType=CHAR},
+		  #{address,jdbcType=VARCHAR})
 	</insert>
 
 	<select id="findUser" parameterType="map" resultMap="orderLogistInfo">

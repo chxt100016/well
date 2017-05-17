@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="ui container segment" id="app1" style="text-align:left;">
-        <form id="infoForm" action="<c:url value="/customer/test"/>" method="post">
+        <form id="infoForm" action="<c:url value="/customer/order"/>" method="post">
             <input type="hidden" name="toRegionId" id = "toRegionId">
             <input type="hidden" name="prodId" value="${prod.prodId}">
             <input type="hidden" name="orderData" id="orderData">
@@ -52,12 +52,12 @@
                     <div class=" two fields">
                         <div class="field">
                             <label>发货时间： 
-                                <input type="text" name="deliver_date" value="" style="width:300px" id="deliver_date" onfocus="var receive_date=$dp.$('receive_date');WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){receive_date.focus();},maxDate:'#F{$dp.$D(\'receive_date\')}'})">
+                                <input type="text" name="deliverDate" value="" style="width:300px" id="deliverDate" onfocus="var receiveDate=$dp.$('receiveDate');WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){receiveDate.focus();},maxDate:'#F{$dp.$D(\'receiveDate\')}'})">
                                 </label>
                         </div>
                         <div class="field">
                             <label>收货时间：
-                                <input type="text" name="receive_date" value="" style="width:300px" id="receive_date" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'deliver_date\')}'})">
+                                <input type="text" name="receiveDate" value="" style="width:300px" id="receiveDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'deliverDate\')}'})">
                                 </label>
                         </div>
 
@@ -73,7 +73,7 @@
                         <div class="field">
                             <div class="ui labeled input">
                                 <div class="ui label">联系手机 </div>
-                                <input type="text" placeholder="" name="con_tel" id="con_tel" maxlength="11" class="number isPhone">
+                                <input type="text" placeholder="" name="conTel" id="conTel" maxlength="11" class="number isPhone">
                             </div>
                         </div>
                     </div>
@@ -98,7 +98,7 @@
                 <div class="field">
                     <div class="ui labeled input">
                         <div class="ui label">详细地址 </div>
-                        <input type="text" placeholder="" id="full_address" name="full_address">
+                        <input type="text" placeholder="" id="toRegionAddr" name="toRegionAddr">
                     </div>
 
                 </div>
@@ -119,13 +119,13 @@
                         <div class="field ">
                             <div class="ui labeled input ">
                                 <div class="ui label ">单价 </div>
-                                <input type="text " placeholder=" " id="danjia" name="danjia " value="${prod.prodMoney}" readonly="true" onkeyup="return validateNumber(this,value,0)"><a class="ui tag label ">元 </a>
+                                <input type="text " placeholder=" " id="danjia" name="danjia" value="${prod.prodMoney}" readonly="true" onkeyup="return validateNumber(this,value,0)"><a class="ui tag label ">元 </a>
                             </div>
                         </div>
                         <div class="field ">
                             <div class="ui labeled input ">
                                 <div class="ui label ">总价 </div>
-                                <input type="text " placeholder=" " name="saleMoney " id="saleMoney" readonly="true"><a class="ui tag label ">元</a>
+                                <input type="text " placeholder=" " name="saleMoney" id="saleMoney" readonly="true"><a class="ui tag label ">元</a>
                             </div>
                         </div>
                     </div>
@@ -139,12 +139,12 @@
                 <div class=" inline fields ">
                     <div class="field ">
                         <div class="ui radio checkbox">
-                            <input type="radio" name="vehicle_needs" checked="checked" value="0" onclick="checkSelfCar(0)">
+                            <input type="radio" name="isSelfCar" checked="checked" value="0" onclick="checkSelfCar(0)">
                             <label>我有车</label></div>
                     </div>
                     <div class=" ui field ">
                         <div class="ui radio checkbox">
-                            <input type="radio" name="vehicle_needs" value="1" onclick="checkSelfCar(1)">
+                            <input type="radio" name="isSelfCar" value="1" onclick="checkSelfCar(1)">
                             <label>需要物流</label></div>
                     </div>
                 </div>
@@ -196,10 +196,10 @@
                     <tbody>
                         <tr v-for="vehicle in Vehicles ">
                             <td>
-                                <h2 class="ui center aligned header " id="driverName">{{vehicle.dr_name}}</h2>
+                                <h2 class="ui center aligned header driverName">{{vehicle.dr_name}}</h2>
                             </td>
-                            <td class="single line " id="driverPhone">{{vehicle.dr_tel}}</td>
-                            <td id="carCode"> {{vehicle.dr_number}}</td>
+                            <td class="single line driverPhone" >{{vehicle.dr_tel}}</td>
+                            <td class="carCode" > {{vehicle.dr_number}}</td>
                             <td class="right aligned " style="width:10% "><a class="ui button " v-on:click="delVehicle($index) ">DELETE </a></td>
 
                         </tr>
@@ -319,7 +319,6 @@
         // 检查模块
 
         $("#infoForm ").validate({
-            debug:true,
             errorPlacement: function(error, element) {
                 if ($(element).closest('div.field').children().filter("div.error-div ").length < 1)
                     $(element).closest('div.field').append("<div class='error-div'></div>");
@@ -335,7 +334,7 @@
                 saleMoney: {
                     required: true
                 },
-                deliver_date: {
+                deliverDate: {
                     required: true
                 },
                 reveive_date: {
@@ -344,10 +343,10 @@
                 contacts: {
                     required: true
                 },
-                con_tel: {
+                conTel: {
                     required: true,
                 },
-                full_address: {
+                toRegionAddr: {
                     required: true
                 },
 
@@ -356,19 +355,19 @@
                 saleNum: "请输入供应量！",
                 danjia: "请输入单价！",
                 saleMoney: "请输入总价！",
-                deliver_date: "请输入发货时间",
+                deliverDate: "请输入发货时间",
                 reveive_date: "请输入收货时间！",
                 contacts: "请输入联系人",
-                con_tel: {
+                conTel: {
                     required: "请输入联系电话",
 
                 },
-                full_address: "请输入完整收货地址！",
+                toRegionAddr: "请输入完整收货地址！",
             },
             submitHandler: function(form) {
                 var itemNum = 0;
 
-                jQuery("#driverName").each(function(i){
+                jQuery(".driverName").each(function(i){
                     itemNum++;
                 });
 
@@ -379,33 +378,28 @@
 
                 var arr = new Array();
 
-                var driverName=jQuery("#driverName");
-                var driverPhones=jQuery("#driverPhone");
-                var carCodes=jQuery("#carCode");
-                console.log(driverName);
-                jQuery("#driverName").each(function(i){
+                var driverName=$(".driverName");
+                var driverPhones=$(".driverPhone");
+                var carCodes=$(".carCode");
+                jQuery(".driverName").each(function(i){
                     var obj = new Object();
-
-                    obj.driverName = driverName[i].html();
-                    obj.driverPhone = driverPhones[i].html();
-                    obj.carCode=carCodes[i].html();
+                    obj.driverName = driverName[i].innerHTML;
+                    obj.driverPhone = driverPhones[i].innerHTML;
+                    obj.carCode=carCodes[i].innerHTML;
 
                     arr[arr.length] = obj;
                 });
 
                 var orderData = JSON.stringify(arr);
                 $("#orderData").val(orderData);
-                console.log(orderData);
-                /*if(confirm("你要确定操作吗?")){
-                    console.log("has！");
+                if(confirm("你要确定操作吗?")){
                     $.post($(form).attr("action"),$(form).serialize(),function(data){
                         alert(data.content);
-                        // showalert(data.content);
                         if(data.state==1 ){
-                            window.location.href = "${pageContext.request.contextPath}/customer/test";
+                            window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerHomeCtrl-orderSuccess";
                         }
                     }, "json");
-                }*/
+                }
             }
 
         }); // 

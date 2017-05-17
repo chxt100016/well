@@ -31,6 +31,12 @@ public class CustomerController extends BaseController{
     @Autowired
     private CustomerServiceImpl customerServiceImpl;
 
+   /**
+    * 买家下订单
+    * @param request prodId，saleNum，danjia，saleMoney，isSelfCar，contacts，conTel，toRegionId
+    *                toRegionAddr，orderData，deliverDate，receiveDate，customerExceptCarriage
+    * @param response
+    */
    @RequestMapping(value = "order",method = RequestMethod.POST)
     public void order(HttpServletRequest request , HttpServletResponse response){
        MyInfo myInfo = this.getMyInfo(request);
@@ -38,17 +44,22 @@ public class CustomerController extends BaseController{
        Map map = new HashMap();
        try {
           map.put("userId", myInfo.getUserId());
-          map.put("prodId", request.getParameter("prodId") != "" ? request.getParameter("prodId") : "1");
+
+          map.put("prodId", request.getParameter("prodId"));
           map.put("saleNum", request.getParameter("saleNum"));
+          map.put("danjia",request.getParameter("danjia"));
           map.put("saleMoney", request.getParameter("saleMoney"));
           map.put("isSelfCar", request.getParameter("isSelfCar"));
-          map.put("vehicleLxr", request.getParameter("vehicleLxr"));
-          map.put("vehicleLxrPhone", request.getParameter("vehicleLxrPhone"));
-          map.put("toRegionId", request.getParameter("toRegionId") != "" ? request.getParameter("toRegionId") : "1");
+          map.put("contacts", request.getParameter("contacts"));
+          map.put("conTel", request.getParameter("conTel"));
+          map.put("toRegionId", request.getParameter("toRegionId"));
           map.put("toRegionAddr", request.getParameter("toRegionAddr"));
           map.put("orderData", request.getParameter("orderData"));
-          map.put("cfDate", request.getParameter("cfDate"));
-          map.put("ddDate", request.getParameter("ddDate"));
+          map.put("deliverDate", request.getParameter("deliverDate"));
+          map.put("receiveDate", request.getParameter("receiveDate"));
+          map.put("customerExceptCarriage",request.getParameter("customerExceptCarriage"));
+
+
           map.put("orderIp",getIpAddr(request));
        }catch (Exception e){
           e.printStackTrace();

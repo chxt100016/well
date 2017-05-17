@@ -49,12 +49,28 @@
     </resultMap>
 
 	<insert id="createOrder" useGeneratedKeys="true" keyProperty="orderId" parameterType="org.wella.entity.Order">
-		INSERT INTO wa_order
-        SET order_no = #{orderNo}, prod_id = #{prodId}, prod_name = #{prodName}, from_region_id = #{fromRegionId},
-             from_region_addr = #{fromRegionAddr}, to_region_id = #{toRegionId}, to_region_addr = #{toRegionAddr},
-             user_id = #{userId} , user_lxr = #{userLxr}, user_lxr_phone = #{userLxrPhone}, supplier_id = #{supplierId},
-             sale_num = #{saleNum}, sale_money = #{saleMoney}, order_date = #{orderDate}, order_ip = #{orderIp},
-             is_self_car = #{isSelfCar};
+        insert into wa_order (order_no, prod_id,
+          prod_name, from_region_id, from_region_addr,
+          to_region_id, to_region_addr, user_id,
+          company_lxr, company_lxr_phone, supplier_id,
+          sale_num, sale_money, dj_modify_date,
+          sale_sj_num, sale_sj_money, sq_money,
+          order_state, order_type, order_date,
+          order_ip, kp_state, kp_complete_date,
+          is_self_car, pj_state, pj_date,
+          pj_content, confirm_price, confirm_number,
+          customer_except_carriage)
+        values ( #{orderNo,jdbcType=VARCHAR}, #{prodId,jdbcType=BIGINT},
+          #{prodName,jdbcType=VARCHAR}, #{fromRegionId,jdbcType=BIGINT}, #{fromRegionAddr,jdbcType=VARCHAR},
+          #{toRegionId,jdbcType=BIGINT}, #{toRegionAddr,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT},
+          #{companyLxr,jdbcType=VARCHAR}, #{companyLxrPhone,jdbcType=VARCHAR}, #{supplierId,jdbcType=BIGINT},
+          #{saleNum,jdbcType=DECIMAL}, #{saleMoney,jdbcType=DECIMAL}, #{djModifyDate,jdbcType=TIMESTAMP},
+          #{saleSjNum,jdbcType=DECIMAL}, #{saleSjMoney,jdbcType=DECIMAL}, #{sqMoney,jdbcType=DECIMAL},
+          #{orderState,jdbcType=TINYINT}, #{orderType,jdbcType=TINYINT}, #{orderDate,jdbcType=TIMESTAMP},
+          #{orderIp,jdbcType=VARCHAR}, #{kpState,jdbcType=TINYINT}, #{kpCompleteDate,jdbcType=TIMESTAMP},
+          #{isSelfCar,jdbcType=TINYINT}, #{pjState,jdbcType=TINYINT}, #{pjDate,jdbcType=TIMESTAMP},
+          #{pjContent,jdbcType=VARCHAR}, #{confirmPrice,jdbcType=DECIMAL}, #{confirmNumber,jdbcType=DECIMAL},
+          #{customerExceptCarriage,jdbcType=DECIMAL});
 	</insert>
 
     <!--根据订单id更新订单，在卖家确认时，支付时等情况对其进行操作-->
