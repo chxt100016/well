@@ -46,7 +46,6 @@
 		where prod_id = #{prodId}
 	</select>
 
-<<<<<<< HEAD
 	<!--产品发布时调用-->
 	<insert id="createProd" parameterType="org.wella.entity.Prod">
 		INSERT INTO  wal_prod
@@ -96,7 +95,7 @@
 		ORDER BY log_id DESC
 	</select>
 
-=======
+
 	<select id="findProdById" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
 		<include refid="selectForOrder"></include>
@@ -105,5 +104,4 @@
 		where prod_id = ${prodId}
 		</if>
 	</select>
->>>>>>> 6a71c2f098ca5b59d32ecf37c6434c00fb48b163
 </mapper>
