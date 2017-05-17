@@ -7,4 +7,29 @@
 		SELECT * FROM wa_region
 		WHERE region_id=#{regionId}
 	</select>
+
+	<!-- 获得地区详细名称的函数 -->
+	<select id="getRegionDetailName" parameterType="java.util.Map"
+			resultType="String">
+		SELECT GROUP_CONCAT(region_name ORDER BY region_id
+		SEPARATOR ' ' ) AS regionName FROM wa_region WHERE region_id =
+		CONCAT(SUBSTR(${regionId},1,2),"0000") OR region_id =
+		CONCAT(SUBSTR(${regionId},1,4),"00") OR region_id = ${regionId}
+	</select>
+	<!-- 获得地区详细名称的函数 -->
+	<!-- 获取下地区列表 -->
+	<select id = "getChildRegionList" parameterType = "java.util.Map" resultType = "java.util.Map">
+		SELECT region_id, region_name
+		FROM wa_region
+		WHERE parent_region_id = ${regionId}
+		ORDER BY order_id
+	</select>
+
+	<!-- 获取地区列表函数 -->
+	<select id="getRegionList" parameterType="java.util.Map"	resultType="java.util.Map">
+		SELECT a.region_id, a.region_name, a.parent_region_id
+		FROM wa_region AS a
+		WHERE a.parent_region_id = ${parentRegionId}
+		ORDER BY a.region_id
+	</select>
 </mapper>

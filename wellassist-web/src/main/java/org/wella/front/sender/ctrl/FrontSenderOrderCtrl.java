@@ -1,11 +1,8 @@
 package org.wella.front.sender.ctrl;
 
 import com.alibaba.fastjson.JSONObject;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+
+import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +15,12 @@ import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.common.vo.MyInfo;
+import org.wella.entity.LogisticsInfo;
 import org.wella.front.mapper.FrontUserVehicleMapper;
 import org.wella.front.sender.mapper.FrontSenderOrderMapper;
 import org.wella.front.sender.mapper.FrontSenderVehicleGrabInfoMapper;
 import org.wella.front.sender.mapper.FrontSenderVehicleGrabMapper;
+import org.wella.service.SenderService;
 
 @Controller
 public class FrontSenderOrderCtrl extends BaseController {
@@ -33,6 +32,9 @@ public class FrontSenderOrderCtrl extends BaseController {
     private FrontSenderVehicleGrabMapper vehicleGrabMapper;
     @Autowired
     private FrontSenderVehicleGrabInfoMapper vehicleGrabInfoMapper;
+
+    @Autowired
+    private SenderService senderServiceImpl;
 
     public FrontSenderOrderCtrl() {
     }
@@ -141,91 +143,64 @@ public class FrontSenderOrderCtrl extends BaseController {
     @RequestMapping({"/front/sender/FrontSenderOrderCtrl-qdPage"})
     public String qdPage(HttpServletRequest request, HttpServletResponse response, Model model) {
         MyInfo myInfo = this.getMyInfo(request);
-        String vehicleTrans = CommonUtil.GetRequestParam(request, "vehicleTrans", "0");
+        String logisticsId = CommonUtil.GetRequestParam(request, "logisticsId", "0");
         HashMap param = new HashMap();
-        param.put("vehicleTrans", vehicleTrans);
-        Map info = this.userVehicleMapper0.getVehicleInfo(param);
-        ConvertUtil.convertDataBaseMapToJavaMap(info);
-
-        try {
-            info.put("fromRegionName", this.getRegionDetailName(info.get("fromRegionId").toString()));
-        } catch (Exception var10) {
-            info.put("fromRegionName", "");
-        }
-
-        try {
-            info.put("toRegionName", this.getRegionDetailName(info.get("toRegionId").toString()));
-        } catch (Exception var9) {
-            info.put("toRegionName", "");
-        }
+        param.put("logisticsId",logisticsId);
+        LogisticsInfo info=senderServiceImpl.findLogisticsInfo(param);
 
         model.addAttribute("info", info);
+
         model.addAttribute("wlUserId", myInfo.getUserId());
         return "views/front/sender/order/qdPage.jsp";
     }
 
     @RequestMapping({"/front/sender/FrontSenderOrderCtrl-sqQd"})
     public void sqQd(HttpServletRequest request, HttpServletResponse response, Model model) {
-        JSONObject res = new JSONObject();
         MyInfo myInfo = this.getMyInfo(request);
-        String orderId = CommonUtil.GetRequestParam(request, "orderId", "0");
-        String sql = " SELECT COUNT(*) FROM wa_vehicle_grab WHERE   order_id = \'" + orderId + "\' AND wl_user_id = \'" + myInfo.getUserId() + "\'";
-        HashMap queryParam = new HashMap();
-        queryParam.put("strsql", sql);
-        int totalCount = this.commonMapper.simpleSelectReturnInt(queryParam);
-        Map e;
-        if(totalCount == 0) {
+        JSONObject res = new JSONObject();
+        Map map = new HashMap();
+        try {
+            map.put("logisticsId",request.getParameter("logisticsId"));
+            map.put("wlUserId",myInfo.getUserId());
+            map.put("grabMoney",request.getParameter("grabMoney"));
+            map.put("sjLxr",request.getParameter("sjLxr"));
+            map.put("sjLxPhone",request.getParameter("sjLxPhone"));
+            map.put("orderData",CommonUtil.GetRequestParam(request, "orderData", ""));
+        }catch (Exception e){
+            e.printStackTrace();
+            res.put("state", "2");
+            res.put("content", ConstantUtil.MSG_FAILS);
+            e.printStackTrace();
+        }finally {
             try {
-                Map grabId = this.getBoClass(request, "wa_vehicle_grab");
-                e = (Map)grabId.get("mapClass");
-                e.put("wl_user_id", myInfo.getUserId());
-                e.put("grab_date", new Date());
-                this.commonMapper.insertSingleBO(grabId);
+                senderServiceImpl.grabLogisticsOrder(map);
                 res.put("state", "1");
                 res.put("content", ConstantUtil.MSG_SUCCESS);
-            } catch (Exception var14) {
-                var14.printStackTrace();
+            }catch (Exception e){
                 res.put("state", "2");
                 res.put("content", ConstantUtil.MSG_FAILS);
-            }
-        } else {
-            sql = "SELECT grab_id FROM wa_vehicle_grab WHERE  grab_state < 1 AND order_id = \'" + orderId + "\' AND wl_user_id = \'" + myInfo.getUserId() + "\'";
-            queryParam = new HashMap();
-            queryParam.put("strsql", sql);
-            String grabId1 = this.commonMapper.simpleSelectReturnString(queryParam);
-            if(grabId1 != null) {
-                try {
-                    e = this.getBoClass(request, "wa_vehicle_grab");
-                    Map mapClass = (Map)e.get("mapClass");
-                    mapClass.put("wl_user_id", myInfo.getUserId());
-                    mapClass.put("grab_date", new Date());
-                    mapClass.put("grab_state", "0");
-                    e.put("keyName", "grab_id");
-                    e.put("keyValue", grabId1);
-                    this.commonMapper.updateSingleBO(e);
-                    res.put("state", "1");
-                    res.put("content", ConstantUtil.MSG_SUCCESS);
-                } catch (Exception var13) {
-                    var13.printStackTrace();
-                    res.put("state", "2");
-                    res.put("content", ConstantUtil.MSG_FAILS);
-                }
+                e.printStackTrace();
+            }finally {
+                this.echo(response,res);
             }
         }
-
-        this.echo(response, res);
     }
 
+    /**
+     * 查看抢单记录
+     * @param request 传入参数：orderNo,grabState,page
+     * @param response
+     * @param model
+     * @return
+     */
     @RequestMapping({"/front/sender/FrontSenderOrderCtrl-qdList"})
     public String qdList(HttpServletRequest request, HttpServletResponse response, Model model) {
         MyInfo myInfo = this.getMyInfo(request);
         Map param = this.getConditionParam(request);
         param.put("wlUserId", myInfo.getUserId());
-        ArrayList list = this.vehicleGrabMapper.getQdList(param);
-        ConvertUtil.convertDataBaseMapToJavaMap(list);
+        List list=senderServiceImpl.grabLogisticsList(param);
         ArrayList list0 = ConvertUtil.groupList(list, "userId");
-        int totalCount = this.vehicleGrabMapper.getQdListCount(param);
-        ConvertUtil.convertDataBaseMapToJavaMap(list);
+        int totalCount =senderServiceImpl.grabLogisticsListCount(param);
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "2");
         model.addAttribute("userName", myInfo.getUserName());

@@ -10,4 +10,42 @@
            grab_date=#{grabDate},grab_state=#{grabState};
     </insert>
 
+    <select id="getGrabLogisticsList" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT a.`grab_id` grabId,d.user_id userId,d.`company_img` companyImg,c.`user_name` userName,d.`company_lxr` companyLxr,d.`company_lxr_phone` companyLxrPhone,b.`prod_name` prodName,b.num num,a.`grab_money` grabMoney,a.`grab_state` grabState,a.`grab_date` grabDate
+        FROM wa_vehicle_grab a,wa_logistics_info b,wa_user c,wa_userinfo d,wa_order e
+        WHERE a.`logistics_id`=b.`logistics_id`
+        AND b.`customer_user_id`=c.`user_id`
+        AND b.`customer_user_id`=d.`user_id`
+        AND b.order_id=e.order_id
+        <if test="wlUserId != null">
+          AND a.`wl_user_id`=#{wlUserId}
+        </if>
+        <if test="grabState != null">
+            AND a.grab_state=#{grabState}
+        </if>
+        <if test="orderNo != null">
+            AND e.order_no=#{orderNo}
+        </if>
+        ORDER BY a.`grab_date` DESC
+        <if test="start !=null and size != null">
+          LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="grabLogisticsListCount" parameterType="java.util.Map" resultType="int">
+        SELECT count(*)
+        FROM wa_vehicle_grab a,wa_logistics_info b,wa_order c
+        WHERE a.`logistics_id`=b.`logistics_id`
+        AND b.order_id=c.order_id
+        <if test="wlUserId != null">
+            AND a.`wl_user_id`=#{wlUserId}
+        </if>
+        <if test="grabState != null">
+            AND a.grab_state=#{grabState}
+        </if>
+        <if test="orderNo != null">
+            AND c.order_no=#{orderNo}
+        </if>
+    </select>
+
 </mapper>

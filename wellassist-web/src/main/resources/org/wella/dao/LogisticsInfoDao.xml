@@ -2,14 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.wella.dao.LogisticsInfoDao">
-
+    <resultMap id="LogisticsInfoMap" type="org.wella.entity.LogisticsInfo" >
+        <id column="logistics_id" property="logisticsId" jdbcType="BIGINT" />
+        <result column="order_id" property="orderId" jdbcType="BIGINT" />
+        <result column="prod_id" property="prodId" jdbcType="BIGINT" />
+        <result column="customer_user_id" property="customerUserId" jdbcType="BIGINT" />
+        <result column="seller_user_id" property="sellerUserId" jdbcType="BIGINT" />
+        <result column="prod_name" property="prodName" jdbcType="VARCHAR" />
+        <result column="customer_user_name" property="customerUserName" jdbcType="VARCHAR" />
+        <result column="num" property="num" jdbcType="DOUBLE" />
+        <result column="pre_payment" property="prePayment" jdbcType="DOUBLE" />
+        <result column="state" property="state" jdbcType="TINYINT" />
+        <result column="order_date" property="orderDate" jdbcType="DATE" />
+        <result column="deliver_date" property="deliverDate" jdbcType="DATE" />
+        <result column="from_address" property="fromAddress" jdbcType="VARCHAR" />
+        <result column="seller_user_name" property="sellerUserName" jdbcType="VARCHAR" />
+        <result column="to_address" property="toAddress" jdbcType="VARCHAR" />
+    </resultMap>
 
     <insert id="createLogisticsInfo" parameterType="org.wella.entity.LogisticsInfo">
         INSERT INTO wa_logistics_info
         SET order_id = #{orderId},
             from_address = #{fromAddress},
             to_address = #{toAddress},
-            num = #{number},
+            num = #{num},
             pre_payment = #{prePayment},
             state = #{state},
             order_date = #{orderDate},
@@ -22,7 +38,7 @@
             customer_user_id = #{customerUserId}
     </insert>
 
-    <select id="findLogisticsInfos" parameterType="java.util.Map" resultType="org.wella.entity.LogisticsInfo">
+    <select id="findLogisticsInfos" parameterType="java.util.Map" resultMap="LogisticsInfoMap">
         SELECT * from wa_logistics_info
         <where>
             <if test = "orderId != null" >
@@ -33,6 +49,12 @@
             </if>
             <if test = "userName != null">
                 AND (customer_user_name LIKE '%${userName}%' OR seller_user_name LIKE '%${userName}%')
+            </if>
+            <if test = "state != null">
+                AND state=#{state}
+            </if>
+            <if test="wlUserId != null">
+                AND logistics_id NOT IN (SELECT logistics_id FROM wa_vehicle_grab WHERE wl_user_id=#{wlUserId})
             </if>
         </where>
         ORDER BY order_date DESC
@@ -53,7 +75,7 @@
         </where>
     </select>
 
-    <select id="findLogisticsInfo" parameterType="java.util.Map" resultType="org.wella.entity.LogisticsInfo">
+    <select id="findLogisticsInfo" parameterType="java.util.Map" resultMap="LogisticsInfoMap">
         SELECT * FROM wa_logistics_info
         <where>
             <if test = "logisticsId != null" >

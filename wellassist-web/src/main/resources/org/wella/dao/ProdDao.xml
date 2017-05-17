@@ -6,7 +6,11 @@
 	<!--商品的相关信息-->
 	<sql id="selectForOrder">
 		prod_name,
+		prod_type,
 		user_id,
+		prod_money,
+		prod_lxr,
+		prod_lxr_phone,
 		prod_region_id,
 		prod_region_addr
 	</sql>
@@ -16,5 +20,14 @@
 		<include refid="selectForOrder"></include>
 		FROM wa_prod
 		where prod_id = #{prodId}
+	</select>
+
+	<select id="findProdById" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+		<include refid="selectForOrder"></include>
+		FROM wa_prod
+		<if test="prodId !=null">
+		where prod_id = ${prodId}
+		</if>
 	</select>
 </mapper>

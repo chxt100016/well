@@ -9,26 +9,32 @@
      <script src="https://unpkg.com/vue/dist/vue.js"></script>
 </head>
 <body>
-    <div class="ui container segment" id="app1">
-        <form id="infoForm" action="" method="post">
+    <div class="ui container segment" id="app1" style="text-align:left;">
+        <form id="infoForm" action="<c:url value="/customer/test"/>" method="post">
+            <input type="hidden" name="toRegionId" id = "toRegionId">
+            <input type="hidden" name="prodId" value="${prod.prodId}">
+            <input type="hidden" name="orderData" id="orderData">
             <h2 class="ui header">订单信息</h2>
             <div class="ui divider"></div>
 
             <div class="column">
                 <div class="ui form">
                     <div class="field">
-                        <label>产品名称：</label>
+                        <label>产品名称：${prod.prodName}</label>
 
                     </div>
                     <div class=" three fields">
                         <div class="field">
-                            <label>商品类型：</label>
+                            <label>商品类型：
+                            <c:if test="${prod.prodType==0}">气体</c:if>
+                            <c:if test="${prod.prodType==1}">燃油</c:if>
+                            </label>
                         </div>
                         <div class="field">
-                            <label>联系人：</label>
+                            <label>联系人：${prod.prodLxr}</label>
                         </div>
                         <div class="field">
-                            <label>联系电话：</label>
+                            <label>联系电话：${prod.prodLxrPhone}</label>
                         </div>
                     </div>
 
@@ -40,7 +46,7 @@
             <div class="column">
                 <div class="ui form">
                     <div class="field">
-                        <label>提货地址：</label>
+                        <label>提货地址：${prod.fromRegionName}&nbsp;${prod.prodRegionAddr}</label>
 
                     </div>
                     <div class=" two fields">
@@ -73,11 +79,19 @@
                     </div>
                 </div>
                 <div class="field">
-                    <label>配送地址： <select class="ui dropdown">
-                    <option value="">province</option>
-                        <option value="1">dd</option>
-                         <option value="0">dd</option>
-             </select></label>
+                    <label>配送地址： <select class="ui dropdown" name="prodRegionId_0">
+                    <option value="">-- 请选择省 --</option>
+                        <c:forEach var="item" items="${shengRegionList}" varStatus="status">
+                            <option value="${item.regionId}">${item.regionName}</option>
+                        </c:forEach>
+                    </select>
+                        <select name="prodRegionId_1" class="ui dropdown" style="display: none">
+                            <option value=''>-- 请选择市 --</option>
+                        </select>
+                        <select name="prodRegionId_2" class="ui dropdown" style="display: none">
+                            <option value=''>-- 请选择区 --</option>
+                        </select>
+                    </label>
 
                 </div>
                 <br>
@@ -105,7 +119,7 @@
                         <div class="field ">
                             <div class="ui labeled input ">
                                 <div class="ui label ">单价 </div>
-                                <input type="text " placeholder=" " id="danjia" name="danjia " value="50" readonly="true" onkeyup="return validateNumber(this,value,0)"><a class="ui tag label ">元 </a>
+                                <input type="text " placeholder=" " id="danjia" name="danjia " value="${prod.prodMoney}" readonly="true" onkeyup="return validateNumber(this,value,0)"><a class="ui tag label ">元 </a>
                             </div>
                         </div>
                         <div class="field ">
@@ -182,10 +196,10 @@
                     <tbody>
                         <tr v-for="vehicle in Vehicles ">
                             <td>
-                                <h2 class="ui center aligned header ">{{vehicle.dr_name}}</h2>
+                                <h2 class="ui center aligned header " id="driverName">{{vehicle.dr_name}}</h2>
                             </td>
-                            <td class="single line ">{{vehicle.dr_tel}}</td>
-                            <td> {{vehicle.dr_number}}</td>
+                            <td class="single line " id="driverPhone">{{vehicle.dr_tel}}</td>
+                            <td id="carCode"> {{vehicle.dr_number}}</td>
                             <td class="right aligned " style="width:10% "><a class="ui button " v-on:click="delVehicle($index) ">DELETE </a></td>
 
                         </tr>
@@ -305,6 +319,7 @@
         // 检查模块
 
         $("#infoForm ").validate({
+            debug:true,
             errorPlacement: function(error, element) {
                 if ($(element).closest('div.field').children().filter("div.error-div ").length < 1)
                     $(element).closest('div.field').append("<div class='error-div'></div>");
@@ -351,17 +366,48 @@
                 full_address: "请输入完整收货地址！",
             },
             submitHandler: function(form) {
-                var has_vehicle = $(':radio[name="vehicle_needs"]:checked').val();
-                console.log(has_vehicle);
-                if (has_vehicle == '0') {
-                    console.log("has！")
-                    if ($("#vehicleLxr").val() == undefined || $("#vehicleLxr").val() == "") {
-                        // alert("请输入联系人!");
+                var itemNum = 0;
 
-                        return;
-                    }
+                jQuery("#driverName").each(function(i){
+                    itemNum++;
+                });
+
+                if(itemNum==0){
+                    alert("请输入司机信息!");
+                    return;
                 }
+
+                var arr = new Array();
+
+                var driverName=jQuery("#driverName");
+                var driverPhones=jQuery("#driverPhone");
+                var carCodes=jQuery("#carCode");
+                console.log(driverName);
+                jQuery("#driverName").each(function(i){
+                    var obj = new Object();
+
+                    obj.driverName = driverName[i].html();
+                    obj.driverPhone = driverPhones[i].html();
+                    obj.carCode=carCodes[i].html();
+
+                    arr[arr.length] = obj;
+                });
+
+                var orderData = JSON.stringify(arr);
+                $("#orderData").val(orderData);
+                console.log(orderData);
+                /*if(confirm("你要确定操作吗?")){
+                    console.log("has！");
+                    $.post($(form).attr("action"),$(form).serialize(),function(data){
+                        alert(data.content);
+                        // showalert(data.content);
+                        if(data.state==1 ){
+                            window.location.href = "${pageContext.request.contextPath}/customer/test";
+                        }
+                    }, "json");
+                }*/
             }
+
         }); // 
 
 
@@ -433,4 +479,49 @@
             $("#vehiclepage").hide();
         }
     }
+
+    // 选择地区函数
+    function getRegionList(pid,level){
+        if(pid!=null && pid!=""){
+            $.post("${pageContext.request.contextPath}/customer/getRegionList",{pid:pid},function(data){
+                data = $.parseJSON(data);
+                var regionList = data.regionList;
+
+                $('#prodRegionId_' + level).empty();
+                var str = "";
+
+                if(level==1) str = "<option value=''>-- 请选择市 --</option>";
+                else 		 str = "<option value=''>-- 请选择区 --</option>";
+
+                for(var i=0 ; i<regionList.length ; i++){
+                    str = str + "<option value='" + regionList[i].regionId + "'>" + regionList[i].regionName + "</option>";
+                }
+
+                $("select[name='prodRegionId_" + level + "']").html(str);
+                if(regionList.length != 0){
+                    $("select[name='prodRegionId_" + level + "']").show();
+                    $("#toRegionId").val("");
+                }else{
+                    $("#toRegionId").val(pid);
+                    $("select[name='prodRegionId_" + level + "']").hide();
+                }
+            })
+                .error(function(data){
+                });
+        }
+    }
+    // 省级目录变化函数
+    $("select[name='prodRegionId_0']").change(function(){
+        getRegionList($(this).val(),1);
+    });
+
+    // 市级目录变化函数
+    $("select[name='prodRegionId_1']").change(function(){
+        getRegionList($(this).val(),2);
+    })
+
+    // 区级目录变化函数
+    $("select[name='prodRegionId_2']").change(function(){
+        $("#toRegionId").val($(this).val());
+    })
 </script>

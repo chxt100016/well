@@ -216,7 +216,7 @@
 <div style="background: #f7f7fa; padding-bottom:50px;"> 
 	<div style="background:#0077dd; width:50px; height:2px; margin:auto;margin-bottom:0px"></div>
 	<div class = "cd-rect" style="padding:5px;">
-		<c:forEach var="item" items="${recVehicleList}">
+		<%--<c:forEach var="item" items="${recVehicleList}">
 			<div class = "row-fld">	
 			   	<div style="padding:20px 10px 10px 10px;text-align:left;">
 					<div style="margin-bottom: 5px;"><span style="">提货地点: </span><span >${item.fromRegionName}</span></div>
@@ -225,7 +225,17 @@
 				</div>
 				<div class="ware_button" style="line-height:30px; font-size:17px;" onClick = "toURL('login', '${item.vehicleTrans}')">抢&nbsp;&nbsp;&nbsp;单</div>
 			</div>
-		</c:forEach>
+		</c:forEach>--%>
+			<c:forEach var="item" items="${logisticsInfos}">
+				<div class = "row-fld">
+					<div style="padding:20px 10px 10px 10px;text-align:left;">
+						<div style="margin-bottom: 5px;"><span style="">提货地点: </span><span >${item.fromAddress}</span></div>
+						<div style="margin-bottom: 5px;"><span style="">配货地点: </span><span >${item.toAddress}</span></div>
+						<div style="margin-bottom: 5px;"><span style="">载货量: </span><span >${item.num}顿</span></div>
+					</div>
+					<div class="ware_button" style="line-height:30px; font-size:17px;" onClick = "toURL('login', '${item.logisticsId}')">抢&nbsp;&nbsp;&nbsp;单</div>
+				</div>
+			</c:forEach>
     </div>
 </div>
 </div>
@@ -260,7 +270,8 @@
 	function toURL(action, id){
 		var url = "";
 		if (action == 'login'){ // 抢单点击
-			url = "${pageContext.request.contextPath}/front/sender/FrontSenderOrderCtrl-qdPage?vehicleTrans="+id;
+			/*url = "${pageContext.request.contextPath}/front/sender/FrontSenderOrderCtrl-qdPage?vehicleTrans="+id;*/
+            url = "${pageContext.request.contextPath}/sender/grabLogistics?logisticsId="+id;
 			window.location.href = url;
 		} else if (action == 'goto'){ // 抢单点击
 			window.open(id);

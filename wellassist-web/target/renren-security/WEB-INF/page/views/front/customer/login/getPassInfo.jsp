@@ -73,7 +73,7 @@
 	        	checkCode: "请输入验证码"
 	        },submitHandler: function(form) {  //通过之后回调
               	$.post("${pageContext.request.contextPath}/front/customer/CustomerLoginCtrl-checkUserAndEmail",$("#mainData").serialize(),
-						function(data) {
+					function(data) {
 							if(data.state != 0) {
 								var userName= $("#userName").val();
 								window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerLoginCtrl-sendToEmail?userName="+userName+"&userType="+userType;
