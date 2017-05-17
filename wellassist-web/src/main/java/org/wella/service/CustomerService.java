@@ -111,4 +111,18 @@ public interface CustomerService {
      */
     List<Prod> findProdList(Map map);
 
+    /**
+     * 获取产品信息，并将其中的prod_region_id(编码)转换成fromRegionName（字符串）
+     * @param param
+     * @return
+     */
+    Map<String,Object> findProdById(Map param);
+
+    /**
+     *获取区域列表
+     * @param param parentRegionId
+     * @return
+     */
+    List<Map<String,Object>> getRegionList(Map param);
+
 }

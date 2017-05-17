@@ -10,7 +10,7 @@ public class LogisticsInfo {
     private Long orderId;
     private String fromAddress;
     private String toAddress;
-    private Double number;
+    private Double num;
     private Double prePayment;
     private byte state;
     private long prodId;
@@ -73,12 +73,12 @@ public class LogisticsInfo {
         this.toAddress = toAddress;
     }
 
-    public Double getNumber() {
-        return number;
+    public Double getNum() {
+        return num;
     }
 
-    public void setNumber(Double number) {
-        this.number = number;
+    public void setNum(Double num) {
+        this.num = num;
     }
 
     public Double getPrePayment() {
@@ -145,30 +145,5 @@ public class LogisticsInfo {
         this.sellerUserName = sellerUserName;
     }
 
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        LogisticsInfo that = (LogisticsInfo) o;
-
-        if (state != that.state) return false;
-        if (orderId != null ? !orderId.equals(that.orderId) : that.orderId != null) return false;
-        if (fromAddress != null ? !fromAddress.equals(that.fromAddress) : that.fromAddress != null) return false;
-        if (toAddress != null ? !toAddress.equals(that.toAddress) : that.toAddress != null) return false;
-        if (number != null ? !number.equals(that.number) : that.number != null) return false;
-        if (prePayment != null ? !prePayment.equals(that.prePayment) : that.prePayment != null) return false;
-
-        return true;
-    }
-
-    public int hashCode() {
-        int result = (int) (logisticsId ^ (logisticsId >>> 32));
-        result = 31 * result + (orderId != null ? orderId.hashCode() : 0);
-        result = 31 * result + (fromAddress != null ? fromAddress.hashCode() : 0);
-        result = 31 * result + (toAddress != null ? toAddress.hashCode() : 0);
-        result = 31 * result + (number != null ? number.hashCode() : 0);
-        result = 31 * result + (prePayment != null ? prePayment.hashCode() : 0);
-        result = 31 * result + (int) state;
-        return result;
-    }
 }

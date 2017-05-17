@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.wella.common.ctrl.BaseController;
+import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.common.vo.MyInfo;
 import org.wella.entity.LogisticsInfo;
@@ -36,6 +37,7 @@ public class SendController extends BaseController{
     public void qdList(HttpServletRequest request, HttpServletResponse response, Model model){
         JSONObject res = new JSONObject();
         Map param = this.getConditionParam(request);
+        param.put("state",0);
         List<LogisticsInfo> logisticsInfos=senderServiceImpl.findLogisticsInfos(param);
         model.addAttribute("logisticsInfos",logisticsInfos);
         int totalCount=senderServiceImpl.findLogisticsInfosCount(param);
@@ -46,7 +48,7 @@ public class SendController extends BaseController{
 
     /**
      * 跳转报价界面
-     * @param request 需要传入的参数logisticsInfoId
+     * @param request 需要传入的参数logisticsId
      * @return
      */
     @RequestMapping("test2")
@@ -96,5 +98,17 @@ public class SendController extends BaseController{
                 this.echo(response,res);
             }
         }
+    }
+    @RequestMapping({"grabLogistics"})
+    public String qdPage(HttpServletRequest request, HttpServletResponse response, Model model) {
+        MyInfo myInfo = this.getMyInfo(request);
+        String logisticsId = CommonUtil.GetRequestParam(request, "logisticsId", "0");
+        HashMap param = new HashMap();
+        param.put("logisticsId",logisticsId);
+        LogisticsInfo info=senderServiceImpl.findLogisticsInfo(param);
+        model.addAttribute("info", info);
+
+        model.addAttribute("wlUserId", myInfo.getUserId());
+        return "views/front/sender/order/qdPage.jsp";
     }
 }

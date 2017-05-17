@@ -2,6 +2,7 @@ package org.wella.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.LogisticsInfoDao;
 import org.wella.dao.VehicleGrabDao;
@@ -75,17 +76,33 @@ public class SenderServiceImpl implements SenderService {
         vehicleGrab.setGrabDate(new Date());
         vehicleGrab.setGrabState((byte)0);
         vehicleGrabDao.createVehicleGrab(vehicleGrab);
-
-        ArrayList<Map<String,Object>> vehicleList = ConvertUtil.converJSONtoArrayListMap((String)param.get("orderData"));
-        for (Map vehivleMap:vehicleList) {
-            VehicleGrabInfo vehicleGrabInfo=new VehicleGrabInfo();
-            vehicleGrabInfo.setGrabId(vehicleGrab.getGrabId());
-            vehicleGrabInfo.setSjLxr((String) vehivleMap.get("sjmc"));
-            vehicleGrabInfo.setSjLxrPhone((String)vehivleMap.get("sjdh"));
-            vehicleGrabInfo.setVehicleNo((String)vehivleMap.get("cph"));
-            vehicleGrabInfoDao.createVehicleGrabInfo(vehicleGrabInfo);
+        if(!org.wella.utils.CommonUtil.isEmpty((String)param.get("orderData"))){
+            ArrayList<Map<String,Object>> vehicleList = ConvertUtil.converJSONtoArrayListMap((String)param.get("orderData"));
+            if (vehicleList.size()>0){
+                for (Map vehivleMap:vehicleList) {
+                    VehicleGrabInfo vehicleGrabInfo=new VehicleGrabInfo();
+                    vehicleGrabInfo.setGrabId(vehicleGrab.getGrabId());
+                    vehicleGrabInfo.setSjLxr((String) vehivleMap.get("sjmc"));
+                    vehicleGrabInfo.setSjLxrPhone((String)vehivleMap.get("sjdh"));
+                    vehicleGrabInfo.setVehicleNo((String)vehivleMap.get("cph"));
+                    vehicleGrabInfoDao.createVehicleGrabInfo(vehicleGrabInfo);
+                }
+            }
         }
     }
 
+    /**
+     * 物流方查看自己的抢单记录
+     * @param param
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> grabLogisticsList(Map param) {
+        return vehicleGrabDao.getGrabLogisticsList(param);
+    }
 
+    @Override
+    public int grabLogisticsListCount(Map param) {
+        return vehicleGrabDao.grabLogisticsListCount(param);
+    }
 }

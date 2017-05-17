@@ -19,9 +19,10 @@
 			</div>
 
 			<form id = "infoForm" action="<c:url value="/front/sender/FrontSenderOrderCtrl-sqQd"/>" method="post">
-				<input type = "hidden" name = "orderId" value = "${info.orderId}"/>
+				<%--<input type = "hidden" name = "orderId" value = "${info.orderId}"/>
 				<input type = "hidden" name = "orderNo" value = "${info.orderNo}"/>
-				<input type = "hidden" name = "vehicleSize" value = "${info.vehicleSize}"/>
+				<input type = "hidden" name = "vehicleSize" value = "${info.vehicleSize}"/>--%>
+				<input type = "hidden" name = "logisticsId" value = "${info.logisticsId}">
 				<input type = "hidden" name = "orderData" id = "orderData"  />	
 				<div align=left style="box-shadow: 2px 2px 8px #aaa;padding-bottom:16px;margin-left: 48px;margin-right: 48px; font-size:16px;background:white;">
 					<div style="margin-left:32px;margin-right:32px;padding-top:32px; border-bottom:solid 1px #ccc;padding-bottom: 10px;">物流信息</div>
@@ -29,23 +30,23 @@
 						<div>
 							<div class = "row-fld-half">
 								<span style="display:inline-block; text-align:right;">订单公司:</span>
-								<span style="display:inline-block; text-align:left;margin-left:10px;">${info.userName}</span>
+								<span style="display:inline-block; text-align:left;margin-left:10px;">${info.customerUserName}</span>
 							</div>
 							<div class = "row-fld-half">
 								<span style="display:inline-block; text-align:right;">订单编号:</span>
-								<span style="display:inline-block; text-align:left;margin-left:10px;">${info.orderNo}</span>
+								<span style="display:inline-block; text-align:left;margin-left:10px;"><%--${info.orderNo}--%></span>
 							</div>
 						</div>
 						<div>
 							<div class = "row-fld-half">
 								<span style="display:inline-block; text-align:right;">商品类型:</span>
 								<span style="display:inline-block; text-align:left;margin-left:10px;">
-									<c:if test = "${info.prodType == '0'}">
+									<%--<c:if test = "${info.prodType == '0'}">
 										气体
 								    </c:if>
 								    <c:if test = "${info.prodType == '1'}">
 										燃油
-								    </c:if>		
+								    </c:if>	--%>
 								</span>
 							</div>
 							<div class = "row-fld-half">
@@ -55,15 +56,15 @@
 						</div>						
 						<div class = "row-fld-all">
 							<span style="display:inline-block; text-align:right;">购买数量:</span>
-							<span style="display:inline-block; text-align:left;margin-left:10px;">${info.vehicleSize}顿</span>
+							<span style="display:inline-block; text-align:left;margin-left:10px;">${info.num}顿</span>
 						</div>
 						<div class = "row-fld-all">
 							<span style="display:inline-block; text-align:right;">提货地址:</span>
-							<span style="display:inline-block; text-align:left; margin-left:10px;">${info.fromRegionName}&nbsp;${info.fromRegionAddr}</span>
+							<span style="display:inline-block; text-align:left; margin-left:10px;">${info.fromAddress}</span>
 						</div>
 						<div class = "row-fld-all">
 							<span style="display:inline-block; text-align:right;">配送地址:</span>
-							<span style="display:inline-block; text-align:left;margin-left:10px;">${info.toRegionName}&nbsp;${info.toRegionAddr}</span>
+							<span style="display:inline-block; text-align:left;margin-left:10px;">${info.toAddress}</span>
 						</div>
 					</div>
 					<div style = "clear:both;"></div>

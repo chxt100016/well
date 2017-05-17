@@ -17,4 +17,8 @@ public interface SenderService {
     public LogisticsInfo findLogisticsInfo(Map param);
 
     public void grabLogisticsOrder(Map param);
+
+    public List<Map<String,Object>> grabLogisticsList(Map param);
+
+    public int grabLogisticsListCount(Map param);
 }

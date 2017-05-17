@@ -1,9 +1,6 @@
 package org.wella.front.sender.ctrl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.wella.common.ctrl.BaseController;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.common.vo.MyInfo;
+import org.wella.entity.LogisticsInfo;
 import org.wella.front.sender.mapper.FrontSenderOrderMapper;
+import org.wella.service.SenderService;
 
 @Controller
 public class SenderHomeController extends BaseController {
@@ -22,6 +21,8 @@ public class SenderHomeController extends BaseController {
     }
     @Autowired
     private FrontSenderOrderMapper frontSenderOrderMapper;
+    @Autowired
+    private SenderService senderServiceImpl;
 
     @RequestMapping({"/front/sender/SenderHomeController-home"})
     public String before_start(HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -41,35 +42,21 @@ public class SenderHomeController extends BaseController {
         } catch (Exception var16) {
             var16.printStackTrace();
         }
+        Map param = this.getConditionParam(request);
+        param.put("size",8);
+        param.put("state",0);
+        param.put("wlUserId",myInfo.getUserId());
+        List<LogisticsInfo> logisticsInfos=senderServiceImpl.findLogisticsInfos(param);
 
-        sql = "SELECT * FROM wa_user_vehicle a LEFT JOIN wa_vehicle_grab b  ON a.order_id = b.order_id  INNER JOIN wa_order c ON a.order_id = c.order_id  WHERE (b.order_id IS NULL OR b.wl_user_id <> " + userId + ") AND  a.vehicle_state = 1 GROUP BY a.vehicle_trans";
-        queryParam.put("strsql", sql);
-        ArrayList recVehicleList1 = this.commonMapper.simpleSelectReturnList(queryParam);
         ConvertUtil.convertDataBaseMapToJavaMap(spList);
         ConvertUtil.convertDataBaseMapToJavaMap(noticeList);
-        ConvertUtil.convertDataBaseMapToJavaMap(recVehicleList1);
-        Iterator var11 = recVehicleList1.iterator();
-
-        while(var11.hasNext()) {
-            Map ele = (Map)var11.next();
-
-            try {
-                ele.put("toRegionName", this.getRegionDetailName(ele.get("toRegionId").toString()));
-            } catch (Exception var15) {
-                ele.put("toRegionName", "");
-            }
-
-            try {
-                ele.put("fromRegionName", this.getRegionDetailName(ele.get("fromRegionId").toString()));
-            } catch (Exception var14) {
-                ele.put("fromRegionName", "");
-            }
-        }
 
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("spList", spList);
         model.addAttribute("noticeList", noticeList);
-        model.addAttribute("recVehicleList", recVehicleList1);
+
+        model.addAttribute("logisticsInfos",logisticsInfos);
+
         model.addAttribute("myInfo", myInfo);
         return "views/front/sender/home.jsp";
     }

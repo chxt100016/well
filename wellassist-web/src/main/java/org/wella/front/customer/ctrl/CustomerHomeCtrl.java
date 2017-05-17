@@ -132,7 +132,6 @@ public class CustomerHomeCtrl extends BaseController {
         model.addAttribute("parentMenuNo", "5");
         model.addAttribute("childMenuNo", "0");
         return "views/front/customer/prod/prodList.jsp";
-//       return new ModelAndView("redirect/front/customer/CustomerBackOrderCtrl-prodOrderList");
     }
 
     @RequestMapping({"front/customer/CustomerHomeCtrl-makeOrder"})
@@ -166,7 +165,7 @@ public class CustomerHomeCtrl extends BaseController {
         model.addAttribute("prodId", prodId);
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "1");
-        return "views/front/customer/orderPage.jsp";
+        return "views/front/customer/orderPage_new.jsp";
     }
 
     @RequestMapping({"front/customer/CustomerHomeCtrl-createOrder"})
