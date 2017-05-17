@@ -3,13 +3,19 @@ package org.wella.controller;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.wella.common.ctrl.BaseController;
+import org.wella.dao.WaUserDao;
 import org.wella.service.impl.RegisterServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by liuwen on 2017/5/15.
@@ -21,6 +27,19 @@ public class RegisterController extends BaseController{
     @Autowired
     private RegisterServiceImpl registerServiceImpl;
 
+    @Autowired
+    private WaUserDao waUserDao;
+
+    @RequestMapping(value = {"registerPage"},method = RequestMethod.GET)
+    public String registerPage(HttpServletRequest request, Model model){
+//        return "views/front/register.html";
+        Map map = new HashMap();
+        map.put("userType",0);
+        List arrayList =  waUserDao.findUser(map);
+        model.addAttribute("customerList", arrayList);
+        model.addAttribute("provinceList", this.getChildRegionList(0));
+        return "views/front/customer/login/register.jsp";
+    }
 
     /**
      * 注册请求处理方法

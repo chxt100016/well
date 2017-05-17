@@ -249,7 +249,7 @@
 	    window.location.href = url;
 	}
 	function regist(){
-        url = "${pageContext.request.contextPath}/login/page";
+        url = "${pageContext.request.contextPath}/register/registerPage";
         window.location.href = url;
 	}
 </script>

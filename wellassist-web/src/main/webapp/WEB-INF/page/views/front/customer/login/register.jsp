@@ -160,12 +160,23 @@ div.kehu_item {
 									style="width: 50%;" placeholder="请输入企业注册号"></td>
 							</tr>
 							<tr>
+								<td class="caption"><span class="box-in-level2">用户类型</span></td>
+								<td  style="padding: 5px 0px;">
+									<select id = "user_type" name="user_type" placeholder="asdasd" onchange="getUserType();">
+										<option value="0" selected>卖家</option>
+										<option value="1" >买家</option>
+										<option value="3" >物流方</option>
+										<option value="2" >放款方</option>
+									</select>
+								</td>
+							</tr>
+							<tr id ="sellerList" hidden="hidden">
 								<td class="caption"><span class="box-in-level2">联系卖家</span></td>
 								<td>
 									<select name="contactcustomer"  id="contactcustomer">
 										<option value="0">--请选择卖家--</option>
 					                	<c:forEach items="${customerList}" var="item" varStatus="status">
-					                    	<option value="${item.user_id}">${item.user_name}</option>
+					                    	<option value="${item.userId}">${item.userName}</option>
 					                    </c:forEach>
 									</select>
 								</td>
@@ -192,7 +203,8 @@ div.kehu_item {
 							<tr>
 								<td></td>
 <!-- 								<td><input id="nextstep" class="blue-button" type="button" value="下一步"></td> -->
-								<td><input id="nextstep" class="blue-button" type="submit" value="下一步"></td>
+								<%--<td><input id="nextstep" class="blue-button" type="submit" value="下一步"></td>--%>
+								<td><a  class="blue-button" onclick="myfunc();">下一步</a></td>
 							</tr>
 						</table>
 					</div>
@@ -381,7 +393,7 @@ div.kehu_item {
 								
 								<td>
 									<input type="hidden" name="zc_region_id" id="zc_region_id" />
-									<input type="hidden" name = "user_type" value="1" id = "user_type"/>
+									<%--<input type="hidden" name = "user_type" value="1" id = "user_type"/>--%>
 									<input id="submit" class="blue-button" type="submit" value="确定">
 								</td>
 							</tr>
@@ -621,5 +633,17 @@ div.kehu_item {
 			errorElement: "div",
 			errorClass: "error"
 		});
+
+ 		function getUserType(){
+ 		    var userType = $("#user_type").val();
+ 		    alert(userType);
+ 		    if(userType==1){
+                $("#sellerList").show();
+			}else
+			{
+                $("#sellerList").hide();
+			}
+
+		}
 	</script>
 </body>

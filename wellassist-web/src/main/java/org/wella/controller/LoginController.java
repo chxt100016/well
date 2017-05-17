@@ -59,14 +59,19 @@ public class LoginController extends BaseController {
             jsonObject.put("status",0);
         }else {
             //登录成功后将相关的信息保存到session中去
-            HttpSession sessin =request.getSession();
+            HttpSession session =request.getSession();
             User user = (User) map.get("user");
             Userinfo userInfo= (Userinfo) map.get("userInfo");
             //获取用户类型0-供货商, 1-客户方, 2-放款方， 3-物流方
             byte type  = user.getUserType();
-            sessin.setAttribute("user",user);
-            sessin.setAttribute("userInfo",userInfo);
-            sessin.setAttribute("initInfo",map.get("initInfo"));
+            session.setAttribute("user",user);
+            session.setAttribute("userInfo",userInfo);
+            session.setAttribute("initInfo",map.get("initInfo"));
+            MyInfo myInfo = new MyInfo();
+            myInfo.setUserId(Long.toString(user.getUserId()));
+            myInfo.setUserName(user.getUserName());
+            myInfo.setUserName(user.getUserName());
+            session.setAttribute("MY_INFO",myInfo);
             //验证成功标志，前端回调参数
             jsonObject.put("status",1);
             jsonObject.put("type",type);

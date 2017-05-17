@@ -40,6 +40,9 @@
         <if test="userId != null">
             AND user_id = #{userId}
         </if>
+        <if test="userType != null">
+            AND user_type =#{userType}
+        </if>
     </select>
 
     <insert id="createUser" parameterType="map">
