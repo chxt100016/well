@@ -13,6 +13,6 @@
     <title>Title</title>
 </head>
 <body>
-    <jsp:forward page="/WEB-INF/page/views/front/home.jsp"/>
+    <jsp:forward page="/WEB-INF/page/views/home.jsp"/>
 </body>
 </html>

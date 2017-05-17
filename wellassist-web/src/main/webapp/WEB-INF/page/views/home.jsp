@@ -26,16 +26,11 @@
 			<!-- navigation bar -->
 		<div class="abovenavbar">
 		     <div  class="start-white">
-				<div style="width:1060px; margin:auto">
-					<span style="float: right;"><a href="<c:url value="/front/fkf/FkfLoginCtrl-login"/>">放款方登录</a></span>
+				<div style="width:1060px; margin:auto;padding-top: 10px;">
+					<%--统一登录界面--%>
+					<span style="float: right;"><a onclick="login();">登录</a></span>
 					<span style="float: right;padding-left:12px;padding-right:12px;">|</span>
-					<span style="float: right;"><a href="<c:url value="/front/sender/SenderLoginController-login"/>">物流登录</a></span>
-					<span style="float: right;padding-left:12px;padding-right:12px;">|</span>
-					<span style="float: right;"><a href="<c:url value="/front/SellerLoginController-login"/>">卖家登录</a></span>
-					<span style="float: right;padding-left:12px;padding-right:12px;">|</span>
-					<span style="float: right;"><a href="<c:url value="/front/customer/CustomerLoginCtrl-login"/>">买家登录</a></span>
-					<span style="float: right;padding-left:12px;padding-right:12px;">|</span>
-					<span style="float: right;"><a href="<c:url value="/login.html"/>">管理员登录</a></span>
+					<span style="float: right;"><a onclick="regist();">注册</a></span>
 					<span>WellAssist供应链系统</span>
 				</div>
 			</div>
@@ -248,6 +243,14 @@
 		}else if(action == 'goto'){
 			window.open(id);
 		}	
+	}
+	function login(){
+	    url = "${pageContext.request.contextPath}/login/page";
+	    window.location.href = url;
+	}
+	function regist(){
+        url = "${pageContext.request.contextPath}/login/page";
+        window.location.href = url;
 	}
 </script>
 </html>

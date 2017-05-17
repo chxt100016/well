@@ -3,6 +3,30 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.wella.dao.ProdDao">
 
+	<resultMap id="prod" type="org.wella.entity.Prod" >
+		<id column="prod_id" property="prodId" jdbcType="BIGINT" />
+		<result column="prod_type" property="prodType" jdbcType="TINYINT" />
+		<result column="prod_name" property="prodName" jdbcType="VARCHAR" />
+		<result column="prod_img" property="prodImg" jdbcType="VARCHAR" />
+		<result column="prod_intro" property="prodIntro" jdbcType="VARCHAR" />
+		<result column="sale_num" property="saleNum" jdbcType="INTEGER" />
+		<result column="prod_num" property="prodNum" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+		<result column="prod_money" property="prodMoney" jdbcType="DECIMAL" />
+		<result column="vehicle_sq_money_type" property="vehicleSqMoneyType" jdbcType="TINYINT" />
+		<result column="vehicle_sq_money" property="vehicleSqMoney" jdbcType="TINYINT" />
+		<result column="prod_state" property="prodState" jdbcType="TINYINT" />
+		<result column="prod_lxr" property="prodLxr" jdbcType="VARCHAR" />
+		<result column="prod_lxr_phone" property="prodLxrPhone" jdbcType="VARCHAR" />
+		<result column="prod_region_id" property="prodRegionId" jdbcType="BIGINT" />
+		<result column="prod_region_addr" property="prodRegionAddr" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!--<parameterMap id="product" type="org.wella.entity.Prod">-->
+		<!--<parameter property=""-->
+	<!--</parameterMap>-->
 	<!--商品的相关信息-->
 	<sql id="selectForOrder">
 		prod_name,
@@ -17,4 +41,54 @@
 		FROM wa_prod
 		where prod_id = #{prodId}
 	</select>
+
+	<!--产品发布时调用-->
+	<insert id="createProd" parameterType="org.wella.entity.Prod">
+		INSERT INTO  wal_prod
+		SET  prod_type = #{prodType},
+			 prod_name = #{prod_Name},
+    		 prod_img = #{prodImg},
+			 prod_intro = #{prodIntro},
+			 sale_num = #{saleNum},
+			 prod_num = #{prodNum},
+			 user_id = #{userId},
+			 create_date = #{createDate},
+			 create_user_id = #{createUserId},
+			 prod_money = #{prodMoney},
+			 vehicle_sq_money_type = #{vehicleSqMoneyType},
+			 vehicle_sq_money = #{vehicleSqMoney},
+			 prod_state = #{prodState},
+			 prod_lxr = #{prodLxr},
+        	 prod_lxr_phone = #{prodLxrPhone},
+			 prod_region_id  = #{prodRegionId},
+			 prod_region_addr = #{prodRegionAddr}
+	</insert>
+
+	<!--根据相关信息模糊查询，获取某一公司的所有产品-->
+	<select id="findProd" parameterType="map" resultMap="prod">
+		SELECT *
+		FROM wa_order
+		WHERE 1 = 1
+		<if test="UserId != null">
+			AND user_id = #{userId}
+		</if>
+		<if test="prodName != null">
+			AND prod_name LIKE '%${prodName}%'
+		</if>
+	</select>
+
+	<!-- 获得前台商品目录的函数 -->
+	<select id="findUserProdList" parameterType="java.util.Map"  resultType = "java.util.Map"  >
+		SELECT *
+		FROM wa_prod_user a
+		INNER JOIN wa_prod b ON a.prod_id = b.prod_id
+		<where>
+			AND b.prod_state = 2
+			<if test = "userId != null">
+				AND a.user_id = #{userId}
+			</if>
+		</where>
+		ORDER BY log_id DESC
+	</select>
+
 </mapper>

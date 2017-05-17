@@ -33,7 +33,7 @@
 			<div align=center>
 				<div style="width:1000px;">
 					<span class="dropdown" style="float:left;">
-						<a data-toggle="dropdown" class="dropdown">${userName}&nbsp;<b class="icon-angle-down"></b></a>
+						<a data-toggle="dropdown" class="dropdown">${user.userName}&nbsp;<b class="icon-angle-down"></b></a>
 						<div class="dropdown-menu">
 							<div id="logout">退出登录</div>
 						</div>
@@ -72,11 +72,11 @@
 						</tr>
 						<tr>
 							<td style="text-align:right; width:75px; padding-right:5px; height:30px">联系电话:</td>
-							<td>${myInfo.companyLxrPhone}</td>
+							<td>${userInfo.companyLxrPhone}</td>
 						</tr>
 						<tr>
 							<td style="text-align:right; width:75px; padding-right:5px; height:30px">联系地址:</td>
-							<td>${address}</td>
+							<td>${userInfo.bgXxAddress}</td>
 						</tr>
 						</table>
 					</div>
@@ -120,9 +120,9 @@
 </div>
 </body>
 <script type="text/javascript">
-	function show_companies() {
-		window.location.href="<c:url value="/front/customer/show_companies"/>";
-	}
+	<%--function show_companies() {--%>
+		<%--window.location.href="<c:url value="/front/customer/show_companies"/>";--%>
+	<%--}--%>
 	
 	$("#logout").click( function(){
 		window.location.href="<c:url value="/front/front/SellerLoginController-logout"/>";

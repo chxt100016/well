@@ -1,6 +1,8 @@
 package org.wella.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.wella.common.utils.CommonUtil;
 import org.wella.dao.UserinfoDao;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by liuwen on 2017/5/15.
@@ -27,6 +30,9 @@ public class RegisterServiceImpl implements RegisterService{
 
     @Autowired
     private UserinfoDao userinfoDao;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     /**
      *
@@ -111,7 +117,6 @@ public class RegisterServiceImpl implements RegisterService{
                 wa_userinfo.put("cz_pass", CommonUtil.MD5("123456"));
                 wa_userinfo.put("company_lxr", company_lxr);
                 wa_userinfo.put("company_lxr_phone", company_lxr_phone);
-
                 try {
                     this.userinfoDao.createWaUserInfo(wa_userinfo);
                     HashMap e = new HashMap();
@@ -148,7 +153,6 @@ public class RegisterServiceImpl implements RegisterService{
      * 业务逻辑，根据激活码与数据库中的激活码进行对比，如果二者完全一致则执行激活操作
      */
     public boolean activeUser(String code) {
-
         int count = this.waUserDao.updateUserByCode(code);
         if(count>0){
             return true;
@@ -158,20 +162,26 @@ public class RegisterServiceImpl implements RegisterService{
 
     /**
      * 忘记密码后对密码进行重置时项邮箱发送验证码业务逻辑
-     * @param eamil
-     * 项邮箱发送重置验证码，将该验证码写入数据库
+     * @param email
+     * 项邮箱发送重置验证码，将该验证码写入redis数据库
      * 后面调整使用redis操作
      */
-    public void sentValidCode(String eamil){
+    public void sentValidCode(String email){
         //生成重置验证码
         String code = CodeUtil.resetCode();
         //将产生的验证码发送到相应的邮箱
-        new Thread(new ResetUtil(eamil,code));
+        new Thread(new ResetUtil(email,code)).start();
         //将验证码写入到数据库
         HashMap hashMap = new HashMap();
-        hashMap.put("useEmail",eamil);
+        hashMap.put("useEmail",email);
         hashMap.put("resetCode",code);
-        this.waUserDao.updateUserByEmail(hashMap);
+        ValueOperations<String ,String > valueOperations = stringRedisTemplate.opsForValue();
+        String key = "checkCode" + email;
+        valueOperations.append(key,code);
+        //验证码码设置60秒有效期
+        valueOperations.set(key,code,120L, TimeUnit.SECONDS);
+        //预留验证码写入数据库
+        //this.waUserDao.updateUserByEmail(hashMap);
     }
 
     /**
@@ -179,12 +189,32 @@ public class RegisterServiceImpl implements RegisterService{
      * @param email
      * 重置用户密码,将用户密码重置到数据库
      */
-    public void resetPassword(String email,String password){
+    public void resetPassword(String email,String password,String checkCode){
         HashMap map = new HashMap();
         map.put("userEmail",email);
         //使用MD5加密
         String tempPassword = CommonUtil.MD5(password);
         map.put("userPassword",tempPassword);
-        this.waUserDao.updateUserByEmail(map);
+        //与redis数据库中的验证码对比
+        ValueOperations<String ,String > valueOperations = stringRedisTemplate.opsForValue();
+        String checkCodeValue = valueOperations.get("checkCode"+email);
+        if(checkCode.equalsIgnoreCase(checkCodeValue)) {
+            this.waUserDao.updateUserByEmail(map);
+        }
     }
+
+    /**
+     * 判断用户phone与email是否一致
+     * @param email
+     * @param phone
+     */
+    public boolean checkAccount(String email,String phone){
+        int count = waUserDao.checkAccount(email,phone);
+        if(count==1){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
 }

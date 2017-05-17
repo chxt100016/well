@@ -33,23 +33,31 @@
 					<tr>
 						<td class="caption" style="width: 15%;"><span class="box-in-level2">邮箱：</span></td>
 						<td style="width: 85%;">
-							<input type="text" placeholder="请输入邮箱" name="eMail" style="width: 50%;">
+							<input type="text" id="email" placeholder="请输入邮箱" name="email" style="width: 50%;">
 						</td>
 					</tr>
 					<tr>
 						<td class="caption"><span class="box-in-level2">验证码</span></td>
 						<td>
 							<input style="width: 20%; margin-right: 12px;" name="checkCode" id="checkCode"/>
-              				<div class="yzm" style="display: inline;">
-              					<img id='imageCode' onclick='changeCheckCode();' src='${pageContext.request.contextPath}/front/customer/CustomerLoginCtrl-getVerifyImage' style='cursor: pointer;width:75px;height:28px;margin: 0px 10px 4px 1px;' title='看不清，点击换一张' />
-              				</div>
-           					<div class="change" onclick='changeCheckCode();' style="display: inline;">点击换一张</div>
-           					<button type="button" class="change" onclick='changeCheckCode();'>换一张</button>
+							<input type="button" id="getCheckCode" value="获取验证码" />
+						</td>
+					</tr>
+					<tr>
+						<td class="caption" style="width: 15%;"><span class="box-in-level2">输入新密码：</span></td>
+						<td style="width: 85%;">
+							<input type="password" id = "password" placeholder="请输入新密码" name="password" style="width: 50%;">
+						</td>
+					</tr>
+					<tr>
+						<td class="caption" style="width: 15%;"><span class="box-in-level2">确认新密码：</span></td>
+						<td style="width: 85%;">
+							<input type="password" id="confirmPassword" placeholder="请确认你的新密码" name="confirmPassword" style="width: 50%;">
 						</td>
 					</tr>
 					<tr>
 						<td></td>
-						<td><input id="nextstep" class="blue-button" type="submit" value="下一步"></td>
+						<td><input id="nextstep" class="blue-button" type="submit" value="确认"></td>
 					</tr>
 				</table>
 			</div>
@@ -59,24 +67,29 @@
 </body>
 
 <script type="text/javascript">
+
 	var userType = '${userType}';
 	$(function() {
 		$("#mainData").validate({
 	        rules: {
 	        	userName: "required",
 	        	eMail: {required: true,email: true},
-	        	checkCode: "required"
+	        	checkCode: "required",
+				password:{required:true,minlength:6},
+				confirmPassword:{equalTo: "#password"}
 	        },
 	        messages: {
 	        	userName: "请输入用户名",
 	        	eMail: "请输入有效的电子邮件地址",
-	        	checkCode: "请输入验证码"
+	        	checkCode: "请输入验证码",
+				password:"密码长度不小于6",
+                confirmPassword:"两次密码输入不一致"
 	        },submitHandler: function(form) {  //通过之后回调
-              	$.post("${pageContext.request.contextPath}/front/customer/CustomerLoginCtrl-checkUserAndEmail",$("#mainData").serialize(),
+              	$.post("${pageContext.request.contextPath}/register/resetPassword",$("#mainData").serialize(),
 					function(data) {
 							if(data.state != 0) {
 								var userName= $("#userName").val();
-								window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerLoginCtrl-sendToEmail?userName="+userName+"&userType="+userType;
+								window.location.href = "${pageContext.request.contextPath}/login/page";
 							} else {
 								alert(data.msg);
 								return;
@@ -87,13 +100,70 @@
 	        }
 	    });		
 	});
-	//发生验证号图片
-	function changeCheckCode(){
-		var append = "?clearCache=" + new Date().getTime() + "a" + Math.random();    
-		$("#imageCode").attr("src", "${pageContext.request.contextPath}/front/customer/CustomerLoginCtrl-getVerifyImage" + append);
-		$("#checkcode").val("");
-		$("#checkcode").focus();
-	}
+	<%--//发生验证号图片--%>
+	<%--function changeCheckCode(){--%>
+		<%--var append = "?clearCache=" + new Date().getTime() + "a" + Math.random();    --%>
+		<%--$("#imageCode").attr("src", "${pageContext.request.contextPath}/front/customer/CustomerLoginCtrl-getVerifyImage" + append);--%>
+		<%--$("#checkcode").val("");--%>
+		<%--$("#checkcode").focus();--%>
+	<%--}--%>
+
+    /**
+	 * 验证码倒计时
+     * @type {number}
+	 *
+     */
+    var wait=60;
+    function time(o) {
+        if (wait == 0) {
+            o.removeAttribute("disabled");
+            o.value="获取验证码";
+            wait = 60;
+        } else {
+            o.setAttribute("disabled", true);
+            o.value="重新发送(" + wait + ")";
+            wait--;
+            setTimeout(function() {
+                time(o)
+            },
+                1000)
+        }
+    }
+    function getCheckCode(object) {
+        //先进行邮箱与用户是否对应
+		$.ajax("${pageContext.request.contextPath}/register/checkAccount",{
+            data:{
+                email:$("#email").val(),
+				phone:$("#userName").val()
+            },
+            success:function(data){
+                //根据返回的状态判断是否发送
+				var jsonObj = JSON.parse(data);
+                if(jsonObj.state==1){
+                    $.ajax("${pageContext.request.contextPath}/register/sendCheckCode",{
+                        data:{
+                            email:$("#email").val()
+                        },
+                        success:function(data){
+                            time(object);
+                        },
+                        error:function (data) {
+                            alert(data);
+                        }
+                    });
+                    time(object);
+                }else {
+                    alert("用户与邮箱不一致");
+                }
+
+            },
+            error:function (data) {
+                alert(data);
+            }
+        });
+    }
+    document.getElementById("getCheckCode").onclick=function(){getCheckCode(this);}
+
 </script>
 </html>
 

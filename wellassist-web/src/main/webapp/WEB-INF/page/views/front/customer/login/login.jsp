@@ -21,7 +21,7 @@
 		<div style="padding-top:100px;">
 			<div style="padding-left:455px;padding-top:210px;padding-bottom:105px;background:url('${pageContext.request.contextPath}/resources/wella/front/images/backobj01.png') no-repeat;">
 				<div class="whiteframe" style="background:white;border:solid 1px #c0c0c0;width:400px;height:430px;font-size:24px;">
-					<form id="loginForm" name="loginForm" method="post" action="${pageContext.request.contextPath}/front/customer/CustomerLoginCtrl-loginNext">
+					<form id="loginForm" name="loginForm" method="post" action="${pageContext.request.contextPath}/login/in">
 						<div style="margin:30px auto;"><input type="text" name="username" placeholder="手机/邮箱" style="margin-top:40px;width:286px;height:34px;font-size:16px;"></div>
 						<div style="margin:auto;"><input type="password" name="password" placeholder="密码" style="width:286px;height:34px;font-size:16px;"></div>
 						<div style="padding-top:26px;padding-left:52px;padding-right:46px;">
@@ -41,6 +41,7 @@
 	$("#login").click( function(){
 		$.post($("#loginForm").attr("action"),$("#loginForm").serialize(),function(data){
     		data = $.parseJSON(data);
+            //根据登录时的验，根据登录时的验证情况进行页面的跳转
             if(data.status=="1"){
             	window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerHomeCtrl-home";
             } else {

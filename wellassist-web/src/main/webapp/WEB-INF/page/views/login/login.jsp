@@ -1,4 +1,4 @@
-<%@ include file="../../header.jsp"%>
+<%@ include file="../header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 	
 <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
@@ -12,7 +12,7 @@
 <div class="abovenavbar" align=center >
 	<div align=left style="width:1000px;">
 		<span style="float:right;"><a href="${pageContext.request.contextPath}/">返回首页</a></span>
-		<span>WellAssist供应链系统(买家端)</span>
+		<span>WellAssist供应链系统</span>
 	</div>
 </div>
 
@@ -40,12 +40,13 @@
 <script type="text/javascript">
 	$("#login").click( function(){
 		$.post($("#loginForm").attr("action"),$("#loginForm").serialize(),function(data){
-    		data = $.parseJSON(data);
+    		var tempData = $.parseJSON(data);
             //根据登录时的验，根据登录时的验证情况进行页面的跳转
-            if(data.status=="1"){
-            	window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerHomeCtrl-home";
+			//0-供货商, 1-客户方, 2-放款方， 3-物流方
+            if(tempData.status=="1"){
+            	window.location.href = "${pageContext.request.contextPath}/login/success?type="+tempData.type ;
             } else {
-            	alert(data.content);
+            	alert(tempData.content);
             }
       	})
       	.error(function(data){

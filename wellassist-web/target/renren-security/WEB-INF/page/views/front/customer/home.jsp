@@ -35,7 +35,7 @@
 							<div id="logout">退出登录</div>
 						</div>
 					</span>
-					<span style="float: right;"><a href="<c:url value="/front/customer/CustomerHomeCtrl-main"/>">管理员</a></span>
+					<span style="float: right;"><a href="<c:url value="/login/customerMain"/>">管理员</a></span>
 				</div>
 			</div>
 		</div>
@@ -43,10 +43,10 @@
 		<div align=center style="padding-top:12px;">
 			<div align=left style="width:1000px;height:100%;">
 				<img src="<c:url value="/resources/wella/front/images/customer/banner.png"/>" style="width:1000px;">
-				<div class="start_heading2">${myInfo.userName}</div>
+				<div class="start_heading2">${user.userName}</div>
 				<div style="display:block; overflow:auto">
 					<div style="float:left;width:200px;height:200px;background:white;border:solid 1px #c0c0c0;">
-						<table style="width:100%;height:100%;"><tr><td><p align=center><img src="<c:url value="${myInfo.companyImg}"/>"></p></td></tr></table>
+						<table style="width:100%;height:100%;"><tr><td><p align=center><img src="<c:url value="${userInfo.companyImg}"/>"></p></td></tr></table>
 					</div>
 					<div style="float:left;margin-left:20px;margin-right:20px;width:504px;height:200px;background:white;border:solid 1px #c0c0c0;">
 						<div style="padding-left: 10px;padding-top: 16px;font-size: 20px;font-weight:500;">公告栏</div>
@@ -69,7 +69,7 @@
 						</tr>
 						<tr>
 							<td style="text-align:right; width:75px; padding-right:5px; height:30px">联系电话:</td>
-							<td>${myInfo.companyLxrPhone}</td>
+							<td>${userInfo.companyLxrPhone}</td>
 						</tr>
 						<tr>
 							<td style="text-align:right; width:75px; padding-right:5px; height:30px">联系地址:</td>
@@ -119,9 +119,9 @@
 </div>
 </body>
 <script type="text/javascript">
-	/*function show_companies() {
-		window.location.href="<c:url value="/front/customer/show_companies"/>";
-	}*/
+	<%--/*function show_companies() {--%>
+		<%--window.location.href="<c:url value="/front/customer/show_companies"/>";--%>
+	<%--}*/--%>
 	
 	// 功能函数
 	function toURL(action, id){

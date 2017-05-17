@@ -90,4 +90,25 @@
 
     </select>
 
+    <!-- 获取买家订单列表 -->
+    <select id="findCustomerOrderList" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT a.order_id, a.order_no, a.prod_id, a.sale_num, a.sale_money, a.sale_sj_num, a.sale_sj_money, a.order_state, DATE(a.order_date) as order_date, a.is_self_car, b.prod_name, b.prod_img
+        FROM wa_order as a INNER JOIN wa_prod as b ON a.prod_id = b.prod_id
+        WHERE a.user_id = #{userId}
+        <if test="orderState!=null and orderState!=''">
+            AND a.order_state = #{orderState}
+        </if>
+        ORDER BY a.order_id DESC
+        LIMIT ${start} , ${size}
+    </select>
+
+    <!-- 获取买家订单列表总数 -->
+    <select id="findCustomerOrderListCount" parameterType="java.util.Map" resultType="int">
+        SELECT count(*)
+        FROM wa_order as a INNER JOIN wa_prod as b ON a.prod_id = b.prod_id
+        WHERE a.user_id = #{userId}
+        <if test="orderState!=null and orderState!=''">
+            AND a.order_state = #{orderState}
+        </if>
+    </select>
 </mapper>

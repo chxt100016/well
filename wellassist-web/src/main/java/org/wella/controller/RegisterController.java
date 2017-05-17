@@ -37,10 +37,54 @@ public class RegisterController extends BaseController{
         this.echoJSON(response, jsonObject);
     }
 
-    @RequestMapping("reSetPassword")
-    public void resetPassword(HttpServletRequest request){
-
+    @RequestMapping("sendCheckCode")
+    public void sendCheckCode(HttpServletRequest request,HttpServletResponse response){
+        String email = request.getParameter("email");
+        JSONObject jsonObject = new JSONObject();
+        try{
+            registerServiceImpl.sentValidCode(email);
+        }catch (Exception e){
+            e.printStackTrace();
+            jsonObject.put("state","0");
+        }finally {
+            jsonObject.put("state","1");
+        }
+        this.echo(response,jsonObject);
     }
 
+    @RequestMapping("resetPassword")
+    public void resetPassword(HttpServletRequest request,HttpServletResponse response){
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String checkCode = request.getParameter("checkCode");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            registerServiceImpl.resetPassword(email, password,checkCode);
+        }catch (Exception e){
+            e.printStackTrace();
+            jsonObject.put("state",0);
+        }
+        jsonObject.put("state",1);
+        this.echo(response,jsonObject);
+    }
+
+    /**
+     * 根据请求的账号与邮箱判断是否属于同一用户的
+     * @param request
+     * @param response
+     */
+    @RequestMapping("checkAccount")
+    public void checkAccount(HttpServletRequest request,HttpServletResponse response){
+        String userName = request.getParameter("phone");
+        String eamil = request.getParameter("email");
+        boolean ifSame =  registerServiceImpl.checkAccount(eamil,userName);
+        JSONObject jsonObject = new JSONObject();
+        if(ifSame){
+            jsonObject.put("state",1);
+        }else {
+            jsonObject.put("state",0);
+        }
+        echo(response,jsonObject);
+    }
 
 }

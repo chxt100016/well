@@ -23,4 +23,10 @@ public interface WaUserDao {
 
     //找回密码时，后台生成验证码，并将验证码发到用户邮箱，并将该验证码写入到数据库，提交时根据此验证
     void updateUserByEmail(Map map);
+
+    //登录时根据账号查找相应的成员
+    List<User> findUserByAccount(@Param("account") String account);
+
+    int checkAccount(@Param("email") String eamil,@Param("phone") String phone);
+
 }
