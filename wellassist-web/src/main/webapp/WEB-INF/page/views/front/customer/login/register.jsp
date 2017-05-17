@@ -174,13 +174,13 @@ div.kehu_item {
 						<div class="box-in-level1 titlewithline" style="margin-left: 7%; margin-top: 16px; margin-bottom: 16px;background: url('${pageContext.request.contextPath}/resources/wella/front/images/breakline.png') no-repeat 93px 50%;background-size:600px 10px;background-position-y:6px;">账号信息</div>
 						<table style="margin-left: 15%; margin-right: 15%; width: 100%;">
 							<tr>
-								<td class="caption"><span class="box-in-level2">电子邮箱</span></td>
+								<td class="caption" style="width: 15%;"><span class="box-in-level2">电子邮箱</span></td>
 								<td>
 									<input type="text" name="contactemail" style="width: 50%;" placeholder="请输入电子邮箱">
 								</td>
 							</tr>
 							<tr>
-								<td class="caption"><span class="box-in-level2">手机号码</span></td>
+								<td class="caption" style="width: 15%;"><span class="box-in-level2">手机号码</span></td>
 								<td>
 									<input type="text" name="contactphone"  style="width: 50%;" placeholder="请输入手机号码">
 								</td>

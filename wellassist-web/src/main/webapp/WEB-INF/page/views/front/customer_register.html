@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="semantic.css" rel="stylesheet">
+    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="WdatePicker.js"></script>
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+    <script src="semantic.js"></script>
+    <style>
+        .seven_wid {
+            width: 70%
+        }
+        
+        .max_text {
+            max-width: 350px;
+            color: red
+        }
+        
+        .inactive {
+            color:
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ui container">
+        <div class="ui container">
+            <div class="introduction">
+                <h1 class="ui header">WellAssist
+                    <div class="sub header">
+                        维助供应链系统用户注册 </div>
+                </h1>
+                <span class="">FIRST -----</span> SECOND-----FINAL
+                <div class="ui teal progress" id="example3">
+                    <div class="bar">
+                        <div class="progress"></div>
+                    </div>
+                    <div class="label left"> <span style="display:block;width:33%;float:left"> 基本信息</span>
+                        <span style="display:block;width:33%;float:left"> 企业资质</span>
+                        <span style="display:block;width:33%;float:left"> 完成</span>
+                    </div>
+                </div>
+
+                <div class="ui hidden divider"></div>
+            </div>
+
+
+
+        </div>
+        <!--基本信息页-->
+        <div class="ui container segment" id="first_rgpage">
+            <form class="ui form segment" id="basic_info" style="border:none">
+                <h3 class="ui header">企业信息</h3>
+                <div class="ui divider"></div>
+                <div class="ui form">
+                    <div class=" two fields">
+                        <div class="field">
+                            <div class="ui labeled input ">
+                                <div class="ui label">企业名称：</div>
+                                <input type="text" name="Enterprise_name" placeholder="请输入企业名称" id="" class="max_text">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui labeled input ">
+                                <div class="ui label">企业执照号：</div>
+                                <input type="text" name="Enterprise_number" placeholder="请输入企业执照号" id="" class="">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class=" two fields">
+                        <div class="field">
+                            <div class="ui labeled input ">
+                                <div class="ui label">企业类型：</div>
+                                <select class="ui dropdown" name="Enterprise_type">
+                                    <option value="">请选择</option>
+                                    <option value="1">上市公司</option>
+                                     <option value="2">国企</option>
+                                     <option value="3">私企</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="two fields">
+                                <div class="field">
+                                    <div class="ui labeled input ">
+                                        <div class="ui label">用户类型：</div>
+                                        <select class="ui dropdown" name="User_type" id="User_type">
+                                                <option value="">请选择</option>
+                                                <option value="1">物流方</option>
+                                                <option value="2">买家方</option>
+                                                <option value="3">卖家方</option>
+                                                <option value="4">放款方</option>
+                                       </select>
+                                    </div>
+                                </div>
+                                <div class="field" id="seller_binding" style="display:none">
+                                    <div class="ui labeled input ">
+                                        <div class="ui label">买家绑定：</div>
+                                        <select class="ui dropdown" name="User_type">
+                                    <option value="">请选择</option>
+                                    <option value="1">物流方</option>
+                                     <option value="2">买家方</option>
+                                     <option value="3">卖家方</option>
+                                     <option value="4">放款方</option>
+                                </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--//买家绑定-->
+                        </div>
+
+                    </div>
+
+                    <div class=" fields">
+                        <div class="three field">
+                            <div class="ui labeled input ">
+                                <div class="ui label">地址:</div>
+                                <select class="ui dropdown" name="Province">
+                                    <option value="">请选择</option>
+                                    <option value="1">浙江省</option>
+                                     <option value="2">四川省</option>
+                                     <option value="3">江苏省</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" two fields">
+                        <div class="field">
+                            <div class="ui labeled input ">
+                                <div class="ui label">具体地址：</div>
+                                <input type="text" name="Exact_address" placeholder="请输入具体地址" id="" class="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="ui header">账户信息</h3>
+                    <div class="ui divider"></div>
+                    <div class="ui form">
+                        <div class=" two fields">
+                            <div class="field">
+                                <div class="ui labeled input ">
+                                    <div class="ui label">登录账户：</div>
+                                    <input type="text" name="User_Id" placeholder="请输入登录账户" id="" class="max_text">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui labeled input ">
+                                    <div class="ui label">登录密码：</div>
+                                    <input type="password" name="User_password" placeholder="请输入登录密码" id="" class="max_text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" two fields">
+                            <div class="field">
+                                <div class="ui labeled input ">
+                                    <div class="ui label">确认密码：</div>
+                                    <input type="password" name="Confirm_password" placeholder="请确认登录密码" id="" class="max_text">
+                                </div>
+                            </div>
+
+
+                            <div class="field">
+                                <div class="two fields">
+                                    <div class="field">
+                                        <div class="ui labeled input ">
+                                            <div class="ui label">验证码：</div>
+                                            <input type="text" name="Verification_code" placeholder="输入验证码" id="" class="max_text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="inline field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="terms">
+                                <label>我同意</label>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                    <br>
+                    <button id="next_step" class="ui primary submit button">Next</button>
+                </div>
+            </form>
+        </div>
+        <!--基本信息页end-->
+
+        <!--<资质信息-->
+        <div class="ui container segment" id="second_rgpage" style="display:none">
+            <form class="ui form segment" id="Qualification_form">
+                <h3 class="ui header">联系方式</h3>
+                <div class="ui divider"></div>
+                <div class="ui form">
+                    <div class=" two fields">
+                        <div class="field">
+                            <div class="ui labeled input ">
+                                <div class="ui label">联系人：</div>
+                                <input type="text" name="Contact_name" placeholder="" id="" class="max_text">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui labeled input ">
+                                <div class="ui label">联系邮箱：</div>
+                                <input type="email" name="Contact_email" placeholder="" id="" class="">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class=" two fields">
+                        <div class="field">
+                            <div class="ui labeled input ">
+                                <div class="ui label">手机号码：</div>
+                                <input type="text" name="Contact_tel" placeholder="" id="" class="max_text">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui labeled input ">
+                                <div class="ui label">座机号码：</div>
+                                <input type="text" name="Contact_landline" placeholder="" id="" class="">
+                            </div>
+                        </div>
+
+                    </div>
+                    <h3 class="ui header">资质信息</h3>
+                    <div class="ui divider"></div>
+                    <div class=" two fields">
+                        <div class="field">
+                            <div class="ui labeled input ">
+                                <div class="ui label">企业法人身份证号：</div>
+                                <input type="text" name="Id_number" placeholder="" id="" class="max_text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inline field">
+                        <label>请上传大小在5M以内的JPG.PNG.GIF格式的电子版</label>
+                    </div>
+                    <div class=" four fields">
+                        <div class="field">
+                            <div class="ui card">
+                                <div class="image">
+                                    <img src="http://www.semantic-ui.cn/images/avatar2/large/kristy.png">
+                                </div>
+                                <div class="content">
+                                    <a class="header">营业执照</a>
+                                    <div class="meta">
+                                        <span class="date">请上传营业执照</span>
+                                    </div>
+                                    <div class="item " style="float:right"> <a class="" style="font-size:2em"><i class="cloud upload icon" ></i></a> </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui card">
+                                <div class="image">
+                                    <img src="http://www.semantic-ui.cn/images/avatar2/large/kristy.png">
+                                </div>
+                                <div class="content">
+                                    <a class="header">开户许可证</a>
+                                    <div class="meta">
+                                        <span class="date">请上传开户许可证</span>
+                                    </div>
+                                    <div class="item " style="float:right"> <a class="" style="font-size:2em"><i class="cloud upload icon" ></i></a> </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui card">
+                                <div class="image">
+                                    <img src="http://www.semantic-ui.cn/images/avatar2/large/kristy.png">
+                                </div>
+                                <div class="content">
+                                    <a class="header">公司章程</a>
+                                    <div class="meta">
+                                        <span class="date">请上传公司章程</span>
+                                    </div>
+                                    <div class="item " style="float:right"> <a class="" style="font-size:2em"><i class="cloud upload icon" ></i></a> </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui card">
+                                <div class="image">
+                                    <img src="http://www.semantic-ui.cn/images/avatar2/large/kristy.png">
+                                </div>
+                                <div class="content">
+                                    <a class="header">法人身份证</a>
+                                    <div class="meta">
+                                        <span class="date">请上传法人身份证</span>
+                                    </div>
+                                    <div class="item " style="float:right"> <a class="" style="font-size:2em"><i class="cloud upload icon" ></i></a> </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button id="submit" class="ui primary submit button">提交</button>
+            </form>
+
+        </div>
+        <!--资质信息end-->
+    </div>
+</body>
+<script>
+    function next() {
+        $('#second_rgpage').fadeIn('fast');
+        $('#first_rgpage')
+            .transition('horizontal flip out', '500ms');
+        $('#example3').progress({
+            percent: 50,
+            text: {
+                ratio: '...'
+            }
+        });
+
+    }
+
+    function binding() {
+
+    };
+
+
+    $(function() {
+        var basicform = $('#basic_info');
+        var Qualification_form = $('#Qualification_form');
+        $('#basic_info').form({
+            fields: {
+                Enterprise_name: {
+                    identifier: 'Enterprise_name',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Please enter your Enterprise name'
+                    }]
+                },
+                Enterprise_number: {
+                    identifier: 'Enterprise_number',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Please enter Enterprise number'
+                    }]
+                },
+                Enterprise_type: {
+                    identifier: 'Enterprise_type',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Please select a Enterprise Type'
+                    }]
+                },
+                Exact_address: {
+                    identifier: 'Exact_address',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Please select a Exact_address'
+                    }]
+                },
+                Province: {
+                    identifier: 'Province',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Please enter Province'
+                    }]
+                },
+
+                User_type: {
+                    identifier: 'User_type',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Please select a User Type'
+                    }]
+                },
+
+                User_Id: {
+                    identifier: 'User_Id',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Please select a User ID'
+                    }]
+                },
+                User_password: {
+                    identifier: 'User_password',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Please enter a password'
+                    }, {
+                        type: 'minLength[6]',
+                        prompt: 'Your password must be at least 6 characters'
+                    }]
+                },
+                Confirm_password: {
+                    identifier: 'Confirm_password',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Please enter a password'
+                    }, {
+                        type: 'match[User_password]',
+                        prompt: 'different',
+                    }]
+                },
+                Verification_code: {
+                    identifier: 'Verification_code',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Please enter Verification_code'
+                    }]
+                },
+
+                terms: {
+                    identifier: 'terms',
+                    rules: [{
+                        type: 'checked',
+                        prompt: 'You must agree to the terms and conditions'
+                    }]
+                }
+            },
+            inline: true,
+            on: 'blur',
+            onSuccess: function(e) {
+                //阻止表单的提交
+                console.log("onSuccess");
+                var allFields = basicform.form('get values');
+                console.log(allFields);
+                e.preventDefault();
+                next();
+            }
+
+        });
+
+        $('#Qualification_form').form({
+            fields: {
+                Contact_name: {
+                    identifier: 'Contact_name',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Please enter your Contact name'
+                    }]
+                },
+                Contact_email: {
+                    identifier: 'Contact_email',
+                    rules: [{
+                        type: 'email',
+                        prompt: 'Please enter Contact email'
+                    }]
+                },
+                Contact_tel: {
+                    identifier: 'Contact_tel',
+                    rules: [{
+                        type: 'regExp',
+                        value: /^(((13[0-9]{1})|(15[0-9]{1}))+\d{8})$/,
+                        prompt: 'Please enter Contact tel'
+                    }]
+                },
+                Contact_landline: {
+                    identifier: 'Contact_landline',
+                    rules: [{
+                        type: 'empty',
+                        prompt: '请输入电话'
+                    }, {
+                        type: 'number',
+                        prompt: '请输入正确电话'
+                    }]
+                },
+
+                Id_number: {
+                    identifier: 'Id_number',
+                    rules: [{
+                        type: 'empty',
+                        prompt: '请输入身份证'
+                    }, {
+                        type: 'maxLength[18]',
+                        prompt: '请输入身份证号码'
+                    }]
+                },
+                //   ...
+            },
+            inline: true,
+            on: 'blur',
+            onSuccess: function(e) {
+                //阻止表单的提交
+                console.log("onSuccess2");
+                var allFields = Qualification_form.form('get values');
+                console.log(allFields);
+                e.preventDefault();
+
+            }
+
+        });
+
+    })
+</script>
+
+</html>
