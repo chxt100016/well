@@ -8,7 +8,7 @@
 		var leftmenuHeight = $("#leftmenu").height();
 		var rectHeight 	   = $("#content-rect").height();
 		if(rectHeight>leftmenuHeight) $("#leftmenu").height($("#content-rect").height());
-		// $('.ui.accordion').accordion();	
+		$('.ui.accordion').accordion();	
 			
 		//左侧导航栏
 	});
