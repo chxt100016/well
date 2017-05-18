@@ -11,8 +11,13 @@ import org.wella.common.utils.ConvertUtil;
 import org.wella.common.vo.MyInfo;
 import org.wella.dao.OrderDao;
 import org.wella.dao.ProdDao;
+import org.wella.dao.ProdUserDao;
+import org.wella.dao.RegionDao;
+import org.wella.entity.LogisticsInfo;
 import org.wella.entity.User;
 import org.wella.entity.Userinfo;
+import org.wella.service.CustomerService;
+import org.wella.service.SenderService;
 import org.wella.service.impl.LoginServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +44,15 @@ public class LoginController extends BaseController {
 
     @Autowired
     private OrderDao orderDao;
+
+    @Autowired
+    private RegionDao regionDao;
+
+    @Autowired
+    private CustomerService customerServiceImpl;
+
+    @Autowired
+    private SenderService senderServiceImpl;
 
     @RequestMapping(value = {"page"},method = {RequestMethod.GET})
     public String page(){
@@ -86,16 +100,38 @@ public class LoginController extends BaseController {
     public String success(HttpServletRequest request, Model model){
         String type = request.getParameter("type");
         HttpSession session = request.getSession();
+        Userinfo userinfo=(Userinfo)session.getAttribute("userInfo");
+        User user=((User)session.getAttribute("user"));
         if("0".equals(type)){
             //获取产品信息并保存在session中
+            model.addAttribute("user",user);
+            model.addAttribute("userInfo",userinfo);
+
+
 
             return "/views/front/seller/home.jsp";
         }else if("1".equals(type)){
-
+            model.addAttribute("user",user);
+            model.addAttribute("userInfo",userinfo);
+            String zcAddress=customerServiceImpl.findZcAddress(userinfo);
+            model.addAttribute("address",zcAddress);
+            HashMap queryProd=new HashMap();
+            queryProd.put("userId",user.getUserId());
+            List spList=customerServiceImpl.findProdList(queryProd);
+            model.addAttribute("spList",spList);
             return "/views/front/customer/home.jsp";
         }else if("2".equals(type)){
+
+
             return "/views/front/fkf/home.jsp";
         }else if("3".equals(type)){
+            model.addAttribute("userName",user.getUserName());
+            Map queryLogistics = this.getConditionParam(request);
+            queryLogistics.put("size",8);
+            queryLogistics.put("state",0);
+            queryLogistics.put("wlUserId",user.getUserId());
+            List<LogisticsInfo> logisticsInfos=senderServiceImpl.findLogisticsInfos(queryLogistics);
+            model.addAttribute("logisticsInfos",logisticsInfos);
             return "/views/front/sender/home.jsp";
         }else{
             return "/views/login/login.jsp";

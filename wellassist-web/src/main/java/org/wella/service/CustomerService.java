@@ -2,6 +2,7 @@ package org.wella.service;
 
 import org.wella.entity.Order;
 import org.wella.entity.Prod;
+import org.wella.entity.Userinfo;
 
 import java.util.HashMap;
 import java.util.List;
@@ -102,14 +103,8 @@ public interface CustomerService {
      *获取产品列表
      * @return
      */
-    List<Prod> findProdList();
-
-    /**
-     *获取产品列表
-     * @param map
-     * @return
-     */
     List<Prod> findProdList(Map map);
+
 
     /**
      * 获取产品信息，并将其中的prod_region_id(编码)转换成fromRegionName（字符串）
@@ -124,5 +119,12 @@ public interface CustomerService {
      * @return
      */
     List<Map<String,Object>> getRegionList(Map param);
+
+    /**
+     * 获取公司所在地
+     * @param userinfo
+     * @return
+     */
+    String findZcAddress(Userinfo userinfo);
 
 }

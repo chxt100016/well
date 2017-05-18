@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.ProdUserDao">
+	<resultMap id="prodMap" type="org.wella.entity.Prod" >
+		<id column="prod_id" property="prodId" jdbcType="BIGINT" />
+		<result column="prod_type" property="prodType" jdbcType="TINYINT" />
+		<result column="prod_name" property="prodName" jdbcType="VARCHAR" />
+		<result column="prod_img" property="prodImg" jdbcType="VARCHAR" />
+		<result column="prod_intro" property="prodIntro" jdbcType="VARCHAR" />
+		<result column="sale_num" property="saleNum" jdbcType="INTEGER" />
+		<result column="prod_num" property="prodNum" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+		<result column="prod_money" property="prodMoney" jdbcType="DECIMAL" />
+		<result column="vehicle_sq_money_type" property="vehicleSqMoneyType" jdbcType="TINYINT" />
+		<result column="vehicle_sq_money" property="vehicleSqMoney" jdbcType="TINYINT" />
+		<result column="prod_state" property="prodState" jdbcType="TINYINT" />
+		<result column="prod_lxr" property="prodLxr" jdbcType="VARCHAR" />
+		<result column="prod_lxr_phone" property="prodLxrPhone" jdbcType="VARCHAR" />
+		<result column="prod_region_id" property="prodRegionId" jdbcType="BIGINT" />
+		<result column="prod_region_addr" property="prodRegionAddr" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 获得前台商品目录的函数 -->
+	<select id="getUserProdList" parameterType="java.util.Map"  resultMap = "prodMap"  >
+		SELECT b.*
+		FROM wa_prod_user a
+		INNER JOIN wa_prod b ON a.prod_id = b.prod_id
+		<where>
+			AND b.prod_state = 2
+			<if test = "userId != null">
+				AND a.user_id = #{userId}
+			</if>
+		</where>
+	</select>
+</mapper>

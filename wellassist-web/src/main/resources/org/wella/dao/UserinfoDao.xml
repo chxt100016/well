@@ -10,6 +10,12 @@
         where a.user_id = #{userId}
     </select>
 
+    <select id="findUserinfoByUserid" parameterType="long" resultType="org.wella.entity.Userinfo">
+        SELECT *
+        from wa_userinfo
+        where user_id=#{userId}
+    </select>
+
     <insert id="createWaUserInfo" parameterType="java.util.Map">
         insert into wa_userinfo set company_type = #{company_type},
         user_id = #{info_userId},

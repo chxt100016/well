@@ -16,5 +16,7 @@ public interface UserinfoDao {
      */
     Userinfo getOrderUserinfoByUserid(@Param("userId")long userId);
 
+    Userinfo findUserinfoByUserid(@Param("userId")long userId);
+
     void createWaUserInfo(Map map);
 }
