@@ -31,6 +31,7 @@
         <result column="activity_state" property="activityState"/>
         <result column="activity_code" property="activityCode"/>
         <result column="reset_code" property="resetCode"/>
+        <result column="supply_id" property="supplyId"/>
     </resultMap>
 
     <select id="findUser" parameterType="map" resultMap="waUser">
