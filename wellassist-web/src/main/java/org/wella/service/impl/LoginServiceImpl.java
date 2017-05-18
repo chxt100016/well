@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.wella.common.utils.CommonUtil;
 import org.wella.dao.ProdDao;
+import org.wella.dao.ProdUserDao;
 import org.wella.dao.UserinfoDao;
 import org.wella.dao.WaUserDao;
 import org.wella.entity.Prod;
@@ -28,6 +29,9 @@ public class LoginServiceImpl implements LoginService {
 
     @Autowired
     private ProdDao prodDao;
+
+    @Autowired
+    private ProdUserDao prodUserDao;
 
     /**
      *
@@ -81,7 +85,7 @@ public class LoginServiceImpl implements LoginService {
             //成功登录后将user与userInfo对象保存到map对象并返回
             User user = userList.get(0);
             result.put("user",user);
-            result.put("userInfo",userinfoDao.getOrderUserinfoByUserid(user.getUserId()));
+            result.put("userInfo",userinfoDao.findUserinfoByUserid(user.getUserId()));
             result.putAll(initViewData((userList.get(0).getUserType()),user.getUserId()));
         }
         return result;

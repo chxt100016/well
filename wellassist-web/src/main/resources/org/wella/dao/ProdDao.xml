@@ -80,6 +80,12 @@
 		<if test="prodName != null">
 			AND prod_name LIKE '%${prodName}%'
 		</if>
+		<if test="prodState != null">
+			AND prod_state = #{prodState}
+		</if>
+		<if test="orderBy != null">
+			ORDER BY #{orderBy}
+		</if>
 	</select>
 
 	<!-- 获得前台商品目录的函数 -->

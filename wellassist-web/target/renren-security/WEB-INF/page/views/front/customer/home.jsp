@@ -30,7 +30,7 @@
 			<div align=center>
 				<div style="width:1000px;">
 					<span class="dropdown" style="float:left;">
-						<a data-toggle="dropdown" class="dropdown">${userName}&nbsp;<b class="icon-angle-down"></b></a>
+						<a data-toggle="dropdown" class="dropdown">${user.userName}&nbsp;<b class="icon-angle-down"></b></a>
 						<div class="dropdown-menu">
 							<div id="logout">退出登录</div>
 						</div>
@@ -106,7 +106,7 @@
 								<div style="padding:10px;">
 									<span class="ware_maker_label">${item.prodName}</span>
 									<a href="${pageContext.request.contextPath}/customer/makeOrder?prodId=${item.prodId}">
-										<span class="ware_button" style="float:right; <c:if test = "${userInfo.userState != 1}">display:none;</c:if>">下单</span>
+										<span class="ware_button" style="float:right; <c:if test = "${user.userState != 1}">display:none;</c:if>">下单</span>
 									</a>
 									<div style="clear:both;"></div>
 								</div>
