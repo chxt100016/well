@@ -49,7 +49,7 @@
 
 	<!--产品发布时调用-->
 	<insert id="createProd" parameterType="org.wella.entity.Prod">
-		INSERT INTO  wal_prod
+		INSERT INTO  wa_prod
 		SET  prod_type = #{prodType},
 			 prod_name = #{prod_Name},
     		 prod_img = #{prodImg},
@@ -74,17 +74,11 @@
 		SELECT *
 		FROM wa_order
 		WHERE 1 = 1
-		<if test="UserId != null">
+		<if test="userId != null">
 			AND user_id = #{userId}
 		</if>
 		<if test="prodName != null">
 			AND prod_name LIKE '%${prodName}%'
-		</if>
-		<if test="prodState != null">
-			AND prod_state = #{prodState}
-		</if>
-		<if test="orderBy != null">
-			ORDER BY #{orderBy}
 		</if>
 	</select>
 
@@ -109,6 +103,22 @@
 		FROM wa_prod
 		<if test="prodId !=null">
 		where prod_id = ${prodId}
+		</if>
+	</select>
+
+	<select id="findProdByUserId" parameterType="java.util.Map" resultType="org.wella.entity.Prod">
+		SELECT *
+		from wa_prod
+		<where>
+			<if test="userId != null">
+				AND user_id = #{userId}
+			</if>
+			<if test="prodState != null">
+				AND prod_state = #{prodState}
+			</if>
+		</where>
+		<if test="orderBy != null">
+			ORDER BY #{orderBy}
 		</if>
 	</select>
 </mapper>

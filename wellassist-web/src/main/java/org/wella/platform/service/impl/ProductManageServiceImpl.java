@@ -8,7 +8,7 @@ import org.wella.dao.ProdDao;
  * Created by liuwen on 2017/5/18.
  */
 @Service("productServiceImpl")
-public class ProductServiceImpl {
+public class ProductManageServiceImpl {
     @Autowired
     private ProdDao prodDao;
 

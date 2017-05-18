@@ -9,7 +9,7 @@ import java.util.Map;
  * Created by liuwen on 2017/5/18.
  * 平台
  */
-public interface ProductService {
+public interface ProductManageService {
 
     /**
      *

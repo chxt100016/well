@@ -37,6 +37,9 @@ public class SellerServiceImpl implements SellerService {
     @Autowired
     private OrderLogisticsInfoDao orderLogisticsInfoDao;
 
+    @Autowired
+    private ProdDao prodDao;
+
     /**
      * 买家确认时的业务逻辑
      * @param orderId 订单id
@@ -96,12 +99,15 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public List<Prod> findProductList() {
+
         return null;
     }
 
     @Override
     public List<Prod> findProductList(Map map) {
-        return null;
+        map.put("prodState",2);
+        map.put("orderBy"," prod_id DESC");
+        return prodDao.findProdByUserId(map);
     }
 
     @Override

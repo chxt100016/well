@@ -14,9 +14,11 @@ import org.wella.dao.ProdDao;
 import org.wella.dao.ProdUserDao;
 import org.wella.dao.RegionDao;
 import org.wella.entity.LogisticsInfo;
+import org.wella.entity.Prod;
 import org.wella.entity.User;
 import org.wella.entity.Userinfo;
 import org.wella.service.CustomerService;
+import org.wella.service.SellerService;
 import org.wella.service.SenderService;
 import org.wella.service.impl.LoginServiceImpl;
 
@@ -53,6 +55,9 @@ public class LoginController extends BaseController {
 
     @Autowired
     private SenderService senderServiceImpl;
+
+    @Autowired
+    private SellerService sellerServiceImpl;
 
     @RequestMapping(value = {"page"},method = {RequestMethod.GET})
     public String page(){
@@ -107,9 +112,10 @@ public class LoginController extends BaseController {
             //获取产品信息并保存在session中
             model.addAttribute("user",user);
             model.addAttribute("userInfo",userinfo);
-
-
-
+            HashMap param=new HashMap();
+            param.put("userId",user.getUserId());
+            List<Prod> spList=sellerServiceImpl.findProductList(param);
+            model.addAttribute("spList",spList);
             return "/views/front/seller/home.jsp";
         }else if("1".equals(type)){
             model.addAttribute("user",user);

@@ -22,4 +22,6 @@ public interface ProdDao {
 
     List<Map<String,Object>> findUserProdList(Map map);
     Map<String,Object> findProdById(Map param);
+
+    List<Prod> findProdByUserId(Map map);
 }
