@@ -91,7 +91,15 @@
  		});
  		
  		$("#btn_search").click(function(){
- 			searchData(1);
+// 			searchData(1);
+			$.ajax({
+			    url:"${pageContext.request.contextPath}/plateform/customerList",
+				data:{
+			        userName:$("#userName").val(),
+					userState:$("#userState").val()
+				}
+			});
+            window.location.href = "${pageContext.request.contextPath}/houtai/user/HoutaiUserBuyerCtrl-editBuyerInfo";
  		});
  		
  		$("#btn_add").click(function(){

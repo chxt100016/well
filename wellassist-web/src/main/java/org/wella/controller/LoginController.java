@@ -67,6 +67,7 @@ public class LoginController extends BaseController {
             session.setAttribute("user",user);
             session.setAttribute("userInfo",userInfo);
             session.setAttribute("initInfo",map.get("initInfo"));
+            //MyInfo历史遗留问题
             MyInfo myInfo = new MyInfo();
             myInfo.setUserId(Long.toString(user.getUserId()));
             myInfo.setUserName(user.getUserName());
@@ -118,24 +119,10 @@ public class LoginController extends BaseController {
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "1");
         return "views/front/customer/order/prodOrderList.jsp";
-
-//        HttpSession session = request.getSession();
-//        User user = (User) session.getAttribute("user");
-//        HashMap param = new HashMap();
-//        param.put("userId", user.getUserId());
-//        List<Map<String ,Object>> prodList = prodDao.findUserProdList(param);
-//        ConvertUtil.convertDataBaseMapToJavaMap(prodList);
-//        model.addAttribute("spList", prodList);
-//        model.addAttribute("userName", user.getUserName());
-//        model.addAttribute("parentMenuNo", "5");
-//        model.addAttribute("childMenuNo", "0");
-//        //
-//        return "views/front/customer/prod/prodList.jsp";
     }
 
     @RequestMapping(value = {"sellerMain"},method = RequestMethod.GET)
     public String sellerMain(HttpServletRequest request,Model model){
-
 
         return "views/front/seller/order/prodPub.jsp";
     }
