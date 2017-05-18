@@ -93,10 +93,10 @@
  		$("#btn_search").click(function(){
 // 			searchData(1);
 			$.ajax({
-			    url:,
+			    url:"${pageContext.request.contextPath}/plateform/customerList",
 				data:{
 			        userName:$("#userName").val(),
-						userType:$("#userStae").val()
+					userState:$("#userState").val()
 				}
 			});
             window.location.href = "${pageContext.request.contextPath}/houtai/user/HoutaiUserBuyerCtrl-editBuyerInfo";

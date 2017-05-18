@@ -8,8 +8,8 @@ import org.wella.dao.WaUserDao;
 /**
  * Created by liuwen on 2017/5/18.
  */
-@Service("orderServiceImpl")
-public class OrderServiceImpl {
+@Service("orderManageServiceImpl")
+public class OrderManageServiceImpl {
     @Autowired
     private OrderDao orderDao;
 

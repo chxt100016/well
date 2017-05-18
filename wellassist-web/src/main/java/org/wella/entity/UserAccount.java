@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * Created by liuwen on 2017/5/9.
  */
-public class UserMoney {
+public class UserAccount {
     private long moneyId;
     private long userId;
     private byte jyType;
@@ -129,7 +129,7 @@ public class UserMoney {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UserMoney that = (UserMoney) o;
+        UserAccount that = (UserAccount) o;
 
         if (moneyId != that.moneyId) return false;
         if (userId != that.userId) return false;
