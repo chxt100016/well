@@ -31,37 +31,40 @@
       	
 		<div class = "row">
 			<div class = "col-sm-12">
-				<table id="example2" class="table table-bordered table-striped table-hover">
+				<table id="example2" class="table table-bordered table-striped table-hover" style="border: 1px solid #ddd;">
 	                    <thead>
 	                      <tr>
-							<th>买家名称</th>
-							<th>最近登录Ip</th>
-							<th>最近登录时间</th>
-							<th>状态</th>
-							<th style = "text-align:right;">操作</th>
+						  <th>#</th>
+							<th>公司</th>
+							<th style = "">公司详情</th>
+							<th>账户情况</th>
+							<th>还款情况</th>
+							<th>授信额度</th>
+							<th>所属卖家</th>
+							
 						  </tr>
 	                    </thead>
 	                    <tbody>
 	                      <c:forEach var="item" items="${sellerList}" varStatus="status">
 								<tr>		
+								    <td>${status.count}</td>
 									<td>${item.userName}</td>
 									<td>
-										<c:if test="${item.recentIp!=null and item.recentIp!=''}">${item.recentIp}</c:if>
-										<c:if test="${item.recentIp==null or item.recentIp==''}">未登录</c:if>										
+										<a href="javascript:getUserDetail('${item.userId}')">查看</a>
 									</td>
 									<td>
-										<c:if test="${item.recentDate!=null and item.recentDate!=''}"><fmt:formatDate value="${item.recentDate}" type="both" pattern="yyyy-MM-dd HH:mm:ss" /></c:if>
-										<c:if test="${item.recentDate==null or item.recentDate==''}">未登录</c:if>
+										<h5>200w</h5><button class="btn">查看</button>				
 									</td>
 									<td>
-										<c:if test="${item.userState==-2}"><font class="text">冻结</font></c:if>
-										<c:if test="${item.userState==-1}"><font class="text-yellow">审核不同过</font></c:if>
-										<c:if test="${item.userState==0}"><font class="text-aqua">未审核</font></c:if>
-										<c:if test="${item.userState==1}"><font class="text-green">审核通过</font></c:if>
+										<h5>无欠款</h5><button class="btn">查看</button>
+									</td>
+									<td>
+										<h5>200w元</h5><button class="btn">授信额度</button>
+									</td>	
+									<td>
+										<b>昆仑能源</b>
 									</td>			
-									<td style="text-align:right;">
-										<a href="javascript:getUserDetail('${item.userId}')">详情</a>
-									</td>
+									
 								</tr>
 							</c:forEach>
 	                    </tbody>
