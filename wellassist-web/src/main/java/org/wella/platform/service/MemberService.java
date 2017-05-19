@@ -11,7 +11,7 @@ import java.util.Map;
  * Created by liuwen on 2017/5/18.
  * 后台成员管理服务接口
  */
-public interface MenberService {
+public interface MemberService {
 
     /////////////////////用户公共接口方法\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     /**
@@ -33,10 +33,10 @@ public interface MenberService {
 
     /**
      *更新用户的性格信息，
-     * @param user 新的user对象，根据user的id
-     * @return 1表示更新成功，0表示更新失败
+     * @param map 新的user对象，根据user的id
+     * @return 1或2表示更新成功，0表示更新失败
      */
-    int updateUserInfo(User user);
+    int updateUserInfo(Map map);
 
     /**
      * 根据现有的业务逻辑，同时也要删除userinfo表中的对应userid的相关信息
@@ -52,9 +52,9 @@ public interface MenberService {
      * 根据指定条件进行卖家家模糊查询（考虑查询字段为公司名称）
      * 设计级联查询，查询两张表wa_user,wa_userInfo
      * 查询字段，暂且自定为usr_id,company_name,user_money,user_credit_money,company_img,所属买家名称（子查询）
-     * @param map，查询条件
-     *            Map对象中startNumber表示开始的行数
-     *            count一页的行数，注意最后一页行数的逻辑判断
+     * @param map，查询条件(String):userId,companyName,userMoney,userCreditMoney,orderBy,start,size
+     *            Map对象中start表示开始的行数
+     *            size一页的行数，注意最后一页行数的逻辑判断
      * @return
      */
     List<Map<String,Object>> findSellerInfo(Map map);

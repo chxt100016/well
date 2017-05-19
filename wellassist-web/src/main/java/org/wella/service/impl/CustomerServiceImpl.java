@@ -114,20 +114,6 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
-    /**
-     *通过regioId获得完整的地区字符串
-     * @param str 前缀，可传入空字符串
-     * @param region_id 区域id
-     * @return
-     */
-    public String getAddrByRegionId(String str,long region_id){
-        Region region=regionDao.getByRegionId(region_id);
-        str=region.getRegionName()+str;
-        if(region.getParentRegionId()!=0){
-            str=getAddrByRegionId(str,region.getParentRegionId());
-        }
-        return str;
-    }
 
     /**
      * 字符串转Date

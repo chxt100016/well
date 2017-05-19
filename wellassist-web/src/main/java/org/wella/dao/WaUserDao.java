@@ -29,4 +29,12 @@ public interface WaUserDao {
 
     int checkAccount(@Param("email") String eamil,@Param("phone") String phone);
 
+    int updateUserByUserId(Map map);
+
+    int deleteUser(@Param("userId")long userId);
+
+    List<Map<String,Object>> findPlatformUserInfo(Map map);
+
+    List<Map<String,Object>> findPlatformCustomerUsers(Map map);
+
 }

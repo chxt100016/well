@@ -34,4 +34,16 @@
 			</if>
 		</where>
 	</select>
+
+	<select id="findCustomersBySupplierId" parameterType="long" resultType="org.wella.entity.User">
+		SELECT * FROM wa_user
+		WHERE user_id=(
+			SELECT user_id
+			FROM wa_prod_user
+			WHERE prod_id IN (
+				SELECT prod_id
+				FROM wa_prod WHERE user_id=#{userId}
+			)
+		)
+	</select>
 </mapper>

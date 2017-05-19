@@ -98,10 +98,10 @@ public class LoginServiceImpl implements LoginService {
         switch (type){
             case 0:
             {
-                HashMap queryMap = new HashMap();
+                /*HashMap queryMap = new HashMap();
                 queryMap.put("userId",userId);
                 List<Prod> prodList = prodDao.findProd(queryMap);
-                map.put("initInfo",prodList);
+                map.put("initInfo",prodList);*/
             }
                 break;
             case 1:

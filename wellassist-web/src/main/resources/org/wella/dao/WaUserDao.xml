@@ -101,4 +101,169 @@
         AND  user_phone = #{phone}
     </select>
 
+    <update id="updateUserByUserId" parameterType="java.util.Map">
+        update wa_user
+        <set >
+            <if test="userAccount != null" >
+                user_account = #{userAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null" >
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userRegNo != null" >
+                user_reg_no = #{userRegNo,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null" >
+                user_type = #{userType,jdbcType=TINYINT},
+            </if>
+            <if test="czPass != null" >
+                cz_pass = #{czPass,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null" >
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="czFailNum != null" >
+                cz_fail_num = #{czFailNum,jdbcType=INTEGER},
+            </if>
+            <if test="userMoney != null" >
+                user_money = #{userMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="userLockMoney != null" >
+                user_lock_money = #{userLockMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="userCreditMoney != null" >
+                user_credit_money = #{userCreditMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="userLockCreditMoney != null" >
+                user_lock_credit_money = #{userLockCreditMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="userLxMoney != null" >
+                user_lx_money = #{userLxMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="userPhone != null" >
+                user_phone = #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userEmail != null" >
+                user_email = #{userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="userPass != null" >
+                user_pass = #{userPass,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null" >
+                create_user_id = #{createUserId,jdbcType=BIGINT},
+            </if>
+            <if test="recentDate != null" >
+                recent_date = #{recentDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="recentIp != null" >
+                recent_ip = #{recentIp,jdbcType=VARCHAR},
+            </if>
+            <if test="loginFailNum != null" >
+                login_fail_num = #{loginFailNum,jdbcType=INTEGER},
+            </if>
+            <if test="lixiRate != null" >
+                lixi_rate = #{lixiRate,jdbcType=INTEGER},
+            </if>
+            <if test="lixiType != null" >
+                lixi_type = #{lixiType,jdbcType=TINYINT},
+            </if>
+            <if test="creditDengji != null" >
+                credit_dengji = #{creditDengji,jdbcType=BIGINT},
+            </if>
+            <if test="creditPf != null" >
+                credit_pf = #{creditPf,jdbcType=INTEGER},
+            </if>
+            <if test="commet != null" >
+                commet = #{commet,jdbcType=VARCHAR},
+            </if>
+            <if test="userState != null" >
+                user_state = #{userState,jdbcType=TINYINT},
+            </if>
+            <if test="activityCode != null" >
+                activity_code = #{activityCode,jdbcType=VARCHAR},
+            </if>
+            <if test="resetCode != null" >
+                reset_code = #{resetCode,jdbcType=VARCHAR},
+            </if>
+            <if test="supplyId != null" >
+                supply_id = #{supplyId,jdbcType=BIGINT},
+            </if>
+            <if test="activityState != null" >
+                activity_state = #{activityState,jdbcType=BINARY},
+            </if>
+        </set>
+        WHERE user_id =#{userId}
+    </update>
+
+    <delete id="deleteUser" parameterType="long">
+        delete from wa_user
+        where user_id = #{userId,jdbcType=BIGINT}
+    </delete>
+
+
+    <sql id="platformSellerInfo">
+        u.`user_id`,ui.`company_name`,u.`create_date`,u.`user_money`,ui.`company_img`
+    </sql>
+    <sql id="platformCustomerInfo">
+        u.user_id,ui.`company_img`,ui.`company_name`,u.`create_date`,u.`user_money`,u.user_credit_money,u.supply_id
+    </sql>
+    <sql id="platformSenderInfo">
+        u.user_id,ui.company_img,ui.company_name,u.create_date
+    </sql>
+
+    <select id="findPlatformUserInfo" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        <if test="userType == 0">
+            <include refid="platformSellerInfo"></include>
+        </if>
+        <if test="userType == 1">
+            <include refid="platformCustomerInfo"></include>
+        </if>
+        <if test="userType == 3">
+            <include refid="platformSenderInfo"></include>
+        </if>
+        FROM wa_user u left join wa_userinfo ON  u.`user_id`=ui.`user_id`
+        <where>
+            <if test="userType != null">
+                AND u.user_type=#{userType}
+            </if>
+            <if test="userId != null">
+                AND u.user_id=${userId}
+            </if>
+            <if test="companyName != null">
+                AND ui.company_name LIKE '%${companyName}%'
+            </if>
+            <if test="userMoney != null">
+                AND u.user_money >= ${companyMoney}
+            </if>
+            <if test="userCreditMoney != null">
+                AND u.user_credit_money >= ${userCreditMoney}
+            </if>
+        </where>
+        <if test="orderBy == null">
+            ORDER BY u.user_id ASC
+        </if>
+        <if test="orderBy != null">
+            ORDER BY #{orderBy}
+        </if>
+        <if test="start !=null and size !=null">
+            limit ${start},${size}
+        </if>
+    </select>
+
+    <select id="findPlatformCustomerUsers" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT u.user_id,ui.`company_img`,ui.`company_name`,u.`create_date`,u.`user_money`,u.user_credit_money,u.supply_id,u1.user_name supply_name
+        FROM wa_user u LEFT JOIN wa_userinfo ui ON u.`user_id`=ui.`user_id`
+        LEFT JOIN wa_user u1 ON u.supply_id=u1.user_id
+        WHERE u.user_type=#{userType}
+        <if test="orderBy == null">
+            ORDER BY u.user_id ASC
+        </if>
+        <if test="orderBy != null">
+            ORDER BY #{orderBy}
+        </if>
+        <if test="start !=null and size !=null">
+            limit ${start},${size}
+        </if>
+    </select>
 </mapper>
