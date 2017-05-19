@@ -222,7 +222,7 @@
         <if test="userType == 3">
             <include refid="platformSenderInfo"></include>
         </if>
-        FROM wa_user u left join wa_userinfo ON  u.`user_id`=ui.`user_id`
+        FROM wa_user u left join wa_userinfo ui ON  u.`user_id`=ui.`user_id`
         <where>
             <if test="userType != null">
                 AND u.user_type=#{userType}
