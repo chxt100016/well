@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<link href="css/style.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+    <script src="echarts.common.min.js"></script>
+    <style>
+        .half_container {
+            width: 47%;
+            border: 1px solid #ddd;
+            float: left;
+            padding: 10px;
+            /*position: absolute;*/
+        }
+        
+        .half_div {
+            width: 40%;
+            border: 1px solid #ddd;
+            padding: 10px;
+            float: left;
+        }
+        
+        .mid_box {
+            width: 1100px;
+            margin: 0px auto;
+            border: 1px solid rgba(34, 36, 38, .15);
+            box-shadow: 0 2px 4px 0 rgba(34, 36, 38, .12), 0 2px 10px 0 rgba(34, 36, 38, .15);
+            padding: 1em;
+            font-size: 14px;
+            position: absolute;
+        }
+        
+        .border_div {
+            border: 1px solid #ddd;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mid_box">
+        <div class="half_container">
+            <h3 class="ui header">账户数据</h3>
+            <hr>
+            <div class="ui divider">
+
+            </div>
+            <div class="half_div">
+                <div class="title">余额：</div>
+            </div>
+            <div class="half_div" style="float:right">
+                <div class="title">历史提现：</div>
+                <div class="title">历史充值：</div>
+            </div>
+            <div style="display:flex"></div>
+            <br><br><br><br>
+            <h3 class="ui header">平台账户情况</h3>
+            <hr>
+            <div class="ui divider"></div>
+
+            <div class="">
+                <table class=" ui four column table" style="width:470px">
+                    <thead>
+                        <tr>
+                            <th class="single line">#</th>
+                            <th>时间</th>
+                            <th>金额</th>
+                            <th>详细</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                1
+                            </td>
+                            <td class="single line">2015-1-1 </td>
+                            <td>
+                                -30000
+                            </td>
+                            <td class="single line">Power Output </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                1
+                            </td>
+                            <td class="single line">Weight </td>
+                            <td>
+                                +30000
+                            </td>
+                            <td class="single line">Power Output </td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="ui pagination menu">
+                    <a class="active item">  1</a>
+                    <div class="disabled item">
+                        ...
+                    </div>
+                    <a class="item">  10</a>
+                    <a class="item">11</a>
+                    <a class="item"> 12 </a>
+                </div>
+            </div>
+
+        </div>
+        <div class="half_container" style="float:right;width: 500px;height:440px;" id="capital_chart">
+
+        </div>
+    </div>
+</body>
+<script>
+    $(function() {
+        var myChart = echarts.init(document.getElementById('capital_chart'));
+        console.log("start!0");
+        var option = {
+            title: {
+                text: '账户资金流量图'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['1', '2', '3', '4', '5', '6', '7']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                    name: '资金流',
+                    type: 'line',
+                    stack: '总量',
+                    data: [13333, 33224, 56563, 22123, 5533, 55233, 5522]
+                },
+
+            ]
+        };
+        myChart.setOption(option);
+    })
+</script>
+
+</html>
