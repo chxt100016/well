@@ -27,4 +27,9 @@ public class SysPageController {
 //	public String welcomePage(@PathVariable("url") String url){
 //		return "views/front/welcome.html";
 //	}
+
+	@RequestMapping("platform/{url}.html")
+	public String platformPage(@PathVariable("url") String url){
+		return "platform/" + url + ".html";
+	}
 }
