@@ -42,4 +42,6 @@ public interface ProdDao {
 
     int deleteProd(@Param("prodId")long prodId);
 
+    List<Prod> findProdByUserId(Map map);
+
 }

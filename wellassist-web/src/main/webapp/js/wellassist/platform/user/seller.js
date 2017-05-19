@@ -9,7 +9,7 @@ $(function () {
             { label: 'id', name: 'userId', index: "user_id", width: 45, key: true },
             { label: '公司', name: 'userName', width: 75 },
             { label: '公司详细', width: 90,formatter:function (value,options,row) {
-                return '<a href="${rc.contextPath}/platform/sellerinfo">公司详情</a>'
+                return '<a href="./sellerinfo">公司详情</a>'
             } },
             { label: '余额', name: 'userMoney', width: 100 ,formatter:function (value,option,row) {
                 return value+"元<br><a href=''>详情</a>";

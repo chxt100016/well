@@ -14,7 +14,8 @@ import org.wella.common.ctrl.BaseController;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.WaUserDao;
 import org.wella.entity.User;
-import org.wella.platform.service.impl.MenberServiceImpl;
+import org.wella.platform.service.impl.MemberServiceImpl;
+import org.wella.platform.service.impl.MemberServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,7 +31,7 @@ import java.util.Map;
 public class MenberController extends AbstractController{
 
     @Autowired
-    private MenberServiceImpl menberServiceImpl;
+    private MemberServiceImpl menberServiceImpl;
 
     @Autowired
     private WaUserDao waUserDao;
@@ -50,9 +51,7 @@ public class MenberController extends AbstractController{
 //        int total = sysUserService.queryTotal(query);
 
         PageUtils pageUtil = new PageUtils(sellerList, totalCount, query.getLimit(), query.getPage());
-
         return R.ok().put("page", pageUtil);
-//        this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
     }
 
     /**
@@ -63,16 +62,73 @@ public class MenberController extends AbstractController{
         params.put("userType", "3");
         List<User> sellerList = this.waUserDao.findUser(params);
         int totalCount = sellerList.size();
+        //查询列表数据
+        Query query = new Query(params);
+
+        PageUtils pageUtil = new PageUtils(sellerList, totalCount, query.getLimit(), query.getPage());
+
+        return R.ok().put("page", pageUtil);
+
+    }
+
+    /**
+     * 获取卖家详情
+     * @param params
+     * @return
+     */
+    @RequestMapping("sellerinfo")
+    public R sellerInfo(@RequestParam Map<String,Object> params){
+
+        params.put("userType", "3");
+//        List<User> sellerList = this.menberServiceImpl.findSellerInfo(params);
+//        int totalCount = sellerList.size();
+//
+//        //查询列表数据
+//        Query query = new Query(params);
+//        PageUtils pageUtil = new PageUtils(sellerList, totalCount, query.getLimit(), query.getPage());
+
+//        return R.ok().put("page", pageUtil);
+        return  R.ok();
+    }
+
+    /**
+     * 获取卖家产品列表
+     * @param params
+     * @return
+     */
+    @RequestMapping("productList")
+    public R productList(@RequestParam Map<String,Object> params){
+
+        params.put("userType", "3");
+        List<User> sellerList = this.waUserDao.findUser(params);
+        int totalCount = sellerList.size();
 
         //查询列表数据
         Query query = new Query(params);
 //        List<SysUserEntity> userList = sysUserService.queryList(query);
 //        int total = sysUserService.queryTotal(query);
+        PageUtils pageUtil = new PageUtils(sellerList, totalCount, query.getLimit(), query.getPage());
+
+        return R.ok().put("page", pageUtil);
+    }
+
+    /**
+     * 获取卖家的买家列表
+     * @param params
+     * @return
+     */
+    @RequestMapping("customerList")
+    public R customerList(@RequestParam Map<String,Object> params){
+
+        params.put("userType", "3");
+        List<User> sellerList = this.waUserDao.findUser(params);
+        int totalCount = sellerList.size();
+        //查询列表数据
+        Query query = new Query(params);
 
         PageUtils pageUtil = new PageUtils(sellerList, totalCount, query.getLimit(), query.getPage());
 
         return R.ok().put("page", pageUtil);
-//        this.getConditionParam(request);
     }
 
 
