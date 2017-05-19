@@ -114,6 +114,13 @@ public interface MemberService {
     List<Map<String,Object>> findCustomersInfo(Map map);
 
     /**
+     * 对应买家列表页面的公司总数，map包含usr_id,company_name,user_money,user_credit_money查询参数
+     * @param map
+     * @return
+     */
+    long findCustomersInfoCount(Map map);
+
+    /**
      * 获取买方账号交易信息，关联表wa_user_money,wa_user,关联实体类UserAccount，使用分页查询
      * @param map
      * @return 返回的结果为交易时间（jy_date），交易金额（支出为负，充值为正jy_sj_money），账户余额（user_money)，交易名称（jy_mc）

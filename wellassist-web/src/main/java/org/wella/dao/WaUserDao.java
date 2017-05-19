@@ -37,4 +37,6 @@ public interface WaUserDao {
 
     List<Map<String,Object>> findPlatformCustomerUsers(Map map);
 
+    long findPlatformCustomerUsersCount(Map map);
+
 }
