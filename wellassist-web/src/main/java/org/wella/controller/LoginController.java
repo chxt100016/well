@@ -11,8 +11,15 @@ import org.wella.common.utils.ConvertUtil;
 import org.wella.common.vo.MyInfo;
 import org.wella.dao.OrderDao;
 import org.wella.dao.ProdDao;
+import org.wella.dao.ProdUserDao;
+import org.wella.dao.RegionDao;
+import org.wella.entity.LogisticsInfo;
+import org.wella.entity.Prod;
 import org.wella.entity.User;
 import org.wella.entity.Userinfo;
+import org.wella.service.CustomerService;
+import org.wella.service.SellerService;
+import org.wella.service.SenderService;
 import org.wella.service.impl.LoginServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +46,18 @@ public class LoginController extends BaseController {
 
     @Autowired
     private OrderDao orderDao;
+
+    @Autowired
+    private RegionDao regionDao;
+
+    @Autowired
+    private CustomerService customerServiceImpl;
+
+    @Autowired
+    private SenderService senderServiceImpl;
+
+    @Autowired
+    private SellerService sellerServiceImpl;
 
     @RequestMapping(value = {"page"},method = {RequestMethod.GET})
     public String page(){
@@ -67,6 +86,7 @@ public class LoginController extends BaseController {
             session.setAttribute("user",user);
             session.setAttribute("userInfo",userInfo);
             session.setAttribute("initInfo",map.get("initInfo"));
+            //MyInfo历史遗留问题
             MyInfo myInfo = new MyInfo();
             myInfo.setUserId(Long.toString(user.getUserId()));
             myInfo.setUserName(user.getUserName());
@@ -86,16 +106,39 @@ public class LoginController extends BaseController {
     public String success(HttpServletRequest request, Model model){
         String type = request.getParameter("type");
         HttpSession session = request.getSession();
+        Userinfo userinfo=(Userinfo)session.getAttribute("userInfo");
+        User user=((User)session.getAttribute("user"));
         if("0".equals(type)){
             //获取产品信息并保存在session中
-
+            model.addAttribute("user",user);
+            model.addAttribute("userInfo",userinfo);
+            HashMap param=new HashMap();
+            param.put("userId",user.getUserId());
+            List<Prod> spList=sellerServiceImpl.findProductList(param);
+            model.addAttribute("spList",spList);
             return "/views/front/seller/home.jsp";
         }else if("1".equals(type)){
-
+            model.addAttribute("user",user);
+            model.addAttribute("userInfo",userinfo);
+            String zcAddress=customerServiceImpl.findZcAddress(userinfo);
+            model.addAttribute("address",zcAddress);
+            HashMap queryProd=new HashMap();
+            queryProd.put("userId",user.getUserId());
+            List spList=customerServiceImpl.findProdList(queryProd);
+            model.addAttribute("spList",spList);
             return "/views/front/customer/home.jsp";
         }else if("2".equals(type)){
+
+
             return "/views/front/fkf/home.jsp";
         }else if("3".equals(type)){
+            model.addAttribute("userName",user.getUserName());
+            Map queryLogistics = this.getConditionParam(request);
+            queryLogistics.put("size",8);
+            queryLogistics.put("state",0);
+            queryLogistics.put("wlUserId",user.getUserId());
+            List<LogisticsInfo> logisticsInfos=senderServiceImpl.findLogisticsInfos(queryLogistics);
+            model.addAttribute("logisticsInfos",logisticsInfos);
             return "/views/front/sender/home.jsp";
         }else{
             return "/views/login/login.jsp";
@@ -118,24 +161,10 @@ public class LoginController extends BaseController {
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "1");
         return "views/front/customer/order/prodOrderList.jsp";
-
-//        HttpSession session = request.getSession();
-//        User user = (User) session.getAttribute("user");
-//        HashMap param = new HashMap();
-//        param.put("userId", user.getUserId());
-//        List<Map<String ,Object>> prodList = prodDao.findUserProdList(param);
-//        ConvertUtil.convertDataBaseMapToJavaMap(prodList);
-//        model.addAttribute("spList", prodList);
-//        model.addAttribute("userName", user.getUserName());
-//        model.addAttribute("parentMenuNo", "5");
-//        model.addAttribute("childMenuNo", "0");
-//        //
-//        return "views/front/customer/prod/prodList.jsp";
     }
 
     @RequestMapping(value = {"sellerMain"},method = RequestMethod.GET)
     public String sellerMain(HttpServletRequest request,Model model){
-
 
         return "views/front/seller/order/prodPub.jsp";
     }

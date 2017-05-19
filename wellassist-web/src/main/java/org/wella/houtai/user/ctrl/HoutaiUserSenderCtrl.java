@@ -38,6 +38,7 @@ public class HoutaiUserSenderCtrl extends BaseController {
         ConvertUtil.convertDataBaseMapToJavaMap(sellerList);
         model.addAttribute("sellerList", sellerList);
         int totalCount = this.sellerMapper.getUserListCount(param);
+
         this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
         return "views/houtai/user/sender/sender_list.jsp";
     }

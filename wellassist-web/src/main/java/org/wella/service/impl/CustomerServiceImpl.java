@@ -33,6 +33,8 @@ public class CustomerServiceImpl implements CustomerService {
     private VehicleInfoDao vehicleInfoDao;
     @Autowired
     private OrderLogisticsInfoDao orderLogisticsInfoDao;
+    @Autowired
+    private ProdUserDao prodUserDao;
 
     /**
      * 需要进行事务控制
@@ -112,20 +114,6 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
-    /**
-     *通过regioId获得完整的地区字符串
-     * @param str 前缀，可传入空字符串
-     * @param region_id 区域id
-     * @return
-     */
-    public String getAddrByRegionId(String str,long region_id){
-        Region region=regionDao.getByRegionId(region_id);
-        str=region.getRegionName()+str;
-        if(region.getParentRegionId()!=0){
-            str=getAddrByRegionId(str,region.getParentRegionId());
-        }
-        return str;
-    }
 
     /**
      * 字符串转Date
@@ -210,14 +198,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<Prod> findProdList() {
-        return null;
+    public List<Prod> findProdList(Map map) {
+        return prodUserDao.getUserProdList(map);
     }
 
-    @Override
-    public List<Prod> findProdList(Map map) {
-        return null;
-    }
+
 
     /**
      * 获取产品信息，并将其中的prod_region_id(编码)转换成fromRegionName（字符串）
@@ -240,5 +225,12 @@ public class CustomerServiceImpl implements CustomerService {
         List resList=regionDao.getRegionList(param);
         ConvertUtil.convertDataBaseMapToJavaMap(resList);
         return resList;
+    }
+
+    @Override
+    public String findZcAddress(Userinfo userinfo) {
+        HashMap<String,Object> paramMap=new HashMap<>();
+        paramMap.put("regionId",userinfo.getZcRegionId());
+        return regionDao.getRegionDetailName(paramMap)+" "+userinfo.getZcXxAddress();
     }
 }

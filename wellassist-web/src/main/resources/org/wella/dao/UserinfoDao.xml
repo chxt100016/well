@@ -10,6 +10,12 @@
         where a.user_id = #{userId}
     </select>
 
+    <select id="findUserinfoByUserid" parameterType="long" resultType="org.wella.entity.Userinfo">
+        SELECT *
+        from wa_userinfo
+        where user_id=#{userId}
+    </select>
+
     <insert id="createWaUserInfo" parameterType="java.util.Map">
         insert into wa_userinfo set company_type = #{company_type},
         user_id = #{info_userId},
@@ -26,5 +32,93 @@
         company_lxr = #{company_lxr},
         company_lxr_phone = #{company_lxr_phone}
     </insert>
+
+    <select id="findUserInfoById" parameterType="long" resultType="java.util.Map">
+        SELECT ui.user_id,ui.`company_img`,ui.`company_name`,ui.`company_type`,ui.`zc_region_id`,ui.zc_xx_address,ui.`company_lxr`,ui.`company_lxr_phone`,u.`user_reg_no`,u.`user_account`,u.`user_email`,ui.company_yy_zz_img,ui.company_kh_xkz
+        FROM wa_userinfo ui,wa_user u
+        WHERE ui.user_id=u.`user_id`
+        <if test="userId != null">
+        AND ui.`user_id`=#{userId}
+        </if>
+    </select>
+
+    <update id="updateUserinfoByUserId" parameterType="java.util.Map">
+        UPDATE wa_userinfo
+        <set >
+            <if test="companyType != null" >
+                company_type = #{companyType,jdbcType=TINYINT},
+            </if>
+            <if test="spType != null" >
+                sp_type = #{spType,jdbcType=TINYINT},
+            </if>
+            <if test="companyName != null" >
+                company_name = #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="companyImg != null" >
+                company_img = #{companyImg,jdbcType=VARCHAR},
+            </if>
+            <if test="companyYyZz != null" >
+                company_yy_zz = #{companyYyZz,jdbcType=VARCHAR},
+            </if>
+            <if test="companyYyZzImg != null" >
+                company_yy_zz_img = #{companyYyZzImg,jdbcType=VARCHAR},
+            </if>
+            <if test="companyKhXkz != null" >
+                company_kh_xkz = #{companyKhXkz,jdbcType=VARCHAR},
+            </if>
+            <if test="companyXkzImg != null" >
+                company_xkz_img = #{companyXkzImg,jdbcType=VARCHAR},
+            </if>
+            <if test="companyTxkz != null" >
+                company_txkz = #{companyTxkz,jdbcType=VARCHAR},
+            </if>
+            <if test="companyTxkzImg != null" >
+                company_txkz_img = #{companyTxkzImg,jdbcType=VARCHAR},
+            </if>
+            <if test="companySh != null" >
+                company_sh = #{companySh,jdbcType=VARCHAR},
+            </if>
+            <if test="zcRegionId != null" >
+                zc_region_id = #{zcRegionId,jdbcType=VARCHAR},
+            </if>
+            <if test="zcXxAddress != null" >
+                zc_xx_address = #{zcXxAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="companyLpName != null" >
+                company_lp_name = #{companyLpName,jdbcType=VARCHAR},
+            </if>
+            <if test="bgRegionId != null" >
+                bg_region_id = #{bgRegionId,jdbcType=VARCHAR},
+            </if>
+            <if test="bgXxAddress != null" >
+                bg_xx_address = #{bgXxAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="companyLxr != null" >
+                company_lxr = #{companyLxr,jdbcType=VARCHAR},
+            </if>
+            <if test="companyLxrPhone != null" >
+                company_lxr_phone = #{companyLxrPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="otherInfo != null" >
+                other_info = #{otherInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="companyKhh != null" >
+                company_khh = #{companyKhh,jdbcType=VARCHAR},
+            </if>
+            <if test="khAccount != null" >
+                kh_account = #{khAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="khName != null" >
+                kh_name = #{khName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        WHERE user_id = #{userId}
+    </update>
+
+    <delete id="deleteByUserId" parameterType="long">
+        delete from wa_userinfo
+        where user_id = #{userId,jdbcType=BIGINT}
+    </delete>
+
 
 </mapper>

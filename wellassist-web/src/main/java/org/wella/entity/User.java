@@ -36,6 +36,21 @@ public class User {
     private byte activityState;
     private String activityCode;
     private String resetCode;
+    //当用户为买方时其对应的卖方id
+    private long supplyId;
+
+    public void setResetCode(String resetCode) {
+        this.resetCode = resetCode;
+    }
+
+    public long getSupplyId() {
+        return supplyId;
+    }
+
+    public void setSupplyId(long supplyId) {
+        this.supplyId = supplyId;
+    }
+
 
     public long getUserId() {
         return userId;

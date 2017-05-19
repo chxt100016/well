@@ -49,7 +49,7 @@
 
 	<!--产品发布时调用-->
 	<insert id="createProd" parameterType="org.wella.entity.Prod">
-		INSERT INTO  wal_prod
+		INSERT INTO  wa_prod
 		SET  prod_type = #{prodType},
 			 prod_name = #{prod_Name},
     		 prod_img = #{prodImg},
@@ -74,7 +74,7 @@
 		SELECT *
 		FROM wa_order
 		WHERE 1 = 1
-		<if test="UserId != null">
+		<if test="userId != null">
 			AND user_id = #{userId}
 		</if>
 		<if test="prodName != null">
@@ -105,4 +105,89 @@
 		where prod_id = ${prodId}
 		</if>
 	</select>
+
+	<select id="findProdByUserId" parameterType="java.util.Map" resultType="org.wella.entity.Prod">
+		SELECT *
+		from wa_prod
+		<where>
+			<if test="userId != null">
+				AND user_id = #{userId}
+			</if>
+			<if test="prodName != null">
+				AND prod_name LIKE '%${prodName}%'
+			</if>
+			<if test="prodState != null">
+				AND prod_state = #{prodState}
+			</if>
+		</where>
+		<if test="orderBy != null">
+			ORDER BY #{orderBy}
+		</if>
+		<if test="start !=null and size !=null">
+			limit ${start},${size}
+		</if>
+	</select>
+
+	<update id="updateProd" parameterType="org.wella.entity.Prod">
+		update wa_prod
+		<set>
+			<if test="prodType != null" >
+				prod_type = #{prodType,jdbcType=TINYINT},
+			</if>
+			<if test="prodName != null" >
+				prod_name = #{prodName,jdbcType=VARCHAR},
+			</if>
+			<if test="prodImg != null" >
+				prod_img = #{prodImg,jdbcType=VARCHAR},
+			</if>
+			<if test="prodIntro != null" >
+				prod_intro = #{prodIntro,jdbcType=VARCHAR},
+			</if>
+			<if test="saleNum != null" >
+				sale_num = #{saleNum,jdbcType=INTEGER},
+			</if>
+			<if test="prodNum != null" >
+				prod_num = #{prodNum,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null" >
+				user_id = #{userId,jdbcType=BIGINT},
+			</if>
+			<if test="createDate != null" >
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createUserId != null" >
+				create_user_id = #{createUserId,jdbcType=BIGINT},
+			</if>
+			<if test="prodMoney != null" >
+				prod_money = #{prodMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="vehicleSqMoneyType != null" >
+				vehicle_sq_money_type = #{vehicleSqMoneyType,jdbcType=TINYINT},
+			</if>
+			<if test="vehicleSqMoney != null" >
+				vehicle_sq_money = #{vehicleSqMoney,jdbcType=TINYINT},
+			</if>
+			<if test="prodState != null" >
+				prod_state = #{prodState,jdbcType=TINYINT},
+			</if>
+			<if test="prodLxr != null" >
+				prod_lxr = #{prodLxr,jdbcType=VARCHAR},
+			</if>
+			<if test="prodLxrPhone != null" >
+				prod_lxr_phone = #{prodLxrPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="prodRegionId != null" >
+				prod_region_id = #{prodRegionId,jdbcType=BIGINT},
+			</if>
+			<if test="prodRegionAddr != null" >
+				prod_region_addr = #{prodRegionAddr,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where prod_id=#{prodId}
+	</update>
+
+	<delete id="deleteProd" parameterType="long">
+		delete from wa_prod
+    	where prod_id = #{prodId,jdbcType=BIGINT}
+	</delete>
 </mapper>
