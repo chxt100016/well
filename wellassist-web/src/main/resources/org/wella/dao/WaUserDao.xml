@@ -255,7 +255,23 @@
         SELECT u.user_id,ui.`company_img`,ui.`company_name`,u.`create_date`,u.`user_money`,u.user_credit_money,u.supply_id,u1.user_name supply_name
         FROM wa_user u LEFT JOIN wa_userinfo ui ON u.`user_id`=ui.`user_id`
         LEFT JOIN wa_user u1 ON u.supply_id=u1.user_id
-        WHERE u.user_type=#{userType}
+        <where>
+        <if test="userType != null">
+            AND u.user_type=#{userType}
+        </if>
+        <if test="userId != null">
+            AND u.user_id=${userId}
+        </if>
+        <if test="companyName != null">
+            AND ui.company_name LIKE '%${companyName}%'
+        </if>
+        <if test="userMoney != null">
+            AND u.user_money >= ${companyMoney}
+        </if>
+        <if test="userCreditMoney != null">
+            AND u.user_credit_money >= ${userCreditMoney}
+        </if>
+        </where>
         <if test="orderBy == null">
             ORDER BY u.user_id ASC
         </if>
@@ -265,5 +281,27 @@
         <if test="start !=null and size !=null">
             limit ${start},${size}
         </if>
+    </select>
+
+    <select id="findPlatformCustomerUsersCount" parameterType="java.util.Map" resultType="long">
+        SELECT COUNT(*)
+        FROM wa_user u
+        <where>
+            <if test="userType != null">
+                AND u.user_type=#{userType}
+            </if>
+            <if test="userId != null">
+                AND u.user_id=${userId}
+            </if>
+            <if test="companyName != null">
+                AND ui.company_name LIKE '%${companyName}%'
+            </if>
+            <if test="userMoney != null">
+                AND u.user_money >= ${companyMoney}
+            </if>
+            <if test="userCreditMoney != null">
+                AND u.user_credit_money >= ${userCreditMoney}
+            </if>
+        </where>
     </select>
 </mapper>

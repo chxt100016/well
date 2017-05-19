@@ -365,33 +365,38 @@
                 toRegionAddr: "请输入完整收货地址！",
             },
             submitHandler: function(form) {
-                var itemNum = 0;
+                var isSelfCar=$("input[type='radio'][name='isSelfCar']:checked").val();
+                console.log(isSelfCar);
+                if (isSelfCar == 0){
+                    var itemNum = 0;
 
-                jQuery(".driverName").each(function(i){
-                    itemNum++;
-                });
+                    jQuery(".driverName").each(function(i){
+                        itemNum++;
+                    });
 
-                if(itemNum==0){
-                    alert("请输入司机信息!");
-                    return;
+                    if(itemNum==0){
+                        alert("请输入司机信息!");
+                        return;
+                    }
+
+                    var arr = new Array();
+
+                    var driverName=$(".driverName");
+                    var driverPhones=$(".driverPhone");
+                    var carCodes=$(".carCode");
+                    jQuery(".driverName").each(function(i){
+                        var obj = new Object();
+                        obj.driverName = driverName[i].innerHTML;
+                        obj.driverPhone = driverPhones[i].innerHTML;
+                        obj.carCode=carCodes[i].innerHTML;
+
+                        arr[arr.length] = obj;
+                    });
+
+                    var orderData = JSON.stringify(arr);
+                    $("#orderData").val(orderData);
                 }
 
-                var arr = new Array();
-
-                var driverName=$(".driverName");
-                var driverPhones=$(".driverPhone");
-                var carCodes=$(".carCode");
-                jQuery(".driverName").each(function(i){
-                    var obj = new Object();
-                    obj.driverName = driverName[i].innerHTML;
-                    obj.driverPhone = driverPhones[i].innerHTML;
-                    obj.carCode=carCodes[i].innerHTML;
-
-                    arr[arr.length] = obj;
-                });
-
-                var orderData = JSON.stringify(arr);
-                $("#orderData").val(orderData);
                 if(confirm("你要确定操作吗?")){
                     $.post($(form).attr("action"),$(form).serialize(),function(data){
                         alert(data.content);
