@@ -79,6 +79,18 @@ public class MemberController extends AbstractController{
     }
 
     /**
+     * 用户信息查看
+     * @param
+     * @return
+     */
+    @RequestMapping("reviewInfo/{userId}")
+    public R reviewInfo(@PathVariable("userId") Long userId){
+        Map<String,Object> params = new HashMap();
+        params.put("userId",userId);
+        Map user = menberServiceImpl.findUserInfoById(userId);
+        return  R.ok().put("user",user);
+    }
+    /**
      * 获取卖家产品列表
      *
      * @return
@@ -116,5 +128,37 @@ public class MemberController extends AbstractController{
         return R.ok().put("page", pageUtil);
     }
 
+    @RequestMapping("reviewlist")
+    public R rewiewList(@RequestParam Map<String,Object> params) {
 
+        params.put("activityState", 1);
+        List<User> sellerList = this.waUserDao.findUser(params);
+        int totalCount = waUserDao.findUserTotal(params);
+        //查询列表数据
+        Query query = new Query(params);
+        PageUtils pageUtil = new PageUtils(sellerList, totalCount, query.getLimit(), query.getPage());
+        return R.ok().put("page", pageUtil);
+    }
+
+    /**
+     * 通过注册申请
+     * @param params
+     * @return
+     */
+    @RequestMapping("approve")
+    public R approve (@RequestParam Map<String,Object> params) {
+        menberServiceImpl.approve(params);
+        return R.ok();
+    }
+
+    /**
+     * 未通过通过注册申请
+     * @param params
+     * @return
+     */
+    @RequestMapping("notApprove")
+    public R notApprove (@RequestParam Map<String,Object> params) {
+        menberServiceImpl.notAprove(params);
+        return R.ok();
+    }
 }

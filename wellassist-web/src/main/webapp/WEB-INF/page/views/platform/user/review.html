@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Title</title>
+    <!--valocity模板解析-->
+    #parse("sys/header.html")
+</head>
+
+<body>
+    <div id="rrapp" v-cloak>
+        <div v-show="showList">
+            <div class="grid-btn">
+                <div class="form-group col-sm-2">
+                    <input type="text" class="form-control" v-model="q.username" @keyup.enter="query" placeholder="用户名">
+                </div>
+                <a class="btn btn-default" @click="query">查询</a>
+                <!--#if($shiro.hasPermission("sys:user:save"))-->
+                <!--<a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>-->
+                <!--&lt;!&ndash;#end&ndash;&gt;-->
+
+                <!--&lt;!&ndash;#if($shiro.hasPermission("sys:user:update"))&ndash;&gt;-->
+                <!--<a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>-->
+                <!--&lt;!&ndash;#end&ndash;&gt;-->
+
+                <!--&lt;!&ndash;#if($shiro.hasPermission("sys:user:delete"))&ndash;&gt;-->
+                <!--<a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>-->
+                <!--#end-->
+            </div>
+
+            <table id="jqGrid"></table>
+            <div id="jqGridPager"></div>
+        </div>
+
+        <div v-show="!showList" class="panel panel-default">
+            <div class="panel-heading">{{title}}</div>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-2 control-label">企业名称</div>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" v-model="user.companyName" placeholder="企业名称"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-2 control-label">企业注册号：</div>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" v-model="user.userRegNo" placeholder="企业注册号"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-2 control-label">用户类型</div>
+                    <div class="col-sm-10">
+                        <!--<input type="text" class="form-control" v-model="user.user_type" placeholder="企业类型" />-->
+                        <!--0-供货商, 1-客户方, 2-放款方， 3-物流方-->
+                        <select v-model="user.userType">
+                            <option value="0">卖方</option>
+                            <option value="1">买方</option>
+                            <option value="2">放款方</option>
+                            <option value="3">物流方</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-2 control-label">企业联系人：</div>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" v-model="user.companyLxr" placeholder="企业联系人"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-2 control-label">企业联系人电话：</div>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" v-model="user.companyLxrPhone" placeholder="联系人手机号"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-2 control-label">企业注册地：</div>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" v-model="user.zcXxAddress" placeholder="企业注册地"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-2 control-label">企业邮箱：</div>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" v-model="user.userEmail" placeholder="企业注册地"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-2 control-label">企业logo：</div>
+                    <div class="col-sm-10">
+                        <input type="image" class="form-control" v-bind:src="user.companyYyZzImg"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-2 control-label">审核意见：</div>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" v-model="user.opinion" placeholder="审核意见"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-2 control-label"></div>
+                    <input type="button" class="btn btn-primary" @click="approve" value="通过"/>
+                    &nbsp;&nbsp;<input type="button" class="btn btn-danger" @click="notApprove" value="不通过"/>
+                    &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+
+    <script src="${rc.contextPath}/js/wellassist/platform/user/review.js?_${date.systemTime}"></script>
+</body>
+
+</html>

@@ -39,4 +39,11 @@ public interface WaUserDao {
 
     long findPlatformCustomerUsersCount(Map map);
 
+    /**
+     * 获取满足条件的总的数目
+     * @param map
+     * @return
+     */
+    int findUserTotal(Map map);
+
 }

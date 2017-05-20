@@ -44,6 +44,29 @@
         <if test="userType != null">
             AND user_type =#{userType}
         </if>
+        <if test="activityState != null">
+            AND activity_state = #{activityState}
+        </if>
+        ORDER BY user_state ASC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="findUserTotal" parameterType="map" resultType="int">
+        SELECT count(user_id)
+        FROM wa_user
+        WHERE 1 = 1
+        <if test="userId != null">
+            AND user_id = #{userId}
+        </if>
+        <if test="userType != null">
+            AND user_type =#{userType}
+        </if>
+        <if test="activityState != null">
+            AND activity_state = #{activityState}
+        </if>
+
     </select>
 
     <insert id="createUser" parameterType="map">

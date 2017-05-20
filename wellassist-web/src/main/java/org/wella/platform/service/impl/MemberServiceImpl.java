@@ -59,6 +59,21 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
+    public int total(Map map) {
+        return waUserDao.findUserTotal(map);
+    }
+
+    @Override
+    public void approve(Map map) {
+
+    }
+
+    @Override
+    public void notAprove(Map map) {
+
+    }
+
+    @Override
     public List<Map<String, Object>> findSellerInfo(Map map) {
         map.put("userType",0);
         return waUserDao.findPlatformUserInfo(map);
