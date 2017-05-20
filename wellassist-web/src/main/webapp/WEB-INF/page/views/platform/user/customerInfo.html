@@ -51,7 +51,7 @@
                     <h3>企业信息</h3>
                     <hr>
                     <div>
-                        <table border-collapse:separate; border-spacing:10px;>
+                        <table >
                             <!--<th></th>-->
                             <tbody>
                                 <tr>
@@ -82,13 +82,13 @@
                                     </td>
                                 </tr>
                                 <tr style="height:50px">
-                                    <td>企业注册号：</td>
-                                    <td><input type="text" name="" value="" class="form-control"></td>
+                                    <td>企业注册地址：</td>
+                                    <td><input type="text" v-model="zcXxAddress" name="" value="" class="form-control"></td>
                                 </tr>
-                                <tr style="height:50px">
-                                    <td></td>
-                                    <td><input type="text" name="" value="" class="form-control" placeholder="详细地址"></td>
-                                </tr>
+                                <!--<tr style="height:50px">-->
+                                    <!--<td></td>-->
+                                    <!--<td><input type="text" name="" value="" class="form-control" placeholder="详细地址"></td>-->
+                                <!--</tr>-->
                             </tbody>
                         </table>
                     </div>
@@ -96,13 +96,13 @@
                     <h3>账户信息</h3>
                     <hr>
                     <div>
-                        <table border-collapse:separate; border-spacing:10px;>
+                        <table>
                             <!--<th></th>-->
                             <tbody>
 
                                 <tr style="height:50px">
                                     <td>登录账号：</td>
-                                    <td><input type="text" name="" value="" class="form-control"></td>
+                                    <td><input type="text" name="" v-model="" value="" class="form-control"></td>
                                 </tr>
 
                                 <tr style="height:50px">
@@ -126,7 +126,7 @@
                     <h3>联系方式</h3>
                     <hr>
                     <div>
-                        <table border-collapse:separate; border-spacing:10px;>
+                        <table>
                             <!--<th></th>-->
                             <tbody>
 
@@ -150,7 +150,7 @@
                     <h3>资质信息</h3>
                     <hr>
                     <div>
-                        <table border-collapse:separate; border-spacing:10px;>
+                        <table>
                             <!--<th></th>-->
                             <tbody>
 
@@ -170,7 +170,6 @@
                     </div>
                     <br><br>
                     <button class="btn btn-info" style="width:120px"> 保存</button>
-
                 </div>
             </div>
 

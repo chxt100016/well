@@ -126,6 +126,9 @@ var vm = new Vue({
 			$.get("../sys/user/info/"+userId, function(r){
 				vm.user = r.user;
 			});
+            // $.get("../platform/user/sellerinfo/"+userId, function(r){
+             //    vm.user = r.user;
+            // });
 		},
 		getRoleList: function(){
 			$.get("../sys/role/select", function(r){
