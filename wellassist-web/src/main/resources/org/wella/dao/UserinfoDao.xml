@@ -34,7 +34,7 @@
     </insert>
 
     <select id="findUserInfoById" parameterType="long" resultType="java.util.Map">
-        SELECT ui.user_id,ui.`company_img`,ui.`company_name`,ui.`company_type`,ui.`zc_region_id`,ui.zc_xx_address,ui.`company_lxr`,ui.`company_lxr_phone`,u.`user_reg_no`,u.`user_account`,u.`user_email`,ui.company_yy_zz_img,ui.company_kh_xkz
+        SELECT ui.user_id,ui.`company_img`,ui.`company_name`,u.`user_type`,ui.`zc_region_id`,ui.zc_xx_address,ui.`company_lxr`,ui.`company_lxr_phone`,u.`user_reg_no`,u.`user_account`,u.`user_email`,ui.company_yy_zz_img,ui.company_kh_xkz
         FROM wa_userinfo ui,wa_user u
         WHERE ui.user_id=u.`user_id`
         <if test="userId != null">

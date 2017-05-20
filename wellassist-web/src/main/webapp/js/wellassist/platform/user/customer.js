@@ -4,20 +4,23 @@
             datatype: "json",
             colModel: [{
                 label: 'id',
-                name: 'customerId',
+                name: 'userId',
                 index: "customer_id",
                 width: 45,
                 key: true
             }, {
                 label: '公司',
-                name: 'customerName',
+                name: 'userName',
                 width: 75
             }, {
                 label: '公司-详细',
                 width: 90,
                 formatter: function(value, options, row) {
-                    
-                    return '<a  class="btn btn-primary" href="./customerInfo.html?id="+id>公司详情</a>'
+                    var userId = row.userId;
+                    // return '<a  class="btn btn-primary" href="./customerInfo.html?id="+id>公司详情</a>'
+                    return '<a  onclick= "vm.update( '+ userId + ')">公司详情</a>';
+                    // alert(row);
+
                 }
             }, {
                 label: '账户情况',
@@ -111,8 +114,8 @@
                 //获取角色信息
                 this.getRoleList();
             },
-            update: function() {
-                var userId = getSelectedRow();
+            update: function(userId) {
+
                 if (userId == null) {
                     return;
                 }
@@ -121,8 +124,7 @@
                 vm.title = "修改";
                   console.log(vm.user.userId);
                 vm.getUser(userId);
-                //获取角色信息
-                this.getRoleList();
+
             },
             del: function() {
                 var userIds = getSelectedRows();
@@ -166,13 +168,8 @@
                 });
             },
             getUser: function(userId) {
-                $.get("../sys/user/info/" + userId, function(r) {
+                $.get("../user/userinfo/" + userId, function(r) {
                     vm.user = r.user;
-                });
-            },
-            getRoleList: function() {
-                $.get("../sys/role/select", function(r) {
-                    vm.roleList = r.list;
                 });
             },
             reload: function(event) {
