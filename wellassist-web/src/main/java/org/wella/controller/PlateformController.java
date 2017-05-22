@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
  * Created by liuwen on 2017/5/17.
  */
 @Controller
-@RequestMapping("/plateform/")
+@RequestMapping("/platform/")
 public class PlateformController {
 
     /**

@@ -21,8 +21,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("scheduleJobService")
 public class ScheduleJobServiceImpl implements ScheduleJobService {
+
 	@Autowired
     private Scheduler scheduler;
+
 	@Autowired
 	private ScheduleJobDao schedulerJobDao;
 	

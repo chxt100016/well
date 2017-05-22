@@ -9,7 +9,7 @@ $(function () {
             { label: 'id', name: 'userId', index: "user_id", width: 45, key: true },
             { label: '公司', name: 'userName', width: 75 },
             { label: '公司详细', width: 90,formatter:function (value,options,row) {
-                return '<a href="./sellerinfo">公司详情</a>'
+                return '<button  onclick="vm.test()">公司详情</button>'
             } },
             { label: '余额', name: 'userMoney', width: 100 ,formatter:function (value,option,row) {
                 return value+"元<br><a href=''>详情</a>";
@@ -49,6 +49,7 @@ $(function () {
         }
     });
 });
+
 
 var vm = new Vue({
     el:'#rrapp',
@@ -139,6 +140,15 @@ var vm = new Vue({
             $.get("../sys/role/select", function(r){
                 vm.roleList = r.list;
             });
+        },
+        test:function () {
+            var userId = getSelectedRow();
+            if(userId!=""){
+                alert(JSON.stringify(userId));
+            }
+            else {
+                test();
+            }
         },
         reload: function (event) {
             vm.showList = true;

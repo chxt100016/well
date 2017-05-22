@@ -46,6 +46,21 @@ public interface MemberService {
      */
     int deleteUser(long userId);
 
+    int total(Map map);
+
+    /**
+     * 注册申请通过时的业务处理
+     * 通过时：更新用户状态，并项用户邮箱中发送相关信息
+     * @param map
+     */
+    void approve(Map map);
+
+    /**
+     *注册申请通过时的业务处理
+     * 通过时：更新用户状态，并项用户邮箱中发送相关信息,并发送审核失败原因
+     * @param map
+     */
+    void notAprove(Map map);
 
     //////////////////////////卖家管理相关接口方法\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     /**
@@ -160,6 +175,7 @@ public interface MemberService {
      */
     List<Map<String,Object>> findGrapOrderRecord(Map map);
     //////////////////////////放款方管理相关接口方法\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
 
 
 
