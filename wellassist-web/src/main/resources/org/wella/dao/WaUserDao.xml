@@ -53,6 +53,9 @@
         		user_pass = #{user_pass},
         		user_email = #{user_email},
         		user_phone = #{user_phone},
+                user_account=#{user_account},
+                user_seat_phone=#{user_seat_phone},
+                legal_id_card=#{legal_id_card},
         		user_reg_no = #{user_reg_no},
         		user_name = #{user_name},
         		activity_code = #{activity_code}
@@ -287,21 +290,15 @@
         SELECT COUNT(*)
         FROM wa_user u
         <where>
-            <if test="userType != null">
-                AND u.user_type=#{userType}
-            </if>
-            <if test="userId != null">
-                AND u.user_id=${userId}
-            </if>
-            <if test="companyName != null">
-                AND ui.company_name LIKE '%${companyName}%'
-            </if>
-            <if test="userMoney != null">
-                AND u.user_money >= ${companyMoney}
-            </if>
-            <if test="userCreditMoney != null">
-                AND u.user_credit_money >= ${userCreditMoney}
-            </if>
+        <if test="userType != null">
+            u.user_type=#{userType}
+        </if>
+        <if test="userId != null">
+            AND u.user_id=${userId}
+        </if>
+        <if test="companyName != null">
+            AND ui.company_name LIKE '%${companyName}%'
+        </if>
         </where>
     </select>
 </mapper>

@@ -21,6 +21,7 @@
         user_id = #{info_userId},
         sp_type = #{sp_type},
         company_name = #{company_name},
+        company_img=#{company_img},
         company_yy_zz_img = #{company_yy_zz_img},
         company_xkz_img = #{company_xkz_img},
         company_txkz_img = #{company_txkz_img},

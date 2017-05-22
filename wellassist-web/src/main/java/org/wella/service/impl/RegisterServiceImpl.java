@@ -63,6 +63,9 @@ public class RegisterServiceImpl implements RegisterService{
             Map userinfo = (Map) session.getAttribute("userinfo");
             HashMap wa_user = new HashMap();
             String user_name = CommonUtil.GetRequestParam(request, "companyname", "");
+            String user_account=CommonUtil.GetRequestParam(request, "user_name", "");
+            String user_seat_phone=CommonUtil.GetRequestParam(request, "contactseat", "");
+            String legal_id_card=CommonUtil.GetRequestParam(request, "legalIdCard", "");
             String user_reg_no = CommonUtil.GetRequestParam(request, "companyaccount", "");
             String contactcustomer = CommonUtil.GetRequestParam(request, "contactcustomer", "");
             String user_phone = CommonUtil.GetRequestParam(request, "contactphone", "");
@@ -75,6 +78,9 @@ public class RegisterServiceImpl implements RegisterService{
             wa_user.put("user_phone", user_phone);
             wa_user.put("user_reg_no", user_reg_no);
             wa_user.put("user_name", user_name);
+            wa_user.put("user_account",user_account);
+            wa_user.put("user_seat_phone",user_seat_phone);
+            wa_user.put("legal_id_card",legal_id_card);
             //生成激活码
             String code = CodeUtil.generateUniqueCode();
             wa_user.put("activity_code", code);
@@ -87,7 +93,7 @@ public class RegisterServiceImpl implements RegisterService{
             if (CommonUtil.getIntFromString(userId) > 0) {
                 HashMap wa_userinfo = new HashMap();
                 String company_type = CommonUtil.GetRequestParam(request, "compkind", "");
-                String sp_type = CommonUtil.GetRequestParam(request, "prodkind", "");
+                //String sp_type = CommonUtil.GetRequestParam(request, "prodkind", "");
                 String company_img = CommonUtil.GetRequestParam(request, "yingye_img4", "");
                 String company_name = CommonUtil.GetRequestParam(request, "companyname", "");
                 String company_yy_zz_img = CommonUtil.GetRequestParam(request, "yingye_img1", "");
@@ -99,10 +105,10 @@ public class RegisterServiceImpl implements RegisterService{
                 String zc_region_id = CommonUtil.GetRequestParam(request, "zc_region_id", "");
                 String zc_xx_address = CommonUtil.GetRequestParam(request, "address", "");
                 String company_lxr = CommonUtil.GetRequestParam(request, "contact", "");
-                String company_lxr_phone = CommonUtil.GetRequestParam(request, "contactseat", "");
+                String company_lxr_phone = CommonUtil.GetRequestParam(request, "contactphone", "");
                 wa_userinfo.put("company_type", company_type);
                 wa_userinfo.put("info_userId", userId);
-                wa_userinfo.put("sp_type", sp_type);
+                //wa_userinfo.put("sp_type", sp_type);
                 wa_userinfo.put("company_name", company_name);
                 wa_userinfo.put("company_img", company_img);
                 wa_userinfo.put("company_yy_zz_img", company_yy_zz_img);

@@ -1,3 +1,7 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,12 +9,13 @@
     <title></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="/wellassist/resources/library/css/semantic.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/library/css/semantic.min.css" rel="stylesheet">
     <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
-    <script src="/wellassist/resources/library/js/My97DatePicker/WdatePicker.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/library/js/My97DatePicker/WdatePicker.js"></script>
     <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
-    <script src="/wellassist/resources/library/js/semantic.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/library/js/semantic.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/library/js/jquery.form.js"></script>
     <style>
         .seven_wid {
             width: 70%
@@ -54,7 +59,7 @@
         </div>
         <!--基本信息页-->
         <div class="ui container segment" id="first_rgpage">
-            <form class="ui form segment" id="basic_info" style="border:none">
+            <form class="ui form segment" id="register_form" style="border:none" enctype="multipart/form-data">
                 <h3 class="ui header">企业信息</h3>
                 <div class="ui divider"></div>
                 <div class="ui form">
@@ -62,13 +67,13 @@
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">企业名称：</div>
-                                <input type="text" name="Enterprise_name" placeholder="请输入企业名称" id="" class="max_text">
+                                <input type="text" name="companyname" placeholder="请输入企业名称" id="companyname" class="max_text">
                             </div>
                         </div>
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">企业执照号：</div>
-                                <input type="text" name="Enterprise_number" placeholder="请输入企业执照号" id="" class="">
+                                <input type="text" name="companyaccount" placeholder="请输入企业执照号" id="companyaccount" class="">
                             </div>
                         </div>
 
@@ -78,32 +83,48 @@
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">企业类型：</div>
-                                <select class="ui dropdown" name="Enterprise_type">
+                                <select class="ui dropdown" name="compkind">
                                     <option value="">请选择</option>
-                                    <option value="1">上市公司</option>
-                                     <option value="2">国企</option>
-                                     <option value="3">私企</option>
+                                    <option value="0">央企</option>
+                                    <option value="1">国企</option>
+                                    <option value="2">民企</option>
+                                    <option value="3">合资</option>
+                                    <option value="4">上市公司</option>
+                                    <option value="5">公交</option>
+                                    <option value="6">城市天然气</option>
                                 </select>
                             </div>
                         </div>
+
                         <div class="field">
                             <div class="two fields">
                                 <div class="field">
                                     <div class="ui labeled input ">
                                         <div class="ui label">用户类型：</div>
-                                        <select class="ui dropdown" name="User_type" id="User_type">
+                                        <select class="ui dropdown" name="user_type" id="user_type" onchange="getUserType();">
                                                 <option value="">请选择</option>
-                                                <option value="1">物流方</option>
-                                                <option value="2">买家方</option>
-                                                <option value="3">卖家方</option>
-                                                <option value="4">放款方</option>
+                                                <option value="3">物流方</option>
+                                                <option value="1">买家方</option>
+                                                <option value="0">卖家方</option>
+                                                <option value="2">放款方</option>
                                        </select>
+                                    </div>
+                                </div>
+                                <div id ="sellerList" hidden="hidden">
+                                    <div class="caption"><span class="box-in-level2">联系卖家</span></div>
+                                    <div>
+                                        <select name="contactcustomer"  id="contactcustomer">
+                                            <option value="0">--请选择卖家--</option>
+                                            <c:forEach items="${customerList}" var="item" varStatus="status">
+                                                <option value="${item.userId}">${item.userName}</option>
+                                            </c:forEach>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="field" id="seller_binding" style="display:none">
                                     <div class="ui labeled input ">
                                         <div class="ui label">买家绑定：</div>
-                                        <select class="ui dropdown" name="User_type">
+                                        <select class="ui dropdown" name="user_type">
                                     <option value="">请选择</option>
                                     <option value="1">物流方</option>
                                      <option value="2">买家方</option>
@@ -122,11 +143,18 @@
                         <div class="three field">
                             <div class="ui labeled input ">
                                 <div class="ui label">地址:</div>
-                                <select class="ui dropdown" name="Province">
-                                    <option value="">请选择</option>
-                                    <option value="1">浙江省</option>
-                                     <option value="2">四川省</option>
-                                     <option value="3">江苏省</option>
+                                <input type="hidden" name="zc_region_id" id="zc_region_id" />
+                                <select class="ui dropdown" name="provinceId" id="provinceId" onchange="selRegion(0);">
+                                    <option value="">--请选择省--</option>
+                                    <c:forEach items="${provinceList}" var="item" varStatus="status">
+                                        <option value="${item.regionId}">${item.regionName}</option>
+                                    </c:forEach>
+                                </select>
+                                <select id="cityId" name="cityId" onchange="selRegion(1);">
+                                    <option>--请选择市--</option>
+                                </select>
+                                <select id="regionId" name="regionId" onchange="selRegion(2);">
+                                    <option>--请选择区--</option>
                                 </select>
 
                             </div>
@@ -136,7 +164,7 @@
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">具体地址：</div>
-                                <input type="text" name="Exact_address" placeholder="请输入具体地址" id="" class="">
+                                <input type="text" name="address" placeholder="请输入具体地址" id="address" class="">
                             </div>
                         </div>
                     </div>
@@ -148,13 +176,13 @@
                             <div class="field">
                                 <div class="ui labeled input ">
                                     <div class="ui label">登录账户：</div>
-                                    <input type="text" name="User_Id" placeholder="请输入登录账户" id="" class="max_text">
+                                    <input type="text" name="user_name" placeholder="请输入登录账户" id="" class="max_text">
                                 </div>
                             </div>
                             <div class="field">
                                 <div class="ui labeled input ">
                                     <div class="ui label">登录密码：</div>
-                                    <input type="password" name="User_password" placeholder="请输入登录密码" id="" class="max_text">
+                                    <input type="password" name="password" placeholder="请输入登录密码" id="" class="max_text">
                                 </div>
                             </div>
                         </div>
@@ -192,15 +220,13 @@
 
                     </div>
                     <br>
-                    <button id="next_step" class="ui primary submit button">Next</button>
+                    <a id="next_step" class="ui primary" onclick="next()">Next</a>
                 </div>
-            </form>
         </div>
         <!--基本信息页end-->
 
         <!--<资质信息-->
         <div class="ui container segment" id="second_rgpage" style="display:none">
-            <form class="ui form segment" id="Qualification_form">
                 <h3 class="ui header">联系方式</h3>
                 <div class="ui divider"></div>
                 <div class="ui form">
@@ -208,13 +234,13 @@
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">联系人：</div>
-                                <input type="text" name="Contact_name" placeholder="" id="" class="max_text">
+                                <input type="text" name="contact" placeholder="" id="" class="max_text">
                             </div>
                         </div>
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">联系邮箱：</div>
-                                <input type="email" name="Contact_email" placeholder="" id="" class="">
+                                <input type="email" name="contactemail" placeholder="" id="" class="">
                             </div>
                         </div>
 
@@ -223,13 +249,13 @@
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">手机号码：</div>
-                                <input type="text" name="Contact_tel" placeholder="" id="" class="max_text">
+                                <input type="text" name="contactphone" placeholder="" id="" class="max_text">
                             </div>
                         </div>
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">座机号码：</div>
-                                <input type="text" name="Contact_landline" placeholder="" id="" class="">
+                                <input type="text" name="contactseat" placeholder="" id="" class="">
                             </div>
                         </div>
 
@@ -240,7 +266,7 @@
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">企业法人身份证号：</div>
-                                <input type="text" name="Id_number" placeholder="" id="" class="max_text">
+                                <input type="text" name="legalIdCard" placeholder="" id="" class="max_text">
                             </div>
                         </div>
                     </div>
@@ -248,7 +274,7 @@
                         <label>请上传大小在5M以内的JPG.PNG.GIF格式的电子版</label>
                     </div>
                     <div class=" four fields">
-                        <div class="field">
+                        <%--<div class="field">
                             <div class="ui card">
                                 <div class="image">
                                     <img src="http://www.semantic-ui.cn/images/avatar2/large/kristy.png">
@@ -262,8 +288,8 @@
                                 </div>
 
                             </div>
-                        </div>
-                        <div class="field">
+                        </div>--%>
+                        <%--<div class="field">
                             <div class="ui card">
                                 <div class="image">
                                     <img src="http://www.semantic-ui.cn/images/avatar2/large/kristy.png">
@@ -277,8 +303,8 @@
                                 </div>
 
                             </div>
-                        </div>
-                        <div class="field">
+                        </div>--%>
+                        <%--<div class="field">
                             <div class="ui card">
                                 <div class="image">
                                     <img src="http://www.semantic-ui.cn/images/avatar2/large/kristy.png">
@@ -307,10 +333,51 @@
                                 </div>
 
                             </div>
-                        </div>
+                        </div>--%>
+                            <div class="zizhixinxi" style="width:111px;height:120px;float: left;position:relative;">
+                                <div align=center style="height:70px;background:url('${pageContext.request.contextPath}/resources/wella/front/images/zizhi_icon.png') no-repeat center;"></div>
+                                <div class="zizhititle">企业图片</div>
+                                <div>格式: JPG, PNG, GIF</div>
+                                <div>大小: 小于 5M</div>
+                                <input type="hidden" name="yingye_img4" />
+                                <input type="file" id="yingye_img4" name="yingye_img4_src" class="fileManage"  />
+                                <img id="yingye_imgpath4" class="yingyeimg" style="" src="" />
+                            </div>
+                            <div class="zizhixinxi" style="width:120px;height:120px;float: left;position:relative;">
+                                <div align=center style="height:70px;background:url('${pageContext.request.contextPath}/resources/wella/front/images/zizhi_icon.png') no-repeat center;"></div>
+                                <div class="zizhititle">营业执照</div>
+                                <div>格式: JPG, PNG, GIF</div>
+                                <div>大小: 小于 5M</div>
+                                <input type="file" id="yingye_img1" name="yingye_img1_src"  class="fileManage"  />
+                                <input type="hidden" name="yingye_img1" />
+                                <img id="yingye_imgpath1" class="yingyeimg" style="" src="" />
+                                <input type="text" name="company_yy_zz" class="yingyetxt" placeholder="请输入营业执照"/>
+                            </div>
+                            <div class="zizhixinxi" style="width:120px;height:120px;float: left;position:relative;">
+                                <div align=center style="height:70px;background:url('${pageContext.request.contextPath}/resources/wella/front/images/zizhi_icon.png') no-repeat center;"></div>
+                                <div class="zizhititle">营业许可证</div>
+                                <div>格式: JPG, PNG, GIF</div>
+                                <div>大小: 小于 5M</div>
+                                <input type="hidden" name="yingye_img2"  class="fileManage"  />
+                                <input type="file" id="yingye_img2" name="yingye_img2_src"  class="fileManage" />
+                                <img id="yingye_imgpath2" class="yingyeimg" style="" src="" />
+                                <input type="text" name="company_xkz" class="yingyetxt" placeholder="请输入营业许可证"/>
+                            </div>
+                            <div class="zizhixinxi" style="width:120px;height:120px;float: left;position:relative;">
+                                <div align=center style="height:70px;background:url('${pageContext.request.contextPath}/resources/wella/front/images/zizhi_icon.png') no-repeat center;"></div>
+                                <div class="zizhititle">特许经营许可证</div>
+                                <div>格式: JPG, PNG, GIF</div>
+                                <div>大小: 小于 5M</div>
+                                <input type="hidden" name="yingye_img3" />
+                                <input type="file" id="yingye_img3" name="yingye_img3_src" class="fileManage"  />
+                                <img id="yingye_imgpath3" class="yingyeimg" style="" src="" />
+                                <input type="text" name="company_txkz" class="yingyetxt" placeholder="请输入特许经营许可证"/>
+                            </div>
                     </div>
                 </div>
-                <button id="submit" class="ui primary submit button">提交</button>
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+            <button id="submit" class="ui primary submit button">提交</button>
             </form>
 
         </div>
@@ -331,42 +398,140 @@
 
     }
 
+    function getUserType(){
+        var userType = $("#user_type").val();
+        if(userType==1){
+            $("#sellerList").show();
+        }else
+        {
+            $("#sellerList").hide();
+        }
+
+    }
+
+    $("#yingye_img1").change(function(){
+        clearFileName();
+        $(this).attr("name", "file");
+        uploadImage(1);
+    });
+
+    $("#yingye_img2").change(function(){
+        clearFileName();
+        $(this).attr("name", "file");
+        uploadImage(2);
+    });
+
+    $("#yingye_img3").change(function(){
+        clearFileName();
+        $(this).attr("name", "file");
+        uploadImage(3);
+    });
+
+    $("#yingye_img4").change(function(){
+        clearFileName();
+        $(this).attr("name", "file");
+        uploadImage(4);
+    });
+
+    function clearFileName(){
+        $("input[type='file']").each(function(){
+            $(this).attr("name", "");
+        });
+    }
+    /**
+     * 上传图片处理方法
+     * @param idx
+     */
+    function uploadImage(idx){
+        var options = {
+            url:  "${pageContext.request.contextPath}/uploadFile",
+            type:"POST",
+            dataType:"json",
+            data:{},
+            success : function(data) {
+                if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
+                //-----------
+                $("input[name='yingye_img"+idx+"']").val(data.path);
+                <%--$("#yingye_imgpath"+idx).attr("src","${pageContext.request.contextPath}/" + data.path);--%>
+                $("#yingye_imgpath"+idx).attr("src",  data.path);
+                $("#yingye_imgpath"+idx).show();
+                //alert(data.path);
+                return;
+                //-----------
+            },
+            error : function(data) {
+                //alert(data);
+            }
+        }
+        $("#register_form").ajaxSubmit(options);
+    }
+
+    function selRegion(type){
+        var regionId = '';
+
+        if(type==0){
+            regionId = $("#provinceId").val();
+        } else if(type==1){
+            regionId = $("#cityId").val();
+        } else if(type==2){
+            regionId = $("#regionId").val();
+        } else return;
+        $("#zc_region_id").val(regionId);
+        if(regionId!=''){
+            $.post("${pageContext.request.contextPath}/front/sender/SenderLoginController-getChildRegionListInSite", {regionId:regionId},	function(data) {
+                if(data.state == 1) {
+                    html = "";
+                    for(var i=0; i<data.regionList.length; i++){
+                        region = data.regionList[i];
+                        html += "<option value='" + region.regionId + "'>" + region.regionName + "</option>";
+                    }
+
+                    if(type==0){
+                        $("#cityId").html("<option>--请选择市--</option>" + html);
+                        $("#regionId").html("<option>--请选择区--</option>");
+                    } else if(type==1){
+                        $("#regionId").html("<option>--请选择区--</option>" + html);
+                    }
+                }
+            }, 'json');
+        }
+    }
+
     function binding() {
 
     };
 
 
     $(function() {
-        var basicform = $('#basic_info');
-        var Qualification_form = $('#Qualification_form');
-        $('#basic_info').form({
+        var registerForm = $('#register_form');
+        $('#register_form').form({
             fields: {
-                Enterprise_name: {
-                    identifier: 'Enterprise_name',
+                companyname: {
+                    identifier: 'companyname',
                     rules: [{
                         type: 'empty',
                         prompt: 'Please enter your Enterprise name'
                     }]
                 },
-                Enterprise_number: {
-                    identifier: 'Enterprise_number',
+                companyaccount: {
+                    identifier: 'companyaccount',
                     rules: [{
                         type: 'empty',
                         prompt: 'Please enter Enterprise number'
                     }]
                 },
-                Enterprise_type: {
-                    identifier: 'Enterprise_type',
+                compkind: {
+                    identifier: 'compkind',
                     rules: [{
                         type: 'empty',
                         prompt: 'Please select a Enterprise Type'
                     }]
                 },
-                Exact_address: {
-                    identifier: 'Exact_address',
+                address: {
+                    identifier: 'address',
                     rules: [{
                         type: 'empty',
-                        prompt: 'Please select a Exact_address'
+                        prompt: 'Please select a address'
                     }]
                 },
                 Province: {
@@ -377,23 +542,23 @@
                     }]
                 },
 
-                User_type: {
-                    identifier: 'User_type',
+                user_type: {
+                    identifier: 'user_type',
                     rules: [{
                         type: 'empty',
                         prompt: 'Please select a User Type'
                     }]
                 },
 
-                User_Id: {
-                    identifier: 'User_Id',
+                user_name: {
+                    identifier: 'user_name',
                     rules: [{
                         type: 'empty',
                         prompt: 'Please select a User ID'
                     }]
                 },
-                User_password: {
-                    identifier: 'User_password',
+                password: {
+                    identifier: 'password',
                     rules: [{
                         type: 'empty',
                         prompt: 'Please enter a password'
@@ -408,7 +573,7 @@
                         type: 'empty',
                         prompt: 'Please enter a password'
                     }, {
-                        type: 'match[User_password]',
+                        type: 'match[password]',
                         prompt: 'different',
                     }]
                 },
@@ -426,47 +591,31 @@
                         type: 'checked',
                         prompt: 'You must agree to the terms and conditions'
                     }]
-                }
-            },
-            inline: true,
-            on: 'blur',
-            onSuccess: function(e) {
-                //阻止表单的提交
-                console.log("onSuccess");
-                var allFields = basicform.form('get values');
-                console.log(allFields);
-                e.preventDefault();
-                next();
-            }
-
-        });
-
-        $('#Qualification_form').form({
-            fields: {
-                Contact_name: {
-                    identifier: 'Contact_name',
+                },
+                contact: {
+                    identifier: 'contact',
                     rules: [{
                         type: 'empty',
                         prompt: 'Please enter your Contact name'
                     }]
                 },
-                Contact_email: {
-                    identifier: 'Contact_email',
+                contactemail: {
+                    identifier: 'contactemail',
                     rules: [{
                         type: 'email',
                         prompt: 'Please enter Contact email'
                     }]
                 },
-                Contact_tel: {
-                    identifier: 'Contact_tel',
+                contactphone: {
+                    identifier: 'contactphone',
                     rules: [{
                         type: 'regExp',
                         value: /^(((13[0-9]{1})|(15[0-9]{1}))+\d{8})$/,
                         prompt: 'Please enter Contact tel'
                     }]
                 },
-                Contact_landline: {
-                    identifier: 'Contact_landline',
+                contactseat: {
+                    identifier: 'contactseat',
                     rules: [{
                         type: 'empty',
                         prompt: '请输入电话'
@@ -476,8 +625,8 @@
                     }]
                 },
 
-                Id_number: {
-                    identifier: 'Id_number',
+                legalIdCard: {
+                    identifier: 'legalIdCard',
                     rules: [{
                         type: 'empty',
                         prompt: '请输入身份证'
@@ -485,18 +634,53 @@
                         type: 'maxLength[18]',
                         prompt: '请输入身份证号码'
                     }]
-                },
+                }
                 //   ...
             },
             inline: true,
             on: 'blur',
             onSuccess: function(e) {
                 //阻止表单的提交
-                console.log("onSuccess2");
-                var allFields = Qualification_form.form('get values');
-                console.log(allFields);
+                //console.log("onSuccess");
+                var allFields1 = registerForm.form('get values');
+                var allFields2=registerForm.serialize();
+                console.log(allFields1);
+                console.log(allFields2);
                 e.preventDefault();
-
+                //next();
+                var flag = false;
+                var companyname =$("input[name='companyname']").val();
+                $.post("${pageContext.request.contextPath}/front/sender/SenderLoginController-onCheckCompanyName", {companyname:companyname},	function(data) {
+                    if(data.state == 1) {
+                        flag = true;
+                    }else{
+                        alert(data.content);
+                        return false;
+                    }
+                    if(flag){
+                        var contactemail =$("input[name='contactemail']").val();
+                        var contactphone =$("input[name='contactphone']").val();
+                        $.post("${pageContext.request.contextPath}/front/sender/SenderLoginController-onCheckMobileEmail", {contactphone:contactphone,contactemail:contactemail},	function(data) {
+                            if(data.state == -3 || data.state == -4) {
+                                alert(data.content);
+                                return false;
+                            }else{
+                                registerForm.attr("action", "<c:url value="/register/register"/>");
+                                $.post(registerForm.attr("action"),registerForm.serialize(),function(data){
+                                    data = $.parseJSON(data);
+                                    if(data.state==1){
+                                        window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerLoginCtrl-registerNext";
+                                    }else{
+                                        alert(data.content);
+                                    }
+                                })
+                                    .error(function(data){
+                                        alert("操作失败！")
+                                    });
+                            }
+                        }, 'json');
+                    }
+                }, 'json');
             }
 
         });
