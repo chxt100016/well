@@ -128,28 +128,6 @@
 		</if>
 	</select>
 
-	<select id="findProdByConditions" parameterType="java.util.Map" resultType="org.wella.entity.Prod">
-		SELECT *
-		from wa_prod
-		<where>
-			<if test="userId != null">
-				AND user_id = #{userId}
-			</if>
-			<if test="prodName != null">
-				AND prod_name LIKE '%${prodName}%'
-			</if>
-			<if test="prodState != null">
-				AND prod_state = #{prodState}
-			</if>
-		</where>
-		<if test="orderBy != null">
-			ORDER BY #{orderBy}
-		</if>
-		<if test="start !=null and size !=null">
-			limit ${start},${size}
-		</if>
-	</select>
-
 	<update id="updateProd" parameterType="org.wella.entity.Prod">
 		update wa_prod
 		<set>

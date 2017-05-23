@@ -72,11 +72,11 @@ var vm = new Vue({
         //审核通过时挑用的业务逻辑
         approve: function (event) {
             var url = "../user/approve";
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: JSON.stringify(vm.user),
-                success: function(r){
+            console.log(vm.user);
+            $.post(
+                url,
+                JSON.stringify(vm.user),
+                function(r){
                     if(r.code === 0){
                         alert('操作成功', function(index){
                             vm.reload();
@@ -84,16 +84,18 @@ var vm = new Vue({
                     }else{
                         alert(r.msg);
                     }
-                }
-            });
+                },
+                "json"
+            );
         },
         notApprove:function(event){
             var url = "../user/notApprove";
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: JSON.stringify(vm.user),
-                success: function(r){
+            console.log(vm.user);
+            console.log(JSON.stringify(vm.user));
+            $.post(
+                url,
+                JSON.stringify(vm.user),
+                function(r){
                     if(r.code === 0){
                         alert('操作成功', function(index){
                             vm.reload();
@@ -101,8 +103,9 @@ var vm = new Vue({
                     }else{
                         alert(r.msg);
                     }
-                }
-            });
+                },
+                "json"
+            );
         },
         review: function(userId){
             $.get("../user/reviewInfo/"+userId, function(r){

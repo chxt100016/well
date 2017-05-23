@@ -7,9 +7,11 @@ import org.wella.dao.ProdDao;
 import org.wella.dao.ProdUserDao;
 import org.wella.dao.UserinfoDao;
 import org.wella.dao.WaUserDao;
+import org.wella.entity.LoanInfo;
 import org.wella.entity.Prod;
 import org.wella.entity.User;
 import org.wella.platform.service.MemberService;
+import org.wella.utils.MailUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -65,12 +67,28 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public void approve(Map map) {
-
+        Long userId= Long.parseLong((String)map.get("userId"));
+        String comment=(String)map.get("comment");
+        String email=(String)map.get("userEmail");
+        Map updateMap=new HashMap();
+        updateMap.put("userId",userId);
+        updateMap.put("comment",comment);
+        updateMap.put("userState",1);
+        String content="<html><head></head><body><h1>您的维助供应链平台账户已通过审核</h1><h1>点击进入<a href='http://localhost:8080/wellassist/'  target = '_blank'>维助供应链</a></h1></body></html>";
+        new Thread(new MailUtil(email, content)).start();
     }
 
     @Override
     public void notAprove(Map map) {
-
+        Long userId= Long.parseLong((String)map.get("userId"));
+        String comment=(String)map.get("comment");
+        String email=(String)map.get("userEmail");
+        Map updateMap=new HashMap();
+        updateMap.put("userId",userId);
+        updateMap.put("comment",comment);
+        updateMap.put("userState",-1);
+        String content="<html><head></head><body><h1>对不起，您的维助供应链平台账户未通过审核</h1><h1>审核意见："+comment+"</h1><h1>点击进入<a href='http://localhost:8080/wellassist/'  target = '_blank'>维助供应链</a></h1></body></html>";
+        new Thread(new MailUtil(email, content)).start();
     }
 
     @Override
@@ -114,7 +132,9 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public List<Map<String, Object>> findCustomersInfo(Map map) {
         map.put("userType",1);
-        return waUserDao.findPlatformCustomerUsers(map);
+        List<Map<String, Object>> customersList=waUserDao.findPlatformCustomerUsers(map);
+        ConvertUtil.convertDataBaseMapToJavaMap(customersList);
+        return customersList;
     }
 
     @Override

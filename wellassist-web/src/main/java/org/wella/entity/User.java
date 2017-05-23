@@ -3,60 +3,76 @@ package org.wella.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * Created by liuwen on 2017/5/9.
- */
 public class User {
-    private long userId;
+    private Long userId;
+
     private String userAccount;
+
     private String userName;
+
     private String userRegNo;
-    private byte userType;
+
+    private Byte userType;
+
     private String czPass;
+
     private Date createDate;
-    private int czFailNum;
+
+    private Integer czFailNum;
+
     private BigDecimal userMoney;
+
     private BigDecimal userLockMoney;
+
     private BigDecimal userCreditMoney;
+
     private BigDecimal userLockCreditMoney;
+
     private BigDecimal userLxMoney;
+
     private String userPhone;
+
+    private String userSeatPhone;
+
     private String userEmail;
+
+    private String legalIdCard;
+
     private String userPass;
-    private long createUserId;
+
+    private Long createUserId;
+
     private Date recentDate;
+
     private String recentIp;
-    private int loginFailNum;
-    private int lixiRate;
-    private byte lixiType;
-    private long creditDengji;
-    private int creditPf;
+
+    private Integer loginFailNum;
+
+    private Integer lixiRate;
+
+    private Byte lixiType;
+
+    private Long creditDengji;
+
+    private Integer creditPf;
+
     private String commet;
-    private byte userState;
-    private byte activityState;
+
+    private Byte userState;
+
     private String activityCode;
+
     private String resetCode;
-    //当用户为买方时其对应的卖方id
-    private long supplyId;
 
-    public void setResetCode(String resetCode) {
-        this.resetCode = resetCode;
-    }
+    private Long supplyId;
 
-    public long getSupplyId() {
-        return supplyId;
-    }
+    private byte activityState;
 
-    public void setSupplyId(long supplyId) {
-        this.supplyId = supplyId;
-    }
-
-
-    public long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -65,7 +81,7 @@ public class User {
     }
 
     public void setUserAccount(String userAccount) {
-        this.userAccount = userAccount;
+        this.userAccount = userAccount == null ? null : userAccount.trim();
     }
 
     public String getUserName() {
@@ -73,7 +89,7 @@ public class User {
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.userName = userName == null ? null : userName.trim();
     }
 
     public String getUserRegNo() {
@@ -81,14 +97,14 @@ public class User {
     }
 
     public void setUserRegNo(String userRegNo) {
-        this.userRegNo = userRegNo;
+        this.userRegNo = userRegNo == null ? null : userRegNo.trim();
     }
 
-    public byte getUserType() {
+    public Byte getUserType() {
         return userType;
     }
 
-    public void setUserType(byte userType) {
+    public void setUserType(Byte userType) {
         this.userType = userType;
     }
 
@@ -97,15 +113,22 @@ public class User {
     }
 
     public void setCzPass(String czPass) {
-        this.czPass = czPass;
+        this.czPass = czPass == null ? null : czPass.trim();
     }
 
+    public Date getCreateDate() {
+        return createDate;
+    }
 
-    public int getCzFailNum() {
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Integer getCzFailNum() {
         return czFailNum;
     }
 
-    public void setCzFailNum(int czFailNum) {
+    public void setCzFailNum(Integer czFailNum) {
         this.czFailNum = czFailNum;
     }
 
@@ -154,7 +177,15 @@ public class User {
     }
 
     public void setUserPhone(String userPhone) {
-        this.userPhone = userPhone;
+        this.userPhone = userPhone == null ? null : userPhone.trim();
+    }
+
+    public String getUserSeatPhone() {
+        return userSeatPhone;
+    }
+
+    public void setUserSeatPhone(String userSeatPhone) {
+        this.userSeatPhone = userSeatPhone == null ? null : userSeatPhone.trim();
     }
 
     public String getUserEmail() {
@@ -162,7 +193,15 @@ public class User {
     }
 
     public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+        this.userEmail = userEmail == null ? null : userEmail.trim();
+    }
+
+    public String getLegalIdCard() {
+        return legalIdCard;
+    }
+
+    public void setLegalIdCard(String legalIdCard) {
+        this.legalIdCard = legalIdCard == null ? null : legalIdCard.trim();
     }
 
     public String getUserPass() {
@@ -170,23 +209,15 @@ public class User {
     }
 
     public void setUserPass(String userPass) {
-        this.userPass = userPass;
+        this.userPass = userPass == null ? null : userPass.trim();
     }
 
-    public long getCreateUserId() {
+    public Long getCreateUserId() {
         return createUserId;
     }
 
-    public void setCreateUserId(long createUserId) {
+    public void setCreateUserId(Long createUserId) {
         this.createUserId = createUserId;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
     }
 
     public Date getRecentDate() {
@@ -202,46 +233,46 @@ public class User {
     }
 
     public void setRecentIp(String recentIp) {
-        this.recentIp = recentIp;
+        this.recentIp = recentIp == null ? null : recentIp.trim();
     }
 
-    public int getLoginFailNum() {
+    public Integer getLoginFailNum() {
         return loginFailNum;
     }
 
-    public void setLoginFailNum(int loginFailNum) {
+    public void setLoginFailNum(Integer loginFailNum) {
         this.loginFailNum = loginFailNum;
     }
 
-    public int getLixiRate() {
+    public Integer getLixiRate() {
         return lixiRate;
     }
 
-    public void setLixiRate(int lixiRate) {
+    public void setLixiRate(Integer lixiRate) {
         this.lixiRate = lixiRate;
     }
 
-    public byte getLixiType() {
+    public Byte getLixiType() {
         return lixiType;
     }
 
-    public void setLixiType(byte lixiType) {
+    public void setLixiType(Byte lixiType) {
         this.lixiType = lixiType;
     }
 
-    public long getCreditDengji() {
+    public Long getCreditDengji() {
         return creditDengji;
     }
 
-    public void setCreditDengji(long creditDengji) {
+    public void setCreditDengji(Long creditDengji) {
         this.creditDengji = creditDengji;
     }
 
-    public int getCreditPf() {
+    public Integer getCreditPf() {
         return creditPf;
     }
 
-    public void setCreditPf(int creditPf) {
+    public void setCreditPf(Integer creditPf) {
         this.creditPf = creditPf;
     }
 
@@ -250,15 +281,39 @@ public class User {
     }
 
     public void setCommet(String commet) {
-        this.commet = commet;
+        this.commet = commet == null ? null : commet.trim();
     }
 
-    public byte getUserState() {
+    public Byte getUserState() {
         return userState;
     }
 
-    public void setUserState(byte userState) {
+    public void setUserState(Byte userState) {
         this.userState = userState;
+    }
+
+    public String getActivityCode() {
+        return activityCode;
+    }
+
+    public void setActivityCode(String activityCode) {
+        this.activityCode = activityCode == null ? null : activityCode.trim();
+    }
+
+    public String getResetCode() {
+        return resetCode;
+    }
+
+    public void setResetCode(String resetCode) {
+        this.resetCode = resetCode == null ? null : resetCode.trim();
+    }
+
+    public Long getSupplyId() {
+        return supplyId;
+    }
+
+    public void setSupplyId(Long supplyId) {
+        this.supplyId = supplyId;
     }
 
     public byte getActivityState() {
@@ -267,90 +322,5 @@ public class User {
 
     public void setActivityState(byte activityState) {
         this.activityState = activityState;
-    }
-
-    public String getActivityCode() {
-        return activityCode;
-    }
-
-    public void setActivityCode(String activityCode) {
-        this.activityCode = activityCode;
-    }
-
-    public String getResetCode() {
-        return resetCode;
-    }
-
-    public void setReset_Cde(String resetCode) {
-        this.resetCode = resetCode;
-    }
-
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        User waUser = (User) o;
-
-        if (userId != waUser.userId) return false;
-        if (userType != waUser.userType) return false;
-        if (czFailNum != waUser.czFailNum) return false;
-        if (createUserId != waUser.createUserId) return false;
-        if (loginFailNum != waUser.loginFailNum) return false;
-        if (lixiRate != waUser.lixiRate) return false;
-        if (lixiType != waUser.lixiType) return false;
-        if (creditDengji != waUser.creditDengji) return false;
-        if (creditPf != waUser.creditPf) return false;
-        if (userState != waUser.userState) return false;
-        if (userAccount != null ? !userAccount.equals(waUser.userAccount) : waUser.userAccount != null) return false;
-        if (userName != null ? !userName.equals(waUser.userName) : waUser.userName != null) return false;
-        if (userRegNo != null ? !userRegNo.equals(waUser.userRegNo) : waUser.userRegNo != null) return false;
-        if (czPass != null ? !czPass.equals(waUser.czPass) : waUser.czPass != null) return false;
-        if (createDate != null ? !createDate.equals(waUser.createDate) : waUser.createDate != null) return false;
-        if (userMoney != null ? !userMoney.equals(waUser.userMoney) : waUser.userMoney != null) return false;
-        if (userLockMoney != null ? !userLockMoney.equals(waUser.userLockMoney) : waUser.userLockMoney != null)
-            return false;
-        if (userCreditMoney != null ? !userCreditMoney.equals(waUser.userCreditMoney) : waUser.userCreditMoney != null)
-            return false;
-        if (userLockCreditMoney != null ? !userLockCreditMoney.equals(waUser.userLockCreditMoney) : waUser.userLockCreditMoney != null)
-            return false;
-        if (userLxMoney != null ? !userLxMoney.equals(waUser.userLxMoney) : waUser.userLxMoney != null) return false;
-        if (userPhone != null ? !userPhone.equals(waUser.userPhone) : waUser.userPhone != null) return false;
-        if (userEmail != null ? !userEmail.equals(waUser.userEmail) : waUser.userEmail != null) return false;
-        if (userPass != null ? !userPass.equals(waUser.userPass) : waUser.userPass != null) return false;
-        if (recentDate != null ? !recentDate.equals(waUser.recentDate) : waUser.recentDate != null) return false;
-        if (recentIp != null ? !recentIp.equals(waUser.recentIp) : waUser.recentIp != null) return false;
-        if (commet != null ? !commet.equals(waUser.commet) : waUser.commet != null) return false;
-
-        return true;
-    }
-
-    public int hashCode() {
-        int result = (int) (userId ^ (userId >>> 32));
-        result = 31 * result + (userAccount != null ? userAccount.hashCode() : 0);
-        result = 31 * result + (userName != null ? userName.hashCode() : 0);
-        result = 31 * result + (userRegNo != null ? userRegNo.hashCode() : 0);
-        result = 31 * result + (int) userType;
-        result = 31 * result + (czPass != null ? czPass.hashCode() : 0);
-        result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
-        result = 31 * result + czFailNum;
-        result = 31 * result + (userMoney != null ? userMoney.hashCode() : 0);
-        result = 31 * result + (userLockMoney != null ? userLockMoney.hashCode() : 0);
-        result = 31 * result + (userCreditMoney != null ? userCreditMoney.hashCode() : 0);
-        result = 31 * result + (userLockCreditMoney != null ? userLockCreditMoney.hashCode() : 0);
-        result = 31 * result + (userLxMoney != null ? userLxMoney.hashCode() : 0);
-        result = 31 * result + (userPhone != null ? userPhone.hashCode() : 0);
-        result = 31 * result + (userEmail != null ? userEmail.hashCode() : 0);
-        result = 31 * result + (userPass != null ? userPass.hashCode() : 0);
-        result = 31 * result + (int) (createUserId ^ (createUserId >>> 32));
-        result = 31 * result + (recentDate != null ? recentDate.hashCode() : 0);
-        result = 31 * result + (recentIp != null ? recentIp.hashCode() : 0);
-        result = 31 * result + loginFailNum;
-        result = 31 * result + lixiRate;
-        result = 31 * result + (int) lixiType;
-        result = 31 * result + (int) (creditDengji ^ (creditDengji >>> 32));
-        result = 31 * result + creditPf;
-        result = 31 * result + (commet != null ? commet.hashCode() : 0);
-        result = 31 * result + (int) userState;
-        return result;
     }
 }

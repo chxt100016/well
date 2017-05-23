@@ -1,6 +1,7 @@
 package org.wella.platform.controller;
 
 
+import com.qcloud.cos.http.HttpRequest;
 import io.wellassist.controller.AbstractController;
 import io.wellassist.utils.PageUtils;
 import io.wellassist.utils.Query;
@@ -25,7 +26,7 @@ import java.util.Map;
 public class MemberController extends AbstractController{
 
     @Autowired
-    private MemberServiceImpl menberServiceImpl;
+    private MemberServiceImpl memberServiceImpl;
 
     @Autowired
     private WaUserDao waUserDao;
@@ -35,11 +36,12 @@ public class MemberController extends AbstractController{
      */
     @RequestMapping("customersList")
     public R customersList(@RequestParam Map<String, Object> params){
-        params.put("userType", "3");
-        List<User> sellerList = this.waUserDao.findUser(params);
-        int totalCount = sellerList.size();
+        /*List<User> sellerList = this.waUserDao.findUser(params);
+        int totalCount = sellerList.size();*/
+        List<Map<String, Object>> sellerList =memberServiceImpl.findCustomersInfo(params);
+        int totalCount=sellerList.size();
 
-        //查询列表数据
+                //查询列表数据
         Query query = new Query(params);
 //        List<SysUserEntity> userList = sysUserService.queryList(query);
 //        int total = sysUserService.queryTotal(query);
@@ -74,7 +76,7 @@ public class MemberController extends AbstractController{
     public R userInfo(@PathVariable("userId") Long userId){
         Map<String,Object> params = new HashMap();
         params.put("userId",userId);
-        Map user = menberServiceImpl.findUserInfoById(userId);
+        Map user = memberServiceImpl.findUserInfoById(userId);
         return  R.ok().put("user",user);
     }
 
@@ -87,7 +89,7 @@ public class MemberController extends AbstractController{
     public R reviewInfo(@PathVariable("userId") Long userId){
         Map<String,Object> params = new HashMap();
         params.put("userId",userId);
-        Map user = menberServiceImpl.findUserInfoById(userId);
+        Map user = memberServiceImpl.findUserInfoById(userId);
         return  R.ok().put("user",user);
     }
     /**
@@ -97,7 +99,7 @@ public class MemberController extends AbstractController{
      */
     @RequestMapping("productList/{userId}")
     public R productList(@RequestParam Map<String,Object> params,@PathVariable("userId") Long userId){
-        List<Prod> prodList = this.menberServiceImpl.findProductsByUserId(userId);
+        List<Prod> prodList = this.memberServiceImpl.findProductsByUserId(userId);
 
 //        List<User> sellerList = this.waUserDao.findUser(params);
 //        int totalCount = sellerList.size();
@@ -146,8 +148,8 @@ public class MemberController extends AbstractController{
      * @return
      */
     @RequestMapping("approve")
-    public R approve (@RequestParam Map<String,Object> params) {
-        menberServiceImpl.approve(params);
+    public R approve (HttpRequest request,@RequestParam Map<String, Object> params) {
+        memberServiceImpl.approve(params);
         return R.ok();
     }
 
@@ -158,7 +160,7 @@ public class MemberController extends AbstractController{
      */
     @RequestMapping("notApprove")
     public R notApprove (@RequestParam Map<String,Object> params) {
-        menberServiceImpl.notAprove(params);
+        memberServiceImpl.notAprove(params);
         return R.ok();
     }
 }
