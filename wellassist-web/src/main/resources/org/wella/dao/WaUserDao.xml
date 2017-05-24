@@ -118,6 +118,7 @@
         FROM  wa_user
         WHERE user_email = #{account}
         OR  user_phone = #{account}
+        OR user_account=#{account}
     </select>
 
     <!--找回密码时的现判断用户的phone与eamil是否一致-->
