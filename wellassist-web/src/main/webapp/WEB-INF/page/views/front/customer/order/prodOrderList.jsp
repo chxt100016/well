@@ -18,7 +18,7 @@
 		--%>
 	</form>
 	
-	<div style="border:solid 1px #d0d0d0;padding:6px;font-size:24px;margin-top:16px;height:20px;">
+	<div style="border:solid 1px #d0d0d0;padding:6px;font-size:24px;margin-top:16px;height:40px;">
 		<div style="width:40%;text-align:center;font-size:16px;float:left;">产品详情</div>
 		<div style="width:20%;text-align:center;font-size:16px;float:left;">价格</div>
 		<div style="width:20%;text-align:center;font-size:16px;float:left;">

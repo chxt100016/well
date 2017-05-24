@@ -46,11 +46,14 @@ $(function () {
             rows:"limit",
             order: "order"
         },
+
         gridComplete:function(){
             //隐藏grid底部滚动条
             $("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
         }
+      
     });
+    $('#gridid').jqGrid('getGridParam','data')
 });
 
 var vm = new Vue({
@@ -73,6 +76,8 @@ var vm = new Vue({
         },
         //审核通过时挑用的业务逻辑
         approve: function (event) {
+            console.log(vm.user);
+            console.log(JSON.stringify(vm.user));
             var url = "../user/approve";
             $.post(
                 url,
