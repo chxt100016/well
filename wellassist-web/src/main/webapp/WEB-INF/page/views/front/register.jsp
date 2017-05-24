@@ -40,7 +40,7 @@
                     <div class="sub header">
                         维助供应链系统用户注册 </div>
                 </h1>
-                <span class="">FIRST -----</span> SECOND-----FINAL
+          
                 <div class="ui teal progress" id="example3">
                     <div class="bar">
                         <div class="progress"></div>
@@ -110,16 +110,24 @@
                                        </select>
                                     </div>
                                 </div>
+<<<<<<< HEAD
+                                <div id ="sellerList" hidden="hidden" >
+                                    <div class="caption "><span class="box-in-level2 ui label " style="display: block;float: left; width: 86px;height: 38px;line-height: 30px; font-size: 14px;">联系卖家</span>
+                                    <select name="contactcustomer"  id="contactcustomer" class="ui dropdown" style="display: block;float: left;width: 163px;">
+=======
                                 <div id ="sellerList" hidden="hidden">
                                     <div class="caption"><span class="box-in-level2">联系卖家</span></div>
                                     <div>
-                                        <select name="contactcustomer"  id="contactcustomer">
+                                        <select name="supply_id"  id="supply_id">
+>>>>>>> 85840505250e12c306abeaf44ebec320dc8332b0
                                             <option value="0">--请选择卖家--</option>
                                             <c:forEach items="${customerList}" var="item" varStatus="status">
                                                 <option value="${item.userId}">${item.userName}</option>
                                             </c:forEach>
-                                        </select>
-                                    </div>
+                                        </select></div>
+                                   
+                                        
+                                    
                                 </div>
                                 <div class="field" id="seller_binding" style="display:none">
                                     <div class="ui labeled input ">
@@ -222,11 +230,11 @@
                     <br>
                     <a id="next_step" class="ui primary" onclick="next()">Next</a>
                 </div>
-        </div>
+        
         <!--基本信息页end-->
 
         <!--<资质信息-->
-        <div class="ui container segment" id="second_rgpage" style="display:none">
+        
                 <h3 class="ui header">联系方式</h3>
                 <div class="ui divider"></div>
                 <div class="ui form">
@@ -234,7 +242,7 @@
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">联系人：</div>
-                                <input type="text" name="contact" placeholder="" id="" class="max_text">
+                                <input type="text" name="contact" placeholder="" id="" class="max_text" onkeyup="progress(50)">
                             </div>
                         </div>
                         <div class="field">
@@ -266,7 +274,7 @@
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">企业法人身份证号：</div>
-                                <input type="text" name="legalIdCard" placeholder="" id="" class="max_text">
+                                <input type="text" name="legalIdCard" placeholder="" id="" class="max_text" onkeyup="progress(80)">
                             </div>
                         </div>
                     </div>
@@ -334,50 +342,55 @@
 
                             </div>
                         </div>--%>
-                            <div class="zizhixinxi" style="width:111px;height:120px;float: left;position:relative;">
-                                <div align=center style="height:70px;background:url('${pageContext.request.contextPath}/resources/wella/front/images/zizhi_icon.png') no-repeat center;"></div>
+                            <div class="zizhixinxi field" >
+                                 <div class="ui card">
                                 <div class="zizhititle">企业图片</div>
                                 <div>格式: JPG, PNG, GIF</div>
                                 <div>大小: 小于 5M</div>
+                                
+                                <input type="file" id="yingye_img4" name="yingye_img4_src" class="fileManage ui labeled input"  />
                                 <input type="hidden" name="yingye_img4" />
-                                <input type="file" id="yingye_img4" name="yingye_img4_src" class="fileManage"  />
-                                <img id="yingye_imgpath4" class="yingyeimg" style="" src="" />
+                                <img id="yingye_imgpath4" class="yingyeimg" style="width:100%;height:230px" src=""  />
+                                </div>
                             </div>
-                            <div class="zizhixinxi" style="width:120px;height:120px;float: left;position:relative;">
-                                <div align=center style="height:70px;background:url('${pageContext.request.contextPath}/resources/wella/front/images/zizhi_icon.png') no-repeat center;"></div>
+                            <div class="zizhixinxi field">
+                                 <div class="ui card">
                                 <div class="zizhititle">营业执照</div>
                                 <div>格式: JPG, PNG, GIF</div>
                                 <div>大小: 小于 5M</div>
                                 <input type="file" id="yingye_img1" name="yingye_img1_src"  class="fileManage"  />
                                 <input type="hidden" name="yingye_img1" />
-                                <img id="yingye_imgpath1" class="yingyeimg" style="" src="" />
-                                <input type="text" name="company_yy_zz" class="yingyetxt" placeholder="请输入营业执照"/>
+                                <img id="yingye_imgpath1" class="yingyeimg" style="width:100%; height:230px" src="" />
+                                
+                                 </div>
                             </div>
-                            <div class="zizhixinxi" style="width:120px;height:120px;float: left;position:relative;">
-                                <div align=center style="height:70px;background:url('${pageContext.request.contextPath}/resources/wella/front/images/zizhi_icon.png') no-repeat center;"></div>
+                            <div class="zizhixinxi field" >
+                               <div class="ui card">
                                 <div class="zizhititle">营业许可证</div>
                                 <div>格式: JPG, PNG, GIF</div>
                                 <div>大小: 小于 5M</div>
                                 <input type="hidden" name="yingye_img2"  class="fileManage"  />
                                 <input type="file" id="yingye_img2" name="yingye_img2_src"  class="fileManage" />
-                                <img id="yingye_imgpath2" class="yingyeimg" style="" src="" />
-                                <input type="text" name="company_xkz" class="yingyetxt" placeholder="请输入营业许可证"/>
+                                <img id="yingye_imgpath2" class="yingyeimg" style="width:100%; height:230px" src="" />
+                               
+                                </div>
                             </div>
-                            <div class="zizhixinxi" style="width:120px;height:120px;float: left;position:relative;">
-                                <div align=center style="height:70px;background:url('${pageContext.request.contextPath}/resources/wella/front/images/zizhi_icon.png') no-repeat center;"></div>
+                            <div class="zizhixinxi field" >
+                                 <div class="ui card">
                                 <div class="zizhititle">特许经营许可证</div>
                                 <div>格式: JPG, PNG, GIF</div>
                                 <div>大小: 小于 5M</div>
                                 <input type="hidden" name="yingye_img3" />
                                 <input type="file" id="yingye_img3" name="yingye_img3_src" class="fileManage"  />
-                                <img id="yingye_imgpath3" class="yingyeimg" style="" src="" />
-                                <input type="text" name="company_txkz" class="yingyetxt" placeholder="请输入特许经营许可证"/>
+                                <img id="yingye_imgpath3" class="yingyeimg" style="width:100%;height:230px" src="" />
+                            
+                                </div>
                             </div>
                     </div>
                 </div>
-            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            <br><br>
 
-            <button id="submit" class="ui primary submit button">提交</button>
+             <div style="align:center"> <button id="submit" class="ui primary submit button" style="width:100px;margin:0 auto;display:block;">提交</button> </div>
             </form>
 
         </div>
@@ -386,16 +399,16 @@
 </body>
 <script>
     function next() {
-        $('#second_rgpage').fadeIn('fast');
-        $('#first_rgpage')
-            .transition('horizontal flip out', '500ms');
+      $('body,html').animate({scrollTop:1300},1000);
+
+    }
+    function progress(index){
         $('#example3').progress({
-            percent: 50,
+            percent: index,
             text: {
                 ratio: '...'
             }
         });
-
     }
 
     function getUserType(){
@@ -455,7 +468,7 @@
                 <%--$("#yingye_imgpath"+idx).attr("src","${pageContext.request.contextPath}/" + data.path);--%>
                 $("#yingye_imgpath"+idx).attr("src",  data.path);
                 $("#yingye_imgpath"+idx).show();
-                //alert(data.path);
+                console.log(data.path);
                 return;
                 //-----------
             },
@@ -634,7 +647,37 @@
                         type: 'maxLength[18]',
                         prompt: '请输入身份证号码'
                     }]
-                }
+                },
+
+                yingye_img4 :{
+                    identifier: 'yingye_img4',
+                     rules: [{
+                        type: 'empty',
+                        prompt: '请上传企业头像'
+                    }]
+                },
+                 yingye_img3 :{
+                    identifier: 'yingye_img3',
+                     rules: [{
+                        type: 'empty',
+                        prompt: '请上传图片'
+                    }]
+                },
+                 yingye_img2 :{
+                    identifier: 'yingye_img2',
+                     rules: [{
+                        type: 'empty',
+                        prompt: '请上传图片'
+                    }]
+                },
+                 yingye_img1 :{
+                    identifier: 'yingye_img1',
+                     rules: [{
+                        type: 'empty',
+                        prompt: '请上传图片'
+                    }]
+                },
+
                 //   ...
             },
             inline: true,

@@ -69,7 +69,7 @@
 				<div align=center style="margin-top: 70px; margin-bottom: 48px; width: 800px; height: 360px; background: white; box-shadow: 0 -1px 6px rgba(0, 0, 0, 0.5);">
 										<div style="padding-top:82px;">
 						<img src="${pageContext.request.contextPath}/resources/wella/front/images/zhuceok_icon.png">
-						<span style="font-size:32px;font-weight:bold;padding-left:16px;">注册完成,请进入邮箱激活账户</span>
+						<span style="font-size:32px;font-weight:bold;padding-left:16px;">激活成功，请等待管理员审核</span>
 					</div>
 					<div style="color:#2681c6;font-size:16px;font-weight: bold;padding-top: 50px;"><a href="${pageContext.request.contextPath}/">返回首页</a></div>
 				</div>

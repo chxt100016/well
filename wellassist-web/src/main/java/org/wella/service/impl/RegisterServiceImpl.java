@@ -5,6 +5,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.wella.common.utils.CommonUtil;
+import org.wella.common.utils.ConstantUtil;
 import org.wella.dao.UserinfoDao;
 import org.wella.dao.WaUserDao;
 import org.wella.service.RegisterService;
@@ -70,8 +71,9 @@ public class RegisterServiceImpl implements RegisterService{
             String contactcustomer = CommonUtil.GetRequestParam(request, "contactcustomer", "");
             String user_phone = CommonUtil.GetRequestParam(request, "contactphone", "");
             String user_email = CommonUtil.GetRequestParam(request, "contactemail", "");
-            String user_pass = CommonUtil.GetRequestParam(request, "pass1", "");
+            String user_pass = CommonUtil.GetRequestParam(request, "password", "");
             String user_type = CommonUtil.GetRequestParam(request, "user_type", "0");
+            String supply_id=CommonUtil.GetRequestParam(request, "supply_id", "0");
             wa_user.put("user_type", user_type);
             wa_user.put("user_pass", CommonUtil.MD5(user_pass));
             wa_user.put("user_email", user_email);
@@ -81,6 +83,7 @@ public class RegisterServiceImpl implements RegisterService{
             wa_user.put("user_account",user_account);
             wa_user.put("user_seat_phone",user_seat_phone);
             wa_user.put("legal_id_card",legal_id_card);
+            wa_user.put("supply_id",supply_id);
             //生成激活码
             String code = CodeUtil.generateUniqueCode();
             wa_user.put("activity_code", code);
@@ -120,7 +123,7 @@ public class RegisterServiceImpl implements RegisterService{
                 wa_userinfo.put("zc_region_id", zc_region_id);
                 wa_userinfo.put("zc_xx_address", zc_xx_address);
                 //注册时的初始化密码为123456
-                wa_userinfo.put("cz_pass", CommonUtil.MD5("123456"));
+                //wa_userinfo.put("cz_pass", CommonUtil.MD5("123456"));
                 wa_userinfo.put("company_lxr", company_lxr);
                 wa_userinfo.put("company_lxr_phone", company_lxr_phone);
                 try {
@@ -137,7 +140,7 @@ public class RegisterServiceImpl implements RegisterService{
                     ret.put("state", Integer.valueOf(1));
                     ret.put("content", "注册成功！");
                     //注册成功后的邮件发送，根据邮箱及激活码进行操作
-                    String content = "<html><head></head><body><h1>这是一封激活邮件,激活请点击以下链接</h1><h3><a href='http://localhost:8080/wellassist/mail/active" +"?code=" + code + "' target = '_blank'>http://localhost:8080/wellassist/mail/active?code=" + code + "</href></h3></body></html>";
+                    String content = "<html><head></head><body><h1>这是一封激活邮件,激活请点击以下链接</h1><h3><a href='"+ ConstantUtil.SERVER_HOST+"mail/active" +"?code=" + code + "' target = '_blank'>"+ ConstantUtil.SERVER_HOST+"mail/active?code=" + code + "</href></h3></body></html>";
                     new Thread(new MailUtil(user_email, content)).start();
                 } catch (Exception e) {
                     ret.put("state", Integer.valueOf(-1));

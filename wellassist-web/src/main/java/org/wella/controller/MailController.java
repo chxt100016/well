@@ -54,9 +54,9 @@ public class MailController extends BaseController {
        String code = request.getParameter("code");
        if(mailServiceImpl.activeUser(code)){
            //修改成功后跳转值登录界面
-           return "views/front/home.jsp";
+           return "views/front/customer/login/activateNext.jsp";
        }else {
-           return "views/front/home.jsp";
+           return "views/home.jsp";
        }
     }
 

@@ -10,7 +10,9 @@ $(function () {
             { label: '公司', name: 'userName', width: 75 },
             { label: '申请日期', name: 'createDate', width: 75 },
             { label: '审核状态', name: 'userState', width: 75 ,formatter:function (value,option,row) {
-                    return value=='1'?"通过":"不通过";
+                    if(value == "0"){return "待审核"}
+                    else if(value == "-1"){return "不通过"}
+                    else if(value == "1"){return "通过"}
                 }
             },
             {label: '审核', name: '', width: 75 ,formatter:function (value,option,row) {
@@ -44,11 +46,14 @@ $(function () {
             rows:"limit",
             order: "order"
         },
+
         gridComplete:function(){
             //隐藏grid底部滚动条
             $("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
         }
+      
     });
+    $('#gridid').jqGrid('getGridParam','data')
 });
 
 var vm = new Vue({
@@ -71,8 +76,9 @@ var vm = new Vue({
         },
         //审核通过时挑用的业务逻辑
         approve: function (event) {
-            var url = "../user/approve";
             console.log(vm.user);
+            console.log(JSON.stringify(vm.user));
+            var url = "../user/approve";
             $.post(
                 url,
                 JSON.stringify(vm.user),
@@ -90,8 +96,6 @@ var vm = new Vue({
         },
         notApprove:function(event){
             var url = "../user/notApprove";
-            console.log(vm.user);
-            console.log(JSON.stringify(vm.user));
             $.post(
                 url,
                 JSON.stringify(vm.user),

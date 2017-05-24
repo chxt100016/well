@@ -1,4 +1,4 @@
-$(function () {
+ $(function () {
     $("#jqGrid").jqGrid({
         url: '../sys/user/list',
         datatype: "json",
