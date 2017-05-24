@@ -5,6 +5,7 @@ import java.io.File;
 public class ConstantUtil {
     public static int PAGESIZE = 5;
     public static int GAP = 5;
+    public static String SERVER_HOST="http://localhost:8080/wellassist/";
     public static String ERR_ROLE = "很抱歉！您没有操作权限！";
     public static String MSG_SUCCESS = "操作成功！";
     public static String MSG_FAILS = "操作失败！";

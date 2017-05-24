@@ -1,8 +1,10 @@
 package org.wella.platform.service.impl;
 
+import io.wellassist.utils.Constant;
 import io.wellassist.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
 import org.wella.entity.LoanInfo;
@@ -80,7 +82,7 @@ public class MemberServiceImpl implements MemberService{
         updateMap.put("comment",comment);
         updateMap.put("userState",1);
         waUserDao.updateUserByUserId(updateMap);
-        String content="<html><head></head><body><h1>您的维助供应链平台账户已通过审核</h1><h1>初始密码：123456</h1><h1>点击进入<a href='http://localhost:8080/wellassist/'  target = '_blank'>维助供应链</a></h1></body></html>";
+        String content="<html><head></head><body><h1>您的维助供应链平台账户已通过审核</h1><h1>点击进入<a href='"+ ConstantUtil.SERVER_HOST+"'  target = '_blank'>维助供应链</a></h1></body></html>";
         new Thread(new MailUtil(email, content)).start();
     }
 
@@ -93,7 +95,7 @@ public class MemberServiceImpl implements MemberService{
         updateMap.put("comment",comment);
         updateMap.put("userState",-1);
         waUserDao.updateUserByUserId(updateMap);
-        String content="<html><head></head><body><h1>对不起，您的维助供应链平台账户未通过审核</h1><h1>审核意见："+comment+"</h1><h1>点击进入<a href='http://localhost:8080/wellassist/'  target = '_blank'>维助供应链</a></h1></body></html>";
+        String content="<html><head></head><body><h1>对不起，您的维助供应链平台账户未通过审核</h1><h1>审核意见："+comment+"</h1><h1>点击进入<a href='"+ConstantUtil.SERVER_HOST+"'  target = '_blank'>维助供应链</a></h1></body></html>";
         new Thread(new MailUtil(email, content)).start();
     }
 
