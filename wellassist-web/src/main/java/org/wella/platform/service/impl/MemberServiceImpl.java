@@ -1,12 +1,10 @@
 package org.wella.platform.service.impl;
 
+import io.wellassist.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.wella.common.utils.ConvertUtil;
-import org.wella.dao.ProdDao;
-import org.wella.dao.ProdUserDao;
-import org.wella.dao.UserinfoDao;
-import org.wella.dao.WaUserDao;
+import org.wella.dao.*;
 import org.wella.entity.LoanInfo;
 import org.wella.entity.Prod;
 import org.wella.entity.User;
@@ -31,12 +29,20 @@ public class MemberServiceImpl implements MemberService{
     private ProdDao prodDao;
     @Autowired
     private ProdUserDao prodUserDao;
+    @Autowired
+    private RegionDao regionDao;
 
 
     @Override
     public Map<String, Object> findUserInfoById(long id) {
         Map res=userinfoDao.findUserInfoById(id);
         ConvertUtil.convertDataBaseMapToJavaMap(res);
+        String zcRegionId=(String)res.get("zcRegionId");
+        String zcXxAddress=(String)res.get("zcXxAddress");
+        HashMap query=new HashMap();
+        query.put("regionId",zcRegionId);
+        String address=regionDao.getRegionDetailName(query)+" "+zcXxAddress;
+        res.put("address",address);
         return res;
     }
 
@@ -67,26 +73,26 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public void approve(Map map) {
-        Long userId= Long.parseLong((String)map.get("userId"));
         String comment=(String)map.get("comment");
         String email=(String)map.get("userEmail");
         Map updateMap=new HashMap();
-        updateMap.put("userId",userId);
+        updateMap.put("userId",map.get("userId"));
         updateMap.put("comment",comment);
         updateMap.put("userState",1);
-        String content="<html><head></head><body><h1>您的维助供应链平台账户已通过审核</h1><h1>点击进入<a href='http://localhost:8080/wellassist/'  target = '_blank'>维助供应链</a></h1></body></html>";
+        waUserDao.updateUserByUserId(updateMap);
+        String content="<html><head></head><body><h1>您的维助供应链平台账户已通过审核</h1><h1>初始密码：123456</h1><h1>点击进入<a href='http://localhost:8080/wellassist/'  target = '_blank'>维助供应链</a></h1></body></html>";
         new Thread(new MailUtil(email, content)).start();
     }
 
     @Override
     public void notAprove(Map map) {
-        Long userId= Long.parseLong((String)map.get("userId"));
         String comment=(String)map.get("comment");
         String email=(String)map.get("userEmail");
         Map updateMap=new HashMap();
-        updateMap.put("userId",userId);
+        updateMap.put("userId",map.get("userId"));
         updateMap.put("comment",comment);
         updateMap.put("userState",-1);
+        waUserDao.updateUserByUserId(updateMap);
         String content="<html><head></head><body><h1>对不起，您的维助供应链平台账户未通过审核</h1><h1>审核意见："+comment+"</h1><h1>点击进入<a href='http://localhost:8080/wellassist/'  target = '_blank'>维助供应链</a></h1></body></html>";
         new Thread(new MailUtil(email, content)).start();
     }

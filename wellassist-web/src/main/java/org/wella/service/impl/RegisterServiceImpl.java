@@ -72,6 +72,7 @@ public class RegisterServiceImpl implements RegisterService{
             String user_email = CommonUtil.GetRequestParam(request, "contactemail", "");
             String user_pass = CommonUtil.GetRequestParam(request, "pass1", "");
             String user_type = CommonUtil.GetRequestParam(request, "user_type", "0");
+            String supply_id=CommonUtil.GetRequestParam(request, "supply_id", "0");
             wa_user.put("user_type", user_type);
             wa_user.put("user_pass", CommonUtil.MD5(user_pass));
             wa_user.put("user_email", user_email);
@@ -81,6 +82,7 @@ public class RegisterServiceImpl implements RegisterService{
             wa_user.put("user_account",user_account);
             wa_user.put("user_seat_phone",user_seat_phone);
             wa_user.put("legal_id_card",legal_id_card);
+            wa_user.put("supply_id",supply_id);
             //生成激活码
             String code = CodeUtil.generateUniqueCode();
             wa_user.put("activity_code", code);

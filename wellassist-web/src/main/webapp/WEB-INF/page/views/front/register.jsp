@@ -113,7 +113,7 @@
                                 <div id ="sellerList" hidden="hidden">
                                     <div class="caption"><span class="box-in-level2">联系卖家</span></div>
                                     <div>
-                                        <select name="contactcustomer"  id="contactcustomer">
+                                        <select name="supply_id"  id="supply_id">
                                             <option value="0">--请选择卖家--</option>
                                             <c:forEach items="${customerList}" var="item" varStatus="status">
                                                 <option value="${item.userId}">${item.userName}</option>

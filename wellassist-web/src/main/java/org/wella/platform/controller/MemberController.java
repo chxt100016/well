@@ -14,6 +14,8 @@ import org.wella.entity.User;
 import org.wella.platform.service.impl.MemberServiceImpl;
 
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -132,12 +134,11 @@ public class MemberController extends AbstractController{
 
     @RequestMapping("reviewlist")
     public R rewiewList(@RequestParam Map<String,Object> params) {
-
         params.put("activityState", 1);
-        List<User> sellerList = this.waUserDao.findUser(params);
-        int totalCount = waUserDao.findUserTotal(params);
-        //查询列表数据
         Query query = new Query(params);
+        List<User> sellerList = this.waUserDao.findUser(query);
+        int totalCount = waUserDao.findUserTotal(query);
+        //查询列表数据
         PageUtils pageUtil = new PageUtils(sellerList, totalCount, query.getLimit(), query.getPage());
         return R.ok().put("page", pageUtil);
     }
@@ -148,7 +149,7 @@ public class MemberController extends AbstractController{
      * @return
      */
     @RequestMapping("approve")
-    public R approve (HttpRequest request,@RequestParam Map<String, Object> params) {
+    public R approve (@RequestBody Map params) {
         memberServiceImpl.approve(params);
         return R.ok();
     }
@@ -159,7 +160,7 @@ public class MemberController extends AbstractController{
      * @return
      */
     @RequestMapping("notApprove")
-    public R notApprove (@RequestParam Map<String,Object> params) {
+    public R notApprove (@RequestBody Map<String,Object> params) {
         memberServiceImpl.notAprove(params);
         return R.ok();
     }
