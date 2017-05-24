@@ -159,7 +159,7 @@ var vm = new Vue({
             // console.log(vm.user);
             $.post(
                 url,
-                "",
+                JSON.stringify(vm.user),
                 function(r){
                     if(r.code === 0){
                         alert('操作成功', function(index){

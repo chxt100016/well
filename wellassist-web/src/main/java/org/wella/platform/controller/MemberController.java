@@ -163,7 +163,7 @@ public class MemberController extends AbstractController{
         return R.ok();
     }
 
-    @RequestMapping("resetPassword/{userid}")
+    @RequestMapping("resetPassword/{userId}")
     public R resetPassword(@PathVariable("userId") long userId){
         memberServiceImpl.resetPassword(userId);
         return R.ok();
