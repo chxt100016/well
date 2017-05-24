@@ -47,4 +47,9 @@ public interface WaUserDao {
      */
     int findUserTotal(Map map);
 
+    /**
+     * 重置密码
+     * @param map
+     */
+    void resetPassword(Map map);
 }

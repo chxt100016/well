@@ -7,21 +7,18 @@ $(function () {
         datatype: "json",
         colModel: [
             { label: 'id', name: 'userId', index: "user_id", width: 45, key: true },
-            { label: '公司', name: 'userName', width: 75 },
-            { label: '公司详细', width: 90,formatter:function (value,options,row) {
-                return '<button  onclick="vm.test()">公司详情</button>'
-            } },
+            { label: '公司', name: 'companyName', width: 75 },
             { label: '余额', name: 'userMoney', width: 100 ,formatter:function (value,option,row) {
-                return value+"元<br><a href=''>详情</a>";
+                return value+"元<br>";
             }},
-            { label: '产品列表', name: 'status', width: 80, formatter: function(value, options, row){
-                return value === 0 ?
-                    '<span class="label label-danger">禁用</span>' :
-                    '<span class="label label-success">正常</span>';
-            }},
-            { label: '卖家列表', width: 80,formatter:function (value,options,row) {
+            { label: '买家列表', width: 80,formatter:function (value,options,row) {
                 return "";
-            }}
+            }},
+            { label: '公司详情', name: '', index: "user_id", width: 45, key: true,formatter:function (value,option,row) {
+                var userId = row.userId;
+                var state = row.userState;
+                return  '<button  class="btn btn-primary" onclick="vm.viewInfo(' + userId + ')">详情</button>'
+            } }
         ],
         viewrecords: true,
         height: 385,
@@ -141,14 +138,11 @@ var vm = new Vue({
                 vm.roleList = r.list;
             });
         },
-        test:function () {
-            var userId = getSelectedRow();
-            if(userId!=""){
-                alert(JSON.stringify(userId));
-            }
-            else {
-                test();
-            }
+        viewInfo:function (userId) {
+            $.get("../user/reviewInfo/"+userId, function(r){
+                vm.user = r.user;
+            });
+            vm.showList = false;
         },
         reload: function (event) {
             vm.showList = true;
@@ -157,6 +151,27 @@ var vm = new Vue({
                 postData:{'username': vm.q.username},
                 page:page
             }).trigger("reloadGrid");
+        },
+        resetPassword:function(){
+            var userId = vm.user.userId;
+            var url = "../user/resetPassword/"+userId;
+            alert(url);
+            // console.log(vm.user);
+            $.post(
+                url,
+                "",
+                function(r){
+                    if(r.code === 0){
+                        alert('操作成功', function(index){
+                            vm.reload();
+                        });
+                    }else{
+                        alert(r.msg);
+                    }
+                },
+                "json"
+            );
+
         }
     }
 });

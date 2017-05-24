@@ -2,6 +2,7 @@ package org.wella.platform.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.ProdDao;
 import org.wella.dao.ProdUserDao;
@@ -91,10 +92,24 @@ public class MemberServiceImpl implements MemberService{
         new Thread(new MailUtil(email, content)).start();
     }
 
+    /**
+     * 将用户登录密码与操作密码重置为123456
+     * @param userId
+     */
+    public void resetPassword(long userId){
+        String password = CommonUtil.MD5("123456");
+        Map map = new HashMap();
+        map.put("czPass",password);
+        map.put("userPass",password);
+        map.put("userId",userId);
+        waUserDao.resetPassword(map);
+    }
     @Override
     public List<Map<String, Object>> findSellerInfo(Map map) {
         map.put("userType",0);
-        return waUserDao.findPlatformUserInfo(map);
+        List<Map<String,Object>> list = waUserDao.findPlatformUserInfo(map);
+        ConvertUtil.convertDataBaseMapToJavaMap(list);
+        return list;
     }
 
     @Override
@@ -156,6 +171,8 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public List<Map<String, Object>> findSendsList(Map map) {
         map.put("userType",3);
+        List<Map<String,Object>> list = waUserDao.findPlatformUserInfo(map);
+        ConvertUtil.convertDataBaseMapToJavaMap(list);
         return waUserDao.findPlatformUserInfo(map);
     }
 

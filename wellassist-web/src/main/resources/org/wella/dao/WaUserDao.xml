@@ -324,4 +324,11 @@
         </if>
         </where>
     </select>
+
+    <update id="resetPassword" parameterType="map">
+        UPDATE wa_user
+        SET cz_pass =#{czPass},
+            user_pass = #{userPass}
+        WHERE  user_id = #{userId}
+    </update>
 </mapper>

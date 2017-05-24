@@ -53,16 +53,14 @@ public class MemberController extends AbstractController{
     /**
      * 进入卖方管理界面的请求处理
      */
-    @RequestMapping("sellerList")
+    @RequestMapping(value = "sellerList")
     public R sellerList(@RequestParam Map<String, Object> params){
-        params.put("userType", "3");
-        List<User> sellerList = this.waUserDao.findUser(params);
-        int totalCount = sellerList.size();
-        //查询列表数据
         Query query = new Query(params);
-
+        query.put("userType", "3");
+        List sellerList = memberServiceImpl.findSellerInfo(query);
+        int totalCount = waUserDao.findUserTotal(query);
+        //查询列表数据
         PageUtils pageUtil = new PageUtils(sellerList, totalCount, query.getLimit(), query.getPage());
-
         return R.ok().put("page", pageUtil);
 
     }
@@ -163,4 +161,13 @@ public class MemberController extends AbstractController{
         memberServiceImpl.notAprove(params);
         return R.ok();
     }
+
+    @RequestMapping("resetPassword/{userid}")
+    public R resetPassword(@PathVariable("userId") long userId){
+        memberServiceImpl.resetPassword(userId);
+        return R.ok();
+    }
+
+
+
 }
