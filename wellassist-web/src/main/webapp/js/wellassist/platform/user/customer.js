@@ -1,6 +1,6 @@
  $(function() {
         $("#jqGrid").jqGrid({
-            url: '../user/customerList',
+            url: '../user/customersList',
             datatype: "json",
             colModel: [{
                 label: 'id',
@@ -10,7 +10,7 @@
                 key: true
             }, {
                 label: '公司',
-                name: 'userName',
+                name: 'companyName',
                 width: 75
             }, {
                 label: '公司-详细',
@@ -24,7 +24,7 @@
                 }
             }, {
                 label: '账户情况',
-                name: 'customerMoney',
+                name: 'userMoney',
                 width: 100,
                 formatter: function(value, option, row) {
                     return value + '元<br><a href="./accountDeatil.html?id="+id>详情</a>'
@@ -48,7 +48,7 @@
             },
             {
                 label: '所属卖家',
-                name: 'customerMoney',
+                name: 'supplyName',
                 width: 100,
                 formatter: function(value, option, row) {
                     return value ;

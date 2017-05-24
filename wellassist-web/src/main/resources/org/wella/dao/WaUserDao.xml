@@ -81,7 +81,8 @@
                 legal_id_card=#{legal_id_card},
         		user_reg_no = #{user_reg_no},
         		user_name = #{user_name},
-        		activity_code = #{activity_code}
+        		activity_code = #{activity_code},
+                supply_id=${supply_id}
         <selectKey keyProperty="newId" resultType="String">
             select last_insert_id()
         </selectKey>
@@ -218,7 +219,7 @@
                 activity_state = #{activityState,jdbcType=BINARY},
             </if>
         </set>
-        WHERE user_id =#{userId}
+        WHERE user_id =${userId}
     </update>
 
     <delete id="deleteUser" parameterType="long">

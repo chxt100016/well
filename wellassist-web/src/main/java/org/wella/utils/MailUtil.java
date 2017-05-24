@@ -9,11 +9,11 @@ import java.util.Properties;
 
 public class MailUtil implements Runnable {
 	private String email;// 收件人邮箱
-	private String code;// 激活码
+	private String content;// 激活码
 
-	public MailUtil(String email, String code) {
+	public MailUtil(String email, String content) {
 		this.email = email;
-		this.code = code;
+		this.content = content;
 	}
 
 	public void run() {
@@ -55,7 +55,7 @@ public class MailUtil implements Runnable {
 //			String content = "<html><head></head><body><h1>这是一封激活邮件,激活请点击以下链接</h1><h3><a href='http://192.168.1.211:8080/RegisterDemo/ActiveServlet?code="
 //					+ code + "' target = '_blank'>http://localhost:8080/wellassist/mail/active?code=" + code
 //					+ "</href></h3></body></html>";
-			String content = "<html><head></head><body><h1>这是一封激活邮件,激活请点击以下链接</h1><h3><a href='http://localhost:8080/wellassist/mail/active" +"?code=" + code + "' target = '_blank'>http://localhost:8080/wellassist/mail/active?code=" + code + "</href></h3></body></html>";
+
 			message.setContent(content, "text/html;charset=UTF-8");
 			// 3.发送邮件
 			Transport.send(message);

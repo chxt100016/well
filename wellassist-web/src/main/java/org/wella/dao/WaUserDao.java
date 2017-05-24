@@ -19,6 +19,7 @@ public interface WaUserDao {
 
     HashMap getCountByName(Map map);
 
+
     int updateUserByCode(String code);
 
     //找回密码时，后台生成验证码，并将验证码发到用户邮箱，并将该验证码写入到数据库，提交时根据此验证

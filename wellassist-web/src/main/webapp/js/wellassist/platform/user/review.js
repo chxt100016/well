@@ -10,7 +10,9 @@ $(function () {
             { label: '公司', name: 'userName', width: 75 },
             { label: '申请日期', name: 'createDate', width: 75 },
             { label: '审核状态', name: 'userState', width: 75 ,formatter:function (value,option,row) {
-                    return value=='1'?"通过":"不通过";
+                    if(value == "0"){return "待审核"}
+                    else if(value == "-1"){return "不通过"}
+                    else if(value == "1"){return "通过"}
                 }
             },
             {label: '审核', name: '', width: 75 ,formatter:function (value,option,row) {
@@ -77,11 +79,10 @@ var vm = new Vue({
             console.log(vm.user);
             console.log(JSON.stringify(vm.user));
             var url = "../user/approve";
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: JSON.stringify(vm.user),
-                success: function(r){
+            $.post(
+                url,
+                JSON.stringify(vm.user),
+                function(r){
                     if(r.code === 0){
                         alert('操作成功', function(index){
                             vm.reload();
@@ -89,16 +90,16 @@ var vm = new Vue({
                     }else{
                         alert(r.msg);
                     }
-                }
-            });
+                },
+                "json"
+            );
         },
         notApprove:function(event){
             var url = "../user/notApprove";
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: JSON.stringify(vm.user),
-                success: function(r){
+            $.post(
+                url,
+                JSON.stringify(vm.user),
+                function(r){
                     if(r.code === 0){
                         alert('操作成功', function(index){
                             vm.reload();
@@ -106,8 +107,9 @@ var vm = new Vue({
                     }else{
                         alert(r.msg);
                     }
-                }
-            });
+                },
+                "json"
+            );
         },
         review: function(userId){
             $.get("../user/reviewInfo/"+userId, function(r){
