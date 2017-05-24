@@ -5,6 +5,12 @@
     <title>Title</title>
     <!--valocity模板解析-->
     #parse("sys/header.html")
+    <style>
+        .form-img {
+            width: 100%;
+            height: 100px;
+        }
+    </style>
 </head>
 
 <body>
@@ -38,13 +44,13 @@
                 <div class="form-group">
                     <div class="col-sm-2 control-label">企业名称</div>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="user.companyName" placeholder="企业名称"/>
+                        <input type="text" class="form-control" v-model="user.companyName" placeholder="企业名称" />
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-2 control-label">企业注册号：</div>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="user.userRegNo" placeholder="企业注册号"/>
+                        <input type="text" class="form-control" v-model="user.userRegNo" placeholder="企业注册号" />
                     </div>
                 </div>
 
@@ -65,50 +71,62 @@
                 <div class="form-group">
                     <div class="col-sm-2 control-label">企业联系人：</div>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="user.companyLxr" placeholder="企业联系人"/>
+                        <input type="text" class="form-control" v-model="user.companyLxr" placeholder="企业联系人" />
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-sm-2 control-label">企业联系人电话：</div>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="user.companyLxrPhone" placeholder="联系人手机号"/>
+                        <input type="text" class="form-control" v-model="user.companyLxrPhone" placeholder="联系人手机号" />
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-sm-2 control-label">企业注册地：</div>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="user.zcXxAddress" placeholder="企业注册地"/>
+                        <input type="text" class="form-control" v-model="user.zcXxAddress" placeholder="企业注册地" />
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-sm-2 control-label">企业邮箱：</div>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="user.userEmail" placeholder="企业注册地"/>
+                        <input type="text" class="form-control" v-model="user.userEmail" placeholder="企业注册地" />
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <div class="col-sm-2 control-label">企业logo：</div>
-                    <div class="col-sm-10">
-                        <input type="image" class="form-control" v-bind:src="user.companyYyZzImg"/>
+                    <div class="col-sm-2 control-label">企业图片：</div>
+                    <div class="col-sm-2">
+                        <input type="image" class="form-img" v-bind:src="user.companyImg" />
+                    </div>
+                    <div class="col-sm-2 control-label">营业执照：</div>
+                    <div class="col-sm-2">
+                        <input type="image" class="form-img" v-bind:src="user.companyYyZzImg" />
+                    </div>
+                    <div class="col-sm-2 control-label">营业许可证：</div>
+                    <div class="col-sm-2">
+                        <input type="image" class="form-img" v-bind:src="user.companyYyZzImg" />
+                    </div>
+                    <div class="col-sm-2 control-label">特许营业许可证：</div>
+                    <div class="col-sm-2">
+                        <input type="image" class="form-img" v-bind:src="user.companyYyZzImg" />
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-sm-2 control-label">审核意见：</div>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="user.opinion" placeholder="审核意见"/>
+                        <input type="text" class="form-control" v-model="user.opinion" placeholder="审核意见" />
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-sm-2 control-label"></div>
-                    <input type="button" class="btn btn-primary" @click="approve" value="通过"/>
-                    &nbsp;&nbsp;<input type="button" class="btn btn-danger" @click="notApprove" value="不通过"/>
-                    &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+                    <input type="button" class="btn btn-primary" @click="approve" value="通过" /> &nbsp;&nbsp;
+                    <input type="button" class="btn btn-danger" @click="notApprove" value="不通过" /> &nbsp;&nbsp;
+                    <input type="button" class="btn btn-warning" @click="reload" value="返回" />
                 </div>
 
 

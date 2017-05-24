@@ -19,7 +19,7 @@
                     var userId = row.userId;
                     // return '<a  class="btn btn-primary" href="./customerInfo.html?id="+id>公司详情</a>'
                     return '<a  onclick= "vm.update( '+ userId + ')">公司详情</a>';
-                    // alert(row);
+                    alert(row);
 
                 }
             }, {
