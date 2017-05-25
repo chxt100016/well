@@ -24,4 +24,5 @@ public interface RegionDao {
 
     List<Map<String,Object>> getRegionList(Map<String,Object> param);
 
+    String getRegionDetailName(long regionId);
 }

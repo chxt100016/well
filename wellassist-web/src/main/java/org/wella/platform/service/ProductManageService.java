@@ -1,7 +1,5 @@
 package org.wella.platform.service;
 
-import org.wella.entity.Prod;
-
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +14,7 @@ public interface ProductManageService {
      * @param map 分页查询参数
      * @return
      */
-    List<Prod> prodList(Map map);
+    List<Map<String, Object>> prodList(Map map);
 
     /**
      * 获取模糊查询中满足商品的条数
