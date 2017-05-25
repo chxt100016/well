@@ -70,15 +70,22 @@
 	</insert>
 
 	<!--根据相关信息模糊查询，获取某一公司的所有产品-->
-	<select id="findProd" parameterType="map" resultMap="prod">
+	<select id="findProdByConditions" parameterType="map" resultMap="prod">
 		SELECT *
 		FROM wa_order
-		WHERE 1 = 1
-		<if test="userId != null">
-			AND user_id = #{userId}
+		<where>
+			<if test="userId != null">
+				AND user_id = #{userId}
+			</if>
+			<if test="prodName != null">
+				AND prod_name LIKE '%${prodName}%'
+			</if>
+		</where>
+		<if test="orderBy != null">
+			order BY ${orderBy}
 		</if>
-		<if test="prodName != null">
-			AND prod_name LIKE '%${prodName}%'
+		<if test="offset != null and limit != null">
+			limit ${offset},${limit}
 		</if>
 	</select>
 
@@ -128,7 +135,7 @@
 		</if>
 	</select>
 
-	<update id="updateProd" parameterType="org.wella.entity.Prod">
+	<update id="updateProdByPrimaryKey" parameterType="org.wella.entity.Prod">
 		update wa_prod
 		<set>
 			<if test="prodType != null" >
@@ -183,10 +190,10 @@
 				prod_region_addr = #{prodRegionAddr,jdbcType=VARCHAR},
 			</if>
 		</set>
-		where prod_id=#{prodId}
+		where prod_id=${prodId}
 	</update>
 
-	<delete id="deleteProd" parameterType="long">
+	<delete id="deleteProdByPrimaryKey" parameterType="long">
 		delete from wa_prod
     	where prod_id = #{prodId,jdbcType=BIGINT}
 	</delete>
