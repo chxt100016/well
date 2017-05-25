@@ -110,16 +110,15 @@
                                        </select>
                                     </div>
                                 </div>
-<<<<<<< HEAD
+
                                 <div id ="sellerList" hidden="hidden" >
                                     <div class="caption "><span class="box-in-level2 ui label " style="display: block;float: left; width: 86px;height: 38px;line-height: 30px; font-size: 14px;">联系卖家</span>
                                     <select name="contactcustomer"  id="contactcustomer" class="ui dropdown" style="display: block;float: left;width: 163px;">
-=======
                                 <div id ="sellerList" hidden="hidden">
                                     <div class="caption"><span class="box-in-level2">联系卖家</span></div>
                                     <div>
                                         <select name="supply_id"  id="supply_id">
->>>>>>> 85840505250e12c306abeaf44ebec320dc8332b0
+
                                             <option value="0">--请选择卖家--</option>
                                             <c:forEach items="${customerList}" var="item" varStatus="status">
                                                 <option value="${item.userId}">${item.userName}</option>
