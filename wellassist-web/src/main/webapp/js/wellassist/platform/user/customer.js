@@ -26,8 +26,9 @@
                 label: '账户情况',
                 name: 'userMoney',
                 width: 100,
-                formatter: function(value, option, row) {
-                    return value + '元<br><a href="./accountDeatil.html?id="+id>详情</a>'
+                formatter: function(value, options, row) {
+                    var userId = row.userId;
+                    return value + '元<a href="./accountDeatil.html?id='+ userId +'>详情</a>'
                 }
             }, {
                 label: '还款情况',
@@ -41,7 +42,7 @@
                 label: '授信额度',
                 name: 'customerMoney',
                 width: 100,
-                formatter: function(value, option, row) {
+                formatter: function(value, options, row) {
                     return value + "万元<br><a href=''>授信额度</a>";
                 }
 
@@ -100,7 +101,11 @@
         },
         methods: {
             query: function() {
-                vm.reload();
+                // vm.reload();
+                $("#jqGrid").jqGrid('setGridParam',{ 
+                postData:{'companyName': vm.q.username},
+                page:1 
+            }).trigger("reloadGrid");
             },
             add: function() {
                 vm.showList = false;
