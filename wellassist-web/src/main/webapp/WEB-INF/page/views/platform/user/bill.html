@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <style>
+        .mid_box {
+            width: 1100px;
+            margin: 0px auto;
+            border: 1px solid rgba(34, 36, 38, .15);
+            box-shadow: 0 2px 4px 0 rgba(34, 36, 38, .12), 0 2px 10px 0 rgba(34, 36, 38, .15);
+            padding: 1em;
+            font-size: 14px;
+            position: absolute;
+        }
+        
+        .span_status {
+            color: #adadad;
+        }
+        
+        .fl-rg {
+            float: right;
+        }
+        
+        .pd-lf-10 {
+            padding-left: 10px;
+        }
+        
+        .pd-bt-10 {
+            padding-bottom: 10px;
+        }
+        
+        table {
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mid_box">
+        <div class="row">
+            <div class="col-md-12">
+                <!--<h3>详细信息</h3>-->
+                <form class="bs-example" data-example-id="btn-tags">
+                    <a class="btn btn-default " href="customerInfo.html">公司详情</a>.
+                    <a class="btn btn-default " href="accountDetail.html">账户情况</a>
+                    <a class="btn btn-default active " href="bill.html">欠款情况</a>
+                    <a class="btn btn-default " href="credit.html">授信记录</a>
+
+                </form>
+                <br><br>
+            </div>
+            <div class="col-md-8">
+                <h3>还款情况</h3>
+                <hr>
+                <div>
+                    <table>
+                        <!--<th></th>-->
+                        <tbody>
+                            <tr>
+                                <td>总借款：</td>
+                                <td> 利率： </td>
+                                <td>分期：</td>
+                            </tr>
+                            <tr style="height:50px">
+                                <td>未还款：</td>
+                                <td></td>
+                                <td></td>
+
+                            </tr>
+                            <tr style="height:50px">
+                                <td>本期还款：</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr style="height:50px">
+                                <td>历史上共有 逾款：</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <h3>还款记录</h3>
+                <hr>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>还款日期</th>
+                            <th>还款金额</th>
+                            <th>利息</th>
+                            <th>分期</th>
+                            <th>逾期情况</th>
+                            <th>实际还款</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">2016-12-17</th>
+                            <td>320万元</td>
+                            <td>6000</td>
+                            <td>2</td>
+                            <td>无逾期</td>
+                            <td>206000</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2016-12-17</th>
+                            <td>320万元</td>
+                            <td>6000</td>
+                            <td>2</td>
+                            <td>无逾期</td>
+                            <td>206000</td </tr>
+                            <tr>
+                                <th scope="row">2016-12-17</th>
+                                <td>320万元</td>
+                                <td>6000</td>
+                                <td>2</td>
+                                <td>无逾期</td>
+                                <td>206000</td </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+</body>
+
+</html>

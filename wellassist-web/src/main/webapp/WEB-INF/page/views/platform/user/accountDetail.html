@@ -6,10 +6,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--<link href="css/style.css" rel="stylesheet">-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">-->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
-    <script src="echarts.common.min.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>-->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.bootcss.com/echarts/3.5.4/echarts.common.js"></script>
     <style>
         .half_container {
             width: 47%;
@@ -45,6 +48,18 @@
 
 <body>
     <div class="container mid_box">
+        <div class="col-md-12">
+            <!--<h3>详细信息</h3>-->
+            <form class="bs-example" data-example-id="btn-tags">
+                <a class="btn btn-default " href="customerInfo.html">公司详情</a>.
+                <a class="btn btn-default active " href="accountDetail.html">账户情况</a>
+                <a class="btn btn-default " href="bill.html">欠款情况</a>
+                <a class="btn btn-default " href="credit.html">授信记录</a>
+
+            </form>
+            <br><br>
+        </div>
+
         <div class="half_container">
             <h3 class="ui header">账户数据</h3>
             <hr>
@@ -100,15 +115,25 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="ui pagination menu">
-                    <a class="active item">  1</a>
-                    <div class="disabled item">
-                        ...
-                    </div>
-                    <a class="item">  10</a>
-                    <a class="item">11</a>
-                    <a class="item"> 12 </a>
-                </div>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li>
+                            <a href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li>
+                            <a href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
 
         </div>
