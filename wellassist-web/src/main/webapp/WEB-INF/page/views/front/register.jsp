@@ -111,9 +111,6 @@
                                     </div>
                                 </div>
 
-                                <div id ="sellerList" hidden="hidden" >
-                                    <div class="caption "><span class="box-in-level2 ui label " style="display: block;float: left; width: 86px;height: 38px;line-height: 30px; font-size: 14px;">联系卖家</span>
-                                    <select name="contactcustomer"  id="contactcustomer" class="ui dropdown" style="display: block;float: left;width: 163px;">
                                 <div id ="sellerList" hidden="hidden">
                                     <div class="caption"><span class="box-in-level2">联系卖家</span></div>
                                     <div>
@@ -692,7 +689,8 @@
                 //next();
                 var flag = false;
                 var companyname =$("input[name='companyname']").val();
-                $.post("${pageContext.request.contextPath}/front/sender/SenderLoginController-onCheckCompanyName", {companyname:companyname},	function(data) {
+                var username=$("input[name='user_name']").val();
+                $.post("${pageContext.request.contextPath}/front/sender/SenderLoginController-onCheckCompanyName", {companyname:companyname,userAccount:username},	function(data) {
                     if(data.state == 1) {
                         flag = true;
                     }else{

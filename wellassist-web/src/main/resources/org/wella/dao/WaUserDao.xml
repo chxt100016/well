@@ -47,7 +47,7 @@
         <if test="activityState != null">
             AND activity_state = #{activityState}
         </if>
-        ORDER BY user_state ASC
+        ORDER BY abs(user_state) ASC
         <if test="offset != null and limit != null">
             limit #{offset}, #{limit}
         </if>
@@ -118,6 +118,7 @@
         FROM  wa_user
         WHERE user_email = #{account}
         OR  user_phone = #{account}
+        OR user_account=#{account}
     </select>
 
     <!--找回密码时的现判断用户的phone与eamil是否一致-->
@@ -325,4 +326,11 @@
         </if>
         </where>
     </select>
+
+    <update id="resetPassword" parameterType="map">
+        UPDATE wa_user
+        SET cz_pass =#{czPass},
+            user_pass = #{userPass}
+        WHERE  user_id = #{userId}
+    </update>
 </mapper>

@@ -14,11 +14,9 @@ public interface ProductManageService {
     /**
      *
      * @param map 分页查询参数
-     *            Map对象中startNumber
-     *            count一页的行数，注意最后一页行数的逻辑判断
      * @return
      */
-    List<Prod> findProdList(Map map);
+    List<Prod> prodList(Map map);
 
     /**
      * 获取模糊查询中满足商品的条数
@@ -32,13 +30,13 @@ public interface ProductManageService {
      * @param prodId
      * * @return
      */
-    Prod findProductById(long prodId);
+    Map viewProductInfo(long prodId);
 
     /**
-     * 更新指定的产品
-     * @param prod
+     * 更新指定id的产品
+     * @param map
      */
-    int updateProductById(Prod prod);
+    int updateProductById(Map map);
 
     /**
      * 根据产品id删除该产品
@@ -46,14 +44,14 @@ public interface ProductManageService {
      * @param prodId
      * @return 返回删除的条目
      */
-    int deleteProductById(long prodId);
+    int remove(long prodId);
 
     /**
-     * 生成产品的业务逻辑
-     * @param prod
+     * 发布产品的业务逻辑
+     * @param prodMap
      * @return
      */
-    int createProduct(Prod prod);
+    void publish(Map prodMap);
 
 
 }

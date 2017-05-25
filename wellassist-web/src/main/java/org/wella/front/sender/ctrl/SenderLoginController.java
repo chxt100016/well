@@ -176,14 +176,19 @@ public class SenderLoginController extends BaseController {
     @RequestMapping({"/front/sender/SenderLoginController-onCheckCompanyName"})
     public void onCheckCompanyName(HttpServletRequest request, HttpServletResponse response, Model model) {
         String companyname = CommonUtil.GetRequestParam(request, "companyname", "");
+        String userAccount=CommonUtil.GetRequestParam(request, "userAccount", "");
         JSONObject res = new JSONObject();
         res.put("state", "1");
-        Map userEmailInfo = this.getMyOneSingBO("wa_user", "user_name", companyname);
-        if(userEmailInfo != null) {
+        Map companynameinfo = this.getMyOneSingBO("wa_user", "user_name", companyname);
+        Map userAccountinfo=this.getMyOneSingBO("wa_user","user_account",userAccount);
+        if(userAccountinfo != null) {
+            res.put("state", "-1");
+            res.put("content", "登录账户已被占用!");
+        }
+        if(companynameinfo != null) {
             res.put("state", "-1");
             res.put("content", "企业名称已存在!");
         }
-
         this.echoJSON(response, res);
     }
 

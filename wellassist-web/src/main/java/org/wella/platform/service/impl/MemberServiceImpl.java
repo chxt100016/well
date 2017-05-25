@@ -1,8 +1,11 @@
 package org.wella.platform.service.impl;
 
+import io.wellassist.utils.Constant;
 import io.wellassist.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.wella.common.utils.CommonUtil;
+import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
 import org.wella.entity.LoanInfo;
@@ -80,7 +83,7 @@ public class MemberServiceImpl implements MemberService{
         updateMap.put("comment",comment);
         updateMap.put("userState",1);
         waUserDao.updateUserByUserId(updateMap);
-        String content="<html><head></head><body><h1>您的维助供应链平台账户已通过审核</h1><h1>初始密码：123456</h1><h1>点击进入<a href='http://localhost:8080/wellassist/'  target = '_blank'>维助供应链</a></h1></body></html>";
+        String content="<html><head></head><body><h1>您的维助供应链平台账户已通过审核</h1><h1>点击进入<a href='"+ ConstantUtil.SERVER_HOST+"'  target = '_blank'>维助供应链</a></h1></body></html>";
         new Thread(new MailUtil(email, content)).start();
     }
 
@@ -93,14 +96,28 @@ public class MemberServiceImpl implements MemberService{
         updateMap.put("comment",comment);
         updateMap.put("userState",-1);
         waUserDao.updateUserByUserId(updateMap);
-        String content="<html><head></head><body><h1>对不起，您的维助供应链平台账户未通过审核</h1><h1>审核意见："+comment+"</h1><h1>点击进入<a href='http://localhost:8080/wellassist/'  target = '_blank'>维助供应链</a></h1></body></html>";
+        String content="<html><head></head><body><h1>对不起，您的维助供应链平台账户未通过审核</h1><h1>审核意见："+comment+"</h1><h1>点击进入<a href='"+ConstantUtil.SERVER_HOST+"'  target = '_blank'>维助供应链</a></h1></body></html>";
         new Thread(new MailUtil(email, content)).start();
     }
 
+    /**
+     * 将用户登录密码与操作密码重置为123456
+     * @param userId
+     */
+    public void resetPassword(long userId){
+        String password = CommonUtil.MD5("123456");
+        Map map = new HashMap();
+        map.put("czPass",password);
+        map.put("userPass",password);
+        map.put("userId",userId);
+        waUserDao.resetPassword(map);
+    }
     @Override
     public List<Map<String, Object>> findSellerInfo(Map map) {
         map.put("userType",0);
-        return waUserDao.findPlatformUserInfo(map);
+        List<Map<String,Object>> list = waUserDao.findPlatformUserInfo(map);
+        ConvertUtil.convertDataBaseMapToJavaMap(list);
+        return list;
     }
 
     @Override
@@ -122,12 +139,12 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public int editProduct(Prod prod) {
-        return prodDao.updateProd(prod);
+        return prodDao.updateProdByPrimaryKey(prod);
     }
 
     @Override
     public int deleteProduct(long id) {
-        return prodDao.deleteProd(id);
+        return prodDao.deleteProdByPrimaryKey(id);
     }
 
     @Override
@@ -162,6 +179,8 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public List<Map<String, Object>> findSendsList(Map map) {
         map.put("userType",3);
+        List<Map<String,Object>> list = waUserDao.findPlatformUserInfo(map);
+        ConvertUtil.convertDataBaseMapToJavaMap(list);
         return waUserDao.findPlatformUserInfo(map);
     }
 

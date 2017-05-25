@@ -18,13 +18,6 @@ public interface ProdDao {
      */
     Prod getOrderProdByProdid(@Param("prodId")long prodId);
 
-    /**
-     * 存疑，尽量别用这个方法
-     * @param map
-     * @return
-     */
-    List<Prod> findProd(Map map);
-
     List<Map<String,Object>> findUserProdList(Map map);
 
     Map<String,Object> findProdById(Map param);
@@ -38,9 +31,9 @@ public interface ProdDao {
 
     int createProd(Prod prod);
 
-    int updateProd(Prod prod);
+    int updateProdByPrimaryKey(Prod prod);
 
-    int deleteProd(@Param("prodId")long prodId);
+    int deleteProdByPrimaryKey(@Param("prodId")long prodId);
 
     List<Prod> findProdByUserId(Map map);
 

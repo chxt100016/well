@@ -62,6 +62,12 @@ public interface MemberService {
      */
     void notAprove(Map map);
 
+    /**
+     * 重置用户密码，用户的登录密码与操作密码将会变为123456
+     * @param userId
+     */
+    void resetPassword(long userId);
+
     //////////////////////////卖家管理相关接口方法\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     /**
      * 根据指定条件进行卖家家模糊查询（考虑查询字段为公司名称）
