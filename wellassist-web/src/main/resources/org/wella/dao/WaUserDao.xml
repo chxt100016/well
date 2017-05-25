@@ -126,7 +126,7 @@
         SELECT COUNT(*)
         FROM  wa_user
         WHERE user_email = #{email}
-        AND  user_phone = #{phone}
+        AND  (user_phone = #{userName} OR user_account=#{userName} OR user_email=#{userName})
     </select>
 
     <update id="updateUserByUserId" parameterType="java.util.Map">

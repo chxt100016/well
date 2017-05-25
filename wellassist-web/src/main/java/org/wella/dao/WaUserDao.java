@@ -28,7 +28,7 @@ public interface WaUserDao {
     //登录时根据账号查找相应的成员
     List<User> findUserByAccount(@Param("account") String account);
 
-    int checkAccount(@Param("email") String eamil,@Param("phone") String phone);
+    int checkAccount(@Param("email") String eamil,@Param("userName") String userName);
 
     int updateUserByUserId(Map map);
 
