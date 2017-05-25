@@ -16,7 +16,7 @@
 		CONCAT(SUBSTR(${regionId},1,2),"0000") OR region_id =
 		CONCAT(SUBSTR(${regionId},1,4),"00") OR region_id = ${regionId}
 	</select>
-	<select id="getRegionDetailName" parameterType="long"
+	<select id="getRegionDetailNameByRegionId" parameterType="long"
 			resultType="String">
 		SELECT GROUP_CONCAT(region_name ORDER BY region_id
 		SEPARATOR ' ' ) AS regionName FROM wa_region WHERE region_id =

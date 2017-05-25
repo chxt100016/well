@@ -30,7 +30,7 @@ public class ProductManageServiceImpl implements ProductManageService{
         ConvertUtil.convertDataBaseMapToJavaMap(prods);
         for(Map pmap : prods){
             long regionId=(long)pmap.get("prodRegionId");
-            String address=regionDao.getRegionDetailName(regionId)+" "+pmap.get("prodRegionAddr");
+            String address=regionDao.getRegionDetailNameByRegionId(regionId)+" "+pmap.get("prodRegionAddr");
             pmap.put("address",address);
         }
         return prods;
@@ -47,7 +47,7 @@ public class ProductManageServiceImpl implements ProductManageService{
         Map<String,Object> prodMap=prodDao.singleProdByPrimaryKey(prodId);
         ConvertUtil.convertDataBaseMapToJavaMap(prodMap);
         long regionId=(long)prodMap.get("prodRegionId");
-        String address=regionDao.getRegionDetailName(regionId)+" "+prodMap.get("prodRegionAddr");
+        String address=regionDao.getRegionDetailNameByRegionId(regionId)+" "+prodMap.get("prodRegionAddr");
         prodMap.put("address",address);
         return prodMap;
     }

@@ -29,11 +29,7 @@ public interface ProdDao {
      */
     List<Prod> findProdByConditions(Map map);
 
-    int createProd(Prod prod);
-
     int createProd(Map map);
-
-    int updateProdByPrimaryKey(Prod prod);
 
     int updateProdByPrimaryKey(Map map);
 
