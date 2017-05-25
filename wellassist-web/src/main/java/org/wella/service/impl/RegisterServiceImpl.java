@@ -216,10 +216,10 @@ public class RegisterServiceImpl implements RegisterService{
     /**
      * 判断用户phone与email是否一致
      * @param email
-     * @param phone
+     * @param userName
      */
-    public boolean checkAccount(String email,String phone){
-        int count = waUserDao.checkAccount(email,phone);
+    public boolean checkAccount(String email,String userName){
+        int count = waUserDao.checkAccount(email,userName);
         if(count==1){
             return true;
         }else {

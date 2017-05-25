@@ -29,12 +29,17 @@ public interface ProdDao {
      */
     List<Prod> findProdByConditions(Map map);
 
-    int createProd(Prod prod);
+    int createProd(Map map);
 
-    int updateProdByPrimaryKey(Prod prod);
+    int updateProdByPrimaryKey(Map map);
 
     int deleteProdByPrimaryKey(@Param("prodId")long prodId);
 
     List<Prod> findProdByUserId(Map map);
 
+    List<Map<String,Object>> listProdAttachUser(Map map);
+
+    int listProdAttachUserCount(Map map);
+
+    Map<String,Object> singleProdByPrimaryKey(long prod_id);
 }

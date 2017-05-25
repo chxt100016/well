@@ -48,25 +48,28 @@
 	</select>
 
 	<!--产品发布时调用-->
-	<insert id="createProd" parameterType="org.wella.entity.Prod">
+	<insert id="createProd" parameterType="map">
 		INSERT INTO  wa_prod
 		SET  prod_type = #{prodType},
-			 prod_name = #{prod_Name},
-    		 prod_img = #{prodImg},
-			 prod_intro = #{prodIntro},
-			 sale_num = #{saleNum},
-			 prod_num = #{prodNum},
-			 user_id = #{userId},
-			 create_date = #{createDate},
-			 create_user_id = #{createUserId},
-			 prod_money = #{prodMoney},
-			 vehicle_sq_money_type = #{vehicleSqMoneyType},
-			 vehicle_sq_money = #{vehicleSqMoney},
-			 prod_state = #{prodState},
-			 prod_lxr = #{prodLxr},
-        	 prod_lxr_phone = #{prodLxrPhone},
-			 prod_region_id  = #{prodRegionId},
-			 prod_region_addr = #{prodRegionAddr}
+		prod_name = #{prod_Name},
+		prod_img = #{prodImg},
+		prod_intro = #{prodIntro},
+		sale_num = #{saleNum},
+		prod_num = #{prodNum},
+		user_id = #{userId},
+		create_date = #{createDate},
+		create_user_id = #{createUserId},
+		prod_money = #{prodMoney},
+		vehicle_sq_money_type = #{vehicleSqMoneyType},
+		vehicle_sq_money = #{vehicleSqMoney},
+		prod_state = #{prodState},
+		prod_lxr = #{prodLxr},
+		prod_lxr_phone = #{prodLxrPhone},
+		prod_region_id  = #{prodRegionId},
+		prod_region_addr = #{prodRegionAddr}
+		<selectKey keyProperty="newId" resultType="String">
+			select last_insert_id()
+		</selectKey>
 	</insert>
 
 	<!--根据相关信息模糊查询，获取某一公司的所有产品-->
@@ -135,7 +138,7 @@
 		</if>
 	</select>
 
-	<update id="updateProdByPrimaryKey" parameterType="org.wella.entity.Prod">
+	<update id="updateProdByPrimaryKey" parameterType="map">
 		update wa_prod
 		<set>
 			<if test="prodType != null" >
@@ -197,4 +200,44 @@
 		delete from wa_prod
     	where prod_id = #{prodId,jdbcType=BIGINT}
 	</delete>
+
+	<select id="listProdAttachUser" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT p.*,u.`user_name`
+		FROM wa_prod p LEFT JOIN wa_user u
+		ON p.`user_id`=u.`user_id`
+		<where>
+			<if test="prodName != null">
+				AND p.prod_name like '%${prodName}%'
+			</if>
+			<if test="userName != null">
+				AND u.user_name like '%${userName}%'
+			</if>
+		</where>
+		<if test="orderBy != null">
+			ORDER BY ${orderBy}
+		</if>
+		<if test="offset != null and limit !=null">
+			limit ${offset},${limit}
+		</if>
+	</select>
+
+	<select id="listProdAttachUserCount" parameterType="map" resultType="int">
+		SELECT count(*)
+		FROM wa_prod p LEFT JOIN wa_user u
+		ON p.`user_id`=u.`user_id`
+		<where>
+			<if test="prodName != null">
+				AND p.prod_name like '%${prodName}%'
+			</if>
+			<if test="userName != null">
+				AND u.user_name like '%${userName}%'
+			</if>
+		</where>
+	</select>
+
+	<select id="singleProdByPrimaryKey" parameterType="long" resultType="map">
+		SELECT *
+		from wa_prod
+		WHERE prod_id=#{prodId}
+	</select>
 </mapper>

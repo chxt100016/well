@@ -133,13 +133,13 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public int publishProduct(Prod prod) {
-        return prodDao.createProd(prod);
+    public int publishProduct(Map map) {
+        return prodDao.createProd(map);
     }
 
     @Override
-    public int editProduct(Prod prod) {
-        return prodDao.updateProdByPrimaryKey(prod);
+    public int editProduct(Map map) {
+        return prodDao.updateProdByPrimaryKey(map);
     }
 
     @Override

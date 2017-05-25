@@ -96,17 +96,17 @@ public interface MemberService {
 
     /**
      * 平台方在买方产品管理界面进行产品发布
-     * @param prod 包含
+     * @param map 包含
      * @return 发布成功返回1,，失败返回0
      */
-    int publishProduct(Prod prod);
+    int publishProduct(Map map);
 
     /**
      * 平台管理方在卖家界面编辑该产品
      * @param prod
      * @return
      */
-    int editProduct(Prod prod);
+    int editProduct(Map map);
 
     /**
      * 删除id对应的产品
