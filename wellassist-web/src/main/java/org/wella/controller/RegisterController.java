@@ -96,7 +96,7 @@ public class RegisterController extends BaseController{
      */
     @RequestMapping("checkAccount")
     public void checkAccount(HttpServletRequest request,HttpServletResponse response){
-        String userName = request.getParameter("phone");
+        String userName = request.getParameter("userName");
         String eamil = request.getParameter("email");
         boolean ifSame =  registerServiceImpl.checkAccount(eamil,userName);
         JSONObject jsonObject = new JSONObject();

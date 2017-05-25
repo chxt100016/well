@@ -26,7 +26,7 @@
 					<tr>
 						<td class="caption" style="width: 15%;"><span class="box-in-level2">用户名：</span></td>
 						<td style="width: 85%;">
-							<input type="text" placeholder="请输入用户名" name="userName" id="userName" style="width: 50%;">
+							<input type="text" placeholder="请输入用户名/电话/邮箱" name="userName" id="userName" style="width: 50%;">
 							<input type="hidden" class="form-control"  name="userType" id="userType" value="${userType}">
 						</td>
 					</tr>
@@ -134,7 +134,7 @@
 		$.ajax("${pageContext.request.contextPath}/register/checkAccount",{
             data:{
                 email:$("#email").val(),
-				phone:$("#userName").val()
+				userName:$("#userName").val()
             },
             success:function(data){
                 //根据返回的状态判断是否发送
