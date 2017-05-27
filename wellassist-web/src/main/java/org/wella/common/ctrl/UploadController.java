@@ -35,34 +35,6 @@ public class UploadController extends BaseController {
         /**
          * 原有业务逻辑，文件为被保存
          */
-//        String fileName = file.getOriginalFilename();
-//        String ext = CommonUtil.getExtention(fileName);
-//        String dir = "";
-//        String uploadPath = request.getSession().getServletContext().getRealPath("/");
-//        uploadPath = uploadPath + "uploads/temp/";
-//        dir = dir + "uploads/temp/";
-//        File dirFile = new File(uploadPath);
-//        if(!dirFile.exists()) {
-//            dirFile.mkdirs();
-//        }
-//
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-//        String loadedFileName = sdf.format(new Date());
-//        String loadedFilePath = uploadPath + loadedFileName + "." + ext;
-//        File loadedFile = new File(loadedFilePath);
-//        sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-//        String newFileName = sdf.format(new Date()) + "." + ext;
-//
-//        try {
-//            file.transferTo(loadedFile);
-//        } catch (Exception var15) {
-//            logger.error("uploadFile: fileName=" + fileName, var15);
-//            return;
-//        }
-//
-//        HashMap result = new HashMap();
-//        result.put("path", dir + newFileName);
-//        this.echo(response, JSON.toJSONString(result));
 
         //采用七牛云之后的业务逻辑,将返回的url传回到前台，并与相应的属性绑定
         if (file.isEmpty()) {

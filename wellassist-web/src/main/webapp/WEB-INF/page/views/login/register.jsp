@@ -91,7 +91,7 @@ div.kehu_item {
 		<!-- form area -->
 		<div align=center style="padding-bottom:1px;">
 <%-- 			<form method="post" action="<c:url value="/front/customer/register_result"/>"> --%>
-			<form method="post" action="javascript:myfunc();" id="sender_register" method="post">
+			<form method="post" action="javascript:myfunc();"  id="sender_register" method="post">
 				<!-- form page1 -->
 				<div id="kehuzhuce_page1">
 					<!-- area of progress status -->
@@ -621,5 +621,6 @@ div.kehu_item {
 			errorElement: "div",
 			errorClass: "error"
 		});
+
 	</script>
 </body>

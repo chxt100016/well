@@ -42,4 +42,6 @@ public interface ProdDao {
     int listProdAttachUserCount(Map map);
 
     Map<String,Object> singleProdByPrimaryKey(long prod_id);
+
+    int totalCount(Map params);
 }
