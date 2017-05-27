@@ -31,7 +31,7 @@ public class UploadController extends BaseController {
     }
 
     @RequestMapping({"/uploadFile"})
-    public void uploadFileTemp(HttpServletResponse response, @RequestParam("file") MultipartFile file) throws IOException {
+    public void uploadFileTemp(HttpServletResponse response, MultipartFile file) throws IOException {
         /**
          * 原有业务逻辑，文件为被保存
          */

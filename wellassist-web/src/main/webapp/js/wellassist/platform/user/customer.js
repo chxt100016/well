@@ -17,7 +17,7 @@
                 width: 90,
                 formatter: function(value, options, row) {
                     var userId = row.userId;
-                    return '<a  class="btn btn-primary" href="./customerInfo.html?id='+userId+'">公司详情</a>'
+                    return '<a  class="btn btn-primary" href="./customerInfo/'+userId+'">公司详情</a>'
                     //return '<a  onclick= "vm.update( '+ userId + ')">公司详情</a>';
                     alert(row);
                 }

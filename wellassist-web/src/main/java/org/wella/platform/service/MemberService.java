@@ -139,7 +139,7 @@ public interface MemberService {
      * @param map
      * @return
      */
-    long findCustomersInfoCount(Map map);
+    int findCustomersInfoCount(Map map);
 
     /**
      * 获取买方账号交易信息，关联表wa_user_money,wa_user,关联实体类UserAccount，使用分页查询

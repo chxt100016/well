@@ -161,7 +161,7 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public long findCustomersInfoCount(Map map) {
+    public int findCustomersInfoCount(Map map) {
         map.put("userType",1);
         return waUserDao.findPlatformCustomerUsersCount(map);
     }

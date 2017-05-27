@@ -343,7 +343,6 @@
                                 <div class="zizhititle">企业图片</div>
                                 <div>格式: JPG, PNG, GIF</div>
                                 <div>大小: 小于 5M</div>
-                                
                                 <input type="file" id="yingye_img4" name="yingye_img4_src" class="fileManage ui labeled input"  />
                                 <input type="hidden" name="yingye_img4" />
                                 <img id="yingye_imgpath4" class="yingyeimg" style="width:100%;height:230px" src=""  />
@@ -357,7 +356,6 @@
                                 <input type="file" id="yingye_img1" name="yingye_img1_src"  class="fileManage"  />
                                 <input type="hidden" name="yingye_img1" />
                                 <img id="yingye_imgpath1" class="yingyeimg" style="width:100%; height:230px" src="" />
-                                
                                  </div>
                             </div>
                             <div class="zizhixinxi field" >
@@ -368,7 +366,6 @@
                                 <input type="hidden" name="yingye_img2"  class="fileManage"  />
                                 <input type="file" id="yingye_img2" name="yingye_img2_src"  class="fileManage" />
                                 <img id="yingye_imgpath2" class="yingyeimg" style="width:100%; height:230px" src="" />
-                               
                                 </div>
                             </div>
                             <div class="zizhixinxi field" >
@@ -379,7 +376,6 @@
                                 <input type="hidden" name="yingye_img3" />
                                 <input type="file" id="yingye_img3" name="yingye_img3_src" class="fileManage"  />
                                 <img id="yingye_imgpath3" class="yingyeimg" style="width:100%;height:230px" src="" />
-                            
                                 </div>
                             </div>
                     </div>

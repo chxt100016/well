@@ -5,11 +5,14 @@
     <title></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    #parse("sys/header.html")
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="https://cdn.bootcss.com/fancybox/3.0.47/jquery.fancybox.css" rel="stylesheet">
     <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/fancybox/3.0.47/jquery.fancybox.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="${rc.contextPath}/resources/library/js/jquery.form.js"></script>
+    <script src="${rc.contextPath}/statics/libs/ajaxupload.js"></script>
     <style>
         .mid_box {
             width: 1100px;
@@ -46,17 +49,16 @@
 </head>
 
 <body>
-    <div class="mid_box">
-        <form>
+    <div class="mid_box" id="rrapp">
             <div class="row">
                 <div class="col-md-12">
                     <!--<h3>详细信息</h3>-->
                     <form class="bs-example" data-example-id="btn-tags">
                         <a class="btn btn-info active" href="#">公司详情</a>.
-                        <a class="btn btn-default " href="accountDetail.html">账户情况</a>
-                        <a class="btn btn-default " href="bill.html">欠款情况</a>
-                        <a class="btn btn-default " href="credit.html">授信记录</a>
-
+                        <a class="btn btn-default " href="../accountDetail/$userId">账户情况</a>
+                        <a class="btn btn-default " href="../bill/$userId">欠款情况</a>
+                        <a class="btn btn-default " href="../credit/$userId">授信记录</a>
+                        <input type="hidden" name="userId" id="userId" value="$userId">
                     </form>
                     <br><br>
                 </div>
@@ -64,45 +66,41 @@
                     <h3>企业信息</h3>
                     <hr>
                     <div>
-                        <table border-collapse:separate; border-spacing:10px;>
+                        <table>
                             <!--<th></th>-->
                             <tbody>
                                 <tr>
                                     <td>当前logo：</td>
                                     <td>
-                                        <a class="fancybox" rel="group" href="http://img.hb.aicdn.com/9238d2d7be25094e6f6e2913cc0bad81580953d8ee37-0FMS3w_fw658">
-                                            <img src="http://img.hb.aicdn.com/9238d2d7be25094e6f6e2913cc0bad81580953d8ee37-0FMS3w_fw658" alt="" width="100px" height="100px">
+                                        <a class="fancybox" rel="group" v-bind:href="user.companyImg">
+                                            <img v-bind:src="user.companyImg" alt="" width="100px" height="100px">
                                         </a>
-                                        <div class="fl-rg pd-lf-10 pd-bt-10"><span class="span_time">2013-4-14</span><span class="span_status"> 提交注册申请</span></div>
-                                        <div class="fl-rg pd-lf-10 pd-bt-10"><span class="span_time">2013-4-14</span><span class="span_status"> 通过</span></div>
+                                        <div class="fl-rg pd-lf-10 pd-bt-10"><span class="span_time">yyyy-MM-dd</span><span class="span_status"> 提交注册申请</span></div>
+                                        <div class="fl-rg pd-lf-10 pd-bt-10"><span class="span_time">yyyy-MM-dd</span><span class="span_status"> 通过</span></div>
                                     </td>
                                 </tr>
                                 <tr style="height:50px">
                                     <td>企业名称：</td>
-                                    <td><input type="text" name="" value="" class="form-control"></td>
+                                    <td><input type="text" v-model="user.companyName" class="form-control"></td>
                                 </tr>
                                 <tr style="height:50px">
                                     <td>企业注册号：</td>
-                                    <td><input type="text" name="" value="" class="form-control"></td>
+                                    <td><input type="text" v-model="user.userRegNo" class="form-control"></td>
                                 </tr>
                                 <tr style="height:50px">
                                     <td>企业类型：</td>
-                                    <td><select class="form-control">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                     <option>4</option>
-                                     <option>5</option>
+                                    <td><select class="form-control" v-model="user.companyType">
+                                        <option value="1">央企</option>
+                                        <option value="2">国企</option>
+                                        <option value="3">民企</option>
+                                        <option value="4">合资</option>
+                                        <option value="5">上市公司</option>
                                         </select>
                                     </td>
                                 </tr>
                                 <tr style="height:50px">
-                                    <td>企业注册号：</td>
-                                    <td><input type="text" name="" value="" class="form-control"></td>
-                                </tr>
-                                <tr style="height:50px">
                                     <td></td>
-                                    <td><input type="text" name="" value="" class="form-control" placeholder="详细地址"></td>
+                                    <td><input type="text" v-model="user.address" class="form-control" placeholder="详细地址"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -111,23 +109,19 @@
                     <h3>账户信息</h3>
                     <hr>
                     <div>
-                        <table border-collapse:separate; border-spacing:10px;>
+                        <table>
                             <!--<th></th>-->
                             <tbody>
 
                                 <tr style="height:50px">
                                     <td>登录账号：</td>
-                                    <td><input type="text" name="" value="" class="form-control"></td>
+                                    <td><input type="text" v-model="user.userAccount" class="form-control"></td>
                                 </tr>
 
                                 <tr style="height:50px">
                                     <td>密码重置：</td>
                                     <td>
-                                        <!--<div class="radio">
-                                        <label><input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked> 否</label>
-                                        <label><input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" > 是</label>
-                                    </div>-->
-                                        <button class="btn btn-danger">密码重置</button>
+                                        <button class="btn btn-danger" @click="resetPwd">密码重置</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -141,21 +135,21 @@
                     <h3>联系方式</h3>
                     <hr>
                     <div>
-                        <table border-collapse:separate; border-spacing:10px;>
+                        <table>
                             <!--<th></th>-->
                             <tbody>
 
                                 <tr style="height:50px">
                                     <td>联系人：</td>
-                                    <td><input type="text" name="" value="" class="form-control"></td>
+                                    <td><input type="text" v-model="user.companyLxr" class="form-control"></td>
                                 </tr>
                                 <tr style="height:50px">
                                     <td>电子邮箱：</td>
-                                    <td><input type="text" name="" value="" class="form-control"></td>
+                                    <td><input type="text" v-model="user.userEmail" class="form-control"></td>
                                 </tr>
                                 <tr style="height:50px">
                                     <td>座机号码：</td>
-                                    <td><input type="text" name="" value="" class="form-control"></td>
+                                    <td><input type="text" v-model="user.userSeatPhone" class="form-control"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -165,50 +159,207 @@
                     <h3>资质信息</h3>
                     <hr>
                     <div>
-                        <table border-collapse:separate; border-spacing:10px;>
+                        <table>
                             <!--<th></th>-->
                             <tbody>
 
                                 <tr style="height:50px">
                                     <td>法人身份证：</td>
-                                    <td colspan="4"><input type="text" name="" value="" class="form-control"></td>
+                                    <td colspan="4"><input type="text" v-model="user.legalIdCard" class="form-control"></td>
                                 </tr>
+                                <form id="imgForm" enctype="multipart/form-data">
+                                    <input type="hidden" name="name" value="value">
                                 <tr>
                                     <td colspan="1">
-                                        <a class="fancybox" rel="group" href="http://img.hb.aicdn.com/9238d2d7be25094e6f6e2913cc0bad81580953d8ee37-0FMS3w_fw658">
-                                            <img src="http://img.hb.aicdn.com/9238d2d7be25094e6f6e2913cc0bad81580953d8ee37-0FMS3w_fw658" alt="" width="100px" height="100px">
-                                        </a>
+                                        <!--<a class="fancybox" rel="group" v-bind:href="user.companyYyZzImg">
+                                            <img v-bind:src="user.companyYyZzImg" alt="" width="100px" height="100px">
+                                        </a>-->
+                                        <div class="zizhixinxi field">
+                                            <div class="ui card">
+                                                <a  id="upload1"  class="btn btn-primary">upload</a>
+                                                <a class="fancybox" rel="group" v-bind:href="user.companyYyZzImg">
+                                                <img  v-bind:src="user.companyYyZzImg" width="100px" height="100px" />
+                                                </a>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td colspan="1">
-                                        <a class="fancybox" rel="group" href="http://img.hb.aicdn.com/9238d2d7be25094e6f6e2913cc0bad81580953d8ee37-0FMS3w_fw658">
-                                            <img src="http://img.hb.aicdn.com/9238d2d7be25094e6f6e2913cc0bad81580953d8ee37-0FMS3w_fw658" alt="" width="100px" height="100px">
-                                        </a>
+                                        <!--<a class="fancybox" rel="group" v-bind:href="user.companyXkzImg">
+                                            <img v-bind:src="user.companyXkzImg" alt="" width="100px" height="100px">
+                                        </a>-->
+                                        <div class="zizhixinxi field">
+                                            <div class="ui card">
+                                                <a  id="upload2"  class="btn btn-primary">upload</a>
+                                                <a class="fancybox" rel="group" v-bind:href="user.companyXkzImg">
+                                                    <img  v-bind:src="user.companyXkzImg" width="100px" height="100px" />
+                                                </a>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td>
-                                        <a class="fancybox" rel="group" href="http://img.hb.aicdn.com/9238d2d7be25094e6f6e2913cc0bad81580953d8ee37-0FMS3w_fw658">
-                                            <img src="http://img.hb.aicdn.com/9238d2d7be25094e6f6e2913cc0bad81580953d8ee37-0FMS3w_fw658" alt="" width="100px" height="100px">
-                                        </a>
+                                        <!--<a class="fancybox" rel="group" v-bind:href="user.companyTxkzImg">
+                                            <img v-bind:src="user.companyTxkzImg" alt="" width="100px" height="100px">
+                                        </a>-->
+                                        <div class="zizhixinxi field">
+                                            <div class="ui card">
+                                                <a  id="upload3"  class="btn btn-primary">upload</a>
+                                                <a class="fancybox" rel="group" v-bind:href="user.companyTxkzImg">
+                                                    <img  v-bind:src="user.companyTxkzImg" width="100px" height="100px" />
+                                                </a>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td><img src="" alt="" width="100px" height="100px"></td>
                                 </tr>
+                                </form>
+                                <tr>
+                                    <td colspan="1">营业执照</td><td colspan="1">经营许可证</td><td colspan="1">特许经营许可证</td>
+                                </tr>
+
 
                             </tbody>
                         </table>
                     </div>
                     <br><br>
-                    <button class="btn btn-info" style="width:120px"> 保存</button>
+                    <button class="btn btn-info" style="width:120px" @click="save"> 保存</button>
 
                 </div>
             </div>
 
-        </form>
     </div>
 
 </body>
 <script type="text/javascript">
     $(document).ready(function() {
         $(".fancybox").fancybox();
+        var userId=$("#userId").val();
+
+        var vm = new Vue({
+            el:'#rrapp',
+            data:{
+                user:{},
+            },
+            methods:{
+                resetPwd:function(){
+                    $.get("../resetPassword/"+userId,function (r) {
+                        var obj=JSON.parse(r);
+                        if(obj.code === 0){
+                            alert("密码已重置：123456");
+                        }else{
+                            alert("密码重置失败");
+                        }
+                    });
+                },
+                save:function(){
+                    $.ajax({
+                        method:'post',
+                        url:'../updateUser',
+                        dataType:'json',
+                        contentType:'application/json',
+                        data: JSON.stringify(vm.user),
+                        success:function (r) {
+                            if(r.code === 0){
+                                alert("更新成功");
+                            }else{
+                                alert("更新失败");
+                            }
+                        }
+                })
+                },
+                uploadImg:function(prop){
+                    /*$("input[type='file']").each(function(){
+                        $(this).attr("name", "");
+                    });
+                    $("#"+prop).attr("name", "file");*/
+                    var options = {
+                        url:  "${rc.contextPath}/uploadFile",
+                        type:"POST",
+                        dataType:"json",
+                        data: new FormData($('#companyYyZzImg')[0]),
+                        //attention!!!
+                        contentType: false,
+                        cache: false,
+                        processData:false,
+                        success : function(data) {
+                            if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
+                            vm.user[prop]=data.path;
+                            console.log(vm.user.companyYyZzImg);
+                            return;
+                        },
+                        error : function(data) {
+                            console.log(data);
+                            //alert(data);
+                        }
+                    }
+                    $("#imgForm").ajaxSubmit(options);
+
+                }
+            },
+            mounted: function () {
+                var that = this;
+                $.ajax({
+                    type:"GET",
+                    url:"../userinfo/"+userId,
+                    dataType:"json",
+                    success: function(result) {
+                        that.user=result.user;
+                    }
+                })
+            }
+        });
+        new AjaxUpload('#upload1', {
+            action: '${rc.contextPath}/uploadFile',
+            name: 'file',
+            autoSubmit:true,
+            responseType:"json",
+            onSubmit:function(file, extension){
+                if (!(extension && /^(jpg|jpeg|png|gif)$/.test(extension.toLowerCase()))){
+                    alert('只支持jpg、png、gif格式的图片！');
+                    return false;
+                }
+            },
+            onComplete : function(file, data){
+                if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
+                vm.user.companyYyZzImg=data.path;
+                return;
+            }
+        });
+        new AjaxUpload('#upload2', {
+            action: '${rc.contextPath}/uploadFile',
+            name: 'file',
+            autoSubmit:true,
+            responseType:"json",
+            onSubmit:function(file, extension){
+                if (!(extension && /^(jpg|jpeg|png|gif)$/.test(extension.toLowerCase()))){
+                    alert('只支持jpg、png、gif格式的图片！');
+                    return false;
+                }
+            },
+            onComplete : function(file, data){
+                if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
+                vm.user.companyXkzImg=data.path;
+                return;
+            }
+        });
+        new AjaxUpload('#upload3', {
+            action: '${rc.contextPath}/uploadFile',
+            name: 'file',
+            autoSubmit:true,
+            responseType:"json",
+            onSubmit:function(file, extension){
+                if (!(extension && /^(jpg|jpeg|png|gif)$/.test(extension.toLowerCase()))){
+                    alert('只支持jpg、png、gif格式的图片！');
+                    return false;
+                }
+            },
+            onComplete : function(file, data){
+                if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
+                vm.user.companyTxkzImg=data.path;
+                return;
+            }
+        });
     });
+
 </script>
 
 </html>

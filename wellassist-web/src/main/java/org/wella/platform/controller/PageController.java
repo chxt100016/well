@@ -1,6 +1,7 @@
 package org.wella.platform.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -22,4 +23,27 @@ public class PageController {
         return "views/platform/user/" + url + ".html";
     }
 
+    @RequestMapping("user/customerInfo/{userId}")
+    public String customerInfoPage(@PathVariable("userId")String userId,Model model){
+        model.addAttribute("userId",userId);
+        return "views/platform/user/customerInfo.html";
+    }
+
+    @RequestMapping("user/accountDetail/{userId}")
+    public String accountDetailPage(@PathVariable("userId")String userId,Model model){
+        model.addAttribute("userId",userId);
+        return "views/platform/user/accountDetail.html";
+    }
+
+    @RequestMapping("user/credit/{userId}")
+    public String creditPage(@PathVariable("userId")String userId,Model model){
+        model.addAttribute("userId",userId);
+        return "views/platform/user/credit.html";
+    }
+
+    @RequestMapping("user/bill/{userId}")
+    public String billPage(@PathVariable("userId")String userId,Model model){
+        model.addAttribute("userId",userId);
+        return "views/platform/user/bill.html";
+    }
 }
