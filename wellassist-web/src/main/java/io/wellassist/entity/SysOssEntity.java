@@ -58,4 +58,5 @@ public class SysOssEntity implements Serializable {
 	public Date getCreateDate() {
 		return createDate;
 	}
+
 }

@@ -51,5 +51,6 @@ public interface ProductManageService {
      */
     void publish(Map prodMap);
 
+    int totalCount(Map map);
 
 }

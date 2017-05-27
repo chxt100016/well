@@ -1,5 +1,6 @@
 package org.wella.platform.service.impl;
 
+import io.wellassist.utils.ShiroUtils;
 import org.apache.shiro.crypto.hash.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.wella.dao.RegionDao;
 import org.wella.entity.Region;
 import org.wella.platform.service.ProductManageService;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +49,19 @@ public class ProductManageServiceImpl implements ProductManageService{
         Map<String,Object> prodMap=prodDao.singleProdByPrimaryKey(prodId);
         ConvertUtil.convertDataBaseMapToJavaMap(prodMap);
         long regionId=(long)prodMap.get("prodRegionId");
+        String regionIdStr=String.valueOf(regionId);
+        prodMap.put("proviceId",regionIdStr.substring(0,2)+"0000");
+        prodMap.put("cityId",regionIdStr.substring(0,4)+"00");
+        prodMap.put("regionId",regionIdStr);
         String address=regionDao.getRegionDetailNameByRegionId(regionId)+" "+prodMap.get("prodRegionAddr");
+        String [] adds = address.split(" ");
+        if(adds.length==4){
+            prodMap.put("region",adds[2]);
+        }else{
+            prodMap.put("region","");
+        }
+        prodMap.put("province",adds[0]);
+        prodMap.put("city",adds[1]);
         prodMap.put("address",address);
         return prodMap;
     }
@@ -64,6 +78,14 @@ public class ProductManageServiceImpl implements ProductManageService{
 
     @Override
     public void publish(Map prodMap) {
+        prodMap.put("createDate",new Date());
+        Long userId = ShiroUtils.getUserId();
+        prodMap.put("createUserId",userId);
         prodDao.createProd(prodMap);
     }
+
+    public int totalCount(Map parms){
+        return prodDao.totalCount(parms);
+    }
+
 }

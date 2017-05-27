@@ -22,6 +22,7 @@
 		<result column="prod_lxr_phone" property="prodLxrPhone" jdbcType="VARCHAR" />
 		<result column="prod_region_id" property="prodRegionId" jdbcType="BIGINT" />
 		<result column="prod_region_addr" property="prodRegionAddr" jdbcType="VARCHAR" />
+		<result column="prod_price" property="prodPrice"/>
 	</resultMap>
 
 	<!--<parameterMap id="product" type="org.wella.entity.Prod">-->
@@ -51,7 +52,7 @@
 	<insert id="createProd" parameterType="map">
 		INSERT INTO  wa_prod
 		SET  prod_type = #{prodType},
-		prod_name = #{prod_Name},
+		prod_name = #{prodName},
 		prod_img = #{prodImg},
 		prod_intro = #{prodIntro},
 		sale_num = #{saleNum},
@@ -66,7 +67,8 @@
 		prod_lxr = #{prodLxr},
 		prod_lxr_phone = #{prodLxrPhone},
 		prod_region_id  = #{prodRegionId},
-		prod_region_addr = #{prodRegionAddr}
+		prod_region_addr = #{prodRegionAddr},
+		prod_price = #{prodPrice}
 		<selectKey keyProperty="newId" resultType="String">
 			select last_insert_id()
 		</selectKey>
@@ -145,7 +147,7 @@
 				prod_type = #{prodType,jdbcType=TINYINT},
 			</if>
 			<if test="prodName != null" >
-				prod_name = #{prodName,jdbcType=VARCHAR},
+				prod_name = #{prodName},
 			</if>
 			<if test="prodImg != null" >
 				prod_img = #{prodImg,jdbcType=VARCHAR},
@@ -191,6 +193,9 @@
 			</if>
 			<if test="prodRegionAddr != null" >
 				prod_region_addr = #{prodRegionAddr,jdbcType=VARCHAR},
+			</if>
+			<if test="prodRegionAddr != null" >
+				prod_price = #{prodPrice}
 			</if>
 		</set>
 		where prod_id=${prodId}
@@ -239,5 +244,20 @@
 		SELECT *
 		from wa_prod
 		WHERE prod_id=#{prodId}
+	</select>
+
+	<select id="totalCount" parameterType="map" resultType="int">
+		SELECT COUNT(prod_id)
+		FROM wa_prod
+		WHERE 1=1
+		<if test="userId != null">
+			AND user_id = #{userId}
+		</if>
+		<if test="prodName != null">
+			AND prod_name LIKE '%${prodName}%'
+		</if>
+		<if test="prodState != null">
+			AND prod_state = #{prodState}
+		</if>
 	</select>
 </mapper>

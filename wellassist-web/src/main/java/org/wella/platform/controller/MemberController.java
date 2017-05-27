@@ -168,7 +168,4 @@ public class MemberController extends AbstractController{
         memberServiceImpl.resetPassword(userId);
         return R.ok();
     }
-
-
-
 }
