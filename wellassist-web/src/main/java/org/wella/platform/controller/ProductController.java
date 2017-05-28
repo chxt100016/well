@@ -45,6 +45,17 @@ public class ProductController extends BaseController{
         return R.ok();
     }
 
+    /**
+     * 修改产品
+     * @param params
+     * @return
+     */
+    @RequestMapping("updateproduct")
+    public R update(@RequestParam Map<String,Object> params){
+        productManageServiceImpl.updateProductById(params);
+        return R.ok();
+    }
+
     @RequestMapping("delete/{prodId}")
     public R deleteProduct(@PathVariable("prodId")long prodId){
         productManageServiceImpl.remove(prodId);

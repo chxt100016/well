@@ -56,7 +56,7 @@
                     <form class="bs-example" data-example-id="btn-tags">
                         <a class="btn btn-info active" href="#">公司详情</a>.
                         <a class="btn btn-default " href="../accountDetail/$userId">账户情况</a>
-                        <a class="btn btn-default " href="../bill/$userId">欠款情况</a>
+                        <a class="btn btn-default " href="../customerBill/$userId">欠款情况</a>
                         <a class="btn btn-default " href="../credit/$userId">授信记录</a>
                         <input type="hidden" name="userId" id="userId" value="$userId">
                     </form>
@@ -167,13 +167,8 @@
                                     <td>法人身份证：</td>
                                     <td colspan="4"><input type="text" v-model="user.legalIdCard" class="form-control"></td>
                                 </tr>
-                                <form id="imgForm" enctype="multipart/form-data">
-                                    <input type="hidden" name="name" value="value">
                                 <tr>
                                     <td colspan="1">
-                                        <!--<a class="fancybox" rel="group" v-bind:href="user.companyYyZzImg">
-                                            <img v-bind:src="user.companyYyZzImg" alt="" width="100px" height="100px">
-                                        </a>-->
                                         <div class="zizhixinxi field">
                                             <div class="ui card">
                                                 <a  id="upload1"  class="btn btn-primary">upload</a>
@@ -184,9 +179,6 @@
                                         </div>
                                     </td>
                                     <td colspan="1">
-                                        <!--<a class="fancybox" rel="group" v-bind:href="user.companyXkzImg">
-                                            <img v-bind:src="user.companyXkzImg" alt="" width="100px" height="100px">
-                                        </a>-->
                                         <div class="zizhixinxi field">
                                             <div class="ui card">
                                                 <a  id="upload2"  class="btn btn-primary">upload</a>
@@ -197,9 +189,6 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <!--<a class="fancybox" rel="group" v-bind:href="user.companyTxkzImg">
-                                            <img v-bind:src="user.companyTxkzImg" alt="" width="100px" height="100px">
-                                        </a>-->
                                         <div class="zizhixinxi field">
                                             <div class="ui card">
                                                 <a  id="upload3"  class="btn btn-primary">upload</a>
@@ -211,7 +200,6 @@
                                     </td>
                                     <td><img src="" alt="" width="100px" height="100px"></td>
                                 </tr>
-                                </form>
                                 <tr>
                                     <td colspan="1">营业执照</td><td colspan="1">经营许可证</td><td colspan="1">特许经营许可证</td>
                                 </tr>
@@ -241,7 +229,7 @@
             },
             methods:{
                 resetPwd:function(){
-                    $.get("../resetPassword/"+userId,function (r) {
+                    $.get("../../resetPassword/"+userId,function (r) {
                         var obj=JSON.parse(r);
                         if(obj.code === 0){
                             alert("密码已重置：123456");
@@ -253,7 +241,7 @@
                 save:function(){
                     $.ajax({
                         method:'post',
-                        url:'../updateUser',
+                        url:'../../updateUser',
                         dataType:'json',
                         contentType:'application/json',
                         data: JSON.stringify(vm.user),
@@ -265,41 +253,13 @@
                             }
                         }
                 })
-                },
-                uploadImg:function(prop){
-                    /*$("input[type='file']").each(function(){
-                        $(this).attr("name", "");
-                    });
-                    $("#"+prop).attr("name", "file");*/
-                    var options = {
-                        url:  "${rc.contextPath}/uploadFile",
-                        type:"POST",
-                        dataType:"json",
-                        data: new FormData($('#companyYyZzImg')[0]),
-                        //attention!!!
-                        contentType: false,
-                        cache: false,
-                        processData:false,
-                        success : function(data) {
-                            if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
-                            vm.user[prop]=data.path;
-                            console.log(vm.user.companyYyZzImg);
-                            return;
-                        },
-                        error : function(data) {
-                            console.log(data);
-                            //alert(data);
-                        }
-                    }
-                    $("#imgForm").ajaxSubmit(options);
-
                 }
             },
             mounted: function () {
                 var that = this;
                 $.ajax({
                     type:"GET",
-                    url:"../userinfo/"+userId,
+                    url:"../../userinfo/"+userId,
                     dataType:"json",
                     success: function(result) {
                         that.user=result.user;

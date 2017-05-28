@@ -75,9 +75,9 @@
 	</insert>
 
 	<!--根据相关信息模糊查询，获取某一公司的所有产品-->
-	<select id="findProdByConditions" parameterType="map" resultMap="prod">
+	<select id="findProdByConditions" parameterType="map" resultType="map">
 		SELECT *
-		FROM wa_order
+		FROM wa_prod
 		<where>
 			<if test="userId != null">
 				AND user_id = #{userId}
@@ -92,6 +92,19 @@
 		<if test="offset != null and limit != null">
 			limit ${offset},${limit}
 		</if>
+	</select>
+
+	<select id="findProdByConditionsCount" parameterType="map" resultType="int">
+		SELECT count(*)
+		FROM wa_prod
+		<where>
+			<if test="userId != null">
+				AND user_id = #{userId}
+			</if>
+			<if test="prodName != null">
+				AND prod_name LIKE '%${prodName}%'
+			</if>
+		</where>
 	</select>
 
 	<!-- 获得前台商品目录的函数 -->

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    #parse("sys/header.html")
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue/1.0.28/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="${rc.contextPath}/resources/library/js/jquery.validate.js"></script>
+    <style>
+        .mid_box {
+            width: 1100px;
+            margin: 0px auto;
+            border: 1px solid rgba(34, 36, 38, .15);
+            box-shadow: 0 2px 4px 0 rgba(34, 36, 38, .12), 0 2px 10px 0 rgba(34, 36, 38, .15);
+            padding: 1em;
+            font-size: 14px;
+            position: absolute;
+        }
+        .span_time {}
+        
+        .span_status {
+            color: #adadad;
+        }
+        
+        .fl-rg {
+            float: right;
+        }
+        
+        .pd-lf-10 {
+            padding-left: 10px;
+        }
+        
+        .pd-bt-10 {
+            padding-bottom: 10px;
+        }
+        
+        table {
+            margin: 10px;
+        }
+        
+        table tr {
+            height: 50px;
+        }
+        
+        table tr td {
+            padding-left: 10px;
+            padding-top: 10px;
+        }
+        
+        .form_label {
+            text-align: right
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mid_box" id="app">
+        <form id="product-publish" method="post" >
+            <input type="hidden" name="prodId" value="$prod.prodId">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="form_label"><label for="">产品名称：</label></td>
+                        <td><input type="text" placeholder="请填写您的产品名称" class="form-control" name="prodName" value="$prod.prodName"></td>
+                    </tr>
+                    <tr>
+                        <td class="form_label"><label for="">货源类型：</label></td>
+                        <td>
+                            <select class="form-control" name="prodType">
+                            <option value="2">管道气</option>
+                            <option value="1">原油</option>
+                            <option value="0">天然气</option>
+                        </select>
+                        </td>
+                    </tr>
+                    <input type="hidden" name="userId" value="$prod.userId">
+
+                    <tr>
+                        <td class="form_label"><label for="">供应量：</label></td>
+                        <td><input type="text" placeholder="请填写供应量" class="form-control" name="prodNum" value="$prod.prodNum"> </td>
+                        <td>吨</td>
+                    </tr>
+                    <tr>
+                        <td class="form_label"><label for="" class="form_label">单价：</label></td>
+                        <td><input type="text" placeholder="请填写产品单价" class="form-control" name="prodPrice" value="$prod.prodPrice"> </td>
+                        <td>元/吨</td>
+                    </tr>
+                    <tr>
+                        <td><label for="" class="form_label">地址：</label></td>
+                        <td>
+                            <input type="hidden" name="prodRegionId" id="prodRegionId" value="$prod.prodRegionId">
+                            <select class="form-control" style="width:100px;float:left" alt="..." onclick="selRegion(0)" name="provinceId" id="provinceId">
+                                <option>--请选择省--</option>
+                                <option value="$prod.provinceId" selected>$prod.province</option>
+                                #foreach($item in $provinceList)
+                                    <option value="$item.regionId">$item.regionName</option>
+                                #end
+
+                            </select>
+                            <select class="form-control" style="width:100px; float:left" onclick="selRegion(1)" id="cityId" name="cityId">
+                                <option value="$prod.cityId" selected>$prod.city</option>
+                        </select>
+                            <select class="form-control" style="width:100px; float:left" onclick="selRegion(2)" id="regionId" name="regionId">
+                                <option value="prod.regionId" selected>$prod.region</option>
+                        </select>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="" class="form_label"></label></td>
+                        </td>
+                        <td><input type="text" placeholder="请填写具体地址" class="form-control" name="prodRegionAddr" value="$prod.prodRegionAddr"></td>
+                    </tr>
+                    <tr>
+                        <td class="form_label"><label for="">联系人：</label></td>
+                        <td><input type="text" placeholder="请填写该产品联系人的姓名" class="form-control" name="prodLxr" value="$prod.prodLxr"> </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="form_label"><label for="">联系电话：</label></td>
+                        <td><input type="text" placeholder="请填写该联系人电话" class="form-control" name="prodLxrPhone" value="$prod.prodLxrPhone"> </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="form_label"><label for="">产品图片：</label></td>
+                        <td>
+
+                            <img id="prodImgpath" class="yingyeimg" style="width:270PX;height:230px" src="$prod.prodImg" name="prodImg"/>
+                        </td>
+                        <td>
+                            <input type="hidden" name="prodImg" value="$prod.prodImg"/>
+                            <input type="file" id="prodImg" name="prodImg_src" value="$prod.prodImg_src" class="fileManage" />
+                        </td>
+                    </tr>
+                    <br>
+                    <tr>
+                        <td class="form_label">
+                            <label for="">产品详情：</label>
+                        </td>
+                        <td row-span="3"><textarea name="prodIntro"  id="" cols="30" rows="10" style="width:270px;max-width:270px">$prod.prodIntro</textarea></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <div style="width:300px;margin:0px auto">
+                    <input type="reset" name="reset" style="display: none;" />
+                    <button class="btn btn-info" style="width:120px;float:left;display:block" type="submit">修改</button>
+                    <a class="btn btn-default" href="${rc.contextPath}/platform/user/seller/productList/$prod.userId" role="button" style="width:120px;float:right;display:block" type="reset">返回</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+
+<script>
+    function clearFileName() {
+        $("input[type='file']").each(function() {
+            $(this).attr("name", "");
+        });
+    }
+    /**
+     * 上传图片处理方法
+     * @param idx
+     */
+    function uploadImage() {
+        var options = {
+                url: "${rc.contextPath}/uploadFile",
+                type: "POST",
+                dataType: "json",
+                data: {},
+                success: function(data) {
+                    if (data.result == "-10") {
+                        ShowWindowAlert("提示", data.msg, "", "确 定", "");
+                        return;
+                    }
+                    $("input[name='prodImg']").val(data.path);
+                    $("#prodImgpath").attr("src", data.path);
+                    $("#prodImgpath").show();
+                    console.log(data.path);
+                    return;
+                },
+                error: function(data) {
+                    //alert(data);
+                }
+            }
+        $("#product-publish").ajaxSubmit(options);
+    }
+
+    $("#prodImg").change(function(){
+        clearFileName();
+        $(this).attr("name", "file");
+        uploadImage();
+    });
+
+    function selRegion(type){
+        var regionId = '';
+
+        if(type==0){
+            regionId = $("#provinceId").val();
+        } else if(type==1){
+            regionId = $("#cityId").val();
+        } else if(type==2){
+            regionId = $("#regionId").val();
+        } else return;
+        $("#prodRegionId").val(regionId);
+        if(regionId!=''){
+            $.post("${rc.contextPath}/front/sender/SenderLoginController-getChildRegionListInSite", {regionId:regionId},	function(data) {
+                if(data.state == 1) {
+                    html = "";
+                    for(var i=0; i<data.regionList.length; i++){
+                        region = data.regionList[i];
+                        html += "<option value='" + region.regionId + "'>" + region.regionName + "</option>";
+                    }
+
+                    if(type==0){
+                        $("#cityId").html("<option>--请选择市--</option>" + html);
+                        $("#regionId").html("<option>--请选择区--</option>");
+                    } else if(type==1){
+                        $("#regionId").html("<option>--请选择区--</option>" + html);
+                    }
+                }
+            }, 'json');
+        }
+    }
+
+    $("#product-publish").validate({
+        rules: {
+            prodName: "required",
+            prodType: {required: true},
+            prodNum: "required",
+            prodPrice: {required: true},
+            regionId: "required",
+            prodRegionAddr: {required: true},
+            prodLxr: {required: true},
+            prodLxrPhone: {required: true},
+            prodImg: "required",
+            prodIntro: "required"
+        },
+        messages: {
+            prodName: "请输入产品名称",
+            prodType: "请选择产品类型",
+            prodNum: "请输入产品供应量",
+            prodPrice: "请输入产品单价（元/顿）",
+            prodRegionId: "请选择产品区域",
+            prodRegionAddr: "请输入产品详细地址",
+            prodLxr: "请输入产品联系人",
+            prodLxrPhone: "请输入产品联系人电话号码",
+            prodImg: "请上传产品图片",
+            prodIntro: "请填写产品简介"
+        },
+        submitHandler: function(form){
+           $.post("${rc.contextPath}/platform/product/updateproduct",$(form).serialize(),function (data) {
+               var obj = JSON.parse(data);
+               var code = obj.code;
+               if(code == 0){
+                   alert("修改成功");
+                   $("input[type=reset]").trigger("click");
+                   $("#prodImgpath").attr("src", "");
+                   window.location.href="${rc.contextPath}/platform/user/seller/productList/$prod.userId"
+               }else {
+                   alert("添加失败");
+               }
+           })
+        }
+    });
+</script>
+<script>
+
+</script>
+ <script type="text/javascript" src="${rc.contextPath}/resources/library/js/jquery.form.js"></script>
+
+</html>

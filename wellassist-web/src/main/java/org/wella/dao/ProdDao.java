@@ -22,12 +22,9 @@ public interface ProdDao {
 
     Map<String,Object> findProdById(Map param);
 
-    /**
-     *
-     * @param map
-     * @return
-     */
-    List<Prod> findProdByConditions(Map map);
+    List<Map<String,Object>> findProdByConditions(Map map);
+
+    int findProdByConditionsCount(Map map);
 
     int createProd(Map map);
 

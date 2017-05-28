@@ -2,6 +2,7 @@ package org.wella.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.RegionDao;
 import org.wella.entity.Region;
 import org.wella.service.RegionService;
@@ -19,6 +20,8 @@ public class RegionServiceImpl implements RegionService {
 
     @Override
     public List<Map<String, Object>> getChildRegionList(Map<String, Object> param) {
-        return regionDao.getChildRegionList(param);
+        List<Map<String, Object>> regions=regionDao.getChildRegionList(param);
+        ConvertUtil.convertDataBaseMapToJavaMap(regions);
+        return regions;
     }
 }
