@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -63,6 +64,22 @@ public class SellerController extends BaseController {
         obj.put("status", ret);
         this.echoJSON(response, obj);
     }
+
+    /**
+     * 产品发布页面
+     * @param model
+     * @return
+     */
+    @RequestMapping("publishPage")
+    public String publishPage(Model model){
+        Map map = new HashMap();
+        map.put("userType",0);
+        model.addAttribute("provinceList", this.getChildRegionList(0));
+        model.addAttribute("parentMenuNo", "1");
+        model.addAttribute("childMenuNo", "1");
+        return "views/front/seller/order/prodPub.jsp";
+    }
+
 
 }
 

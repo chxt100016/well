@@ -115,7 +115,7 @@
 						<div style="">产品管理</div>
 					</li>
 					<ul style="display: block;">
-						<li class="leftmenuleaf <c:if test ="${childMenuNo == '1' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/seller/SellerOrderController-prodPub">产品发布</a></li>
+						<li class="leftmenuleaf <c:if test ="${childMenuNo == '1' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/seller/publishPage">产品发布</a></li>
 						<li class="leftmenuleaf <c:if test ="${childMenuNo == '2' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/seller/SellerOrderController-prodList">产品列表</a></li>
 					</ul>
 					<li class="leftmenulevel1" onclick="menuparentclicked( this);">
