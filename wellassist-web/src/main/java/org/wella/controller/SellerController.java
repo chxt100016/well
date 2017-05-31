@@ -3,6 +3,7 @@ package org.wella.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import io.wellassist.utils.IPUtils;
+import io.wellassist.utils.PageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,8 @@ import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.common.vo.MyInfo;
+import org.wella.entity.Log;
+import org.wella.entity.User;
 import org.wella.front.seller.mapper.SellerOrderMapper;
 import org.wella.service.impl.SellerServiceImpl;
 
@@ -79,6 +82,23 @@ public class SellerController extends BaseController {
         model.addAttribute("childMenuNo", "1");
         return "views/front/seller/order/prodPub.jsp";
     }
+
+    @RequestMapping("orderList")
+    public void orderList(HttpServletRequest request, HttpServletResponse response){
+        int ret = -1;
+        JSONObject obj = new JSONObject();
+        User user= (User) request.getSession().getAttribute("user");
+        Long userId=user.getUserId();
+        Map param=getConditionParam(request);
+        param.put("supplierId",userId);
+        List<Map<String,Object>> orderList=sellerServiceImpl.getOrderList(param);
+        int orderListCount=sellerServiceImpl.getOrderListCount(param);
+        PageUtils page=new PageUtils(orderList,orderListCount,Integer.valueOf(ConstantUtil.GAP),Integer.valueOf((String) param.get("page")));
+        obj.put("code",1);
+        obj.put("page",page);
+        this.echo(response,obj);
+    }
+
 
 
 }

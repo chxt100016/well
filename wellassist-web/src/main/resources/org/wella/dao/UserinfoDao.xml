@@ -124,5 +124,9 @@
         where user_id = #{userId,jdbcType=BIGINT}
     </delete>
 
-
+    <select id="singleUserinfoByPrimaryKey" parameterType="long" resultType="map">
+        select *
+        from wa_userinfo
+        where user_id=#{userId}
+    </select>
 </mapper>

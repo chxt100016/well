@@ -28,6 +28,7 @@
                             <label>商品类型：
                             <c:if test="${prod.prodType==0}">气体</c:if>
                             <c:if test="${prod.prodType==1}">燃油</c:if>
+                            <c:if test="${prod.prodType==2}">管道气</c:if>
                             </label>
                         </div>
                         <div class="field">
@@ -119,7 +120,7 @@
                         <div class="field ">
                             <div class="ui labeled input ">
                                 <div class="ui label ">单价 </div>
-                                <input type="text " placeholder=" " id="danjia" name="danjia" value="${prod.prodMoney}" readonly="true" onkeyup="return validateNumber(this,value,0)"><a class="ui tag label ">元 </a>
+                                <input type="text " placeholder=" " id="danjia" name="danjia" value="${prod.prodPrice}" readonly="true" onkeyup="return validateNumber(this,value,0)"><a class="ui tag label ">元 </a>
                             </div>
                         </div>
                         <div class="field ">
