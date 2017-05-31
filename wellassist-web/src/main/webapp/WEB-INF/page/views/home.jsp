@@ -4,14 +4,14 @@
         <html lang="en">
 
         <head>
-            <title></title>
+            <title>维助供应链首页</title>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <%--<link href="home.css" rel="stylesheet">--%>
-            <link rel="Stylesheet" type="text/css" href="<c:url value="resources/wella/front/css/home.css "/>" />
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+          <link rel="Stylesheet" type="text/css" href="<c:url value="resources/wella/front/css/home.css "/>" />
+             <%--<link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
             <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>--%>
             <script src="<c:url value="resources/wella/front/js/typetype.min.js "/>"></script>
 
         </head>
