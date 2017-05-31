@@ -33,7 +33,7 @@
 					<td>元/吨</td>
 				</tr>
 				<tr>
-					<td >所在地区/td>
+					<td class="form_label"><label for="" class="form_label">所在地区：</label></td>
 					<td style="padding: 5px 0px;">
 						<select id="provinceId" name="provinceId" onchange="selRegion(0);">
 							<option>--请选择省--</option>

@@ -7,13 +7,13 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>卖家管理员页面</title>
+		<title>卖家管理员页面111</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="Admin Panel Template">
 		<meta name="author" content="Westilian: Kamrujaman Shohel">
 
-		<link rel="stylesheet" href="<c:url value="/resources/library/css/bootstrap.css"/>">
-		<link rel="stylesheet" href="<c:url value="/resources/library/css/bootstrap-responsive.css"/>">
+		<link rel="stylesheet" href="<c:url value="/resources/library/css/bootstrap.min.3.35.css"/>">
+		<%--<link rel="stylesheet" href="<c:url value="/resources/library/css/bootstrap-responsive.css"/>">--%>
 		<link rel="stylesheet" href="<c:url value="/resources/library/css/font-awesome.css"/>">
 		<!--[if IE 7]>
 		<link rel="stylesheet" href="<c:url value="/resources/library/css/font-awesome-ie7.min.css"/>">
@@ -39,15 +39,15 @@
 		<!--============ javascript ===========-->
 		<script src="<c:url value="/resources/library/js/jquery.js"/>"></script>
 		<script src="<c:url value="/resources/library/js/jquery-ui-1.10.1.custom.min.js"/>"></script>
-		<script src="<c:url value="/resources/library/js/bootstrap.js"/>"></script>
+		<script src="<c:url value="/resources/library/js/bootstrap.min.3.35.js"/>"></script>
 		<script src="<c:url value="/resources/wella/common/js/accordion.nav.js"/>"></script>
 		<script src="<c:url value="/resources/common/js/global.js"/>"></script>
 		
 		<script src="${pageContext.request.contextPath}/resources/common/js/jquery.validate.js"></script>
-	    <script src="${pageContext.request.contextPath}/resources/houtai/js/jquery.form.js"></script>
+	    <%--<script src="${pageContext.request.contextPath}/resources/houtai/js/jquery.form.js"></script>--%>
 	    
-	    <link   href="${pageContext.request.contextPath}/resources/houtai/css/jquery.fancybox.css" rel="stylesheet" />
-		<script src="${pageContext.request.contextPath}/resources/houtai/js/jquery.fancybox.js"></script>
+	    <%--<link   href="${pageContext.request.contextPath}/resources/houtai/css/jquery.fancybox.css" rel="stylesheet" />
+		<script src="${pageContext.request.contextPath}/resources/houtai/js/jquery.fancybox.js"></script>--%>
 		
 		<script src="${pageContext.request.contextPath}/resources/library/js/My97DatePicker/WdatePicker.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/common/js/common.js"></script>

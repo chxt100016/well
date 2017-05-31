@@ -7,14 +7,15 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>卖家管理员页面</title>
+		<title>卖家管理员页面111</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="Admin Panel Template">
 		<meta name="author" content="Westilian: Kamrujaman Shohel">
 
-		<link rel="stylesheet" href="<c:url value="/resources/library/css/bootstrap.css"/>">
-		<link rel="stylesheet" href="<c:url value="/resources/library/css/bootstrap-responsive.css"/>">
+		<link rel="stylesheet" href="<c:url value="/resources/library/css/bootstrap.min.3.35.css"/>">
+		<%--<link rel="stylesheet" href="<c:url value="/resources/library/css/bootstrap-responsive.css"/>">--%>
 		<link rel="stylesheet" href="<c:url value="/resources/library/css/font-awesome.css"/>">
+			<link rel="stylesheet" href="<c:url value="/resources/library/css/semantic.min.css"/>">
 		<!--[if IE 7]>
 		<link rel="stylesheet" href="<c:url value="/resources/library/css/font-awesome-ie7.min.css"/>">
 		<![endif]-->
@@ -39,15 +40,16 @@
 		<!--============ javascript ===========-->
 		<script src="<c:url value="/resources/library/js/jquery.js"/>"></script>
 		<script src="<c:url value="/resources/library/js/jquery-ui-1.10.1.custom.min.js"/>"></script>
-		<script src="<c:url value="/resources/library/js/bootstrap.js"/>"></script>
+		<script src="<c:url value="/resources/library/js/bootstrap.min.3.35.js"/>"></script>
 		<script src="<c:url value="/resources/wella/common/js/accordion.nav.js"/>"></script>
+			<script src="<c:url value="/resources/library/js/semantic.min.js"/>"></script>
 		<script src="<c:url value="/resources/common/js/global.js"/>"></script>
 		
 		<script src="${pageContext.request.contextPath}/resources/common/js/jquery.validate.js"></script>
-	    <script src="${pageContext.request.contextPath}/resources/houtai/js/jquery.form.js"></script>
+	    <%--<script src="${pageContext.request.contextPath}/resources/houtai/js/jquery.form.js"></script>--%>
 	    
-	    <link   href="${pageContext.request.contextPath}/resources/houtai/css/jquery.fancybox.css" rel="stylesheet" />
-		<script src="${pageContext.request.contextPath}/resources/houtai/js/jquery.fancybox.js"></script>
+	    <%--<link   href="${pageContext.request.contextPath}/resources/houtai/css/jquery.fancybox.css" rel="stylesheet" />
+		<script src="${pageContext.request.contextPath}/resources/houtai/js/jquery.fancybox.js"></script>--%>
 		
 		<script src="${pageContext.request.contextPath}/resources/library/js/My97DatePicker/WdatePicker.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/common/js/common.js"></script>
@@ -66,7 +68,7 @@
 	</head>
 
 	<!-- navigation bar -->
-	<div class="abovenavbar">
+	<div class="abovenavbar" >
 		<div align=center>
 			<div style="width:1100px;">
 				<span class="dropdown" style="float:left;">
@@ -81,7 +83,7 @@
 	</div>
 
 	<!-- top menu -->
-	<div class="navbar navbar-inverse top-nav" align=center style="height:50px;overflow:hidden">
+	<%--<div class="navbar navbar-inverse top-nav" align=center style="height:50px;overflow:hidden">
 		<div class="navbar-inner">
 			<div class="container">
 				<div align=left style="width:1100px;">
@@ -106,6 +108,41 @@
 			</div>
 		</div>
 	</div>
+	--%>
+	<%--顶部导航条--%>
+		
+<div class="navbar navbar-blue " style="margin-top:5px;">
+      <div class="container">
+        <div class="navbar-header">
+          <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand hidden-sm" href="#" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-首页'])">管理员</a>
+        </div>
+        <div class="navbar-collapse collapse" role="navigation" aria-expanded="false" style="height: 1px;">
+          <ul class="nav navbar-nav">
+               <li id="chanpincenter" class=" <c:if test = "${parentMenuNo == '5' }"> topmenuselected</c:if>">
+								<a  href="${pageContext.request.contextPath}/front/customer/CustomerProdCtrl-prodList"> <i class="block layout icon"></i>产品中心</a>
+							</li>
+      						<li  class=" <c:if test = "${parentMenuNo == '1' }"> topmenuselected </c:if>" id="dingdancenter">
+							  <a href="${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-prodOrderList">订单中心</a></li>
+      						<li id="financecenter" class="<c:if test = "${parentMenuNo == '2' }"> topmenuselected</c:if>" >
+							  <a href="${pageContext.request.contextPath}/front/customer/FinanceController-accountInfo">财务中心</a></li>
+      						<li id="newscenter" class="<c:if test = "${parentMenuNo == '3' }"> topmenuselected</c:if>">
+							  <a href="${pageContext.request.contextPath}/front/customer/NewsController-xxList">消息中心</a></li>
+							<li id="company_manage" class="<c:if test = "${parentMenuNo == '4' }"> topmenuselected</c:if>">
+							<a href="${pageContext.request.contextPath}/front/customer/CompanyController-companyInfo">财务管理</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right hidden-sm">
+            <li><a href="/about/" onclick="#">关于</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+<%--顶部导航条end--%>
 	
 	<div id="main_content" align=center style="background:white;width: 1100px;margin: 0px auto;padding-top: 32px;">
 		<div id="leftmenu" class="" style="border:solid 1px #d0d0d0;width:190px;float:left;">
