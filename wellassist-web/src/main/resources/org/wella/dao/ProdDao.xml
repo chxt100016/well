@@ -43,7 +43,6 @@
 		user_id = #{userId},
 		create_date = #{createDate},
 		create_user_id = #{createUserId},
-		prod_money = #{prodMoney},
 		vehicle_sq_money_type = #{vehicleSqMoneyType},
 		vehicle_sq_money = #{vehicleSqMoney},
 		prod_state = #{prodState},
