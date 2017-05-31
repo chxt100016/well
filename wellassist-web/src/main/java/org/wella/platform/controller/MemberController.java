@@ -38,16 +38,9 @@ public class MemberController extends AbstractController{
      */
     @RequestMapping("customersList")
     public R customersList(@RequestParam Map<String, Object> params){
-        /*List<User> sellerList = this.waUserDao.findUser(params);
-        int totalCount = sellerList.size();*/
-        List<Map<String, Object>> sellerList =memberServiceImpl.findCustomersInfo(params);
-        int totalCount=sellerList.size();
-
-                //查询列表数据
         Query query = new Query(params);
-//        List<SysUserEntity> userList = sysUserService.queryList(query);
-//        int total = sysUserService.queryTotal(query);
-
+        List<Map<String, Object>> sellerList =memberServiceImpl.findCustomersInfo(query);
+        int totalCount=memberServiceImpl.findCustomersInfoCount(query);
         PageUtils pageUtil = new PageUtils(sellerList, totalCount, query.getLimit(), query.getPage());
         return R.ok().put("page", pageUtil);
     }
@@ -97,18 +90,14 @@ public class MemberController extends AbstractController{
      *
      * @return
      */
-    @RequestMapping("productList/{userId}")
+    @RequestMapping("seller/products/{userId}")
     public R productList(@RequestParam Map<String,Object> params,@PathVariable("userId") Long userId){
-        List<Prod> prodList = this.memberServiceImpl.findProductsByUserId(userId);
-
-//        List<User> sellerList = this.waUserDao.findUser(params);
-//        int totalCount = sellerList.size();
-
-        //查询列表数据
+        params.put("userId",userId);
         Query query = new Query(params);
-        PageUtils pageUtil = new PageUtils(prodList, prodList.size(), query.getPage(), query.getLimit());
+        List<Map<String,Object>> prodList = this.memberServiceImpl.findProductsByUserId(query);
+        int totalCount=memberServiceImpl.findProductsByUserIdCount(query);
+        PageUtils pageUtil = new PageUtils(prodList,totalCount, query.getPage(), query.getLimit());
         return R.ok().put("page", pageUtil);
-
     }
 
     /**
@@ -169,6 +158,18 @@ public class MemberController extends AbstractController{
         return R.ok();
     }
 
+    @RequestMapping("updateUser")
+    public R updateUser(@RequestBody Map<String,Object> params){
+        int res=memberServiceImpl.updateUserInfo(params);
+        if (res>0){
+            return R.ok();
+        }
+        return R.error();
+    }
 
-
+    /*@RequestMapping("seller/products")
+    public R products(@RequestBody Map<String,Object> params){
+        Query query = new Query(params);
+        List<Prod> prods=memberServiceImpl.findProductsByUserId(query);
+    }*/
 }

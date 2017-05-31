@@ -38,7 +38,7 @@ public interface WaUserDao {
 
     List<Map<String,Object>> findPlatformCustomerUsers(Map map);
 
-    long findPlatformCustomerUsersCount(Map map);
+    int findPlatformCustomerUsersCount(Map map);
 
     /**
      * 获取满足条件的总的数目

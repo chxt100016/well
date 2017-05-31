@@ -46,6 +46,9 @@
     <update id="updateUserinfoByUserId" parameterType="java.util.Map">
         UPDATE wa_userinfo
         <set >
+            <if test="userId != null" >
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
             <if test="companyType != null" >
                 company_type = #{companyType,jdbcType=TINYINT},
             </if>

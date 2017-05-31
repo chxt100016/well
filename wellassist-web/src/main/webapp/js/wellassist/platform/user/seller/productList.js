@@ -1,19 +1,30 @@
-/**
- * Created by Administrator on 2017/5/18.
- */
 $(function () {
-    $("#jqGrid").jqGrid({
-        url: '../user/sellerList',
+    var userId=$("#userId").val();
+    $("#jqGrid1").jqGrid({
+        url: '../products/'+userId,
         datatype: "json",
         colModel: [
-            { label: 'id', name: 'userId', index: "user_id", width: 45, key: true },
-            { label: '公司', name: 'companyName', width: 75 },
-            { label: '账户情况', name: 'userMoney', width: 100 ,formatter:function (value,option,row) {
-                return value+"元<br>";
+            { label: 'id', name: 'prodId', index: "user_id", width: 45, key: true,hidden:true},
+            { label: '产品', name: 'prodName', width: 75 },
+            { label: '地址', name: 'address', width: 100 ,formatter:function (value,option,row) {
+                return value+"<br>";
             }},
-            { label: '公司详情', name: '', index: "user_id", width: 45, key: true,formatter:function (value,option,row) {
-                var userId = row.userId;
-                return '<a  class="btn btn-primary" href="./seller/sellerInfo/'+userId+'">公司详情</a>';
+            { label: '品类', name:'prodType', width: 80,formatter:function (value,options,row) {
+                if(value==1){
+                    return "燃油";
+                }else if(value ==0){
+                    return "天然气";
+                }else {
+                    return '管道气';
+                }
+            }},
+            { label: '单价', name: 'prodPrice',  width: 45, key: true,formatter:function (value,option,row) {
+                return value+"元/吨";
+            } },
+            { label: '操作', name: 'prodPrice',  width: 45, key: true,formatter:function (value,option,row) {
+                var prodId = row.prodId;
+                return  '<a  class="btn btn-primary" href="../editProduct?prodId='+ prodId+'">编辑</a>' +
+                    '<button  class="btn btn-primary" onclick="vm.delete(' + prodId + ')">删除</button>';
             } }
         ],
         viewrecords: true,
@@ -43,13 +54,9 @@ $(function () {
     });
 });
 
-
 var vm = new Vue({
-    el:'#rrapp',
+    el:'#proapp',
     data:{
-        q:{
-            username: null
-        },
         showList: true,
         title:null,
         roleList:{},
@@ -59,15 +66,11 @@ var vm = new Vue({
         }
     },
     methods: {
-        query: function () {
-            vm.reload();
-        },
         add: function(){
             vm.showList = false;
             vm.title = "新增";
             vm.roleList = {};
             vm.user = {status:1,roleIdList:[]};
-
             //获取角色信息
             this.getRoleList();
         },
@@ -124,16 +127,6 @@ var vm = new Vue({
                 }
             });
         },
-        getUser: function(userId){
-            $.get("../sys/user/info/"+userId, function(r){
-                vm.user = r.user;
-            });
-        },
-        getRoleList: function(){
-            $.get("../sys/role/select", function(r){
-                vm.roleList = r.list;
-            });
-        },
         viewInfo:function (userId) {
             $.get("../user/reviewInfo/"+userId, function(r){
                 vm.user = r.user;
@@ -148,11 +141,8 @@ var vm = new Vue({
                 page:page
             }).trigger("reloadGrid");
         },
-        resetPassword:function(){
-            var userId = vm.user.userId;
-            var url = "../user/resetPassword/"+userId;
-            alert(url);
-            // console.log(vm.user);
+        delete:function(prodId){
+            var url = "../../../product/delete/"+prodId;
             $.post(
                 url,
                 JSON.stringify(vm.user),

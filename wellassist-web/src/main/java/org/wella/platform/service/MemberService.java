@@ -82,11 +82,12 @@ public interface MemberService {
 
     /**
      * 获取卖家的产品列表
-     * @param userId
+     * @param
      * @return
      */
-    List<Prod> findProductsByUserId(long userId);
+    List<Map<String,Object>> findProductsByUserId(Map params);
 
+    int findProductsByUserIdCount(Map params);
     /**
      * 获取卖家的买家列表
      * @param userId
@@ -120,7 +121,7 @@ public interface MemberService {
      * @param map
      * @return
      */
-    List<Prod> findProducts(Map map);
+    List<Map<String,Object>> findProducts(Map map);
 
     //////////////////////////买家管理相关接口方法\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     /**
@@ -139,7 +140,7 @@ public interface MemberService {
      * @param map
      * @return
      */
-    long findCustomersInfoCount(Map map);
+    int findCustomersInfoCount(Map map);
 
     /**
      * 获取买方账号交易信息，关联表wa_user_money,wa_user,关联实体类UserAccount，使用分页查询

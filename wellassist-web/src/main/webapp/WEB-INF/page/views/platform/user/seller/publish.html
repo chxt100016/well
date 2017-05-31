@@ -77,16 +77,7 @@
                         </select>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="form_label"><label for="">卖家：</label></td>
-                        <td>
-                            <select class="form-control" name="userId">
-                                #foreach($item in $sellerList)
-                                <option value="$item.userId">$item.userName</option>
-                                #end
-                            </select>
-                        </td>
-                    </tr>
+                    <input type="hidden" name="userId" value="$userId">
 
                     <tr>
                         <td class="form_label"><label for="">供应量：</label></td>
@@ -154,6 +145,7 @@
                     </tr>
                 </tbody>
             </table>
+            <input type="hidden" name="prodState" value="2">
             <div class="row">
                 <div style="width:300px;margin:0px auto">
                     <input type="reset" name="reset" style="display: none;" />
@@ -275,7 +267,6 @@
     $("#product-publish").validate({
         rules: {
             prodName: "required",
-            userId: "required",
             prodType: {required: true},
             prodNum: "required",
             prodPrice: {required: true},
@@ -288,7 +279,6 @@
         },
         messages: {
             prodName: "请输入产品名称",
-            userId: "请选择卖家",
             prodType: "请选择产品类型",
             prodNum: "请输入产品供应量",
             prodPrice: "请输入产品单价（元/顿）",
@@ -307,6 +297,7 @@
                    alert("添加成功");
                    $("input[type=reset]").trigger("click");
                    $("#prodImgpath").attr("src", "");
+                   window.location.href="${rc.contextPath}/platform/user/seller/productList/$userId";
                }else {
                    alert("添加失败");
                }

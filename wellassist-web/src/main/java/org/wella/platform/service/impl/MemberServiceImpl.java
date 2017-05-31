@@ -121,11 +121,21 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public List<Prod> findProductsByUserId(long userId) {
-        HashMap param=new HashMap();
-        param.put("userId",userId);
-        return prodDao.findProdByConditions(param);
+    public List<Map<String,Object>> findProductsByUserId(Map params) {
+        List<Map<String,Object>> prods= prodDao.findProdByConditions(params);
+        ConvertUtil.convertDataBaseMapToJavaMap(prods);
+        for(Map pmap : prods){
+            long regionId=(long)pmap.get("prodRegionId");
+            String address=regionDao.getRegionDetailNameByRegionId(regionId)+" "+pmap.get("prodRegionAddr");
+            pmap.put("address",address);
+        }
+        return prods;
     }
+
+    public int findProductsByUserIdCount(Map params){
+        return prodDao.findProdByConditionsCount(params);
+    }
+
 
     @Override
     public List<User> findCustomersByUserId(long userId) {
@@ -148,7 +158,7 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public List<Prod> findProducts(Map map) {
+    public List<Map<String,Object>> findProducts(Map map) {
         return prodDao.findProdByConditions(map);
     }
 
@@ -161,7 +171,7 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public long findCustomersInfoCount(Map map) {
+    public int findCustomersInfoCount(Map map) {
         map.put("userType",1);
         return waUserDao.findPlatformCustomerUsersCount(map);
     }
