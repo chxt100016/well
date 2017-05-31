@@ -1,0 +1,192 @@
+body {
+    background: #f3f3f4;
+    font-family: PingFang SC, Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    height: 100%;
+    color: #333;
+    position: relative;
+    min-width: 1200px;
+    line-height: 1.5;
+}
+
+.masthead>.container {
+    text-align: center;
+    background-color: #1e5f94;
+    /*background-image: url(https://screenshotdesigner.com/static/overlay.svg);*/
+    /*background-image: url(1.jpg);*/
+    transform-origin: center;
+    background-image: linear-gradient(180deg, #0d1a44 13%, #3c4f91 56%, #5fc1e4);
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #fff;
+    box-shadow: inset 0 -60px 80px -40px rgba(0, 0, 0, .2);
+    /*text-shadow: 0 1px 3px rgba(0, 0, 0, .33);*/
+}
+
+#header {
+    background: #fafafa;
+    border-bottom: 1px solid #eee;
+    height: 52px;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    transition: padding 0.5s ease, background 0.5s ease, box-shadow 0.5s ease, border 0.5s ease;
+}
+
+a {
+    text-decoration: none;
+}
+
+#header_inner {
+    position: relative;
+    margin: auto;
+    padding: 10px 20px 8px;
+    max-width: 1790px;
+}
+
+.pure-menu {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto !important;
+    background: #fafafa !important;
+    z-index: 999;
+    height: 52px;
+}
+
+.pure-menu-horizontal li {
+    display: inline-block;
+    zoom: 1;
+    vertical-align: middle;
+}
+
+.pure-menu li a {
+    text-decoration: none;
+    padding: 13px 20px !important;
+    color: #373737;
+    text-shadow: 0 1px 1px #fff;
+}
+
+#logo {
+    position: relative;
+    top: 2px;
+    display: inline-block;
+    width: 215px;
+    height: 30px;
+    color: #2d2d2d;
+    line-height: 1.5;
+    /*background: url(../img/sprites.png);
+            background: url(../img/sprites.svg), none;*/
+    float: left;
+    text-decoration: none;
+    margin-right: 40px;
+}
+
+.masthead .container {
+    height: 55vh;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    min-height: 600px;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.introduction {
+    position: relative;
+    clear: both;
+    display: block;
+    text-align: center;
+}
+
+.header>.library {
+    font-size: 3em;
+    color: rgba(255, 255, 255, 1);
+    line-height: 1.2;
+    margin: 0px 0px 0px;
+    padding-bottom: 0px;
+    -moz-perspective: 500px;
+    -webkit-perspective: 500px;
+    perspective: 500px;
+    text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    -moz-transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    display: block;
+}
+
+.content {
+    background: #fff;
+    padding-top: 50px;
+}
+
+.content .main-title {
+    font-size: 40px;
+    text-align: center;
+}
+
+.content .main-description {
+    font-size: 20px;
+    text-align: center;
+    width: 730px;
+    margin: 16px auto 70px;
+    color: #97a1ab;
+    line-height: 30px;
+}
+
+.footer-bottom {
+    display: block;
+    max-width: 1300px;
+    margin-top: 25px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 20px;
+    padding-left: 20px;
+    color: #8598a7;
+    font-size: 12px;
+    font-weight: 300;
+}
+
+#sign_in_out input {
+    padding: 12px 10px 11px !important;
+    max-width: none !important;
+}
+
+.window {
+    background: #fff;
+    padding: 20px 25px;
+    margin: 50px auto;
+    max-width: 640px;
+    overflow: hidden;
+    border-radius: 2px;
+    border: 2px solid rgba(0, 0, 0, .3);
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+}
+
+.login-input input {
+    width: 300px;
+}
+
+.tx-al-lf {
+    text-align: left;
+}
+
+.th-input {
+    width: 300px;
+}
+
+.label-hr {
+    width: 100px;
+    text-align: right
+}
