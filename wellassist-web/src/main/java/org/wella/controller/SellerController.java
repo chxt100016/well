@@ -2,17 +2,24 @@ package org.wella.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import io.wellassist.utils.HttpContextUtils;
 import io.wellassist.utils.IPUtils;
+import io.wellassist.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.wella.common.ctrl.BaseController;
 import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.common.vo.MyInfo;
+import org.wella.entity.User;
 import org.wella.front.seller.mapper.SellerOrderMapper;
+import org.wella.platform.service.impl.ProductManageServiceImpl;
+import org.wella.service.impl.ProductServiceImpl;
 import org.wella.service.impl.SellerServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +42,9 @@ public class SellerController extends BaseController {
 
     @Autowired
     private SellerServiceImpl sellerServiceImpl;
+
+    @Autowired
+    private ProductServiceImpl productService;
 
     @RequestMapping("processOrder")
     public void processOrder(HttpServletRequest request, HttpServletResponse response, Model model){
@@ -80,6 +90,57 @@ public class SellerController extends BaseController {
         return "views/front/seller/order/prodPub.jsp";
     }
 
+    @RequestMapping("publish")
+    @ResponseBody
+    public R publish(@RequestParam Map<String,Object> params){
+        Map map = new HashMap();
+        map.put("userType",0);
+        HttpSession session = HttpContextUtils.getHttpServletRequest().getSession();
+        User user = (User) session.getAttribute("user");
+        params.put("userId",user.getUserId());
+        productService.publishProduct(params);
+        return new R().ok();
+    }
 
+    @RequestMapping("productList")
+    public String productList(HttpServletRequest request,Model model){
+        Map map = this.getConditionParam(request);
+        map.put("userType",0);
+        HttpSession session = HttpContextUtils.getHttpServletRequest().getSession();
+        User user = (User) session.getAttribute("user");
+        map.put("userId",user.getUserId());
+        //产品列表展示
+
+        ArrayList waProdList = this.sellerOrderMapper.getWaProdList(map);
+        ConvertUtil.convertDataBaseMapToJavaMap(waProdList);
+        int totalCount = this.sellerOrderMapper.getWaProdListCount(map);
+        this.setPagenationInfo(request, totalCount, Integer.parseInt(map.get("page").toString()));
+        model.addAttribute("parentMenuNo", "1");
+        model.addAttribute("childMenuNo", "2");
+        model.addAttribute("waProdList", waProdList);
+        return "views/front/seller/order/prodList.jsp";
+    }
+
+    @RequestMapping("productEditPage")
+    public String productEditPage(@RequestParam Map params,Model model){
+        Long prodId = Long.parseLong(params.get("prodId").toString());
+        Map prod = productService.viewProductInfo(prodId);
+        Map map = new HashMap();
+        map.put("userType",0);
+        model.addAttribute("prod",prod);
+        model.addAttribute("provinceList", this.getChildRegionList(0));
+        //产品列表展示
+        model.addAttribute("parentMenuNo", "1");
+        model.addAttribute("childMenuNo", "2");
+        model.addAttribute("prod",prod);
+        return "views/front/seller/order/prodEdit.jsp";
+    }
+
+    @RequestMapping("updateproduct")
+    @ResponseBody
+    public R update(@RequestParam Map<String,Object> params){
+        productService.updateProductById(params);
+        return R.ok();
+    }
 }
 

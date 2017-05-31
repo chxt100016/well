@@ -31,12 +31,6 @@
 		<![endif]-->
 		<!--[if IE 9]>
 		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/library/css/ie/ie9.css"/>">
-		<![endif]-->
-		<link rel="shortcut icon" href="<c:url value="/resources/wella/common/ico/wellassist.png"/>">
-		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<c:url value="/resources/wella/common/ico/wellassist-144.png"/>">
-		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="<c:url value="/resources/wella/common/ico/wellassist-114.png"/>">
-		<link rel="apple-touch-icon-precomposed" sizes="72x72"   href="<c:url value="/resources/common/ico/wellassist-72.png"/>">
-		<link rel="apple-touch-icon-precomposed" href="<c:url value="/resources/wella/common/ico/wellassist-57.png"/>">
 		<!--============ javascript ===========-->
 		<script src="<c:url value="/resources/library/js/jquery.js"/>"></script>
 		<script src="<c:url value="/resources/library/js/jquery-ui-1.10.1.custom.min.js"/>"></script>
@@ -153,7 +147,7 @@
 					</li>
 					<ul style="display: block;">
 						<li class="leftmenuleaf <c:if test ="${childMenuNo == '1' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/seller/publishPage">产品发布</a></li>
-						<li class="leftmenuleaf <c:if test ="${childMenuNo == '2' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/seller/SellerOrderController-prodList">产品列表</a></li>
+						<li class="leftmenuleaf <c:if test ="${childMenuNo == '2' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/seller/productList">产品列表</a></li>
 					</ul>
 					<li class="leftmenulevel1" onclick="menuparentclicked( this);">
 						<div style="">订单管理</div>

@@ -22,4 +22,5 @@ public abstract interface SellerOrderMapper
   public abstract ArrayList<Map<String, Object>> getUserOrderList(Map<String, Object> paramMap);
   
   public abstract int getUserOrderListCount(Map<String, Object> paramMap);
+
 }
