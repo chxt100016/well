@@ -56,7 +56,6 @@ public class SellerController extends BaseController {
         String userId = myInfo.getUserId();
         String ipAddr = IPUtils.getIpAddr(request);
         try {
-            String operationIp = IPUtils.getIpAddr(request);
             String orderId = CommonUtil.GetRequestParam(request, "orderId", "0");
             String saleNum = CommonUtil.GetRequestParam(request, "saleNum", "0");
             String saleDj = CommonUtil.GetRequestParam(request, "saleDj", "0");
@@ -74,6 +73,13 @@ public class SellerController extends BaseController {
         }
         obj.put("status", ret);
         this.echoJSON(response, obj);
+    }
+
+    @RequestMapping("confirmOrder")
+    public String confirmOrder(Model model,@RequestParam("orderId")String orderId){
+        Map<String,Object> modelMap=sellerServiceImpl.getInfoForConfirmOrderPage(Long.valueOf(orderId));
+        model.addAttribute("orderInfo",modelMap);
+        return "views/front/seller/order/confirmOrder.jsp";
     }
 
     /**

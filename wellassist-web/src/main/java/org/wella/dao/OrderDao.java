@@ -1,5 +1,6 @@
 package org.wella.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.wella.entity.Order;
 
 import java.util.ArrayList;
@@ -28,4 +29,6 @@ public interface OrderDao {
     List<Map<String,Object>> listOrderAttachProd(Map param);
 
     int listOrderCount(Map param);
+
+    Map<String,Object> singleOrderAttachUserAttachOrderLogisticsInfo(@Param("orderId") Long orderId);
 }

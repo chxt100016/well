@@ -155,4 +155,11 @@
             </if>
         </where>
     </select>
+
+    <select id="singleOrderAttachUserAttachOrderLogisticsInfo" parameterType="long" resultType="map">
+        SELECT b.`user_id`,b.`user_name`,a.order_id,a.`prod_name`,a.`sale_num`,a.`sale_money`,a.`order_state`,c.`contacts`,c.`con_tel`
+        FROM wa_order a LEFT JOIN wa_user b ON a.`user_id`=b.`user_id`
+        LEFT JOIN wa_order_logistics_info c ON a.`order_id`=c.`order_id`
+        WHERE a.`order_id`=#{orderId}
+    </select>
 </mapper>

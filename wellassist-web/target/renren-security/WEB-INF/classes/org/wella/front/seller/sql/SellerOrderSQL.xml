@@ -5,24 +5,23 @@
 
 	<!-- 获取商品列表 -->
 	<select id="getWaProdList" parameterType="java.util.Map" resultType="java.util.Map">
-		SELECT DATE(a.create_date) as create_date 
+		SELECT *
 			FROM wa_prod as a
-			WHERE a.user_id = #{userId} and a.prod_state > -3
+			WHERE a.user_id = #{userId}
 			<if test="prodState!=null and prodState!=''">
 				AND a.prod_state = #{prodState} 
 			</if>
-			GROUP BY DATE(a.create_date)
 			ORDER BY a.prod_id DESC
 			LIMIT ${start} , ${size}
 	</select>
 	
 	<select id="getWaProdListCount" parameterType="java.util.Map" resultType="int">
-		SELECT count(DISTINCT(DATE(a.create_date))) 
-			FROM wa_prod as a
-			WHERE a.user_id = #{userId} and a.prod_state > -3
-			<if test="prodState!=null and prodState!=''">
-				AND a.prod_state = #{prodState} 
-			</if>
+		SELECT count(*)
+		FROM wa_prod as a
+		WHERE a.user_id = #{userId}
+		<if test="prodState!=null and prodState!=''">
+			AND a.prod_state = #{prodState}
+		</if>
 	</select>
 	
 	<!-- 获取订单列表 -->

@@ -169,6 +169,13 @@ public class SellerServiceImpl implements SellerService {
         return orderDao.listOrderCount(param);
     }
 
+    @Override
+    public Map<String, Object> getInfoForConfirmOrderPage(Long orderId) {
+        Map<String, Object> res=orderDao.singleOrderAttachUserAttachOrderLogisticsInfo(orderId);
+        ConvertUtil.convertDataBaseMapToJavaMap(res);
+        return res;
+    }
+
     /**
      * 根据订单产生物流订单的逻辑代码
      * @param orderId
