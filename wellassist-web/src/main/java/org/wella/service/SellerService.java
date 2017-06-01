@@ -81,4 +81,8 @@ public interface SellerService {
     int getOrderListCount(Map param);
 
     Map<String,Object> getInfoForConfirmOrderPage(Long orderId);
+
+    Map<String,Object> getOrderDetail(Long orderId);
+
+    void createOrderLog(Long orderId, Map map);
 }

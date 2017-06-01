@@ -75,7 +75,9 @@ public class SellerServiceImpl implements SellerService {
         if(order.getIsSelfCar() ==1){
             createLogisticsOrder(orderId,order);
         }
-        createOrderLog(order,map);
+        map.put("orderPrice",map.get("confirmPrice"));
+        map.put("orderNumber",map.get("confirmNumber"));
+        createOrderLog(order.getOrderId(),map);
     }
 
     @Override
@@ -176,6 +178,13 @@ public class SellerServiceImpl implements SellerService {
         return res;
     }
 
+    @Override
+    public Map<String, Object> getOrderDetail(Long orderId) {
+        Map<String,Object> res=orderDao.singleOrderAttachOrderLogAttachProdAttachZorderAttachUserAttachOrderLogisticsInfo(orderId);
+        ConvertUtil.convertDataBaseMapToJavaMap(res);
+        return res;
+    }
+
     /**
      * 根据订单产生物流订单的逻辑代码
      * @param orderId
@@ -223,17 +232,17 @@ public class SellerServiceImpl implements SellerService {
 
     /**
      * 生成对订单操作的日志文件
-     * @param order
+     * @param
      * @param map
      * 其中confirmPrice是指修改后的文件
-     * 其中confirmNumber是指修改后的数量
      */
-    private void createOrderLog(Order order,Map map){
+    @Override
+    public void createOrderLog(Long orderId, Map map){
         OrderLog orderLog = new OrderLog();
         orderLog.setOperationTime(new Date());
-        orderLog.setOrderId(order.getOrderId());
-        orderLog.setOrderPrice(Double.parseDouble(map.get("confirmPrice").toString()));
-        orderLog.setOrderNumber(Double.parseDouble(map.get("confirmNumber").toString()));
+        orderLog.setOrderId(orderId);
+        orderLog.setOrderPrice(Double.parseDouble(map.get("orderPrice").toString()));
+        orderLog.setOrderNumber(Double.parseDouble(map.get("orderNumber").toString()));
         orderLog.setUserId(Long.parseLong(map.get("userId").toString()));
         orderLog.setOperationIp(map.get("operationIp").toString());
         orderLogDao.createOrderLog(orderLog);

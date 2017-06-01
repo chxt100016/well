@@ -89,6 +89,43 @@ public class SellerController extends BaseController {
         return "views/front/seller/order/confirmOrder.jsp";
     }
 
+    @RequestMapping("editOrder")
+    public String editOrder(Model model,@RequestParam("orderId")String orderId){
+        Map<String,Object> modelMap=sellerServiceImpl.getOrderDetail(Long.valueOf(orderId));
+        model.addAttribute("orderInfo",modelMap);
+        return "views/front/seller/order/editOrder.jsp";
+    }
+
+    @RequestMapping("editOrderSubmit")
+    public void editOrderSubmit(HttpServletRequest request, HttpServletResponse response, Model model){
+        String ret = "-1";
+        JSONObject obj = new JSONObject();
+        obj.put("content", ConstantUtil.MSG_PARAM_ERR);
+        Long userId=((User)request.getSession().getAttribute("user")).getUserId();
+        String ipAddr = IPUtils.getIpAddr(request);
+        try {
+            String orderId = CommonUtil.GetRequestParam(request, "orderId", "0");
+            String saleNum = CommonUtil.GetRequestParam(request, "saleNum", "0");
+            String saleDj = CommonUtil.GetRequestParam(request, "saleDj", "0");
+            Map editMap = new HashMap();
+            editMap.put("orderNumber",saleNum);
+            editMap.put("orderPrice",saleDj);
+            editMap.put("operationIp",ipAddr);
+            editMap.put("userId",userId);
+            sellerServiceImpl.createOrderLog(Long.valueOf(orderId),editMap);
+            ret = "1";
+            obj.put("content",ConstantUtil.MSG_SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ret = "-2";
+            obj.put("content", ConstantUtil.MSG_FAILS);
+        }
+        obj.put("status", ret);
+        this.echoJSON(response, obj);
+    }
+
+
+
     /**
      * 产品发布页面
      * @param model

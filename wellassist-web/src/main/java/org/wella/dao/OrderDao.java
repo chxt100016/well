@@ -31,4 +31,6 @@ public interface OrderDao {
     int listOrderCount(Map param);
 
     Map<String,Object> singleOrderAttachUserAttachOrderLogisticsInfo(@Param("orderId") Long orderId);
+
+    Map<String,Object> singleOrderAttachOrderLogAttachProdAttachZorderAttachUserAttachOrderLogisticsInfo(@Param("orderId")Long orderId);
 }

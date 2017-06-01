@@ -110,7 +110,7 @@
 				</div>
 				<div class="grayboxwithoutleft" style="height:110px;font-size:16px; float:right; border:none;text-align:center; width:19%; ">
 					<c:if test="${item.orderState=='0'}">
-						<span class="span_btn" onClick="toURL('editOrder', '${item.orderId}')">确认订单</span>
+						<span class="span_btn" onClick="toURL('confirmOrder', '${item.orderId}')">确认订单</span>
 					</c:if>
 					<c:if test="${item.orderState=='1'}">
 						<span class="span_btn" onClick="toURL('editOrder', '${item.orderId}')">编辑订单</span>
@@ -161,7 +161,7 @@
 			else if(action=='detailVehicle'){
 				window.location.href = "${pageContext.request.contextPath}/front/seller/SellerOrderController-detailOrder?isEdit=0&orderType=1&orderId=" + orderId;
 			} else if(action=='editOrder'){
-				window.location.href = "${pageContext.request.contextPath}/front/seller/SellerOrderController-detailOrder?isEdit=1&orderType=0&orderId=" + orderId;
+				window.location.href = "${pageContext.request.contextPath}/seller/editOrder?orderId=" + orderId;
 			} else if(action=='editVehicle'){
 				window.location.href = "${pageContext.request.contextPath}/front/seller/SellerOrderController-detailOrder?isEdit=1&orderType=1&orderId=" + orderId;
 			} else if(action=='editFapiao'){
