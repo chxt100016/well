@@ -24,4 +24,8 @@ public interface OrderDao {
     ArrayList findCustomerOrderList(Map map);
 
     int findCustomerOrderListCount(Map map);
+
+    List<Map<String,Object>> listOrderAttachProd(Map param);
+
+    int listOrderCount(Map param);
 }
