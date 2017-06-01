@@ -38,7 +38,7 @@
 							<div id="logout">退出登录</div>
 						</div>
 					</span>
-					<span style="float: right;"><a href="<c:url value="/front/seller/SellerOrderController-prodPub"/>">管理员</a></span>
+					<span style="float: right;"><a href="<c:url value="/seller/productList"/>">管理员</a></span>
 				</div>
 			</div>
 		</div>
@@ -125,7 +125,7 @@
 	<%--}--%>
 	
 	$("#logout").click( function(){
-		window.location.href="<c:url value="/front/front/SellerLoginController-logout"/>";
+		window.location.href="<c:url value="/login/out"/>";
 	});
 	
 	function viewNotice(id){

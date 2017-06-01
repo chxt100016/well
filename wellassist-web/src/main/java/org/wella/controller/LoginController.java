@@ -1,6 +1,8 @@
 package org.wella.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import io.wellassist.utils.HttpContextUtils;
+import io.wellassist.utils.SpringContextUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,12 +61,12 @@ public class LoginController extends BaseController {
     @Autowired
     private SellerService sellerServiceImpl;
 
-    @RequestMapping(value = {"page"},method = {RequestMethod.GET})
+    @RequestMapping(value = {"page"},method = RequestMethod.GET)
     public String page(){
         return "views/login/login.jsp";
     }
     //登录时的相关处理
-    @RequestMapping(value = {"in"}, method = {RequestMethod.POST})
+    @RequestMapping(value = {"in"}, method = RequestMethod.POST)
     public void login(HttpServletRequest request , HttpServletResponse response){
         String account = request.getParameter("username");
         String password = request.getParameter("password");
@@ -165,7 +167,13 @@ public class LoginController extends BaseController {
 
     @RequestMapping(value = {"sellerMain"},method = RequestMethod.GET)
     public String sellerMain(HttpServletRequest request,Model model){
-
         return "views/front/seller/order/prodPub.jsp";
+    }
+
+    @RequestMapping(value = "out",method = RequestMethod.GET)
+    public String loginOut (){
+        HttpSession session = HttpContextUtils.getHttpServletRequest().getSession();
+        session = null;
+        return "views/login/login.jsp";
     }
 }

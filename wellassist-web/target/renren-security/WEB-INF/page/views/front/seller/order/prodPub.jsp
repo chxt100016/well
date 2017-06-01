@@ -34,6 +34,7 @@
 				</tr>
 				<tr>
 					<td class="form_label"><label for="" class="form_label">所在地区：</label></td>
+					<input type="hidden" name="prodRegionId" id="prodRegionId">
 					<td style="padding: 5px 0px;">
 						<select id="provinceId" name="provinceId" onchange="selRegion(0);">
 							<option>--请选择省--</option>
@@ -88,16 +89,13 @@
 			<div class="row">
 				<div style="width:300px;margin:0px auto">
 					<input type="reset" name="reset" style="display: none;" />
-					<button class="btn btn-info" style="width:120px;float:left;display:block" type="submit">保存</button>
-					<a class="btn btn-default" href="#" role="button" style="width:120px;float:right;display:block" type="reset">发布</a>
+					<button class="btn btn-info" style="width:120px;float:left;display:block" type="submit">发布</button>
+					<a class="btn btn-default" href="#" role="button" style="width:120px;float:right;display:block" type="reset">返回</a>
 				</div>
 			</div>
 		</form>
 	</div>
-	
-	<%--<div style="margin:40px 0px 0px 185px;">--%>
-		<%--<input id="savebtn" name="savebtn" type="button" value="保存" class="bluebutton" style="font-size:20px; border-radius:6px;">--%>
-		<%--<input id="pubbtn"  name="pubbtn"  type="submit" value="发布" class="bluebutton" style="font-size:20px;border-radius:6px;">--%>
+
 	</div>
 
 <script>
@@ -199,7 +197,7 @@
             prodIntro: "请填写产品简介"
         },
         submitHandler: function(form){
-            $.post("${pageContext.request.contextPath}/platform/product/publishproduct",$(form).serialize(),function (data) {
+            $.post("${pageContext.request.contextPath}/seller/publish",$(form).serialize(),function (data) {
                 var obj = JSON.parse(data);
                 var code = obj.code;
                 if(code == 0){

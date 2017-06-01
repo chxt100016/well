@@ -32,11 +32,6 @@
 <link rel="stylesheet" href="<c:url value="/resources/library/css/ie/ie9.css"/>">
 <![endif]-->
 <!--fav and touch icons -->
-<link rel="shortcut icon" href="<c:url value="/resources/wella/common/ico/wellassist.png"/>">
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<c:url value="/resources/wella/common/ico/wellassist-144.png"/>">
-<link rel="apple-touch-icon-precomposed" sizes="114x114" href="<c:url value="/resources/wella/common/ico/wellassist-114.png"/>">
-<link rel="apple-touch-icon-precomposed" sizes="72x72" href="<c:url value="/resources/wella/common/ico/wellassist-72.png"/>">
-<link rel="apple-touch-icon-precomposed" type="text/css" href="<c:url value="/resources/wella/common/ico/wellassist-57.png"/>">
 <!-- extend_css -->
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/wella/front/css/extend_styles.css"/>">
 <!-- extend_css -->
