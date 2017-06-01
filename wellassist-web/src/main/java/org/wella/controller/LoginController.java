@@ -131,7 +131,6 @@ public class LoginController extends BaseController {
             return "/views/front/customer/home.jsp";
         }else if("2".equals(type)){
 
-
             return "/views/front/fkf/home.jsp";
         }else if("3".equals(type)){
             model.addAttribute("userName",user.getUserName());
@@ -176,4 +175,5 @@ public class LoginController extends BaseController {
         session = null;
         return "views/login/login.jsp";
     }
+
 }

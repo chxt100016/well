@@ -122,13 +122,13 @@
 								<a  href="${pageContext.request.contextPath}/seller/productList"> <i class="block layout icon"></i>产品中心</a>
 							</li>
       						<li  class=" <c:if test = "${parentMenuNo == '1' }"> topmenuselected </c:if>" id="dingdancenter">
-							  <a href="${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-prodOrderList">订单中心</a></li>
+							  <a href="${pageContext.request.contextPath}/seller/order">订单中心</a></li>
       						<li id="financecenter" class="<c:if test = "${parentMenuNo == '2' }"> topmenuselected</c:if>" >
-							  <a href="${pageContext.request.contextPath}/front/customer/FinanceController-accountInfo">财务中心</a></li>
+							  <a href="${pageContext.request.contextPath}/seller/finance">财务中心</a></li>
       						<li id="newscenter" class="<c:if test = "${parentMenuNo == '3' }"> topmenuselected</c:if>">
-							  <a href="${pageContext.request.contextPath}/front/customer/NewsController-xxList">消息中心</a></li>
+							  <a href="${pageContext.request.contextPath}/seller/message">消息中心</a></li>
 							<li id="company_manage" class="<c:if test = "${parentMenuNo == '4' }"> topmenuselected</c:if>">
-							<a href="${pageContext.request.contextPath}/front/customer/CompanyController-companyInfo">个人中心</a></li>
+							<a href="${pageContext.request.contextPath}/seller/companyInfo">个人中心</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right hidden-sm">
             <li><a href="/about/" onclick="#">关于</a></li>
