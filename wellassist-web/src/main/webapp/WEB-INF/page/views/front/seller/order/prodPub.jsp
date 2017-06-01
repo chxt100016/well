@@ -35,7 +35,6 @@
 				<tr>
 					<td class="form_label"><label for="" class="form_label">所在地区：</label></td>
 					<input type="hidden" name="prodRegionId" id="prodRegionId">
-					<td >所在地区/td>
 					<td style="padding: 5px 0px;">
 						<select id="provinceId" name="provinceId" onchange="selRegion(0);">
 							<option>--请选择省--</option>

@@ -35,10 +35,10 @@ div.error{
 				<div>
 					<div style="float:left;margin-right:8px;width:10%;">当前头像: </div>
 					<div id="companyicon" style="float:left;width:12%;height:100px;border:solid 1px #ccc;">
-						<img id="icon" style="margin:8px;" src="${pageContext.request.contextPath}/${myInfo.companyImg}">
+						<img id="icon" style="margin:8px;" src="${pageContext.request.contextPath}/${userInfo.companyImg}">
 					</div>
 					<div style="float:left;margin-left:32px;">
-						<div style="font-size:20px;font-weight:bold;margin-bottom:12px;">${myInfo.userName}</div>
+						<div style="font-size:20px;font-weight:bold;margin-bottom:12px;">${user.userName}</div>
 						<div style="margin-bottom:12px;font-size:16px;">
 							<img src="<c:url value="/resources/wella/front/images/seller/lianxiicon1.png"/>">
 							<span style="margin-left:8px;margin-right:42px;">实名认证</span>
@@ -63,43 +63,43 @@ div.error{
 				<select id="provinceId" name="provinceId" onchange="selRegion(0);">
                 	<option>--请选择省--</option>
                 	<c:forEach items="${provinceList}" var="item" varStatus="status">
-                    	<option value="${item.regionId}" <c:if test="${item.regionId==shengId}" >selected</c:if> >${item.regionName}</option>
+                    	<option value="${item.regionId}" <c:if test="${item.regionId==provinceId}" >selected</c:if> >${item.regionName}</option>
                     </c:forEach>
 		        </select>
 	            <select id="cityId" name="cityId" onchange="selRegion(1);">
                     <option>--请选择市--</option>
                     <c:forEach items="${cityList}" var="item" varStatus="status">
-                    	<option value="${item.regionId}"  <c:if test="${item.regionId==countyId}" >selected</c:if>  >${item.regionName}</option>
+                    	<option value="${item.regionId}"  <c:if test="${item.regionId==cityId}" >selected</c:if>  >${item.regionName}</option>
                     </c:forEach>
                 </select>
                 <select id="regionId" name="regionId" onchange="selRegion(2);">
                 	<option>--请选择区--</option>
                 	<c:forEach items="${countyList}" var="item" varStatus="status">
-                    	<option value="${item.regionId}"  <c:if test="${item.regionId==myInfo.zcXxAddress}" >selected</c:if> >${item.regionName}</option>
+                    	<option value="${item.regionId}"  <c:if test="${item.regionId==userInfo.zcRegionId}" >selected</c:if> >${item.regionName}</option>
                     </c:forEach>
                 </select>
 			</div>
 			<div style="margin-top:24px;padding-left:45px;display: inline-block;width: 90%;">
 				<span style="display:inline-block;width:10%;font-size:14px;">详细地址</span>
-				<input name="zcXxAddress" id="zcXxAddress" placeholder="请输入详细地址" style="width:40%;height: 30px;" value="${myInfo.zcXxAddress}">
+				<input name="zcXxAddress" id="zcXxAddress" placeholder="请输入详细地址" style="width:40%;height: 30px;" value="${userInfo.zcXxAddress}">
 			</div>
 	
 	
 			<div style="margin-top:24px;padding-left:45px;display: inline-block;width: 90%;">
 				<span style="display:inline-block;width:10%;font-size:14px;">电子邮箱</span>
-				<input name="userEmail" id="userEmail" placeholder="请输入电子邮箱" style="width:40%;height: 30px;" value="${myInfo.userEmail}">
+				<input name="userEmail" id="userEmail" placeholder="请输入电子邮箱" style="width:40%;height: 30px;" value="${user.userEmail}">
 			</div>
 			
 			<div style="margin-top:24px;padding-left:45px;display: inline-block;width: 90%;">
 				<span style="display:inline-block;width:10%;font-size:14px;">手机号码</span>
-				<input name="userPhone" id="userPhone" placeholder="请输入手机号码" style="width:40%;height: 30px;" value="${myInfo.userPhone}">
+				<input name="userPhone" id="userPhone" placeholder="请输入手机号码" style="width:40%;height: 30px;" value="${user.userPhone}">
 			</div>
 			
 			
 			<div style="margin-bottom: 32px;margin-top: 32px;margin-left: 11%;">
 				<input type="submit" id="submit" class="bluebutton" style="padding-left: 24px;padding-right: 24px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;border:none;" value="保存">
 			</div>
-			<input type="hidden" name="zc_region_id" id="zc_region_id" value="${myInfo.zcRegionId}" />
+			<input type="hidden" name="zc_region_id" id="zc_region_id" value="${userInfo.zcRegionId}" />
 		</form>
 	</div>
 

@@ -48,19 +48,20 @@
 
                                     <div class=""> </div>
                                     <div class="">
-                                        <form class="right_side pure-form" action="" method="post" id="loginForm" name="loginForm">
+                                        <form class="right_side pure-form"  method="post" id="loginForm" name="loginForm">
 
                                             <div class="ui  input login-input">
-                                                <input type="text" placeholder="用户名、电子邮件或者手机号" id="" maxlength="300" name="username">
+                                                <input type="text" placeholder="用户名、电子邮件或者手机号" id="username" maxlength="300" name="username">
                                             </div>
                                             <p>
                                                 <div class="ui  input login-input">
-                                                    <input type="password" name="password" required="" placeholder="密码" id="" maxlength="300" name="password">
+                                                    <input type="password" name="password"  placeholder="密码" id="passowrd" maxlength="300">
                                                 </div>
                                                 <input type="hidden" name="next" value="">
                                                 <p>
-                                                    <div><input style="text-align:center;width:300px" class="ui positive button" type="submit" value="登录" id="login"></div>
+
                                         </form>
+                                        <div><input style="text-align:center;width:300px" class="ui positive button"  value="登录" id="login" onclick="submit()"></div>
                                     </div>
 
                                 </div>
@@ -104,8 +105,7 @@
 
         </body>
         <script type="text/javascript">
-            $("#login").click(function() {
-
+            function submit() {
                 $.post("${pageContext.request.contextPath}/login/in", $("#loginForm").serialize(), function(data) {
                         var tempData = $.parseJSON(data);
                         //根据登录时的验，根据登录时的验证情况进行页面的跳转
@@ -121,7 +121,7 @@
                         window.location.href = "${pageContext.request.contextPath}/login/page";
                         alert("操作失败！")
                     });
-            });
+            }
         </script>
 
         </html>
