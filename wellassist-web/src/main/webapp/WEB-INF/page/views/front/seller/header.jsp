@@ -153,7 +153,7 @@
 						<div style="">订单管理</div>
 					</li>
 					<ul style="display: block;">				
-						<li class="leftmenuleaf <c:if test ="${childMenuNo == '3' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/seller/SellerOrderController-orderList">订单列表</a></li>
+						<li class="leftmenuleaf <c:if test ="${childMenuNo == '3' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/seller/productList">订单列表</a></li>
 					</ul>
 					<li class="leftmenulevel1" onclick="menuparentclicked( this);">
 						<div style="">客户管理</div>
@@ -197,9 +197,9 @@
 						<div style="">账号设置</div>
 					</li>
 					<ul style="display: block;">
-						<li class="leftmenuleaf <c:if test ="${childMenuNo == '1' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/seller/company/SellerCompanyController-companyInfo">公司信息</a></li>
-						<li class="leftmenuleaf <c:if test ="${childMenuNo == '2' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/seller/company/SellerCompanyController-contactMode">联系方式</a></li>
-						<li class="leftmenuleaf <c:if test ="${childMenuNo == '3' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/seller/company/SellerCompanyController-changePass">修改密码</a></li>
+						<li class="leftmenuleaf <c:if test ="${childMenuNo == '1' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/seller/companyInfo">公司信息</a></li>
+						<li class="leftmenuleaf <c:if test ="${childMenuNo == '2' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/seller/contact">联系方式</a></li>
+						<li class="leftmenuleaf <c:if test ="${childMenuNo == '3' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/seller/password">修改密码</a></li>
 					</ul>
 				</ul>	
 			</c:if>

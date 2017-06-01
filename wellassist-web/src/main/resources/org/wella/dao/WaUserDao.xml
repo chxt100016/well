@@ -335,8 +335,12 @@
 
     <update id="resetPassword" parameterType="map">
         UPDATE wa_user
-        SET cz_pass =#{czPass},
-            user_pass = #{userPass}
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userPassword != null">user_pass = #{userPassword},</if>
+            <if test="czPassword != null">cz_pass = #{czPassword},</if>
+        </trim>
         WHERE  user_id = #{userId}
     </update>
+
+
 </mapper>
