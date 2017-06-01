@@ -35,7 +35,7 @@ div.error{
 				<div>
 					<div style="float:left;margin-right:8px;width:10%;">当前头像: </div>
 					<div id="companyicon" style="float:left;width:12%;height:100px;border:solid 1px #ccc;">
-						<img id="icon" style="margin:8px;" src="${pageContext.request.contextPath}/${userInfo.companyImg}">
+						<img id="icon" style="margin:8px;" src="${userInfo.companyImg}">
 					</div>
 					<div style="float:left;margin-left:32px;">
 						<div style="font-size:20px;font-weight:bold;margin-bottom:12px;">${user.userName}</div>

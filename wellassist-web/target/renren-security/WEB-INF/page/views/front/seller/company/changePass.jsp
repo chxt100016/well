@@ -42,6 +42,7 @@
 	
 			<div style="margin-bottom: 32px;margin-top: 32px;margin-left: 11%;">
 				<input type="submit" id="submitloginpass" class="bluebutton" style="padding-left: 24px;padding-right: 24px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;border:none;" value="确定">
+				<input type="reset" id="resetlogin" class="bluebutton" style="padding-left: 24px;padding-right: 24px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;border:none;" value="取消">
 			</div>
 		</form>
 	</div>
@@ -66,6 +67,7 @@
 			<div style="margin-bottom: 32px;margin-top: 32px;margin-left: 11%;">
 				<!-- <span id="submit" class="bluebutton" style="padding-left: 16px;padding-right: 16px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;" align=center>确认下单</span> -->
 				<input type="submit" id="submitpaypass" class="bluebutton" style="padding-left: 24px;padding-right: 24px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;border:none;" value="确定">
+				<input type="reset" id="resetpay" class="bluebutton" style="padding-left: 24px;padding-right: 24px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;border:none;" value="取消">
 			</div>
 		</form>
 	</div>
@@ -96,13 +98,14 @@
         },
 	    submitHandler: function(form){
 	    	var oldPass = $("#oldpass").val();
-	    	$.post("${pageContext.request.contextPath}/front/seller/company/SellerCompanyController-checkOrgPass", {oldPass:oldPass},	function(data) {
+	    	$.post("${pageContext.request.contextPath}/seller/checkLoginPassword", {oldPass:oldPass},	function(data) {
 				if(data.state == 1) {
-					var act_url = "${pageContext.request.contextPath}/front/seller/company/SellerCompanyController-updateNewPass";
+					var act_url = "${pageContext.request.contextPath}/seller/changeLoginPassword";
 			    	$.post(act_url,$(form).serialize(),function(data){
 			    		data = $.parseJSON(data);
 			    		if(data.state==1){
-			            	alert("保存成功!");
+                            $("input[type=reset]").trigger("click");
+//			            	alert("保存成功!");
 			            }else{
 			            	alert(data.content);
 			            }
@@ -137,13 +140,14 @@
         },
 	    submitHandler: function(form){
 	    	var oldPass = $("#payoldpass").val();
-	    	$.post("${pageContext.request.contextPath}/front/seller/company/SellerCompanyController-checkPayOrgPass", {oldPass:oldPass},	function(data) {
+	    	$.post("${pageContext.request.contextPath}/seller/checkPayPassword", {oldPass:oldPass},	function(data) {
 				if(data.state == 1) {
-					var act_url = "${pageContext.request.contextPath}/front/seller/company/SellerCompanyController-updatePayNewPass";
+					var act_url = "${pageContext.request.contextPath}/seller/changePayPassword";
 			    	$.post(act_url,$(form).serialize(),function(data){
 			    		data = $.parseJSON(data);
 			    		if(data.state==1){
-			            	alert("保存成功!");
+                            $("input[type=reset]").trigger("click");
+//			            	alert("修改成功");
 			            }else{
 			            	alert(data.content);
 			            }
