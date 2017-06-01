@@ -25,4 +25,6 @@ public interface UserinfoDao {
     int updateUserinfoByUserId(Map map);
 
     int deleteByUserId(@Param("userId")long userId);
+
+    Map<String,Object> singleUserinfoByPrimaryKey(@Param("userId")long userId);
 }

@@ -76,4 +76,7 @@ public interface SellerService {
      */
     void evaluate(int orderId);
 
+    List<Map<String,Object>> getOrderList(Map param);
+
+    int getOrderListCount(Map param);
 }

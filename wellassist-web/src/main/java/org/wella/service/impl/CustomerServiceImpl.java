@@ -47,15 +47,16 @@ public class CustomerServiceImpl implements CustomerService {
         long userId=Long.parseLong((String)map.get("userId"));
         Userinfo userinfo=userinfoDao.getOrderUserinfoByUserid(userId);
         long prodId=Long.parseLong((String)map.get("prodId"));
-        Prod prod=prodDao.getOrderProdByProdid(prodId);
+        Map<String,Object> prod=prodDao.singleProdByPrimaryKey(prodId);
+        ConvertUtil.convertDataBaseMapToJavaMap(prod);
 
         Order order=new Order();
         order.setOrderNo(CommonUtil.genKey(4));
         order.setProdId(prodId);
-        order.setProdName(prod.getProdName());
-        order.setFromRegionId(prod.getProdRegionId());
-        order.setFromRegionAddr(prod.getProdRegionAddr());
-        order.setSupplierId(prod.getUserId());
+        order.setProdName((String) prod.get("prodName"));
+        order.setFromRegionId((Long) prod.get("prodRegionId"));
+        order.setFromRegionAddr((String) prod.get("prodRegionAddr"));
+        order.setSupplierId((Long) prod.get("userId"));
 
         order.setToRegionId(Long.parseLong((String) map.get("toRegionId")));
         order.setToRegionAddr((String) map.get("toRegionAddr"));

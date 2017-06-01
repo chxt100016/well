@@ -125,7 +125,7 @@
 	<%--}--%>
 	
 	$("#logout").click( function(){
-		window.location.href="<c:url value="/front/front/SellerLoginController-logout"/>";
+		window.location.href="<c:url value="/login/out"/>";
 	});
 	
 	function viewNotice(id){

@@ -82,13 +82,6 @@ public class CustomerController extends BaseController{
 
    }
 
-   @RequestMapping(value = "test",method = RequestMethod.POST)
-   public void test(HttpServletRequest request , HttpServletResponse response){
-         Map map=this.getConditionParam(request);
-         int  i=0;
-   }
-
-
    @RequestMapping("makeOrder")
    public String makeOrder(HttpServletRequest request, HttpServletResponse response, Model model) {
       String prodId = CommonUtil.GetRequestParam(request, "prodId", "0");

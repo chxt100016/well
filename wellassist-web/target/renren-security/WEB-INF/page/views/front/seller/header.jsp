@@ -68,7 +68,7 @@
 				<span class="dropdown" style="float:left;">
 					<a data-toggle="dropdown" class="dropdown">${userName}&nbsp;<b class="icon-angle-down"></b></a>
 					<div class="dropdown-menu">
-						<div id="logout"><a style = "color: #1F2325; text-decoration: none;" href = "${pageContext.request.contextPath}/front/front/SellerLoginController-logout">退出登陆</a></div>
+						<div id="logout"><a style = "color: #1F2325; text-decoration: none;" href = "${pageContext.request.contextPath}/login/out">退出登陆</a></div>
 					</div>
 				</span>
 				<span style="float: right;"><a href="<c:url value="/front/SellerHomeController-home"/>">返回首页</a></span>
@@ -119,6 +119,7 @@
         <div class="navbar-collapse collapse" role="navigation" aria-expanded="false" style="height: 1px;">
           <ul class="nav navbar-nav">
                <li id="chanpincenter" class=" <c:if test = "${parentMenuNo == '5' }"> topmenuselected</c:if>">
+<<<<<<< HEAD
 								<a  href="${pageContext.request.contextPath}/front/customer/CustomerProdCtrl-prodList"> <i class="block layout icon"></i>产品中心</a>
 							</li>
       						<li  class=" <c:if test = "${parentMenuNo == '1' }"> topmenuselected </c:if>" id="dingdancenter">
@@ -129,6 +130,18 @@
 							  <a href="${pageContext.request.contextPath}/front/customer/NewsController-xxList">消息中心</a></li>
 							<li id="company_manage" class="<c:if test = "${parentMenuNo == '4' }"> topmenuselected</c:if>">
 							<a href="${pageContext.request.contextPath}/front/customer/CompanyController-companyInfo">财务管理</a></li>
+=======
+								<a  href="${pageContext.request.contextPath}/seller/productList"> <i class="block layout icon"></i>产品中心</a>
+							</li>
+      						<li  class=" <c:if test = "${parentMenuNo == '1' }"> topmenuselected </c:if>" id="dingdancenter">
+							  <a href="${pageContext.request.contextPath}/seller/order">订单中心</a></li>
+      						<li id="financecenter" class="<c:if test = "${parentMenuNo == '2' }"> topmenuselected</c:if>" >
+							  <a href="${pageContext.request.contextPath}/seller/finance">财务中心</a></li>
+      						<li id="newscenter" class="<c:if test = "${parentMenuNo == '3' }"> topmenuselected</c:if>">
+							  <a href="${pageContext.request.contextPath}/seller/message">消息中心</a></li>
+							<li id="company_manage" class="<c:if test = "${parentMenuNo == '4' }"> topmenuselected</c:if>">
+							<a href="${pageContext.request.contextPath}/seller/companyInfo">个人中心</a></li>
+>>>>>>> 6d8500989b5625ce7a4166f7948a27b9900f5009
           </ul>
           <ul class="nav navbar-nav navbar-right hidden-sm">
             <li><a href="/about/" onclick="#">关于</a></li>

@@ -28,11 +28,11 @@ div.error{
 		<form action="#" method="post">
 			<div style="font-size:14px;padding-left:8px;padding-top:32px;">
 				<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">联系人</span>
-				<input type="text" name="companyLxr" id="companyLxr" placeholder="请输入联系人" value="${myInfo.companyLxr}">
+				<input type="text" name="companyLxr" id="companyLxr" placeholder="请输入联系人" value="${userInfo.companyLxr}">
 			</div>
 			<div style="font-size:14px;padding-left:8px;padding-top:24px;">
 				<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">联系手机号码</span>
-				<input type="text" name="companyLxrPhone" id="companyLxrPhone" placeholder="请输入联系手机号码"  value="${myInfo.companyLxrPhone}">
+				<input type="text" name="companyLxrPhone" id="companyLxrPhone" placeholder="请输入联系手机号码"  value="${userInfo.companyLxrPhone}">
 			</div>
 			
 			<div style="margin-bottom: 32px;margin-top: 32px;margin-left: 11%;">
@@ -44,12 +44,11 @@ div.error{
 
 </div>
 <script type="text/javascript">
+
 	$("#companyicon").height($("#companyicon").width());
 	$("#icon").height($("#companyicon").innerHeight()-16);
 	$("#icon").width($("#companyicon").innerWidth()-16);
 	$("input[type=text]").css("font-size", "16px");
-	
-	
 	$("form").validate({
         rules: {
         	companyLxr: "required",

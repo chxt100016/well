@@ -40,19 +40,25 @@
 					<input type="hidden" name="prodRegionId" id="prodRegionId" value="${prod.prodRegionId}">
 					<select class="form-control" style="width:100px;float:left" alt="..." onclick="selRegion(0)" name="provinceId" id="provinceId">
 						<option>--请选择省--</option>
-						<option value="${prod.provinceId}" selected>${prod.province}</option>
-						<c:forEach var="items" items="provinceList">
-						<option value="$item.regionId">${item.regionName}</option>
+						<c:forEach items="${provinceList}" var="item" varStatus="status">
+							<option value="${item.regionId}" <c:if test="${item.regionId==provinceId}" >selected</c:if> >${item.regionName}</option>
 						</c:forEach>
+
 
 					</select>
 					<select class="form-control" style="width:100px; float:left" onclick="selRegion(1)" id="cityId" name="cityId">
 						<!--<option value="">&#45;&#45;请选择市&#45;&#45;</option>-->
-						<option value="${prod.cityId}" selected>${prod.city}</option>
+						<option>--请选择市--</option>
+						<c:forEach items="${cityList}" var="item" varStatus="status">
+							<option value="${item.regionId}"  <c:if test="${item.regionId==cityId}" >selected</c:if>  >${item.regionName}</option>
+						</c:forEach>
 					</select>
 					<select class="form-control" style="width:100px; float:left" onclick="selRegion(2)" id="regionId" name="regionId">
 						<!--<option>&#45;&#45;请选择区&#45;&#45;</option>-->
-						<option value="${prod.regionId}" selected>${prod.region}</option>
+						<option>请选择区</option>
+						<c:forEach items="${countyList}" var="item" varStatus="status">
+						<option value="${item.regionId}"  <c:if test="${item.regionId==prod.get('prodRegionId')}" >selected</c:if> >${item.regionName}</option>
+						</c:forEach>
 					</select>
 				</td>
 				<td>

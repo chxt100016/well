@@ -4,15 +4,13 @@ import com.sun.xml.internal.bind.v2.model.core.ID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
 import org.wella.entity.*;
 import org.wella.service.SellerService;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by liuwen on 2017/5/10.
@@ -39,6 +37,9 @@ public class SellerServiceImpl implements SellerService {
 
     @Autowired
     private ProdDao prodDao;
+
+    @Autowired
+    private UserinfoDao userinfoDao;
 
     /**
      * 买家确认时的业务逻辑
@@ -123,6 +124,49 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public void evaluate(int orderId) {
 
+    }
+
+    /**
+     * 获取卖家订单列表
+     * @param param
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> getOrderList(Map param) {
+        List<Map<String,Object>> res=new ArrayList<Map<String,Object>>();
+        List<Map<String,Object>> orderMaps=orderDao.listOrderAttachProd(param);
+        long tmpCutomerId=0;
+        int index=-1;
+        for (Map<String,Object> orderMap : orderMaps){
+            ConvertUtil.convertDataBaseMapToJavaMap(orderMap);
+            long customerId=(long)orderMap.get("userId");
+            if (customerId!=tmpCutomerId){
+                index++;
+                tmpCutomerId=customerId;
+                res.add(new HashMap<String,Object>());
+                if (res.get(index).get("orders")==null){
+                    res.get(index).put("orders",new ArrayList<Map<String,Object>>());
+                }
+                Map<String,Object> customer=userinfoDao.singleUserinfoByPrimaryKey(customerId);
+                res.get(index).put("customerId",(long)customer.get("user_id"));
+                res.get(index).put("customerName",(String)customer.get("company_name"));
+                res.get(index).put("customerImg",(String)customer.get("company_img"));
+                ((ArrayList<Map<String,Object>>)res.get(index).get("orders")).add(orderMap);
+            } else {
+                ((ArrayList<Map<String,Object>>)res.get(index).get("orders")).add(orderMap);
+            }
+        }
+        return res;
+    }
+
+    /**
+     * 获取卖家订单列表总数
+     * @param param
+     * @return
+     */
+    @Override
+    public int getOrderListCount(Map param) {
+        return orderDao.listOrderCount(param);
     }
 
     /**

@@ -127,4 +127,32 @@
             AND a.order_state = #{orderState}
         </if>
     </select>
+    
+    <select id="listOrderAttachProd" parameterType="map" resultType="map">
+        SELECT *,c.`prod_price`,(c.`prod_num`-c.`sale_num`) prod_num
+        FROM wa_order a INNER JOIN wa_prod c
+        ON a.`prod_id`=c.`prod_id`
+        WHERE a.`supplier_id`=${supplierId}
+        AND a.order_state > -1
+        <if test="orderState != null">
+            AND a.order_state=${orderState}
+        </if>
+        ORDER BY a.`user_id`
+        <if test="start != null and size != null">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="listOrderCount" parameterType="map" resultType="int">
+        SELECT count(*)
+        from wa_order
+        <where>
+            <if test="supplierId != null">
+                AND `supplier_id`=${supplierId}
+            </if>
+            <if test="orderState != null">
+                AND a.order_state=${orderState}
+            </if>
+        </where>
+    </select>
 </mapper>
