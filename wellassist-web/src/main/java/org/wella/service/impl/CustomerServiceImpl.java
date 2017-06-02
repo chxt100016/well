@@ -107,7 +107,7 @@ public class CustomerServiceImpl implements CustomerService {
                 vInfo.setOrderId(order.getOrderId());
                 vInfo.setName((String) vehivleMap.get("driverName"));
                 vInfo.setPhone((String)vehivleMap.get("driverPhone"));
-                vInfo.setCarCode((String)vehivleMap.get("carCode"));
+                vInfo.setVehicleNo((String)vehivleMap.get("carCode"));
                 vehicleInfoDao.createVehicleInfo(vInfo);
             }
 

@@ -7,6 +7,7 @@ import io.wellassist.utils.HttpContextUtils;
 import io.wellassist.utils.IPUtils;
 import io.wellassist.utils.PageUtils;
 import io.wellassist.utils.R;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.common.vo.MyInfo;
+import org.wella.dao.UserinfoDao;
 import org.wella.dao.WaUserDao;
 import org.wella.entity.User;
 import org.wella.entity.Userinfo;
@@ -54,6 +56,9 @@ public class SellerController extends BaseController {
     @Autowired
     private WaUserDao userDao;
 
+    @Autowired
+    private UserinfoDao userinfoDao;
+
     @RequestMapping("processOrder")
     public void processOrder(HttpServletRequest request, HttpServletResponse response, Model model){
         String ret = "-1";
@@ -63,7 +68,6 @@ public class SellerController extends BaseController {
         String userId = myInfo.getUserId();
         String ipAddr = IPUtils.getIpAddr(request);
         try {
-            String operationIp = IPUtils.getIpAddr(request);
             String orderId = CommonUtil.GetRequestParam(request, "orderId", "0");
             String saleNum = CommonUtil.GetRequestParam(request, "saleNum", "0");
             String saleDj = CommonUtil.GetRequestParam(request, "saleDj", "0");
@@ -82,6 +86,50 @@ public class SellerController extends BaseController {
         obj.put("status", ret);
         this.echoJSON(response, obj);
     }
+
+    @RequestMapping("confirmOrder")
+    public String confirmOrder(Model model,@RequestParam("orderId")String orderId){
+        Map<String,Object> modelMap=sellerServiceImpl.getInfoForConfirmOrderPage(Long.valueOf(orderId));
+        model.addAttribute("orderInfo",modelMap);
+        return "views/front/seller/order/confirmOrder.jsp";
+    }
+
+    @RequestMapping("editOrder")
+    public String editOrder(Model model,@RequestParam("orderId")String orderId){
+        Map<String,Object> modelMap=sellerServiceImpl.getOrderDetail(Long.valueOf(orderId));
+        model.addAttribute("orderInfo",modelMap);
+        return "views/front/seller/order/editOrder.jsp";
+    }
+
+    @RequestMapping("editOrderSubmit")
+    public void editOrderSubmit(HttpServletRequest request, HttpServletResponse response, Model model){
+        String ret = "-1";
+        JSONObject obj = new JSONObject();
+        obj.put("content", ConstantUtil.MSG_PARAM_ERR);
+        Long userId=((User)request.getSession().getAttribute("user")).getUserId();
+        String ipAddr = IPUtils.getIpAddr(request);
+        try {
+            String orderId = CommonUtil.GetRequestParam(request, "orderId", "0");
+            String saleNum = CommonUtil.GetRequestParam(request, "saleNum", "0");
+            String saleDj = CommonUtil.GetRequestParam(request, "saleDj", "0");
+            Map editMap = new HashMap();
+            editMap.put("orderNumber",saleNum);
+            editMap.put("orderPrice",saleDj);
+            editMap.put("operationIp",ipAddr);
+            editMap.put("userId",userId);
+            sellerServiceImpl.createOrderLog(Long.valueOf(orderId),editMap);
+            ret = "1";
+            obj.put("content",ConstantUtil.MSG_SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ret = "-2";
+            obj.put("content", ConstantUtil.MSG_FAILS);
+        }
+        obj.put("status", ret);
+        this.echoJSON(response, obj);
+    }
+
+
 
     /**
      * 产品发布页面
@@ -228,6 +276,21 @@ public class SellerController extends BaseController {
         return "views/front/seller/company/contactMode.jsp";
     }
 
+    @RequestMapping("updateContact")
+    @ResponseBody
+    public R updateContext(@RequestParam Map<String,Object> params){
+        HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
+        User user = (User) httpSession.getAttribute("user");
+        params.put("userId", user.getUserId());
+        try {
+            userinfoDao.updateUserinfoByUserId(params);
+            return R.ok().put("state",1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error().put("state",0);
+        }
+    }
+
     /**
      * 进入消息中心，并初始化相关内容
      * @param model
@@ -293,6 +356,104 @@ public class SellerController extends BaseController {
         return "views/front/seller/order/orderList.jsp";
     }
 
+    @RequestMapping("password")
+    public String changePassword(Model model) {
+        HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
+        User user = (User) httpSession.getAttribute("user");
+        model.addAttribute("parentMenuNo", "4");
+        model.addAttribute("childMenuNo", "3");
+        model.addAttribute("userName", user.getUserName());
+        return "views/front/seller/company/changePass.jsp";
+    }
+
+    /**修改支付密码
+     *
+     * @param map
+     */
+    @RequestMapping("changePayPassword")
+    @ResponseBody
+    public R changePayPassword(@RequestParam Map<String,Object>map){
+        HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
+        User user = (User) httpSession.getAttribute("user");
+        String paynewpass = map.get("paynewpass").toString();
+        //MD5加密
+        String password = CommonUtil.MD5(paynewpass);
+        user.setCzPass(password);
+        Map<String,Object> updateMap = new HashedMap();
+        updateMap.put("userId",user.getUserId());
+        updateMap.put("czPassword",user.getCzPass());
+        try {
+            userDao.resetPassword(updateMap);
+            return R.ok().put("state",1);
+        }catch (Exception e){
+            e.printStackTrace();
+            return R.error().put("state",0);
+        }
+    }
+
+    /**检验支付密码
+     *修改支付密码前要输入原有的支付密码，原有的支付密码从session中获取
+     * @param map
+     */
+    @RequestMapping("checkPayPassword")
+    @ResponseBody
+    public R checkPayPassword(@RequestParam Map<String,Object>map){
+        HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
+        User user = (User) httpSession.getAttribute("user");
+        String payoldpass = map.get("oldPass").toString();
+        //MD5加密
+        String password = CommonUtil.MD5(payoldpass);
+        if(password.equals(user.getCzPass())){
+            return R.ok().put("state",1);
+        }else{
+            return R.error().put("state",0);
+        }
+    }
+
+    /**修改登录密码
+     *1.修改session中的操作密码，2.修改数据库中session密码
+     * @param map
+     */
+    @RequestMapping("changeLoginPassword")
+    @ResponseBody
+    public R changeLoginPassword(@RequestParam Map<String,Object>map){
+        HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
+        User user = (User) httpSession.getAttribute("user");
+        String newpass = map.get("newpass").toString();
+        //MD5加密
+        String password = CommonUtil.MD5(newpass);
+        user.setUserPass(password);
+        Map<String,Object> updateMap = new HashedMap();
+        updateMap.put("userId",user.getUserId());
+        updateMap.put("userPassword",user.getUserPass());
+        try{
+            userDao.resetPassword(updateMap);
+            return R.ok().put("state",1);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return R.error().put("state",0);
+        }
+    }
+
+    /**检验登录密码
+     *修改登录密码前要输入原有的登录密码，原有的登录密码可以从session中获取
+     * @param map
+     */
+    @RequestMapping("checkLoginPassword")
+    @ResponseBody
+    public R checkLoginPassword(@RequestParam Map<String,Object>map){
+        HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
+        User user = (User) httpSession.getAttribute("user");
+        String payoldpass = map.get("oldPass").toString();
+        //MD5加密
+        String password = CommonUtil.MD5(payoldpass);
+        if(password.equals(user.getUserPass())){
+            return R.ok().put("state",1);
+        }else{
+            return R.error().put("state",0);
+        }
+    }
 
 }
 

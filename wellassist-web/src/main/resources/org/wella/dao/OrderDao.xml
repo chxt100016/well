@@ -155,4 +155,23 @@
             </if>
         </where>
     </select>
+
+    <select id="singleOrderAttachUserAttachOrderLogisticsInfo" parameterType="long" resultType="map">
+        SELECT b.`user_id`,b.`user_name`,a.order_id,a.`prod_name`,a.`sale_num`,a.`sale_money`,a.`order_state`,c.`contacts`,c.`con_tel`
+        FROM wa_order a LEFT JOIN wa_user b ON a.`user_id`=b.`user_id`
+        LEFT JOIN wa_order_logistics_info c ON a.`order_id`=c.`order_id`
+        WHERE a.`order_id`=#{orderId}
+    </select>
+
+    <select id="singleOrderAttachOrderLogAttachProdAttachZorderAttachUserAttachOrderLogisticsInfo" parameterType="long" resultType="map">
+        SELECT b.`user_id`,b.`user_name`,a.`order_id`,a.`order_no`,a.`order_date`,a.`prod_name`,a.`sale_num`,a.`sale_money`,a.`is_self_car`,a.`order_state`,c.`contacts`,c.`con_tel`,c.`deliver_date`,c.`receive_date`,d.`order_price`,d.`order_number`,f.`prod_id`,f.`prod_img`,f.`prod_type`,e.deliver_num_count
+        FROM wa_order a LEFT JOIN wa_user b ON a.`user_id`=b.`user_id`
+        LEFT JOIN wa_prod f ON a.`prod_id`=f.`prod_id`
+        LEFT JOIN wa_order_logistics_info c ON a.`order_id`=c.`order_id`
+        RIGHT JOIN wa_order_log d ON a.`order_id`=d.`order_id`
+        LEFT JOIN (SELECT COUNT(`zorder_num`) deliver_num_count FROM wa_zorder WHERE order_id=#{orderId}) e ON 1=1
+        WHERE a.`order_id`=#{orderId}
+        ORDER BY d.`operation_time` DESC
+        LIMIT 1
+    </select>
 </mapper>
