@@ -50,7 +50,7 @@
 			<div style = "border-bottom: solid 1px#E0E0E0; overflow:auto;">
 				<div class="graybox" style="width:40%;height:110px;font-size:14px;float:left; border:none; border-right: solid 1px #d0d0d0;">
 					<div style = "margin-left:10px;line-height:106px; float:left;">
-						<a class="fancybox" href="${item.prodImg}" data-fancybox-group="gallery" title=""><img src="${item.prodImg}"  style="width:80px; height:80px;" onerror = "noExitImg(this, '${pageContext.request.contextPath}');" /></a>
+						<a class="fancybox" href="${pageContext.request.contextPath}/${item.prodImg}" data-fancybox-group="gallery" title=""><img src="${pageContext.request.contextPath}/${item.prodImg}"  style="width:80px; height:80px;" onerror = "noExitImg(this, '${pageContext.request.contextPath}');" /></a>
 					</div>
 					<div style = "margin-left:10px;line-height:106px; float:left;">
 						${item.prodName}
@@ -110,7 +110,7 @@
 				</div>
 				<div class="grayboxwithoutleft" style="height:110px;font-size:16px; float:right; border:none;text-align:center; width:19%; ">
 					<c:if test="${item.orderState=='0'}">
-						<span class="span_btn" onClick="toURL('confirmOrder', '${item.orderId}')">确认订单</span>
+						<span class="span_btn" onClick="toURL('editOrder', '${item.orderId}')">确认订单</span>
 					</c:if>
 					<c:if test="${item.orderState=='1'}">
 						<span class="span_btn" onClick="toURL('editOrder', '${item.orderId}')">编辑订单</span>

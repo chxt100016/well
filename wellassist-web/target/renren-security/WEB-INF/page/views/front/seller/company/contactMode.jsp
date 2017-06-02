@@ -59,7 +59,7 @@ div.error{
         	companyLxrPhone: "请输入联系手机号码！"
         },
 	    submitHandler: function(form){
-	    	var act_url = "${pageContext.request.contextPath}/seller/updateContact";
+	    	var act_url = "${pageContext.request.contextPath}/front/seller/company/SellerCompanyController-contactModeUpdate";
 	    	$(form).attr("action", act_url);
 			$.post($(form).attr("action"),$(form).serialize(),function(data){
 	    		data = $.parseJSON(data);
@@ -72,6 +72,7 @@ div.error{
 	      	.error(function(data){
 	      		alert("操作失败！")
 	      	});
+	    	
 	    },
 		errorElement: "div",
 		errorClass: "error"
