@@ -106,6 +106,8 @@ public class SellerController extends BaseController {
             return "redirect:views/front/SellerLoginController-login.jsp";
         }
     }
+
+
     @RequestMapping("confirmOrder")
     public String confirmOrder(Model model,@RequestParam("orderId")String orderId){
         Map<String,Object> modelMap=sellerServiceImpl.getInfoForConfirmOrderPage(Long.valueOf(orderId));
