@@ -25,13 +25,13 @@
 	<div class = "row1">
 		<div class = "row1_1">提现余额</div>
 		<div class = "row1_2">
-			<span class = "col1">${txMoney}</span>
+			<span class = "col1">${withdrawMoney}</span>
 			<span class = "col2">&nbsp;&nbsp;元</span>
 		</div>
 	</div>
 	<form id="searchFrm" method="get" action="${pageContext.request.contextPath}/front/customer/FinanceController-txList">
 		<input type="hidden" id="page" name="page" value="${param.page}">
-		<input type="hidden" id="txState" name="txState" value="${param.txState}">
+		<input type="hidden" id="withdrawState" name="withdrawState" value="${param.withdrawState}">
 	</form>
 	<div class = "row2">申请记录</div>
 
@@ -56,26 +56,26 @@
 	<c:forEach var = "item" items = "${list}">
 		<div style="height:108px; font-size:14px;">
 			<div style="border-bottom:solid 1px #d0d0d0;width:25%;height:100px;float:left;">
-				<div style="text-align:center;padding-top:20px;">[<fmt:formatDate value="${item.txDate}" pattern="yyyy-MM-dd HH:mm:ss"/>]</div>
+				<div style="text-align:center;padding-top:20px;">[<fmt:formatDate value="${item.withdrawDate}" pattern="yyyy-MM-dd HH:mm:ss"/>]</div>
 			</div>
 			<div style="border-bottom:solid 1px #d0d0d0;width:25%;height:100px;float:left;">
-				<div style="text-align:center;padding-top:20px;">${item.txName}</div>
+				<div style="text-align:center;padding-top:20px;">${item.withdrawName}</div>
 			</div>
 			<div style="border-bottom:solid 1px #d0d0d0;width:25%;height:100px;float:left;">
-				<div style="text-align:center;padding-top:20px;">${item.txMoney}元</div>
+				<div style="text-align:center;padding-top:20px;">${item.withdrawMoney}元</div>
 			</div>
 			<div style="border-bottom:solid 1px #d0d0d0;width:20%;height:100px;float:left;">
 				<div style="text-align:center;padding-top:20px;">
-					<c:if test = "${item.txState == '-1'}">
+					<c:if test = "${item.withdrawState == '-1'}">
 							不通过
 					</c:if>
-					<c:if test = "${item.txState == '0'}">
+					<c:if test = "${item.withdrawState == '0'}">
 							申请
 					</c:if>
-					<c:if test = "${item.txState == '1'}">
+					<c:if test = "${item.withdrawState == '1'}">
 							待付款
 					</c:if>
-					<c:if test = "${item.txState == '2'}">
+					<c:if test = "${item.withdrawState == '2'}">
 							已付款
 					</c:if>
 				</div>	
@@ -97,8 +97,8 @@
 	}
 	
 	// 状态选择函数
-	function setTxState(txState){
-		$("#txState").val(txState);
+	function setTxState(withdrawState){
+		$("#withdrawState").val(withdrawState);
 		$("#searchFrm").submit();
 	}
 </script>
