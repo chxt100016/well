@@ -216,6 +216,4 @@ public class CustomerController extends BaseController{
       model.addAttribute("childMenuNo", "0");
       return "views/front/customer/prod/prodList.jsp";
    }
-
-   @Re
 }

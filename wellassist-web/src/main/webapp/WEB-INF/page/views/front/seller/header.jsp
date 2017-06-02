@@ -153,7 +153,7 @@
 						<div style="">订单管理</div>
 					</li>
 					<ul style="display: block;">				
-						<li class="leftmenuleaf <c:if test ="${childMenuNo == '3' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/seller/productList">订单列表</a></li>
+						<li class="leftmenuleaf <c:if test ="${childMenuNo == '3' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/seller/orderListPage">订单列表</a></li>
 					</ul>
 					<li class="leftmenulevel1" onclick="menuparentclicked( this);">
 						<div style="">客户管理</div>

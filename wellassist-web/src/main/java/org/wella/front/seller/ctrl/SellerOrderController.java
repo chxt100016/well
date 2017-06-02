@@ -382,7 +382,7 @@ public class SellerOrderController extends BaseController {
             return "redirect:views/front/SellerLoginController-login.jsp";
         }
     }*/
-    @RequestMapping({"front/seller/SellerOrderController-orderList"})
+    /*@RequestMapping({"front/seller/SellerOrderController-orderList"})
     public String ordersheet_list(HttpServletRequest request, HttpServletResponse response, Model model) {
         HttpSession session = request.getSession();
         MyInfo myInfo = (MyInfo)session.getAttribute("MY_INFO");
@@ -401,7 +401,7 @@ public class SellerOrderController extends BaseController {
         } else {
             return "redirect:views/front/SellerLoginController-login.jsp";
         }
-    }
+    }*/
 
     @RequestMapping({"front/seller/SellerOrderController-detailOrder"})
     public String detailOrder(HttpServletRequest request, HttpServletResponse response, Model model) {
