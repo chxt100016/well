@@ -21,6 +21,7 @@
 		<![endif]-->
 		<link rel="stylesheet" href="<c:url value="/resources/library/css/chosen.css"/>">
 		<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/styles.css"/>">
+		<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/new_style.css"/>">
 		<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
 		<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/theme-blue.css"/>">
 		<!--[if IE 7]>
@@ -55,14 +56,14 @@
 			.more a:hover {
 				background: #71160d;
 			}
-			li.topmenuselected{
+			/*li.topmenuselected{
 				background: #0557ab;
-			}
+			}*/
 		</style>
 	</head>
 
 	<!-- navigation bar -->
-	<div class="abovenavbar" >
+	<div class="abovenavbar" style="height:45px" >
 		<div align=center>
 			<div style="width:1100px;">
 				<span class="dropdown" style="float:left;">
