@@ -24,6 +24,7 @@ public class CustomerProdCtrl extends BaseController {
     private FrontCustomerProdUserMapper prodUserMapper;
 
     public CustomerProdCtrl() {
+
     }
 
     @RequestMapping({"front/customer/CustomerProdCtrl-prodList"})
@@ -40,4 +41,5 @@ public class CustomerProdCtrl extends BaseController {
         model.addAttribute("childMenuNo", "0");
         return "views/front/customer/prod/prodList.jsp";
     }
+
 }
