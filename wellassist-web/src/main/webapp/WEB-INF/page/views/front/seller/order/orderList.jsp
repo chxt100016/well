@@ -116,7 +116,8 @@
 						<span class="span_btn" onClick="toURL('editOrder', '${item.orderId}')">编辑订单</span>
 					</c:if>
 					<c:if test="${item.orderState=='2'}">
-						<!-- <span class="span_btn" onClick="toURL('setOrderState', '${item.orderId}')">确认收款</span> -->
+						<span class="span_btn" onClick="toURL('sendProd', '${item.orderId}')">发货</span>
+						<span class="span_btn" onClick="toURL('sendProdOver', '${item.orderId}')">结束发货</span>
 					</c:if>
 					<c:if test="${item.orderState=='3'}">
 						<span class="span_btn" onClick="toURL('editVehicle', '${item.orderId}')">确认发货</span> 
@@ -157,6 +158,10 @@
 				window.location.href = "${pageContext.request.contextPath}/front/seller/SellerOrderController-detailOrder?isEdit=0&orderType=0&orderId=" + orderId;
 			} else if(action=='confirmOrder'){
 				window.location.href="${pageContext.request.contextPath}/seller/confirmOrder?orderId="+ orderId;
+            }else if(action=='sendProd'){
+			    window.location.href="${pageContext.request.contextPath}/seller/sendProd?orderId="+ orderId;
+            }else if(action=='sendProdOver'){
+
             }
 			else if(action=='detailVehicle'){
 				window.location.href = "${pageContext.request.contextPath}/front/seller/SellerOrderController-detailOrder?isEdit=0&orderType=1&orderId=" + orderId;
