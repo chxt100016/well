@@ -130,7 +130,7 @@
         <div class="navbar-collapse collapse" role="navigation" aria-expanded="false" style="height: 1px;">
           <ul class="nav navbar-nav">
                <li id="chanpincenter" class=" <c:if test = "${parentMenuNo == '5' }"> topmenuselected</c:if>">
-								<a  href="${pageContext.request.contextPath}/front/customer/CustomerProdCtrl-prodList"> <i class="block layout icon"></i>产品中心</a>
+								<a  href="${pageContext.request.contextPath}/customer/prodList"> <i class="block layout icon"></i>产品中心</a>
 							</li>
       						<li  class=" <c:if test = "${parentMenuNo == '1' }"> topmenuselected </c:if>" id="dingdancenter">
 							  <a href="${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-prodOrderList">订单中心</a></li>

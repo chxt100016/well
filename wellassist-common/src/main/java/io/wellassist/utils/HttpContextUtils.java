@@ -10,4 +10,8 @@ public class HttpContextUtils {
 	public static HttpServletRequest getHttpServletRequest() {
 		return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 	}
+
+	public static Object getAttribute(String key){
+		return  getHttpServletRequest().getSession().getAttribute(key);
+	}
 }
