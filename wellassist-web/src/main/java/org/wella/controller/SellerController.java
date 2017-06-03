@@ -11,6 +11,7 @@ import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -89,10 +90,10 @@ public class SellerController extends BaseController {
     @RequestMapping({"orderListPage"})
     public String ordersheet_list(HttpServletRequest request, HttpServletResponse response, Model model) {
         HttpSession session = request.getSession();
-        MyInfo myInfo = (MyInfo)session.getAttribute("MY_INFO");
-        if(myInfo != null) {
+        User user=(User)session.getAttribute("user");
+        if(user != null) {
             Map param = this.getConditionParam(request);
-            param.put("userId", myInfo.getUserId());
+            param.put("userId", user.getUserId());
             ArrayList waOrderList = this.sellerOrderMapper.getWaOrderList(param);
             ConvertUtil.convertDataBaseMapToJavaMap(waOrderList);
             model.addAttribute("waOrderList", waOrderList);
@@ -100,12 +101,13 @@ public class SellerController extends BaseController {
             this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
             model.addAttribute("parentMenuNo", "1");
             model.addAttribute("childMenuNo", "3");
-            model.addAttribute("userName", myInfo.getUserName());
+            model.addAttribute("userName", user.getUserName());
             return "views/front/seller/order/orderList.jsp";
         } else {
-            return "redirect:views/front/SellerLoginController-login.jsp";
+            return "redirect:views/login/login.jsp";
         }
     }
+
     @RequestMapping("confirmOrder")
     public String confirmOrder(Model model,@RequestParam("orderId")String orderId){
         Map<String,Object> modelMap=sellerServiceImpl.getInfoForConfirmOrderPage(Long.valueOf(orderId));
@@ -148,8 +150,52 @@ public class SellerController extends BaseController {
         this.echoJSON(response, obj);
     }
 
+    @RequestMapping("sendProd")
+    public String sendProdPage(@RequestParam("orderId")String orderId, Model model){
+        Map<String,Object> info=sellerServiceImpl.getSendProdPageInfo(Long.parseLong(orderId));
+        model.addAttribute("parentMenuNo", "1");
+        model.addAttribute("childMenuNo", "3");
+        model.addAttribute("info",info);
+        return "views/front/seller/order/sendProd.jsp";
+    }
 
+    @RequestMapping("sendProdSubmit")
+    public void sendProdSubmit(@RequestParam Map params, HttpServletRequest request,HttpServletResponse response){
+        String ret = "-1";
+        JSONObject obj = new JSONObject();
+        obj.put("content", ConstantUtil.MSG_PARAM_ERR);
+        long userId=((User)request.getSession().getAttribute("user")).getUserId();
+        params.put("userId",userId);
+        try {
+            sellerServiceImpl.sendProd(params);
+            ret = "1";
+            obj.put("content",ConstantUtil.MSG_SUCCESS);
+        }catch (Exception e){
+            e.printStackTrace();
+            ret = "-2";
+            obj.put("content", ConstantUtil.MSG_FAILS);
+        }
+        obj.put("status", ret);
+        this.echoJSON(response, obj);
+    }
 
+    @RequestMapping("sendProdOver")
+    public void sendProdOver(HttpServletResponse response,@RequestParam("orderId")String orderId){
+        String ret = "-1";
+        JSONObject obj=new JSONObject();
+        obj.put("content", ConstantUtil.MSG_PARAM_ERR);
+        try{
+            sellerServiceImpl.sendProdStop(Long.parseLong(orderId));
+            ret = "1";
+            obj.put("content",ConstantUtil.MSG_SUCCESS);
+        }catch (Exception e){
+            e.printStackTrace();
+            ret="-2";
+            obj.put("content",ConstantUtil.MSG_FAILS);
+        }
+        obj.put("status", ret);
+        this.echoJSON(response, obj);
+    }
     /**
      * 产品发布页面
      * @param model

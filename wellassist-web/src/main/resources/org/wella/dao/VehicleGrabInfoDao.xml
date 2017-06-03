@@ -3,9 +3,28 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.wella.dao.VehicleGrabInfoDao">
 
-    <insert id="createVehicleGrabInfo" useGeneratedKeys="true" keyProperty="orderId" parameterType="org.wella.entity.VehicleGrab">
-        INSERT INTO wa_vehicle_grab_info
-        SET grab_id=#{grabId},sj_lxr=#{sjLxr},sj_lxr_phone=#{sjLxrPhone},vehicle_no=#{vehicleNo};
+    <insert id="createVehicleGrabInfo" useGeneratedKeys="true" keyProperty="vehicleGrabInfoId" parameterType="org.wella.entity.VehicleGrabInfo">
+        insert into wa_vehicle_grab_info ( vehicle_grab_id, driver_name,
+      driver_phone, vehicle_no, vehicle_hanging_no,
+      vehicle_size)
+        values (#{vehicleGrabId,jdbcType=BIGINT}, #{driverName,jdbcType=VARCHAR},
+          #{driverPhone,jdbcType=VARCHAR}, #{vehicleNo,jdbcType=VARCHAR}, #{vehicleHangingNo,jdbcType=VARCHAR},
+          #{vehicleSize,jdbcType=DOUBLE})
     </insert>
 
+    <select id="listVehicleGrabInfoByConditions" parameterType="map" resultType="map">
+        SELECT *
+        from wa_vehicle_grab_info
+        <where>
+            <if test="vehicleGrabId != null">
+                and vehicle_grab_id=${vehicleGrabId}
+            </if>
+        </where>
+        <if test="orderBy != null">
+            order by ${orderBy}
+        </if>
+        <if test="start != null and size != null">
+            limit ${start},${size}
+        </if>
+    </select>
 </mapper>

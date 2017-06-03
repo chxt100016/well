@@ -4,18 +4,9 @@
 <div id = "content-rect">
 	<div style="border:solid 1px #d0d0d0;font-size:18px;font-weight:bold;color:#0557ab;line-height:36px;">&nbsp;&nbsp;订单列表</div>
 
-	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/front/seller/SellerOrderController-orderList">
+	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/seller/orderListPage">
 		<input type="hidden" id="page" name="page" value="${param.page}">
 		<input type="hidden" id="orderState" name="orderState" value="${param.orderState}">
-		<%--
-		<div class="row-header">
-		     <span class="header-title">订单列表</span>
-		     <div style="float:right;">
-		     	<input type="text" name="prodName" style="height:10px; float:left;margin-bottom:0px;" value="${param.prodName}"/>
-		     	<span class="span_search_btn_blue" style="margin-bottom:0px;" onclick="searchData(1);">搜索</span>
-		     </div>
-		</div>
-		--%>
 	</form>
 	
 	<div style="border:solid 1px #d0d0d0;padding:6px;font-size:24px;margin-top:16px;height:20px;">
@@ -94,7 +85,7 @@
 								<c:if test="${item.orderState=='7'}">已完成</c:if>
 							</td>
 						</tr>
-						<c:if test="${item.orderState=='2' || item.orderState=='4' || item.orderState=='5' || item.orderState=='6' || item.orderState=='7'}">
+						<c:if test="${item.orderState=='2'||item.orderState=='3' || item.orderState=='4' || item.orderState=='5' || item.orderState=='6' || item.orderState=='7'}">
 							<tr>
 								<td>
 									<a style="cursor:pointer;color:black;" onclick="toURL('detailVehicle', '${item.orderId}')">物流信息</a>
@@ -115,12 +106,9 @@
 					<c:if test="${item.orderState=='1'}">
 						<span class="span_btn" onClick="toURL('editOrder', '${item.orderId}')">编辑订单</span>
 					</c:if>
-					<c:if test="${item.orderState=='2'}">
+					<c:if test="${item.orderState=='2' || item.orderState=='3'}">
 						<span class="span_btn" onClick="toURL('sendProd', '${item.orderId}')">发货</span>
 						<span class="span_btn" onClick="toURL('sendProdOver', '${item.orderId}')">结束发货</span>
-					</c:if>
-					<c:if test="${item.orderState=='3'}">
-						<span class="span_btn" onClick="toURL('editVehicle', '${item.orderId}')">确认发货</span> 
 					</c:if>
 					<c:if test="${item.orderState=='4'}">
 						<span class="span_btn" onClick="toURL('editFapiao', '${item.orderId}')">开发票</span>
@@ -161,7 +149,15 @@
             }else if(action=='sendProd'){
 			    window.location.href="${pageContext.request.contextPath}/seller/sendProd?orderId="+ orderId;
             }else if(action=='sendProdOver'){
+				if(confirm("确定结束发货？")){
+				    $.get("${pageContext.request.contextPath}/seller/sendProdOver",{orderId:orderId},function(data){
 
+                        alert(data.content);
+                        if(data.status=="1"){
+                            window.location.reload();
+                        }
+					},"json")
+                }
             }
 			else if(action=='detailVehicle'){
 				window.location.href = "${pageContext.request.contextPath}/front/seller/SellerOrderController-detailOrder?isEdit=0&orderType=1&orderId=" + orderId;

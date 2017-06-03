@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.ZorderDao">
+
+    <insert id="createZorder" useGeneratedKeys="true" keyProperty="zorderId" parameterType="org.wella.entity.Zorder">
+        insert into wa_zorder (order_id, zorder_price,
+      zorder_num, zorder_money, zorder_date,
+      zorder_state, modify_date, user_id,
+      admin_id)
+    values (#{orderId,jdbcType=BIGINT}, #{zorderPrice,jdbcType=DECIMAL},
+      #{zorderNum,jdbcType=DECIMAL}, #{zorderMoney,jdbcType=DECIMAL}, #{zorderDate,jdbcType=TIMESTAMP},
+      #{zorderState,jdbcType=TINYINT}, #{modifyDate,jdbcType=TIMESTAMP}, #{userId,jdbcType=BIGINT},
+      #{adminId,jdbcType=BIGINT})
+    </insert>
+    
+    <update id="updateByPrimaryKey" parameterType="org.wella.entity.Zorder">
+        update wa_zorder
+        <set >
+            <if test="zorderPrice != null" >
+                zorder_price = #{zorderPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="zorderNum != null" >
+                zorder_num = #{zorderNum,jdbcType=DECIMAL},
+            </if>
+            <if test="zorderMoney != null" >
+                zorder_money = #{zorderMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="zorderDate != null" >
+                zorder_date = #{zorderDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="zorderState != null" >
+                zorder_state = #{zorderState,jdbcType=TINYINT},
+            </if>
+            <if test="modifyDate != null" >
+                modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userId != null" >
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="adminId != null" >
+                admin_id = #{adminId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where zorder_id = #{zorderId,jdbcType=BIGINT}
+    </update>
+
+
+</mapper>

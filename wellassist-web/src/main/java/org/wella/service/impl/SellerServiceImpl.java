@@ -1,6 +1,8 @@
 package org.wella.service.impl;
 
+import com.alibaba.druid.sql.dialect.mysql.ast.MysqlForeignKey;
 import com.sun.xml.internal.bind.v2.model.core.ID;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +12,7 @@ import org.wella.entity.*;
 import org.wella.service.SellerService;
 
 import java.math.BigDecimal;
+import java.security.PrivateKey;
 import java.util.*;
 
 /**
@@ -40,6 +43,22 @@ public class SellerServiceImpl implements SellerService {
 
     @Autowired
     private UserinfoDao userinfoDao;
+
+    @Autowired
+    private VehicleInfoDao vehicleInfoDao;
+
+    @Autowired
+    private VehicleGrabInfoDao vehicleGrabInfoDao;
+
+    @Autowired
+    private RegionDao regionDao;
+
+    @Autowired
+    private ZorderDao zorderDao;
+
+    @Autowired
+    private OrderVehicleDao orderVehicleDao;
+
 
     /**
      * 买家确认时的业务逻辑
@@ -246,6 +265,106 @@ public class SellerServiceImpl implements SellerService {
         orderLog.setUserId(Long.parseLong(map.get("userId").toString()));
         orderLog.setOperationIp(map.get("operationIp").toString());
         orderLogDao.createOrderLog(orderLog);
+    }
+
+    @Override
+    public Map<String, Object> getOrderLogisticsInfo(long orderId) {
+        Map<String, Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        ConvertUtil.convertDataBaseMapToJavaMap(order);
+        if((int)order.get("isSelfCar")==0){
+            Map<String,Object> basicinfo=orderDao.singleOrderAttachUserAttachOrderLogisticsInfo(orderId);
+            Map vehicleInfoQuery=new HashMap();
+            vehicleInfoQuery.put("orderId",orderId);
+            List<Map<String,Object>> vehiclesinfo=vehicleInfoDao.listVehicleInfoByConditions(vehicleInfoQuery);
+            ConvertUtil.convertDataBaseMapToJavaMap(basicinfo);
+            ConvertUtil.convertDataBaseMapToJavaMap(vehiclesinfo);
+            basicinfo.put("vehicles",vehiclesinfo);
+
+            basicinfo.put("fromAddress",regionDao.getRegionDetailNameByRegionId((long)basicinfo.get("fromRegionId"))+" "+basicinfo.get("fromRegionAddr"));
+            basicinfo.put("toAddress",regionDao.getRegionDetailNameByRegionId((long)basicinfo.get("toRegionId"))+" "+basicinfo.get("toRegionAddr"));
+            return basicinfo;
+        }else if((int)order.get("isSelfCar")==1){
+            Map<String,Object> basicinfo=orderDao.singleOrderAttachLogisticsInfoAttachVehicleGrab(orderId);
+            ConvertUtil.convertDataBaseMapToJavaMap(basicinfo);
+            long vehicleGrabId=(long)basicinfo.get("vehicleGrabId");
+            Map query=new HashMap();
+            query.put("vehicleGrabId",vehicleGrabId);
+            List<Map<String,Object>> vehiclesinfo=vehicleGrabInfoDao.listVehicleGrabInfoByConditions(query);
+            basicinfo.put("vehicles",vehiclesinfo);
+
+            basicinfo.put("fromAddress",regionDao.getRegionDetailNameByRegionId((long)basicinfo.get("fromRegionId"))+" "+basicinfo.get("fromRegionAddr"));
+            basicinfo.put("toAddress",regionDao.getRegionDetailNameByRegionId((long)basicinfo.get("toRegionId"))+" "+basicinfo.get("toRegionAddr"));
+            return basicinfo;
+        }
+        return null;
+    }
+
+    @Override
+    public Map<String, Object> getSendProdPageInfo(long orderId) {
+        Map<String,Object> res=orderDao.singleOrderAttachOrderLogAttachZorderCountAttachProdRestNum(orderId);
+        ConvertUtil.convertDataBaseMapToJavaMap(res);
+        Map<String,Object> orderLogisticsInfo=getOrderLogisticsInfo(orderId);
+        res.put("toAddress",orderLogisticsInfo.get("toAddress"));
+        return res;
+    }
+
+    @Override
+    @Transactional
+    public void sendProd(Map params) {
+        long userId=(long)params.get("userId");
+        String orderId=(String) params.get("orderId");
+        String zorderPrice=(String)params.get("zorderPrice");
+        String zorderNum=(String)params.get("zorderNum");
+        List<Map<String,Object>> orderVehicles=ConvertUtil.converJSONtoArrayListMap((String)params.get("orderVehicles"));
+        //如果是第一次发货，修改订单状态
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(Long.parseLong(orderId));
+        if ((int)order.get("order_state")==2){
+            //将wa_order表的order_state置为3
+            Map updateOrderMap=new HashedMap();
+            updateOrderMap.put("orderId",Long.parseLong(orderId));
+            updateOrderMap.put("orderState",3);
+            orderDao.updateOrderByID(updateOrderMap);
+            //如果是第三方物流，将wa_logitics_info表的state置为3
+            if((int)order.get("is_self_car")==1){
+                Map updateLogisticsInfoMap=new HashMap();
+                updateLogisticsInfoMap.put("orderId",Long.parseLong(orderId));
+                updateLogisticsInfoMap.put("state",3);
+                logisticsInfoDao.updateByConditions(updateLogisticsInfoMap);
+            }
+        }
+        //insert wa_zorder表新纪录
+        Zorder zorder=new Zorder();
+        zorder.setOrderId(Long.parseLong(orderId));
+        zorder.setZorderPrice(new BigDecimal(zorderPrice));
+        zorder.setZorderNum(new BigDecimal(zorderNum));
+        zorder.setZorderMoney(zorder.getZorderNum().multiply(zorder.getZorderPrice()));
+        zorder.setZorderDate(new Date());
+        zorder.setZorderState((byte)1);
+        zorder.setModifyDate(new Date());
+        zorder.setUserId(userId);
+        zorderDao.createZorder(zorder);
+        //insert wa_order_vehicle表新记录
+        for(Map<String,Object> ov:orderVehicles){
+            OrderVehicle orderVehicle=new OrderVehicle();
+            orderVehicle.setOrderId(Long.parseLong(orderId));
+            orderVehicle.setZorderId(zorder.getZorderId());
+            orderVehicle.setVehicleNo((String)ov.get("vehicleNo"));
+            orderVehicle.setVehicleHangingNo((String)ov.get("vehicleHangingNo"));
+            orderVehicle.setVehicleActualSize(new BigDecimal((String)ov.get("vehicleActualSize")));
+            orderVehicle.setDriverName((String)ov.get("driverName"));
+            orderVehicle.setDriverPhone((String)ov.get("driverPhone"));
+            orderVehicle.setDeliverActualDate(new Date());
+            orderVehicleDao.createOrderVehicle(orderVehicle);
+        }
+
+    }
+
+    @Override
+    public void sendProdStop(long orderId) {
+        Map<String,Object> updateOrderMap=new HashedMap();
+        updateOrderMap.put("orderId",orderId);
+        updateOrderMap.put("orderState",4);
+        orderDao.updateOrderByID(updateOrderMap);
     }
 
 }

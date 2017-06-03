@@ -50,7 +50,7 @@
 			<div style = "border-bottom: solid 1px#E0E0E0; overflow:auto;">
 				<div class="graybox" style="width:40%;height:110px;font-size:14px;float:left; border:none; border-right: solid 1px #d0d0d0;">
 					<div style = "margin-left:10px;line-height:106px; float:left;">
-						<a class="fancybox" href="${pageContext.request.contextPath}/${item.prodImg}" data-fancybox-group="gallery" title=""><img src="${pageContext.request.contextPath}/${item.prodImg}"  style="width:80px; height:80px;" onerror = "noExitImg(this, '${pageContext.request.contextPath}');" /></a>
+						<a class="fancybox" href="${item.prodImg}" data-fancybox-group="gallery" title=""><img src="${item.prodImg}"  style="width:80px; height:80px;" onerror = "noExitImg(this, '${pageContext.request.contextPath}');" /></a>
 					</div>
 					<div style = "margin-left:10px;line-height:106px; float:left;">
 						${item.prodName}
@@ -94,7 +94,7 @@
 								<c:if test="${item.orderState=='7'}">已完成</c:if>
 							</td>
 						</tr>
-						<c:if test="${item.orderState=='2' || item.orderState=='4' || item.orderState=='5' || item.orderState=='6' || item.orderState=='7'}">
+						<c:if test="${item.orderState=='2'||item.orderState=='3' || item.orderState=='4' || item.orderState=='5' || item.orderState=='6' || item.orderState=='7'}">
 							<tr>
 								<td>
 									<a style="cursor:pointer;color:black;" onclick="toURL('detailVehicle', '${item.orderId}')">物流信息</a>
@@ -110,17 +110,14 @@
 				</div>
 				<div class="grayboxwithoutleft" style="height:110px;font-size:16px; float:right; border:none;text-align:center; width:19%; ">
 					<c:if test="${item.orderState=='0'}">
-						<span class="span_btn" onClick="toURL('editOrder', '${item.orderId}')">确认订单</span>
+						<span class="span_btn" onClick="toURL('confirmOrder', '${item.orderId}')">确认订单</span>
 					</c:if>
 					<c:if test="${item.orderState=='1'}">
 						<span class="span_btn" onClick="toURL('editOrder', '${item.orderId}')">编辑订单</span>
 					</c:if>
-					<c:if test="${item.orderState=='2'}">
+					<c:if test="${item.orderState=='2' || item.orderState=='3'}">
 						<span class="span_btn" onClick="toURL('sendProd', '${item.orderId}')">发货</span>
 						<span class="span_btn" onClick="toURL('sendProdOver', '${item.orderId}')">结束发货</span>
-					</c:if>
-					<c:if test="${item.orderState=='3'}">
-						<span class="span_btn" onClick="toURL('editVehicle', '${item.orderId}')">确认发货</span> 
 					</c:if>
 					<c:if test="${item.orderState=='4'}">
 						<span class="span_btn" onClick="toURL('editFapiao', '${item.orderId}')">开发票</span>
@@ -161,7 +158,15 @@
             }else if(action=='sendProd'){
 			    window.location.href="${pageContext.request.contextPath}/seller/sendProd?orderId="+ orderId;
             }else if(action=='sendProdOver'){
+				if(confirm("确定结束发货？")){
+				    $.get("${pageContext.request.contextPath}/seller/sendProdOver",{orderId:orderId},function(data){
 
+                        alert(data.content);
+                        if(data.status=="1"){
+                            window.location.reload();
+                        }
+					},"json")
+                }
             }
 			else if(action=='detailVehicle'){
 				window.location.href = "${pageContext.request.contextPath}/front/seller/SellerOrderController-detailOrder?isEdit=0&orderType=1&orderId=" + orderId;

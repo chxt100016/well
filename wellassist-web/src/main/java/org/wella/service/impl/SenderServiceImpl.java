@@ -81,9 +81,9 @@ public class SenderServiceImpl implements SenderService {
             if (vehicleList.size()>0){
                 for (Map vehivleMap:vehicleList) {
                     VehicleGrabInfo vehicleGrabInfo=new VehicleGrabInfo();
-                    vehicleGrabInfo.setGrabId(vehicleGrab.getGrabId());
-                    vehicleGrabInfo.setSjLxr((String) vehivleMap.get("sjmc"));
-                    vehicleGrabInfo.setSjLxrPhone((String)vehivleMap.get("sjdh"));
+                    vehicleGrabInfo.setVehicleGrabId(vehicleGrab.getGrabId());
+                    vehicleGrabInfo.setDriverName((String) vehivleMap.get("sjmc"));
+                    vehicleGrabInfo.setDriverPhone((String)vehivleMap.get("sjdh"));
                     vehicleGrabInfo.setVehicleNo((String)vehivleMap.get("cph"));
                     vehicleGrabInfoDao.createVehicleGrabInfo(vehicleGrabInfo);
                 }

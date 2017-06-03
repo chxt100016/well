@@ -22,4 +22,8 @@ public interface LogisticsInfoDao {
     LogisticsInfo findLogisticsInfo(Map param);
 
     void createLogisticsInfo(LogisticsInfo logisticsInfo);
+
+    void updateByPrimaryKey(Map param);
+
+    void updateByConditions(Map param);
 }
