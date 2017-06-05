@@ -11,14 +11,14 @@
     </insert>
 
     <select id="getGrabLogisticsList" parameterType="java.util.Map" resultType="java.util.Map">
-        SELECT a.`grab_id` grabId,d.user_id userId,d.`company_img` companyImg,c.`user_name` userName,d.`company_lxr` companyLxr,d.`company_lxr_phone` companyLxrPhone,b.`prod_name` prodName,b.num num,a.`grab_money` grabMoney,a.`grab_state` grabState,a.`grab_date` grabDate
+        SELECT a.`vehicle_grab_id` grabId,d.user_id userId,d.`company_img` companyImg,c.`user_name` userName,d.`company_lxr` companyLxr,d.`company_lxr_phone` companyLxrPhone,b.`prod_name` prodName,b.num num,a.`grab_money` grabMoney,a.`grab_state` grabState,a.`grab_date` grabDate
         FROM wa_vehicle_grab a,wa_logistics_info b,wa_user c,wa_userinfo d,wa_order e
-        WHERE a.`logistics_id`=b.`logistics_id`
+        WHERE a.`logistics_info_id`=b.`logistics_id`
         AND b.`customer_user_id`=c.`user_id`
         AND b.`customer_user_id`=d.`user_id`
         AND b.order_id=e.order_id
         <if test="wlUserId != null">
-          AND a.`wl_user_id`=#{wlUserId}
+          AND a.`sender_user_id`=#{wlUserId}
         </if>
         <if test="grabState != null">
             AND a.grab_state=#{grabState}
@@ -35,10 +35,10 @@
     <select id="grabLogisticsListCount" parameterType="java.util.Map" resultType="int">
         SELECT count(*)
         FROM wa_vehicle_grab a,wa_logistics_info b,wa_order c
-        WHERE a.`logistics_id`=b.`logistics_id`
+        WHERE a.`logistics_info_id`=b.`logistics_id`
         AND b.order_id=c.order_id
         <if test="wlUserId != null">
-            AND a.`wl_user_id`=#{wlUserId}
+            AND a.`sender_user_id`=#{wlUserId}
         </if>
         <if test="grabState != null">
             AND a.grab_state=#{grabState}

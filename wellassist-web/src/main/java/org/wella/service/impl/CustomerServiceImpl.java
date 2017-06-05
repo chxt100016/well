@@ -2,6 +2,7 @@ package org.wella.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
 import org.wella.entity.*;
@@ -42,9 +43,10 @@ public class CustomerServiceImpl implements CustomerService {
      *                toRegionAddr，orderData，deliverDate，receiveDate，customerExceptCarriage
      */
     @Override
+    @Transactional
     public void order(Map map) {
         //获取与用户和产品相关联的信息写入订单表中
-        long userId=Long.parseLong((String)map.get("userId"));
+        long userId=(long)map.get("userId");
         Userinfo userinfo=userinfoDao.getOrderUserinfoByUserid(userId);
         long prodId=Long.parseLong((String)map.get("prodId"));
         Map<String,Object> prod=prodDao.singleProdByPrimaryKey(prodId);

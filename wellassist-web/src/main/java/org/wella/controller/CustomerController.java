@@ -82,8 +82,12 @@ public class CustomerController extends BaseController{
     * @param response
     */
    @RequestMapping(value = "order",method = RequestMethod.POST)
-   public void order(@RequestParam Map<String, Object> map, HttpServletResponse response) {
+   public void order(@RequestParam Map<String, Object> map,HttpServletRequest request, HttpServletResponse response) {
       User user = (User) HttpContextUtils.getHttpServletRequest().getSession().getAttribute("user");
+      long userId=user.getUserId();
+      map.put("userId",userId);
+      String ip=getIpAddr(request);
+      map.put("orderIp",ip);
       JSONObject res = new JSONObject();
       try {
          customerServiceImpl.order(map);

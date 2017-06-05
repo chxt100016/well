@@ -7,15 +7,6 @@
 	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/front/sender/FrontSenderOrderCtrl-orderList">
 		<input type="hidden" id="page" name="page" value="${param.page}">
 		<input type="hidden" id="vehicleState" name="vehicleState" value="${param.vehicleState}">
-		<%--
-		<div class="row-header">
-		     <span class="header-title">订单列表</span>
-		     <div style="float:right;">
-		     	<input type="text" name="prodName" style="height:10px; float:left;margin-bottom:0px;" value="${param.prodName}"/>
-		     	<span class="span_search_btn_blue" style="margin-bottom:0px;" onclick="searchData(1);">搜索</span>
-		     </div>
-		</div>
-		--%>
 	</form>
 	
 	<div style="border:solid 1px #d0d0d0;padding:6px;font-size:24px;margin-top:16px;height:20px;">
@@ -48,7 +39,7 @@
 			<div style = "border-bottom: solid 1px#E0E0E0; overflow:auto;">
 				<div class="graybox" style="width:40%;height:110px;font-size:14px;float:left; border:none; border-right: solid 1px #d0d0d0;">
 					<div style = "margin-left:10px;line-height:106px; float:left;">
-						<a class="fancybox" href="${pageContext.request.contextPath}/${item.prodImg}" data-fancybox-group="gallery" title=""><img src="${pageContext.request.contextPath}/${item.prodImg}"  style="width:80px; height:80px;" onerror = "noExitImg(this, '${pageContext.request.contextPath}');"/></a>
+						<a class="fancybox" href="${item.prodImg}" data-fancybox-group="gallery" title=""><img src="${item.prodImg}"  style="width:80px; height:80px;" onerror = "noExitImg(this, '${pageContext.request.contextPath}');"/></a>
 					</div>
 					<div style = "margin-left:10px;line-height:106px; float:left;">
 						${item.prodName}
