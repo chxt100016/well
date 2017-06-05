@@ -21,16 +21,16 @@
 				<div style="text-align:center;font-size:18px; font-weight:500;">提现</div>
 			</div>
 		
-			<form id = "infoForm" action="${pageContext.request.contextPath}/front/customer/FinanceControlle-addTx" method="post">
+			<form id = "infoForm" action="${pageContext.request.contextPath}/customer/withdrawProcess" method="post">
 			<div   align=left style="box-shadow: 2px 2px 8px #aaa;padding-bottom:16px;margin-left: 48px;margin-right: 48px; font-size:16px;border-bottom: 1px solid #aaa; background-color:white;">
 				<div class = "one-fld" style="margin-left:32px;margin-right:32px;padding-top:32px;">
 					<span style="display:inline-block; text-align:right;width:10%;margin-right:2%;">开户名</span>
-					<input type="text" id = "txName" name="txName" style="width:30%;">
+					<input type="text" id = "txName" name="withdrawName" style="width:30%;">
 				</div>
 		
 				<div class = "one-fld"  style="margin-left:32px;margin-right:32px;padding-top:32px;">
 					<span style="display:inline-block; text-align:right;width:10%;margin-right:2%;">开户行</span>
-					<input type="text" name="txKhh" style="width:30%;">
+					<input type="text" name="withdrawBank" style="width:30%;">
 				</div>
 				<div class = "one-fld" style="margin-left:32px;margin-right:32px;padding-top:32px;">
 					<span style="display:inline-block; text-align:right;width:10%;margin-right:2%;">银行账号</span>
@@ -59,7 +59,7 @@
 		
 				<div class = "one-fld"  style="margin-left:32px;margin-right:32px;padding-top:32px;">
 					<span style="display:inline-block; text-align:right;width:10%;margin-right:2%;">提现金额</span>
-					<input type="text" name="txMoney" id = "txMoney" style="width:30%;" placeholder="可提金额${userMoney}">
+					<input type="text" name="withdrawMoney" id = "txMoney" style="width:30%;" placeholder="可提金额${userMoney}">
 					<span style="margin-left:12px;">元</span>
 				</div>
 		
@@ -89,7 +89,7 @@
     	    	account: {required:true},
     	    	txMoney:{required: true, number:true},
     	    	pass:{required:true, remote: {
-    	    		url: "${pageContext.request.contextPath}/front/seller/SellerFinanceController-checkWorkPass",
+    	    		url: "${pageContext.request.contextPath}/customer/checkWithdrawPassword",
     	    		type: "Post",
     	    		data: {
     	    			      userId:"${userId}"

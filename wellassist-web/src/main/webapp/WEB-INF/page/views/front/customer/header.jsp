@@ -130,16 +130,16 @@
         <div class="navbar-collapse collapse" role="navigation" aria-expanded="false" style="height: 1px;">
           <ul class="nav navbar-nav">
                <li id="chanpincenter" class=" <c:if test = "${parentMenuNo == '5' }"> topmenuselected</c:if>">
-								<a  href="${pageContext.request.contextPath}/front/customer/CustomerProdCtrl-prodList"> <i class="block layout icon"></i>产品中心</a>
+								<a  href="${pageContext.request.contextPath}/customer/prodList"> <i class="block layout icon"></i>产品中心</a>
 							</li>
       						<li  class=" <c:if test = "${parentMenuNo == '1' }"> topmenuselected </c:if>" id="dingdancenter">
-							  <a href="${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-prodOrderList">订单中心</a></li>
+							  <a href="${pageContext.request.contextPath}/customer/orderList">订单中心</a></li>
       						<li id="financecenter" class="<c:if test = "${parentMenuNo == '2' }"> topmenuselected</c:if>" >
-							  <a href="${pageContext.request.contextPath}/front/customer/FinanceController-accountInfo">财务中心</a></li>
+							  <a href="${pageContext.request.contextPath}/customer/accountInfo">财务中心</a></li>
       						<li id="newscenter" class="<c:if test = "${parentMenuNo == '3' }"> topmenuselected</c:if>">
-							  <a href="${pageContext.request.contextPath}/front/customer/NewsController-xxList">消息中心</a></li>
+							  <a href="${pageContext.request.contextPath}/customer/messagePage">消息中心</a></li>
 							<li id="company_manage" class="<c:if test = "${parentMenuNo == '4' }"> topmenuselected</c:if>">
-							<a href="${pageContext.request.contextPath}/front/customer/CompanyController-companyInfo">财务管理</a></li>
+							<a href="${pageContext.request.contextPath}/customer/companyInfo">个人中心</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right hidden-sm">
             <li><a href="/about/" onclick="#">关于</a></li>
@@ -150,79 +150,6 @@
 <%--顶部导航条end--%>
 	
 	<div id="main_content" align=center style="background:white;width: 1100px;margin: 0px auto;padding-top: 32px;">
-		<%--<div id="leftmenu" class="" style="border:solid 1px #d0d0d0;width:190px;float:left;">
-			<c:if test = "${parentMenuNo == '1'}">
-				<ul>
-					<li class="leftmenulevel1" onclick="menuparentclicked( this);">
-						<div style="">订单管理</div>
-					</li>
-					<ul style="display: block;">
-						<li class="leftmenuleaf <c:if test ="${childMenuNo == '1' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-prodOrderList">产品订单</a></li>
-						<li class="leftmenuleaf <c:if test ="${childMenuNo == '2' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-wlOrderList">物流订单</a></li>
-					</ul>
-					<li class="leftmenulevel1" onclick="menuparentclicked( this);">
-						<div style="">评价返馈</div>
-					</li>
-					<ul>
-						<li class="leftmenuleaf <c:if test ="${childMenuNo == '3' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-estiList">评价列表</a></li>
-					</ul>
-				</ul>	
-			</c:if>	
-			<c:if test = "${parentMenuNo == '2'}">
-				<ul>
-					<li class="leftmenulevel1" onclick="menuparentclicked( this);">
-						<div style="">财务中心</div>
-					</li>
-					<ul style="display: block;">
-						<li class="leftmenuleaf <c:if test ="${childMenuNo == '1' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/customer/FinanceController-accountInfo">账户信息</a></li>
-						<li class="leftmenuleaf <c:if test ="${childMenuNo == '6' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/customer/FinanceController-txList">提现记录</a></li>
-						<li class="leftmenuleaf <c:if test ="${childMenuNo == '5' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/customer/FinanceController-czList">充值记录</a></li>
-					</ul>
-					<li class="leftmenulevel1" onclick="menuparentclicked( this);">
-						<div style="">授信中心</div>
-					</li>
-					<ul>
-						<li class="leftmenuleaf <c:if test ="${childMenuNo == '2' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/customer/FinanceController-creditAccount">授信账户</a></li>
-						<li class="leftmenuleaf <c:if test ="${childMenuNo == '3' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/customer/FinanceController-sxSqList">申请记录</a></li>
-						<li class="leftmenuleaf <c:if test ="${childMenuNo == '4' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/customer/FinanceController-hkList">还款记录</a></li>
-					</ul>
-					<li class="leftmenulevel1" onclick="menuparentclicked( this);">
-						<div style="">发票管理</div>
-					</li>
-					<ul>
-						<li class="leftmenuleaf <c:if test ="${childMenuNo == '7' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/customer/FinanceController-fapiaoList">发票列表</a></li>
-						
-					</ul>
-				</ul>
-			</c:if>
-			<c:if test = "${parentMenuNo == '3'}">
-				<ul>
-					<li class="leftmenulevel1" onclick="menuparentclicked( this);">
-						<div style="">消息通知</div>
-					</li>
-					<ul style="display: block;">
-						<li class="leftmenuleaf <c:if test ="${childMenuNo == '1' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/customer/NewsController-xxList">消息列表</a></li>
-					</ul>
-				</ul>
-			</c:if>
-			<c:if test = "${parentMenuNo == '4'}">
-				<ul>
-					<li class="leftmenulevel1" onclick="menuparentclicked( this);">
-						<div style="">账号设置</div>
-					</li>
-					<ul style="display: block;">
-						<li class="leftmenuleaf <c:if test ="${childMenuNo == '1' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/customer/CompanyController-companyInfo">公司信息</a></li>
-						<li class="leftmenuleaf <c:if test ="${childMenuNo == '2' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/customer/CompanyController-contactMode">联系方式</a></li>
-						<li class="leftmenuleaf <c:if test ="${childMenuNo == '3' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/customer/CompanyController-changePass">修改密码</a></li>
-					</ul>
-				</ul>	
-			</c:if>
-			<c:if test = "${parentMenuNo == '5'}">
-				<script type="text/javascript">
-					$("#leftmenu").hide();
-				</script>
-			</c:if>
-		</div>--%>
 		<c:if test = "${parentMenuNo == '5'}">
 				<script type="text/javascript">
 						$("#leftmenu").hide();
@@ -238,19 +165,19 @@
                         <div class="field">
                             <div class="ui  checkbox">
                                 <input type="checkbox" name="size"  <c:if test ="${childMenuNo == '1'}"> checked="checked" </c:if> >
-                                <label> <a href = "${pageContext.request.contextPath}/front/customer/FinanceController-accountInfo">账户信息</a></label>
+                                <label> <a href = "${pageContext.request.contextPath}/customer/accountInfo">账户信息</a></label>
                             </div>
                         </div>
                         <div class="field">
                             <div class="ui checkbox">
                                 <input type="checkbox" name="size" <c:if test ="${childMenuNo == '6'}"> checked="checked" </c:if> >
-                                <label><a href = "${pageContext.request.contextPath}/front/customer/FinanceController-txList">提现记录</a></label>
+                                <label><a href = "${pageContext.request.contextPath}/customer/withdraw">提现记录</a></label>
                             </div>
                         </div>
                         <div class="field">
                             <div class="ui checkbox">
                                 <input type="checkbox" name="size" <c:if test ="${childMenuNo == '5'}"> checked="checked" </c:if> >
-                                <label><a href = "${pageContext.request.contextPath}/front/customer/FinanceController-czList">充值记录</a></label>
+                                <label><a href = "${pageContext.request.contextPath}/customer/rechargeRecord">充值记录</a></label>
                             </div>
                         </div>
 
@@ -369,7 +296,7 @@
                         <div class="field">
                             <div class="ui  checkbox">
                                 <input type="checkbox" name="size" <c:if test ="${childMenuNo == '1'}"> checked="checked" </c:if>  >
-                                <label> <a href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-prodOrderList">产品订单</a></label>
+                                <label> <a href = "${pageContext.request.contextPath}/customer/orderList">产品订单</a></label>
                             </div>
                         </div>
                         <div class="field">
@@ -404,10 +331,7 @@
  </c:if>
 
     </div>
-
-		
 	
-
 <script type="text/javascript">
 	$('.ui.accordion').accordion();
 	
@@ -421,55 +345,7 @@
 			$(obj).css("list-style-image", "url('<c:url value="/resources/wella/front/images/lftmnuitmexpanded.png"/>')");
 		}
 	}
-	$('.ui.accordion').accordion();	
-	/* function menuclicked( url, obj){
-		$("li.leftmenuleaf").removeClass("selected");
-		$(obj).addClass("selected");
-		$("#contentFrame").attr( "src", "${pageContext.request.contextPath}"+url);
-	}
-	
-	function page_loaded(){
-		$("#contentFrame").attr( "src", "${pageContext.request.contextPath}/front/customer/news/news_list");
-	} */
-	
-	/* $("#dingdancenter").click( function(){
-		topmenu_sel_clear();
-		$("#dingdancenter").addClass("topmenuselected");
-		$("#mainFrame").attr("src", "<c:url value="/front/customer/ordersheet_center"/>");
-	});
-
-	$("#financecenter").click( function(){
-		topmenu_sel_clear();
-		$("#financecenter").addClass("topmenuselected");
-		$("#mainFrame").attr("src", "<c:url value="/front/customer/finance_center"/>");
-	});
-	
-	$("#newscenter").click( function(){
-		topmenu_sel_clear();
-		$("#newscenter").addClass("topmenuselected");
-		$("#mainFrame").attr("src", "<c:url value="/front/customer/news_center"/>");
-	});
-
-	$("#company_manage").click( function(){
-		topmenu_sel_clear();
-		$("#company_manage").addClass("topmenuselected");
-		$("#mainFrame").attr("src", "<c:url value="/front/customer/company_manage"/>");
-	});
-
-	function topmenu_sel_clear(){
-		$("li").removeClass("topmenuselected");
-	}
-
-	function page_loaded() {
-		$("#mainFrame").height( $(window).height()-$("#mainFrame").outerHeight());
-		$("#mainFrame").attr("src", "<c:url value="/front/customer/ordersheet_center"/>");
-
-	}
-	
-	$("#logout").click( function(){
-		window.location.href="<c:url value="/front/customer/logout"/>";
-	}); */
-
+	$('.ui.accordion').accordion();
 </script>
 
 

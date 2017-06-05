@@ -132,7 +132,7 @@ public class FinanceController extends BaseController {
         String userId = myInfo.getUserId();
         JSONObject res = new JSONObject();
         String sql = "";
-        sql = "CALL txSqProcess(\'" + txName + "\', \'" + txKhh + "\', \'" + account + "\', \'" + txMoney + "\', \'" + txIp + "\', \'" + userId + "\')";
+        sql = "CALL withdrawProcess(\'" + txName + "\', \'" + txKhh + "\', \'" + account + "\', \'" + txMoney + "\', \'" + txIp + "\', \'" + userId + "\')";
         HashMap queryParam = new HashMap();
         queryParam.put("strsql", sql);
 

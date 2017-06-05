@@ -1,6 +1,7 @@
 package org.wella.dao;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 import org.wella.entity.Prod;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.Map;
 /**
  * Created by Administrator on 2017/5/10.
  */
+@Repository
 public interface ProdDao {
     /**
      * 买家生成订单过程中需要的商品信息

@@ -33,7 +33,6 @@ public class FrontLoginController extends BaseController {
         ArrayList recVehicleList = this.userVehicleMapper.getRecentQdList();
         ConvertUtil.convertDataBaseMapToJavaMap(recVehicleList);
         Iterator var5 = recVehicleList.iterator();
-
         while(var5.hasNext()) {
             Map ele = (Map)var5.next();
 

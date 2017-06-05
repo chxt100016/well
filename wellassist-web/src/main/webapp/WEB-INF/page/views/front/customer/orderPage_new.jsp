@@ -82,7 +82,7 @@
                 <div class="field">
                     <label>配送地址： <select class="ui dropdown" name="prodRegionId_0">
                     <option value="">-- 请选择省 --</option>
-                        <c:forEach var="item" items="${shengRegionList}" varStatus="status">
+                        <c:forEach var="item" items="${provinceList}" varStatus="status">
                             <option value="${item.regionId}">${item.regionName}</option>
                         </c:forEach>
                     </select>
@@ -204,17 +204,6 @@
                             <td class="right aligned " style="width:10% "><a class="ui button " v-on:click="delVehicle($index) ">DELETE </a></td>
 
                         </tr>
-                        <!--<tr>
-                        <td>
-                            <h2 class="ui center aligned header ">A</h2>
-                        </td>
-                        <td class="single line ">Weight </td>
-                        <td>
-
-                        </td>
-                        <td class="right aligned " width="10% "><button class="ui button ">DELETE </button> </td>
-
-                    </tr>-->
                     </tbody>
                 </table>
             </div>
@@ -233,40 +222,10 @@
 <script>
     $(function() {
         $('.tabular.menu .item').tab();
-
-        // $('.has_vehicle_form')
-        //     .form({
-        //         fields: {
-        //             dr_name: {
-        //                 identifier: 'dr_name',
-        //                 rules: [{
-        //                     type: 'empty',
-        //                     prompt: '请输入司机姓名'
-        //                 }]
-        //             },
-        //             dr_vh_num: {
-        //                 identifier: 'dr_vh_num',
-        //                 rules: [{
-        //                     type: 'empty',
-        //                     prompt: '车牌号'
-        //                 }]
-        //             },
-        //             dr_tel: {
-        //                 identifier: 'dr_tel',
-        //                 rules: [{
-        //                     type: 'regExp',
-        //                     value: /^(((13[0-9]{1})|(15[0-9]{1}))+\d{8})$/,
-        //                     prompt: '手机号码'
-        //                 }]
-        //             },
-        //         },
-        //         inline: true,
-        //         on: 'blur'
-        //     });
     })
 </script>
 <script>
-    var telRE = /^(((13[0-9]{1})|(15[0-9]{1}))+\d{8})$/;
+    var telRE = /^1(3|4|5|7|8)\d{9}$/;
     var emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     var vehicleRef = '';
     var vm = new Vue({
@@ -442,33 +401,6 @@
         return this.optional(element) || (tel.test(value) || mobile.test(value));
 
     }, "请正确填写您的联系电话");
-
-    // function createVehicle() {
-    //     var dr_name = $("#dr_name").val();
-    //     var dr_tel = $("#dr_tel").val();
-    //     var dr_vh_num = $("#dr_vh_num").val();
-    //     console.log(1);
-    //     if (dr_name == "") {
-    //         alert("请输入司机姓名!");
-    //         // showalert("请输入司机名称!");
-    //         $("#dr_name").focus();
-    //         return;
-    //     };
-    //     if (dr_tel == "") {
-    //         alert("请输入司机联系电话!");
-    //         // showalert("请输入司机名称!");
-    //         $("#dr_name").focus();
-    //         return;
-    //     };
-    //     if (dr_vh_num == "") {
-    //         alert("请输入司机联系电话!");
-    //         // showalert("请输入司机名称!");
-    //         $("#dr_vh_num").focus();
-    //         return;
-    //     };
-
-
-    // }
 
     function checkSelfCar(type) {
         if (type == '0') {

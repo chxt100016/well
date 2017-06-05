@@ -13,7 +13,7 @@
 			<div  class = "row-fld" style="">
 				<div style="position:relative;">
 					<a href="${pageContext.request.contextPath}/front/customer/CustomerHomeCtrl-prodDetail?prodId=${item.prodId}">
-						<img class = "sp_img" src="${pageContext.request.contextPath}/${item.prodImg}" onerror = "noExitImg(this, '${pageContext.request.contextPath}');">
+						<img class = "sp_img" src="${item.prodImg}" onerror = "noExitImg(this, '${pageContext.request.contextPath}');">
 					</a>
 					<div class="img-title"><span>
 						<c:if test = "${item.prodType == '0'}">
@@ -22,11 +22,14 @@
 						<c:if test = "${item.prodType == '1'}">
 							燃油
 						</c:if>
+						<c:if test = "${item.prodType == '2'}">
+							管道气
+						</c:if>
 						</span></div>
 				</div>
 				<div style="padding:10px;">
 					<span class="ware_maker_label">${item.prodName}</span>
-					<a href="${pageContext.request.contextPath}/front/customer/CustomerHomeCtrl-makeOrder?prodId=${item.prodId}">
+					<a href="${pageContext.request.contextPath}/customer/orderPage?prodId=${item.prodId}">
 						<span class="ware_button" style="float:right; <c:if test = "${user.userState != 1}">display:none;</c:if>">下单</span>
 					</a>
 					<div style="clear:both;"></div>

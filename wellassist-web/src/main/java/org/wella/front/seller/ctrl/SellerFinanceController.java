@@ -84,7 +84,6 @@ public class SellerFinanceController extends BaseController {
                 res = Boolean.valueOf(true);
             }
         }
-
         this.echo(response, res.toString());
     }
 
