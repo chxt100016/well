@@ -54,7 +54,7 @@
                 AND state=#{state}
             </if>
             <if test="wlUserId != null">
-                AND logistics_id NOT IN (SELECT logistics_id FROM wa_vehicle_grab WHERE wl_user_id=#{wlUserId})
+                AND logistics_id NOT IN (SELECT logistics_info_id FROM wa_vehicle_grab WHERE sender_user_id=#{wlUserId})
             </if>
         </where>
         ORDER BY order_date DESC

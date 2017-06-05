@@ -196,6 +196,20 @@ public class SellerController extends BaseController {
         obj.put("status", ret);
         this.echoJSON(response, obj);
     }
+
+    /**
+     * 跳转订单详情页面
+     * @param model
+     * @return
+     */
+    @RequestMapping("orderDetail")
+    public String orderDetail(@RequestParam("orderId")String orderId, Model model){
+
+
+        model.addAttribute("parentMenuNo", "1");
+        model.addAttribute("childMenuNo", "3");
+        return "views/front/seller/order/orderDetail_new.jsp";
+    }
     /**
      * 产品发布页面
      * @param model

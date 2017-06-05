@@ -82,7 +82,7 @@
                 <div class="field">
                     <label>配送地址： <select class="ui dropdown" name="prodRegionId_0">
                     <option value="">-- 请选择省 --</option>
-                        <c:forEach var="item" items="${provinceList}" varStatus="status">
+                        <c:forEach var="item" items="${shengRegionList}" varStatus="status">
                             <option value="${item.regionId}">${item.regionName}</option>
                         </c:forEach>
                     </select>

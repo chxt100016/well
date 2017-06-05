@@ -143,7 +143,7 @@
 	function toURL(action, orderId){
 		if(orderId!=''){
 			if(action=='detailOrder'){
-				window.location.href = "${pageContext.request.contextPath}/front/seller/SellerOrderController-detailOrder?isEdit=0&orderType=0&orderId=" + orderId;
+				window.location.href = "${pageContext.request.contextPath}/seller/orderDetail?orderId=" + orderId;
 			} else if(action=='confirmOrder'){
 				window.location.href="${pageContext.request.contextPath}/seller/confirmOrder?orderId="+ orderId;
             }else if(action=='sendProd'){

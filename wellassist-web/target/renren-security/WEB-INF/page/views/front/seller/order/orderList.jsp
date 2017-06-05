@@ -4,18 +4,9 @@
 <div id = "content-rect">
 	<div style="border:solid 1px #d0d0d0;font-size:18px;font-weight:bold;color:#0557ab;line-height:36px;">&nbsp;&nbsp;订单列表</div>
 
-	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/front/seller/SellerOrderController-orderList">
+	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/seller/orderListPage">
 		<input type="hidden" id="page" name="page" value="${param.page}">
 		<input type="hidden" id="orderState" name="orderState" value="${param.orderState}">
-		<%--
-		<div class="row-header">
-		     <span class="header-title">订单列表</span>
-		     <div style="float:right;">
-		     	<input type="text" name="prodName" style="height:10px; float:left;margin-bottom:0px;" value="${param.prodName}"/>
-		     	<span class="span_search_btn_blue" style="margin-bottom:0px;" onclick="searchData(1);">搜索</span>
-		     </div>
-		</div>
-		--%>
 	</form>
 	
 	<div style="border:solid 1px #d0d0d0;padding:6px;font-size:24px;margin-top:16px;height:20px;">
