@@ -189,4 +189,6 @@
 				$(obj).css("list-style-image", "url('<c:url value="/resources/wella/front/images/lftmnuitmexpanded.png"/>')");
 			}
 		}
+
+
 	</script>

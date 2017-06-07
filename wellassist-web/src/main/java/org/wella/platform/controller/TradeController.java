@@ -8,16 +8,10 @@ import org.springframework.web.bind.annotation.*;
 import org.wella.common.ctrl.BaseController;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
-import org.wella.common.vo.MyInfo;
 import org.wella.dao.TradeDAO;
-import org.wella.entity.User;
-import org.wella.houtai.jygl.mapper.HoutaiJyglCzjyMapper;
-import org.wella.houtai.jygl.mapper.HoutaiJyglUserMoneyInfoMapper;
-import org.wella.houtai.jygl.mapper.HoutaiJyglUserMoneyMapper;
+
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -121,5 +115,5 @@ public class TradeController extends BaseController {
         return R.ok().put("page",pageUtils);
     }
 
-    
+
 }
