@@ -5,15 +5,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.wella.common.ctrl.BaseController;
 import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.common.vo.MyInfo;
 import org.wella.entity.LogisticsInfo;
+import org.wella.entity.User;
+import org.wella.service.SellerService;
 import org.wella.service.SenderService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +30,10 @@ import java.util.Map;
 public class SendController extends BaseController{
     @Autowired
     private SenderService senderServiceImpl;
+
+    @Autowired
+    private SellerService sellerServiceImpl;
+
     /**
      * 跳转抢单大厅
      * @param request 可传入参数size，page
@@ -33,7 +41,7 @@ public class SendController extends BaseController{
      * @param model
      * @return
      */
-    @RequestMapping("test1")
+    /*@RequestMapping("test1")
     public void qdList(HttpServletRequest request, HttpServletResponse response, Model model){
         JSONObject res = new JSONObject();
         Map param = this.getConditionParam(request);
@@ -44,7 +52,7 @@ public class SendController extends BaseController{
         this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
         res.put("logisticsInfos",logisticsInfos);
         echo(response,res);
-    }
+    }*/
 
     /**
      * 跳转报价界面
@@ -56,7 +64,7 @@ public class SendController extends BaseController{
         JSONObject res = new JSONObject();
         Map param=new HashMap();
         param.put("logisticsId",request.getParameter("logisticsInfoId"));
-        LogisticsInfo logisticsInfo=senderServiceImpl.findLogisticsInfo(param);
+        Map<String,Object> logisticsInfo=senderServiceImpl.findLogisticsInfo(param);
         model.addAttribute("logisticsInfo",logisticsInfo);
         res.put("logisticsInfo",logisticsInfo);
         echo(response,res);
@@ -105,10 +113,34 @@ public class SendController extends BaseController{
         String logisticsId = CommonUtil.GetRequestParam(request, "logisticsId", "0");
         HashMap param = new HashMap();
         param.put("logisticsId",logisticsId);
-        LogisticsInfo info=senderServiceImpl.findLogisticsInfo(param);
+        Map<String,Object> info=senderServiceImpl.findLogisticsInfo(param);
         model.addAttribute("info", info);
 
         model.addAttribute("wlUserId", myInfo.getUserId());
         return "views/front/sender/order/qdPage.jsp";
+    }
+
+    @RequestMapping("orderDetail")
+    public String orderDetail(@RequestParam("orderId")String orderId, Model model){
+        Map<String,Object> orderDetail=sellerServiceImpl.getOrderDetailInfo(Long.parseLong(orderId));
+        model.addAttribute("info",orderDetail);
+        model.addAttribute("parentMenuNo", "1");
+        model.addAttribute("childMenuNo", "1");
+        return "views/front/sender/order/orderDetail_new.jsp";
+    }
+
+    @RequestMapping("vehicleGrabHall")
+    public String vehicleGrabHall(HttpServletRequest request,Model model){
+        Map param = this.getConditionParam(request);
+        HttpSession session=request.getSession();
+        User u=(User)session.getAttribute("user");
+        param.put("senderUserId",u.getUserId());
+        List<Map<String,Object>> logisticsInfos=senderServiceImpl.grabHallInfos(param);
+        int totalCount=senderServiceImpl.grabHallInfosCount(param);
+        this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
+        model.addAttribute("info",logisticsInfos);
+        model.addAttribute("parentMenuNo", "1");
+        model.addAttribute("childMenuNo", "3");
+        return "views/front/sender/order/vehicleGrabHall.jsp";
     }
 }

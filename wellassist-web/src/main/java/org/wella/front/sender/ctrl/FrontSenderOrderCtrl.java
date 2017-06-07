@@ -146,7 +146,7 @@ public class FrontSenderOrderCtrl extends BaseController {
         String logisticsId = CommonUtil.GetRequestParam(request, "logisticsId", "0");
         HashMap param = new HashMap();
         param.put("logisticsId",logisticsId);
-        LogisticsInfo info=senderServiceImpl.findLogisticsInfo(param);
+        Map<String,Object> info=senderServiceImpl.findLogisticsInfo(param);
 
         model.addAttribute("info", info);
 

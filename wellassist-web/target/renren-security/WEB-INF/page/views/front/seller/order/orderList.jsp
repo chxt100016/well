@@ -88,13 +88,13 @@
 						<c:if test="${item.orderState=='2'||item.orderState=='3' || item.orderState=='4' || item.orderState=='5' || item.orderState=='6' || item.orderState=='7'}">
 							<tr>
 								<td>
-									<a style="cursor:pointer;color:black;" onclick="toURL('detailVehicle', '${item.orderId}')">物流信息</a>
+									<a style="cursor:pointer;color:black;" onclick="toURL('logisticsDetail', '${item.orderId}')">物流信息</a>
 								</td>
 							</tr>
 						</c:if>
 						<tr>
 							<td>
-								<a style="cursor:pointer;color:black;" onclick="toURL('detailOrder', '${item.orderId}')">订单详情</a>
+								<a style="cursor:pointer;color:black;" onclick="toURL('orderDetail', '${item.orderId}')">订单详情</a>
 							</td>
 						</tr>
 					</table>
@@ -110,10 +110,10 @@
 						<span class="span_btn" onClick="toURL('sendProd', '${item.orderId}')">发货</span>
 						<span class="span_btn" onClick="toURL('sendProdOver', '${item.orderId}')">结束发货</span>
 					</c:if>
-					<c:if test="${item.orderState=='4'}">
+					<%--<c:if test="${item.orderState=='4'}">
 						<span class="span_btn" onClick="toURL('editFapiao', '${item.orderId}')">开发票</span>
-					</c:if>
-					<c:if test="${item.orderState==0 and item.orderState==1}">
+					</c:if>--%>
+					<c:if test="${item.orderState==0 || item.orderState==1}">
 						<span class="span_btn_gray" onClick="toURL('cancelOrder', '${item.orderId}')">取消订单</span>
 					</c:if>
 				</div>
@@ -142,8 +142,8 @@
 	
 	function toURL(action, orderId){
 		if(orderId!=''){
-			if(action=='detailOrder'){
-				window.location.href = "${pageContext.request.contextPath}/front/seller/SellerOrderController-detailOrder?isEdit=0&orderType=0&orderId=" + orderId;
+			if(action=='orderDetail'){
+				window.location.href = "${pageContext.request.contextPath}/seller/orderDetail?orderId=" + orderId;
 			} else if(action=='confirmOrder'){
 				window.location.href="${pageContext.request.contextPath}/seller/confirmOrder?orderId="+ orderId;
             }else if(action=='sendProd'){
@@ -159,8 +159,8 @@
 					},"json")
                 }
             }
-			else if(action=='detailVehicle'){
-				window.location.href = "${pageContext.request.contextPath}/front/seller/SellerOrderController-detailOrder?isEdit=0&orderType=1&orderId=" + orderId;
+			else if(action=='logisticsDetail'){
+				window.location.href = "${pageContext.request.contextPath}/seller/logisticsDetail?orderId=" + orderId;
 			} else if(action=='editOrder'){
 				window.location.href = "${pageContext.request.contextPath}/seller/editOrder?orderId=" + orderId;
 			} else if(action=='editVehicle'){

@@ -127,4 +127,7 @@ public interface CustomerService {
      */
     String findZcAddress(Userinfo userinfo);
 
+    Map<String,Object> getOrderDetailInfo(long orderId);
+
+    int zorderConfirmReceive(long zorderId);
 }

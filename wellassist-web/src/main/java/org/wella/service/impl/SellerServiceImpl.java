@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
 import org.wella.entity.*;
+import org.wella.service.RegionService;
 import org.wella.service.SellerService;
+import org.wella.service.WaOrderService;
 
 import java.math.BigDecimal;
 import java.security.PrivateKey;
@@ -58,6 +60,12 @@ public class SellerServiceImpl implements SellerService {
 
     @Autowired
     private OrderVehicleDao orderVehicleDao;
+
+    @Autowired
+    private WaOrderService waOrderServiceImpl;
+
+    @Autowired
+    private RegionService regionServiceImpl;
 
 
     /**
@@ -213,8 +221,8 @@ public class SellerServiceImpl implements SellerService {
 
         LogisticsInfo logisticsInfo = new LogisticsInfo();
         logisticsInfo.setOrderId((long)orderId);
-        logisticsInfo.setFromAddress(order.getFromRegionAddr());
-        logisticsInfo.setToAddress(order.getToRegionAddr());
+        logisticsInfo.setFromAddress(regionServiceImpl.getDetailAddress(order.getFromRegionId(),order.getFromRegionAddr()));
+        logisticsInfo.setToAddress(regionServiceImpl.getDetailAddress(order.getToRegionId(),order.getToRegionAddr()));
         //根据user_id获取customer的相关信息
         HashMap customerQueryMap = new HashMap();
         customerQueryMap.put("userId",order.getUserId());
@@ -366,5 +374,29 @@ public class SellerServiceImpl implements SellerService {
         updateOrderMap.put("orderState",4);
         orderDao.updateOrderByID(updateOrderMap);
     }
+
+    @Override
+    public Map<String, Object> getOrderDetailInfo(long orderId) {
+        //得到订单基本信息
+        Map<String,Object> res=orderDao.singleOrderAttachProdAttachOrderLogisticsInfo(orderId);
+        ConvertUtil.convertDataBaseMapToJavaMap(res);
+        int orderState=(int)res.get("orderState");
+        if(orderState==0){
+            return res;
+        }
+        //从wa_order_log表中得到订单价格和数量
+        Map<String,Object> orderlog=waOrderServiceImpl.findNewestOrderLog(orderId);
+        res.putAll(orderlog);
+        if(orderState==1||orderState==2){
+            return res;
+        }
+        //从wa_zorder表中得到发货量和成交额
+        Map<String,Object> zorderDeliverCount=waOrderServiceImpl.findDeliverProdCount(orderId);
+        res.putAll(zorderDeliverCount);
+        List<Map<String,Object>> zorders=waOrderServiceImpl.findZorders(orderId);
+        res.put("zorders",zorders);
+        return res;
+    }
+
 
 }

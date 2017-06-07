@@ -9,4 +9,6 @@ import java.util.Map;
 public interface RegionService {
 
     List<Map<String,Object>> getChildRegionList(Map<String,Object> param);
+
+    String getDetailAddress(long regionId,String address);
 }

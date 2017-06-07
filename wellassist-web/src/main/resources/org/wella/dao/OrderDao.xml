@@ -198,4 +198,18 @@
         ORDER BY e.`operation_time` DESC
         LIMIT 1
     </select>
+
+    <select id="singleOrderAttachProdAttachOrderLogisticsInfo" parameterType="long" resultType="map">
+        SELECT a.`order_id`,a.`order_no`,a.prod_name,a.`order_date`,a.`prod_id`,a.`is_self_car`,a.sale_num,a.sale_money,a.`confirm_number`,a.`confirm_price`,a.`order_state`,b.`prod_img`,b.`prod_type`,c.`deliver_date`,c.`receive_date`
+        FROM wa_order a LEFT JOIN wa_prod b ON a.`prod_id`=b.`prod_id`
+        LEFT JOIN wa_order_logistics_info c ON a.`order_id`=c.`order_id`
+        WHERE a.`order_id`=#{orderId}
+    </select>
+
+    <select id="findOrderLogisticsBasicInfo" parameterType="long" resultType="map">
+        SELECT a.`order_id`,a.`is_self_car`,a.from_region_id,a.`from_region_addr`,a.`to_region_id`,a.`to_region_addr`,a.`user_id` customer_id,a.`supplier_id` seller_id,cus.`user_name` customer_name,seller.`user_name` seller_name
+        FROM wa_order a LEFT JOIN wa_user cus ON a.`user_id`=cus.`user_id`
+        LEFT JOIN wa_user seller ON a.`supplier_id`=seller.`user_id`
+        WHERE a.`order_id`=#{orderId}
+    </select>
 </mapper>

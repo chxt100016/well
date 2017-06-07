@@ -39,4 +39,8 @@ public interface OrderDao {
     Map<String,Object> singleOrderAttachLogisticsInfoAttachVehicleGrab(@Param("orderId")long orderId);
 
     Map<String,Object> singleOrderAttachOrderLogAttachZorderCountAttachProdRestNum(long orderId);
+
+    Map<String,Object> singleOrderAttachProdAttachOrderLogisticsInfo(@Param("orderId") long orderId);
+
+    Map<String,Object> findOrderLogisticsBasicInfo(@Param("orderId")long orderId);
 }

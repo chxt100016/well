@@ -342,5 +342,9 @@
         WHERE  user_id = #{userId}
     </update>
 
-
+    <select id="singleUserByPrimaryKey" parameterType="long" resultType="map">
+        select *
+        from wa_user
+        where user_id=#{userId}
+    </select>
 </mapper>
