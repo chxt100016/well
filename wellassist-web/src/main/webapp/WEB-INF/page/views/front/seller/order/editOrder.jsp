@@ -143,7 +143,7 @@
 		    		data = $.parseJSON(data);
 		    		alert(data.content);
 		            if(data.status=="1"){
-		            	window.location.href = "${pageContext.request.contextPath}/front/seller/SellerOrderController-orderList";
+		            	window.location.href = "${pageContext.request.contextPath}/seller/orderListPage";
 		            }
 		      	})
 		      	.error(function(data){

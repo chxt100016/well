@@ -28,6 +28,7 @@ import org.wella.entity.User;
 import org.wella.entity.Userinfo;
 import org.wella.front.seller.mapper.SellerOrderMapper;
 import org.wella.platform.service.impl.ProductManageServiceImpl;
+import org.wella.service.WaOrderService;
 import org.wella.service.impl.ProductServiceImpl;
 import org.wella.service.impl.SellerServiceImpl;
 
@@ -51,6 +52,9 @@ public class SellerController extends BaseController {
 
     @Autowired
     private SellerServiceImpl sellerServiceImpl;
+
+    @Autowired
+    private WaOrderService waOrderServiceImpl;
 
     @Autowired
     private ProductServiceImpl productService;
@@ -208,11 +212,24 @@ public class SellerController extends BaseController {
      */
     @RequestMapping("orderDetail")
     public String orderDetail(@RequestParam("orderId")String orderId, Model model){
-
-
+        Map<String,Object> orderDetail=sellerServiceImpl.getOrderDetailInfo(Long.parseLong(orderId));
+        model.addAttribute("info",orderDetail);
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "3");
         return "views/front/seller/order/orderDetail_new.jsp";
+    }
+    /**
+     * 跳转物流详情页面
+     * @param model
+     * @return
+     */
+    @RequestMapping("logisticsDetail")
+    public String logisticsDetail(@RequestParam("orderId")String orderId, Model model){
+        Map<String,Object> info=waOrderServiceImpl.findOrderLogisticsInfo(Long.parseLong(orderId));
+        model.addAttribute("info",info);
+        model.addAttribute("parentMenuNo", "1");
+        model.addAttribute("childMenuNo", "3");
+        return "views/front/seller/order/expressDetail.jsp";
     }
     /**
      * 产品发布页面

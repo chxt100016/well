@@ -1,4 +1,4 @@
-<%@ include file="../header_new.jsp"%>
+<%@ include file="../header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -128,33 +128,9 @@
                 </div>
             </li>
             <li class="col-line">
-                <div class="fl-lf  tx-rg " style="width:200px;">总价：</div>
-                <div class="fl-lf"><c:if test="${empty info.orderNumber && empty info.confirmNumber}">${info.saleMoney}</c:if>
-                    <c:if test="${empty info.orderNumber && !empty info.confirmNumber}">${info.confirmNumber*info.comfirmPrice}</c:if>
-                    <c:if test="${!empty info.orderNumber }">${info.orderNumber*info.orderPrice}</c:if></div>
-            </li>
-            <li class="col-line">
-                <div class="fl-lf  tx-rg " style="width:200px;">单价：</div>
-                <div class="fl-lf"><c:if test="${empty info.orderNumber && empty info.confirmNumber}">${info.saleMoney/info.saleNum}</c:if>
-                    <c:if test="${empty info.orderNumber && !empty info.confirmNumber}">${info.comfirmPrice}</c:if>
-                    <c:if test="${!empty info.orderNumber  }">${info.orderPrice}</c:if></div>
-            </li>
-            <li class="col-line">
-                <div class="fl-lf  tx-rg " style="width:200px;">付款状态：</div>
-                <div class="fl-lf"><c:if test="${info.orderState<2}">待付款</c:if>
-                    <c:if test="${info.orderState>=2}">已付款</c:if>
-                </div>
-            </li>
-            <li class="col-line">
                 <div class="fl-lf  tx-rg " style="width:200px;">已发吨数：</div>
                 <div class="fl-lf"><c:if test="${info.orderState<=2}">未发货</c:if>
                     <c:if test="${info.orderState>=3}">${info.sumNum}</c:if>
-                </div>
-            </li>
-            <li class="col-line">
-                <div class="fl-lf  tx-rg " style="width:200px;">货运方式：</div>
-                <div class="fl-lf"><c:if test="${info.isSelfCar==0}">自提</c:if>
-                    <c:if test="${info.isSelfCar==1}">平台物流</c:if>
                 </div>
             </li>
             <li class="col-line">
@@ -209,4 +185,4 @@
     </div>
 </body>
 
-<%@ include file="../footer.html"%>
+<%@ include file="../footer.jsp"%>

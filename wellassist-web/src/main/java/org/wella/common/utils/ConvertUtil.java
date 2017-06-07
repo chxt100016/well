@@ -25,8 +25,8 @@ public class ConvertUtil {
 
             ((Map)obj).clear();
             ((Map)obj).putAll(array1);
-        } else if(obj instanceof ArrayList) {
-            ArrayList array1 = (ArrayList)obj;
+        } else if(obj instanceof List) {
+            List array1 = (List)obj;
             ArrayList array11 = new ArrayList();
             var3 = array1.iterator();
 

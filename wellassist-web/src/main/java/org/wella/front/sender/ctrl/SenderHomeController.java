@@ -24,7 +24,7 @@ public class SenderHomeController extends BaseController {
     @Autowired
     private SenderService senderServiceImpl;
 
-    @RequestMapping({"/front/sender/SenderHomeController-home"})
+    /*@RequestMapping({"/front/sender/SenderHomeController-home"})
     public String before_start(HttpServletRequest request, HttpServletResponse response, Model model) {
         MyInfo myInfo = this.getMyInfo(request);
         String userId = myInfo.getUserId();
@@ -59,7 +59,7 @@ public class SenderHomeController extends BaseController {
 
         model.addAttribute("myInfo", myInfo);
         return "views/front/sender/home.jsp";
-    }
+    }*/
 
     @RequestMapping({"/front/sender/SenderHomeController-main"})
     public String main(HttpServletRequest request, HttpServletResponse response, Model model) {

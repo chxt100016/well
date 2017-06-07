@@ -29,6 +29,7 @@ import org.wella.front.mapper.FrontTixianMapper;
 import org.wella.front.mapper.FrontUserMoneyMapper;
 import org.wella.front.mapper.NewsMapper;
 import org.wella.service.CustomerService;
+import org.wella.service.WaOrderService;
 import org.wella.service.impl.CustomerServiceImpl;
 import org.wella.service.impl.FinanceServiceImpl;
 import org.wella.service.impl.SellerServiceImpl;
@@ -74,6 +75,8 @@ public class CustomerController extends BaseController{
     private FrontBankOrderMapper bankOrderMapper0;
 
     @Autowired
+    private WaOrderService waOrderServiceImpl;
+
     private TradeDAO tradeDAO;
 
     @Autowired
@@ -124,6 +127,43 @@ public class CustomerController extends BaseController{
       model.addAttribute("parentMenuNo", "1");
       model.addAttribute("childMenuNo", "1");
       return "views/front/customer/orderPage_new.jsp";
+   }
+
+   /**
+    * 跳转订单详情页面
+    * @param model
+    * @return
+    */
+   @RequestMapping("orderDetail")
+   public String orderDetail(@RequestParam("orderId")String orderId, Model model){
+      Map<String,Object> orderDetail=customerServiceImpl.getOrderDetailInfo(Long.parseLong(orderId));
+      model.addAttribute("info",orderDetail);
+      model.addAttribute("parentMenuNo", "1");
+      model.addAttribute("childMenuNo", "1");
+      return "views/front/customer/order/orderDetail_new.jsp";
+   }
+
+   @RequestMapping(value = "zorderConfirmReceive",method = RequestMethod.GET)
+   @ResponseBody
+   public R zorderConfirmReceive(@RequestParam("zorderId")String zorderId){
+      int res=customerServiceImpl.zorderConfirmReceive(Long.parseLong(zorderId));
+      if(res>0){
+         return R.ok();
+      }
+      return R.error();
+   }
+   /**
+    * 跳转物流详情页面
+    * @param model
+    * @return
+    */
+   @RequestMapping("logisticsDetail")
+   public String logisticsDetail(@RequestParam("orderId")String orderId, Model model){
+      Map<String,Object> info=waOrderServiceImpl.findOrderLogisticsInfo(Long.parseLong(orderId));
+      model.addAttribute("info",info);
+      model.addAttribute("parentMenuNo", "1");
+      model.addAttribute("childMenuNo", "1");
+      return "views/front/customer/order/expressDetail.jsp";
    }
 
    @RequestMapping(

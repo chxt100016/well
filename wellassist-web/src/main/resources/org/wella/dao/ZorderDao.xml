@@ -45,5 +45,28 @@
         where zorder_id = #{zorderId,jdbcType=BIGINT}
     </update>
 
+    <select id="findProdCountByConditions" parameterType="map" resultType="map">
+        SELECT IFNULL(SUM(zorder_num),0) sum_num,IFNULL(SUM(zorder_money),0) sum_money
+        FROM wa_zorder
+        WHERE order_id=#{orderId} AND zorder_state=#{zorderState}
+    </select>
 
+    <select id="listZordersByConditions" parameterType="map" resultType="map">
+        SELECT *
+        FROM wa_zorder
+        <where>
+            <if test="orderId != null">
+                and order_id=${orderId}
+            </if>
+        </where>
+        <if test="orderBy != null">
+        order by ${orderBy}
+    </if>
+        <if test="start != null and size != null">
+            limit ${start},${size}
+        </if>
+        <if test="start ==null and size !=null">
+            limit ${size}
+        </if>
+    </select>
 </mapper>

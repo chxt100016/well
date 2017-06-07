@@ -16,5 +16,23 @@
       #{receiveExceptDate,jdbcType=TIMESTAMP})
     </insert>
 
+    <select id="listOrderVehiclesByConditions" parameterType="map" resultType="map">
+        select *
+        from wa_order_vehicle
+        <where>
+            <if test="zorderId !=null">
+                AND zorder_id=${zorderId}
+            </if>
+        </where>
+        <if test="orderBy != null">
+            order by ${orderBy}
+        </if>
+        <if test="start != null and size != null">
+            limit ${start},${size}
+        </if>
+        <if test="start ==null and size !=null">
+            limit ${size}
+        </if>
+    </select>
 
 </mapper>

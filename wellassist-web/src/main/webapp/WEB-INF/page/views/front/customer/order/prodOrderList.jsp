@@ -99,16 +99,16 @@
 								<c:if test="${item.orderState=='-1'}">已取消</c:if>
 							</td>
 						</tr>
-						<c:if test="${item.orderState==2 || item.orderState==4 || item.orderState==5 || item.orderState==6 || item.orderState==7}">
+						<c:if test="${item.orderState==2 || item.orderState==3 ||item.orderState==4 || item.orderState==5 || item.orderState==6 || item.orderState==7}">
 							<tr>
 								<td>
-									<a style="cursor:pointer;color:black;" onclick="toURL('detailVehicle', '${item.orderId}')">物流信息</a>
+									<a style="cursor:pointer;color:black;" onclick="toURL('logisticsDetail', '${item.orderId}')">物流信息</a>
 								</td>
 							</tr>
 						</c:if>
 						<tr>
 							<td>
-								<a style="cursor:pointer;color:black;" onclick="toURL('detailOrder', '${item.orderId}')">订单详情</a>
+								<a style="cursor:pointer;color:black;" onclick="toURL('orderDetail', '${item.orderId}')">订单详情</a>
 							</td>
 						</tr>
 					</table>
@@ -117,10 +117,8 @@
 					<c:if test="${item.orderState==1}">
 						<span class="span_btn" onClick="toURL('editFukuan', '${item.orderId}')">付款</span>
 					</c:if>
-					<c:if test="${item.orderState==2 or item.orderState==3}">
-						<c:if test="${item.isSelfCar==0}">
-							<span class="span_btn" onClick="toURL('editFahuo', '${item.orderId}')">发货详情</span>
-						</c:if>
+					<c:if test="${item.orderState==3 ||item.orderState==4}">
+							<span class="span_btn" onClick="toURL('orderDetail', '${item.orderId}')">发货详情</span>
 					</c:if>
 							
 					<c:if test="${item.orderState==6}">
@@ -157,7 +155,12 @@
 		if(orderId!=''){
 			if(action=='detailOrder'){
 				window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-detailOrder?orderType=0&orderId=" + orderId;
-			} else if(action=='detailVehicle'){
+			}else if(action=="logisticsDetail"){
+			    window.location.href="${pageContext.request.contextPath}/customer/logisticsDetail?orderId="+orderId;
+            }else if(action=="orderDetail"){
+                window.location.href="${pageContext.request.contextPath}/customer/orderDetail?orderId="+orderId;
+            }
+			else if(action=='detailVehicle'){
 				window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-detailOrder?orderType=1&orderId=" + orderId;
 			} else if(action=='editFukuan'){
 				window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-editFukuan?orderId=" + orderId;
