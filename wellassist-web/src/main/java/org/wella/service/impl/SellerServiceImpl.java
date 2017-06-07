@@ -246,9 +246,9 @@ public class SellerServiceImpl implements SellerService {
         logisticsInfo.setProdName(order.getProdName());
         logisticsInfo.setNum(order.getConfirmNumber().doubleValue());
         logisticsInfo.setState((byte) 0);
-        double confirmNumber =Double.parseDouble(order.getConfirmNumber().toString());
-        BigDecimal prePayment =order.getConfirmNumber().multiply(order.getConfirmPrice());
-        logisticsInfo.setPrePayment(prePayment.doubleValue());
+        //double confirmNumber =Double.parseDouble(order.getConfirmNumber().toString());
+        //BigDecimal prePayment =order.getConfirmNumber().multiply(order.getConfirmPrice());
+        //logisticsInfo.setPrePayment(prePayment.doubleValue());
 
         logisticsInfo.setOrderDate(order.getOrderDate());
         //查询物流信息表

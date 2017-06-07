@@ -22,10 +22,12 @@ public interface SenderService {
      */
     public int grabHallInfosCount(Map param);
 
-
-    public Map<String,Object> findLogisticsInfo(Map param);
-
-    public void grabLogisticsOrder(Map param);
+    /**
+     * 抢单报价页面信息
+     * @param logisticsId
+     * @return
+     */
+    public Map<String,Object> grabLogisticsPageInfo(long logisticsId);
 
     public List<Map<String,Object>> grabLogisticsList(Map param);
 
@@ -34,4 +36,6 @@ public interface SenderService {
     List<Map<String,Object>> listLogisticsInfoByConditions(Map queryLogistics);
 
     List<Map<String,Object>> homePageLogisicsInfos(Map queryLogistics);
+
+    int grabLogistics(Map param);
 }

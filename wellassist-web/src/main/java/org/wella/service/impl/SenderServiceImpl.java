@@ -2,6 +2,7 @@ package org.wella.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.LogisticsInfoDao;
@@ -35,7 +36,9 @@ public class SenderServiceImpl implements SenderService {
      */
     public List<Map<String,Object>> grabHallInfos(Map param){
         param.put("state",0);
-        return logisticsInfoDao.undoLogisticsInfosAttachProdByConditions(param);
+        List<Map<String,Object>> res=logisticsInfoDao.undoLogisticsInfosAttachProdByConditions(param);
+        ConvertUtil.convertDataBaseMapToJavaMap(res);
+        return res;
     }
 
     @Override
@@ -44,16 +47,9 @@ public class SenderServiceImpl implements SenderService {
         return logisticsInfoDao.CountLogitticsInfoByConditions(param);
     }
 
-
-    /**
-     * 通过id获取物流订单
-     * @param param 包含参数（String）logisticsInfoId
-     * @return
-     */
     @Override
-    public Map<String, Object> findLogisticsInfo(Map param) {
-        param.put("logisticsId",Long.parseLong((String)param.get("logisticsId")));
-        Map<String, Object> res=logisticsInfoDao.findLogisticsInfo(param);
+    public Map<String, Object> grabLogisticsPageInfo(long logisticsId) {
+        Map<String, Object> res=logisticsInfoDao.singleLogisticsInfoByPrimaryKey(logisticsId);
         ConvertUtil.convertDataBaseMapToJavaMap(res);
         return res;
     }
@@ -62,12 +58,10 @@ public class SenderServiceImpl implements SenderService {
      * 传入参数logisticsId物流订单id，wlUserId物流用户id，grabMoney报价，sjLxr车队联系人,sjLxPhone联系人电话，orderData车队信息，
      * @param param
      */
-    @Override
+    /*@Override
     public void grabLogisticsOrder(Map param) {
         VehicleGrab vehicleGrab=new VehicleGrab();
-        Map logiticsInfoParam=new HashMap();
-        logiticsInfoParam.put("logisticsId",Long.parseLong((String)param.get("logisticsId")));
-        Map<String,Object> logisticsInfo=logisticsInfoDao.findLogisticsInfo(logiticsInfoParam);
+        Map<String,Object> logisticsInfo=logisticsInfoDao.singleLogisticsInfoByPrimaryKey(Long.parseLong((String)param.get("logisticsId")));
         ConvertUtil.convertDataBaseMapToJavaMap(logisticsInfo);
         vehicleGrab.setOrderId((long)logisticsInfo.get("orderId"));
         vehicleGrab.setLogisticsId((long)logisticsInfo.get("logisticsId"));
@@ -91,7 +85,7 @@ public class SenderServiceImpl implements SenderService {
                 }
             }
         }
-    }
+    }*/
 
     /**
      * 物流方查看自己的抢单记录
@@ -116,5 +110,38 @@ public class SenderServiceImpl implements SenderService {
     @Override
     public List<Map<String, Object>> homePageLogisicsInfos(Map queryLogistics) {
         return logisticsInfoDao.undoLogisticsInfosByConditions(queryLogistics);
+    }
+
+    @Override
+    @Transactional
+    public int grabLogistics(Map param) {
+        long senderUserId=Long.parseLong((String)param.get("senderUserId"));
+        long logisticsInfoId=Long.parseLong((String)param.get("logisticsInfoId"));
+        BigDecimal grabMoney=new BigDecimal((String)param.get("grabMoney"));
+        List<Map<String,Object>> vehicles=ConvertUtil.converJSONtoArrayListMap((String)param.get("grabVehicles"));
+        int res=0;
+        //insert wa_vehicle_grab 表
+        Map<String,Object> logisticsInfo=logisticsInfoDao.singleLogisticsInfoByPrimaryKey(logisticsInfoId);
+        VehicleGrab vehicleGrab=new VehicleGrab();
+        vehicleGrab.setLogisticsInfoId(logisticsInfoId);
+        vehicleGrab.setOrderId((long)logisticsInfo.get("order_id"));
+        vehicleGrab.setSenderUserId(senderUserId);
+        vehicleGrab.setGrabMoney(grabMoney);
+        vehicleGrab.setGrabDate(new Date());
+        vehicleGrab.setGrabState((byte)0);
+        res+=vehicleGrabDao.createVehicleGrab(vehicleGrab);
+
+        //insert wa_vehicle_grab_info 表
+        for(Map<String,Object> vehicle:vehicles){
+            VehicleGrabInfo vehicleGrabInfo=new VehicleGrabInfo();
+            vehicleGrabInfo.setVehicleGrabId(vehicleGrab.getVehicleGrabId());
+            vehicleGrabInfo.setDriverName((String) vehicle.get("driverName"));
+            vehicleGrabInfo.setDriverPhone((String)vehicle.get("driverPhone"));
+            vehicleGrabInfo.setVehicleNo((String)vehicle.get("vehicleNo"));
+            vehicleGrabInfo.setVehicleHangingNo((String)vehicle.get("vehicleHangingNo"));
+            vehicleGrabInfo.setVehicleSize(Double.parseDouble((String)vehicle.get("vehicleSize")));
+            res+=vehicleGrabInfoDao.createVehicleGrabInfo(vehicleGrabInfo);
+        }
+        return res;
     }
 }

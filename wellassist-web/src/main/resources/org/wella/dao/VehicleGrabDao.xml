@@ -3,11 +3,17 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.wella.dao.VehicleGrabDao">
 
-    <insert id="createVehicleGrab" useGeneratedKeys="true" keyProperty="orderId" parameterType="org.wella.entity.VehicleGrab">
-        INSERT INTO wa_vehicle_grab
-        SET logistics_id=#{logisticsId},order_id = #{orderId}, wl_user_id=#{wlUserId},vehicle_no=#{vehicleNo},vehicle_size=#{vehicleSize},
-           grab_money=#{grabMoney},cf_date=#{cfDate},dd_date=#{ddDate},sj_lxr=#{sjLxr},sj_lx_phone=#{sjLxPhone},
-           grab_date=#{grabDate},grab_state=#{grabState};
+    <insert id="createVehicleGrab" useGeneratedKeys="true" keyProperty="vehicleGrabId" parameterType="org.wella.entity.VehicleGrab">
+        insert into wa_vehicle_grab (vehicle_grab_id, logistics_info_id, order_id,
+      sender_user_id, vehicle_no, vehicle_size,
+      grab_money, deliver_date, receive_date,
+      driver_name, driver_phone, grab_date,
+      grab_reason, grab_state)
+    values (#{vehicleGrabId,jdbcType=BIGINT}, #{logisticsInfoId,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT},
+      #{senderUserId,jdbcType=BIGINT}, #{vehicleNo,jdbcType=VARCHAR}, #{vehicleSize,jdbcType=INTEGER},
+      #{grabMoney,jdbcType=DECIMAL}, #{deliverDate,jdbcType=TIMESTAMP}, #{receiveDate,jdbcType=TIMESTAMP},
+      #{driverName,jdbcType=VARCHAR}, #{driverPhone,jdbcType=VARCHAR}, #{grabDate,jdbcType=TIMESTAMP},
+      #{grabReason,jdbcType=VARCHAR}, #{grabState,jdbcType=TINYINT})
     </insert>
 
     <select id="getGrabLogisticsList" parameterType="java.util.Map" resultType="java.util.Map">

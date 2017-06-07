@@ -29,83 +29,44 @@
         <div class="ui divider"></div>
 
         <div class="ui four cards">
+            <c:forEach items="${info}" var="ii">
             <div class="card">
                 <div class="content">
-                    <img class="right floated mini ui image" src="http://i0.hdslb.com/bfs/tag/64d33195629eb2a85a733026666819e163e0647e.jpg">
-                    <div class="header">产品名称xxxxx：</div>
-                    <div class="meta">下单日期： </div>
-                    <div class="description">卖家名称： </div>
+                    <img class="right floated mini ui image" src="${ii.prodImg}">
+                    <div class="header">产品名称：${ii.prodName}</div>
+                    <div class="meta">下单日期： <fmt:formatDate value="${ii.orderDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></div>
+                    <div class="description">卖家名称：${ii.sellerUserName} </div>
                 </div>
                 <div class="content">
                     <h4 class="ui sub header">详细信息</h4>
                     <div class="ui small feed">
                         <div class="event">
                             <div class="content">
-                                <div class="summary">货物数量： <span class="oliver-color"> 30  </span>吨</div>
+                                <div class="summary">货物数量： <span class="oliver-color"> ${ii.num}  </span>吨</div>
                             </div>
                         </div>
-                        <div class="event">
+                        <%--<div class="event">
                             <div class="content">
                                 <div class="summary">运费报价：<span class="teal-color"> 30  </span>元</div>
                             </div>
-                        </div>
+                        </div>--%>
                         <div class="event">
                             <div class="content">
-                                <div class="summary">提货地址 </div>
+                                <div class="summary">提货地址:${ii.fromAddress} </div>
                             </div>
                         </div>
                         <div class="event">
                             <div class="content">
-                                <div class="summary">提货地址 </div>
+                                <div class="summary">提货地址:${ii.toAddress} </div>
                             </div>
                         </div>
                     </div>
                     <div class="extra">
-                        <button class="ui red button">报价</button>
-
+                        <button class="ui red button" onclick="grab(${ii.logisticsId})">抢单</button>
                     </div>
                 </div>
             </div>
-            <div class="card">
-                <div class="content">
-                    <img class="right floated mini ui image" src="http://i0.hdslb.com/bfs/tag/64d33195629eb2a85a733026666819e163e0647e.jpg">
-                    <div class="header">产品名称xxxxx：</div>
-                    <div class="meta">下单日期： </div>
-                    <div class="description">卖家名称： </div>
-                </div>
-                <div class="content">
-                    <h4 class="ui sub header">详细信息</h4>
-                    <div class="ui small feed">
-                        <div class="event">
-                            <div class="content">
-                                <div class="summary">货物数量： <span class="oliver-color"> 30  </span>吨</div>
-                            </div>
-                        </div>
-                        <div class="event">
-                            <div class="content">
-                                <div class="summary">运费报价：<span class="teal-color"> 30  </span>元</div>
-                            </div>
-                        </div>
-                        <div class="event">
-                            <div class="content">
-                                <div class="summary">提货地址 </div>
-                            </div>
-                        </div>
-                        <div class="event">
-                            <div class="content">
-                                <div class="summary">提货地址 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="extra">
-                        <button class="ui red button">抢单</button>
-
-                    </div>
-                </div>
-            </div>
-
-
-
+            </c:forEach>
         </div>
         <%--<div class="ui right floated pagination menu">
             <a class="icon item">
@@ -126,5 +87,9 @@
     </div>
 
 </body>
-
+<script>
+    function grab(logisticsId){
+        window.location.href="${pageContext.request.contextPath}/sender/grabLogistics?logisticsId="+logisticsId;
+    }
+</script>
 <%@ include file="../footer.jsp"%>

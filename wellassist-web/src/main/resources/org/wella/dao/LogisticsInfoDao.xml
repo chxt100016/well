@@ -111,13 +111,9 @@
         </where>
     </select>
 
-    <select id="findLogisticsInfo" parameterType="java.util.Map" resultType="map">
+    <select id="singleLogisticsInfoByPrimaryKey" parameterType="long" resultType="map">
         SELECT * FROM wa_logistics_info
-        <where>
-            <if test = "logisticsId != null" >
-                AND logistics_id = #{logisticsId}
-            </if>
-        </where>
+        where logistics_id=#{logisticsId}
     </select>
 
     <update id="updateByPrimaryKey" parameterType="map">
