@@ -29,7 +29,7 @@
 			<span class = "col2">&nbsp;&nbsp;元</span>
 		</div>
 	</div>
-	<form id="searchFrm" method="get" action="${pageContext.request.contextPath}/front/customer/FinanceController-txList">
+	<form id="searchFrm" method="get" action="${pageContext.request.contextPath}/customer/withdrawRecordList">
 		<input type="hidden" id="page" name="page" value="${param.page}">
 		<input type="hidden" id="withdrawState" name="withdrawState" value="${param.withdrawState}">
 	</form>

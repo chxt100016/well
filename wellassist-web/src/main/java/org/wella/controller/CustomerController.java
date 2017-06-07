@@ -19,10 +19,7 @@ import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.common.vo.MyInfo;
-import org.wella.dao.ProdDao;
-import org.wella.dao.UserinfoDao;
-import org.wella.dao.WaUserDao;
-import org.wella.dao.WithdrawDAO;
+import org.wella.dao.*;
 import org.wella.entity.Prod;
 import org.wella.entity.User;
 import org.wella.entity.Userinfo;
@@ -33,6 +30,7 @@ import org.wella.front.mapper.FrontUserMoneyMapper;
 import org.wella.front.mapper.NewsMapper;
 import org.wella.service.CustomerService;
 import org.wella.service.impl.CustomerServiceImpl;
+import org.wella.service.impl.FinanceServiceImpl;
 import org.wella.service.impl.SellerServiceImpl;
 
 import javax.servlet.ServletContext;
@@ -75,6 +73,11 @@ public class CustomerController extends BaseController{
     @Autowired
     private FrontBankOrderMapper bankOrderMapper0;
 
+    @Autowired
+    private TradeDAO tradeDAO;
+
+    @Autowired
+    private FinanceServiceImpl financeService;
    /**
     * 买家下订单
     * @param map prodId，saleNum，danjia，saleMoney，isSelfCar，contacts，conTel，toRegionId
@@ -446,7 +449,7 @@ public class CustomerController extends BaseController{
       params.put("userId",user.getUserId());
       params.put("withdrawIp", IPUtils.getIpAddr(HttpContextUtils.getHttpServletRequest()));
       try {
-         withdrawDAO.withdrawApply(params);
+         int result = withdrawDAO.withdrawApply(params);
          return R.ok().put("state",1).put("content","请求已经受理");
       } catch (Exception e) {
          e.printStackTrace();
@@ -470,6 +473,37 @@ public class CustomerController extends BaseController{
       model.addAttribute("userName", user.getUserName());
       model.addAttribute("zfMoney", retInfo.get("zfMoney"));
       return "views/front/customer/finance/czSqList.jsp";
+   }
+
+   @RequestMapping("rechargeApply")
+   @ResponseBody
+   public R rechargeApply(@RequestParam Map<String,Object> params) {
+      int res = financeService.recharge(params);
+      if(res==1){
+         return R.ok().put("state",1).put("content",ConstantUtil.MSG_SUCCESS);
+      }else {
+         return R.error().put("state", 0).put("content", ConstantUtil.MSG_FAILS);
+      }
+   }
+
+   @RequestMapping("withdrawRecordList")
+   public String withdrawRecordList(HttpServletRequest request, Model model) {
+      User user = (User) HttpContextUtils.getAttribute("user");
+      Map<String,Object> param = this.getConditionParam(request);
+      param.put("geTxState", "0");
+      param.put("ltTxState", "3");
+      param.put("userId", user.getUserId());
+      List list = tradeDAO.getWithdrawRecordList(param);
+      ConvertUtil.convertDataBaseMapToJavaMap(list);
+      int totalCount = tradeDAO.getWithdrawRecordCount(param);
+      Map retInfo = tradeDAO.getWithdrawMoneyTotal(param);
+      this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
+      model.addAttribute("parentMenuNo", "2");
+      model.addAttribute("childMenuNo", "2");
+      model.addAttribute("userName", user.getUserName());
+      model.addAttribute("withdrawMoney", retInfo.get("withdrawMoney"));
+      model.addAttribute("list", list);
+      return "views/front/customer/finance/txList.jsp";
    }
 
 

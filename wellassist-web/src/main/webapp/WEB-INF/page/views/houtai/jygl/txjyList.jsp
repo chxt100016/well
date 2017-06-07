@@ -80,12 +80,10 @@
 									<td style = "text-align:right;" width = "10%">
 										<c:if test = "${item.txState == '-1'}">
 											<a onclick="toURL('del', '${item.txId}')" class = "abutton">删除</a>
-											|
 											<a onclick="toURL('zaishenhe', '${item.txId}')" class = "abutton">再审核</a>
 									    </c:if>
 									    <c:if test = "${item.txState == '0'}">
-											<a onclick="toURL('shenhe', '${item.txId}')" class = "abutton">审核</a> 
-											|
+											<a onclick="toURL('shenhe', '${item.txId}')" class = "abutton">审核</a>
 											<a onclick="toURL('butongguo', '${item.txId}')" class = "abutton">不通过</a>
 									    </c:if>
 									    <c:if test = "${item.txState == '1'}">

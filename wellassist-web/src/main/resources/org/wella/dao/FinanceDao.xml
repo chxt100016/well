@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.FinanceDAO">
+    <!--提现请求存储过程-->
+    <select id="withdrawApply" statementType="CALLABLE" parameterType="map" resultType="int">
+        <![CDATA[
+        call withdrawProcess(
+        #{withdrawName,mode=IN,jdbcType=VARCHAR},
+        #{withdrawBank,mode=IN,jdbcType=VARCHAR},
+        #{account,mode=IN,jdbcType=VARCHAR},
+        #{withdrawMoney,mode=IN,jdbcType=DECIMAL},
+        #{withdrawIp,mode=IN,jdbcType=VARCHAR},
+        #{userId,mode=IN,jdbcType=VARCHAR})
+        ;]]>
+    </select>
+
+    <!--提现处理存储过程-->
+    <select id="withdrawHandle" statementType="CALLABLE" parameterType="map" resultType="int">
+        <![CDATA[
+        call withdrawProcess(
+        #{withdrawId,mode=IN},
+        #{withdrawstate,mode=IN},
+        #{withdrawIp,mode=IN},
+        #{userId,mode=IN})
+        ;]]>
+    </select>
+
+    <select id="rechargeApply" statementType="CALLABLE" parameterType="map" resultType="int">
+        <![CDATA[
+        call rechargeApply(
+        #{rechargeMoney,mode=IN},
+        #{rechargeType,mode=IN},
+        #{rechargeIp,mode=IN},
+        #{userId,mode=IN})
+        ;]]>
+    </select>
+
+    <select id="rechargeHandle" statementType="CALLABLE" parameterType="map" resultType="int">
+        <![CDATA[
+        call rechargeHandle(
+        #{orderId,mode=IN},
+        #{orderIp,mode=IN},
+        #{userId,mode=IN})
+        ;]]>
+    </select>
+
+</mapper>
