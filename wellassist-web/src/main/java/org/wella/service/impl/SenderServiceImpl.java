@@ -33,18 +33,17 @@ public class SenderServiceImpl implements SenderService {
      * @param param
      * @return
      */
-    public List<LogisticsInfo> findLogisticsInfos(Map param){
-        return logisticsInfoDao.findLogisticsInfos(param);
+    public List<Map<String,Object>> grabHallInfos(Map param){
+        param.put("state",0);
+        return logisticsInfoDao.undoLogisticsInfosAttachProdByConditions(param);
     }
-    /**
-     * 抢单大厅获取物流订单总数（分页）
-     * @param param
-     * @return
-     */
+
     @Override
-    public int findLogisticsInfosCount(Map param) {
-        return logisticsInfoDao.findLogisticsInfosCount(param);
+    public int grabHallInfosCount(Map param) {
+        param.put("state",0);
+        return logisticsInfoDao.CountLogitticsInfoByConditions(param);
     }
+
 
     /**
      * 通过id获取物流订单
@@ -52,9 +51,11 @@ public class SenderServiceImpl implements SenderService {
      * @return
      */
     @Override
-    public LogisticsInfo findLogisticsInfo(Map param) {
+    public Map<String, Object> findLogisticsInfo(Map param) {
         param.put("logisticsId",Long.parseLong((String)param.get("logisticsId")));
-        return logisticsInfoDao.findLogisticsInfo(param);
+        Map<String, Object> res=logisticsInfoDao.findLogisticsInfo(param);
+        ConvertUtil.convertDataBaseMapToJavaMap(res);
+        return res;
     }
 
     /**
@@ -66,9 +67,10 @@ public class SenderServiceImpl implements SenderService {
         VehicleGrab vehicleGrab=new VehicleGrab();
         Map logiticsInfoParam=new HashMap();
         logiticsInfoParam.put("logisticsId",Long.parseLong((String)param.get("logisticsId")));
-        LogisticsInfo logisticsInfo=logisticsInfoDao.findLogisticsInfo(logiticsInfoParam);
-        vehicleGrab.setOrderId(logisticsInfo.getOrderId());
-        vehicleGrab.setLogisticsId(logisticsInfo.getLogisticsId());
+        Map<String,Object> logisticsInfo=logisticsInfoDao.findLogisticsInfo(logiticsInfoParam);
+        ConvertUtil.convertDataBaseMapToJavaMap(logisticsInfo);
+        vehicleGrab.setOrderId((long)logisticsInfo.get("orderId"));
+        vehicleGrab.setLogisticsId((long)logisticsInfo.get("logisticsId"));
         vehicleGrab.setWlUserId(Long.parseLong((String)param.get("wlUserId")));
         vehicleGrab.setGrabMoney(new BigDecimal((String)param.get("grabMoney")));
         vehicleGrab.setSjLxr((String)param.get("sjLxr"));
@@ -104,5 +106,15 @@ public class SenderServiceImpl implements SenderService {
     @Override
     public int grabLogisticsListCount(Map param) {
         return vehicleGrabDao.grabLogisticsListCount(param);
+    }
+
+    @Override
+    public List<Map<String,Object>> listLogisticsInfoByConditions(Map queryLogistics) {
+        return logisticsInfoDao.listLogisticsInfoByConditions(queryLogistics);
+    }
+
+    @Override
+    public List<Map<String, Object>> homePageLogisicsInfos(Map queryLogistics) {
+        return logisticsInfoDao.undoLogisticsInfosByConditions(queryLogistics);
     }
 }

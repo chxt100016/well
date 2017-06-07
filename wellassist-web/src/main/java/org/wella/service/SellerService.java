@@ -107,4 +107,6 @@ public interface SellerService {
      * @param orderId
      */
     void sendProdStop(long orderId);
+
+    Map<String,Object> getOrderDetailInfo(long orderId);
 }

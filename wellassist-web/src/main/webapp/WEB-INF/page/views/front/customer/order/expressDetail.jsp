@@ -1,4 +1,4 @@
-<%@ include file="../header_new.jsp"%>
+<%@ include file="../header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -73,10 +73,7 @@
             <div class="fl-lf " style="width: 50%;">收货地址：${info.toAddress}</div>
             <div class="fl-lf " style="width: 50%;">买家联系人：${info.customerContacts}</div>
             <div class="fl-lf " style="width: 50%;">买家联系电话：${info.customerConTel}</div>
-            <div class="right item fl-rg" style=" "><span class="">本块内容显示为
-                <c:if test="${info.isSelfCar==0}">买家</c:if>
-                <c:if test="${info.isSelfCar==1}">物流公司</c:if>
-                提交信息，请仔细核对</span>
+            <div class="right item fl-rg" style=" "><span class=""></span>
 
             </div>
             <br><br>
@@ -112,4 +109,4 @@
     </div>
 
 </body>
-<%@ include file="../footer.html"%>
+<%@ include file="../footer.jsp"%>

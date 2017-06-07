@@ -134,11 +134,11 @@ public class LoginController extends BaseController {
             return "/views/front/fkf/home.jsp";
         }else if("3".equals(type)){
             model.addAttribute("userName",user.getUserName());
-            Map queryLogistics = this.getConditionParam(request);
+            Map queryLogistics = new HashMap();
             queryLogistics.put("size",8);
             queryLogistics.put("state",0);
             queryLogistics.put("wlUserId",user.getUserId());
-            List<LogisticsInfo> logisticsInfos=senderServiceImpl.findLogisticsInfos(queryLogistics);
+            List<Map<String,Object>> logisticsInfos=senderServiceImpl.homePageLogisicsInfos(queryLogistics);
             model.addAttribute("logisticsInfos",logisticsInfos);
             return "/views/front/sender/home.jsp";
         }else{

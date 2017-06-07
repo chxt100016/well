@@ -124,6 +124,9 @@
 					    <li class="leftmenuleaf <c:if test ="${childMenuNo == '2' }">selected</c:if>">
 					    	<a href = "${pageContext.request.contextPath}/front/sender/FrontSenderOrderCtrl-qdList">抢单列表</a>
 					    </li>
+						<li class="leftmenuleaf <c:if test ="${childMenuNo == '3' }">selected</c:if>">
+							<a href = "${pageContext.request.contextPath}/sender/vehicleGrabHall">抢单大厅</a>
+						</li>
 					</ul>
 				</ul>		
 			</c:if>	

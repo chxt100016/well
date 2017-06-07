@@ -7,6 +7,7 @@ import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
 import org.wella.entity.*;
 import org.wella.service.CustomerService;
+import org.wella.service.WaOrderService;
 import org.wella.utils.CommonUtil;
 
 import java.math.BigDecimal;
@@ -36,6 +37,11 @@ public class CustomerServiceImpl implements CustomerService {
     private OrderLogisticsInfoDao orderLogisticsInfoDao;
     @Autowired
     private ProdUserDao prodUserDao;
+    @Autowired
+    private WaOrderService waOrderServiceImpl;
+    @Autowired
+    private ZorderDao zorderDao;
+
 
     /**
      * 需要进行事务控制
@@ -235,5 +241,36 @@ public class CustomerServiceImpl implements CustomerService {
         HashMap<String,Object> paramMap=new HashMap<>();
         paramMap.put("regionId",userinfo.getZcRegionId());
         return regionDao.getRegionDetailName(paramMap)+" "+userinfo.getZcXxAddress();
+    }
+
+    @Override
+    public Map<String, Object> getOrderDetailInfo(long orderId) {
+        //得到订单基本信息
+        Map<String,Object> res=orderDao.singleOrderAttachProdAttachOrderLogisticsInfo(orderId);
+        ConvertUtil.convertDataBaseMapToJavaMap(res);
+        int orderState=(int)res.get("orderState");
+        if(orderState==0){
+            return res;
+        }
+        //从wa_order_log表中得到订单价格和数量
+        Map<String,Object> orderlog=waOrderServiceImpl.findNewestOrderLog(orderId);
+        res.putAll(orderlog);
+        if(orderState==1||orderState==2){
+            return res;
+        }
+        //从wa_zorder表中得到收货量和成交额
+        Map<String,Object> zorderDeliverCount=waOrderServiceImpl.findReceiveProdCount(orderId);
+        res.putAll(zorderDeliverCount);
+        List<Map<String,Object>> zorders=waOrderServiceImpl.findZorders(orderId);
+        res.put("zorders",zorders);
+        return res;
+    }
+
+    @Override
+    public int zorderConfirmReceive(long zorderId) {
+        Zorder zorder=new Zorder();
+        zorder.setZorderId(zorderId);
+        zorder.setZorderState((byte)2);
+        return zorderDao.updateByPrimaryKey(zorder);
     }
 }

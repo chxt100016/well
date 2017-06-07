@@ -38,7 +38,7 @@
             customer_user_id = #{customerUserId}
     </insert>
 
-    <select id="findLogisticsInfos" parameterType="java.util.Map" resultMap="LogisticsInfoMap">
+    <select id="undoLogisticsInfosByConditions" parameterType="java.util.Map" resultType="map">
         SELECT * from wa_logistics_info
         <where>
             <if test = "orderId != null" >
@@ -53,17 +53,50 @@
             <if test = "state != null">
                 AND state=#{state}
             </if>
-            <if test="wlUserId != null">
-                AND logistics_id NOT IN (SELECT logistics_info_id FROM wa_vehicle_grab WHERE sender_user_id=#{wlUserId})
+            <if test="senderUserId != null">
+                AND logistics_id NOT IN (SELECT logistics_info_id FROM wa_vehicle_grab WHERE sender_user_id=#{senderUserId} AND grab_state!=-1)
             </if>
         </where>
-        ORDER BY order_date DESC
+        <if test="orderBy != null">
+            ORDER BY ${orderBy}
+        </if>
+        <if test="orderBy == null">
+            ORDER BY order_date DESC
+        </if>
         <if test="start !=null and size !=null">
-        LIMIT ${start} , ${size}
+            LIMIT ${start} , ${size}
+        </if>
+        <if test="start ==null and size != null">
+            limit ${size}
         </if>
     </select>
 
-    <select id="findLogisticsInfosCount" parameterType="java.util.Map" resultType="int">
+    <select id="undoLogisticsInfosAttachProdByConditions" parameterType="map" resultType="map">
+        SELECT a.*,b.`prod_img`
+        FROM wa_logistics_info a LEFT JOIN wa_prod b ON a.`prod_id`=b.`prod_id`
+        <where>
+            <if test = "state != null">
+                AND state=#{state}
+            </if>
+            <if test="senderUserId != null">
+                AND logistics_id NOT IN (SELECT logistics_info_id FROM wa_vehicle_grab WHERE sender_user_id=#{senderUserId} AND grab_state!=-1)
+            </if>
+        </where>
+        <if test="orderBy != null">
+            ORDER BY ${orderBy}
+        </if>
+        <if test="orderBy == null">
+            ORDER BY order_date DESC
+        </if>
+        <if test="start !=null and size !=null">
+            LIMIT ${start} , ${size}
+        </if>
+        <if test="start ==null and size != null">
+            limit ${size}
+        </if>
+    </select>
+
+    <select id="CountLogitticsInfoByConditions" parameterType="java.util.Map" resultType="int">
         SELECT count(*) from wa_logistics_info
         <where>
             <if test = "orderId != null" >
@@ -72,10 +105,13 @@
             <if test = "userName != null">
                 AND (customer_user_name LIKE '%${userName}%' OR seller_user_name LIKE '%${userName}%')
             </if>
+            <if test="state != null">
+                AND state=#{state}
+            </if>
         </where>
     </select>
 
-    <select id="findLogisticsInfo" parameterType="java.util.Map" resultMap="LogisticsInfoMap">
+    <select id="findLogisticsInfo" parameterType="java.util.Map" resultType="map">
         SELECT * FROM wa_logistics_info
         <where>
             <if test = "logisticsId != null" >
@@ -155,4 +191,12 @@
             </if>
         </where>
     </update>
+
+    <select id="singleLIattachVGByConditions" parameterType="map" resultType="map">
+        SELECT li.logistics_id,li.`order_id`,li.`prod_id`,li.`customer_user_id`,li.`seller_user_id`,li.`prod_name`,li.`customer_user_name`,li.`num`,li.pre_payment,li.`state`,li.order_date,li.`from_address`,li.`seller_user_name`,li.`to_address`,li.`order_price`,li.`sender_user_id`,li.`vehicle_grab_id`,vg.*
+        FROM wa_logistics_info li LEFT JOIN wa_vehicle_grab vg ON li.vehicle_grab_id=vg.vehicle_grab_id
+        WHERE li.order_id=89
+    </select>
+
+
 </mapper>

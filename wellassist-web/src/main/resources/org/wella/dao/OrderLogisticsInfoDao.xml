@@ -31,5 +31,16 @@
 		</if>
 	</select>
 
+	<select id="singleOLIByConditions" parameterType="map" resultType="map">
+		select *
+		from wa_order_logistics_info
+		<where>
+			<if test="orderId != null">
+				AND order_id=#{orderId}
+			</if>
+		</where>
+		limit 1
+	</select>
+
 
 </mapper>

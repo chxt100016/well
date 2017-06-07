@@ -7,6 +7,7 @@ import org.wella.dao.RegionDao;
 import org.wella.entity.Region;
 import org.wella.service.RegionService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,5 +24,13 @@ public class RegionServiceImpl implements RegionService {
         List<Map<String, Object>> regions=regionDao.getChildRegionList(param);
         ConvertUtil.convertDataBaseMapToJavaMap(regions);
         return regions;
+    }
+
+    @Override
+    public String getDetailAddress(long regionId, String address) {
+        Map query=new HashMap();
+        query.put("regionId",regionId);
+        String res=regionDao.getRegionDetailName(query)+" "+address;
+        return res;
     }
 }

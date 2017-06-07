@@ -13,7 +13,7 @@
 	</insert>
 
 	<select id="listVehicleInfoByConditions" parameterType="map" resultType="map">
-	  	SELECT *
+	  	SELECT id vehicle_info_id,order_id,name driver_name,phone driver_phone,vehicle_no,vehicle_hanging_no
 	  	from wa_vehicle_info
 	  	<where>
 			<if test="orderId != null">

@@ -1,4 +1,4 @@
-<%@ include file="../header_new.jsp"%>
+<%@ include file="../header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -141,12 +141,12 @@
             </li>
             <li class="col-line">
                 <div class="fl-lf  tx-rg " style="width:200px;">付款状态：</div>
-                <div class="fl-lf"><c:if test="${info.orderState<2}">待付款</c:if>
+                <div class="fl-lf"><c:if test="${info.orderState<2}">代付款</c:if>
                     <c:if test="${info.orderState>=2}">已付款</c:if>
                 </div>
             </li>
             <li class="col-line">
-                <div class="fl-lf  tx-rg " style="width:200px;">已发吨数：</div>
+                <div class="fl-lf  tx-rg " style="width:200px;">已收吨数：</div>
                 <div class="fl-lf"><c:if test="${info.orderState<=2}">未发货</c:if>
                     <c:if test="${info.orderState>=3}">${info.sumNum}</c:if>
                 </div>
@@ -165,7 +165,8 @@
                 <div class="fl-lf  tx-rg " style="width:200px;">收货时间：</div>
                 <div class="fl-lf">${info.receiveDate}</div>
             </li>
-        </ul><br><br>
+        </ul>
+        <br><br>
         <c:if test="${!empty info.zorders}">
         <c:forEach items="${info.zorders}" var="zorder">
         发货时间：<fmt:formatDate value="${zorder.zorderDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate><br>
@@ -202,11 +203,26 @@
             </tbody>
         </table>
 
-        <div><c:if test="${zorder.zorderState==1}">已发货</c:if>
+        <div><c:if test="${zorder.zorderState==1}"><button onclick="confirmReceive(${zorder.zorderId})">确认收货</button></c:if>
             <c:if test="${zorder.zorderState==2}">已收货</c:if><div>
         </c:forEach>
             </c:if>
     </div>
 </body>
+<script>
+    function confirmReceive(zorderId){
+        if(confirm("你要确定要操作吗？")){
+            $.get("${pageContext.request.contextPath}/customer/zorderConfirmReceive",{zorderId:zorderId},function(data){
+                alert(data);
+                if(data.code==0){
+                    window.location.reload();
+                }
+            })
+                .error(function(data){
+                    alert("操作失败！")
+                });
+        }
+    }
+</script>
 
-<%@ include file="../footer.html"%>
+<%@ include file="../footer.jsp"%>

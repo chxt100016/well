@@ -15,15 +15,24 @@ public interface LogisticsInfoDao {
      */
     void createLogisticsInfoDao(LogisticsInfo logisticsInfo);
 
-    List<LogisticsInfo> findLogisticsInfos(Map param);
+    /*物流方没有操作过（可进行抢单）的物流订单*/
+    List<Map<String,Object>> undoLogisticsInfosByConditions(Map param);
 
-    int findLogisticsInfosCount(Map param);
+    List<Map<String,Object>> undoLogisticsInfosAttachProdByConditions(Map param);
 
-    LogisticsInfo findLogisticsInfo(Map param);
+    List<Map<String,Object>> listLogisticsInfoByConditions(Map param);
+
+    int CountLogitticsInfoByConditions(Map param);
+
+    Map<String,Object> findLogisticsInfo(Map param);
 
     void createLogisticsInfo(LogisticsInfo logisticsInfo);
 
     void updateByPrimaryKey(Map param);
 
     void updateByConditions(Map param);
+
+    Map<String,Object> singleLIattachVGByConditions(Map queryLI);
+
+
 }
