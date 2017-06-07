@@ -45,6 +45,15 @@ public class PageController extends BaseController {
     }
 
     /**
+     * 控制用户管理界面跳转（卖家，买家，物流方，放款方）
+     * @param url
+     * @return
+     */
+    @RequestMapping("trade/{url}.html")
+    public String tradePage(@PathVariable("url") String url){
+        return "views/platform/trade/" + url + ".html";
+    }
+    /**
      * 买卖家管理相关的页面跳转
      * @param userId
      * @param model

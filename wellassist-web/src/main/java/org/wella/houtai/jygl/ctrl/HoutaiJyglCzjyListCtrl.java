@@ -6,10 +6,13 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import io.wellassist.utils.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.wella.common.ctrl.BaseController;
 import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
@@ -25,17 +28,17 @@ public class HoutaiJyglCzjyListCtrl extends BaseController {
     public HoutaiJyglCzjyListCtrl() {
     }
 
-    @RequestMapping({"houtai/jygl/HoutaiJyglCzjyListCtrl-getCzjyList"})
-    public String getCzjyList(HttpServletRequest request, HttpServletResponse response, Model model) {
-        Map param = this.getConditionParam(request);
+    @RequestMapping({"rechargeList"})
+    public String rechargeList(@RequestParam Map<String,Object> param, Model model) {
         param.put("jyType", "0");
+        Query query =new Query(param);
         ArrayList list = this.jyglCzjyMapper.getJyglCzjyList(param);
         ConvertUtil.convertDataBaseMapToJavaMap(list);
         int totalCount = this.jyglCzjyMapper.getJyglCzjyListCount(param);
         model.addAttribute("list", list);
         model.addAttribute("start", param.get("start"));
-        this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
-        return "views/houtai/jygl/czjyList.jsp";
+
+        return "views/platform/Trade/trade.html";
     }
 
     @RequestMapping({"houtai/jygl/HoutaiJyglCzjyListCtrl-czQd"})
@@ -59,7 +62,6 @@ public class HoutaiJyglCzjyListCtrl extends BaseController {
             res.put("state", "2");
             res.put("content", ConstantUtil.MSG_FAILS);
         }
-
         this.echo(response, res);
     }
 }

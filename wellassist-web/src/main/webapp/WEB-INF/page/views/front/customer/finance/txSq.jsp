@@ -123,10 +123,10 @@
     	    	}
     	    	
     	    	$.post($(form).attr("action"),$(form).serialize(),function(data){
-    	    		if(data.state==1 ){
-    	            	ShowWindowAlert_new ("提示","操作成功！","确定",function(){
-    	            		window.location.href = "${pageContext.request.contextPath}/front/customer/FinanceController-txList";		
-   	            		});
+    	    	    alert(data.state);
+    	    		if(data.state == 1 ){
+						window.location.href = "${pageContext.request.contextPath}/customer/withdrawRecordList";
+    	            	alert("test");
    	            	}else{
    	            		alert(data.content);
     	            }

@@ -15,7 +15,7 @@
 
 </head>
 <body style="margin:0; padding:0; background: #F5F5F5;">
-	<div style = "width:1000px; overflow:auto;margin:0px auto; margin-top:30px;"">
+	<div style = "width:1000px; overflow:auto;margin:0px auto; margin-top:30px;">
 			<div style="border-bottom: solid 1px #ccc; padding-bottom:12px;margin-top:20px;margin-bottom: 24px;margin-left: 48px;margin-right: 48px;">
 				<div id="back" style="text-align:center;font-size:15px;float:left;margin-top:6px; color:#679EE4;">&lt;&lt; &nbsp;&nbsp;返回</div>
 				<div style="text-align:center;font-size:18px; font-weight:500;">提现</div>
@@ -121,11 +121,12 @@
     	    		alert("提现金额比账号金额不大！");
     	    		return;
     	    	}
-    	    	
     	    	$.post($(form).attr("action"),$(form).serialize(),function(data){
-    	    		alert(data.content);
+//    	    	    var obj = JSON.parse()
+					alert("text");
+    	    		alert(data);
     	            if(data.state==1 ){
-    	            	window.location.href = "${pageContext.request.contextPath}/front/seller/SellerFinanceController-txList";
+    	            	window.location.href = "${pageContext.request.contextPath}/seller/withdrawRecordList";
     	            }
     	      	}, "json");
     	    }
@@ -138,8 +139,5 @@
 	$("#back").click( function(){
 		history.back();
 	});
-	
-
-	
 </script>
 </html>
