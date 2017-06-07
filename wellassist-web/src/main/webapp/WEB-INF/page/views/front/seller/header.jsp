@@ -77,34 +77,6 @@
 		</div>
 	</div>
 
-	<!-- top menu -->
-	<%--<div class="navbar navbar-inverse top-nav" align=center style="height:50px;overflow:hidden">
-		<div class="navbar-inner">
-			<div class="container">
-				<div align=left style="width:1100px;">
-					<span class="title_account" style="line-height:100%; margin-top:9px">管理员</span>
-					<div class="nav-collapse" style="margin-left:22px;">
-						<ul class="nav">
-							<li id="dingdancenter" class="dropdown menu-break-left <c:if test = "${parentMenuNo == '1' }"> topmenuselected</c:if>">
-								<a class="dropdown-toggle" href="${pageContext.request.contextPath}/front/seller/SellerOrderController-prodPub" style="font-size:16px;color:white;font-weight:bold;">订单中心</a>
-							</li>
-							<li id="financecenter" class="dropdown menu-break-left <c:if test = "${parentMenuNo == '2' }"> topmenuselected</c:if>">
-								<a class="dropdown-toggle" href="${pageContext.request.contextPath}/front/seller/SellerFinanceController-accountInfo" style="font-size:16px;color:white;font-weight:bold;">财务中心</a>
-							</li>
-							<li id="newscenter" class="dropdown menu-break-left <c:if test = "${parentMenuNo == '3' }"> topmenuselected</c:if>">
-								<a class="dropdown-toggle" href="${pageContext.request.contextPath}/front/seller/SellerNewsController-xxList" style="font-size:16px;color:white;font-weight:bold;">消息中心</a>
-							</li>
-							<li id="company_manage" class="dropdown menu-break-left menu-break-right <c:if test = "${parentMenuNo == '4' }"> topmenuselected</c:if>">
-								<a class="dropdown-toggle" href="${pageContext.request.contextPath}/front/seller/company/SellerCompanyController-companyInfo" style="font-size:16px;color:white;font-weight:bold;">企业管理</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	--%>
-	<%--顶部导航条--%>
 		
 <div class="navbar navbar-blue " style="margin-top:5px;">
       <div class="container">

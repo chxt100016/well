@@ -22,8 +22,8 @@
 			<div style="text-align:center;font-size:24px;">充值</div>
 		</div>
 	
-		<form id = "infoForm" action="${pageContext.request.contextPath}/front/customer/FinanceControlle-addCz" method="post">
-			<input type = "hidden" id = "zfType" name = "zfType"/>
+		<form id = "infoForm" action="${pageContext.request.contextPath}/customer/rechargeApply" method="post">
+			<input type = "hidden" id = "rechargeType" name = "rechargeType"/>
 			<div align=left style="box-shadow: 2px 2px 8px #aaa;padding-bottom:16px;margin-left: 48px;margin-right: 48px;font-size:16px;border-bottom: 1px solid #aaa; background-color:white;">
 				<div style="height: 48px;background-color:white;"></div>
 				<table style="padding-left:4%;padding-right:4%;width:92%;background-color:white;">
@@ -31,7 +31,7 @@
 						<td class="caption" style="width:20%;text-align:center;">充值金额</td>
 						<td style="width:30%;">
 							<div class = "one-fld">
-								<input type="text" id = "zfMoney" name="zfMoney" style="width:90%;">
+								<input type="text" id = "rechargeMoney" name="rechargeMoney" style="width:90%;">
 							</div>
 						</td>
 						<td class="caption" style="text-align:left;">元</td>
@@ -55,12 +55,12 @@
 
 </body>
 <script type="text/javascript">
-	var zfType = 0;
+	var rechargeType = 0;
 	// 选择支付方式
 	function selectPayFs(selZfType, obj){
 		$(".fsImg").removeClass("selected");
 		$(obj).addClass("selected");
-		zfType = selZfType;
+		rechargeType = selZfType;
 	}
 	
 	// 初始化函数
@@ -68,10 +68,10 @@
 		// validation检查	
     	$("#infoForm").validate({
     	    rules: {
-    	    	zfMoney:{required: true, number:true}
+    	    	rechargeMoney:{required: true, number:true}
     	    },
     	    messages: {
-    	    	zfMoney:{required:"请输入充值金额！" , number:"请输入只数字形式！"}
+    	    	rechargeMoney:{required:"请输入充值金额！" , number:"请输入只数字形式！"}
     	    },
     	    errorPlacement: function (error, element) { 
     	    	if($(element).closest('.one-fld').children().filter("div.error-div").length < 1) 
@@ -79,16 +79,16 @@
     		$(element).closest('.one-fld').children().filter("div.error-div").append(error);
     	    },
     	    submitHandler: function(form){
-    	    	var zfMoney = $("#zfMoney").val();
-    	    	if(parseInt(zfMoney) <= 0){
+    	    	var rechargeMoney = $("#rechargeMoney").val();
+    	    	if(parseInt(rechargeMoney) <= 0){
     	    		alert("充值金额不正确！");
     	    		return;
     	    	}
-    	    	$("#zfType").val(zfType);
+    	    	$("#rechargeType").val(rechargeType);
     	    	$.post($(form).attr("action"),$(form).serialize(),function(data){
     	    		alert(data.content);
     	            if(data.state==1 ){
-    	            	window.location.href = "${pageContext.request.contextPath}/front/customer/FinanceController-czList";
+    	            	window.location.href = "${pageContext.request.contextPath}/customer/rechargeRecord";
     	            }
     	      	}, "json");
     	    }

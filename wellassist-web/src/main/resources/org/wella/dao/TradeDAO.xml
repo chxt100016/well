@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.TradeDAO">
+    <!-- select -->
+    <!-- 交易目录获得函数 -->
+    <select id = "getTradeList" parameterType="java.util.Map" resultType = "java.util.Map">
+        SELECT a.* , b.user_name , c.company_img
+        FROM wa_user_money a
+        INNER JOIN wa_user b ON a.user_id = b.user_id
+        INNER JOIN wa_userinfo c ON a.user_id = c.user_id
+        <where>
+            a.jy_state >= 0
+            <if test = "userName != null">
+                AND b.user_name LIKE '%${userName}%'
+            </if>
+            <if test = "jyType != null">
+                AND a.jy_type = #{jyType}
+            </if>
+            <if test = "startJyDate != null">
+                AND a.jy_date >= ${startJyDate}
+            </if>
+            <if test = "endJyDate != null">
+                AND a.jy_date &lt;= ${endJyDate}
+            </if>
+        </where>
+        ORDER BY a.money_id DESC
+        LIMIT ${offset}, ${limit}
+    </select>
+
+    <!-- 交易目录个数获得函数 -->
+    <select id = "tradeCount" parameterType="java.util.Map" resultType = "int">
+        SELECT COUNT(*)
+        FROM wa_user_money a
+        INNER JOIN wa_user b ON a.user_id = b.user_id
+        <where>
+            a.jy_state >= 0
+            <if test = "userName != null">
+                AND b.user_name LIKE '%${userName}%'
+            </if>
+            <if test = "jyType != null">
+                AND a.jy_type = #{jyType}
+            </if>
+            <if test = "startJyDate != null">
+                AND a.jy_date >= ${startJyDate}
+            </if>
+            <if test = "endJyDate != null">
+                AND a.jy_date &lt;= ${endJyDate}
+            </if>
+        </where>
+    </select>
+
+    <select id = "tradeDetailList" parameterType="java.util.Map" resultType = "java.util.Map">
+        SELECT IF(b.user_name  IS NULL , c.adminName , b.user_name) AS userName , a.*
+        FROM wa_user_money_info a
+        LEFT JOIN wa_user b  ON a.mgr_user_id = b.user_id
+        LEFT JOIN wa_admin c ON a.mgr_admin_id = c.id
+        <where>
+            <if test = "moneyId != null">
+                AND money_id = #{moneyId}
+            </if>
+        </where>
+    </select>
+
+    <!-- select -->
+    <!-- 获得未提现信息的函数 -->
+    <select id = "getWithdrawMoneyTotal" parameterType = "java.util.Map" resultType = "java.util.Map">
+        SELECT IFNULL(SUM(withdraw_money), 0.00) withdrawMoney
+        FROM wa_withdraw
+        <where>
+            <if test = "userId != null">
+                AND user_id = #{userId}
+            </if>
+            <if test = "withdrawState == null and geTxState != null">
+                AND withdraw_state >= #{geTxState}
+            </if>
+            <if test = "withdrawState == null and ltTxState != null">
+                AND withdraw_state &lt; #{ltTxState}
+            </if>
+            <if test = "withdrawState != null">
+                AND withdraw_state = #{withdrawState}
+            </if>
+        </where>
+    </select>
+
+    <!-- 获得提现目录的函数 -->
+    <select id = "getWithdrawRecordList" parameterType = "java.util.Map" resultType = "java.util.Map">
+        SELECT *
+        FROM wa_withdraw
+        <where>
+            <if test = "userId != null">
+                AND user_id = #{userId}
+            </if>
+            <if test = "withdrawState != null">
+                AND withdraw_state = #{withdrawState}
+            </if>
+        </where>
+        ORDER BY withdraw_date DESC
+        LIMIT ${start}, ${size}
+    </select>
+    <!-- 获得提现目录个数的函数 -->
+    <select id = "getWithdrawRecordCount" parameterType = "java.util.Map" resultType = "int">
+        SELECT COUNT(*)
+        FROM wa_withdraw
+        <where>
+            <if test = "userId != null">
+                AND user_id = #{userId}
+            </if>
+            <if test = "withdrawState != null">
+                AND withdraw_state = #{withdrawState}
+            </if>
+        </where>
+    </select>
+
+
+    <!-- 交易信息获得函数 -->
+    <select id = "tradeDetail" parameterType="java.util.Map" resultType = "java.util.Map">
+        SELECT a.* , b.user_name , c.company_img
+        FROM wa_user_money a
+        INNER JOIN wa_user b ON a.user_id = b.user_id
+        INNER JOIN wa_userinfo c ON a.user_id = c.user_id
+        <where>
+            <if test = "moneyId != null">
+                AND a.money_id = #{moneyId}
+            </if>
+        </where>
+    </select>
+
+    <!-- select -->
+    <!-- 提现目录获得函数 -->
+    <select id = "withdrawList" parameterType="java.util.Map" resultType = "java.util.Map">
+        SELECT *
+        FROM wa_withdraw a
+        INNER JOIN wa_user b ON a.user_id = b.user_id
+        INNER JOIN wa_userinfo c ON b.user_id = c.user_id
+        <where>
+            <if test = "userName != null">
+                AND b.user_name LIKE '%${userName}%'
+            </if>
+            <if test = "withdrawState != null">
+                AND a.withdraw_state = ${withdrawState}
+            </if>
+            <if test = "startDate != null">
+                AND a.withdraw_date >= ${startDate}
+            </if>
+            <if test = "endDate != null">
+                AND a.withdraw_date &lt;= ${endDate}
+            </if>
+        </where>
+        ORDER BY a.withdraw_id DESC
+        LIMIT ${offset}, ${limit}
+    </select>
+
+    <!-- 提现目录个数获得函数 -->
+    <select id = "withdrawCount" parameterType="java.util.Map" resultType = "int">
+        SELECT COUNT(*)
+        FROM wa_withdraw a
+        INNER JOIN wa_user b ON a.user_id = b.user_id
+        INNER JOIN wa_userinfo c ON b.user_id = c.user_id
+        <where>
+            <if test = "userName != null">
+                AND b.user_name LIKE '%${userName}%'
+            </if>
+            <if test = "withdrawState != null">
+                AND a.withdraw_state = ${withdrawState}
+            </if>
+            <if test = "startDate != null">
+                AND a.withdraw_date >= ${startDate}
+            </if>
+            <if test = "endDate != null">
+                AND a.withdraw_date &lt;= ${endDate}
+            </if>
+        </where>
+    </select>
+
+    <!--充值列表-->
+    <select id = "rechargeList" parameterType="java.util.Map" resultType = "java.util.Map">
+        SELECT a.order_id, a.bank_name, a.zf_money, a.zf_date, a.zf_type, a.zf_state, b.user_name
+        FROM wa_bank_order AS a
+        INNER JOIN wa_user AS b ON a.user_id = b.user_id
+        <where>
+            <if test = "userName != null">
+                AND b.user_name LIKE '%${userName}%'
+            </if>
+            <if test = "zfState != null">
+                AND a.zf_state LIKE #{zfState}
+            </if>
+        </where>
+        ORDER BY a.order_id DESC
+        LIMIT ${offset}, ${limit}
+    </select>
+
+    <!--  -->
+    <select id = "rechargeCount" parameterType="java.util.Map" resultType = "int">
+        SELECT COUNT(*)
+        FROM wa_bank_order AS a
+        INNER JOIN wa_user AS b ON a.user_id = b.user_id
+        <where>
+            <if test = "userName != null">
+                AND b.user_name LIKE '%${userName}%'
+            </if>
+            <if test = "zfState != null">
+                AND a.zf_state LIKE #{zfState}
+            </if>
+        </where>
+    </select>
+
+    <!--物流交易-->
+    <select id = "logisticsList" parameterType="java.util.Map" resultType = "java.util.Map">
+        SELECT a.vehicle_trans, a.order_id, a.order_no, a.vehicle_lxr, a.vehicle_lxr_phone, a.pay_money, a.vehicle_size, a.vehicle_state, b.user_name, c.prod_name, c.prod_img
+        FROM wa_order_logistics_info AS a
+        INNER JOIN wa_user AS b ON a.user_id = b.user_id
+        INNER JOIN wa_prod AS c ON a.prod_id = c.prod_id
+        <where>
+            a.vehicle_state > 0
+            <if test = "userName != null">
+                AND b.user_name LIKE '%${userName}%'
+            </if>
+        </where>
+        ORDER BY a.vehicle_trans DESC
+        LIMIT ${start}, ${size}
+    </select>
+
+    <!--  -->
+    <select id = "logisticsCount" parameterType="java.util.Map" resultType = "int">
+        SELECT COUNT(*)
+        FROM wa_user_vehicle AS a
+        INNER JOIN wa_user AS b ON a.user_id = b.user_id
+        INNER JOIN wa_prod AS c ON a.prod_id = c.prod_id
+        <where>
+            a.vehicle_state > 0
+            <if test = "userName != null">
+                AND b.user_name LIKE '%${userName}%'
+            </if>
+        </where>
+    </select>
+
+
+    <!--提现请求存储过程-->
+    <select id="withdrawApply" statementType="CALLABLE" parameterType="map" resultType="int">
+        <![CDATA[
+        call withdrawApply(
+        #{withdrawName,mode=IN,jdbcType=VARCHAR},
+        #{withdrawBank,mode=IN,jdbcType=VARCHAR},
+        #{account,mode=IN,jdbcType=VARCHAR},
+        #{withdrawMoney,mode=IN,jdbcType=DECIMAL},
+        #{withdrawIp,mode=IN,jdbcType=VARCHAR},
+        #{userId,mode=IN,jdbcType=VARCHAR})
+        ;]]>
+    </select>
+
+    <!--提现处理存储过程-->
+    <select id="withdrawHandle" statementType="CALLABLE" parameterType="map" resultType="int">
+        <![CDATA[
+        call withdrawHandle(
+        #{withdrawId,mode=IN},
+        #{withdrawState,mode=IN},
+        #{withdrawIp,mode=IN},
+        #{userId,mode=IN})
+        ;]]>
+    </select>
+
+    <select id="rechargeApply" statementType="CALLABLE" parameterType="map" resultType="int">
+        <![CDATA[
+        call rechargeApply(
+        #{rechargeMoney,mode=IN},
+        #{rechargeType,mode=IN},
+        #{rechargeIp,mode=IN},
+        #{userId,mode=IN})
+        ;]]>
+    </select>
+
+    <select id="rechargeHandle" statementType="CALLABLE" parameterType="map" resultType="int">
+        <![CDATA[
+        call rechargeHandle(
+        #{orderId,mode=IN},
+        #{orderIp,mode=IN},
+        #{userId,mode=IN})
+        ;]]>
+    </select>
+</mapper>

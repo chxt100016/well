@@ -1,10 +1,5 @@
 var CenterTimer, AW1, AW2;
 
-
-
-
-
-
 function ShowWindowAlert_new(title, msgcontent, btn_cancel,callback) {
 	AW1 = 'messWindow';
 	AW2 = 'promptWindow';
