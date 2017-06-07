@@ -2,23 +2,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 
 <div id = "content-rect">
-	<div style="border:solid 1px #d0d0d0;font-size:18px;font-weight:bold;color:#0557ab;line-height:36px;text-align:left;">&nbsp;&nbsp;订单列表</div>
+	<div style="border:solid 1px #d0d0d0;font-size:18px;font-weight:bold;color:#0557ab;line-height:36px;">&nbsp;&nbsp;订单列表</div>
 
-	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-prodOrderList">
+	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/seller/orderListPage">
 		<input type="hidden" id="page" name="page" value="${param.page}">
 		<input type="hidden" id="orderState" name="orderState" value="${param.orderState}">
-		<%--
-		<div class="row-header">
-		     <span class="header-title">订单列表</span>
-		     <div style="float:right;">
-		     	<input type="text" name="prodName" style="height:10px; float:left;margin-bottom:0px;" value="${param.prodName}"/>
-		     	<span class="span_search_btn_blue" style="margin-bottom:0px;" onclick="searchData(1);">搜索</span>
-		     </div>
-		</div>
-		--%>
 	</form>
 	
-	<div style="border:solid 1px #d0d0d0;padding:6px;font-size:24px;margin-top:16px;height:40px;">
+	<div style="border:solid 1px #d0d0d0;padding:6px;font-size:24px;margin-top:16px;height:20px;">
 		<div style="width:40%;text-align:center;font-size:16px;float:left;">产品详情</div>
 		<div style="width:20%;text-align:center;font-size:16px;float:left;">价格</div>
 		<div style="width:20%;text-align:center;font-size:16px;float:left;">
@@ -28,14 +19,12 @@
 					<div onclick="$('#orderState').val('');searchData(1);">全部</div>
 					<div onclick="$('#orderState').val('0');searchData(1);">待确认</div>
 					<div onclick="$('#orderState').val('1');searchData(1);">待付款</div>
-					<div onclick="$('#orderState').val('22');searchData(1);">已付款(线下申请)</div>
 					<div onclick="$('#orderState').val('2');searchData(1);">已付款</div>
-					<div onclick="$('#orderState').val('3');searchData(1);">发货中</div>
+					<div onclick="$('#orderState').val('3');searchData(1);">发送中</div>
 					<div onclick="$('#orderState').val('4');searchData(1);">已发货</div>
 					<div onclick="$('#orderState').val('5');searchData(1);">发送发票</div>
 					<div onclick="$('#orderState').val('6');searchData(1);">待评价</div>
 					<div onclick="$('#orderState').val('7');searchData(1);">已完成</div>
-					<div onclick="$('#orderState').val('-1');searchData(1);">已取消</div>
 				</div>
 			</span>
 		</div>
@@ -52,7 +41,7 @@
 			<div style = "border-bottom: solid 1px#E0E0E0; overflow:auto;">
 				<div class="graybox" style="width:40%;height:110px;font-size:14px;float:left; border:none; border-right: solid 1px #d0d0d0;">
 					<div style = "margin-left:10px;line-height:106px; float:left;">
-						<a class="fancybox" href="${item.prodImg}" data-fancybox-group="gallery" title=""><img src="${item.prodImg}"  style="width:80px; height:80px;" onerror = "noExitImg(this, '${pageContext.request.contextPath}');"/></a>
+						<a class="fancybox" href="${item.prodImg}" data-fancybox-group="gallery" title=""><img src="${item.prodImg}"  style="width:80px; height:80px;" onerror = "noExitImg(this, '${pageContext.request.contextPath}');" /></a>
 					</div>
 					<div style = "margin-left:10px;line-height:106px; float:left;">
 						${item.prodName}
@@ -88,18 +77,15 @@
 							<td style="color:#a00;">
 								<c:if test="${item.orderState=='0'}">待确认</c:if>
 								<c:if test="${item.orderState=='1'}">待付款</c:if>
-								<c:if test="${item.orderState=='2'}">已付款</c:if>
-								<c:if test="${item.orderState=='22'}">已付款(线下支付申请)</c:if>
-								<c:if test="${item.orderState=='21'}">已付款(中信支付申请)</c:if>
-								<c:if test="${item.orderState=='3'}">发货中</c:if>
+								<c:if test="${item.orderState=='2'}">已付款(未发货)</c:if>
+								<c:if test="${item.orderState=='3'}">发送中</c:if>
 								<c:if test="${item.orderState=='4'}">已发货</c:if>
 								<c:if test="${item.orderState=='5'}">发送发票</c:if>
 								<c:if test="${item.orderState=='6'}">待评价</c:if>
 								<c:if test="${item.orderState=='7'}">已完成</c:if>
-								<c:if test="${item.orderState=='-1'}">已取消</c:if>
 							</td>
 						</tr>
-						<c:if test="${item.orderState==2 || item.orderState==4 || item.orderState==5 || item.orderState==6 || item.orderState==7}">
+						<c:if test="${item.orderState=='2'||item.orderState=='3' || item.orderState=='4' || item.orderState=='5' || item.orderState=='6' || item.orderState=='7'}">
 							<tr>
 								<td>
 									<a style="cursor:pointer;color:black;" onclick="toURL('detailVehicle', '${item.orderId}')">物流信息</a>
@@ -114,21 +100,22 @@
 					</table>
 				</div>
 				<div class="grayboxwithoutleft" style="height:110px;font-size:16px; float:right; border:none;text-align:center; width:19%; ">
-					<c:if test="${item.orderState==1}">
-						<span class="span_btn" onClick="toURL('editFukuan', '${item.orderId}')">付款</span>
+					<c:if test="${item.orderState=='0'}">
+						<span class="span_btn" onClick="toURL('confirmOrder', '${item.orderId}')">确认订单</span>
 					</c:if>
-					<c:if test="${item.orderState==2 or item.orderState==3}">
-						<c:if test="${item.isSelfCar==0}">
-							<span class="span_btn" onClick="toURL('editFahuo', '${item.orderId}')">发货详情</span>
-						</c:if>
+					<c:if test="${item.orderState=='1'}">
+						<span class="span_btn" onClick="toURL('editOrder', '${item.orderId}')">编辑订单</span>
 					</c:if>
-							
-					<c:if test="${item.orderState==6}">
-						<span class="span_btn" onClick="toURL('editPingjia', '${item.orderId}')">评价</span>
+					<c:if test="${item.orderState=='2' || item.orderState=='3'}">
+						<span class="span_btn" onClick="toURL('sendProd', '${item.orderId}')">发货</span>
+						<span class="span_btn" onClick="toURL('sendProdOver', '${item.orderId}')">结束发货</span>
 					</c:if>
-					<%--<c:if test="${item.orderState==0 or item.orderState==1}">
+					<c:if test="${item.orderState=='4'}">
+						<span class="span_btn" onClick="toURL('editFapiao', '${item.orderId}')">开发票</span>
+					</c:if>
+					<c:if test="${item.orderState==0 and item.orderState==1}">
 						<span class="span_btn_gray" onClick="toURL('cancelOrder', '${item.orderId}')">取消订单</span>
-					</c:if>--%>
+					</c:if>
 				</div>
 			</div>
 			
@@ -156,16 +143,33 @@
 	function toURL(action, orderId){
 		if(orderId!=''){
 			if(action=='detailOrder'){
-				window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-detailOrder?orderType=0&orderId=" + orderId;
-			} else if(action=='detailVehicle'){
-				window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-detailOrder?orderType=1&orderId=" + orderId;
-			} else if(action=='editFukuan'){
-				window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-editFukuan?orderId=" + orderId;
-			} else if(action=='editPingjia'){
-				window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-editPingjia?orderId=" + orderId;
+				window.location.href = "${pageContext.request.contextPath}/front/seller/SellerOrderController-detailOrder?isEdit=0&orderType=0&orderId=" + orderId;
+			} else if(action=='confirmOrder'){
+				window.location.href="${pageContext.request.contextPath}/seller/confirmOrder?orderId="+ orderId;
+            }else if(action=='sendProd'){
+			    window.location.href="${pageContext.request.contextPath}/seller/sendProd?orderId="+ orderId;
+            }else if(action=='sendProdOver'){
+				if(confirm("确定结束发货？")){
+				    $.get("${pageContext.request.contextPath}/seller/sendProdOver",{orderId:orderId},function(data){
+
+                        alert(data.content);
+                        if(data.status=="1"){
+                            window.location.reload();
+                        }
+					},"json")
+                }
+            }
+			else if(action=='detailVehicle'){
+				window.location.href = "${pageContext.request.contextPath}/front/seller/SellerOrderController-detailOrder?isEdit=0&orderType=1&orderId=" + orderId;
+			} else if(action=='editOrder'){
+				window.location.href = "${pageContext.request.contextPath}/seller/editOrder?orderId=" + orderId;
+			} else if(action=='editVehicle'){
+				window.location.href = "${pageContext.request.contextPath}/front/seller/SellerOrderController-detailOrder?isEdit=1&orderType=1&orderId=" + orderId;
+			} else if(action=='editFapiao'){
+				window.location.href = "${pageContext.request.contextPath}/front/seller/SellerOrderController-editFapiao?orderId=" + orderId;
 			} else if(action=='cancelOrder'){
 				if(confirm("你要确定取消操作吗？")){
-					$.post("${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-cancelOrder",{orderId:orderId},function(data){
+					$.post("${pageContext.request.contextPath}/front/seller/SellerOrderController-cancelOrder",{orderId:orderId},function(data){
 			    		data = $.parseJSON(data);
 			    		alert(data.content);
 			            if(data.status=="1"){
@@ -176,11 +180,22 @@
 			      		alert("操作失败！")
 			      	});
 				}
-			} else if(action=='editFahuo'){
-				window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-editFahuo?orderId=" + orderId;
+			} else if(action=='setOrderState'){
+				if(confirm("你要确定操作吗?")){
+					$.post("${pageContext.request.contextPath}/front/seller/SellerOrderController-setOrderState",{orderId:orderId},function(data){
+			    		data = $.parseJSON(data);
+			    		alert(data.content);
+			            if(data.status=="1"){
+			            	window.location.reload();
+			            }
+			      	})
+			      	.error(function(data){
+			      		alert("操作失败！")
+			      	});
+				}
 			}
 		}
 	}
 </script>
 
-<%@ include file="../footer.jsp"%>
+<%@ include file="../footer.html"%>

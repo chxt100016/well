@@ -1,45 +1,50 @@
 package org.wella.entity;
 
-/**
- * Created by liuwen on 2017/5/9.
- */
 public class VehicleGrabInfo {
-    private long infoId;
-    private long grabId;
-    private String sjLxr;
-    private String sjLxrPhone;
+    private Long vehicleGrabInfoId;
+
+    private Long vehicleGrabId;
+
+    private String driverName;
+
+    private String driverPhone;
+
     private String vehicleNo;
 
-    public long getInfoId() {
-        return infoId;
+    private String vehicleHangingNo;
+
+    private Double vehicleSize;
+
+    public Long getVehicleGrabInfoId() {
+        return vehicleGrabInfoId;
     }
 
-    public void setInfoId(long infoId) {
-        this.infoId = infoId;
+    public void setVehicleGrabInfoId(Long vehicleGrabInfoId) {
+        this.vehicleGrabInfoId = vehicleGrabInfoId;
     }
 
-    public long getGrabId() {
-        return grabId;
+    public Long getVehicleGrabId() {
+        return vehicleGrabId;
     }
 
-    public void setGrabId(long grabId) {
-        this.grabId = grabId;
+    public void setVehicleGrabId(Long vehicleGrabId) {
+        this.vehicleGrabId = vehicleGrabId;
     }
 
-    public String getSjLxr() {
-        return sjLxr;
+    public String getDriverName() {
+        return driverName;
     }
 
-    public void setSjLxr(String sjLxr) {
-        this.sjLxr = sjLxr;
+    public void setDriverName(String driverName) {
+        this.driverName = driverName == null ? null : driverName.trim();
     }
 
-    public String getSjLxrPhone() {
-        return sjLxrPhone;
+    public String getDriverPhone() {
+        return driverPhone;
     }
 
-    public void setSjLxrPhone(String sjLxrPhone) {
-        this.sjLxrPhone = sjLxrPhone;
+    public void setDriverPhone(String driverPhone) {
+        this.driverPhone = driverPhone == null ? null : driverPhone.trim();
     }
 
     public String getVehicleNo() {
@@ -47,30 +52,22 @@ public class VehicleGrabInfo {
     }
 
     public void setVehicleNo(String vehicleNo) {
-        this.vehicleNo = vehicleNo;
+        this.vehicleNo = vehicleNo == null ? null : vehicleNo.trim();
     }
 
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        VehicleGrabInfo that = (VehicleGrabInfo) o;
-
-        if (infoId != that.infoId) return false;
-        if (grabId != that.grabId) return false;
-        if (sjLxr != null ? !sjLxr.equals(that.sjLxr) : that.sjLxr != null) return false;
-        if (sjLxrPhone != null ? !sjLxrPhone.equals(that.sjLxrPhone) : that.sjLxrPhone != null) return false;
-        if (vehicleNo != null ? !vehicleNo.equals(that.vehicleNo) : that.vehicleNo != null) return false;
-
-        return true;
+    public String getVehicleHangingNo() {
+        return vehicleHangingNo;
     }
 
-    public int hashCode() {
-        int result = (int) (infoId ^ (infoId >>> 32));
-        result = 31 * result + (int) (grabId ^ (grabId >>> 32));
-        result = 31 * result + (sjLxr != null ? sjLxr.hashCode() : 0);
-        result = 31 * result + (sjLxrPhone != null ? sjLxrPhone.hashCode() : 0);
-        result = 31 * result + (vehicleNo != null ? vehicleNo.hashCode() : 0);
-        return result;
+    public void setVehicleHangingNo(String vehicleHangingNo) {
+        this.vehicleHangingNo = vehicleHangingNo == null ? null : vehicleHangingNo.trim();
+    }
+
+    public Double getVehicleSize() {
+        return vehicleSize;
+    }
+
+    public void setVehicleSize(Double vehicleSize) {
+        this.vehicleSize = vehicleSize;
     }
 }

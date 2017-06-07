@@ -7,5 +7,12 @@
 		VALUES (#{orderId},#{orderPrice},#{orderNumber},#{operationTime},#{userId},#{operationIp})
 	</insert>
 
+	<select id="findNewestOrderLog" parameterType="long" resultType="map">
+		SELECT order_price,order_number
+		FROM wa_order_log
+		WHERE order_id=#{orderId}
+		ORDER BY operation_time DESC
+		LIMIT 1
+	</select>
 
 </mapper>

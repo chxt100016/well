@@ -85,4 +85,26 @@ public interface SellerService {
     Map<String,Object> getOrderDetail(Long orderId);
 
     void createOrderLog(Long orderId, Map map);
+
+    /**
+     * 获取订单物流信息
+     * @param orderId
+     * @return 1.如果是买家自己物流：
+     * 2.第三方物流：
+     */
+    Map<String,Object> getOrderLogisticsInfo(long orderId);
+
+    Map<String,Object> getSendProdPageInfo(long orderId);
+
+    /**
+     * 卖家发货
+     * @param params
+     */
+    void sendProd(Map params);
+
+    /**
+     * 买家结束发货：update wa_order表 order_state 为4
+     * @param orderId
+     */
+    void sendProdStop(long orderId);
 }

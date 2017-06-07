@@ -132,8 +132,10 @@
         SELECT *,c.`prod_price`,(c.`prod_num`-c.`sale_num`) prod_num
         FROM wa_order a INNER JOIN wa_prod c
         ON a.`prod_id`=c.`prod_id`
-        WHERE a.`supplier_id`=${supplierId}
-        AND a.order_state > -1
+        WHERE a.order_state > -1
+        <if test="supplierId != null">
+          and a.`supplier_id`=${supplierId}
+        </if>
         <if test="orderState != null">
             AND a.order_state=${orderState}
         </if>
@@ -157,7 +159,7 @@
     </select>
 
     <select id="singleOrderAttachUserAttachOrderLogisticsInfo" parameterType="long" resultType="map">
-        SELECT b.`user_id`,b.`user_name`,a.order_id,a.`prod_name`,a.`sale_num`,a.`sale_money`,a.`order_state`,c.`contacts`,c.`con_tel`
+        SELECT b.`user_id`,b.`user_name`,a.order_id,a.is_self_car,a.`order_no`,a.`prod_name`,a.`order_date`,a.`sale_num`,a.`sale_money`,a.`from_region_id`,a.`from_region_addr`,a.`to_region_id`,a.`to_region_addr`,a.`order_state`,c.`contacts`,c.`con_tel`,c.deliver_date,c.receive_date
         FROM wa_order a LEFT JOIN wa_user b ON a.`user_id`=b.`user_id`
         LEFT JOIN wa_order_logistics_info c ON a.`order_id`=c.`order_id`
         WHERE a.`order_id`=#{orderId}
@@ -172,6 +174,28 @@
         LEFT JOIN (SELECT COUNT(`zorder_num`) deliver_num_count FROM wa_zorder WHERE order_id=#{orderId}) e ON 1=1
         WHERE a.`order_id`=#{orderId}
         ORDER BY d.`operation_time` DESC
+        LIMIT 1
+    </select>
+
+    <select id="singleOrderAttachLogisticsInfoAttachVehicleGrab" parameterType="long" resultType="map">
+        SELECT a.order_id,a.is_self_car,a.`order_no`,a.`prod_name`,a.`order_date`,a.`from_region_id`,a.`from_region_addr`,a.`to_region_id`,a.`to_region_addr`,a.`order_state`,b.logistics_id,b.customer_user_name,b.customer_user_id,b.sender_user_id,c.deliver_date,c.receive_date,c.vehicle_grab_id
+        FROM wa_order a LEFT JOIN wa_logistics_info b ON a.`order_id`=b.order_id
+        LEFT JOIN wa_vehicle_grab c ON b.vehicle_grab_id=c.vehicle_grab_id
+        WHERE a.`order_id`=#{orderId}
+    </select>
+
+    <select id="singleOrderByPrimaryKey" parameterType="long" resultType="map">
+        select * from wa_order WHERE order_id=#{orderId}
+    </select>
+
+    <select id="singleOrderAttachOrderLogAttachZorderCountAttachProdRestNum" parameterType="long" resultType="map">
+        SELECT a.`order_id`,a.`is_self_car`,a.`prod_name`,a.`sale_num`,b.`user_name`,c.deliver_num_count,(d.`prod_num`-d.`sale_num`) rest_num,e.`order_price`
+        FROM wa_order a LEFT JOIN wa_user b ON a.`user_id`=b.user_id
+        LEFT JOIN (SELECT COUNT(`zorder_num`) deliver_num_count FROM wa_zorder WHERE order_id=#{orderId}) c ON 1=1
+        LEFT JOIN wa_prod d ON a.`prod_id`=d.`prod_id`
+        RIGHT JOIN wa_order_log e ON a.`order_id`=e.`order_id`
+        WHERE a.`order_id`=#{orderId}
+        ORDER BY e.`operation_time` DESC
         LIMIT 1
     </select>
 </mapper>
