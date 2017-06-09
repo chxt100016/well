@@ -130,4 +130,31 @@ public interface CustomerService {
     Map<String,Object> getOrderDetailInfo(long orderId);
 
     int zorderConfirmReceive(long zorderId);
+
+    /**
+     * 物流订单列表数据
+     * @param param
+     * @return
+     */
+    List<Map<String, Object>> logisticsInfoListInfo(Map param);
+
+    int logisticsInfoListInfoCount(Map param);
+
+    /**
+     * 物流抢单列表数据
+     * @param liId
+     * @return
+     */
+    List<Map<String,Object>> grabLogisticsListInfo(long liId);
+
+    /**
+     * 选择物流
+     * @param param
+     * @return
+     */
+    int chooseGrab(Map param);
+
+    void testPayLogistics(long logisticsInfoId);
+
+    int testPayOrder(long orderId);
 }

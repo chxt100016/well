@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.wella.common.ctrl.BaseController;
 import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
+import org.wella.common.utils.ConvertUtil;
 import org.wella.common.vo.MyInfo;
 import org.wella.entity.LogisticsInfo;
 import org.wella.entity.User;
@@ -20,6 +21,7 @@ import org.wella.service.SenderService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -160,5 +162,49 @@ public class SendController extends BaseController{
             return R.error();
         }
         return R.error();
+    }
+
+    /**
+     * 查看抢单记录
+     * @param request 传入参数：orderNo,grabState,page
+     * @param response
+     * @param model
+     * @return
+     */
+    @RequestMapping({"/logisticsGrabList"})
+    public String qdList(HttpServletRequest request, HttpServletResponse response, Model model) {
+        HttpSession session=request.getSession();
+        User user=(User)session.getAttribute("user");
+        Map param = this.getConditionParam(request);
+        param.put("wlUserId", user.getUserId());
+        List list=senderServiceImpl.grabLogisticsList(param);
+        ArrayList list0 = ConvertUtil.groupList(list, "userId");
+        int totalCount =senderServiceImpl.grabLogisticsListCount(param);
+        model.addAttribute("parentMenuNo", "1");
+        model.addAttribute("childMenuNo", "2");
+        model.addAttribute("userName", user.getUserName());
+        model.addAttribute("list", list0);
+        this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
+        return "views/front/sender/order/qdList.jsp";
+    }
+    @RequestMapping("logisticsOrderList")
+    public String logisticsOrderListPage(HttpServletRequest request,Model model){
+        HttpSession session=request.getSession();
+        User user=(User)session.getAttribute("user");
+        Map param = this.getConditionParam(request);
+        param.put("senderUserId", user.getUserId());
+        List<Map<String,Object>> info=senderServiceImpl.logisticsOrderListInfo(param);
+        int totalCount=senderServiceImpl.logisticsOrderListInfoCount(param);
+        this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
+        model.addAttribute("info",info);
+        model.addAttribute("parentMenuNo", "1");
+        model.addAttribute("childMenuNo", "1");
+        return "views/front/sender/order/orderList.jsp";
+    }
+
+    @RequestMapping("orderDetail")
+    public String orderDetail(){
+
+        return "";
     }
 }

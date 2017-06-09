@@ -34,7 +34,7 @@
 							<div id="logout">退出登录</div>
 						</div>
 					</span>
-					<span style="float: right;"><a href="<c:url value="/front/sender/SenderHomeController-main"/>">管理员</a></span>
+					<span style="float: right;"><a href="<c:url value="/sender/logisticsOrderList"/>">管理员</a></span>
 				</div>
 		     </div>
          </div>

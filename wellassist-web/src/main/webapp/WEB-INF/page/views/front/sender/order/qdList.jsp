@@ -4,7 +4,7 @@
 <div id = "content-rect">
 	<!-- <div style="border:solid 1px #d0d0d0;font-size:18px;font-weight:bold;color:#0557ab;line-height:36px;text-align:left;">&nbsp;&nbsp;抢单列表</div> -->
 
-	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/front/sender/FrontSenderOrderCtrl-qdList">
+	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/sender/logisticsGrabList">
 		<input type="hidden" id="page" name="page" value="${param.page}">
 		<input type="hidden" id="grabState" name="grabState" value="${param.grabState}">
 		<div class="row-header">
@@ -41,7 +41,7 @@
 							<a class="fancybox" href="${pageContext.request.contextPath}/resources/common/images/icon_user_def.jpg" data-fancybox-group="gallery" title=""><img src="${pageContext.request.contextPath}/resources/common/images/icon_user_def.jpg"  style="width:50px; height:50px;" /></a>
 						</c:if>
 						<c:if test = "${item0.companyImg != '' and not empty item0.companyImg}">
-							<a class="fancybox" href="${pageContext.request.contextPath}/${item0.companyImg}" data-fancybox-group="gallery" title=""><img src="${pageContext.request.contextPath}/${item0.companyImg}"  style="width:50px; height:50px;" onerror = "noExitImg(this, '${pageContext.request.contextPath}');"/></a>
+							<a class="fancybox" href="${item0.companyImg}" data-fancybox-group="gallery" title=""><img src="${pageContext.request.contextPath}/${item0.companyImg}"  style="width:50px; height:50px;" onerror = "noExitImg(this, '${pageContext.request.contextPath}');"/></a>
 						</c:if>
 					</div>
 					<div style = "margin-left:10px;line-height:56px; color: #807B7B;float:left; font-size:10px;">
@@ -74,24 +74,23 @@
 					</div>
 					<div class="grayboxwithoutleft" style="width:20%;line-height:106px;height:110px;font-size:14px;float:left;border:none; border-right: solid 1px #d0d0d0;">
 						<c:if test = "${item2.grabState == '-1'}">
-							取消
+							失败
 						</c:if>
 						<c:if test = "${item2.grabState == '0'}">
-							未确定
+							未选择
 						</c:if>		
 						<c:if test = "${item2.grabState == '1'}">
-							确定
+							已中标
 						</c:if>		
 					</div>
 					<div class="grayboxwithoutleft" style="height:110px;font-size:16px; float:right; border:none;text-align:center; width:19%; ">
 						<c:if test = "${item2.grabState == '0'}">
-							<span class="span_btn" onClick = "toURL('qdPage', '${item2.grabId}')">详情</span>
-							<span class="span_btn_gray" onClick = "toURL('quxiao', '${item2.grabId}')">取消</span>	
+							<%--<span class="span_btn" onClick = "toURL('qdPage', '${item2.grabId}')">详情</span>--%>
+							<span class="span_btn_gray" onClick = "">取消</span>
 						</c:if>
-						<c:if test = "${item2.grabState == '-1'}">
+						<%--<c:if test = "${item2.grabState == '-1'}">
 							<span class="span_btn_gray" onClick = "toURL('zaiqiangdan', '${item2.grabId}')">再抢单</span>	
-						</c:if>	
-						
+						</c:if>--%>
 					</div>
 				</div>
 			</c:forEach>

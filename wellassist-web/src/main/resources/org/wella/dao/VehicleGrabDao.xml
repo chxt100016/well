@@ -54,4 +54,75 @@
         </if>
     </select>
 
+    <select id="listVehicleGrabAttachUserinfoByConditions" parameterType="map" resultType="map">
+        SELECT a.*,b.`company_name` sender_user_name,b.`company_lxr`,b.`company_lxr_phone`
+        FROM wa_vehicle_grab a LEFT JOIN wa_userinfo b ON a.`sender_user_id`=b.`user_id`
+        <where>
+            <if test="logisticsInfoId != null">
+                and a.`logistics_info_id`=#{logisticsInfoId}
+            </if>
+        </where>
+    </select>
+
+    <select id="listVehicleGrabByConditions" parameterType="map" resultType="map">
+        SELECT *
+        from wa_vehicle_grab
+        <where>
+            <if test="logisticsInfoId != null">
+                and `logistics_info_id`=#{logisticsInfoId}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateByPrimaryKey" parameterType="map">
+        update wa_vehicle_grab
+        <set >
+            <if test="logisticsInfoId != null" >
+                logistics_info_id = #{logisticsInfoId,jdbcType=BIGINT},
+            </if>
+            <if test="orderId != null" >
+                order_id = #{orderId,jdbcType=BIGINT},
+            </if>
+            <if test="senderUserId != null" >
+                sender_user_id = #{senderUserId,jdbcType=BIGINT},
+            </if>
+            <if test="vehicleNo != null" >
+                vehicle_no = #{vehicleNo,jdbcType=VARCHAR},
+            </if>
+            <if test="vehicleSize != null" >
+                vehicle_size = #{vehicleSize,jdbcType=INTEGER},
+            </if>
+            <if test="grabMoney != null" >
+                grab_money = #{grabMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="deliverDate != null" >
+                deliver_date = #{deliverDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="receiveDate != null" >
+                receive_date = #{receiveDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="driverName != null" >
+                driver_name = #{driverName,jdbcType=VARCHAR},
+            </if>
+            <if test="driverPhone != null" >
+                driver_phone = #{driverPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="grabDate != null" >
+                grab_date = #{grabDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="grabReason != null" >
+                grab_reason = #{grabReason,jdbcType=VARCHAR},
+            </if>
+            <if test="grabState != null" >
+                grab_state = #{grabState,jdbcType=TINYINT},
+            </if>
+        </set>
+        where vehicle_grab_id = #{vehicleGrabId,jdbcType=BIGINT}
+    </update>
+
+    <select id="singleVehicleGrabByPrimaryKey" parameterType="long" resultType="map">
+        select *
+        from wa_vehicle_grab
+        WHERE vehicle_grab_id=#{vehicleGrabId}
+    </select>
 </mapper>

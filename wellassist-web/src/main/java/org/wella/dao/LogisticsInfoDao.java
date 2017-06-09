@@ -29,11 +29,17 @@ public interface LogisticsInfoDao {
 
     void createLogisticsInfo(LogisticsInfo logisticsInfo);
 
-    void updateByPrimaryKey(Map param);
+    int updateByPrimaryKey(Map param);
 
     void updateByConditions(Map param);
 
     Map<String,Object> singleLIattachVGByConditions(Map queryLI);
 
+    List<Map<String, Object>> customerLogisticsInfoListInfo(Map param);
 
+    int customerLogisticsInfoListInfoCount(Map param);
+
+    List<Map<String,Object>> senderLogisticsOrderListInfo(Map param);
+
+    int senderLogisticsOrderListInfoCount(Map param);
 }

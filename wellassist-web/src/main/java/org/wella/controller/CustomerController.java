@@ -166,6 +166,84 @@ public class CustomerController extends BaseController{
       return "views/front/customer/order/expressDetail.jsp";
    }
 
+
+   /**
+    * 跳转买家物流订单界面
+    */
+   @RequestMapping("logisticsInfoList")
+   public String logisticsInfoList(HttpServletRequest request,Model model){
+      Map param=getConditionParam(request);
+      User user=(User)request.getSession().getAttribute("user");
+      long userId=user.getUserId();
+      param.put("userId",userId);
+      List<Map<String, Object>> info=customerServiceImpl.logisticsInfoListInfo(param);
+      int totalCount=customerServiceImpl.logisticsInfoListInfoCount(param);
+      this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
+      model.addAttribute("info",info);
+      model.addAttribute("parentMenuNo","1");
+      model.addAttribute("childMenuNo","2");
+      return "views/front/customer/order/wlOrderList.jsp";
+   }
+
+   /**
+    * 跳转抢单信息页面
+    */
+   @RequestMapping("grabLogisticsList")
+   public String grabLogisticsList(@RequestParam("logisticsInfoId")String logisticsInfoId, HttpServletRequest request,Model model){
+      long LIId=Long.parseLong(logisticsInfoId);
+      List<Map<String,Object>> info=customerServiceImpl.grabLogisticsListInfo(LIId);
+      model.addAttribute("info",info);
+      model.addAttribute("logisticsInfoId",LIId);
+      model.addAttribute("parentMenuNo","1");
+      model.addAttribute("childMenuNo","2");
+      return "views/front/customer/order/editQiangdan.jsp";
+   }
+
+   /**
+    * 买家选择物流抢单
+    * @param
+    * @param
+    * @param
+    */
+   @RequestMapping("chooseGrab")
+   @ResponseBody
+   public R chooseGrab(@RequestParam Map param){
+      try {
+         customerServiceImpl.chooseGrab(param);
+      }catch (Exception e){
+         e.printStackTrace();
+         return R.error();
+      }
+      return R.ok();
+   }
+
+   @RequestMapping("testPayLogistics")
+   @ResponseBody
+   public R testPayLogistics(@RequestParam("logisticsInfoId") String logisticsInfoId){
+      try {
+         customerServiceImpl.testPayLogistics(Long.parseLong(logisticsInfoId));
+      } catch (NumberFormatException e) {
+         e.printStackTrace();
+         return R.error();
+      }
+      return R.ok();
+   }
+
+   @RequestMapping("testPayOrder")
+   @ResponseBody
+   public R testPayOrder(@RequestParam("orderId")String orderId){
+      try {
+         int res=customerServiceImpl.testPayOrder(Long.parseLong(orderId));
+         if(res>0){
+            return R.ok();
+         }
+      } catch (Exception e) {
+         e.printStackTrace();
+         return R.error();
+      }
+      return R.error();
+   }
+
    @RequestMapping(
            value = {"getRegionList"},
            method = {RequestMethod.POST}
@@ -545,6 +623,5 @@ public class CustomerController extends BaseController{
       model.addAttribute("list", list);
       return "views/front/customer/finance/txList.jsp";
    }
-
 
 }

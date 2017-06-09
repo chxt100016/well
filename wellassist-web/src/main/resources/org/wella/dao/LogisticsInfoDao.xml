@@ -194,5 +194,45 @@
         WHERE li.order_id=89
     </select>
 
+    <select id="customerLogisticsInfoListInfo" parameterType="map" resultType="map">
+        SELECT a.*,b.`order_no`,c.`prod_img`
+        FROM wa_logistics_info a LEFT JOIN wa_order b ON a.`order_id`=b.`order_id`
+        LEFT JOIN wa_prod c ON a.`prod_id`=c.`prod_id`
+        WHERE customer_user_id=#{userId}
+        <if test="state != null">
+            AND a.state=${state}
+        </if>
+        ORDER BY order_date DESC
+        limit ${start},${size}
+    </select>
 
+    <select id="customerLogisticsInfoListInfoCount" parameterType="map" resultType="int">
+        SELECT count(*)
+        from wa_logistics_info
+        WHERE customer_user_id=#{userId}
+        <if test="state != null">
+            AND state=${state}
+        </if>
+    </select>
+
+    <select id="senderLogisticsOrderListInfo" parameterType="map" resultType="map">
+        SELECT a.*,b.`order_no`,c.`prod_img`
+        FROM wa_logistics_info a LEFT JOIN wa_order b ON a.`order_id`=b.`order_id`
+        LEFT JOIN wa_prod c ON a.`prod_id`=c.`prod_id`
+        WHERE a.`sender_user_id`=#{senderUserId}
+        <if test="state != null">
+            AND state=${state}
+        </if>
+        ORDER BY order_date DESC
+        limit ${start},${size}
+    </select>
+
+    <select id="senderLogisticsOrderListInfoCount" parameterType="map" resultType="int">
+        SELECT count(*)
+        from wa_logistics_info
+        WHERE `sender_user_id`=#{snederUserId}
+        <if test="state != null">
+            AND state=${state}
+        </if>
+    </select>
 </mapper>
