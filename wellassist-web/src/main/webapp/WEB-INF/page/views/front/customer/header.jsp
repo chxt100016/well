@@ -35,11 +35,6 @@
 		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/library/css/ie/ie9.css"/>">
 		<![endif]-->
 		<!--fav and touch icons -->
-		<link rel="shortcut icon" href="<c:url value="/resources/wella/common/ico/wellassist.png"/>">
-		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<c:url value="/resources/wella/common/ico/wellassist-144.png"/>">
-		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="<c:url value="/resources/wella/common/ico/wellassist-114.png"/>">
-		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="<c:url value="/resources/common/ico/wellassist-72.png"/>">
-		<link rel="apple-touch-icon-precomposed" href="<c:url value="/resources/wella/common/ico/wellassist-57.png"/>">
 		<!--============ javascript ===========-->
 		<script src="<c:url value="/resources/library/js/jquery.js"/>"></script>
 		<script src="<c:url value="/resources/library/js/jquery-ui-1.10.1.custom.min.js"/>"></script>
@@ -234,19 +229,25 @@
                         <div class="field">
                             <div class="ui  checkbox">
                                 <input type="checkbox" name="size" <c:if test ="${childMenuNo == '1'}"> checked="checked" </c:if>  >
-                                <label> <a href = "${pageContext.request.contextPath}/front/customer/CompanyController-companyInfo">公司信息</a></label>
+                                <label> <a href = "${pageContext.request.contextPath}/customer/companyInfo">公司信息</a></label>
                             </div>
                         </div>
                         <div class="field">
                             <div class="ui checkbox">
                                 <input type="checkbox" name="size" <c:if test ="${childMenuNo == '2'}"> checked="checked" </c:if> >
-                                <label><a href = "${pageContext.request.contextPath}/front/customer/CompanyController-contactMode">联系方式</a></label>
+                                <label><a href = "${pageContext.request.contextPath}/customer/contact">联系方式</a></label>
                             </div>
                         </div>
                         <div class="field">
                             <div class="ui checkbox">
                                 <input type="checkbox" name="size" <c:if test ="${childMenuNo == '3'}"> checked="checked" </c:if> >
-                                <label><a href = "${pageContext.request.contextPath}/front/customer/CompanyController-changePass">修改密码</a></label>
+                                <label><a href = "${pageContext.request.contextPath}/customer/password">修改密码</a></label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui  checkbox">
+                                <input type="checkbox" name="size" <c:if test ="${childMenuNo == '4'}"> checked="checked" </c:if>  >
+                                <label> <a href = "${pageContext.request.contextPath}/customer/bankcardPage">银行卡管理</a></label>
                             </div>
                         </div>
                     </div>
