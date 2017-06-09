@@ -20,6 +20,7 @@ import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.common.vo.MyInfo;
 import org.wella.dao.*;
+import org.wella.entity.Bankcard;
 import org.wella.entity.Prod;
 import org.wella.entity.User;
 import org.wella.entity.Userinfo;
@@ -77,7 +78,11 @@ public class CustomerController extends BaseController{
     @Autowired
     private WaOrderService waOrderServiceImpl;
 
-    private TradeDAO tradeDAO;
+    @Autowired
+    private BankcardDao bankcardDao;
+
+   @Autowired
+   private TradeDAO tradeDao;
 
     @Autowired
     private FinanceServiceImpl financeService;
@@ -508,6 +513,25 @@ public class CustomerController extends BaseController{
    }
 
    /**
+    * 进入个人中心，查看企业信息
+    * @param model
+    * @return
+    */
+   @RequestMapping("bankcardPage")
+   public String bankcardPage(Model model){
+      HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
+      User user =(User) httpSession.getAttribute("user");
+      Userinfo userinfo = (Userinfo) httpSession.getAttribute("userInfo");
+      List<Bankcard> bankcardList = bankcardDao.getCardListByUserId(user.getUserId());
+      model.addAttribute("user",user);
+      model.addAttribute("userInfo",userinfo);
+      model.addAttribute("parentMenuNo", "4");
+      model.addAttribute("childMenuNo", "4");
+      model.addAttribute("Cards",bankcardList);
+      return "views/front/customer/company/bankcard.jsp";
+   }
+
+   /**
     * 进入联系方式的修改页面
     * @param model
     * @return
@@ -611,10 +635,10 @@ public class CustomerController extends BaseController{
       param.put("geTxState", "0");
       param.put("ltTxState", "3");
       param.put("userId", user.getUserId());
-      List list = tradeDAO.getWithdrawRecordList(param);
+      List list = tradeDao.getWithdrawRecordList(param);
       ConvertUtil.convertDataBaseMapToJavaMap(list);
-      int totalCount = tradeDAO.getWithdrawRecordCount(param);
-      Map retInfo = tradeDAO.getWithdrawMoneyTotal(param);
+      int totalCount = tradeDao.getWithdrawRecordCount(param);
+      Map retInfo = tradeDao.getWithdrawMoneyTotal(param);
       this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
       model.addAttribute("parentMenuNo", "2");
       model.addAttribute("childMenuNo", "2");
@@ -622,6 +646,62 @@ public class CustomerController extends BaseController{
       model.addAttribute("withdrawMoney", retInfo.get("withdrawMoney"));
       model.addAttribute("list", list);
       return "views/front/customer/finance/txList.jsp";
+   }
+
+
+   /**
+    * 添加银行卡的异步请求
+    * @return
+    */
+   @RequestMapping("addBankcard")
+   @ResponseBody
+   public R addBankcard(@RequestParam Map<String,Object> map){
+     User user = (User) HttpContextUtils.getAttribute("user");
+     long userId = user.getUserId();
+     map.put("userId",userId);
+     map.put("addTime",new Date());
+      try {
+         long key = bankcardDao.addCard(map);
+         return R.ok().put("content","添加成功");
+      } catch (Exception e) {
+         e.printStackTrace();
+         return R.error();
+      }
+   }
+   /**
+    * 添加银行卡的异步请求
+    * @return
+    */
+   @RequestMapping("getCards")
+   @ResponseBody
+   public R getCards(@RequestParam Map<String,Object> map){
+      User user = (User) HttpContextUtils.getAttribute("user");
+      long userId = user.getUserId();
+      try {
+         List<Bankcard> cards = bankcardDao.getCardListByUserId(userId);
+         return R.ok().put("content","添加成功").put("Cards",cards);
+      } catch (Exception e) {
+         e.printStackTrace();
+         return R.error();
+      }
+   }
+
+   /**
+    * 添加银行卡的异步请求
+    * @return
+    */
+   @RequestMapping("delBankcard")
+   @ResponseBody
+   public R delBankcard(@RequestParam Map<String,Object> map){
+      User user = (User) HttpContextUtils.getAttribute("user");
+      long userId = user.getUserId();
+      try {
+        int count = bankcardDao.delCard(Long.parseLong(map.get("bankcardId").toString()));
+         return R.ok().put("content","添加成功").put("count",count);
+      } catch (Exception e) {
+         e.printStackTrace();
+         return R.error();
+      }
    }
 
 }

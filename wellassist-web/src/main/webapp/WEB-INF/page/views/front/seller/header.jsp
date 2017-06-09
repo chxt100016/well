@@ -173,6 +173,7 @@
 						<li class="leftmenuleaf <c:if test ="${childMenuNo == '1' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/seller/companyInfo">公司信息</a></li>
 						<li class="leftmenuleaf <c:if test ="${childMenuNo == '2' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/seller/contact">联系方式</a></li>
 						<li class="leftmenuleaf <c:if test ="${childMenuNo == '3' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/seller/password">修改密码</a></li>
+						<li class="leftmenuleaf <c:if test ="${childMenuNo == '3' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/seller/bankCardPage">银行卡管理</a></li>
 					</ul>
 				</ul>	
 			</c:if>
@@ -189,6 +190,5 @@
 				$(obj).css("list-style-image", "url('<c:url value="/resources/wella/front/images/lftmnuitmexpanded.png"/>')");
 			}
 		}
-
 
 	</script>

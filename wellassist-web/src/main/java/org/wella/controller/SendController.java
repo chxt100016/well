@@ -202,9 +202,4 @@ public class SendController extends BaseController{
         return "views/front/sender/order/orderList.jsp";
     }
 
-    @RequestMapping("orderDetail")
-    public String orderDetail(){
-
-        return "";
-    }
 }
