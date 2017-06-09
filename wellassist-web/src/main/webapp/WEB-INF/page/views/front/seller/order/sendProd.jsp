@@ -117,7 +117,7 @@
                             <td>{{vehicle.vehicleHangingNo}}</td>
                              <td>{{vehicle.vehicleActualSize}} 吨</td>
 
-                            <td class="right aligned " style="width:10% "><a class="ui button " v-on:click="delVehicle($index) ">DELETE </a></td>
+                            <td class="right aligned " style="width:10% "><a class="ui button " v-on:click="delVehicle(index) ">DELETE </a></td>
 
                         </tr>
                         <!--<tr>

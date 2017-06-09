@@ -140,7 +140,7 @@ public class FrontSenderOrderCtrl extends BaseController {
         return "views/front/sender/order/detailVehicle.jsp";
     }
 
-    @RequestMapping({"/front/sender/FrontSenderOrderCtrl-qdPage"})
+    /*@RequestMapping({"/front/sender/FrontSenderOrderCtrl-qdPage"})
     public String qdPage(HttpServletRequest request, HttpServletResponse response, Model model) {
         MyInfo myInfo = this.getMyInfo(request);
         String logisticsId = CommonUtil.GetRequestParam(request, "logisticsId", "0");
@@ -152,7 +152,7 @@ public class FrontSenderOrderCtrl extends BaseController {
 
         model.addAttribute("wlUserId", myInfo.getUserId());
         return "views/front/sender/order/qdPage.jsp";
-    }
+    }*/
 
     @RequestMapping({"/front/sender/FrontSenderOrderCtrl-sqQd"})
     public void sqQd(HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -173,7 +173,7 @@ public class FrontSenderOrderCtrl extends BaseController {
             e.printStackTrace();
         }finally {
             try {
-                senderServiceImpl.grabLogisticsOrder(map);
+                //senderServiceImpl.grabLogisticsOrder(map);
                 res.put("state", "1");
                 res.put("content", ConstantUtil.MSG_SUCCESS);
             }catch (Exception e){

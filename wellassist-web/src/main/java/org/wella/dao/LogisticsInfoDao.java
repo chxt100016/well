@@ -1,5 +1,6 @@
 package org.wella.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.wella.entity.LogisticsInfo;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public interface LogisticsInfoDao {
 
     int CountLogitticsInfoByConditions(Map param);
 
-    Map<String,Object> findLogisticsInfo(Map param);
+    Map<String,Object> singleLogisticsInfoByPrimaryKey(@Param("logisticsId") long logisticsId);
 
     void createLogisticsInfo(LogisticsInfo logisticsInfo);
 

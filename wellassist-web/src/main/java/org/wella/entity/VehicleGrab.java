@@ -3,55 +3,65 @@ package org.wella.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * Created by liuwen on 2017/5/9.
- */
 public class VehicleGrab {
-    private long grabId;
-    private long logisticsId;
-    private long orderId;
-    private long wlUserId;
+    private Long vehicleGrabId;
+
+    private Long logisticsInfoId;
+
+    private Long orderId;
+
+    private Long senderUserId;
+
     private String vehicleNo;
-    private int vehicleSize;
+
+    private Integer vehicleSize;
+
     private BigDecimal grabMoney;
-    private Date cfDate;
-    private Date ddDate;
-    private String sjLxr;
-    private String sjLxPhone;
+
+    private Date deliverDate;
+
+    private Date receiveDate;
+
+    private String driverName;
+
+    private String driverPhone;
+
     private Date grabDate;
+
     private String grabReason;
-    private byte grabState;
 
-    public long getGrabId() {
-        return grabId;
+    private Byte grabState;
+
+    public Long getVehicleGrabId() {
+        return vehicleGrabId;
     }
 
-    public void setGrabId(long grabId) {
-        this.grabId = grabId;
+    public void setVehicleGrabId(Long vehicleGrabId) {
+        this.vehicleGrabId = vehicleGrabId;
     }
 
-    public long getLogisticsId() {
-        return logisticsId;
+    public Long getLogisticsInfoId() {
+        return logisticsInfoId;
     }
 
-    public void setLogisticsId(long logisticsId) {
-        this.logisticsId = logisticsId;
+    public void setLogisticsInfoId(Long logisticsInfoId) {
+        this.logisticsInfoId = logisticsInfoId;
     }
 
-    public long getOrderId() {
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(long orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 
-    public long getWlUserId() {
-        return wlUserId;
+    public Long getSenderUserId() {
+        return senderUserId;
     }
 
-    public void setWlUserId(long wlUserId) {
-        this.wlUserId = wlUserId;
+    public void setSenderUserId(Long senderUserId) {
+        this.senderUserId = senderUserId;
     }
 
     public String getVehicleNo() {
@@ -59,14 +69,14 @@ public class VehicleGrab {
     }
 
     public void setVehicleNo(String vehicleNo) {
-        this.vehicleNo = vehicleNo;
+        this.vehicleNo = vehicleNo == null ? null : vehicleNo.trim();
     }
 
-    public int getVehicleSize() {
+    public Integer getVehicleSize() {
         return vehicleSize;
     }
 
-    public void setVehicleSize(int vehicleSize) {
+    public void setVehicleSize(Integer vehicleSize) {
         this.vehicleSize = vehicleSize;
     }
 
@@ -78,37 +88,36 @@ public class VehicleGrab {
         this.grabMoney = grabMoney;
     }
 
-
-    public String getSjLxr() {
-        return sjLxr;
+    public Date getDeliverDate() {
+        return deliverDate;
     }
 
-    public void setSjLxr(String sjLxr) {
-        this.sjLxr = sjLxr;
+    public void setDeliverDate(Date deliverDate) {
+        this.deliverDate = deliverDate;
     }
 
-    public String getSjLxPhone() {
-        return sjLxPhone;
+    public Date getReceiveDate() {
+        return receiveDate;
     }
 
-    public void setSjLxPhone(String sjLxPhone) {
-        this.sjLxPhone = sjLxPhone;
+    public void setReceiveDate(Date receiveDate) {
+        this.receiveDate = receiveDate;
     }
 
-    public Date getCfDate() {
-        return cfDate;
+    public String getDriverName() {
+        return driverName;
     }
 
-    public void setCfDate(Date cfDate) {
-        this.cfDate = cfDate;
+    public void setDriverName(String driverName) {
+        this.driverName = driverName == null ? null : driverName.trim();
     }
 
-    public Date getDdDate() {
-        return ddDate;
+    public String getDriverPhone() {
+        return driverPhone;
     }
 
-    public void setDdDate(Date ddDate) {
-        this.ddDate = ddDate;
+    public void setDriverPhone(String driverPhone) {
+        this.driverPhone = driverPhone == null ? null : driverPhone.trim();
     }
 
     public Date getGrabDate() {
@@ -124,15 +133,14 @@ public class VehicleGrab {
     }
 
     public void setGrabReason(String grabReason) {
-        this.grabReason = grabReason;
+        this.grabReason = grabReason == null ? null : grabReason.trim();
     }
 
-    public byte getGrabState() {
+    public Byte getGrabState() {
         return grabState;
     }
 
-    public void setGrabState(byte grabState) {
+    public void setGrabState(Byte grabState) {
         this.grabState = grabState;
     }
-
 }

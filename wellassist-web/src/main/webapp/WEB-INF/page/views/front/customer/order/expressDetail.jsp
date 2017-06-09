@@ -7,10 +7,10 @@
     <title>卖家物流详情</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <%--<link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
     <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script>--%>
     <style>
         .mid_box {
             width: 1100px;
@@ -35,6 +35,9 @@
         .fl-lf {
             float: left;
         }
+        .tx-rg{
+            text-align:right;
+        }
         
         .pd-lf-10 {
             padding-left: 10px;
@@ -56,28 +59,52 @@
 </head>
 
 <body>
-    <div class="ui container segment" id="app1">
-        <h3 class="ui header">物流详情：</h3>
+    <div class="ui container segment" id="content-rect" style="margin-top:0px;left: 10px;" >
+        <h3 class="ui header">物流详情</h3>
         <div class="ui divider"></div>
-        <div class="column container">
+        <div class="column ">
             <c:if test="${info.isSelfCar==0}">
-                <div class="fl-lf " style="width: 50%;">取货方式：买家自提</div>
+                <div class="fl-lf " style="width: 80%;">取货方式：买家自提</div>
             </c:if>
             <c:if test="${info.isSelfCar==1}">
-                <div class="fl-lf " style="width: 50%;">物流公司名称：${info.senderName}</div>
+                <div class="fl-lf " style="width: 80%;">
+                <div  class="fl-lf "><span class="a-color-base">物流公司名称：</span> </div>
+                <div class="fl-rg "> <span >${info.senderName}</span></div>
+                </div>
             </c:if>
 
-            <div class="fl-lf " style="width: 50%;">发货时间：<fmt:formatDate value="${info.deliverDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></div>
-            <div class="fl-lf " style="width: 50%;">收货时间：<fmt:formatDate value="${info.receiveDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></div>
-            <div class="fl-lf " style="width: 50%;">发货地址：${info.fromAddress}</div>
-            <div class="fl-lf " style="width: 50%;">收货地址：${info.toAddress}</div>
-            <div class="fl-lf " style="width: 50%;">买家联系人：${info.customerContacts}</div>
-            <div class="fl-lf " style="width: 50%;">买家联系电话：${info.customerConTel}</div>
+            <div class="fl-lf " style="width: 80%;"> 
+                <div  class="fl-lf "><span class="a-color-base">发货时间：</span> </div>
+                <div class="fl-rg "> <span ><fmt:formatDate value="${info.deliverDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate> </span></div>
+            </div>
+
+            <div class="fl-lf " style="width: 80%;">
+                <div  class="fl-lf "><span class="a-color-base">收货时间：</span> </div>
+                <div class="fl-rg "> <span ><fmt:formatDate value="${info.receiveDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span> </div>
+             </div>
+            <div class="fl-lf " style="width: 80%;">
+                <div  class="fl-lf "><span class="a-color-base">发货地址：</span> </div>
+                <div class="fl-rg "> <span >${info.fromAddress}</span> </div>
+            </div>
+            <div class="fl-lf " style="width:80%;">
+                <div  class="fl-lf "><span class="a-color-base">收货地址：</span> </div>
+                <div class="fl-rg "><span> ${info.toAddress}</span> </div>
+            </div>
+            <div class="fl-lf " style="width: 80%;">
+                <div  class="fl-lf "><span class="a-color-base">买家联系人：</span> </div>
+                <div class="fl-rg "><span>${info.customerContacts}</span> </div>
+            </div>
+            <div class="fl-lf " style="width: 80%;">
+                <div  class="fl-lf "><span class="a-color-base">买家联系电话：</span> </div>
+                <div class="fl-rg "><span>${info.customerConTel}</span> </div>
+            </div>
             <div class="right item fl-rg" style=" "><span class=""></span>
 
             </div>
             <br><br>
-            <c:if test="${!empty info.vehicles}">
+            
+        </div>
+        <c:if test="${!empty info.vehicles}">
             <table class="ui celled padded table ">
                 <thead>
                     <tr>
@@ -105,7 +132,6 @@
                 </tbody>
             </table>
             </c:if>
-        </div>
     </div>
 
 </body>

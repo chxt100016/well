@@ -1,11 +1,13 @@
 package org.wella.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import io.wellassist.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.wella.common.ctrl.BaseController;
 import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
@@ -59,16 +61,16 @@ public class SendController extends BaseController{
      * @param request 需要传入的参数logisticsId
      * @return
      */
-    @RequestMapping("test2")
+    /*@RequestMapping("test2")
     public void offerLogistics(HttpServletRequest request, HttpServletResponse response, Model model){
         JSONObject res = new JSONObject();
         Map param=new HashMap();
         param.put("logisticsId",request.getParameter("logisticsInfoId"));
-        Map<String,Object> logisticsInfo=senderServiceImpl.findLogisticsInfo(param);
+        Map<String,Object> logisticsInfo=senderServiceImpl.(param);
         model.addAttribute("logisticsInfo",logisticsInfo);
         res.put("logisticsInfo",logisticsInfo);
         echo(response,res);
-    }
+    }*/
 
     /**
      * 处理物流方抢单
@@ -76,14 +78,14 @@ public class SendController extends BaseController{
      * @param request 传入参数logisticsId物流订单id，wlUserId物流用户id，grabMoney报价，sjLxr车队联系人,sjLxPhone联系人电话，orderData车队信息，
      * @param response
      */
-    @RequestMapping("test3")
+    /*@RequestMapping("test3")
     public void doOfferLogistics(HttpServletRequest request, HttpServletResponse response){
         MyInfo myInfo = this.getMyInfo(request);
         JSONObject res = new JSONObject();
         Map map = new HashMap();
         try {
             map.put("logisticsId",request.getParameter("logisticsId"));
-            map.put("wlUserId",/*myInfo.getUserId()*/request.getParameter("wlUserId"));
+            map.put("wlUserId",*//*myInfo.getUserId()*//*request.getParameter("wlUserId"));
             map.put("grabMoney",request.getParameter("grabMoney"));
             map.put("sjLxr",request.getParameter("sjLxr"));
             map.put("sjLxPhone",request.getParameter("sjLxPhone"));
@@ -106,18 +108,19 @@ public class SendController extends BaseController{
                 this.echo(response,res);
             }
         }
-    }
+    }*/
     @RequestMapping({"grabLogistics"})
     public String qdPage(HttpServletRequest request, HttpServletResponse response, Model model) {
-        MyInfo myInfo = this.getMyInfo(request);
+        HttpSession session=request.getSession();
+        User user=(User)session.getAttribute("user");
+        long userId=user.getUserId();
         String logisticsId = CommonUtil.GetRequestParam(request, "logisticsId", "0");
-        HashMap param = new HashMap();
-        param.put("logisticsId",logisticsId);
-        Map<String,Object> info=senderServiceImpl.findLogisticsInfo(param);
+        Map<String,Object> info=senderServiceImpl.grabLogisticsPageInfo(Long.parseLong(logisticsId));
         model.addAttribute("info", info);
-
-        model.addAttribute("wlUserId", myInfo.getUserId());
-        return "views/front/sender/order/qdPage.jsp";
+        model.addAttribute("senderUserId", userId);
+        model.addAttribute("parentMenuNo", "1");
+        model.addAttribute("childMenuNo", "3");
+        return "views/front/sender/order/quote.jsp";
     }
 
     @RequestMapping("orderDetail")
@@ -142,5 +145,20 @@ public class SendController extends BaseController{
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "3");
         return "views/front/sender/order/vehicleGrabHall.jsp";
+    }
+
+    @RequestMapping("grabLogisticsSubmit")
+    @ResponseBody
+    public R grabLogisticsSubmit(@RequestParam Map param){
+        try {
+            int res=senderServiceImpl.grabLogistics(param);
+            if(res>0){
+                return R.ok();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return R.error();
+        }
+        return R.error();
     }
 }

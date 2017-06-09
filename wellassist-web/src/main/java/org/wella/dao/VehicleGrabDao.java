@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public interface VehicleGrabDao {
 
-    void createVehicleGrab(VehicleGrab vehicleGrab);
+    int createVehicleGrab(VehicleGrab vehicleGrab);
 
     List<Map<String,Object>> getGrabLogisticsList(Map param);
 
