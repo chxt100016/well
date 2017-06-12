@@ -30,7 +30,7 @@
 		<div style="border:solid 1px #d0d0d0;font-size:24px;margin-top:16px; overflow:auto;"">
 			<div style="height:30px;background:#e0e0e0;font-size:16px;">
 				<div style = "margin-left:10px;line-height:30px; color: #807B7B;float:left; font-size:10px;">
-					${item.createDate} &nbsp;&nbsp;&nbsp;&nbsp; 订单编号：${item.orderNo}
+					${item.orderDate} &nbsp;&nbsp;&nbsp;&nbsp; 订单编号：${item.orderNo}
 				</div>
 			</div>
 			 
@@ -61,10 +61,17 @@
 								<c:if test="${item.state==5}">已完成</c:if>
 							</td>
 						</tr>
+						<%--<c:if test="${item.state>=2}">
+							<tr>
+								<td>
+									<a style="cursor:pointer;color:black;" onclick="toURL('detailVehicle', '${item.vehicleTrans}')">物流详情</a>
+								</td>
+							</tr>
+						</c:if>--%>
 						<c:if test="${item.state=='4' || item.state=='5'}">
 							<tr>
 								<td>
-									<a style="cursor:pointer;color:black;" onclick="toURL('detailVehicle', '${item.vehicleTrans}')">物流信息</a>
+									<a style="cursor:pointer;color:black;" onclick="toURL('detailVehicle', '${item.orderId}')">物流信息</a>
 								</td>
 							</tr>
 						</c:if>
@@ -77,6 +84,7 @@
 					<%--<c:if test="${item.vehicleState=='4'}">
 						<span class="span_btn" onClick="toURL('jiesuan', '${item.vehicleTrans}')">结算</span>
 					</c:if>	--%>
+					暂无操作...
 				</div>
 			</div>
 			
@@ -107,7 +115,8 @@
 			if(action=='fahuo'){
 				window.location.href = "${pageContext.request.contextPath}/front/sender/FrontSenderOrderCtrl-editFahuo?vehicleTrans=" + vehicleTrans;
 			} else if(action=='detailVehicle'){
-				window.location.href = "${pageContext.request.contextPath}/front/sender/FrontSenderOrderCtrl-detailVehicle?vehicleTrans=" + vehicleTrans;
+				/*window.location.href = "${pageContext.request.contextPath}/front/sender/FrontSenderOrderCtrl-detailVehicle?vehicleTrans=" + vehicleTrans;*/
+                window.location.href = "${pageContext.request.contextPath}/sender/orderDetail?orderId=" + vehicleTrans;
 			}else if(action=='jiesuan'){
 				if(confirm("你要确定操作吗?")){
 					url = "${pageContext.request.contextPath}/front/sender/FrontSenderOrderCtrl-jiesuan";

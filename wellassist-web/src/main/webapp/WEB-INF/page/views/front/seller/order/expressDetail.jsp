@@ -84,7 +84,7 @@
             <table class="ui celled padded table ">
                 <thead>
                     <tr>
-                        <th class="single line ">车队联系人</th>
+                        <th class="single line ">司机</th>
                         <th>电话</th>
                         <th>车牌号</th>
                         <th>车挂号</th>
@@ -108,6 +108,7 @@
                 </tbody>
             </table>
             </c:if>
+            <button onclick="javascript:window.history.go(-1);">返回</button>
         </div>
     </div>
 

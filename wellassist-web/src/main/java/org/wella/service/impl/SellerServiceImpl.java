@@ -393,6 +393,7 @@ public class SellerServiceImpl implements SellerService {
         //从wa_zorder表中得到发货量和成交额
         Map<String,Object> zorderDeliverCount=waOrderServiceImpl.findDeliverProdCount(orderId);
         res.putAll(zorderDeliverCount);
+
         List<Map<String,Object>> zorders=waOrderServiceImpl.findZorders(orderId);
         res.put("zorders",zorders);
         return res;

@@ -174,9 +174,9 @@
             </li>
         </ul>
         <br><br>
-        <h4 class="ui header">物流信息</h4>
+
         <c:if test="${!empty info.zorders}">
-       
+            <h4 class="ui header">物流信息</h4>
           <div class="ui divider"></div>
         <c:forEach items="${info.zorders}" var="zorder">
         <div class="ui ignored positive message">
@@ -230,6 +230,7 @@
         </c:forEach>
          
             </c:if>
+        <button onclick="javascript:window.history.go(-1);">返回</button>
             </div>
     </div>
 </body>

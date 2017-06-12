@@ -1,5 +1,6 @@
 package org.wella.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.wella.entity.Zorder;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface ZorderDao {
     Map<String,Object> findProdCountByConditions(Map query);
 
     List<Map<String,Object>> listZordersByConditions(Map query);
+
+    Map<String,Object> singleZorderByPrimaryKey(@Param("zorderId") long zorderId);
 }

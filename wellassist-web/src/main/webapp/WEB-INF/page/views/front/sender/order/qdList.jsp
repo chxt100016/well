@@ -86,11 +86,13 @@
 					<div class="grayboxwithoutleft" style="height:110px;font-size:16px; float:right; border:none;text-align:center; width:19%; ">
 						<c:if test = "${item2.grabState == '0'}">
 							<%--<span class="span_btn" onClick = "toURL('qdPage', '${item2.grabId}')">详情</span>--%>
-							<span class="span_btn_gray" onClick = "">取消</span>
+							<span class="span_btn_gray" onClick = "javascript:alert('功能正在开发');">取消</span>
 						</c:if>
-						<%--<c:if test = "${item2.grabState == '-1'}">
-							<span class="span_btn_gray" onClick = "toURL('zaiqiangdan', '${item2.grabId}')">再抢单</span>	
-						</c:if>--%>
+						<c:if test = "${item2.grabState == '-1'}">
+							<%--<span class="span_btn_gray" onClick = "toURL('zaiqiangdan', '${item2.grabId}')">再抢单</span>--%>
+							<span class="span_btn_gray" onClick = "javascript:alert('功能正在开发');">再抢单</span>
+						</c:if>
+						<c:if test = "${item2.grabState == '1'}">暂无操作</c:if>
 					</div>
 				</div>
 			</c:forEach>

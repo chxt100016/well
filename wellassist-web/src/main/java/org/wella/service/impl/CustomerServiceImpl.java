@@ -271,12 +271,37 @@ public class CustomerServiceImpl implements CustomerService {
         return res;
     }
 
+    /**
+     * 判断有没有发货完成order_state:4？在判断其他子订单有没有确认收货zorder_state:2?都通过则order_state->5
+     * @param zorderId
+     * @return
+     */
     @Override
     public int zorderConfirmReceive(long zorderId) {
+        int res=0;
         Zorder zorder=new Zorder();
         zorder.setZorderId(zorderId);
         zorder.setZorderState((byte)2);
-        return zorderDao.updateByPrimaryKey(zorder);
+        res=zorderDao.updateByPrimaryKey(zorder);
+        Map<String,Object> zo=zorderDao.singleZorderByPrimaryKey(zorderId);
+        long orderId=(long)zo.get("order_id");
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        if((int)order.get("order_state")!=4){
+            return res;
+        }
+        Map queryzorder=new HashMap();
+        queryzorder.put("orderId",orderId);
+        List<Map<String,Object>> zorders=zorderDao.listZordersByConditions(queryzorder);
+        for(Map<String,Object> zor:zorders){
+            if ((int)zor.get("zorder_state")!=2){
+                return res;
+            }
+        }
+        Map updateOrder=new HashMap();
+        updateOrder.put("orderState",(byte)5);
+        updateOrder.put("orderId",orderId);
+        res+=orderDao.updateOrderByID(updateOrder);
+        return res;
     }
 
     @Override

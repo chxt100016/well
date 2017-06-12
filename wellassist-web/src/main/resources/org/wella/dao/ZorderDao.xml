@@ -48,7 +48,13 @@
     <select id="findProdCountByConditions" parameterType="map" resultType="map">
         SELECT IFNULL(SUM(zorder_num),0) sum_num,IFNULL(SUM(zorder_money),0) sum_money
         FROM wa_zorder
-        WHERE order_id=#{orderId} AND zorder_state=#{zorderState}
+        WHERE order_id=#{orderId}
+        <if test="zorderState == 1">
+            AND zorder_state>=#{zorderState}
+        </if>
+        <if test="zorderState == 2">
+            AND zorder_state=#{zorderState}
+        </if>
     </select>
 
     <select id="listZordersByConditions" parameterType="map" resultType="map">
@@ -68,5 +74,11 @@
         <if test="start ==null and size !=null">
             limit ${size}
         </if>
+    </select>
+
+    <select id="singleZorderByPrimaryKey" parameterType="long" resultType="map">
+        SELECT *
+        from wa_zorder
+        WHERE zorder_id=#{zorderId}
     </select>
 </mapper>

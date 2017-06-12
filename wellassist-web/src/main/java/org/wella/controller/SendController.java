@@ -15,6 +15,7 @@ import org.wella.common.utils.ConvertUtil;
 import org.wella.common.vo.MyInfo;
 import org.wella.entity.LogisticsInfo;
 import org.wella.entity.User;
+import org.wella.service.CustomerService;
 import org.wella.service.SellerService;
 import org.wella.service.SenderService;
 
@@ -37,6 +38,9 @@ public class SendController extends BaseController{
 
     @Autowired
     private SellerService sellerServiceImpl;
+
+    @Autowired
+    private CustomerService customerServiceImpl;
 
     /**
      * 跳转抢单大厅
@@ -127,7 +131,7 @@ public class SendController extends BaseController{
 
     @RequestMapping("orderDetail")
     public String orderDetail(@RequestParam("orderId")String orderId, Model model){
-        Map<String,Object> orderDetail=sellerServiceImpl.getOrderDetailInfo(Long.parseLong(orderId));
+        Map<String,Object> orderDetail=customerServiceImpl.getOrderDetailInfo(Long.parseLong(orderId));
         model.addAttribute("info",orderDetail);
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "1");

@@ -95,7 +95,8 @@ public class SellerController extends BaseController {
         obj.put("status", ret);
         this.echoJSON(response, obj);
     }
-    @RequestMapping({"orderListPage"})
+
+    @RequestMapping("orderListPage")
     public String ordersheet_list(HttpServletRequest request, HttpServletResponse response, Model model) {
         HttpSession session = request.getSession();
         User user=(User)session.getAttribute("user");
