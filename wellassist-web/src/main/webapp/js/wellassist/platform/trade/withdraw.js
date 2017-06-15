@@ -42,7 +42,7 @@ $(function () {
                 }else{
                     return "";
                 }
-            }},
+            }}
         ],
         viewrecords: true,
         height: 385,

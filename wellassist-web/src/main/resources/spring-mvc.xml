@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xsi:schemaLocation="
@@ -19,27 +19,27 @@
 	<mvc:default-servlet-handler />
 	<!--<mvc:resources location="/WEB-INF/page/views" mapping="*/views/**"/>-->
 	<aop:aspectj-autoproxy proxy-target-class="true" />
-	<!--<mvc:annotation-driven>-->
-		<!--<mvc:message-converters register-defaults="true">-->
-            <!--<bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">-->
-                <!--<property name="supportedMediaTypes">-->
-                    <!--<list>-->
-                        <!--<value>text/html;charset=UTF-8</value>-->
-                        <!--<value>application/json</value>-->
-                    <!--</list>-->
-                <!--</property>-->
-                <!--<property name="features">-->
-                    <!--<list>-->
-                        <!--<value>WriteMapNullValue</value>-->
-                        <!--<value>QuoteFieldNames</value>-->
-                        <!--<value>WriteDateUseDateFormat</value>-->
-						<!--&lt;!&ndash; 禁用fastjson循环引用检测 &ndash;&gt;-->
-						<!--<value>DisableCircularReferenceDetect</value>-->
-                    <!--</list>-->
-                <!--</property>-->
-            <!--</bean>-->
-        <!--</mvc:message-converters>-->
-	<!--</mvc:annotation-driven>-->
+	<mvc:annotation-driven>
+		<mvc:message-converters register-defaults="true">
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/html;charset=UTF-8</value>
+                        <value>application/json</value>
+                    </list>
+                </property>
+                <property name="features">
+                    <list>
+                        <value>WriteMapNullValue</value>
+                        <value>QuoteFieldNames</value>
+                        <value>WriteDateUseDateFormat</value>
+						<!-- 禁用fastjson循环引用检测 -->
+						<value>DisableCircularReferenceDetect</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+	</mvc:annotation-driven>
 	
 	<!-- Velocity视图解析器    默认视图  html页面使用是的视图解析-->
 	<bean id="velocityViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
@@ -110,57 +110,4 @@
 	        </bean>
 	    </property>
 	</bean>
-
-	<!--redis配置-->
-	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
-		<property name="maxTotal" value="10"></property>
-		<property name="maxIdle" value="10"></property>
-		<property name="minIdle" value="2"></property>
-		<property name="maxWaitMillis" value="15000"></property>
-		<property name="minEvictableIdleTimeMillis" value="300000"></property>
-		<property name="numTestsPerEvictionRun" value="3"></property>
-		<property name="timeBetweenEvictionRunsMillis" value="60000"></property>
-		<property name="testOnBorrow" value="true"></property>
-		<property name="testOnReturn" value="true"></property>
-		<property name="testWhileIdle" value="true"></property>
-	</bean>
-
-	<bean id="jedisConnectionFactory"
-		  class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
-		  destroy-method="destroy">
-		<property name="hostName" value="192.168.1.211"/>
-		<property name="port" value="6379" />
-		<property name="timeout" value="15000" />
-		<property name="database" value="0" />
-		<property name="password" value="" />
-		<property name="usePool" value="true" />
-		<property name="poolConfig" ref="jedisPoolConfig" />
-	</bean>
-
-	<!-- redis template definition p表示对该bean里面的属性进行注入，格式为p:属性名=注入的对象 效果与在bean里面使用<property>标签一样 -->
-	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
-		  p:connection-factory-ref="jedisConnectionFactory">
-		<!-- 序列化方式 建议key/hashKey采用StringRedisSerializer。 -->
-		<property name="keySerializer">
-			<bean
-					class="org.springframework.data.redis.serializer.StringRedisSerializer" />
-		</property>
-		<property name="hashKeySerializer">
-			<bean
-					class="org.springframework.data.redis.serializer.StringRedisSerializer" />
-		</property>
-		<property name="valueSerializer">
-			<bean
-					class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
-		</property>
-		<property name="hashValueSerializer">
-			<bean
-					class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
-		</property>
-
-	</bean>
-	<!-- 对string操作的封装 -->
-	<bean id="stringRedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate"
-		  p:connection-factory-ref="jedisConnectionFactory" />
-	
 </beans>

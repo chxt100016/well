@@ -3,34 +3,38 @@
  */
 $(function () {
     $("#jqGrid").jqGrid({
-        url: './orders',
+        url: './orderList',
         datatype: "json",
         colModel: [
-            { label: 'id', name: 'orderId', index: "order_id", width: 45, key: true },
-            { label: '买家', name: 'customerName', width: 75 },
-            { label: '订单号', name: 'orderNo', width: 100},
-            { label: '产品', name: 'productName', width: 100},
-            { label: '数量（吨）', name: 'number', index: "user_id", width: 45, key: true },
-            { label: '交易金额', name: 'total', width: 100 },
-            { label: '交易时间', name: 'orderDate', width: 100},
-            { label: '交易状态', name: 'orderState', width: 100 ,formatter:function (value,option,row) {
+            { label: 'id', name: 'moneyId', index: "money_id", width: 45, key: true },
+            { label: '公司', name: 'userName', width: 75 },
+            { label: '交易类型', name: 'jyType', width: 100,formatter:function (value,option,row){
                 if(value==0){
-                    return "待确认";
-                }else if(value ==-1){
-                    return "取消订单";
-                }else  if(value==1){
-                    return "待付款";
-                }else if(value ==11){
-                    return "产品订单已付款，物流订单为付款";
-                }else  if(value==12){
-                    return "物流订单已付款，产品订单为付款";
-                }else if(value ==2){
-                    return "未发货";
-                }else if(value==1){
-                    return "发送中";
+                    return "充值";
+                }else if(value ==1){
+                    return "订单";
+                }else  if(value==2){
+                    return "提现";
                 }else {
-                    return "完成发货";
+                    return "物流";
                 }
+            }},
+            { label: '交易名称', name: 'jyMc', width: 100},
+            { label: '交易金额', name: 'jyMoney', index: "user_id", width: 45, key: true },
+            { label: '交易时间', name: 'jyDate', width: 100 },
+            { label: '交易状态', name: 'jyState', width: 100, formatter:function (value,option,row){
+                if(value==0){
+                    return "未确定";
+                }else if(value ==-1){
+                    return "取消";
+                }else  if(value==1){
+                    return "进行中";
+                }else {
+                    return "完成";
+                }
+            }},
+            { label: '操作', name: 'moneyId', width: 100 ,formatter:function (value,option,row) {
+                return '<a  class="btn btn-primary" onclick="vm.process('+value+',2)">详情</a>';
             }}
         ],
         viewrecords: true,
@@ -118,7 +122,7 @@ var vm = new Vue({
 
         },
         process:function(){
-
+            
         }
     }
 });

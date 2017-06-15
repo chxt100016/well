@@ -21,13 +21,13 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="wellassist" target="1.8" />
-      <module name="wellassist-api" target="1.8" />
-      <module name="wellassist-common" target="1.8" />
-      <module name="wellassist-gen" target="1.8" />
-      <module name="wellassist-schedule" target="1.8" />
-      <module name="wellassist-shiro" target="1.8" />
-      <module name="wellassist-web" target="1.8" />
+      <module name="wellassist" target="1.7" />
+      <module name="wellassist-api" target="1.7" />
+      <module name="wellassist-common" target="1.7" />
+      <module name="wellassist-gen" target="1.7" />
+      <module name="wellassist-schedule" target="1.7" />
+      <module name="wellassist-shiro" target="1.7" />
+      <module name="wellassist-web" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>
