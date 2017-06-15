@@ -26,10 +26,10 @@
                         <div id="header_inner">
                             <div class="pure-menu pure-menu-horizontal pure-menu-open">
                                 <ul>
-                                    <li class="pure-dropdown hide-xs hide-sm hide-md"><a href="">登录 <i class="arrow"></i></a>
+                                    <%--<li class="pure-dropdown hide-xs hide-sm hide-md"><a href="">登录 <i class="arrow"></i></a>
 
                                     </li>
-                                    <li class="hide-xs hide-sm hide-md mum_inc"><a href="">注册</a></li>
+                                    <li class="hide-xs hide-sm hide-md mum_inc"><a href="">注册</a></li>--%>
 
 
                                     <li class="toggle_mobile_search pure-dropdown hide-md hide-lg hide-xl"><a><i class="icon icon_menu_loupe"></i></a></li>
@@ -61,7 +61,7 @@
                                                 <p>
 
                                         </form>
-                                        <div><input style="text-align:center;width:300px" class="ui positive button"  value="登录" id="login" onclick="submit()"></div>
+                                        <div><input style="text-align:center;width:300px" class="ui positive button"  value="登录" id="login" onclick="loginSubmit()"></div>
                                     </div>
 
                                 </div>
@@ -105,7 +105,7 @@
 
         </body>
         <script type="text/javascript">
-            function submit() {
+            function loginSubmit() {
                 $.post("${pageContext.request.contextPath}/login/in", $("#loginForm").serialize(), function(data) {
                         var tempData = $.parseJSON(data);
                         //根据登录时的验，根据登录时的验证情况进行页面的跳转

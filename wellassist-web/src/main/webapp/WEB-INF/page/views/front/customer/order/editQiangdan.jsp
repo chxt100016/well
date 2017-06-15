@@ -1,4 +1,4 @@
-﻿<%@ include file="../header_new.jsp"%>
+﻿<%@ include file="../header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 
 <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
@@ -54,7 +54,7 @@
 				<div style="text-align:center;font-size:24px;">抢单详情</div>
 			</div>
 		</div>
-		<form id="qdForm" action="${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-setQiangdan" method="post">
+		<form id="qdForm" action="${pageContext.request.contextPath}/customer/chooseGrab" method="post">
 			<div class="formDd">
 				<div style="border:solid 1px #d0d0d0;font-size:24px;margin-top:16px; overflow:auto;margin: 16px 48px;">
 					<div style="height:30px;background:#e0e0e0;font-size:16px;">
@@ -74,10 +74,10 @@
 							选择
 						</div>
 					</div>
-					<c:forEach var="item" items="${vehicleGrabList}">
+					<c:forEach var="item" items="${info}">
 						<div id='sjListContent_0' style='border-bottom: solid 1px #E0E0E0; overflow:auto;'>
 							<div class='graybox' style='width:30%;line-height:50px;font-size:14px;float:left;border:none;text-align:center;border-right: solid 1px #d0d0d0;'>
-								&nbsp;${item.companyName}
+								&nbsp;${item.senderUserName}
 							</div>
 							<div class='grayboxwithoutleft' style='width:22%;line-height:50px;font-size:14px;float:left;border:none;text-align:center;border-right: solid 1px #d0d0d0;'>
 								&nbsp;${item.companyLxr}
@@ -89,20 +89,25 @@
 								&nbsp;${item.grabMoney}
 							</div>
 							<div class='grayboxwithoutleft' style='width:9%;line-height:50px;font-size:14px;float:left;border:none;text-align:center;'>
-								<input type="radio" name="grabId" value="${item.grabId}" />
+								<input type="radio" name="grabId" value="${item.vehicleGrabId}" />
 							</div>
 						</div>
 					</c:forEach>
-					<c:if test="${vehicleGrabList== null || fn:length(vehicleGrabList) == 0}">
+					<%--<c:if test="${vehicleGrabList== null || fn:length(vehicleGrabList) == 0}">
 							  <div id='sjListContent_0' style='border-bottom: solid 1px #E0E0E0; overflow:auto; height:30px;font-size:14px;padding-left:10px; padding-top:5px;'>
 							  	  	没有抢单
 							  </div>	
-				    </c:if>
+				    </c:if>--%>
+					<c:if test="${empty info}">
+						<div id='sjListContent_0' style='border-bottom: solid 1px #E0E0E0; overflow:auto; height:30px;font-size:14px;padding-left:10px; padding-top:5px;'>
+							没有抢单
+						</div>
+					</c:if>
 				</div>
-			    <input type="hidden" name="vehicleTrans" value="${vehicleTrans}" />
+			    <input type="hidden" name="logisticsInfoId" value="${logisticsInfoId}" />
 				<div style="margin: 40px 0px 40px 80px;">
-					<input type="button" class="bluebutton" style="padding: 8px 16px; font-size:20px; border-radius: 6px; border:none;" value="返回" onclick="goBack();"  />
-					<input type="submit" id="submit" class="bluebutton" style="padding: 8px 16px; font-size:20px; border-radius: 6px; border:none; <c:if test = "${fn:length(vehicleGrabList) == 0}">display:none;</c:if>" value="确认"   />
+					<input type="button" class="bluebutton" style="padding: 8px 16px; font-size:20px; border-radius: 6px; border:none;" value="返回" <%--onclick="goBack();" --%>onclick="javascript:window.history.go(-1);" />
+					<input type="submit" id="submit" class="bluebutton" style="padding: 8px 16px; font-size:20px; border-radius: 6px; border:none; <c:if test = "${fn:length(info) == 0}">display:none;</c:if>" value="确认"   />
 				</div>
 			</div>
 		</form>
@@ -127,11 +132,12 @@
 	    submitHandler: function(form){
 	    	if(confirm("你要确定操作吗？")){
 		    	$.post($("#qdForm").attr("action"),$("#qdForm").serialize(),function(data){
-		    		data = $.parseJSON(data);
-		    		alert(data.content);
-		            if(data.status=="1"){
-		            	window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-wlOrderList";
-		            }
+		    	    data=JSON.parse(data);
+		            if(data.code==0){
+		            	window.location.href = "${pageContext.request.contextPath}/customer/logisticsInfoList";
+		            }else{
+		                alert(data.msg);
+                    }
 		      	})
 		      	.error(function(data){
 		      		alert("操作失败！")

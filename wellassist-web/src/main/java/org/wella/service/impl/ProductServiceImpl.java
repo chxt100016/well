@@ -32,7 +32,7 @@ public class ProductServiceImpl implements ProductService {
             HttpSession session = HttpContextUtils.getHttpServletRequest().getSession();
             User user = (User) session.getAttribute("user");
             prodMap.put("createUserId",user.getUserId());
-            prodMap.put("prodStat",2);
+            prodMap.put("prodState",2);
             prodDao.createProd(prodMap);
     }
 

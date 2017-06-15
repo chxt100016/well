@@ -208,7 +208,8 @@
                 $("#grabVehicles").val(JSON.stringify(this.Vehicles));
                 $.post($("#grabForm").attr("action"),$("#grabForm").serialize(),function(data){
                     if(data.code==0 ){
-                        window.location.href = "${pageContext.request.contextPath}/front/sender/FrontSenderOrderCtrl-sqResult";
+                        /*window.location.href = "${pageContext.request.contextPath}/front/sender/FrontSenderOrderCtrl-sqResult";*/
+                        window.location.href = "${pageContext.request.contextPath}/sender/logisticsGrabResult";
                     }else {
                         alert(data.msg);
                     }

@@ -144,4 +144,16 @@ public class SenderServiceImpl implements SenderService {
         }
         return res;
     }
+
+    @Override
+    public List<Map<String, Object>> logisticsOrderListInfo(Map param) {
+        List<Map<String, Object>> res=logisticsInfoDao.senderLogisticsOrderListInfo(param);
+        ConvertUtil.convertDataBaseMapToJavaMap(res);
+        return res;
+    }
+
+    @Override
+    public int logisticsOrderListInfoCount(Map param) {
+        return logisticsInfoDao.senderLogisticsOrderListInfoCount(param);
+    }
 }

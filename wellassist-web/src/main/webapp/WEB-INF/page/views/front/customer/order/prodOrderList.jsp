@@ -59,7 +59,7 @@
 					</div>
 					<div style = "margin-right:10px;line-height:106px; float:right;color:#A1A2A9;">
 						${item.saleNum}吨
-						<c:if test="${item.orderState=='3'}">(已发送 ${item.saleSjNum}吨)</c:if>
+						<%--<c:if test="${item.orderState=='3'}">(已发送 ${item.saleSjNum}吨)</c:if>--%>
 					</div>	
 				</div>
 				<div class="grayboxwithoutleft" style="width:20%;height:110px;font-size:14px;float:left;border:none; border-right: solid 1px #d0d0d0; text-align: center;">
@@ -67,10 +67,10 @@
 						<tr>
 							<td>
 								总价：${item.saleMoney}元
-								<c:if test="${item.orderState>=3}">
+								<%--<c:if test="${item.orderState>=3}">
 								<br/>
 								(已成交额：${item.saleSjMoney}元)
-								</c:if>
+								</c:if>--%>
 							</td>
 						</tr>
 						<c:if test="${item.saleNum!=null and item.saleNum>0}">
@@ -88,6 +88,8 @@
 							<td style="color:#a00;">
 								<c:if test="${item.orderState=='0'}">待确认</c:if>
 								<c:if test="${item.orderState=='1'}">待付款</c:if>
+								<c:if test="${item.orderState=='11'}">待物流付款</c:if>
+								<c:if test="${item.orderState=='12'}">待付款</c:if>
 								<c:if test="${item.orderState=='2'}">已付款</c:if>
 								<c:if test="${item.orderState=='22'}">已付款(线下支付申请)</c:if>
 								<c:if test="${item.orderState=='21'}">已付款(中信支付申请)</c:if>
@@ -114,7 +116,7 @@
 					</table>
 				</div>
 				<div class="grayboxwithoutleft" style="height:110px;font-size:16px; float:right; border:none;text-align:center; width:19%; ">
-					<c:if test="${item.orderState==1}">
+					<c:if test="${item.orderState==1||item.orderState==12}">
 						<span class="span_btn" onClick="toURL('editFukuan', '${item.orderId}')">付款</span>
 					</c:if>
 					<c:if test="${item.orderState==3 ||item.orderState==4}">
@@ -163,7 +165,16 @@
 			else if(action=='detailVehicle'){
 				window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-detailOrder?orderType=1&orderId=" + orderId;
 			} else if(action=='editFukuan'){
-				window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-editFukuan?orderId=" + orderId;
+				/*window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-editFukuan?orderId=" + orderId;*/
+                alert("跳过付款过程");
+                $.post("${pageContext.request.contextPath}/customer/testPayOrder",{orderId:orderId},function(data){
+                    if(data.code==0){
+                        window.location.reload();
+                    }
+                },"json")
+                    .error(function(){
+                        alert("未知错误，请联系管理员");
+                    });
 			} else if(action=='editPingjia'){
 				window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-editPingjia?orderId=" + orderId;
 			} else if(action=='cancelOrder'){
@@ -176,7 +187,7 @@
 			            }
 			      	})
 			      	.error(function(data){
-			      		alert("操作失败！")
+			      		alert("操作失败！");
 			      	});
 				}
 			} else if(action=='editFahuo'){

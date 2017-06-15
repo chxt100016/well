@@ -7,7 +7,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>卖家管理员页面111</title>
+		<title>卖家管理员页面</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="Admin Panel Template">
 		<meta name="author" content="Westilian: Kamrujaman Shohel">
@@ -67,7 +67,7 @@
 		<div align=center>
 			<div style="width:1100px;">
 				<span class="dropdown" style="float:left;">
-					<a data-toggle="dropdown" class="dropdown">${userName}&nbsp;<b class="icon-angle-down"></b></a>
+					<a data-toggle="dropdown" class="dropdown">${user.userName}&nbsp;<b class="icon-angle-down"></b></a>
 					<div class="dropdown-menu">
 						<div id="logout"><a style = "color: #1F2325; text-decoration: none;" href = "${pageContext.request.contextPath}/login/out">退出登陆</a></div>
 					</div>
@@ -128,7 +128,7 @@
 					<ul style="display: block;">				
 						<li class="leftmenuleaf <c:if test ="${childMenuNo == '3' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/seller/orderListPage">订单列表</a></li>
 					</ul>
-					<li class="leftmenulevel1" onclick="menuparentclicked( this);">
+					<%--<li class="leftmenulevel1" onclick="menuparentclicked( this);">
 						<div style="">客户管理</div>
 					</li>
 					<ul style="display: block;">
@@ -140,7 +140,7 @@
 					</li>
 					<ul>
 						<li class="leftmenuleaf <c:if test ="${childMenuNo == '5' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/seller/SellerOrderController-estiList">评价列表</a></li>
-					</ul>
+					</ul>--%>
 				</ul>		
 			</c:if>	
 			<c:if test = "${parentMenuNo == '2'}">

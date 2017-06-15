@@ -57,7 +57,6 @@ public class MemberController extends AbstractController{
         //查询列表数据
         PageUtils pageUtil = new PageUtils(sellerList, totalCount, query.getLimit(), query.getPage());
         return R.ok().put("page", pageUtil);
-
     }
 
     /**
@@ -85,6 +84,7 @@ public class MemberController extends AbstractController{
         Map user = memberServiceImpl.findUserInfoById(userId);
         return  R.ok().put("user",user);
     }
+
     /**
      * 获取卖家产品列表
      *

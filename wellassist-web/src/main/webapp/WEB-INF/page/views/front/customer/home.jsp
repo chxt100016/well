@@ -92,7 +92,7 @@
 							<div  class = "row-fld" style="">
 								<div style="position:relative;">
 									<a href="${pageContext.request.contextPath}/front/customer/CustomerHomeCtrl-prodDetail?prodId=${item.prodId}">
-										<img class = "sp_img" src="${pageContext.request.contextPath}/${item.prodImg}" onerror = "noExitImg(this, '${pageContext.request.contextPath}');">
+										<img class = "sp_img" src="${item.prodImg}" onerror = "noExitImg(this, '${pageContext.request.contextPath}');">
 									</a>
 									<div class="img-title"><span>
 										<c:if test = "${item.prodType == '0'}">

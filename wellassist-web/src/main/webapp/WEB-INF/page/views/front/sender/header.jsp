@@ -119,10 +119,10 @@
 					</li>
 					<ul style="display: block;">				
 						<li class="leftmenuleaf <c:if test ="${childMenuNo == '1' }">selected</c:if>">
-								<a href = "${pageContext.request.contextPath}/front/sender/FrontSenderOrderCtrl-orderList">订单列表</a>
+								<a href = "${pageContext.request.contextPath}/sender/logisticsOrderList">订单列表</a>
 						</li>
 					    <li class="leftmenuleaf <c:if test ="${childMenuNo == '2' }">selected</c:if>">
-					    	<a href = "${pageContext.request.contextPath}/front/sender/FrontSenderOrderCtrl-qdList">抢单列表</a>
+					    	<a href = "${pageContext.request.contextPath}/sender/logisticsGrabList">抢单列表</a>
 					    </li>
 						<li class="leftmenuleaf <c:if test ="${childMenuNo == '3' }">selected</c:if>">
 							<a href = "${pageContext.request.contextPath}/sender/vehicleGrabHall">抢单大厅</a>

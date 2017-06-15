@@ -157,6 +157,8 @@ public class CustomerController extends BaseController{
       }
       return R.error();
    }
+
+
    /**
     * 跳转物流详情页面
     * @param model
@@ -169,6 +171,85 @@ public class CustomerController extends BaseController{
       model.addAttribute("parentMenuNo", "1");
       model.addAttribute("childMenuNo", "1");
       return "views/front/customer/order/expressDetail.jsp";
+   }
+
+
+   /**
+    * 跳转买家物流订单界面
+    */
+   @RequestMapping("logisticsInfoList")
+   public String logisticsInfoList(HttpServletRequest request,Model model){
+      Map param=getConditionParam(request);
+      User user=(User)request.getSession().getAttribute("user");
+      long userId=user.getUserId();
+      param.put("userId",userId);
+      List<Map<String, Object>> info=customerServiceImpl.logisticsInfoListInfo(param);
+      int totalCount=customerServiceImpl.logisticsInfoListInfoCount(param);
+      this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
+      model.addAttribute("info",info);
+      model.addAttribute("parentMenuNo","1");
+      model.addAttribute("childMenuNo","2");
+      model.addAttribute("userName",user.getUserName());
+      return "views/front/customer/order/wlOrderList.jsp";
+   }
+
+   /**
+    * 跳转抢单信息页面
+    */
+   @RequestMapping("grabLogisticsList")
+   public String grabLogisticsList(@RequestParam("logisticsInfoId")String logisticsInfoId, HttpServletRequest request,Model model){
+      long LIId=Long.parseLong(logisticsInfoId);
+      List<Map<String,Object>> info=customerServiceImpl.grabLogisticsListInfo(LIId);
+      model.addAttribute("info",info);
+      model.addAttribute("logisticsInfoId",LIId);
+      model.addAttribute("parentMenuNo","1");
+      model.addAttribute("childMenuNo","2");
+      return "views/front/customer/order/editQiangdan.jsp";
+   }
+
+   /**
+    * 买家选择物流抢单
+    * @param
+    * @param
+    * @param
+    */
+   @RequestMapping("chooseGrab")
+   @ResponseBody
+   public R chooseGrab(@RequestParam Map param){
+      try {
+         customerServiceImpl.chooseGrab(param);
+      }catch (Exception e){
+         e.printStackTrace();
+         return R.error();
+      }
+      return R.ok();
+   }
+
+   @RequestMapping("testPayLogistics")
+   @ResponseBody
+   public R testPayLogistics(@RequestParam("logisticsInfoId") String logisticsInfoId){
+      try {
+         customerServiceImpl.testPayLogistics(Long.parseLong(logisticsInfoId));
+      } catch (NumberFormatException e) {
+         e.printStackTrace();
+         return R.error();
+      }
+      return R.ok();
+   }
+
+   @RequestMapping("testPayOrder")
+   @ResponseBody
+   public R testPayOrder(@RequestParam("orderId")String orderId){
+      try {
+         int res=customerServiceImpl.testPayOrder(Long.parseLong(orderId));
+         if(res>0){
+            return R.ok();
+         }
+      } catch (Exception e) {
+         e.printStackTrace();
+         return R.error();
+      }
+      return R.error();
    }
 
    @RequestMapping(
@@ -302,7 +383,7 @@ public class CustomerController extends BaseController{
    @RequestMapping("prodList")
    public String prodList(@RequestParam Map<String,Object>map,Model model){
       User user = (User) HttpContextUtils.getAttribute("user");
-      map.put("supplyId",user.getSupplyId());
+      map.put("userId",user.getSupplyId());
       List<Prod> prodList = prodDao.findProdByUserId(map);
       model.addAttribute("spList", prodList);
       model.addAttribute("userName", user.getUserName());
@@ -335,6 +416,7 @@ public class CustomerController extends BaseController{
    }
 
    /**
+    * 重复，要删
     * 下订单界面
     * @param prodId
     * @param model
@@ -431,6 +513,7 @@ public class CustomerController extends BaseController{
       model.addAttribute("cityId", cParam);
       //区列表
       model.addAttribute("countyList", this.getChildRegionList(CommonUtil.getIntFromString(cParam)));
+      model.addAttribute("userName", user.getUserName());
       return "views/front/customer/company/companyInfo.jsp";
    }
 
@@ -450,6 +533,7 @@ public class CustomerController extends BaseController{
       model.addAttribute("parentMenuNo", "4");
       model.addAttribute("childMenuNo", "4");
       model.addAttribute("Cards",bankcardList);
+      model.addAttribute("userName",user.getUserName());
       return "views/front/customer/company/bankcard.jsp";
    }
 
@@ -467,6 +551,7 @@ public class CustomerController extends BaseController{
       model.addAttribute("childMenuNo", "2");
       model.addAttribute("user", user);
       model.addAttribute("userInfo", userinfo);
+      model.addAttribute("userName",user.getUserName());
       return "views/front/customer/company/contactMode.jsp";
    }
 

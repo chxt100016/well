@@ -24,7 +24,7 @@
 	
 		<form id = "infoForm" action="${pageContext.request.contextPath}/customer/rechargeApply" method="post">
 			<input type = "hidden" id = "rechargeType" name = "rechargeType"/>
-			<div align=left style="box-shadow: 2px 2px 8px #aaa;padding-bottom:16px;margin-left: 48px;margin-right: 48px;font-size:16px;border-bottom: 1px solid #aaa; background-color:white;">
+			<div align=left style="height: 500px;box-shadow: 2px 2px 8px #aaa;padding-bottom:16px;margin-left: 48px;margin-right: 48px;font-size:16px;border-bottom: 1px solid #aaa; background-color:white;">
 				<div style="height: 48px;background-color:white;"></div>
 				<table style="padding-left:4%;padding-right:4%;width:92%;background-color:white;">
 					<tr>
@@ -37,9 +37,21 @@
 						<td class="caption" style="text-align:left;">元</td>
 					</tr>
 					<tr>
-						<td class="caption" style="text-align:center;">充值方式</td>
-						<td><img  class = "fsImg" src="<c:url value="/resources/upload/images/bank_mark/china_citic_bank.png"/>"  onclick = "selectPayFs('1', this);"></td>
-						<td><img class = "fsImg  selected" src="<c:url value="/resources/upload/images/bank_mark/xianxia.png"/>"  onclick = "selectPayFs('0', this);"></td>
+						<td class="caption" style="text-align:center;">充值方式：</td>
+						<%--<td><img  class = "fsImg" src="<c:url value="/resources/upload/images/bank_mark/china_citic_bank.png"/>"  onclick = "selectPayFs('1', this);"></td>
+						<td><img class = "fsImg  selected" src="<c:url value="/resources/upload/images/bank_mark/xianxia.png"/>"  onclick = "selectPayFs('0', this);"></td>--%>
+						<td>
+							<div class="ui floating labeled icon dropdown button">
+  								<i class="payment icon"></i>
+									<span class="text">选择银行卡</span>
+									<div class="menu">
+										<div class="header">请选择您添加过的银行卡 </div>
+										<div class="item"><img class="ui avatar image" src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国银行(1158)  </div>
+										<div class="item"><img class="ui avatar image" src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国农业银行 </div>
+										<div class="item"><img class="ui avatar image" src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国人民很行 </div>
+									</div>
+							</div>
+						</td>
 						<td></td>
 					</tr>
 				
@@ -103,7 +115,28 @@
 	$("#back").click( function(){
 		goBack();
 	});
+
 	
 	
+</script>
+
+<script>	
+$(function(){
+
+
+$('.ui.accordion').accordion();
+$('.dropdown')
+  .dropdown({
+    // you can use any ui transition
+    transition: 'drop',
+	// action:'combo',
+	onChange: function(value, text, $selectedItem) {
+     console.log(value);
+    }
+  })
+;
+
+})
+
 </script>
 </html>

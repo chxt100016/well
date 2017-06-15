@@ -148,7 +148,7 @@
             </li>
             <li class="col-line">
                 <div class="fl-lf  tx-rg " style="width:200px;">付款状态：</div>
-                <div class="fl-lf"><c:if test="${info.orderState<2}">代付款</c:if>
+                <div class="fl-lf"><c:if test="${info.orderState<2}">待付款</c:if>
                     <c:if test="${info.orderState>=2}">已付款</c:if>
                 </div>
             </li>
@@ -174,9 +174,9 @@
             </li>
         </ul>
         <br><br>
-        <h4 class="ui header">物流信息</h4>
+
         <c:if test="${!empty info.zorders}">
-       
+            <h4 class="ui header">物流信息</h4>
           <div class="ui divider"></div>
         <c:forEach items="${info.zorders}" var="zorder">
         <div class="ui ignored positive message">
@@ -230,6 +230,7 @@
         </c:forEach>
          
             </c:if>
+        <button onclick="javascript:window.history.go(-1);">返回</button>
             </div>
     </div>
 </body>
@@ -237,13 +238,12 @@
     function confirmReceive(zorderId){
         if(confirm("你要确定要操作吗？")){
             $.get("${pageContext.request.contextPath}/customer/zorderConfirmReceive",{zorderId:zorderId},function(data){
-                alert(data);
                 if(data.code==0){
                     window.location.reload();
                 }
-            })
+            },"json")
                 .error(function(data){
-                    alert("操作失败！")
+                    alert("操作失败！");
                 });
         }
     }

@@ -38,4 +38,8 @@ public interface SenderService {
     List<Map<String,Object>> homePageLogisicsInfos(Map queryLogistics);
 
     int grabLogistics(Map param);
+
+    List<Map<String,Object>> logisticsOrderListInfo(Map param);
+
+    int logisticsOrderListInfoCount(Map param);
 }

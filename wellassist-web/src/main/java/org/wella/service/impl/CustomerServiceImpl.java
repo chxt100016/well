@@ -1,5 +1,6 @@
 package org.wella.service.impl;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +42,10 @@ public class CustomerServiceImpl implements CustomerService {
     private WaOrderService waOrderServiceImpl;
     @Autowired
     private ZorderDao zorderDao;
+    @Autowired
+    private LogisticsInfoDao logisticsInfoDao;
+    @Autowired
+    private VehicleGrabDao vehicleGrabDao;
 
 
     /**
@@ -266,11 +271,141 @@ public class CustomerServiceImpl implements CustomerService {
         return res;
     }
 
+    /**
+     * 判断有没有发货完成order_state:4？在判断其他子订单有没有确认收货zorder_state:2?都通过则order_state->5
+     * @param zorderId
+     * @return
+     */
     @Override
     public int zorderConfirmReceive(long zorderId) {
+        int res=0;
         Zorder zorder=new Zorder();
         zorder.setZorderId(zorderId);
         zorder.setZorderState((byte)2);
-        return zorderDao.updateByPrimaryKey(zorder);
+        res=zorderDao.updateByPrimaryKey(zorder);
+        Map<String,Object> zo=zorderDao.singleZorderByPrimaryKey(zorderId);
+        long orderId=(long)zo.get("order_id");
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        if((int)order.get("order_state")!=4){
+            return res;
+        }
+        Map queryzorder=new HashMap();
+        queryzorder.put("orderId",orderId);
+        List<Map<String,Object>> zorders=zorderDao.listZordersByConditions(queryzorder);
+        for(Map<String,Object> zor:zorders){
+            if ((int)zor.get("zorder_state")!=2){
+                return res;
+            }
+        }
+        Map updateOrder=new HashMap();
+        updateOrder.put("orderState",(byte)5);
+        updateOrder.put("orderId",orderId);
+        res+=orderDao.updateOrderByID(updateOrder);
+        return res;
     }
+
+    @Override
+    public List<Map<String, Object>> logisticsInfoListInfo(Map param) {
+        List<Map<String, Object>> res=logisticsInfoDao.customerLogisticsInfoListInfo(param);
+        ConvertUtil.convertDataBaseMapToJavaMap(res);
+        return res;
+    }
+
+    @Override
+    public int logisticsInfoListInfoCount(Map param) {
+        int res=logisticsInfoDao.customerLogisticsInfoListInfoCount(param);
+        return res;
+    }
+
+    @Override
+    public List<Map<String, Object>> grabLogisticsListInfo(long liId) {
+        Map query=new HashMap();
+        query.put("logisticsInfoId",liId);
+        List<Map<String,Object>> res=vehicleGrabDao.listVehicleGrabAttachUserinfoByConditions(query);
+        ConvertUtil.convertDataBaseMapToJavaMap(res);
+        return res;
+    }
+
+    /**
+     * 选择物流 update wa_vehicle_grab 表 state，update wa_logistics_info 表 state 及其他
+     * @param param
+     * @return
+     */
+    @Override
+    @Transactional
+    public int chooseGrab(Map param) {
+        int res=0;
+        long logisticsInfoId=Long.parseLong((String)param.get("logisticsInfoId"));
+        long vehicleGrabId=Long.parseLong((String)param.get("grabId"));
+        //update wa_vehicle_grab 表 state
+        Map queryVG=new HashMap();
+        queryVG.put("logisticsInfoId",logisticsInfoId);
+        List<Map<String,Object>> vehicleGrabs=vehicleGrabDao.listVehicleGrabByConditions(queryVG);
+        ConvertUtil.convertDataBaseMapToJavaMap(vehicleGrabs);
+        for (Map<String,Object> vehicleGrab:vehicleGrabs){
+            if(vehicleGrabId==(long)vehicleGrab.get("vehicleGrabId")){
+                vehicleGrab.put("grabState",(byte)1);
+            }else{
+                vehicleGrab.put("grabState",(byte)-1);
+            }
+            res+=vehicleGrabDao.updateByPrimaryKey(vehicleGrab);
+        }
+
+        Map<String,Object> vehicleGrab=vehicleGrabDao.singleVehicleGrabByPrimaryKey(vehicleGrabId);
+        Map<String,Object> updateLogisticsInfo=new HashMap();
+        updateLogisticsInfo.put("logisticsId",logisticsInfoId);
+        updateLogisticsInfo.put("state",(byte)2);
+        updateLogisticsInfo.put("orderPrice",((BigDecimal)vehicleGrab.get("grab_money")).doubleValue());
+        updateLogisticsInfo.put("senderUserId",(long)vehicleGrab.get("sender_user_id"));
+        updateLogisticsInfo.put("vehicleGrabId",vehicleGrabId);
+        res+=logisticsInfoDao.updateByPrimaryKey(updateLogisticsInfo);
+        return res;
+    }
+
+    /**
+     * update wa_logistics_info 表 state=3，pre_payment=order_price
+     * update order表：如果order_state:11-->2;如果order_state:1-->12
+     * @param logisticsInfoId
+     */
+    @Override
+    @Transactional
+    public void testPayLogistics(long logisticsInfoId) {
+        Map<String,Object> logisticsInfo=logisticsInfoDao.singleLogisticsInfoByPrimaryKey(logisticsInfoId);
+        ConvertUtil.convertDataBaseMapToJavaMap(logisticsInfo);
+        logisticsInfo.remove("state");
+        logisticsInfo.put("state",(byte)3);
+        logisticsInfo.put("prePayment",(double)logisticsInfo.get("orderPrice"));
+        logisticsInfoDao.updateByPrimaryKey(logisticsInfo);
+
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey((long)logisticsInfo.get("orderId"));
+        byte orderState=(int)order.get("order_state")==1?(byte)12:(byte)2;
+        Map updateOrder=new HashMap();
+        updateOrder.put("orderId",(long)order.get("order_id"));
+        updateOrder.put("orderState",orderState);
+        orderDao.updateOrderByID(updateOrder);
+    }
+
+    /**
+     * update order表：如果notSelfCar:order_state:12-->2;如果order_state:1-->11
+     * 如果isSelfCar:order_state:2
+     * @param orderId
+     */
+    @Override
+    public int testPayOrder(long orderId) {
+        int res=0;
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        byte orderState=0;
+        if ((int)order.get("is_self_car")==0){
+            orderState=2;
+        }else if((int)order.get("is_self_car")==1){
+            orderState=(int)order.get("order_state")==1?(byte)11:(byte)2;
+        }
+        Map updateOrder=new HashMap();
+        updateOrder.put("orderId",(long)order.get("order_id"));
+        updateOrder.put("orderState",orderState);
+        res+=orderDao.updateOrderByID(updateOrder);
+        return res;
+    }
+
+
 }

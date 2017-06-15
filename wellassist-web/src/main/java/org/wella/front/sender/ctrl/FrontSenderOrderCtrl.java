@@ -39,6 +39,13 @@ public class FrontSenderOrderCtrl extends BaseController {
     public FrontSenderOrderCtrl() {
     }
 
+    /**
+     * 订单列表
+     * @param request
+     * @param response
+     * @param model
+     * @return
+     */
     @RequestMapping({"/front/sender/FrontSenderOrderCtrl-orderList"})
     public String orderList(HttpServletRequest request, HttpServletResponse response, Model model) {
         MyInfo myInfo = this.getMyInfo(request);
@@ -193,7 +200,7 @@ public class FrontSenderOrderCtrl extends BaseController {
      * @param model
      * @return
      */
-    @RequestMapping({"/front/sender/FrontSenderOrderCtrl-qdList"})
+   /* @RequestMapping({"/front/sender/FrontSenderOrderCtrl-qdList"})
     public String qdList(HttpServletRequest request, HttpServletResponse response, Model model) {
         MyInfo myInfo = this.getMyInfo(request);
         Map param = this.getConditionParam(request);
@@ -207,7 +214,7 @@ public class FrontSenderOrderCtrl extends BaseController {
         model.addAttribute("list", list0);
         this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
         return "views/front/sender/order/qdList.jsp";
-    }
+    }*/
 
     @RequestMapping({"/front/sender/FrontSenderOrderCtrl-sqResult"})
     public String sqResult(HttpServletRequest request, HttpServletResponse response, Model model) {

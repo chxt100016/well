@@ -1,4 +1,4 @@
-<%@ include file="../header_new.jsp"%>
+<%@ include file="../header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -167,6 +167,7 @@
             </li>
         </ul><br><br>
         <c:if test="${!empty info.zorders}">
+        <h4 class="ui header">物流信息</h4>
         <c:forEach items="${info.zorders}" var="zorder">
         发货时间：<fmt:formatDate value="${zorder.zorderDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate><br>
         子订单单价:${zorder.zorderPrice}
@@ -206,6 +207,7 @@
             <c:if test="${zorder.zorderState==2}">已收货</c:if><div>
         </c:forEach>
             </c:if>
+            <button onclick="javascript:window.history.go(-1);">返回</button>
     </div>
 </body>
 

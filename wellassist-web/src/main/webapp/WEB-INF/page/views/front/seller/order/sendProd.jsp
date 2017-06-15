@@ -64,7 +64,7 @@
             <div class="column container">
                 <div class="fl-lf " style="width:50%"> ${info.prodName}</div>
                 <div class="right item fl-rg" style="width:40%">
-                    <span class="ui inverted ">总量:${info.saleNum}</span>
+                    <span class="ui inverted ">总量:${info.orderNumber}</span>
                     <span class="ui inverted ">已发货:${info.deliverNumCount}</span>
                     <span class="ui inverted ">当前库存:${info.restNum}<span>
                
