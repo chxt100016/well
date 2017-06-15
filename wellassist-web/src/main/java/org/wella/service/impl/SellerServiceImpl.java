@@ -251,8 +251,6 @@ public class SellerServiceImpl implements SellerService {
         //logisticsInfo.setPrePayment(prePayment.doubleValue());
 
         logisticsInfo.setOrderDate(order.getOrderDate());
-        //查询物流信息表
-        logisticsInfo.setFromAddress(order.getFromRegionAddr());
         //创建物流订单
         logisticsInfoDao.createLogisticsInfo(logisticsInfo);
     }

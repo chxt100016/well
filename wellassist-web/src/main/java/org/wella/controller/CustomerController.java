@@ -189,6 +189,7 @@ public class CustomerController extends BaseController{
       model.addAttribute("info",info);
       model.addAttribute("parentMenuNo","1");
       model.addAttribute("childMenuNo","2");
+      model.addAttribute("userName",user.getUserName());
       return "views/front/customer/order/wlOrderList.jsp";
    }
 
@@ -382,7 +383,7 @@ public class CustomerController extends BaseController{
    @RequestMapping("prodList")
    public String prodList(@RequestParam Map<String,Object>map,Model model){
       User user = (User) HttpContextUtils.getAttribute("user");
-      map.put("supplyId",user.getSupplyId());
+      map.put("userId",user.getSupplyId());
       List<Prod> prodList = prodDao.findProdByUserId(map);
       model.addAttribute("spList", prodList);
       model.addAttribute("userName", user.getUserName());
@@ -415,6 +416,7 @@ public class CustomerController extends BaseController{
    }
 
    /**
+    * 重复，要删
     * 下订单界面
     * @param prodId
     * @param model
@@ -511,6 +513,7 @@ public class CustomerController extends BaseController{
       model.addAttribute("cityId", cParam);
       //区列表
       model.addAttribute("countyList", this.getChildRegionList(CommonUtil.getIntFromString(cParam)));
+      model.addAttribute("userName", user.getUserName());
       return "views/front/customer/company/companyInfo.jsp";
    }
 
@@ -530,6 +533,7 @@ public class CustomerController extends BaseController{
       model.addAttribute("parentMenuNo", "4");
       model.addAttribute("childMenuNo", "4");
       model.addAttribute("Cards",bankcardList);
+      model.addAttribute("userName",user.getUserName());
       return "views/front/customer/company/bankcard.jsp";
    }
 
@@ -547,6 +551,7 @@ public class CustomerController extends BaseController{
       model.addAttribute("childMenuNo", "2");
       model.addAttribute("user", user);
       model.addAttribute("userInfo", userinfo);
+      model.addAttribute("userName",user.getUserName());
       return "views/front/customer/company/contactMode.jsp";
    }
 

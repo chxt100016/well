@@ -20,6 +20,7 @@ import org.wella.entity.Prod;
 import org.wella.entity.User;
 import org.wella.entity.Userinfo;
 import org.wella.service.CustomerService;
+import org.wella.service.RegionService;
 import org.wella.service.SellerService;
 import org.wella.service.SenderService;
 import org.wella.service.impl.LoginServiceImpl;
@@ -60,6 +61,9 @@ public class LoginController extends BaseController {
 
     @Autowired
     private SellerService sellerServiceImpl;
+
+    @Autowired
+    private RegionService regionServiceImpl;
 
     @RequestMapping(value = {"page"},method = RequestMethod.GET)
     public String page(){
@@ -118,6 +122,8 @@ public class LoginController extends BaseController {
             param.put("userId",user.getUserId());
             List<Prod> spList=sellerServiceImpl.findProductList(param);
             model.addAttribute("spList",spList);
+            String address=regionServiceImpl.getDetailAddress(Long.parseLong(userinfo.getZcRegionId()),userinfo.getZcXxAddress());
+            model.addAttribute("address",address);
             return "/views/front/seller/home.jsp";
         }else if("1".equals(type)){
             model.addAttribute("user",user);

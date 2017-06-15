@@ -168,6 +168,11 @@ public class SendController extends BaseController{
         return R.error();
     }
 
+
+    @RequestMapping({"/logisticsGrabResult"})
+    public String sqResult(HttpServletRequest request, HttpServletResponse response, Model model) {
+        return "views/front/sender/order/qdResult.jsp";
+    }
     /**
      * 查看抢单记录
      * @param request 传入参数：orderNo,grabState,page

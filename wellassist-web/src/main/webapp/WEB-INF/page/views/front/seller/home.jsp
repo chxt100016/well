@@ -46,10 +46,10 @@
 		<div align=center style="padding-top:12px;">
 			<div align=left style="width:1000px;height:100%;">
 				<img src="<c:url value="/resources/wella/front/images/customer/banner.png"/>" style="width:1000px;">
-				<div class="start_heading2">昆仑燃气</div>
+				<div class="start_heading2">${user.userName}</div>
 				<div style="display:block; overflow:auto">
 					<div style="float:left;width:200px;height:200px;background:white;border:solid 1px #c0c0c0;">
-						<table style="width:100%;height:100%;"><tr><td><p align=center><img src="<c:url value="/resources/upload/images/company_mark/kunlun.png"/>"></p></td></tr></table>
+						<table style="width:100%;height:100%;"><tr><td><p align=center><img src="${userinfo.companyImg}"></p></td></tr></table>
 					</div>
 					<div style="float:left;margin-left:20px;margin-right:20px;width:504px;height:200px;background:white;border:solid 1px #c0c0c0;">
 						<div style="padding-left: 10px;padding-top: 16px;font-size: 20px;font-weight:500;">公告栏</div>
@@ -76,7 +76,7 @@
 						</tr>
 						<tr>
 							<td style="text-align:right; width:75px; padding-right:5px; height:30px">联系地址:</td>
-							<td>${userInfo.bgXxAddress}</td>
+							<td>${address}</td>
 						</tr>
 						</table>
 					</div>
@@ -84,7 +84,7 @@
 				
 				<div class="start_heading2" style="font-size:22px; margin-top:30px;">企业介绍</div>
 				<div style="font-size:15px;line-height:150%;color:#666666">
-				重石油昆仑燃气有限公司（简称昆仑燃气公司）市委实现天然气业务上中下游一体化，更好地履行责任，
+				（功能待开发）重石油昆仑燃气有限公司（简称昆仑燃气公司）市委实现天然气业务上中下游一体化，更好地履行责任，
 			服务社会， 经中国石油天然气集团公司批准、国家工商管理总局核准于2008年8月6日， 由中石油天然气管道燃气投资有限公司、中国华油集团燃气事业部、中油然气有限责任公司、重组整合成立， 是中国石油城市燃气运菅的专业化公司。公司注册资本金60.6亿元。
 				</div>
 

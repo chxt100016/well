@@ -26,22 +26,25 @@
                 width: 100,
                 formatter: function(value, options, row) {
                     var userId = row.userId;
-                    return value + '元<a href="./accountDeatil.html?id='+ userId +'>详情</a>'
+                    /*return value + '元<a href="./accountDeatil.html?id='+ userId +'>详情</a>';*/
+                    return value;
                 }
             }, {
                 label: '还款情况',
                 name: 'status',
                 width: 80,
                 formatter: function(value, options, row) {
-                    return value +
-                    "<br><a href=''>详情</a>"
+                    /*return value +
+                    "<br><a href=''>详情</a>";*/
+                    return '功能待开发';
                 }
             }, {
                 label: '授信额度',
                 name: 'customerMoney',
                 width: 100,
                 formatter: function(value, options, row) {
-                    return value + "万元<br><a href=''>授信额度</a>";
+                    /*return value + "万元<br><a href=''>授信额度</a>";*/
+                    return '功能待开发';
                 }
 
             },

@@ -45,7 +45,7 @@
 <script type="text/javascript">
 	
 	$("#backtodingdanlist").click( function(){
-		window.location.href="<c:url value="/front/sender/FrontSenderOrderCtrl-qdList"/>";
+		window.location.href="<c:url value="/sender/logisticsGrabList"/>";
 	});
 	
 </script>

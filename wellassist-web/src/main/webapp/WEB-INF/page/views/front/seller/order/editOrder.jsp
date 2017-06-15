@@ -1,4 +1,4 @@
-﻿<%@ include file="../header_new.jsp"%>
+﻿<%@ include file="../header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 
 <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
@@ -99,7 +99,7 @@
 				<input type="hidden" name="orderId" value="${orderInfo.orderId}" />
 
 				<div style="margin: 40px 0px 40px 80px;">
-						<input type="button" class="bluebutton" style="padding: 8px 16px; font-size:20px; border-radius: 6px; border:none;" value="返回" onclick="goBack();" />
+						<input type="button" class="bluebutton" style="padding: 8px 16px; font-size:20px; border-radius: 6px; border:none;" value="返回" <%--onclick="goBack();"--%>onclick="javascript:window.history.go(-1);" />
 						<input type="submit" id="submit" class="bluebutton" style="padding: 8px 16px; font-size:20px; border-radius: 6px; border:none;" value="确认" />
 				</div>
 			</div>

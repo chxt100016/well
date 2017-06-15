@@ -281,7 +281,7 @@
                 </div>
             </div>
         </div>
-		<div class="item">
+		<%--<div class="item">
             <a class="title active "><i class="dropdown icon"></i> 评价反馈 </a>
             <div class=" active content">
                 <div class="ui form">
@@ -292,12 +292,10 @@
                                 <label> <a href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-estiList">评价列表</a></label>
                             </div>
                         </div>
-                        
-                        
                     </div>
                 </div>
             </div>
-        </div>
+        </div>--%>
 
  </c:if>
 

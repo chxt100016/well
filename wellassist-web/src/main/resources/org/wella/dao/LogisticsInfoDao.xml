@@ -191,7 +191,7 @@
     <select id="singleLIattachVGByConditions" parameterType="map" resultType="map">
         SELECT li.logistics_id,li.`order_id`,li.`prod_id`,li.`customer_user_id`,li.`seller_user_id`,li.`prod_name`,li.`customer_user_name`,li.`num`,li.pre_payment,li.`state`,li.order_date,li.`from_address`,li.`seller_user_name`,li.`to_address`,li.`order_price`,li.`sender_user_id`,li.`vehicle_grab_id`,vg.*
         FROM wa_logistics_info li LEFT JOIN wa_vehicle_grab vg ON li.vehicle_grab_id=vg.vehicle_grab_id
-        WHERE li.order_id=89
+        WHERE li.order_id=#{orderId}
     </select>
 
     <select id="customerLogisticsInfoListInfo" parameterType="map" resultType="map">

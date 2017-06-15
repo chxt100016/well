@@ -382,7 +382,7 @@
                 </div>
             <br><br>
 
-             <div style="align:center"> <button id="submit" class="ui primary submit button" style="width:100px;margin:0 auto;display:block;">提交</button> </div>
+             <div style="align:center"> <button id="submit" class="ui primary button" style="width:100px;margin:0 auto;display:block;">提交</button> </div>
             </form>
 
         </div>
@@ -692,6 +692,7 @@
                     }else{
                         alert(data.content);
                         return false;
+                        console.log("false!!!");
                     }
                     if(flag){
                         var contactemail =$("input[name='contactemail']").val();
@@ -701,8 +702,8 @@
                                 alert(data.content);
                                 return false;
                             }else{
-                                registerForm.attr("action", "<c:url value="/register/register"/>");
-                                $.post(registerForm.attr("action"),registerForm.serialize(),function(data){
+                                <%--registerForm.attr("action", "<c:url value="/register/register"/>");--%>
+                                $.post("${pageContext.request.contextPath}/register/register",registerForm.serialize(),function(data){
                                     data = $.parseJSON(data);
                                     if(data.state==1){
                                         window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerLoginCtrl-registerNext";

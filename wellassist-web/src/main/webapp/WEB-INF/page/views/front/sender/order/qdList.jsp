@@ -41,7 +41,7 @@
 							<a class="fancybox" href="${pageContext.request.contextPath}/resources/common/images/icon_user_def.jpg" data-fancybox-group="gallery" title=""><img src="${pageContext.request.contextPath}/resources/common/images/icon_user_def.jpg"  style="width:50px; height:50px;" /></a>
 						</c:if>
 						<c:if test = "${item0.companyImg != '' and not empty item0.companyImg}">
-							<a class="fancybox" href="${item0.companyImg}" data-fancybox-group="gallery" title=""><img src="${pageContext.request.contextPath}/${item0.companyImg}"  style="width:50px; height:50px;" onerror = "noExitImg(this, '${pageContext.request.contextPath}');"/></a>
+							<a class="fancybox" href="${item0.companyImg}" data-fancybox-group="gallery" title=""><img src="${item0.companyImg}"  style="width:50px; height:50px;" onerror = "noExitImg(this, '${pageContext.request.contextPath}');"/></a>
 						</c:if>
 					</div>
 					<div style = "margin-left:10px;line-height:56px; color: #807B7B;float:left; font-size:10px;">
@@ -59,7 +59,7 @@
 				<div style = "border-bottom: solid 1px#E0E0E0; overflow:auto;">
 					<div class="graybox" style="width:40%;height:110px;font-size:14px;float:left; border:none; border-right: solid 1px #d0d0d0;">
 						<div style = "margin-left:10px;line-height:106px; float:left;">
-							<a class="fancybox" href="${pageContext.request.contextPath}/resources/wella/front/images/seller/ordersheet/icon01.png" data-fancybox-group="gallery" title=""><img src="${pageContext.request.contextPath}/resources/wella/front/images/seller/ordersheet/icon01.png"  style="width:80px; height:80px;" /></a>
+							<a class="fancybox" href="${item2.prodImg}" data-fancybox-group="gallery" title=""><img src="${item2.prodImg}"  style="width:80px; height:80px;" /></a>
 						</div>
 						<div style = "margin-left:10px;line-height:106px; float:left;">
 							${item2.prodName}

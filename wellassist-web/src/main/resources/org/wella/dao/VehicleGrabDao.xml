@@ -17,12 +17,13 @@
     </insert>
 
     <select id="getGrabLogisticsList" parameterType="java.util.Map" resultType="java.util.Map">
-        SELECT a.`vehicle_grab_id` grabId,d.user_id userId,d.`company_img` companyImg,c.`user_name` userName,d.`company_lxr` companyLxr,d.`company_lxr_phone` companyLxrPhone,b.`prod_name` prodName,b.num num,a.`grab_money` grabMoney,a.`grab_state` grabState,a.`grab_date` grabDate
-        FROM wa_vehicle_grab a,wa_logistics_info b,wa_user c,wa_userinfo d,wa_order e
+        SELECT a.`vehicle_grab_id` grabId,d.user_id userId,d.`company_img` companyImg,c.`user_name` userName,d.`company_lxr` companyLxr,d.`company_lxr_phone` companyLxrPhone,b.`prod_name` prodName,b.num num,a.`grab_money` grabMoney,a.`grab_state` grabState,a.`grab_date` grabDate,f.prod_img prodImg
+        FROM wa_vehicle_grab a,wa_logistics_info b,wa_user c,wa_userinfo d,wa_order e,wa_prod f
         WHERE a.`logistics_info_id`=b.`logistics_id`
         AND b.`customer_user_id`=c.`user_id`
         AND b.`customer_user_id`=d.`user_id`
         AND b.order_id=e.order_id
+        AND e.prod_id=f.prod_id
         <if test="wlUserId != null">
           AND a.`sender_user_id`=#{wlUserId}
         </if>
