@@ -62,6 +62,17 @@ public interface TradeDAO {
      */
     int rechargeHandle(Map<String,Object> map);
 
+    List<Map<String,Object>> orderList(Map<String,Object> map);
 
+    int orderListCount(Map<String,Object> map);
+
+    /**
+     * 交易管理---物流列表相应的sql查询
+     * @param map
+     * @return
+     */
+    List<Map<String,Object>> logisticsViewList(Map<String,Object> map);
+
+    int logisticsListCount(Map<String,Object> map);
 
 }

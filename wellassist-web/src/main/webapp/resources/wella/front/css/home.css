@@ -34,6 +34,7 @@ input {
     height: 52px;
     position: fixed;
     top: 0px;
+    left: 0px;
     width: 100%;
     transition: padding 0.5s ease, background 0.5s ease, box-shadow 0.5s ease, border 0.5s ease;
 }

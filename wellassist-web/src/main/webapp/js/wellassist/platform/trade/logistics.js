@@ -6,36 +6,18 @@ $(function () {
         url: '../trade/logisticsList',
         datatype: "json",
         colModel: [
-            { label: '订单编号', name: 'orderNo', index: "order_no", width: 45, key: true },
-            { label: '物流公司', name: 'userName', width: 75 },
-            { label: '货物名称', name: 'prodName', width: 100 ,formatter:function (value,option,row) {
-                return value+"元<br>";
-            }},
-            { label: '联系人', name: 'userMoney', width: 100 ,formatter:function (value,option,row) {
-                return value+"元<br>";
-            }},
-            { label: '联系电话', name: 'vehicleLxrPhone', index: "user_id", width: 45 },
-            { label: '支付金额', name: 'payMoney', width: 100 ,formatter:function (value,option,row) {
-                return value+"元<br>";
-            }},
-            { label: '运输费用', name: 'vehicleSize', width: 100
-
-            },
-            { label: '操作', name: 'vehicleState', width: 100 ,formatter:function (value,option,row) {
-                if(value ==1){
-                    return "未确定";
-                }else if(value==2){
-                    return "待安排";
-                }else if(value ==3){
-                    return "已安排";
-                }else if(value ==4){
-                    return  "已发货";
+            { label: '订单编号', name: 'orderNo', index: "order_no", width: 70, key: true },
+            { label: '物流公司', name: 'senderName', width: 70 },
+            { label: '货物名称', name: 'prodName', width: 70},
+            { label: '货物金额', name: 'total', width: 50},
+            { label: '联系电话', name: 'phone', index: "user_id", width: 60 },
+            { label: '发货日期', name: 'sendDate', width: 100},
+            { label: '货物状态', name: 'state', width: 100 ,formatter:function (value,option,row) {
+                if(value ==2){
+                    return "确定";
                 }else {
                     return "已完成";
                 }
-            }},
-            { label: '交易状态', name: 'orderId', width: 100 ,formatter:function (value,option,row) {
-                return '<a  class="btn btn-primary" onclick="vm.process('+withdrawId+',2)">详细</a>';
             }}
         ],
         viewrecords: true,

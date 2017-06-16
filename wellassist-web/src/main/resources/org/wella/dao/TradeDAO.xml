@@ -236,6 +236,34 @@
     </select>
 
 
+    <!--订单交易的关联查询,从视图中获取相关数据-->
+    <select id="orderList" parameterType="map" resultType="map">
+          SELECT *
+          FROM orderListView
+          ORDER BY orderDate DESC
+          LIMIT ${offset}, ${limit}
+    </select>
+
+    <!--获取订单的数量-->
+    <select id="orderListCount" parameterType="map" resultType="int">
+          SELECT count(orderNo)
+          FROM orderListView
+    </select>
+
+
+    <!--物流列表交易的关联查询,从视图中获取相关数据-->
+    <select id="logisticsViewList" parameterType="map" resultType="map">
+        SELECT *
+        FROM logisticView
+        ORDER BY sendDate DESC
+        LIMIT ${offset}, ${limit}
+    </select>
+
+    <!--获取物流订单的数量-->
+    <select id="logisticsListCount" parameterType="map" resultType="int">
+        SELECT count(orderNo)
+        FROM logisticView
+    </select>
     <!--提现请求存储过程-->
     <select id="withdrawApply" statementType="CALLABLE" parameterType="map" resultType="int">
         <![CDATA[
