@@ -334,7 +334,7 @@ public class SellerServiceImpl implements SellerService {
             if((int)order.get("is_self_car")==1){
                 Map updateLogisticsInfoMap=new HashMap();
                 updateLogisticsInfoMap.put("orderId",Long.parseLong(orderId));
-                updateLogisticsInfoMap.put("state",3);
+                updateLogisticsInfoMap.put("state",4);
                 logisticsInfoDao.updateByConditions(updateLogisticsInfoMap);
             }
         }

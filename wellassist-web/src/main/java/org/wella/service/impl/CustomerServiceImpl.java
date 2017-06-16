@@ -300,7 +300,22 @@ public class CustomerServiceImpl implements CustomerService {
         Map updateOrder=new HashMap();
         updateOrder.put("orderState",(byte)5);
         updateOrder.put("orderId",orderId);
+        BigDecimal saleSjNum=new BigDecimal(0);
+        BigDecimal saleSjMoney=new BigDecimal(0);
+        for(Map<String,Object> zor:zorders){
+            saleSjNum=saleSjNum.add((BigDecimal)zor.get("zorder_num"));
+            saleSjMoney=saleSjMoney.add((BigDecimal)zor.get("zorder_money"));
+        }
+        updateOrder.put("saleSjNum",saleSjNum);
+        updateOrder.put("saleSjMoney",saleSjMoney);
         res+=orderDao.updateOrderByID(updateOrder);
+        if ((int)order.get("is_self_car")!=1){
+            return res;
+        }
+        Map updateLogisticsInfoMap=new HashMap();
+        updateLogisticsInfoMap.put("orderId",orderId);
+        updateLogisticsInfoMap.put("state",5);
+        res+=logisticsInfoDao.updateByConditions(updateLogisticsInfoMap);
         return res;
     }
 
