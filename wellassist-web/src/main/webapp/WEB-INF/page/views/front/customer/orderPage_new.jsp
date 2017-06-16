@@ -7,6 +7,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
      <script src="https://unpkg.com/vue/dist/vue.js"></script>
+     <style>
+     .errors{
+         color: red
+     }
+     </style>
 </head>
 <body>
     <div class="ui container segment" id="app1" style="text-align:left; width: 900px;left: 110px; top: -13px">
@@ -52,9 +57,11 @@
                     </div>
                     <div class=" two fields">
                         <div class="field">
-                            <label>发货时间： 
-                                <input type="text" name="deliverDate" value="" style="width:300px" id="deliverDate" onfocus="var receiveDate=$dp.$('receiveDate');WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){receiveDate.focus();},maxDate:'#F{$dp.$D(\'receiveDate\')}'})">
+                            <div class="ui labeled input">
+                                <label>发货时间： 
+                                        <input type="text" name="deliverDate" value="" style="width:300px" id="deliverDate" onfocus="var receiveDate=$dp.$('receiveDate');WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){receiveDate.focus();},maxDate:'#F{$dp.$D(\'receiveDate\')}'})">
                                 </label>
+                            </div>
                         </div>
                         <div class="field">
                             <label>收货时间：
@@ -99,7 +106,7 @@
                 <div class="field">
                     <div class="ui labeled input">
                         <div class="ui label">详细地址 </div>
-                        <input type="text" placeholder="" id="toRegionAddr" name="toRegionAddr">
+                        <input type="text" placeholder="" id="toRegionAddr" name="toRegionAddr"style="width:360px">
                     </div>
 
                 </div>
@@ -153,7 +160,7 @@
 
             <div class="ui active tab " data-tab="owns " id="vehiclepage">
                 <!--<form class="ui form segment has_vehicle_form">-->
-                <div class="ui form has_vehicle_form">
+                <!--<div class="ui form has_vehicle_form">
                     <div class=" four fields ">
                         <div class="field ">
                             <div class="ui labeled input  ">
@@ -173,23 +180,38 @@
                                 <input type="text " class="vh" placeholder=" " v-model="newVehicle.dr_number " id="dr_number" name="dr_number">
                             </div>
                         </div>
-                        <a class="ui green button " @click="createVehicle" style="height:38px">保存 </a>
+                         <div class="field ">
+                            <div class="ui labeled input ">
+                                <div class="ui label ">车挂号 </div>
+                                <input type="text " class="vh" placeholder=" " v-model="newVehicle.dr_number " id="dr_number" name="dr_number">
+                            </div>
+                        </div>
+                        
 
                     </div>
+                    <a class="ui green button " @click="createVehicle" style="height:38px">保存 </a>
                     <ul class="errors">
                         <p style="color:#234">填写时请注意：</p>
-                        <li v-show="!validation.dr_name">司机姓名不得为空</li>
+                        <li v-if="!validation.dr_name">司机姓名不得为空</li>
                         <li v-show="!validation.dr_tel">请输入正确的联系电话</li>
                         <li v-show="!validation.dr_number">请输入车辆车牌号码</li>
                     </ul>
-                </div>
+                </div>-->
+
                 <!--</form>-->
+                <div>
+                    <span class="ui green button" onclick="$('.ui.modal').modal('show');" >添加司机信息</span>
+
+                </div>
+
+                
                 <table class="ui celled padded table ">
                     <thead>
                         <tr>
                             <th class="single line ">司机名称</th>
                             <th>电话</th>
                             <th>车牌号</th>
+                            <th>车挂号</th>
                             <th>操作</th>
 
                         </tr>
@@ -201,6 +223,7 @@
                             </td>
                             <td class="single line driverPhone" >{{vehicle.dr_tel}}</td>
                             <td class="carCode" > {{vehicle.dr_number}}</td>
+                            <td> {{vehicle.hanging_number}} </td>
                             <td class="right aligned " style="width:10% "><a class="ui button " v-on:click="delVehicle($index) ">DELETE </a></td>
 
                         </tr>
@@ -216,8 +239,65 @@
 
 
         </form>
+        <div class="ui small modal" style=" height: 415px">
+                     <i class="close icon"></i>
+                        <div class="header">
+                        添加新司机
+                        </div>
+                <div class="content">
+                    <form class="ui form segment has_vehicle_form">
+                     <div class="ui form has_vehicle_form">
+                    <div class=" two fields ">
+                        <div class="field ">
+                            <div class="ui labeled input  ">
+                                <div class="ui label ">司机名称 </div>
+                                <input type="text " class="vh" placeholder=" " v-model="newVehicle.dr_name " id="dr_name" name="dr_name">
+                            </div>
+                        </div>
+                        <div class="field ">
+                            <div class="ui labeled input vh">
+                                <div class="ui label ">电话 </div>
+                                <input type="text " class="vh number isPhone" placeholder=" " v-model="newVehicle.dr_tel " id="dr_tel" name="dr_tel">
+                            </div>
+                        </div>
+                     
+                        
+
+                    </div>
+                    <div class="two fields">
+                           <div class="field ">
+                            <div class="ui labeled input ">
+                                <div class="ui label ">车牌 </div>
+                                <input type="text " class="vh" placeholder=" " v-model="newVehicle.dr_number " id="dr_number" name="dr_number">
+                            </div>
+                        </div>
+                         <div class="field ">
+                            <div class="ui labeled input ">
+                                <div class="ui label ">车挂号 </div>
+                                <input type="text " class="vh" placeholder=" " v-model="newVehicle.hanging_number " id="dr_number" name="dr_number">
+                            </div>
+                        </div>
+                    </div>
+                  
+                    <ul class="errors">
+                        <p style="color:#234">填写时请注意：</p>
+                        <li v-if="!validation.dr_name">司机姓名不得为空</li>
+                        <li v-show="!validation.dr_tel">请输入正确的联系电话</li>
+                        <li v-show="!validation.dr_number">请输入车辆车牌号码</li>
+                        <li  v-if="!validation.hanging_number">请输入车挂号</li>
+                    </ul>
+                </div>
+                    
+                </div>
+                <div class="actions">
+                    <div class="ui button cancel">Cancel</div>
+                    <div class="ui button green"  @click="createVehicle">Save</div>
+                </div>
+                </form>
+        </div>
     </div>
 
+        
 </body>
 <script>
     $(function() {
@@ -235,6 +315,7 @@
                 dr_name: '',
                 dr_tel: '',
                 dr_number: '',
+                hanging_number:'',
             },
             Vehicles: []
         },
@@ -244,6 +325,7 @@
                     dr_name: !!this.newVehicle.dr_name.trim(),
                     dr_tel: telRE.test(this.newVehicle.dr_tel),
                     dr_number: !!this.newVehicle.dr_number.trim(),
+                    hanging_number: !!this.newVehicle.hanging_number.trim(),
                 }
             },
             isValid: function() {
@@ -262,9 +344,11 @@
                         dr_name: '',
                         dr_tel: '',
                         dr_number: '',
+                        hanging_number:'',
                     }
                 }
-
+                $('.ui.modal').modal('hide');
+             
             },
             delVehicle: function(index) {
                 // 删一个数组元素  
