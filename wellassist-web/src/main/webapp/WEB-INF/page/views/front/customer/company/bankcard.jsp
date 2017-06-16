@@ -14,13 +14,15 @@
 </head>
     <div class="content-rect" id="app1">
         <h3 class="ui header">银行卡管理</h3>
-        <div class="ui divider"></div>
+        <!--<div class="ui divider"></div>-->
         <table class="ui celled padded table " style="width:600px">
             <thead>
                 <tr>
+                    <th> </th>
                     <th class="single line ">银行</th>
                     <th width="40%">卡号</th>
                     <th>操作</th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -113,7 +115,7 @@
                     //项后台发送ajax请求，完成数据存储
                     $.post("./addBankcard",vm.new_card,function (data) {
                         if(data.code == 0){
-                            alert(JSON.stringify(this));
+                            // alert(JSON.stringify(this));
                             vm.Cards.push(vm.new_card);
                             // 添加完newPerson对象后，重置newPerson对象
                             vm.new_card = {

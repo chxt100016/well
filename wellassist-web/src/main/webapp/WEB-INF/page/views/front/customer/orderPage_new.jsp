@@ -9,7 +9,7 @@
      <script src="https://unpkg.com/vue/dist/vue.js"></script>
 </head>
 <body>
-    <div class="ui container segment" id="app1" style="text-align:left;">
+    <div class="ui container segment" id="app1" style="text-align:left; width: 900px;left: 110px; top: -13px">
         <form id="infoForm" action="<c:url value="/customer/order"/>" method="post">
             <input type="hidden" name="toRegionId" id = "toRegionId">
             <input type="hidden" name="prodId" value="${prod.prodId}">
@@ -140,12 +140,12 @@
                 <div class=" inline fields ">
                     <div class="field ">
                         <div class="ui radio checkbox">
-                            <input type="radio" name="isSelfCar" checked="checked" value="0" onclick="checkSelfCar(0)">
+                            <input type="radio" name="isSelfCar" checked="checked" value="0" onclick="checkSelfCar(0)" style="margin-left:0px">
                             <label>我有车</label></div>
                     </div>
                     <div class=" ui field ">
                         <div class="ui radio checkbox">
-                            <input type="radio" name="isSelfCar" value="1" onclick="checkSelfCar(1)">
+                            <input type="radio" name="isSelfCar" value="1" onclick="checkSelfCar(1)" style="margin-left:0px">
                             <label>需要物流</label></div>
                     </div>
                 </div>
@@ -173,7 +173,7 @@
                                 <input type="text " class="vh" placeholder=" " v-model="newVehicle.dr_number " id="dr_number" name="dr_number">
                             </div>
                         </div>
-                        <a class="ui primary button " @click="createVehicle" style="height:38px">保存 </a>
+                        <a class="ui green button " @click="createVehicle" style="height:38px">保存 </a>
 
                     </div>
                     <ul class="errors">
@@ -212,7 +212,7 @@
 
             </div>
             <div class="ui divider "></div>
-            <button class="ui blue button " type="submit " id="submit ">Post </button>
+            <button class="ui blue button " type="submit " id="submit ">提交 </button>
 
 
         </form>

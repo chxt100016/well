@@ -112,7 +112,7 @@
                 }
             )
         };
-        type_in();
+        // type_in();
 
     })</script>
 
