@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import io.wellassist.utils.HttpContextUtils;
 import io.wellassist.utils.IPUtils;
 import io.wellassist.utils.R;
-import io.wellassist.utils.SpringContextUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -250,6 +249,12 @@ public class CustomerController extends BaseController{
          return R.error();
       }
       return R.error();
+   }
+
+   @RequestMapping("goPayOrder")
+   public String goPayOrder(){
+
+      return "views/front/customer/order/editFukuan.jsp";
    }
 
    @RequestMapping(

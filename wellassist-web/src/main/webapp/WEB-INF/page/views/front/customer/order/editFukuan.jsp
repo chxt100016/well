@@ -164,7 +164,7 @@
 				<input type="hidden" name="orderId" value="${orderInfo.orderId}" />
 				<input type="hidden" name="saleMoney" value="${orderInfo.saleMoney}" />
 				<div class="rowDd">
-					<input type="button" class="bluebutton" style="margin-left:45px; margin-top:15px; padding: 8px 16px; font-size:20px; border-radius: 6px; border:none;" value="返回" onclick="goBack();" />
+					<input type="button" class="bluebutton" style="margin-left:45px; margin-top:15px; padding: 8px 16px; font-size:20px; border-radius: 6px; border:none;" value="返回" <%--onclick="goBack();" --%> onclick="javascript:window.history.go(-1);"/>
 					<input type="submit" id="submit" class="bluebutton" style="margin-left:45px; margin-top:15px; padding: 8px 16px; font-size:20px; border-radius: 6px; border:none;" value="确认支付" />
 				</div>
 			</form>

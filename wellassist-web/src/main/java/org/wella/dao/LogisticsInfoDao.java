@@ -31,7 +31,7 @@ public interface LogisticsInfoDao {
 
     int updateByPrimaryKey(Map param);
 
-    void updateByConditions(Map param);
+    int updateByConditions(Map param);
 
     Map<String,Object> singleLIattachVGByConditions(Map queryLI);
 
