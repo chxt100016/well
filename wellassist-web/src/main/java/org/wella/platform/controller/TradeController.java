@@ -104,16 +104,35 @@ public class TradeController extends BaseController {
             return R.error().put("state",0);
         }
     }
-    @RequestMapping("logisticsList")
+//    @RequestMapping("logisticsList")
+//    @ResponseBody
+//    public R logisticsList(@RequestParam Map<String,Object> param, Model model) {
+//        Query query = new Query(param);
+//        List list = tradeDAO.withdrawList(query);
+//        ConvertUtil.convertDataBaseMapToJavaMap(list);
+//        int totalCount = tradeDAO.withdrawCount(query);
+//        PageUtils pageUtils = new PageUtils(list,totalCount,query.getLimit(),query.getPage());
+//        return R.ok().put("page",pageUtils);
+//    }
+
+    @RequestMapping("orders")
     @ResponseBody
-    public R logisticsList(@RequestParam Map<String,Object> param, Model model) {
+    public R orders(@RequestParam Map<String,Object> param) {
         Query query = new Query(param);
-        List list = tradeDAO.withdrawList(query);
-        ConvertUtil.convertDataBaseMapToJavaMap(list);
-        int totalCount = tradeDAO.withdrawCount(query);
+        List list = tradeDAO.orderList(query);
+        int totalCount = tradeDAO.orderListCount(query);
         PageUtils pageUtils = new PageUtils(list,totalCount,query.getLimit(),query.getPage());
         return R.ok().put("page",pageUtils);
     }
 
+    @RequestMapping("logisticsList")
+    @ResponseBody
+    public R logisticsList(@RequestParam Map<String,Object> param) {
+        Query query = new Query(param);
+        List list = tradeDAO.logisticsViewList(query);
+        int totalCount = tradeDAO.logisticsListCount(query);
+        PageUtils pageUtils = new PageUtils(list,totalCount,query.getLimit(),query.getPage());
+        return R.ok().put("page",pageUtils);
+    }
 
 }
