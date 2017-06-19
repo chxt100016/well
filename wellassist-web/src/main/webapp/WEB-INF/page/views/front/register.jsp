@@ -26,8 +26,12 @@
             color: red
         }
         
-        .inactive {
+        /*.inactive {
             color:
+        }*/
+        .ui.form .field .prompt.label{
+            width: 300px;
+            text-align: center;
         }
     </style>
 </head>
@@ -172,7 +176,10 @@
                             </div>
                         </div>
                     </div>
-
+                    
+                    <div class="ui divider"></div>
+<!--企业信息end-->
+<br>
                     <h3 class="ui header">账户信息</h3>
                     <div class="ui divider"></div>
                     <div class="ui form">
@@ -212,19 +219,14 @@
 
 
                         </div>
-                        <div class="inline field">
-                            <div class="ui checkbox">
-                                <input type="checkbox" name="terms">
-                                <label>我同意</label>
-                            </div>
-                        </div>
+                        
 
 
 
 
                     </div>
                     <br>
-                    <a id="next_step" class="ui primary" onclick="next()">Next</a>
+                    <!--<a id="next_step" class="ui primary" onclick="next()">Next</a>-->
                 </div>
         
         <!--基本信息页end-->
@@ -264,6 +266,7 @@
                         </div>
 
                     </div>
+                    <br><br>
                     <h3 class="ui header">资质信息</h3>
                     <div class="ui divider"></div>
                     <div class=" two fields">
@@ -378,7 +381,14 @@
                                 <img id="yingye_imgpath3" class="yingyeimg" style="width:100%;height:230px" src="" />
                                 </div>
                             </div>
+                       
                     </div>
+                     <div class="inline field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="terms">
+                                <label>我同意</label>
+                            </div>
+                        </div>    
                 </div>
             <br><br>
 

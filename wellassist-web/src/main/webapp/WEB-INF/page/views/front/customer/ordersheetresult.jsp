@@ -1,9 +1,9 @@
-<%@ include file="../header.jsp"%>
+<%@ include file="header_new.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <html lang="en">
 <head>
-
+<title>订单提交成功</title>
 <!-- custom css -->
 <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
 <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/customer/register.css"/>">
@@ -27,15 +27,9 @@
 	<div class="main-wrapper" style="margin-left: 0px;">
 
 		<!-- navigation bar -->
-		<div class="abovenavbar">
-			<div align=center>
-				<div style="width:1000px;">
- 					<span style="float: right;"><a href="<c:url value="/front/customer/CustomerHomeCtrl-main"/>">管理员</a></span>
-				</div>
-			</div>
-		</div>
+	
 		
-		<div align=center style="padding-top:12px;">
+		<div align=center style="padding-top:12px;  height: 500px;">
 			<div align=left style="width:1000px;">
 				<div style="border-bottom: solid 1px #e0e0e0; width: 1000px;padding-bottom:12px;margin-top:20px;margin-bottom: 24px;">
 					<div style="text-align:center;font-size:24px;">下单</div>

@@ -7,7 +7,7 @@
 		background: #f5f5f5;
 	}
 	div.formDd{
-		width:1000px;
+		
 		text-align: left; 
 		background: white;
 		box-shadow: 2px 2px 8px #808080;
@@ -45,11 +45,18 @@
     	float:left;
     	margin-top:6px;
 	}
+	.mid-content {
+ position: relative;
+    text-align: left;
+    width: 900px;
+    left: 110px;
+    top: -13px;
+}
 </style>	
 <div style="margin-left: 0px; margin-top:20px;">
-	<div id="qdDiv" align="center">
-		<div style="width:1000px;">
-			<div style="border-bottom: solid 1px #e0e0e0; width: 1000px;padding-bottom:12px;margin-top:20px;margin-bottom: 24px;">
+	<div id="qdDiv" align="center" class="mid-content">
+		<div >
+			<div style="border-bottom: solid 1px #e0e0e0;padding-bottom:12px;margin-top:20px;margin-bottom: 24px;">
 
 				<div style="text-align:center;font-size:24px;">抢单详情</div>
 			</div>
@@ -77,7 +84,7 @@
 					<c:forEach var="item" items="${info}">
 						<div id='sjListContent_0' style='border-bottom: solid 1px #E0E0E0; overflow:auto;'>
 							<div class='graybox' style='width:30%;line-height:50px;font-size:14px;float:left;border:none;text-align:center;border-right: solid 1px #d0d0d0;'>
-								&nbsp;${item.senderUserName}
+								&nbsp;${item.senderUserName}s
 							</div>
 							<div class='grayboxwithoutleft' style='width:22%;line-height:50px;font-size:14px;float:left;border:none;text-align:center;border-right: solid 1px #d0d0d0;'>
 								&nbsp;${item.companyLxr}
