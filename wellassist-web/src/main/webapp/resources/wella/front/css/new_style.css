@@ -58,3 +58,11 @@ li.topmenuselected>a {
     font-size: 14px;
     color: #fff;
 }
+
+.mid-content {
+ position: relative;
+    text-align: left;
+    width: 900px;
+    left: 110px;
+    top: -13px;
+}
