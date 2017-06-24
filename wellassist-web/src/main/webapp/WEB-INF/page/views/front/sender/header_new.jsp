@@ -78,7 +78,7 @@
 						<div id="logout"><a style = "color: #1F2325; text-decoration: none;" href = "${pageContext.request.contextPath}/front/sender/SenderLoginController-logout">退出登陆</a></div>
 					</div>
  				</span>
-				<span style="float: right;"><a href="<c:url value="/front/sender/SenderHomeController-home"/>">返回首页</a></span>
+				<span style="float: right;"><a href="<c:url value="/login/success?type=3"/>">返回首页</a></span>
 			</div>
 		</div>
 	</div>

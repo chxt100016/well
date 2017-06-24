@@ -38,7 +38,7 @@ $(function () {
                     return '<a  class="btn btn-primary" onclick="vm.process('+withdrawId+',-2)">删除</a>' +
                         '<a  class="btn btn-primary" onclick="vm.process('+withdrawId+',0)">再审核</a>';
                 }else  if(value==1){
-                    return '<a  class="btn btn-primary" onclick="vm.process('+withdrawId+',2)">付款</a>';
+                    return '<a  class="btn btn-primary" onclick="vm.process('+withdrawId+',2)"><!--付款-->确认提现</a>';
                 }else{
                     return "";
                 }

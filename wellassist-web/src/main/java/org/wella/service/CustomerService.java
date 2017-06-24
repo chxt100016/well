@@ -4,6 +4,7 @@ import org.wella.entity.Order;
 import org.wella.entity.Prod;
 import org.wella.entity.Userinfo;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -157,4 +158,11 @@ public interface CustomerService {
     void testPayLogistics(long logisticsInfoId);
 
     int testPayOrder(long orderId);
+
+
+    Map<String,Object> getPayOrderPageInfo(long orderId);
+
+    Map<String,Object> getPayLogisticsPageInfo(long logisticsInfoId);
+
+    boolean isBalanceEnough(long userId, BigDecimal payMoney,int zfMethod,int rate);
 }

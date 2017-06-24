@@ -72,10 +72,10 @@
  					<span class="dropdown" style="float:left;">
 						<a data-toggle="dropdown" class="dropdown">${userName}&nbsp;<b class="icon-angle-down"></b></a>
 						<div class="dropdown-menu">
-							<div id="logout"><a style = "color: #1F2325; text-decoration: none;" href = "${pageContext.request.contextPath}/front/customer/CustomerLoginCtrl-logout">退出登陆</a></div>
+							<div id="logout"><a style = "color: #1F2325; text-decoration: none;" href = "${pageContext.request.contextPath}/login/out">退出登陆</a></div>
 						</div>
  					</span>
-					<span style="float: right;"><a href="<c:url value="/front/customer/CustomerHomeCtrl-home"/>">返回首页</a></span>
+					<span style="float: right;"><a href="<c:url value="/login/success?type=1"/>">返回首页</a></span>
 			</div>
 		</div>
 	</div>

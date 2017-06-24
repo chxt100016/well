@@ -19,10 +19,7 @@ import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.common.vo.MyInfo;
 import org.wella.dao.*;
-import org.wella.entity.Bankcard;
-import org.wella.entity.Prod;
-import org.wella.entity.User;
-import org.wella.entity.Userinfo;
+import org.wella.entity.*;
 import org.wella.front.customer.mapper.CustomerBackOrderMapper;
 import org.wella.front.mapper.FrontBankOrderMapper;
 import org.wella.front.mapper.FrontTixianMapper;
@@ -39,6 +36,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -251,10 +249,162 @@ public class CustomerController extends BaseController{
       return R.error();
    }
 
-   @RequestMapping("goPayOrder")
-   public String goPayOrder(){
+   /**
+    * 买家支付订单的处理方法
+    * @param request
+    * @param response
+    */
+   @RequestMapping(
+           value = {"payOrder"},
+           method = {RequestMethod.POST}
+   )
+   public void payOrder(HttpServletRequest request, HttpServletResponse response) {
+      String ret = "-1";
+      JSONObject obj = new JSONObject();
+      obj.put("content", ConstantUtil.MSG_PARAM_ERR);
+      String orderId = CommonUtil.GetRequestParam(request, "orderId", "0");
+      String saleMoney = CommonUtil.GetRequestParam(request, "saleMoney", "0.00");
+      String rate = CommonUtil.GetRequestParam(request, "rate", "0");
+      String zfMethod = CommonUtil.GetRequestParam(request, "zfMethod", "2");
+      String certificateImg = "";
+      try {
+         //资金不能从session里面拿！！！
+         User user=(User)request.getSession().getAttribute("user");
+         if (customerServiceImpl.isBalanceEnough(user.getUserId(),new BigDecimal(saleMoney),Integer.parseInt(zfMethod),Integer.parseInt(rate))){
+            obj.put("content", ConstantUtil.MSG_MONEY_ERR);
+            obj.put("status", "-1");
+            this.echo(response, obj);
+            return;
+         }
+         if(zfMethod.equals("5")) {
+            certificateImg=CommonUtil.GetRequestParam(request, "certificateImg", "");
+            if("".equals(certificateImg)){
+               obj.put("content", ConstantUtil.MSG_PARAM_ERR);
+               obj.put("status", "-1");
+               this.echo(response, obj);
+               return;
+            }
+         }
+         /*BigDecimal userMoney=user.getUserMoney();
+         BigDecimal userCreditMoney=user.getUserCreditMoney();
+         if(zfMethod.equals("2")) {
+            if(userMoney.compareTo(new BigDecimal(saleMoney))<0) {
+               obj.put("content", ConstantUtil.MSG_MONEY_ERR);
+               obj.put("status", "-1");
+               this.echo(response, obj);
+               return;
+            }
+         } else if(zfMethod.equals("4")) {
+            if(userMoney.multiply(new BigDecimal((100 - Integer.parseInt(rate)) / 100.0D)).add(userCreditMoney.multiply(new BigDecimal(Integer.parseInt(rate)/ 100.0D))).compareTo(new BigDecimal(saleMoney))<0) {
+               obj.put("content", ConstantUtil.MSG_MONEY_ERR);
+               obj.put("status", "-1");
+               this.echo(response, obj);
+               return;
+            }
+         } else if(zfMethod.equals("3")) {
+            if(userCreditMoney.compareTo(new BigDecimal(saleMoney))<0) {
+               obj.put("content", ConstantUtil.MSG_MONEY_ERR);
+               obj.put("status", "-1");
+               this.echo(response, obj);
+               return ;
+            }
+         } else if(zfMethod.equals("5")) {
+            certificateImg=CommonUtil.GetRequestParam(request, "certificateImg", "");
+            if("".equals(certificateImg)){
+               obj.put("content", ConstantUtil.MSG_PARAM_ERR);
+               obj.put("status", "-1");
+               this.echo(response, obj);
+               return;
+            }
+         }*/
+         if(user != null && CommonUtil.getIntFromString(orderId) > 0) {
+            Map orderObj = this.getMyOneSingBO("wa_order", "order_id", Long.parseLong(orderId));
+            if(orderObj != null && orderObj.get("userId") != null && (long)orderObj.get("userId")==(user.getUserId()) && orderObj.get("orderState") != null && ((int)orderObj.get("orderState")==1||(int)orderObj.get("orderState")==12)) {
+               String sql = "";
+               sql = " CALL khFukuanProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + saleMoney + "\',\'" + zfMethod + "\',\'" + rate + "\',\'"+certificateImg+"\')";
+               HashMap queryParam = new HashMap();
+               queryParam.put("strsql", sql);
+               this.commonMapper.simpleSelectReturnList(queryParam);
+               ret = "1";
+               obj.put("content", ConstantUtil.MSG_SUCCESS);
+            }
+         }
+      } catch (Exception var22) {
+         ret = "-2";
+         obj.put("content", ConstantUtil.MSG_FAILS);
+      }
+      obj.put("status", ret);
+      this.echoJSON(response, obj);
+   }
 
+   @RequestMapping(value = {"payLogistics"},
+           method = {RequestMethod.POST})
+   @ResponseBody
+   public JSONObject payLogistics(HttpServletRequest request, HttpServletResponse response){
+      JSONObject obj=new JSONObject();
+      String orderId = CommonUtil.GetRequestParam(request, "orderId", "0");
+      String logisticsInfoId = CommonUtil.GetRequestParam(request, "logisticsInfoId", "0");
+      String grabMoney = CommonUtil.GetRequestParam(request, "grabMoney", "0");
+      String rate = CommonUtil.GetRequestParam(request, "rate", "0");
+      String zfMethod = CommonUtil.GetRequestParam(request, "zfMethod", "2");
+      String certificateImg = "";
+      User user=(User)request.getSession().getAttribute("user");
+      if (!customerServiceImpl.isBalanceEnough(user.getUserId(),new BigDecimal(grabMoney),Integer.parseInt(zfMethod),Integer.parseInt(rate))){
+         obj.put("content", ConstantUtil.MSG_MONEY_ERR);
+         obj.put("status", "-1");
+         return obj;
+      }
+      if(zfMethod.equals("5")) {
+         certificateImg=CommonUtil.GetRequestParam(request, "certificateImg", "");
+         if("".equals(certificateImg)){
+            obj.put("content", ConstantUtil.MSG_PARAM_ERR);
+            obj.put("status", "-1");
+            return obj;
+         }
+      }
+      if(user != null && CommonUtil.getIntFromString(orderId) > 0) {
+         Map orderObj = this.getMyOneSingBO("wa_order", "order_id", Long.parseLong(orderId));
+         if(orderObj != null && orderObj.get("userId") != null && (long)orderObj.get("userId")==(user.getUserId()) && orderObj.get("orderState") != null && ((int)orderObj.get("orderState")==1||(int)orderObj.get("orderState")==11)) {
+            String sql = "";
+            sql = " CALL logisticsPayProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + logisticsInfoId + "\',\'" + grabMoney + "\',\'" + zfMethod + "\',\'" + rate + "\',\'"+certificateImg+"\')";
+            HashMap queryParam = new HashMap();
+            queryParam.put("strsql", sql);
+            ArrayList<Map<String,Object>> result=this.commonMapper.simpleSelectReturnList(queryParam);
+            if ((int)result.get(0).get("result")==1){
+               obj.put("content", ConstantUtil.MSG_SUCCESS);
+               obj.put("status", "1");
+               return obj;
+            }
+         }
+      }
+      obj.put("content", ConstantUtil.MSG_FAILS);
+      obj.put("status", "-1");
+      return obj;
+   }
+
+   /**
+    * 跳转订单付款页面
+    * @param orderId
+    * @param request
+    * @param model
+    * @return
+    */
+   @RequestMapping("goPayOrder")
+   public String goPayOrder(@RequestParam("orderId")String orderId,HttpServletRequest request,Model model){
+      Map<String,Object> orderInfo=customerServiceImpl.getPayOrderPageInfo(Long.parseLong(orderId));
+      model.addAttribute("orderInfo",orderInfo);
+      model.addAttribute("user",(User)request.getSession().getAttribute("user"));
+      model.addAttribute("parentMenuNo","2");
       return "views/front/customer/order/editFukuan.jsp";
+   }
+
+   @RequestMapping("goPayLogistics")
+   public String goPayLogistics(@RequestParam("logisticsInfoId")String logisticsInfoId,HttpServletRequest request,Model model){
+      Map<String,Object> logisticsInfo=customerServiceImpl.getPayLogisticsPageInfo(Long.parseLong(logisticsInfoId));
+      model.addAttribute("logisticsInfo",logisticsInfo);
+      model.addAttribute("user",(User)request.getSession().getAttribute("user"));
+      model.addAttribute("parentMenuNo","2");
+      return "views/front/customer/order/payLogistics.jsp";
    }
 
    @RequestMapping(
@@ -370,14 +520,14 @@ public class CustomerController extends BaseController{
       }
    }
 
-   @RequestMapping("checkWithdrawPassword")
+   @RequestMapping("checkCzPassword")
    public void checkWithdrawPassword(@RequestParam("pass") String oldPass,HttpServletResponse response){
       HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
       User user = (User) httpSession.getAttribute("user");
       //MD5加密
       String password = CommonUtil.MD5(oldPass);
       Boolean res = Boolean.valueOf(false);
-      if(password.equals(user.getUserPass())){
+      if(password.equals(user.getCzPass())){
          res = Boolean.valueOf(true);
       }else{
          res = Boolean.valueOf(false);

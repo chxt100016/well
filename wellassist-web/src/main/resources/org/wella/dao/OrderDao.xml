@@ -212,4 +212,10 @@
         LEFT JOIN wa_user seller ON a.`supplier_id`=seller.`user_id`
         WHERE a.`order_id`=#{orderId}
     </select>
+
+    <select id="singleOrderinfoByPrimaryKey" parameterType="long" resultType="map">
+        SELECT *
+        FROM orderinfoview
+        WHERE order_id=#{orderId}
+    </select>
 </mapper>

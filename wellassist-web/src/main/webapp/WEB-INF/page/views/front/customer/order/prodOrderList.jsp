@@ -59,7 +59,7 @@
 					</div>
 					<div style = "margin-right:10px;line-height:106px; float:right;color:#A1A2A9;">
 						${item.saleNum}吨
-						<c:if test="${item.orderState>=5}">(成交量 ${item.saleSjNum}吨)</c:if>
+						<c:if test="${item.orderState==5||item.orderState==6||item.orderState==7}">(成交量 ${item.saleSjNum}吨)</c:if>
 					</div>	
 				</div>
 				<div class="grayboxwithoutleft" style="width:20%;height:110px;font-size:14px;float:left;border:none; border-right: solid 1px #d0d0d0; text-align: center;">
@@ -67,7 +67,7 @@
 						<tr>
 							<td>
 								总价：${item.saleMoney}元
-								<c:if test="${item.orderState>=5}">
+								<c:if test="${item.orderState==5||item.orderState==6||item.orderState==7}">
 								<br/>
 								(成交额：${item.saleSjMoney}元)
 							</c:if>
