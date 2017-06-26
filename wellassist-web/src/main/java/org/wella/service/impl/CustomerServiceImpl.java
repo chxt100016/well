@@ -124,6 +124,7 @@ public class CustomerServiceImpl implements CustomerService {
                 vInfo.setName((String) vehivleMap.get("driverName"));
                 vInfo.setPhone((String)vehivleMap.get("driverPhone"));
                 vInfo.setVehicleNo((String)vehivleMap.get("carCode"));
+                vInfo.setVehicleHangingNo((String)vehivleMap.get("vehicleHangingNo"));
                 vehicleInfoDao.createVehicleInfo(vInfo);
             }
 
@@ -339,6 +340,7 @@ public class CustomerServiceImpl implements CustomerService {
     public List<Map<String, Object>> grabLogisticsListInfo(long liId) {
         Map query=new HashMap();
         query.put("logisticsInfoId",liId);
+        query.put("grabState",0);
         List<Map<String,Object>> res=vehicleGrabDao.listVehicleGrabAttachUserinfoByConditions(query);
         ConvertUtil.convertDataBaseMapToJavaMap(res);
         return res;

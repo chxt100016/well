@@ -186,7 +186,7 @@
                             </td>
                             <td class="single line driverPhone" >{{vehicle.dr_tel}}</td>
                             <td class="carCode" > {{vehicle.dr_number}}</td>
-                            <td> {{vehicle.hanging_number}} </td>
+                            <td class="vehicleHangingNo"> {{vehicle.hanging_number}} </td>
                             <td class="right aligned " style="width:10% "><a class="ui button red " v-on:click="delVehicle($index) ">DELETE </a></td>
 
                         </tr>
@@ -391,12 +391,13 @@
                     var driverName=$(".driverName");
                     var driverPhones=$(".driverPhone");
                     var carCodes=$(".carCode");
+                    var vehicleHangingNo=$(".vehicleHangingNo");
                     jQuery(".driverName").each(function(i){
                         var obj = new Object();
                         obj.driverName = driverName[i].innerHTML;
                         obj.driverPhone = driverPhones[i].innerHTML;
                         obj.carCode=carCodes[i].innerHTML;
-
+                        obj.vehicleHangingNo=vehicleHangingNo[i].innerHTML;
                         arr[arr.length] = obj;
                     });
 

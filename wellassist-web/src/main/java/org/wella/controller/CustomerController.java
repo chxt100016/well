@@ -164,9 +164,11 @@ public class CustomerController extends BaseController{
     * @return
     */
    @RequestMapping("logisticsDetail")
-   public String logisticsDetail(@RequestParam("orderId")String orderId, Model model){
+   public String logisticsDetail(HttpServletRequest request,@RequestParam("orderId")String orderId, Model model){
+      User user=(User)request.getSession().getAttribute("user");
       Map<String,Object> info=waOrderServiceImpl.findOrderLogisticsInfo(Long.parseLong(orderId));
       model.addAttribute("info",info);
+      model.addAttribute("userName", user.getUserName());
       model.addAttribute("parentMenuNo", "1");
       model.addAttribute("childMenuNo", "1");
       return "views/front/customer/order/expressDetail.jsp";

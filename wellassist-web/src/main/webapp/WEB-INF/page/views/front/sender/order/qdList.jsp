@@ -86,11 +86,11 @@
 					<div class="grayboxwithoutleft" style="height:110px;font-size:16px; float:right; border:none;text-align:center; width:19%; ">
 						<c:if test = "${item2.grabState == '0'}">
 							<%--<span class="span_btn" onClick = "toURL('qdPage', '${item2.grabId}')">详情</span>--%>
-							<span class="span_btn_gray" onClick = "javascript:alert('功能正在开发');">取消</span>
+							<span class="span_btn" onClick = "toURL('cancelGrab','${item2.grabId}')">取消</span>
 						</c:if>
 						<c:if test = "${item2.grabState == '-1'}">
 							<%--<span class="span_btn_gray" onClick = "toURL('zaiqiangdan', '${item2.grabId}')">再抢单</span>--%>
-							<span class="span_btn_gray" onClick = "javascript:alert('功能正在开发');">再抢单</span>
+							<span class="span_btn" onClick = "toURL('reGrab','${item2.logisticsInfoId}')">再抢单</span>
 						</c:if>
 						<c:if test = "${item2.grabState == '1'}">暂无操作</c:if>
 					</div>
@@ -138,7 +138,26 @@
 				            	window.location.reload();
 				            }
 				 },"json");
-			}
+			}else if(action=='cancelGrab'){
+			    if(confirm('你确定取消此抢单？')){
+                    $.get('${pageContext.request.contextPath}/sender/cancelGrab',{vehicleGrabId:id},function(data){
+                        if(data.code==0){
+                            alert('操作成功');
+                            window.location.reload();
+                        }else{
+                            alert(data.content);
+						}
+                    },'json');
+                }
+            }else if (action=='reGrab'){
+			    $.get('${pageContext.request.contextPath}/sender/reGrab',{logisticsId:id},function (data) {
+					if(data.code==0){
+                        window.location.href='${pageContext.request.contextPath}/sender/grabLogistics?logisticsId='+id;
+					}else{
+					    alert(data.msg);
+                    }
+                },'json');
+            }
 	}
 </script>
 

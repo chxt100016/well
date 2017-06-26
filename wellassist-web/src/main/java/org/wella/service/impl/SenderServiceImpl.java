@@ -8,12 +8,10 @@ import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.LogisticsInfoDao;
 import org.wella.dao.VehicleGrabDao;
 import org.wella.dao.VehicleGrabInfoDao;
-import org.wella.entity.LogisticsInfo;
-import org.wella.entity.VehicleGrab;
-import org.wella.entity.VehicleGrabInfo;
-import org.wella.entity.VehicleInfo;
+import org.wella.entity.*;
 import org.wella.service.SenderService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -155,5 +153,48 @@ public class SenderServiceImpl implements SenderService {
     @Override
     public int logisticsOrderListInfoCount(Map param) {
         return logisticsInfoDao.senderLogisticsOrderListInfoCount(param);
+    }
+
+    @Override
+    public boolean calcelGrab(HttpServletRequest request, long vehicleGrabId) {
+        User user=(User)request.getSession().getAttribute("user");
+        Map<String,Object> vehicleGrab=vehicleGrabDao.singleVehicleGrabByPrimaryKey(vehicleGrabId);
+        if (vehicleGrab==null||vehicleGrab.size()==0){
+            return false;
+        }
+        if ((long)vehicleGrab.get("sender_user_id")!=user.getUserId()){
+            return false;
+        }
+        if ((int)vehicleGrab.get("grab_state")!=0){
+            return false;
+        }
+        HashMap<String,Object> updatemap=new HashMap<String,Object>();
+        updatemap.put("vehicleGrabId",vehicleGrabId);
+        updatemap.put("grabState",-1);
+        int res=vehicleGrabDao.updateByPrimaryKey(updatemap);
+        if(res>0){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 物流方再抢单
+     * @param logisticsId
+     * @return 0:订单可以再抢单
+     *          -1：订单已确认（被选择）
+     *          -5:其他错误
+     */
+    @Override
+    public int reGrabLogistics(long logisticsId) {
+        Map<String,Object> logisticsInfo=logisticsInfoDao.singleLogisticsInfoByPrimaryKey(logisticsId);
+        if(logisticsInfo==null||logisticsInfo.size()==0){
+            return -5;
+        }
+        int state=(int)logisticsInfo.get("state");
+        if(state!=0){
+            return -1;
+        }
+        return 0;
     }
 }
