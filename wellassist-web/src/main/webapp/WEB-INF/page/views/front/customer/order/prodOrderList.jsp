@@ -108,14 +108,19 @@
 								</td>
 							</tr>
 						</c:if>
+						<c:if test="${item.orderState!=-1}">
 						<tr>
 							<td>
 								<a style="cursor:pointer;color:black;" onclick="toURL('orderDetail', '${item.orderId}')">订单详情</a>
 							</td>
 						</tr>
+						</c:if>
 					</table>
 				</div>
 				<div class="grayboxwithoutleft" style="height:110px;font-size:16px; float:right; border:none;text-align:center; width:19%; ">
+					<c:if test="${item.orderState==0||item.orderState==1}">
+						<span class="span_btn" onClick="toURL('cancelOrder', '${item.orderId}')">取消订单</span>
+					</c:if>
 					<c:if test="${item.orderState==1||item.orderState==12}">
 						<span class="span_btn" onClick="toURL('editFukuan', '${item.orderId}')">付款</span>
 					</c:if>
@@ -180,7 +185,7 @@
 				window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-editPingjia?orderId=" + orderId;
 			} else if(action=='cancelOrder'){
 				if(confirm("你要确定取消操作吗？")){
-					$.post("${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-cancelOrder",{orderId:orderId},function(data){
+					/*$.post("${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-cancelOrder",{orderId:orderId},function(data){
 			    		data = $.parseJSON(data);
 			    		alert(data.content);
 			            if(data.status=="1"){
@@ -189,7 +194,13 @@
 			      	})
 			      	.error(function(data){
 			      		alert("操作失败！");
-			      	});
+			      	});*/
+					$.post("${pageContext.request.contextPath}/customer/cancelOrder",{orderId:orderId},function(data){
+                        data = $.parseJSON(data);
+                        if(data.status==1){
+                            window.location.reload();
+                        }
+                    })
 				}
 			} else if(action=='editFahuo'){
 				window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-editFahuo?orderId=" + orderId;

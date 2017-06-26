@@ -137,9 +137,11 @@ public class CustomerController extends BaseController{
     * @return
     */
    @RequestMapping("orderDetail")
-   public String orderDetail(@RequestParam("orderId")String orderId, Model model){
+   public String orderDetail(@RequestParam("orderId")String orderId,HttpServletRequest request, Model model){
+      User user=(User)request.getSession().getAttribute("user");
       Map<String,Object> orderDetail=customerServiceImpl.getOrderDetailInfo(Long.parseLong(orderId));
       model.addAttribute("info",orderDetail);
+      model.addAttribute("userName", user.getUserName());
       model.addAttribute("parentMenuNo", "1");
       model.addAttribute("childMenuNo", "1");
       return "views/front/customer/order/orderDetail_new.jsp";
@@ -270,7 +272,7 @@ public class CustomerController extends BaseController{
       try {
          //资金不能从session里面拿！！！
          User user=(User)request.getSession().getAttribute("user");
-         if (customerServiceImpl.isBalanceEnough(user.getUserId(),new BigDecimal(saleMoney),Integer.parseInt(zfMethod),Integer.parseInt(rate))){
+         if (!customerServiceImpl.isBalanceEnough(user.getUserId(),new BigDecimal(saleMoney),Integer.parseInt(zfMethod),Integer.parseInt(rate))){
             obj.put("content", ConstantUtil.MSG_MONEY_ERR);
             obj.put("status", "-1");
             this.echo(response, obj);
@@ -864,6 +866,32 @@ public class CustomerController extends BaseController{
          e.printStackTrace();
          return R.error();
       }
+   }
+
+   /**
+    * 买家取消订单
+    * @param request
+    * @return
+    */
+   @RequestMapping("cancelOrder")
+   @ResponseBody
+   public Object cancelOrder(HttpServletRequest request){
+      JSONObject obj=new JSONObject();
+      String orderId=CommonUtil.GetRequestParam(request,"orderId","0");
+      User user=(User)request.getSession().getAttribute("user");
+      String ip=IPUtils.getIpAddr(request);
+      String sql = "";
+      sql = " CALL customerCancelOrder(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" +ip+"\')";
+      HashMap queryParam = new HashMap();
+      queryParam.put("strsql", sql);
+      ArrayList<Map<String,Object>> result=this.commonMapper.simpleSelectReturnList(queryParam);
+      if ((int)result.get(0).get("result")==1){
+         obj.put("content", ConstantUtil.MSG_SUCCESS);
+         obj.put("status", 1);
+         return obj;
+      }
+      obj.put("status",-1);
+      return obj;
    }
 
 }
