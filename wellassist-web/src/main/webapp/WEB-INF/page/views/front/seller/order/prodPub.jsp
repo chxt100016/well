@@ -3,7 +3,7 @@
 
         <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/seller/publishpage.css"/>">
 
-        <div class="mid_box" id="app" style="width:900px;margin-left: 278px">
+        <div class="mid_box" id="app" style="width:991px;left: 144px;position: relative;">
             <form id="product-publish" method="post" class="ui form">
                 <table>
                     <tbody>

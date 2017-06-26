@@ -62,7 +62,7 @@ li.topmenuselected>a {
 .mid-content {
  position: relative;
     text-align: left;
-    width: 900px;
+    width: 991px !important;
     left: 110px;
     top: -13px;
 }
