@@ -45,8 +45,8 @@
 		<script src="${pageContext.request.contextPath}/resources/common/js/jquery.validate.js"></script>
 	    <script src="${pageContext.request.contextPath}/resources/houtai/js/jquery.form.js"></script>
 	    
-	    <link   href="${pageContext.request.contextPath}/resources/houtai/css/jquery.fancybox.css" rel="stylesheet" />
-		<script src="${pageContext.request.contextPath}/resources/houtai/js/jquery.fancybox.js"></script>
+	    <!--<link   href="${pageContext.request.contextPath}/resources/houtai/css/jquery.fancybox.css" rel="stylesheet" />
+		<script src="${pageContext.request.contextPath}/resources/houtai/js/jquery.fancybox.js"></script>-->
 		
 		<script src="${pageContext.request.contextPath}/resources/library/js/My97DatePicker/WdatePicker.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/common/js/common.js"></script>
