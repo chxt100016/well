@@ -206,7 +206,7 @@
                             </div>
 
 
-                            <div class="field">
+                            <%--<div class="field">
                                 <div class="two fields">
                                     <div class="field">
                                         <div class="ui labeled input ">
@@ -215,7 +215,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>--%>
 
 
                         </div>
@@ -383,12 +383,12 @@
                             </div>
                        
                     </div>
-                     <div class="inline field">
+                     <%--<div class="inline field">
                             <div class="ui checkbox">
                                 <input type="checkbox" name="terms">
                                 <label>我同意</label>
                             </div>
-                        </div>    
+                        </div>--%>
                 </div>
             <br><br>
 
@@ -592,21 +592,21 @@
                         prompt: 'different',
                     }]
                 },
-                Verification_code: {
+               /* Verification_code: {
                     identifier: 'Verification_code',
                     rules: [{
                         type: 'empty',
                         prompt: 'Please enter Verification_code'
                     }]
-                },
+                },*/
 
-                terms: {
+               /* terms: {
                     identifier: 'terms',
                     rules: [{
                         type: 'checked',
                         prompt: 'You must agree to the terms and conditions'
                     }]
-                },
+                },*/
                 contact: {
                     identifier: 'contact',
                     rules: [{

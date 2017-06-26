@@ -89,7 +89,7 @@
     	    	account: {required:true},
     	    	txMoney:{required: true, number:true},
     	    	pass:{required:true, remote: {
-    	    		url: "${pageContext.request.contextPath}/customer/checkWithdrawPassword",
+    	    		url: "${pageContext.request.contextPath}/customer/checkCzPassword",
     	    		type: "Post",
     	    		data: {
     	    			      userId:"${userId}"

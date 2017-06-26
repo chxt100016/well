@@ -28,6 +28,7 @@ import org.wella.entity.User;
 import org.wella.entity.Userinfo;
 import org.wella.front.seller.mapper.SellerOrderMapper;
 import org.wella.platform.service.impl.ProductManageServiceImpl;
+import org.wella.service.CustomerService;
 import org.wella.service.WaOrderService;
 import org.wella.service.impl.ProductServiceImpl;
 import org.wella.service.impl.SellerServiceImpl;
@@ -123,6 +124,8 @@ public class SellerController extends BaseController {
         model.addAttribute("orderInfo",modelMap);
         return "views/front/seller/order/confirmOrder.jsp";
     }
+
+
 
     @RequestMapping("editOrder")
     public String editOrder(Model model,@RequestParam("orderId")String orderId){

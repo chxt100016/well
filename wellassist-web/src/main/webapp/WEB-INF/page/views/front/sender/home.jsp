@@ -279,7 +279,7 @@
 	}
 	
 	$("#logout").click( function(){
-		window.location.href="<c:url value="/front/sender/SenderLoginController-logout"/>";
+		window.location.href="<c:url value="/login/out"/>";
 	});
 </script>
 </html>

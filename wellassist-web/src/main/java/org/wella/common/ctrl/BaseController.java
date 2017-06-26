@@ -212,7 +212,7 @@ public class BaseController {
         return true;
     }
 
-    public Map<String, Object> getMyOneSingBO(String tableName, String keyName, String keyValue) {
+    public Map<String, Object> getMyOneSingBO(String tableName, String keyName, Object keyValue) {
         new HashMap();
         HashMap param = new HashMap();
         param.put("tableName", tableName);
