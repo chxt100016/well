@@ -124,15 +124,18 @@ public class SendController extends BaseController{
         Map<String,Object> info=senderServiceImpl.grabLogisticsPageInfo(Long.parseLong(logisticsId));
         model.addAttribute("info", info);
         model.addAttribute("senderUserId", userId);
+        model.addAttribute("userName", user.getUserName());
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "3");
         return "views/front/sender/order/quote.jsp";
     }
 
     @RequestMapping("orderDetail")
-    public String orderDetail(@RequestParam("orderId")String orderId, Model model){
+    public String orderDetail(@RequestParam("orderId")String orderId,HttpServletRequest request, Model model){
+        User user=(User)request.getSession().getAttribute("user");
         Map<String,Object> orderDetail=customerServiceImpl.getOrderDetailInfo(Long.parseLong(orderId));
         model.addAttribute("info",orderDetail);
+        model.addAttribute("userName", user.getUserName());
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "1");
         return "views/front/sender/order/orderDetail_new.jsp";
@@ -148,6 +151,7 @@ public class SendController extends BaseController{
         int totalCount=senderServiceImpl.grabHallInfosCount(param);
         this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
         model.addAttribute("info",logisticsInfos);
+        model.addAttribute("userName", u.getUserName());
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "3");
         return "views/front/sender/order/vehicleGrabHall.jsp";
@@ -206,6 +210,7 @@ public class SendController extends BaseController{
         int totalCount=senderServiceImpl.logisticsOrderListInfoCount(param);
         this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
         model.addAttribute("info",info);
+        model.addAttribute("userName", user.getUserName());
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "1");
         return "views/front/sender/order/orderList.jsp";

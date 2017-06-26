@@ -128,7 +128,7 @@
 				window.location.href = "${pageContext.request.contextPath}/customer/grabLogisticsList?logisticsInfoId=" + vehicleTrans;
 			}else if(action=="payLogistics"){
 			    /*window.location.href="${pageContext.request.contextPath}/customer/payLogistics?logisticsInfoId="+vehicleTrans;*/
-				alert("跳过付款过程");
+				/*alert("跳过付款过程");
                 $.post("${pageContext.request.contextPath}/customer/testPayLogistics",{logisticsInfoId:vehicleTrans},function(data){
                     data = $.parseJSON(data);
                     if(data.code==0){
@@ -137,7 +137,8 @@
                 })
                     .error(function(data){
                         alert("未知错误，请联系管理员");
-                    });
+                    });*/
+				window.location.href="${pageContext.request.contextPath}/customer/goPayLogistics?logisticsInfoId="+vehicleTrans;
             }
 			else if(action=='shouhuo'){
 				window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-editVehicleShouhuo?vehicleTrans=" + vehicleTrans + "&orderId=" + orderId;

@@ -129,7 +129,7 @@
 	}
 	
 	$("#logout").click( function(){
-		window.location.href="<c:url value="/front/customer/CustomerLoginCtrl-logout"/>";
+		window.location.href="<c:url value="/login/out"/>";
 	});
 </script>
 </html>

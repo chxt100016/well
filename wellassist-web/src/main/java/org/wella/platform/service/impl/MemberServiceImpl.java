@@ -1,15 +1,11 @@
 package org.wella.platform.service.impl;
 
-import io.wellassist.utils.Constant;
-import io.wellassist.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
-import org.wella.entity.LoanInfo;
-import org.wella.entity.Prod;
 import org.wella.entity.User;
 import org.wella.platform.service.MemberService;
 import org.wella.utils.MailUtil;

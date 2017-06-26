@@ -4,6 +4,7 @@ import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
 import org.wella.entity.*;
@@ -46,6 +47,8 @@ public class CustomerServiceImpl implements CustomerService {
     private LogisticsInfoDao logisticsInfoDao;
     @Autowired
     private VehicleGrabDao vehicleGrabDao;
+    @Autowired
+    private WaUserDao waUserDao;
 
 
     /**
@@ -420,6 +423,41 @@ public class CustomerServiceImpl implements CustomerService {
         updateOrder.put("orderState",orderState);
         res+=orderDao.updateOrderByID(updateOrder);
         return res;
+    }
+
+    @Override
+    public Map<String, Object> getPayOrderPageInfo(long orderId) {
+        Map<String,Object> res=orderDao.singleOrderinfoByPrimaryKey(orderId);
+        ConvertUtil.convertDataBaseMapToJavaMap(res);
+        return  res;
+    }
+
+    @Override
+    public Map<String, Object> getPayLogisticsPageInfo(long logisticsInfoId) {
+        Map<String,Object> res=logisticsInfoDao.singleLogisticsInfoViewByPrimaryKey(logisticsInfoId);
+        ConvertUtil.convertDataBaseMapToJavaMap(res);
+        return res;
+    }
+
+    @Override
+    public boolean isBalanceEnough(long userId, BigDecimal payMoney, int zfMethod,int rate) {
+        Map<String,Object> user=waUserDao.singleUserByPrimaryKey(userId);
+        BigDecimal userMoney=(BigDecimal) user.get("user_money");
+        BigDecimal userCreditMoney=(BigDecimal) user.get("user_credit_money");
+        if(zfMethod==2) {
+            if(userMoney.compareTo(payMoney)<0) {
+                return false;
+            }
+        } else if(zfMethod==4) {
+            if(userMoney.multiply(new BigDecimal((100 - rate) / 100.0D)).add(userCreditMoney.multiply(new BigDecimal(rate/ 100.0D))).compareTo(payMoney)<0) {
+                return false;
+            }
+        } else if(zfMethod==3) {
+            if(userCreditMoney.compareTo(payMoney)<0) {
+                return false;
+            }
+        }
+        return true;
     }
 
 

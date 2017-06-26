@@ -170,16 +170,12 @@
 				window.location.href = "${pageContext.request.contextPath}/front/seller/SellerOrderController-editFapiao?orderId=" + orderId;
 			} else if(action=='cancelOrder'){
 				if(confirm("你要确定取消操作吗？")){
-					$.post("${pageContext.request.contextPath}/front/seller/SellerOrderController-cancelOrder",{orderId:orderId},function(data){
-			    		data = $.parseJSON(data);
-			    		alert(data.content);
-			            if(data.status=="1"){
-			            	window.location.reload();
-			            }
-			      	})
-			      	.error(function(data){
-			      		alert("操作失败！")
-			      	});
+                    $.post("${pageContext.request.contextPath}/customer/cancelOrder",{orderId:orderId},function(data){
+                        data = $.parseJSON(data);
+                        if(data.status==1){
+                            window.location.reload();
+                        }
+                    })
 				}
 			} else if(action=='setOrderState'){
 				if(confirm("你要确定操作吗?")){

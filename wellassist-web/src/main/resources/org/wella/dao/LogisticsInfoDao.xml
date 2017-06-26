@@ -235,4 +235,10 @@
             AND state=${state}
         </if>
     </select>
+
+    <select id="singleLogisticsInfoViewByPrimaryKey" parameterType="long" resultType="map">
+        SELECT *
+        from logisticsinfoview
+        where logistics_id=#{logisticsInfoId}
+    </select>
 </mapper>

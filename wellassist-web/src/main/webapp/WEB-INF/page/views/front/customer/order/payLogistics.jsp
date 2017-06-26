@@ -81,32 +81,33 @@
 		<div style="width:1000px;">
 			<div style="border-bottom: solid 1px #e0e0e0; width: 1000px;padding-bottom:12px;margin-top:20px;margin-bottom: 24px;">
 
-				<div style="text-align:center;font-size:24px;">订单预付款</div>
+				<div style="text-align:center;font-size:24px;">物流预付款</div>
 			</div>
 		</div>
 		<%--<form id="ddfkForm" action="${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-setFukuan" method="post" enctype="multipart/form-data">--%>
-		<form id="ddfkForm" action="${pageContext.request.contextPath}/customer/payOrder" method="post" enctype="multipart/form-data">
-				<input type="hidden" name="orderId" value="${orderInfo.orderId}" />
-			<input type="hidden" name="saleMoney" value="${orderInfo.confirmPrice*orderInfo.confirmNumber}" />
+		<form id="ddfkForm" action="${pageContext.request.contextPath}/customer/payLogistics" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="orderId" value="${logisticsInfo.orderId}" />
+			<input type="hidden" name="logisticsInfoId" value="${logisticsInfo.logisticsId}">
+			<input type="hidden" name="grabMoney" value="${logisticsInfo.grabMoney}" />
 			<div class="formDd"  style="width:1000px;">
-	    		<div class="headDd">订单金额:${orderInfo.confirmPrice*orderInfo.confirmNumber}&nbsp;&nbsp;元</div>
+	    		<div class="headDd">物流报价:${logisticsInfo.grabMoney}&nbsp;&nbsp;元</div>
 				<div style = "float : left; width:65%;">
 					<div class="rowDd" style = "width:50%; float:left;">
 						<div class="labeldd" align="right">公司名称:</div>
-						<div class="contentdd">${orderInfo.sellerUserName}</div>
+						<div class="contentdd">${logisticsInfo.sellerUserName}</div>
 					</div>
 					<div class="rowDd" style = "width:50%; float:left; clear:none;">
 						<div class="labeldd" align="right">订单编号:</div>
-						<div class="contentdd">${orderInfo.orderNo}</div>
+						<div class="contentdd">${logisticsInfo.orderNo}</div>
 					</div>
 					<div class="rowDd">
 						<div class="labeldd" align="right">订单内容:</div>
-						<div class="contentdd">${orderInfo.prodName} &nbsp;&nbsp;${orderInfo.saleNum}吨</div>
+						<div class="contentdd">${logisticsInfo.prodName} &nbsp;&nbsp;${logisticsInfo.num}吨</div>
 					</div>
 				</div>
 				<%--<div style="float:left;width: 34%;padding-top: 35px; " >
 					<span style="margin-left:30%; font-size:16px;">应还金额:</span>
-					<span style="font-size:20px;color:red;">&nbsp;&nbsp;&nbsp;&nbsp;${orderInfo.saleMoney}&nbsp;&nbsp;元</span>
+					<span style="font-size:20px;color:red;">&nbsp;&nbsp;&nbsp;&nbsp;${logisticsInfo.saleMoney}&nbsp;&nbsp;元</span>
 				</div>--%>
 				<div style = "clear:both;"></div>
 				<div class="headDd">付款方式</div>
@@ -125,17 +126,17 @@
 									<option value = "80">80%</option>
 								</select>
 							</div>
-							<div class="contentdd" id="contentdd_5"  style="width:100%;">
+							<%--<div class="contentdd" id="contentdd_5"  style="width:100%;">
 								<label>
 									<input type = "radio" name = "zfMethod" value = "5" onclick = "changeZfMethod(5)" style = "margin-left:15px;margin-top:0px;" />&nbsp;&nbsp;线下付款
 								</label>
-								<%--<div id="zhifu_certificate" style="float:right;display:none;">
+								&lt;%&ndash;<div id="zhifu_certificate" style="float:right;display:none;">
 									<input type="hidden" id="certificateImg" name="certificateImg" />
 									<a id="certificateImgA" class="fancybox" data-fancybox-group="zfxy" style="display:none;">
 										<img id="certificateImgImg" src='' style="width:40px; height:40px; border:none; margin-right:20px;" />
 									</a>
 									<input id="certificateImgFile" name="file" type="file" style="cursor:pointer;" />
-								</div>--%>
+								</div>&ndash;%&gt;
 								<div id="zhifu_certificate" style="float:right;display: none">
 									<input type="hidden" id="certificateImg" name="certificateImg" />
 									<a id="certificateImgA" class="fancybox" data-fancybox-group="zfxy">
@@ -144,7 +145,7 @@
 									<a  id="upload1"  class="btn btn-primary">上传文件</a>
 								</div>
 							</div>
-							<%--<div class="contentdd" id="contentdd_1"  style="width:100%;"><label><input type = "radio" name = "zfMethod" value = "1" onclick = "changeZfMethod(4)" style = "margin-left:15px;margin-top:0px;" />&nbsp;&nbsp;银行转账</label></div>--%>
+							<div class="contentdd" id="contentdd_1"  style="width:100%;"><label><input type = "radio" name = "zfMethod" value = "1" onclick = "changeZfMethod(4)" style = "margin-left:15px;margin-top:0px;" />&nbsp;&nbsp;银行转账</label></div>--%>
 						</div>
 					</div>
 					<div class="rowDd" id="zhifu_pass">

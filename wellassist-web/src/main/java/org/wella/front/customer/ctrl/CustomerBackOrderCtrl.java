@@ -6,6 +6,8 @@
 package org.wella.front.customer.ctrl;
 
 import com.alibaba.fastjson.JSONObject;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,17 +15,21 @@ import java.util.Iterator;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import io.wellassist.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.wella.common.ctrl.BaseController;
 import org.wella.common.ctrl.UploadController;
 import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.common.vo.MyInfo;
+import org.wella.entity.User;
 import org.wella.front.customer.mapper.CustomerBackOrderMapper;
 
 @Controller
@@ -149,7 +155,9 @@ public class CustomerBackOrderCtrl extends BaseController {
         return "views/front/customer/order/editFukuan.jsp";
     }
 
-    @RequestMapping(
+
+
+/*    @RequestMapping(
             value = {"front/customer/CustomerBackOrderCtrl-setFukuan"},
             method = {RequestMethod.POST}
     )
@@ -251,7 +259,7 @@ public class CustomerBackOrderCtrl extends BaseController {
 
         obj.put("status", ret);
         this.echoJSON(response, obj);
-    }
+    }*/
 
     @RequestMapping({"front/customer/CustomerBackOrderCtrl-editPingjia"})
     public String editPingjia(HttpServletRequest request, HttpServletResponse response, Model model) {
