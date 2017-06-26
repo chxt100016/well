@@ -114,20 +114,20 @@
                                        </select>
                                     </div>
                                 </div>
-
-                                <div id ="sellerList" hidden="hidden">
-                                    <div class="caption"><span class="box-in-level2">联系卖家</span></div>
-                                    <div>
-                                        <select name="supply_id"  id="supply_id">
-
-                                            <option value="0">--请选择卖家--</option>
-                                            <c:forEach items="${customerList}" var="item" varStatus="status">
-                                                <option value="${item.userId}">${item.userName}</option>
-                                            </c:forEach>
-                                        </select></div>
-                                   
-                                        
-                                    
+                                 <div class="field">
+                                      <div id ="sellerList" hidden="hidden">
+                                      <div class="ui labeled input ">
+                                            <div class=" ui label">联系卖家:</div>
+                                                <select name="supply_id"  id="supply_id" class="ui dropdown">
+                                                    <option value="0">--请选择卖家--</option>
+                                                    <c:forEach items="${customerList}" var="item" varStatus="status">
+                                                        <option value="${item.userId}">${item.userName}</option>
+                                                    </c:forEach>
+                                                </select>
+                                                
+                    
+                                        </div>
+                                      </div>
                                 </div>
                                 <div class="field" id="seller_binding" style="display:none">
                                     <div class="ui labeled input ">
@@ -525,43 +525,59 @@
                     identifier: 'companyname',
                     rules: [{
                         type: 'empty',
-                        prompt: 'Please enter your Enterprise name'
-                    }]
+                        prompt: '请输入企业名称！'
+                    },
+                    {
+                        type: 'maxLength[18]',
+                        prompt: '长度不得多于18位'
+                    },]
                 },
                 companyaccount: {
                     identifier: 'companyaccount',
                     rules: [{
                         type: 'empty',
-                        prompt: 'Please enter Enterprise number'
-                    }]
+                        prompt: '请输入企业执照号！'
+                    },{
+                        type: 'maxLength[18]',
+                        prompt: '长度不得多于18位'
+                    },
+                    ]
                 },
                 compkind: {
                     identifier: 'compkind',
                     rules: [{
                         type: 'empty',
-                        prompt: 'Please select a Enterprise Type'
-                    }]
+                        prompt: '请选择企业类型！'
+                    },
+                    {
+                        type: 'maxLength[18]',
+                        prompt: '长度不得多于18位'
+                    },]
                 },
                 address: {
                     identifier: 'address',
                     rules: [{
                         type: 'empty',
-                        prompt: 'Please select a address'
+                        prompt: '请选择企业省市地址！'
                     }]
                 },
                 Province: {
                     identifier: 'Province',
                     rules: [{
                         type: 'empty',
-                        prompt: 'Please enter Province'
-                    }]
+                        prompt: '请输入详细地址'
+                    },
+                    {
+                        type: 'maxLength[18]',
+                        prompt: '长度不得多于18位'
+                    },]
                 },
 
                 user_type: {
                     identifier: 'user_type',
                     rules: [{
                         type: 'empty',
-                        prompt: 'Please select a User Type'
+                        prompt: '请选择用户类型'
                     }]
                 },
 
@@ -569,27 +585,36 @@
                     identifier: 'user_name',
                     rules: [{
                         type: 'empty',
-                        prompt: 'Please select a User ID'
-                    }]
+                        prompt: '请输入用户名称'
+                    },
+                    {
+                        type: 'maxLength[18]',
+                        prompt: '长度不得多于18位'
+                    },]
                 },
                 password: {
                     identifier: 'password',
                     rules: [{
                         type: 'empty',
-                        prompt: 'Please enter a password'
+                        prompt: '请输入密码'
                     }, {
                         type: 'minLength[6]',
-                        prompt: 'Your password must be at least 6 characters'
-                    }]
+                        prompt: '密码不得低于6位'
+                    },
+                     {
+                        type: 'maxLength[18]',
+                        prompt: '密码不得多于18位'
+                    },
+                    ]
                 },
                 Confirm_password: {
                     identifier: 'Confirm_password',
                     rules: [{
                         type: 'empty',
-                        prompt: 'Please enter a password'
+                        prompt: '请输入密码'
                     }, {
                         type: 'match[password]',
-                        prompt: 'different',
+                        prompt: '两次输入的密码不一致！',
                     }]
                 },
                /* Verification_code: {
@@ -611,22 +636,29 @@
                     identifier: 'contact',
                     rules: [{
                         type: 'empty',
-                        prompt: 'Please enter your Contact name'
-                    }]
+                        prompt: '请输入联系人信息'
+                    },
+                    {
+                        type: 'maxLength[18]',
+                        prompt: '长度不得多于18位'
+                    },]
                 },
                 contactemail: {
                     identifier: 'contactemail',
                     rules: [{
                         type: 'email',
-                        prompt: 'Please enter Contact email'
-                    }]
+                        prompt: '请输入联系邮箱'
+                    },{
+                        type: 'maxLength[18]',
+                        prompt: '长度不得多于18位'
+                    },]
                 },
                 contactphone: {
                     identifier: 'contactphone',
                     rules: [{
                         type: 'regExp',
-                        value: /^(((13[0-9]{1})|(15[0-9]{1}))+\d{8})$/,
-                        prompt: 'Please enter Contact tel'
+                        value: /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(14[0-9]{1}))+\d{8})$/,
+                        prompt: '请输入正确的手机号码'
                     }]
                 },
                 contactseat: {
@@ -636,8 +668,13 @@
                         prompt: '请输入电话'
                     }, {
                         type: 'number',
-                        prompt: '请输入正确电话'
-                    }]
+                        prompt: '请输入正确电话（正确格式：012345679）'
+                    },
+                    {
+                        type: 'maxLength[15]',
+                        prompt: '电话不得多于15位'
+                    },
+                    ]
                 },
 
                 legalIdCard: {
@@ -648,7 +685,11 @@
                     }, {
                         type: 'maxLength[18]',
                         prompt: '请输入身份证号码'
-                    }]
+                    },
+                    {
+                        type: 'maxLength[20]',
+                        prompt: '长度不得多于20位'
+                    },]
                 },
 
                 yingye_img4 :{

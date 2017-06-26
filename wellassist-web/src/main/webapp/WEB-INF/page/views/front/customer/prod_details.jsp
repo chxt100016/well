@@ -145,6 +145,7 @@
 
 	$("#back").click( function(){
 		history.back();
+		
 	});
 </script>
 </html>
