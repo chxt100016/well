@@ -93,10 +93,12 @@
 								<a class="dropdown-toggle" href="${pageContext.request.contextPath}/front/seller/SellerOrderController-prodPub" style="font-size:16px;color:white;font-weight:bold;">订单中心</a>
 							</li>
 							<li id="financecenter" class="dropdown menu-break-left <c:if test = "${parentMenuNo == '2' }"> topmenuselected</c:if>">
-								<a class="dropdown-toggle" href="${pageContext.request.contextPath}/front/seller/SellerFinanceController-accountInfo" style="font-size:16px;color:white;font-weight:bold;">财务中心</a>
+								<a class="dropdown-toggle" onclick="javascript:alert('功能待开发');" style="font-size:16px;color:white;font-weight:bold;">财务中心</a>
+								<%--<a class="dropdown-toggle" href="${pageContext.request.contextPath}/front/seller/SellerFinanceController-accountInfo" style="font-size:16px;color:white;font-weight:bold;">财务中心</a>--%>
 							</li>
 							<li id="newscenter" class="dropdown menu-break-left <c:if test = "${parentMenuNo == '3' }"> topmenuselected</c:if>">
-								<a class="dropdown-toggle" href="${pageContext.request.contextPath}/front/seller/SellerNewsController-xxList" style="font-size:16px;color:white;font-weight:bold;">消息中心</a>
+								<a class="dropdown-toggle" onclick="javasrcipt:alert('功能待开发');" style="font-size:16px;color:white;font-weight:bold;">消息中心</a>
+								<%--<a class="dropdown-toggle" href="${pageContext.request.contextPath}/front/seller/SellerNewsController-xxList" style="font-size:16px;color:white;font-weight:bold;">消息中心</a>--%>
 							</li>
 							<li id="company_manage" class="dropdown menu-break-left menu-break-right <c:if test = "${parentMenuNo == '4' }"> topmenuselected</c:if>">
 								<a class="dropdown-toggle" href="${pageContext.request.contextPath}/front/seller/company/SellerCompanyController-companyInfo" style="font-size:16px;color:white;font-weight:bold;">企业管理</a>

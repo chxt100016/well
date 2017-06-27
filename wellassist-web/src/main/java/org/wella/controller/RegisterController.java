@@ -1,11 +1,14 @@
 package org.wella.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.wella.common.ctrl.BaseController;
 import org.wella.dao.WaUserDao;
 import org.wella.service.impl.RegisterServiceImpl;
@@ -106,6 +109,32 @@ public class RegisterController extends BaseController{
             jsonObject.put("state",0);
         }
         echo(response,jsonObject);
+    }
+
+    @RequestMapping("checkPhone")
+    @ResponseBody
+    public Object checkPhone(@RequestParam("contactphone")String contactphone){
+        JSONObject object=new JSONObject();
+        Map userPhoneInfo = this.getMyOneSingBO("wa_user", "user_phone", contactphone);
+        if(userPhoneInfo != null) {
+            object.put("result", false);
+            return object;
+        }
+        object.put("result", true);
+        return object;
+    }
+
+    @RequestMapping("checkEmail")
+    @ResponseBody
+    public Object checkEmail(@RequestParam("contactemail")String contactemail){
+        JSONObject object=new JSONObject();
+        Map userEmailInfo = this.getMyOneSingBO("wa_user", "user_email", contactemail);
+        if(userEmailInfo != null) {
+            object.put("result", false);
+            return object;
+        }
+        object.put("result", true);
+        return object;
     }
 
 }

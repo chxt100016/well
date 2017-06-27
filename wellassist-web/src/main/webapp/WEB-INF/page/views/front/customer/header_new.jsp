@@ -90,7 +90,8 @@
       						<li id="financecenter" class="<c:if test = "${parentMenuNo == '2' }"> topmenuselected</c:if>" >
 							  <a href="${pageContext.request.contextPath}/customer/accountInfo">财务中心</a></li>
       						<li id="newscenter" class="<c:if test = "${parentMenuNo == '3' }"> topmenuselected</c:if>">
-							  <a href="${pageContext.request.contextPath}/customer/messagePage">消息中心</a></li>
+								<a onclick="javascript:alert('功能待开发');">消息中心</a></li>
+								<%--<a href="${pageContext.request.contextPath}/customer/messagePage">消息中心</a></li>--%>
 							<li id="company_manage" class="<c:if test = "${parentMenuNo == '4' }"> topmenuselected</c:if>">
 							<a href="${pageContext.request.contextPath}/customer/companyInfo">个人中心</a></li>
           </ul>

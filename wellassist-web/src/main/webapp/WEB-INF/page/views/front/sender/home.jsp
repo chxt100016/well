@@ -203,7 +203,7 @@
 	</tr>
 </table>
 </div>
-<div class="start-heading1 start-white" align="center" style="">成为会员  </div>
+<%--<div class="start-heading1 start-white" align="center" style="">成为会员  </div>
 <div class="start-white" align="center" style="padding-bottom: 70px;padding-top: 0px;">
 	<div style="background:#0077dd; width:50px; height:2px; margin:auto;margin-bottom:80px"></div>
   <span style="cursor:pointer;"><a href="<c:url value="/front/seller/SellerLoginController-register"/>"> 
@@ -211,12 +211,12 @@
   <span style="cursor:pointer;"> <a href="<c:url value="/front/sender/SenderLoginController-register"/>">
   <img src="${pageContext.request.contextPath}/resources/wella/front/images/sender/sender_member2.png"></a></span>
   
-</div>
-<div class="start-heading1" style="background: #f7f7fa;" align="center" style="">物流订单</div>
+</div>--%>
+<%--<div class="start-heading1" style="background: #f7f7fa;" align="center" style="">物流订单</div>
 <div style="background: #f7f7fa; padding-bottom:50px;"> 
 	<div style="background:#0077dd; width:50px; height:2px; margin:auto;margin-bottom:0px"></div>
 	<div class = "cd-rect" style="padding:5px;">
-		<%--<c:forEach var="item" items="${recVehicleList}">
+		&lt;%&ndash;<c:forEach var="item" items="${recVehicleList}">
 			<div class = "row-fld">	
 			   	<div style="padding:20px 10px 10px 10px;text-align:left;">
 					<div style="margin-bottom: 5px;"><span style="">提货地点: </span><span >${item.fromRegionName}</span></div>
@@ -225,7 +225,7 @@
 				</div>
 				<div class="ware_button" style="line-height:30px; font-size:17px;" onClick = "toURL('login', '${item.vehicleTrans}')">抢&nbsp;&nbsp;&nbsp;单</div>
 			</div>
-		</c:forEach>--%>
+		</c:forEach>&ndash;%&gt;
 			<c:forEach var="item" items="${logisticsInfos}">
 				<div class = "row-fld">
 					<div style="padding:20px 10px 10px 10px;text-align:left;">
@@ -237,7 +237,7 @@
 				</div>
 			</c:forEach>
     </div>
-</div>
+</div>--%>
 </div>
 </div>
 <div  class="start-heading1" style="background:#ffffff;padding:20px;font-size:16px;text-align:center;">
