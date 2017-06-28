@@ -111,7 +111,7 @@
     </div>
 <%--顶部导航条end--%>
 	
-	<div id="main_content" align=center style="background:white;width: 1100px;margin: 0px auto;padding-top: 32px;">
+	<div id="main_content" align=center style="background:white;width: 1300px;margin: 0px auto;padding-top: 32px;">
 		<div id="leftmenu" class="" style="border:solid 1px #d0d0d0;width:190px;float:left;">
 			<c:if test = "${parentMenuNo == '1'}">
 				<ul>
