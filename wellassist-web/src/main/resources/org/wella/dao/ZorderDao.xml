@@ -4,19 +4,24 @@
 <mapper namespace="org.wella.dao.ZorderDao">
 
     <insert id="createZorder" useGeneratedKeys="true" keyProperty="zorderId" parameterType="org.wella.entity.Zorder">
-        insert into wa_zorder (order_id, zorder_price,
+     insert into wa_zorder (zorder_id, order_id, zorder_price,
       zorder_num, zorder_money, zorder_date,
       zorder_state, modify_date, user_id,
-      admin_id)
-    values (#{orderId,jdbcType=BIGINT}, #{zorderPrice,jdbcType=DECIMAL},
+      admin_id, send_comment, receive_comment
+      )
+    values (#{zorderId,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{zorderPrice,jdbcType=DECIMAL},
       #{zorderNum,jdbcType=DECIMAL}, #{zorderMoney,jdbcType=DECIMAL}, #{zorderDate,jdbcType=TIMESTAMP},
       #{zorderState,jdbcType=TINYINT}, #{modifyDate,jdbcType=TIMESTAMP}, #{userId,jdbcType=BIGINT},
-      #{adminId,jdbcType=BIGINT})
+      #{adminId,jdbcType=BIGINT}, #{sendComment,jdbcType=VARCHAR}, #{receiveComment,jdbcType=VARCHAR}
+      )
     </insert>
     
     <update id="updateByPrimaryKey" parameterType="org.wella.entity.Zorder">
         update wa_zorder
         <set >
+            <if test="orderId != null" >
+                order_id = #{orderId,jdbcType=BIGINT},
+            </if>
             <if test="zorderPrice != null" >
                 zorder_price = #{zorderPrice,jdbcType=DECIMAL},
             </if>
@@ -40,6 +45,12 @@
             </if>
             <if test="adminId != null" >
                 admin_id = #{adminId,jdbcType=BIGINT},
+            </if>
+            <if test="sendComment != null" >
+                send_comment = #{sendComment,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveComment != null" >
+                receive_comment = #{receiveComment,jdbcType=VARCHAR},
             </if>
         </set>
         where zorder_id = #{zorderId,jdbcType=BIGINT}

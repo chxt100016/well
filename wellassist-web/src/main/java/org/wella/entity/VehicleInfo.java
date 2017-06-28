@@ -5,13 +5,15 @@ public class VehicleInfo {
 
     private Long orderId;
 
-    private String name;
+    private String driverName;
 
-    private String phone;
+    private String driverPhone;
 
     private String vehicleNo;
 
     private String vehicleHangingNo;
+
+    private double vehicleSize;
 
     public Long getId() {
         return id;
@@ -29,20 +31,20 @@ public class VehicleInfo {
         this.orderId = orderId;
     }
 
-    public String getName() {
-        return name;
+    public String getDriverName() {
+        return driverName;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getDriverPhone() {
+        return driverPhone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
+    public void setDriverPhone(String driverPhone) {
+        this.driverPhone = driverPhone;
     }
 
     public String getVehicleNo() {
@@ -59,5 +61,13 @@ public class VehicleInfo {
 
     public void setVehicleHangingNo(String vehicleHangingNo) {
         this.vehicleHangingNo = vehicleHangingNo == null ? null : vehicleHangingNo.trim();
+    }
+
+    public double getVehicleSize() {
+        return vehicleSize;
+    }
+
+    public void setVehicleSize(double vehicleSize) {
+        this.vehicleSize = vehicleSize;
     }
 }

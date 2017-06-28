@@ -289,38 +289,6 @@ public class CustomerController extends BaseController{
                return;
             }
          }
-         /*BigDecimal userMoney=user.getUserMoney();
-         BigDecimal userCreditMoney=user.getUserCreditMoney();
-         if(zfMethod.equals("2")) {
-            if(userMoney.compareTo(new BigDecimal(saleMoney))<0) {
-               obj.put("content", ConstantUtil.MSG_MONEY_ERR);
-               obj.put("status", "-1");
-               this.echo(response, obj);
-               return;
-            }
-         } else if(zfMethod.equals("4")) {
-            if(userMoney.multiply(new BigDecimal((100 - Integer.parseInt(rate)) / 100.0D)).add(userCreditMoney.multiply(new BigDecimal(Integer.parseInt(rate)/ 100.0D))).compareTo(new BigDecimal(saleMoney))<0) {
-               obj.put("content", ConstantUtil.MSG_MONEY_ERR);
-               obj.put("status", "-1");
-               this.echo(response, obj);
-               return;
-            }
-         } else if(zfMethod.equals("3")) {
-            if(userCreditMoney.compareTo(new BigDecimal(saleMoney))<0) {
-               obj.put("content", ConstantUtil.MSG_MONEY_ERR);
-               obj.put("status", "-1");
-               this.echo(response, obj);
-               return ;
-            }
-         } else if(zfMethod.equals("5")) {
-            certificateImg=CommonUtil.GetRequestParam(request, "certificateImg", "");
-            if("".equals(certificateImg)){
-               obj.put("content", ConstantUtil.MSG_PARAM_ERR);
-               obj.put("status", "-1");
-               this.echo(response, obj);
-               return;
-            }
-         }*/
          if(user != null && CommonUtil.getIntFromString(orderId) > 0) {
             Map orderObj = this.getMyOneSingBO("wa_order", "order_id", Long.parseLong(orderId));
             if(orderObj != null && orderObj.get("userId") != null && (long)orderObj.get("userId")==(user.getUserId()) && orderObj.get("orderState") != null && ((int)orderObj.get("orderState")==1||(int)orderObj.get("orderState")==12)) {
@@ -537,6 +505,17 @@ public class CustomerController extends BaseController{
          res = Boolean.valueOf(false);
       }
       this.echo(response,res.toString());
+   }
+
+   @RequestMapping("prodDetail")
+   public String prodDetail(@RequestParam("prodId")String prodId, Model model){
+      User user = (User) HttpContextUtils.getAttribute("user");
+
+
+
+      model.addAttribute("userName", user.getUserName());
+      model.addAttribute("parentMenuNo", "5");
+      return "views/front/customer/order/prodDetail.jsp";
    }
 
    @RequestMapping("prodList")

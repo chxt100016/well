@@ -1,6 +1,8 @@
 package org.wella.controller;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import io.wellassist.service.impl.UserServiceImpl;
 import io.wellassist.utils.HttpContextUtils;
@@ -168,8 +170,18 @@ public class SellerController extends BaseController {
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "3");
         model.addAttribute("info",info);
-        return "views/front/seller/order/sendProd.jsp";
+        return "views/front/seller/order/sendProd_new.jsp";
     }
+
+    @RequestMapping("getOrderVehicles")
+    @ResponseBody
+    public Object getOrderVehicles(@RequestParam("orderId")String orderId){
+        List<Map<String,Object>> vehicles=waOrderServiceImpl.findOrderVehicles(Long.parseLong(orderId));
+        String jsonString= JSON.toJSONString(vehicles);
+        return jsonString;
+    }
+
+
 
     @RequestMapping("sendProdSubmit")
     public void sendProdSubmit(@RequestParam Map params, HttpServletRequest request,HttpServletResponse response){

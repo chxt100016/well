@@ -1,7 +1,5 @@
 package org.wella.service.impl;
 
-import com.alibaba.druid.sql.dialect.mysql.ast.MysqlForeignKey;
-import com.sun.xml.internal.bind.v2.model.core.ID;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -321,6 +319,7 @@ public class SellerServiceImpl implements SellerService {
         String orderId=(String) params.get("orderId");
         String zorderPrice=(String)params.get("zorderPrice");
         String zorderNum=(String)params.get("zorderNum");
+        String sendComment=(String)params.get("sendComment");
         List<Map<String,Object>> orderVehicles=ConvertUtil.converJSONtoArrayListMap((String)params.get("orderVehicles"));
         //如果是第一次发货，修改订单状态
         Map<String,Object> order=orderDao.singleOrderByPrimaryKey(Long.parseLong(orderId));
@@ -348,6 +347,7 @@ public class SellerServiceImpl implements SellerService {
         zorder.setZorderState((byte)1);
         zorder.setModifyDate(new Date());
         zorder.setUserId(userId);
+        zorder.setSendComment(sendComment);
         zorderDao.createZorder(zorder);
         //insert wa_order_vehicle表新记录
         for(Map<String,Object> ov:orderVehicles){
@@ -356,7 +356,8 @@ public class SellerServiceImpl implements SellerService {
             orderVehicle.setZorderId(zorder.getZorderId());
             orderVehicle.setVehicleNo((String)ov.get("vehicleNo"));
             orderVehicle.setVehicleHangingNo((String)ov.get("vehicleHangingNo"));
-            orderVehicle.setVehicleActualSize(new BigDecimal((String)ov.get("vehicleActualSize")));
+            orderVehicle.setVehicleActualSize(new BigDecimal(ov.get("vehicleActualSize").toString()));
+            orderVehicle.setVehicleSize(new BigDecimal(ov.get("vehicleSize").toString()));
             orderVehicle.setDriverName((String)ov.get("driverName"));
             orderVehicle.setDriverPhone((String)ov.get("driverPhone"));
             orderVehicle.setDeliverActualDate(new Date());
