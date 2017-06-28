@@ -167,6 +167,12 @@
         <div class="col-line tx-lf">子订单单价: ${zorder.zorderPrice} 元</div>
         <div class="col-line tx-lf">子订单发货量：${zorder.zorderNum} 吨</div>
         <div class="col-line tx-lf">子订单成交额：${zorder.zorderMoney} 元</div>
+            <c:if test="${not empty zorder.sendComment}">
+                <div class="col-line tx-lf">发货备注：${zorder.sendComment}</div>
+            </c:if>
+            <c:if test="${not empty zorder.receiveComment}">
+                <div class="col-line tx-lf">收货备注：${zorder.receiveComment}</div>
+            </c:if>
         </div>
         <table class="ui celled padded table " >
             <thead>

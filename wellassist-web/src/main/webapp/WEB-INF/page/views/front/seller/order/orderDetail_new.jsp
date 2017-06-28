@@ -173,6 +173,12 @@
         子订单单价:${zorder.zorderPrice}
         子订单发货量：${zorder.zorderNum}
         子订单成交额：${zorder.zorderMoney}
+        <c:if test="${not empty zorder.sendComment}">
+        发货备注：${zorder.sendComment}
+        </c:if>
+        <c:if test="${not empty zorder.receiveComment}">
+        收货备注：${zorder.receiveComment}
+        </c:if>
         <table class="ui celled padded table ">
             <thead>
                 <tr>
