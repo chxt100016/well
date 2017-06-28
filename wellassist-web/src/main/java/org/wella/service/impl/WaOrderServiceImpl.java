@@ -132,4 +132,26 @@ public class WaOrderServiceImpl implements WaOrderService {
         return res;
     }
 
+    @Override
+    public List<Map<String, Object>> findOrderVehicles(long orderId) {
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        if((int)order.get("is_self_car")==0){
+            Map queryVIO=new HashMap();
+            queryVIO.put("orderId",orderId);
+            List<Map<String,Object>> vehicles=vehicleInfoDao.listVehicleInfoByConditions(queryVIO);
+            ConvertUtil.convertDataBaseMapToJavaMap(vehicles);
+            return vehicles;
+        }else if((int)order.get("is_self_car")==1){
+            Map queryLI=new HashMap();
+            queryLI.put("orderId",orderId);
+            Map<String,Object> logisticsInfo=logisticsInfoDao.singleLIattachVGByConditions(queryLI);
+            Map queryVGI=new HashMap();
+            queryVGI.put("vehicleGrabId",logisticsInfo.get("vehicle_grab_id"));
+            List<Map<String,Object>> vehicles=vehicleGrabInfoDao.listVehicleGrabInfoByConditions(queryVGI);
+            ConvertUtil.convertDataBaseMapToJavaMap(vehicles);
+            return vehicles;
+        }
+        return null;
+    }
+
 }

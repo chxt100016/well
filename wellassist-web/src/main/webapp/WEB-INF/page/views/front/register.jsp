@@ -255,7 +255,7 @@
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">手机号码：</div>
-                                <input type="text" name="contactphone" placeholder="" id="" class="max_text">
+                                <input type="text" name="contactphone" placeholder="" id="contactphone" class="max_text">
                             </div>
                         </div>
                         <div class="field">
@@ -400,6 +400,8 @@
     </div>
 </body>
 <script>
+
+
     function next() {
       $('body,html').animate({scrollTop:1300},1000);
 
@@ -518,6 +520,36 @@
 
 
     $(function() {
+        $.fn.form.settings.rules.isPhoneRegistered = function(contactphone) {
+            var valid = false;
+            $.ajax({
+                url: '${pageContext.request.contextPath}/register/checkPhone',
+                data: {contactphone: contactphone},
+                type: 'GET',
+                async: false, // 同步 AJAX 请求
+                dataType:    'json',
+                contentType: 'application/json;charset=utf-8'
+            })
+                .done(function(data) {
+                    valid = data.result;
+                });
+            return valid;
+        };
+        $.fn.form.settings.rules.isEmailRegistered = function(contactemail) {
+            var valid = false;
+            $.ajax({
+                url: '${pageContext.request.contextPath}/register/checkEmail',
+                data: {contactemail: contactemail},
+                type: 'GET',
+                async: false, // 同步 AJAX 请求
+                dataType:    'json',
+                contentType: 'application/json;charset=utf-8'
+            })
+                .done(function(data) {
+                    valid = data.result;
+                });
+            return valid;
+        };
         var registerForm = $('#register_form');
         $('#register_form').form({
             fields: {
@@ -651,7 +683,10 @@
                     },{
                         type: 'maxLength[18]',
                         prompt: '长度不得多于18位'
-                    },]
+                    },{
+                        type:'isEmailRegistered',
+                        prompt:'该邮箱已注册'
+                    }]
                 },
                 contactphone: {
                     identifier: 'contactphone',
@@ -659,6 +694,9 @@
                         type: 'regExp',
                         value: /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(14[0-9]{1}))+\d{8})$/,
                         prompt: '请输入正确的手机号码'
+                    },{
+                        type:'isPhoneRegistered',
+                        prompt:'该手机已注册'
                     }]
                 },
                 contactseat: {

@@ -196,6 +196,8 @@
                             <td> {{vehicle.hanging_number}} </td>
                             <td>{{vehicle.actual_size}}<span>吨</span></td>
                             <td class="right aligned " style="width:10% "><a class="ui button red " v-on:click="delVehicle(index) " style="width:70px;">删除</a></td>
+                            <td class="vehicleHangingNo"> {{vehicle.hanging_number}} </td>
+                            <td class="right aligned " style="width:10% "><a class="ui button red " v-on:click="delVehicle($index) ">DELETE </a></td>
 
                         </tr>
                     </tbody>
@@ -419,12 +421,13 @@
                     var driverName=$(".driverName");
                     var driverPhones=$(".driverPhone");
                     var carCodes=$(".carCode");
+                    var vehicleHangingNo=$(".vehicleHangingNo");
                     jQuery(".driverName").each(function(i){
                         var obj = new Object();
                         obj.driverName = driverName[i].innerHTML;
                         obj.driverPhone = driverPhones[i].innerHTML;
                         obj.carCode=carCodes[i].innerHTML;
-
+                        obj.vehicleHangingNo=vehicleHangingNo[i].innerHTML;
                         arr[arr.length] = obj;
                     });
 

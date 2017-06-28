@@ -39,4 +39,11 @@ public interface WaOrderService {
      * @return
      */
     Map<String,Object> findOrderLogisticsInfo(long orderId);
+
+    /**
+     * 得到订单的提货车辆信息
+     */
+    List<Map<String,Object>> findOrderVehicles(long orderId);
+
+
 }

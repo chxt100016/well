@@ -216,4 +216,37 @@ public class SendController extends BaseController{
         return "views/front/sender/order/orderList.jsp";
     }
 
+    /**
+     * 物流方取消抢单
+     * @param request
+     * @param vehicleGrabId
+     * @return
+     */
+    @RequestMapping("cancelGrab")
+    @ResponseBody
+    public R cancelGrab(HttpServletRequest request,@RequestParam("vehicleGrabId")String vehicleGrabId){
+        if(senderServiceImpl.calcelGrab(request,Long.parseLong(vehicleGrabId))){
+            return R.ok();
+        }
+        return R.error("您的抢单已经被选择");
+    }
+
+    /**
+     *
+     */
+    @RequestMapping("reGrab")
+    @ResponseBody
+    public R reGrab(HttpServletRequest request,@RequestParam("logisticsId")String logisticsId){
+        int res=senderServiceImpl.reGrabLogistics(Long.parseLong(logisticsId));
+        if(res==0){
+            return R.ok();
+        }
+        if (res==-1){
+            return R.error("此订单已被其他物流公司确认");
+        }
+        if(res==-5){
+            return R.error("其他错误");
+        }
+        return R.error("未知错误请联系管理员");
+    }
 }

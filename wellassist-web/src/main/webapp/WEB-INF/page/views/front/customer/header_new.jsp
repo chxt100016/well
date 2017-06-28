@@ -59,7 +59,7 @@
 		<div align=center>
 			<div style="width:1100px;">
  					<span class="dropdown" style="float:left;">
-						<a data-toggle="dropdown" class="dropdown">${user.userName}&nbsp;<b class="icon-angle-down"></b></a>
+						<a data-toggle="dropdown" class="dropdown">${userName}&nbsp;<b class="icon-angle-down"></b></a>
 						<div class="dropdown-menu">
 							<div id="logout"><a style = "color: #1F2325; text-decoration: none;" href = "${pageContext.request.contextPath}/login/out">退出登陆</a></div>
 						</div>
@@ -90,7 +90,8 @@
       						<li id="financecenter" class="<c:if test = "${parentMenuNo == '2' }"> topmenuselected</c:if>" >
 							  <a href="${pageContext.request.contextPath}/customer/accountInfo">财务中心</a></li>
       						<li id="newscenter" class="<c:if test = "${parentMenuNo == '3' }"> topmenuselected</c:if>">
-							  <a href="${pageContext.request.contextPath}/customer/messagePage">消息中心</a></li>
+								<a onclick="javascript:alert('功能待开发');">消息中心</a></li>
+								<%--<a href="${pageContext.request.contextPath}/customer/messagePage">消息中心</a></li>--%>
 							<li id="company_manage" class="<c:if test = "${parentMenuNo == '4' }"> topmenuselected</c:if>">
 							<a href="${pageContext.request.contextPath}/customer/companyInfo">个人中心</a></li>
           </ul>

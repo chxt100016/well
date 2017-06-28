@@ -148,7 +148,7 @@
             </li>
             <li class="col-line">
                 <div class="fl-lf  tx-rg " style="width:200px;">付款状态：</div>
-                <div class="fl-lf"><c:if test="${info.orderState<2}">待付款</c:if>
+                <div class="fl-lf"><c:if test="${info.orderState<2}">未付款</c:if>
                     <c:if test="${info.orderState>=2}">已付款</c:if>
                 </div>
             </li>

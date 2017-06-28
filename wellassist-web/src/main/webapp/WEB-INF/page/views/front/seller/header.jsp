@@ -97,9 +97,11 @@
       						<li  class=" <c:if test = "${parentMenuNo == '1' }"> topmenuselected </c:if>" id="dingdancenter">
 							  <a href="${pageContext.request.contextPath}/seller/order">订单中心</a></li>
       						<li id="financecenter" class="<c:if test = "${parentMenuNo == '2' }"> topmenuselected</c:if>" >
-							  <a href="${pageContext.request.contextPath}/seller/finance">财务中心</a></li>
+							  <%--<a href="${pageContext.request.contextPath}/seller/finance">财务中心</a></li>--%>
+								  <a onclick="javascript:alert('功能待开发');">财务中心</a></li>
       						<li id="newscenter" class="<c:if test = "${parentMenuNo == '3' }"> topmenuselected</c:if>">
-							  <a href="${pageContext.request.contextPath}/seller/message">消息中心</a></li>
+							  <%--<a href="${pageContext.request.contextPath}/seller/message">消息中心</a></li>--%>
+								  <a onclick="javascript:alert('功能待开发');">消息中心</a></li>
 							<li id="company_manage" class="<c:if test = "${parentMenuNo == '4' }"> topmenuselected</c:if>">
 							<a href="${pageContext.request.contextPath}/seller/companyInfo">个人中心</a></li>
           </ul>
@@ -173,7 +175,8 @@
 						<li class="leftmenuleaf <c:if test ="${childMenuNo == '1' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/seller/companyInfo">公司信息</a></li>
 						<li class="leftmenuleaf <c:if test ="${childMenuNo == '2' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/seller/contact">联系方式</a></li>
 						<li class="leftmenuleaf <c:if test ="${childMenuNo == '3' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/seller/password">修改密码</a></li>
-						<li class="leftmenuleaf <c:if test ="${childMenuNo == '3' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/seller/bankCardPage">银行卡管理</a></li>
+						<li class="leftmenuleaf <c:if test ="${childMenuNo == '3' }">selected</c:if>"><a onclick="javascript:alert('功能待开发');">银行卡管理</a></li>
+							<%--<li class="leftmenuleaf <c:if test ="${childMenuNo == '3' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/seller/bankCardPage">银行卡管理</a></li>--%>
 					</ul>
 				</ul>	
 			</c:if>

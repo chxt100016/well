@@ -2,6 +2,7 @@ package org.wella.service;
 
 import org.wella.entity.LogisticsInfo;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -42,4 +43,8 @@ public interface SenderService {
     List<Map<String,Object>> logisticsOrderListInfo(Map param);
 
     int logisticsOrderListInfoCount(Map param);
+
+    boolean calcelGrab(HttpServletRequest request, long vehicleGrabId);
+
+    int reGrabLogistics(long logisticsId);
 }

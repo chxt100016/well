@@ -24,6 +24,10 @@ public class Zorder {
 
     private Long adminId;
 
+    private String sendComment;
+
+    private String receiveComment;
+
     public Long getZorderId() {
         return zorderId;
     }
@@ -102,5 +106,21 @@ public class Zorder {
 
     public void setAdminId(Long adminId) {
         this.adminId = adminId;
+    }
+
+    public String getSendComment() {
+        return sendComment;
+    }
+
+    public void setSendComment(String sendComment) {
+        this.sendComment = sendComment == null ? null : sendComment.trim();
+    }
+
+    public String getReceiveComment() {
+        return receiveComment;
+    }
+
+    public void setReceiveComment(String receiveComment) {
+        this.receiveComment = receiveComment == null ? null : receiveComment.trim();
     }
 }

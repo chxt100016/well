@@ -4,16 +4,16 @@
 <mapper namespace="org.wella.dao.VehicleInfoDao">
 
 	<insert id="createVehicleInfo" parameterType="org.wella.entity.VehicleInfo" >
-		insert into wa_vehicle_info (order_id, name,
-		phone, vehicle_no, vehicle_hanging_no
+		insert into wa_vehicle_info (order_id, driver_name,
+		driver_phone, vehicle_no, vehicle_hanging_no,vehicle_size
 		)
-		values (#{orderId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
-		#{phone,jdbcType=CHAR}, #{vehicleNo,jdbcType=VARCHAR}, #{vehicleHangingNo,jdbcType=VARCHAR}
+		values (#{orderId,jdbcType=BIGINT}, #{driverName,jdbcType=VARCHAR},
+		#{driverPhone,jdbcType=CHAR}, #{vehicleNo,jdbcType=VARCHAR}, #{vehicleHangingNo,jdbcType=VARCHAR},#{vehicleSize}
 		)
 	</insert>
 
 	<select id="listVehicleInfoByConditions" parameterType="map" resultType="map">
-	  	SELECT id vehicle_info_id,order_id,name driver_name,phone driver_phone,vehicle_no,vehicle_hanging_no
+	  	SELECT id vehicle_info_id,order_id,driver_name,driver_phone,vehicle_no,vehicle_hanging_no,vehicle_size
 	  	from wa_vehicle_info
 	  	<where>
 			<if test="orderId != null">
