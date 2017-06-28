@@ -9,7 +9,13 @@
      <script src="https://unpkg.com/vue/dist/vue.js"></script>
      <style>
      .errors{
-         color: red
+         color: #900b09;
+         width: 100%;
+         height: 120px;
+     }
+     .errors li{
+         width: 250px;
+         float:left;
      }
      </style>
 </head>
@@ -175,6 +181,7 @@
                             <th>电话</th>
                             <th>车牌号</th>
                             <th>车挂号</th>
+                            <th>容量</th>
                             <th>操作</th>
 
                         </tr>
@@ -186,6 +193,9 @@
                             </td>
                             <td class="single line driverPhone" >{{vehicle.dr_tel}}</td>
                             <td class="carCode" > {{vehicle.dr_number}}</td>
+                            <td> {{vehicle.hanging_number}} </td>
+                            <td>{{vehicle.actual_size}}<span>吨</span></td>
+                            <td class="right aligned " style="width:10% "><a class="ui button red " v-on:click="delVehicle(index) " style="width:70px;">删除</a></td>
                             <td class="vehicleHangingNo"> {{vehicle.hanging_number}} </td>
                             <td class="right aligned " style="width:10% "><a class="ui button red " v-on:click="delVehicle($index) ">DELETE </a></td>
 
@@ -202,7 +212,7 @@
 
 
         </form>
-        <div class="ui small modal" style=" height: 415px">
+        <div class="ui small modal" style=" height: 480px">
                      <i class="close icon"></i>
                         <div class="header">
                         添加新司机
@@ -241,20 +251,34 @@
                             </div>
                         </div>
                     </div>
+                    <div class="two fields">
+                           <div class="field ">
+                            <div class="ui labeled input ">
+                                <div class="ui label ">容量 </div>
+                                <input type="text " class="vh" placeholder=" " v-model="newVehicle.actual_size" id="actual_size" name="actual_size">
+                            </div>
+                        </div>
+                         
+                    </div>
                   
-                    <ul class="errors">
+                    <ul class="errors" v-if="!isValid" >
                         <p style="color:#234">填写时请注意：</p>
                         <li v-if="!validation.dr_name">司机姓名不得为空</li>
-                        <li v-show="!validation.dr_tel">请输入正确的联系电话</li>
+                        <!--<li v-show="!validation.dr_tel">请输入联系电话</li>-->
+                         <li v-if="!validation.dr_tel_num">请输入正确的联系电话</li>
                         <li v-show="!validation.dr_number">请输入车辆车牌号码</li>
+                        <li v-show="!validation.actual_size">请输入车辆容量</li>
+                        <li v-if="!validation.actual_size_num">请输入正确车辆容量</li>
                         <li  v-if="!validation.hanging_number">请输入车挂号</li>
+                        
+
                     </ul>
                 </div>
                     
                 </div>
                 <div class="actions">
-                    <div class="ui button cancel">Cancel</div>
-                    <div class="ui button green"  @click="createVehicle">Save</div>
+                    <div class="ui button cancel">取消</div>
+                    <div class="ui button green"  @click="createVehicle">保存</div>
                 </div>
                 </form>
         </div>
@@ -279,6 +303,7 @@
                 dr_tel: '',
                 dr_number: '',
                 hanging_number:'',
+                actual_size:'',
             },
             Vehicles: []
         },
@@ -286,9 +311,12 @@
             validation: function() {
                 return {
                     dr_name: !!this.newVehicle.dr_name.trim(),
-                    dr_tel: telRE.test(this.newVehicle.dr_tel),
+                    dr_tel:!!this.newVehicle.dr_tel.trim(),
+                    dr_tel_num: telRE.test(this.newVehicle.dr_tel),                 
                     dr_number: !!this.newVehicle.dr_number.trim(),
                     hanging_number: !!this.newVehicle.hanging_number.trim(),
+                    actual_size:!!this.newVehicle.actual_size.trim(),
+                    actual_size_num:!isNaN(this.newVehicle.actual_size),
                 }
             },
             isValid: function() {
@@ -308,8 +336,10 @@
                         dr_tel: '',
                         dr_number: '',
                         hanging_number:'',
+                        actual_size:'',
                     }
                 }
+                console.log(this.newVehicle);
                 $('.ui.modal').modal('hide');
              
             },

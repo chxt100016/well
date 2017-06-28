@@ -115,7 +115,7 @@
     </div>
 <%--顶部导航条end--%>
 	
-	<div id="main_content" align=center style="background:white;width: 1100px;margin: 0px auto;padding-top: 32px;">
+	<div id="main_content" align=center style="background:white;width: 1300px;margin: 0px auto;padding-top: 32px;">
 		<c:if test = "${parentMenuNo == '5'}">
 				<script type="text/javascript">
 						$("#leftmenu").hide();

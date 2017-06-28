@@ -3,7 +3,7 @@
 
         <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/seller/publishpage.css"/>">
 
-        <div class="mid_box" id="app" style="width:991px;left: 144px;position: relative;">
+        <div class="mid_box" id="app" style="width:991px;left: 50px;position: relative;">
             <form id="product-publish" method="post" class="ui form">
                 <table>
                     <tbody>
@@ -182,7 +182,11 @@
                     prodName: "required",
                     userId: "required",
                     prodType: { required: true },
-                    prodNum: "required",
+                    prodNum: {
+                        required:true,
+                        number:true,
+                        range:[1,500]
+                        },
                     prodPrice: { required: true },
                     regionId: "required",
                     prodRegionAddr: { required: true },
@@ -195,7 +199,11 @@
                     prodName: "请输入产品名称",
                     userId: "请选择卖家",
                     prodType: "请选择产品类型",
-                    prodNum: "请输入产品供应量",
+                    prodNum: {
+                        required:"请输入产品供应量",
+                        number:"请输入数字",
+                        range:"产品供应链应在1-500顿之间"
+                        },
                     prodPrice: "请输入产品单价（元/顿）",
                     prodRegionId: "请选择产品区域",
                     prodRegionAddr: "请输入产品详细地址",
