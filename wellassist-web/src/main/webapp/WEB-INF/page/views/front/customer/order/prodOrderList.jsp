@@ -90,6 +90,9 @@
 								<c:if test="${item.orderState=='1'}">待付款</c:if>
 								<c:if test="${item.orderState=='11'}">待物流付款</c:if>
 								<c:if test="${item.orderState=='12'}">待付款</c:if>
+								<c:if test="${item.orderState=='13'}">线下付款审核中</c:if>
+								<c:if test="${item.orderState=='14'}">线下付款审核中</c:if>
+								<c:if test="${item.orderState=='15'}">线下付款审核中</c:if>
 								<c:if test="${item.orderState=='2'}">已付款</c:if>
 								<c:if test="${item.orderState=='22'}">已付款(线下支付申请)</c:if>
 								<c:if test="${item.orderState=='21'}">已付款(中信支付申请)</c:if>

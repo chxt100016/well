@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import org.wella.common.ctrl.BaseController;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
+import org.wella.dao.OrderTransDao;
 import org.wella.dao.TradeDAO;
+import org.wella.platform.service.TradeService;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +27,12 @@ public class TradeController extends BaseController {
 
     @Autowired
     private TradeDAO tradeDAO;
+
+    @Autowired
+    private OrderTransDao orderTransDao;
+
+    @Autowired
+    private TradeService tradeServiceImpl;
 
     @RequestMapping("tradeList")
     @ResponseBody
@@ -47,7 +55,44 @@ public class TradeController extends BaseController {
         return "views/houtai/jygl/jyDetailList.jsp";
     }
 
+    @RequestMapping("offlinePayList")
+    @ResponseBody
+    public R offlinePayList(@RequestParam Map<String,Object> param){
+        param.put("zfMethod",5);
+        param.put("orderNo",param.get("queryStr"));
+        Query query=new Query(param);
+        List list=orderTransDao.listOrderTransAttachOrderinfoviewByConditions(query);
+        ConvertUtil.convertDataBaseMapToJavaMap(list);
+        int totalCount=orderTransDao.listOrderTransAttachOrderinfoviewByConditionsCount(query);
+        PageUtils pageUtils=new PageUtils(list,totalCount,query.getLimit(),query.getPage());
+        return R.ok().put("page",pageUtils);
+    }
 
+    /**
+     * 跳转线下付款审核界面
+     * @param orderTransId
+     * @param model
+     * @return
+     */
+    @RequestMapping("offlinePayCheck")
+    public String offlinePayCheck(@RequestParam("orderTransId")String orderTransId,Model model){
+        Map<String,Object> info=tradeServiceImpl.findOfflinePayInfo(Long.parseLong(orderTransId));
+        model.addAttribute("info",info);
+        return "views/platform/trade/offlinePay/offlinePayCheck.html";
+    }
+
+    @RequestMapping("offlinePayCheckSubmit")
+    public String offlinePayCheckSubmit(@RequestParam Map<String,Object> param){
+        int res=tradeServiceImpl.offlinePayCheckSubmit(param);
+        return "redirect:./offlinePay.html";
+    }
+
+    @RequestMapping("offlinePayDetail")
+    public String offlinePayDetail(@RequestParam("orderTransId")String orderTransId,Model model){
+        Map<String,Object> info=tradeServiceImpl.findOfflinePayInfo(Long.parseLong(orderTransId));
+        model.addAttribute("info",info);
+        return "views/platform/trade/offlinePay/offlinePayDetail.html";
+    }
 
     @RequestMapping("rechargeList")
     @ResponseBody

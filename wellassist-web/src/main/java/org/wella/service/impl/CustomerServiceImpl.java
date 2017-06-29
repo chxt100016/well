@@ -128,8 +128,6 @@ public class CustomerServiceImpl implements CustomerService {
                 vInfo.setVehicleSize(Double.parseDouble(vehivleMap.get("vehicleSize").toString()));
                 vehicleInfoDao.createVehicleInfo(vInfo);
             }
-
-
         }
     }
 
