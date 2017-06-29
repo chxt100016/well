@@ -363,7 +363,8 @@
             },
             rules: {
                 saleNum: {
-                    required: true
+                    required: true,
+                    range:[1,500]
                 },
                 danjia: {
                     required: true
@@ -389,7 +390,10 @@
 
             },
             messages: {
-                saleNum: "请输入供应量！",
+                saleNum: {
+                    required:"请输入供应量！",
+                    range:'供应量应在1-500吨以内！'
+                    },
                 danjia: "请输入单价！",
                 saleMoney: "请输入总价！",
                 deliverDate: "请输入发货时间",
