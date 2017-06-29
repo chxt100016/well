@@ -185,6 +185,12 @@
         <div class="col-line tx-lf">子订单单价: ${zorder.zorderPrice} 元</div>
         <div class="col-line tx-lf">子订单发货量：${zorder.zorderNum} 吨</div>
         <div class="col-line tx-lf">子订单成交额：${zorder.zorderMoney} 元</div>
+            <c:if test="${not empty zorder.sendComment}">
+            <div class="col-line tx-lf">发货备注：${zorder.sendComment}</div>
+            </c:if>
+            <c:if test="${not empty zorder.receiveComment}">
+            <div class="col-line tx-lf">收货备注：${zorder.receiveComment}</div>
+            </c:if>
         </div>
         <table class="ui celled padded table " >
             <thead>
@@ -217,7 +223,12 @@
                 <tr>
                     <th> 状态：</th>
                     <th colspan="4">
-                        <c:if test="${zorder.zorderState==1}"><div class="ui right floated small primary icon button" onclick="confirmReceive(${zorder.zorderId})"> 确认收货 </div></c:if>
+                        <c:if test="${zorder.zorderState==1}">
+                            <div style="width: 500px;height:200px">
+                                <span>comment:</span>
+                                <textarea name="receiveComment" ></textarea>
+                            </div>
+                            <div class="ui right floated small primary icon button" onclick="confirmReceive(${zorder.zorderId},this)"> 确认收货 </div></c:if>
                          <c:if test="${zorder.zorderState==2}"><div class="ui  ">已收货 </div></c:if>
 
                     </th>
@@ -235,9 +246,10 @@
     </div>
 </body>
 <script>
-    function confirmReceive(zorderId){
+    function confirmReceive(zorderId,com){
+        var receiveComment=com.previousElementSibling.children[1].value;
         if(confirm("你要确定要操作吗？")){
-            $.get("${pageContext.request.contextPath}/customer/zorderConfirmReceive",{zorderId:zorderId},function(data){
+            $.get("${pageContext.request.contextPath}/customer/zorderConfirmReceive",{zorderId:zorderId,receiveComment:receiveComment},function(data){
                 if(data.code==0){
                     window.location.reload();
                 }

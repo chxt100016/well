@@ -149,8 +149,8 @@ public class CustomerController extends BaseController{
 
    @RequestMapping(value = "zorderConfirmReceive",method = RequestMethod.GET)
    @ResponseBody
-   public R zorderConfirmReceive(@RequestParam("zorderId")String zorderId){
-      int res=customerServiceImpl.zorderConfirmReceive(Long.parseLong(zorderId));
+   public R zorderConfirmReceive(@RequestParam("zorderId")String zorderId,@RequestParam("receiveComment")String receiveComment){
+      int res=customerServiceImpl.zorderConfirmReceive(Long.parseLong(zorderId),receiveComment);
       if(res>0){
          return R.ok();
       }

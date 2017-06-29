@@ -125,7 +125,7 @@ public class CustomerServiceImpl implements CustomerService {
                 vInfo.setDriverPhone((String)vehivleMap.get("driverPhone"));
                 vInfo.setVehicleNo((String)vehivleMap.get("carCode"));
                 vInfo.setVehicleHangingNo((String)vehivleMap.get("vehicleHangingNo"));
-
+                vInfo.setVehicleSize(Double.parseDouble(vehivleMap.get("vehicleSize").toString()));
                 vehicleInfoDao.createVehicleInfo(vInfo);
             }
 
@@ -282,11 +282,12 @@ public class CustomerServiceImpl implements CustomerService {
      * @return
      */
     @Override
-    public int zorderConfirmReceive(long zorderId) {
+    public int zorderConfirmReceive(long zorderId,String receiveComment) {
         int res=0;
         Zorder zorder=new Zorder();
         zorder.setZorderId(zorderId);
         zorder.setZorderState((byte)2);
+        zorder.setReceiveComment(receiveComment);
         res=zorderDao.updateByPrimaryKey(zorder);
         Map<String,Object> zo=zorderDao.singleZorderByPrimaryKey(zorderId);
         long orderId=(long)zo.get("order_id");

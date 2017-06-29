@@ -130,7 +130,7 @@ public interface CustomerService {
 
     Map<String,Object> getOrderDetailInfo(long orderId);
 
-    int zorderConfirmReceive(long zorderId);
+    int zorderConfirmReceive(long zorderId,String receiveComment);
 
     /**
      * 物流订单列表数据
