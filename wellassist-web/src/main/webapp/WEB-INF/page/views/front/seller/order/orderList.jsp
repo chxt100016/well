@@ -47,28 +47,49 @@
 						${item.prodName}
 					</div>
 					<div style = "margin-right:10px;line-height:106px; float:right;color:#A1A2A9;">
-						${item.saleNum}吨
-						<%--<c:if test="${item.orderState=='3'}">(已发送 ${item.saleSjNum}吨)</c:if>--%>
+						<c:if test="${not empty item.orderNumber and not empty item.orderPrice}">
+							${item.orderNumber}吨
+						</c:if>
+						<c:if test="${empty item.orderNumber or empty item.orderPrice}">
+							${item.saleNum}吨
+						</c:if>
+						<c:if test="${item.orderState==5||item.orderState==6||item.orderState==7}">(成交量 ${item.saleSjNum}吨)</c:if>
 					</div>	
 				</div>
 				<div class="grayboxwithoutleft" style="width:20%;height:110px;font-size:14px;float:left;border:none; border-right: solid 1px #d0d0d0; text-align: center;">
 					<table style="width:100%;height:90px;text-align:center;margin-top:10px;">
 						<tr>
 							<td>
-								总价：${item.saleMoney}元
-								<%--<c:if test="${item.orderState>=3}">
-								<br/>
-								(已成交额：${item.saleSjMoney}元)
-								</c:if>--%>
+								<c:if test="${not empty item.orderNumber and not empty item.orderPrice}">
+									总价：${item.orderNumber*item.orderPrice}元
+								</c:if>
+								<c:if test="${empty item.orderNumber or empty item.orderPrice}">
+									总价：${item.saleMoney}元
+								</c:if>
+								<c:if test="${item.orderState==5||item.orderState==6||item.orderState==7}">
+									<br/>
+									(成交额：${item.saleSjMoney}元)
+								</c:if>
 							</td>
 						</tr>
-						<c:if test="${item.saleNum!=null and item.saleNum>0}">
-							<tr>
-								<td>
-									单价：${item.saleMoney/item.saleNum}元/吨
-								</td>
-							</tr>
-						</c:if>
+						<c:choose>
+							<c:when test="${not empty item.orderPrice}">
+								<tr>
+									<td>
+										单价：${item.orderPrice}元/吨
+									</td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+								<c:if test="${item.saleNum!=null and item.saleNum>0}">
+									<tr>
+										<td>
+											单价：${item.saleMoney/item.saleNum}元/吨
+										</td>
+									</tr>
+								</c:if>
+							</c:otherwise>
+						</c:choose>
 					</table>
 				</div>
 				<div class="grayboxwithoutleft" style="width:20%;height:110px;font-size:14px;float:left;border:none; border-right: solid 1px #d0d0d0; text-align: center;">
@@ -112,7 +133,7 @@
 					</c:if>
 					<c:if test="${item.orderState=='4'}">
 						<%--<span class="span_btn" onClick="toURL('editFapiao', '${item.orderId}')">开发票</span>--%>
-						暂无操作...
+						<%--暂无操作...--%>
 					</c:if>
 					<c:if test="${item.orderState==0 || item.orderState==1}">
 						<span class="span_btn_gray" onClick="toURL('cancelOrder', '${item.orderId}')">取消订单</span>

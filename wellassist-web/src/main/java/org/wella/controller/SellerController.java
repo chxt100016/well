@@ -106,8 +106,14 @@ public class SellerController extends BaseController {
         if(user != null) {
             Map param = this.getConditionParam(request);
             param.put("userId", user.getUserId());
-            ArrayList waOrderList = this.sellerOrderMapper.getWaOrderList(param);
+            ArrayList<Map<String,Object>> waOrderList = this.sellerOrderMapper.getWaOrderList(param);
             ConvertUtil.convertDataBaseMapToJavaMap(waOrderList);
+            for (Map<String,Object> waOrder:waOrderList){
+                Map<String,Object> orderlog=waOrderServiceImpl.findNewestOrderLog(Long.parseLong(waOrder.get("orderId").toString()));
+                if(orderlog!=null &&orderlog.size()>0){
+                    waOrder.putAll(orderlog);
+                }
+            }
             model.addAttribute("waOrderList", waOrderList);
             int totalCount = this.sellerOrderMapper.getWaOrderListCount(param);
             this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));

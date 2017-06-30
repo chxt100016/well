@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.OrderHistoryTailDao">
+    <insert id="insert" parameterType="com.djw.pojo.WaOrderHistoryTail" useGeneratedKeys="true" keyProperty="orderHistoryTailId">
+        insert into wa_order_history_tail (order_id, order_no,
+        tail_type, history_date, content,
+        content1, content2, content3,
+        tail_date)
+        values (#{orderId,jdbcType=BIGINT}, #{orderNo,jdbcType=VARCHAR},
+        #{tailType,jdbcType=TINYINT}, #{historyDate,jdbcType=TIMESTAMP}, #{content,jdbcType=VARCHAR},
+        #{content1,jdbcType=VARCHAR}, #{content2,jdbcType=VARCHAR}, #{content3,jdbcType=VARCHAR},
+        #{tailDate,jdbcType=TIMESTAMP})
+    </insert>
+</mapper>

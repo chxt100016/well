@@ -49,6 +49,8 @@ public class CustomerServiceImpl implements CustomerService {
     private VehicleGrabDao vehicleGrabDao;
     @Autowired
     private WaUserDao waUserDao;
+    @Autowired
+    private OrderHistoryTailDao orderHistoryTailDao;
 
 
     /**
@@ -129,6 +131,14 @@ public class CustomerServiceImpl implements CustomerService {
                 vehicleInfoDao.createVehicleInfo(vInfo);
             }
         }
+        //生成订单追踪信息
+        /*OrderHistoryTail orderHistoryTail=new OrderHistoryTail();
+        orderHistoryTail.setOrderId(order.getOrderId());
+        orderHistoryTail.setOrderNo(order.getOrderNo());
+        orderHistoryTail.setHistoryDate(order.getOrderDate());
+        orderHistoryTail.setContent("买家下单。");
+        orderHistoryTail.setTailDate(new Date());
+        orderHistoryTailDao.createOrderHistoryTail(orderHistoryTail);*/
     }
 
 
