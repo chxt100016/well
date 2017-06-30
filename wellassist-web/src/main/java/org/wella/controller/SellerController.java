@@ -111,8 +111,8 @@ public class SellerController extends BaseController {
             model.addAttribute("waOrderList", waOrderList);
             int totalCount = this.sellerOrderMapper.getWaOrderListCount(param);
             this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
-            model.addAttribute("parentMenuNo", "1");
-            model.addAttribute("childMenuNo", "3");
+            model.addAttribute("parentMenuNo", "5");
+            model.addAttribute("childMenuNo", "1");
             model.addAttribute("userName", user.getUserName());
             return "views/front/seller/order/orderList.jsp";
         } else {

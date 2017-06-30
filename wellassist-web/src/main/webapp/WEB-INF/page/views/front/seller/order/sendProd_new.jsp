@@ -11,13 +11,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script>
     <style>
         .mid_box {
-            width: 1100px;
+           width: 991px;
+    left: 80px;
+    position: relative;
             margin: 0px auto;
             border: 1px solid rgba(34, 36, 38, .15);
             box-shadow: 0 2px 4px 0 rgba(34, 36, 38, .12), 0 2px 10px 0 rgba(34, 36, 38, .15);
             padding: 1em;
             font-size: 14px;
-            position: absolute;
+           
         }
         
         .span_time {}
@@ -55,13 +57,13 @@
 </head>
 
 <body>
-    <div class="ui container segment" id="app1">
+    <div class="ui container segment mid_box" id="app1" style="width:991px;left:60px;top:-13px">
         <form id="infoForm" action="${pageContext.request.contextPath}/seller/sendProdSubmit" method="post">
             <input type="hidden" name="orderId" value="${info.orderId}">
             <input type="hidden" name="orderVehicles" id="orderVehicles">
             <h2 class="ui header">买家：${info.userName}</h2>
             <div class="ui divider"></div>
-            <div class="column container">
+            <div class="column ">
                 <div class="fl-lf " style="width:50%"> ${info.prodName}</div>
                 <div class="right item fl-rg" style="width:40%">
                     <span class="ui inverted ">总量:${info.orderNumber}</span>
@@ -117,8 +119,8 @@
                             <td> {{vehicle.vehicleNo}}</td>
                             <td>{{vehicle.vehicleHangingNo}}</td>
                              <td>{{vehicle.vehicleSize}} 吨</td>
-                            <td>{{vehicle.vehicleActualSize}} 吨</td>
-                            <td class="right aligned " style="width:10% "><a class="ui button red " v-on:click="delVehicle(vehicle) ">删除 </a></td>
+                            <td><span class="VhicleLoads">{{vehicle.vehicleActualSize}}</span> 吨</td>
+                            <td class="right aligned " style="width:10% "><a class="ui button red " v-on:click="delVehicle(vehicle) " style="width:70px">删除 </a></td>
 
                         </tr>
                         
@@ -147,7 +149,7 @@
                                <td>{{vehicle.vehicleNo}}</td>
                                <td>{{vehicle.vehicleHangingNo}} </td>
                                <td>
-                                   <input  class="vh" placeholder=" "  id="vehicleSize"  v-model="vehicle.vehicleActualSize" type="number" onblur="validedTex(this)"><span> 容量：<span>{{vehicle.vehicleSize}}</span> 顿</span></td>
+                                   <input  class="vh" placeholder=" "  id="vehicleSize"  v-model="vehicle.vehicleActualSize" type="number" onblur="validedTex(this)"><span> 容量：<span >{{vehicle.vehicleSize}}</span> 顿</span></td>
                                <td>
                                    <div class="ui checkbox">
                                     <input type="checkbox" name="example" v-bind:value="index" class="example" style="margin-left:0px" v-model="Selected">
@@ -171,14 +173,19 @@
                     </div>
                  </div>
                  <!--添加新司机弹框end-->
-            <div style="width: 500px;height:200px">
-                <span>comment:</span>
-                <textarea name="sendComment"></textarea>
+            <div class="ui form" style="width: 550px;height:200px">
+                  <div class="field">
+                <label>备注信息：</label>
+                <textarea name="sendComment" style="width:549px;height:150px; max-width:550px;max-height:155px"></textarea>
+                  </div>
             </div>
         </form>
-        <div class="column">收货地址:${info.toAddress}</div>
+        <div class="column"> <label>收货地址：</label>${info.toAddress}</div>
 
         <div><a class="ui button green"  id="add" @click="sendProdSubmit" style="display: block; width: 133px; margin: 0px auto; ">确认</a></div>
+        <div>
+            <button onclick="AllLoads()">summary</button>
+        </div>
     </div>
 
 </body>
@@ -290,5 +297,15 @@ function close_m(){
    }
 
             }
+ function AllLoads(){
+     var allloads=0;
+     var vihicleloads=document.getElementsByClassName("VhicleLoads");
+     console.log(vihicleloads);
+     for (var index = 0; index < vihicleloads; index++) {
+         var allloads = array[index];
+         
+     }
+ }
 </script>
+
 </html>

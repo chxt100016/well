@@ -10,7 +10,7 @@
 		<title>卖家管理员页面</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="Admin Panel Template">
-		<meta name="author" content="Westilian: Kamrujaman Shohel">
+		<meta name="author" content="Westilian: Kamrujaman Shohel old">
 
 		<link rel="stylesheet" href="<c:url value="/resources/library/css/bootstrap.min.3.35.css"/>">
 		<%--<link rel="stylesheet" href="<c:url value="/resources/library/css/bootstrap-responsive.css"/>">--%>
@@ -91,10 +91,10 @@
         </div>
         <div class="navbar-collapse collapse" role="navigation" aria-expanded="false" style="height: 1px;">
           <ul class="nav navbar-nav">
-               <li id="chanpincenter" class=" <c:if test = "${parentMenuNo == '5' }"> topmenuselected</c:if>">
+               <li id="chanpincenter" class=" <c:if test = "${parentMenuNo == '1' }"> topmenuselected</c:if>">
 								<a  href="${pageContext.request.contextPath}/seller/productList"> <i class="block layout icon"></i>产品中心</a>
 							</li>
-      						<li  class=" <c:if test = "${parentMenuNo == '1' }"> topmenuselected </c:if>" id="dingdancenter">
+      						<li  class=" <c:if test = "${parentMenuNo == '5' }"> topmenuselected </c:if>">
 							  <a href="${pageContext.request.contextPath}/seller/order">订单中心</a></li>
       						<li id="financecenter" class="<c:if test = "${parentMenuNo == '2' }"> topmenuselected</c:if>" >
 							  <%--<a href="${pageContext.request.contextPath}/seller/finance">财务中心</a></li>--%>
@@ -111,10 +111,10 @@
         </div>
       </div>
     </div>
-<%--顶部导航条end--%>
+<!--<%--顶部导航条end--%>-->
 	
 	<div id="main_content" align=center style="background:white;width: 1300px;margin: 0px auto;padding-top: 32px;">
-		<div id="leftmenu" class="" style="border:solid 1px #d0d0d0;width:190px;float:left;">
+		<!--<div id="leftmenu" class="" style="border:solid 1px #d0d0d0;width:190px;float:left;">
 			<c:if test = "${parentMenuNo == '1'}">
 				<ul>
 					<li class="leftmenulevel1" onclick="menuparentclicked( this);">
@@ -180,8 +180,106 @@
 					</ul>
 				</ul>	
 			</c:if>
-		</div>
+		</div>-->
+
+				<div class="ui vertical accordion menu" id="leftmenu" style="max-width:205px;float:left">
+				<c:if test = "${parentMenuNo == '5'}">
+						<div class="item">
+							<a class="title <c:if test="${childMenuNo == '1'}">active </c:if>"><i class="dropdown icon"></i> 订单中心 </a>
+							<div class="<c:if test="${childMenuNo == '1' }"> active </c:if> content">
+								<div class="ui form">
+									<div class="grouped fields">
+										<div class="field">
+											<div class="ui  checkbox">
+												<input type="checkbox" name="size"  <c:if test ="${childMenuNo == '1'}"> checked="checked" </c:if> >
+												<label> <a href = "${pageContext.request.contextPath}/customer/accountInfo">订单列表</a></label>
+											</div>
+										</div>
+										
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="item">
+							<a class="title <c:if test="${childMenuNo == '2' or childMenuNo =='3'or childMenuNo =='4' }">active </c:if> "><i class="dropdown icon"></i> 授信中心 </a>
+							<div class="content <c:if test="${childMenuNo == '2' or childMenuNo =='3'or childMenuNo =='4'}"> active </c:if>">
+								<div class="ui form">
+									<div class="grouped fields">
+										<div class="field">
+											<div class="ui  checkbox">
+												<input type="checkbox" <c:if test ="${childMenuNo == '2'}"> checked="checked" </c:if>>
+												<label><a href = "${pageContext.request.contextPath}/front/customer/FinanceController-creditAccount">授信账户</a></label>
+											</div>
+										</div>
+										<div class="field">
+											<div class="ui  checkbox">
+												<input type="checkbox" <c:if test ="${childMenuNo == '3'}"> checked="checked" </c:if>>
+												<label><a href = "${pageContext.request.contextPath}/front/customer/FinanceController-sxSqList">申请记录</a></label>
+											</div>
+										</div>
+										<div class="field">
+											<div class="ui  checkbox">
+												<input type="checkbox" <c:if test ="${childMenuNo == '4'}"> checked="checked" </c:if>>
+												<label><a href = "${pageContext.request.contextPath}/front/customer/FinanceController-hkList">还款记录</a></label>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="item item3">
+							<a class="title <c:if test="${childMenuNo == '7'}">active </c:if>"><i class="dropdown icon"></i> 发票管理 </a>
+							<div class="content <c:if test="${childMenuNo == '7'}">active </c:if>">
+								<div class="ui form">
+									<div class="grouped fields">
+										<div class="field">
+											<div class="ui  checkbox">
+												<input type="checkbox" <c:if test ="${childMenuNo == '7'}"> checked="checked" </c:if>>
+												<label><a href = "${pageContext.request.contextPath}/front/customer/FinanceController-fapiaoList">发票记录</a></label>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+			    </c:if>
+
+				<c:if test = "${parentMenuNo == '1'}">
+					<div class="item">
+					      <a class="title <c:if test="${childMenuNo == '1' or childMenuNo =='2' }">active </c:if>"><i class="dropdown icon"></i> 产品管理 </a>
+						  <div class="content <c:if test="${childMenuNo == '1' or childMenuNo =='2'}"> active </c:if>">
+								<div class="ui form">
+									<div class="grouped fields">
+										<div class="field">
+											<div class="ui  checkbox">
+												<input type="checkbox" <c:if test ="${childMenuNo == '1'}"> checked="checked" </c:if>>
+												<label><a href = "${pageContext.request.contextPath}/seller/publishPage">产品发布</a></label>
+											</div>
+										</div>
+										<div class="field">
+											<div class="ui  checkbox">
+												<input type="checkbox" <c:if test ="${childMenuNo == '2'}"> checked="checked" </c:if>>
+												<label><a href = "${pageContext.request.contextPath}/seller/productList">产品列表</a></label>
+											</div>
+										</div>
+										
+									</div>
+								</div>
+							</div>
+
+					</div>
+				
+				</c:if>
+		</div>	
+
+
+
 	</div>
+
+
 	<script type="text/javascript">
 		function menuparentclicked( obj){
 			var nextobj = $(obj).nextAll("ul:first");

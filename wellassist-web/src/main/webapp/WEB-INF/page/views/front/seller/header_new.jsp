@@ -10,7 +10,7 @@
 		<title>卖家管理员页面</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="Admin Panel Template">
-		<meta name="author" content="Westilian: Kamrujaman Shohel">
+		<meta name="author" content="Westilian: Kamrujaman Shohel new">
 
 		<link rel="stylesheet" href="<c:url value="/resources/library/css/bootstrap.css"/>">
 		<link rel="stylesheet" href="<c:url value="/resources/library/css/bootstrap-responsive.css"/>">
