@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    #parse("sys/header.html")
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+    <style>
+        .mid_box {
+            width: 1100px;
+            margin: 0px auto;
+            border: 1px solid rgba(34, 36, 38, .15);
+            box-shadow: 0 2px 4px 0 rgba(34, 36, 38, .12), 0 2px 10px 0 rgba(34, 36, 38, .15);
+            padding: 1em;
+            font-size: 14px;
+            position: absolute;
+        }
+
+        .span_time {}
+
+        .span_status {
+            color: #adadad;
+        }
+
+        .fl-rg {
+            float: right;
+        }
+
+        .pd-lf-10 {
+            padding-left: 10px;
+        }
+
+        .pd-bt-10 {
+            padding-bottom: 10px;
+        }
+
+        /*table {
+            margin: 10px;
+        }*/
+        .or-color{
+            color: #cc7a6f
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mid_box">
+        <form action="./offlinePayCheckSubmit" method="post" id="payCheckForm">
+            <input type="hidden" name="orderTransId" value="$info.transId">
+            <input type="hidden" name="orderId" value="$info.orderId">
+            <input type="hidden" name="passCheck" id="passCheck">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>线下支付审核</h3>
+                    <hr>
+                    
+                        <div class="bs-example" data-example-id="bordered-table">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr class="active"> <td colspan="4"> <span class="or-color">商品详情</span></td></tr>
+                                    <tr>
+                                        <th>商品名称</th>
+                                        <th>商品单价</th>
+                                        <th>数量</th>
+                                        <th>成交价格</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">$info.prodName</th>
+                                        <td>$info.confirmPrice<span>元/吨</span></td>
+                                        <td>$info.confirmNumber<span>吨</span></td>
+                                        <td>#set($countPrice=$info.confirmPrice*$info.confirmNumber)
+                                            $number.format("#0.00",$countPrice)
+                                            <span>元</span></td>
+                                    </tr>
+                                  
+                                   
+                                </tbody>
+                            </table>
+                            <br>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr class="active"> <td colspan="6"><span class="or-color">订单详情</span></td></tr>
+                                    
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row" class="active">卖家：</th>
+                                        <td  style="width:25%">$info.sellerUserName</td>
+                                        <th class="active">订单号:</th>
+                                        <td style="width:25%">$info.orderNo</td>
+                                        <th class="active"> 审核状态:</th>
+                                        <td>
+                                            #if($info.transState==-2)
+                                            不通过
+                                            #elseif($info.transState==-1)
+                                            待审核
+                                            #elseif($info.transState==0)
+                                            通过
+                                            #elseif($info.transState==1)
+                                            该订单已完成
+                                            #end
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="active">买家：</th>
+                                        <td >$info.customerUserName</td>
+                                        <th class="active">下单时间:</th>
+                                        <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!info.orderDate)</td>
+                                        <th class="active"> 付款方式:</th>
+                                        <td>
+                                            #if($info.zfMethod==1)
+                                            网银付款
+                                            #elseif($info.zfMethod==2)
+                                            余额付款
+                                            #elseif($info.zfMethod==3)
+                                            余额授信组合
+                                            #elseif($info.zfMethod==4)
+                                            授信付款
+                                            #elseif($info.zfMethod==5)
+                                            线下支付
+                                            #end
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="active">配送方式：</th>
+                                        <td >
+                                            #if($info.isSelfCar==0)
+                                            自提
+                                            #elseif($info.isSelfCar==1)
+                                            平台物流
+                                            #end
+                                        </td>
+                                        <!--<th class="active">配送物流:</th>
+                                        <td>
+                                            #if($info.isSelfCar==0)
+                                            无
+                                            #elseif($info.isSelfCar==1)
+                                            平台物流
+                                            #end
+                                        </td>-->
+                                        <th class="active"> 付款时间:</th>
+                                        <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!info.tjDate)</td>
+                                    </tr>
+                                  
+                                   
+                                </tbody>
+                            </table>
+                            <br>
+                            <table class="table table-bordered">
+                                <thead>
+                                     <tr class="active"> <td colspan="6"><span class="or-color">线下交易凭证</span></td></tr>
+                                </thead>
+                                <tbody> 
+                                    <tr>
+                                     <td style="width:60%">
+                                         <img src="$info.content" alt="" height="400px">
+                                     </td>
+                                     <td style="padding-top:20px;padding-left:30px ">
+                                         <textarea type="text" name="checkComment" value="" class="form-control" placeholder="请输入未通过理由" style="max-width:190px">
+                                         </textarea>
+        </form>
+                                         <br><br>
+                                           <button type="" id="passPay" onclick="payCheckSubmit(1);" class="btn btn-success">通过</button>
+                                         <br><br>
+                                         <button type="" id="notPassPay" onclick="payCheckSubmit(0);" class="btn btn-danger">不通过</button>
+                                         <br><br>
+
+                                     </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    
+
+
+                </div>
+            </div>
+
+
+    </div>
+<script>
+    function payCheckSubmit(flag) {
+        $("#passCheck").val(flag);
+        $("#payCheckForm").submit();
+    }
+</script>
+
+</body>
+
+</html>

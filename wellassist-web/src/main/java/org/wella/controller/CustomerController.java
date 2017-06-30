@@ -542,8 +542,14 @@ public class CustomerController extends BaseController{
       User user = (User) HttpContextUtils.getAttribute("user");
       Map param = this.getConditionParam(request);
       param.put("userId", user.getUserId());
-      ArrayList waOrderList = this.customerBackOrderMapper.getWaOrderList(param);
+      ArrayList<Map<String,Object>> waOrderList = this.customerBackOrderMapper.getWaOrderList(param);
       ConvertUtil.convertDataBaseMapToJavaMap(waOrderList);
+      for (Map<String,Object> waOrder:waOrderList){
+         Map<String,Object> orderlog=waOrderServiceImpl.findNewestOrderLog(Long.parseLong(waOrder.get("orderId").toString()));
+         if(orderlog!=null &&orderlog.size()>0){
+            waOrder.putAll(orderlog);
+         }
+      }
       model.addAttribute("waOrderList", waOrderList);
       int totalCount = this.customerBackOrderMapper.getWaOrderListCount(param);
       this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));

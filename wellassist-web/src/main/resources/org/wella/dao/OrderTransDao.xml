@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.OrderTransDao">
+    <select id="listOrderTransAttachOrderinfoviewByConditions" parameterType="map" resultType="map">
+        SELECT a.*,b.order_no,b.`customer_user_name`
+        FROM wa_order_trans a LEFT JOIN orderinfoview b
+        ON a.`order_id`=b.`order_id`
+        <where>
+            <if test="zfMethod != null">
+                AND a.zf_method=${zfMethod}
+            </if>
+            <if test="orderNo != null">
+                AND b.order_no LIKE '%${orderNo}%'
+            </if>
+        </where>
+        <if test="orderBy != null">
+            order by ${orderBy}
+        </if>
+        <if test="offset != null and limit != null">
+            LIMIT ${offset}, ${limit}
+        </if>
+    </select>
+
+    <select id="listOrderTransAttachOrderinfoviewByConditionsCount" parameterType="map" resultType="int">
+        SELECT count(*)
+        FROM wa_order_trans a LEFT JOIN orderinfoview b
+        ON a.`order_id`=b.`order_id`
+        <where>
+            <if test="zfMethod != null">
+                AND a.zf_method=${zfMethod}
+            </if>
+            <if test="orderNo != null">
+                AND b.order_no LIKE '%${orderNo}%'
+            </if>
+        </where>
+    </select>
+
+    <select id="singleOrderTransAttachOrderinfoviewByPrimaryKey" parameterType="long" resultType="map">
+        SELECT  a.*,b.`prod_name`,b.`confirm_price`,b.`confirm_number`,b.`customer_user_name`,b.`seller_user_name`,b.is_self_car,b.`order_date`,b.`order_no`,b.`order_state`
+        FROM wa_order_trans a LEFT JOIN orderinfoview b ON a.`order_id`=b.`order_id`
+        WHERE a.trans_id=#{orderTransId}
+    </select>
+</mapper>

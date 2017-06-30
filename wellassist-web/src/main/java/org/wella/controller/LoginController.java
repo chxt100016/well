@@ -19,10 +19,7 @@ import org.wella.entity.LogisticsInfo;
 import org.wella.entity.Prod;
 import org.wella.entity.User;
 import org.wella.entity.Userinfo;
-import org.wella.service.CustomerService;
-import org.wella.service.RegionService;
-import org.wella.service.SellerService;
-import org.wella.service.SenderService;
+import org.wella.service.*;
 import org.wella.service.impl.LoginServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
@@ -64,6 +61,9 @@ public class LoginController extends BaseController {
 
     @Autowired
     private RegionService regionServiceImpl;
+
+    @Autowired
+    private WaOrderService waOrderServiceImpl;
 
     @RequestMapping(value = {"page"},method = RequestMethod.GET)
     public String page(){
@@ -159,8 +159,14 @@ public class LoginController extends BaseController {
         User user = (User) request.getSession().getAttribute("user");
         Map param = this.getConditionParam(request);
         param.put("userId", user.getUserId());
-        ArrayList waOrderList = this.orderDao.findCustomerOrderList(param);
+        ArrayList<Map<String,Object>> waOrderList = this.orderDao.findCustomerOrderList(param);
         ConvertUtil.convertDataBaseMapToJavaMap(waOrderList);
+        for (Map<String,Object> waOrder:waOrderList){
+            Map<String,Object> orderlog=waOrderServiceImpl.findNewestOrderLog(Long.parseLong(waOrder.get("orderId").toString()));
+            if(orderlog!=null &&orderlog.size()>0){
+                waOrder.putAll(orderlog);
+            }
+        }
         model.addAttribute("waOrderList", waOrderList);
         int totalCount = orderDao.findCustomerOrderListCount(param);
         this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));

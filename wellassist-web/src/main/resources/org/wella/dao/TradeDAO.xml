@@ -306,4 +306,14 @@
         #{userId,mode=IN})
         ;]]>
     </select>
+
+    <select id="prodOfflinePayCheckProcess" statementType="CALLABLE" parameterType="map" resultType="int">
+        <![CDATA[
+        call prodOfflinePayCheckProcess(
+        #{orderTransId,mode=IN},
+        #{orderId,mode=IN},
+        #{passCheck,mode=IN},
+        #{checkComment,mode=IN})
+        ;]]>
+    </select>
 </mapper>
