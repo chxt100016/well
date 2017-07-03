@@ -49,7 +49,7 @@
 				<div class="start_heading2">${user.userName}</div>
 				<div style="display:block; overflow:auto">
 					<div style="float:left;width:200px;height:200px;background:white;border:solid 1px #c0c0c0;">
-						<table style="width:100%;height:100%;"><tr><td><p align=center><img src="${userinfo.companyImg}"></p></td></tr></table>
+						<table style="width:100%;height:100%;"><tr><td><p align=center><img src="${userInfo.companyImg}"></p></td></tr></table>
 					</div>
 					<div style="float:left;margin-left:20px;margin-right:20px;width:504px;height:200px;background:white;border:solid 1px #c0c0c0;">
 						<div style="padding-left: 10px;padding-top: 16px;font-size: 20px;font-weight:500;">公告栏</div>

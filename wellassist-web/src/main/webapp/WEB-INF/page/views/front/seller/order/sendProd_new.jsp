@@ -159,9 +159,6 @@
                            </tr>
                        </tbody>
                    </table>
-                   <div>
-                       Checked names: {{ Selected }}
-                   </div>
                    <div class="actions">
                         <div class="ui black deny button">
                        取消

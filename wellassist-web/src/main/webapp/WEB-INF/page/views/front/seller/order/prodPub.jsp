@@ -90,6 +90,7 @@
                                 <div id="editor">
                                 <p>此处可编辑产品详情</p>
                             </div>
+
                             </td>
                         </tr>
                     </tbody>
@@ -97,7 +98,7 @@
                 <div class="row">
                     <div style="width:300px;margin:0px auto">
                         <input type="reset" name="reset" style="display: none;" />
-                        <button class="btn btn-info" style="width:120px;float:left;display:block" type="submit">发布</button>
+                        <button class="btn btn-info" style="width:120px;float:left;display:block">发布</button>
                         <a class="btn btn-default" href="#" role="button" style="width:120px;float:right;display:block" type="reset">返回</a>
                     </div>
                 </div>
@@ -213,13 +214,16 @@
                     prodIntro: "请填写产品简介"
                 },
                 submitHandler: function (form) {
-                    $.post("${pageContext.request.contextPath}/seller/publish", $(form).serialize(), function (data) {
+                    var data=$(form).serialize();
+                    data=data+"&prodIntro="+editor.txt.html();
+                    $.post("${pageContext.request.contextPath}/seller/publish", data, function (data) {
                         var obj = JSON.parse(data);
                         var code = obj.code;
                         if (code == 0) {
                             alert("添加成功");
                             $("input[type=reset]").trigger("click");
                             $("#prodImgpath").attr("src", "");
+                            editor.txt.html("");
                         } else {
                             alert("添加失败");
                         }
@@ -232,7 +236,7 @@
         <script type="text/javascript" src="https://unpkg.com/wangeditor@3.0.2/release/wangEditor.min.js"></script>
     <script type="text/javascript">
         var E = window.wangEditor;
-        var editor = new E('#editor')
+        var editor = new E('#editor');
         // 或者 var editor = new E( document.getElementById('#editor') )
         editor.create()
     </script>

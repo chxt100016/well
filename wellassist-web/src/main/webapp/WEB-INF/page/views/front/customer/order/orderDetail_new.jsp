@@ -201,12 +201,11 @@
         <table class="ui celled padded table " >
             <thead>
                 <tr>
-                    <th class="single line ">车队联系人</th>
+                    <th class="single line ">司机</th>
                     <th>电话</th>
                     <th>车牌号</th>
                     <th>车挂号</th>
                     <th>容量</th>
-                  
                 </tr>
             </thead>
             <tbody>
@@ -219,8 +218,6 @@
                     <td> ${orderVehicle.vehicleNo}</td>
                     <td>${orderVehicle.vehicleHangingNo}</td>
                     <td>${orderVehicle.vehicleActualSize} 吨</td>
-                   
-
                 </tr>
             </c:forEach>
 

@@ -61,6 +61,18 @@ public class RegisterController extends BaseController{
         this.echoJSON(response, jsonObject);
     }
 
+    /**
+     * 注册成功
+     * @param request
+     * @param response
+     * @param model
+     * @return
+     */
+    @RequestMapping({"registerNext"})
+    public String registerNext(HttpServletRequest request, HttpServletResponse response, Model model) {
+        return "views/front/customer/login/registerNext.jsp";
+    }
+
     @RequestMapping("sendCheckCode")
     public void sendCheckCode(HttpServletRequest request,HttpServletResponse response){
         String email = request.getParameter("email");

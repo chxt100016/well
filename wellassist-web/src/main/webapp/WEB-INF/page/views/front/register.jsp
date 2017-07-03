@@ -795,7 +795,7 @@
                                 $.post("${pageContext.request.contextPath}/register/register",registerForm.serialize(),function(data){
                                     data = $.parseJSON(data);
                                     if(data.state==1){
-                                        window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerLoginCtrl-registerNext";
+                                        window.location.href = "${pageContext.request.contextPath}/register/registerNext";
                                     }else{
                                         alert(data.content);
                                     }

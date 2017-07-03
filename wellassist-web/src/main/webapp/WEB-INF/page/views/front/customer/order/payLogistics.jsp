@@ -92,7 +92,7 @@
 			<div class="formDd"  style="width:1000px;">
 	    		<div class="headDd">物流报价:${logisticsInfo.grabMoney}&nbsp;&nbsp;元</div>
 				<div style = "float : left; width:65%;">
-					<div class="rowDd" style = "width:50%; float:left;">
+					<div class="rowDd" style = "width:60%; float:left;">
 						<div class="labeldd" align="right">公司名称:</div>
 						<div class="contentdd">${logisticsInfo.sellerUserName}</div>
 					</div>

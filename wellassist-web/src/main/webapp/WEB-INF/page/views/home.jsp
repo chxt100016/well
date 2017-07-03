@@ -46,7 +46,7 @@
                         </h1>
                         <div class="ui hidden divider"></div>
 
-                        <a href="<c:url value=" /front/customer/CustomerLoginCtrl-register "/>" class="ui huge inverted download button">成为会员 </a>
+                        <a href="${pageContext.request.contextPath}/register/registerPage" class="ui huge inverted download button">成为会员 </a>
                         <a href="#" class="ui huge inverted basic button">了解更多</a>
                     </div>
 

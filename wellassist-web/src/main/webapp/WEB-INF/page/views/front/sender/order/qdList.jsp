@@ -90,9 +90,9 @@
 						</c:if>
 						<c:if test = "${item2.grabState == '-1'}">
 							<%--<span class="span_btn_gray" onClick = "toURL('zaiqiangdan', '${item2.grabId}')">再抢单</span>--%>
-							<span class="span_btn" onClick = "toURL('reGrab','${item2.logisticsInfoId}')">再抢单</span>
+							<span class="span_btn" onClick = "toURL('reGrab','${item2.logisticsInfoId}',this)">再抢单</span>
 						</c:if>
-						<c:if test = "${item2.grabState == '1'}">暂无操作</c:if>
+						<c:if test = "${item2.grabState == '1'}"><%--暂无操作--%></c:if>
 					</div>
 				</div>
 			</c:forEach>
@@ -116,7 +116,7 @@
  		setPageUrl(url);
 	});
 	// 功能函数
-	function toURL(action, id){
+	function toURL(action, id,com){
 		var url = "";
 			if(action=='qdPage'){// 抢单页面
 				window.location.href = "${pageContext.request.contextPath}/front/sender/FrontSenderOrderCtrl-qdDetail?grabId=" + id;
@@ -155,6 +155,7 @@
                         window.location.href='${pageContext.request.contextPath}/sender/grabLogistics?logisticsId='+id;
 					}else{
 					    alert(data.msg);
+					    com.style.display="none";
                     }
                 },'json');
             }

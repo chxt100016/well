@@ -131,6 +131,11 @@ public class CustomerController extends BaseController{
       return "views/front/customer/orderPage_new.jsp";
    }
 
+   @RequestMapping({"orderSuccess"})
+   public String orderSuccess(HttpServletRequest request, HttpServletResponse response) {
+      return "views/front/customer/ordersheetresult.jsp";
+   }
+
    /**
     * 跳转订单详情页面
     * @param model
