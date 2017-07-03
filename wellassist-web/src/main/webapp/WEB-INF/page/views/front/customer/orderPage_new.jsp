@@ -444,9 +444,10 @@
 
                 if(confirm("你要确定操作吗?")){
                     $.post($(form).attr("action"),$(form).serialize(),function(data){
-                        alert(data.content);
                         if(data.state==1 ){
                             window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerHomeCtrl-orderSuccess";
+                        }else{
+                            alert(data.content);
                         }
                     }, "json");
                 }
