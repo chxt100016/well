@@ -13,6 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/platform/")
 public class PlateformController {
 
+
+
+
+
     /**
      * 模糊查询所买方
      * @param request
