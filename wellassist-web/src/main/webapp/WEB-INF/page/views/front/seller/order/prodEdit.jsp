@@ -2,7 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 	
 <link rel="stylesheet" 	href="<c:url value="/resources/wella/front/css/seller/publishpage.css"/>">
-
+<%--<script type="text/javascript" src="${pageContext.request.contextPath}/resources/library/js/jquery.form.js"></script>--%>
+<script src="${pageContext.request.contextPath}/statics/libs/ajaxupload.js"></script>
 <div class="mid_box" id="app">
 	<form id="product-publish" method="post" >
 
@@ -87,7 +88,8 @@
 				</td>
 				<td>
 					<input type="hidden" name="prodImg" value="${prod.prodImg}"/>
-					<input type="file" id="prodImg" name="prodImg_src" value="${prod.prodImg_src}" class="fileManage" />
+					<%--<input type="file" id="prodImg" name="prodImg_src" value="${prod.prodImg_src}" class="fileManage" />--%>
+					<button id="upload2">更换图片</button>
 				</td>
 			</tr>
 			<br>
@@ -110,15 +112,15 @@
 </div>
 
 <script>
-    function clearFileName() {
+    /*function clearFileName() {
         $("input[type='file']").each(function() {
             $(this).attr("name", "");
         });
     }
-    /**
+    /!**
      * 上传图片处理方法
      * @param idx
-     */
+     *!/
     function uploadImage() {
         var options = {
             url: "${pageContext.request.contextPath}/uploadFile",
@@ -147,6 +149,27 @@
         clearFileName();
         $(this).attr("name", "file");
         uploadImage();
+    });*/
+	$(document).ready(function () {
+        new AjaxUpload('#upload2', {
+            action: '${pageContext.request.contextPath}/uploadFile',
+            name: 'file',
+            autoSubmit:true,
+            responseType:"json",
+            onSubmit:function(file, extension){
+                if (!(extension && /^(jpg|jpeg|png|gif)$/.test(extension.toLowerCase()))){
+                    alert('只支持jpg、png、gif格式的图片！');
+                    return false;
+                }
+            },
+            onComplete : function(file, data){
+                if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
+                $("input[name='prodImg']").val(data.path);
+                $("#prodImgpath").attr("src", data.path);
+                $("#prodImgpath").show();
+                return;
+            }
+        });
     });
 
     function selRegion(type){

@@ -123,27 +123,30 @@
             <li class="col-line">
                 <div class="fl-lf  tx-rg " style="width:200px;">总吨数：</div>
                 <div class="fl-lf">
-                    <c:if test="${not empty info.orderNumber and info.orderNumber!=info.saleNum}"><s>${info.saleNum}</s></c:if>
-                    <c:if test="${empty info.orderNumber && empty info.confirmNumber}">${info.saleNum}</c:if>
+                    <%--<c:if test="${not empty info.orderNumber and info.orderNumber!=info.saleNum}"><s>${info.saleNum}</s></c:if>--%>
+                        <c:if test="${not empty info.orderNumber and (info.orderNumber-info.saleNum>0.0000000001 or info.orderNumber-info.saleNum<-0.0000000001)}"><s>${info.saleNum}</s></c:if>
+                        <c:if test="${empty info.orderNumber && empty info.confirmNumber}">${info.saleNum}</c:if>
                 <%--<c:if test="${empty info.orderNumber && !empty info.confirmNumber}">${info.confirmNumber}</c:if>--%>
-                <c:if test="${!empty info.orderNumber}">${info.orderNumber}</c:if>
+                <c:if test="${!empty info.orderNumber}">${info.orderNumber}</c:if>吨
                 </div>
             </li>
             <li class="col-line">
                 <div class="fl-lf  tx-rg " style="width:200px;">总价：</div>
                 <div class="fl-lf">
-                    <c:if test="${not empty info.orderNumber and info.orderNumber*info.orderPrice!=info.saleMoney}"><s>${info.saleMoney}</s></c:if>
-                    <c:if test="${empty info.orderNumber && empty info.confirmNumber}">${info.saleMoney}</c:if>
+                    <%--<c:if test="${not empty info.orderNumber and info.orderNumber*info.orderPrice!=info.saleMoney}"><s>${info.saleMoney}</s></c:if>--%>
+                        <c:if test="${not empty info.orderNumber and (info.orderNumber*info.orderPrice-info.saleMoney>0.0000000001 or info.orderNumber*info.orderPrice-info.saleMoney<-0.0000000001)}"><s>${info.saleMoney}</s></c:if>
+                        <c:if test="${empty info.orderNumber && empty info.confirmNumber}">${info.saleMoney}</c:if>
                     <%--<c:if test="${empty info.orderNumber && !empty info.confirmNumber}">${info.confirmNumber*info.comfirmPrice}</c:if>--%>
-                    <c:if test="${!empty info.orderNumber }">${info.orderNumber*info.orderPrice}</c:if></div>
+                    <c:if test="${!empty info.orderNumber }">${info.orderNumber*info.orderPrice}</c:if>元</div>
             </li>
             <li class="col-line">
                 <div class="fl-lf  tx-rg " style="width:200px;">单价：</div>
                 <div class="fl-lf">
-                    <c:if test="${not empty info.orderNumber and info.orderPrice!=(info.saleMoney/info.saleNum)}"><s>${info.saleMoney/info.saleNum}</s></c:if>
-                    <c:if test="${empty info.orderNumber && empty info.confirmNumber}">${info.saleMoney/info.saleNum}</c:if>
+                    <%--<c:if test="${not empty info.orderNumber and info.orderPrice!=(info.saleMoney/info.saleNum)}"><s>${info.saleMoney/info.saleNum}</s></c:if>--%>
+                        <c:if test="${not empty info.orderNumber and (info.orderPrice-(info.saleMoney/info.saleNum)>0.0000000001 or info.orderPrice-(info.saleMoney/info.saleNum)<-0.0000000001)}"><s>${info.saleMoney/info.saleNum}</s></c:if>
+                        <c:if test="${empty info.orderNumber && empty info.confirmNumber}">${info.saleMoney/info.saleNum}</c:if>
                     <%--<c:if test="${empty info.orderNumber && !empty info.confirmNumber}">${info.comfirmPrice}</c:if>--%>
-                    <c:if test="${!empty info.orderNumber  }">${info.orderPrice}</c:if></div>
+                    <c:if test="${!empty info.orderNumber  }">${info.orderPrice}</c:if>元</div>
             </li>
             <li class="col-line">
                 <div class="fl-lf  tx-rg " style="width:200px;">付款状态：</div>

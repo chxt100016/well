@@ -28,8 +28,8 @@ public class ProductController extends BaseController{
     @RequestMapping(value = "productlist",method = RequestMethod.GET)
     public R productList(@RequestParam Map<String,Object> params) {
         Query query = new Query(params);
-        List<Map<String,Object>> list =productManageServiceImpl.prodList(params);
-        int totalCount = productManageServiceImpl.totalCount(params);
+        List<Map<String,Object>> list =productManageServiceImpl.prodList(query);
+        int totalCount = productManageServiceImpl.totalCount(query);
         PageUtils pageUtils = new PageUtils(list,totalCount,query.getLimit(),query.getPage());
         return R.ok().put("page",pageUtils);
     }
