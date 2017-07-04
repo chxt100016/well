@@ -227,9 +227,10 @@
                     <th> 状态：</th>
                     <th colspan="4">
                         <c:if test="${zorder.zorderState==1}">
-                            <div style="width: 500px;height:200px">
-                                <span>comment:</span>
-                                <textarea name="receiveComment" ></textarea>
+                            <div style="width: 500px;height:100px">
+                                 <span>备注信息:</span>
+                                <br><br>
+                                <textarea name="receiveComment"   style=" width: 444px;height:80px" ></textarea>
                             </div>
                             <div class="ui right floated small primary icon button" onclick="confirmReceive(${zorder.zorderId},this)"> 确认收货 </div></c:if>
                          <c:if test="${zorder.zorderState==2}"><div class="ui  ">已收货 </div></c:if>
