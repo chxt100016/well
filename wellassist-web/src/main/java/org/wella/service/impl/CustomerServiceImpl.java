@@ -438,16 +438,22 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Map<String, Object> getPayOrderPageInfo(long orderId) {
+    public Map<String, Object> getPayOrderPageInfo(long orderId,long userId) {
         Map<String,Object> res=orderDao.singleOrderinfoByPrimaryKey(orderId);
         ConvertUtil.convertDataBaseMapToJavaMap(res);
+        Map<String,Object> res1=waUserDao.singleUserByPrimaryKey(userId);
+        res.put("userMoney",res1.get("user_money"));
+        res.put("userCreditMoney",res1.get("user_credit_money"));
         return  res;
     }
 
     @Override
-    public Map<String, Object> getPayLogisticsPageInfo(long logisticsInfoId) {
+    public Map<String, Object> getPayLogisticsPageInfo(long logisticsInfoId,long userId) {
         Map<String,Object> res=logisticsInfoDao.singleLogisticsInfoViewByPrimaryKey(logisticsInfoId);
         ConvertUtil.convertDataBaseMapToJavaMap(res);
+        Map<String,Object> res1=waUserDao.singleUserByPrimaryKey(userId);
+        res.put("userMoney",res1.get("user_money"));
+        res.put("userCreditMoney",res1.get("user_credit_money"));
         return res;
     }
 

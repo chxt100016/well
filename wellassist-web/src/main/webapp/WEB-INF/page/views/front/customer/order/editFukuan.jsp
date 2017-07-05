@@ -90,6 +90,8 @@
 			<input type="hidden" name="saleMoney" value="${orderInfo.confirmPrice*orderInfo.confirmNumber}" />
 			<div class="formDd"  style="width:1000px;">
 	    		<div class="headDd">订单金额:${orderInfo.confirmPrice*orderInfo.confirmNumber}&nbsp;&nbsp;元</div>
+				<div>账户余额:${orderInfo.userMoney}&nbsp;&nbsp;元</div>
+				<div>授信余额:${orderInfo.userCreditMoney}&nbsp;&nbsp;元</div>
 				<div style = "float : left; width:65%;">
 					<div class="rowDd" style = "width:50%; float:left;">
 						<div class="labeldd" align="right">公司名称:</div>
@@ -317,7 +319,11 @@
 				    	$.post($("#ddfkForm").attr("action"),$("#ddfkForm").serialize(),function(data){
 				    		data = $.parseJSON(data);
 				            if(data.status=="1"){
-				            	alert("付款成功!");
+				                if(zfMethod = "5"){
+				                    alert("提交成功");
+								}else{
+                                    alert("付款成功!");
+								}
 				            	window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-prodOrderList";
 				            } else {
 				            	alert(data.content);

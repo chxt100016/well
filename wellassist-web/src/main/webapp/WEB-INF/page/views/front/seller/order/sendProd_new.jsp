@@ -111,7 +111,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(vehicle,index) in SelectedVehicles " v-cloak>
+                        <tr v-for="(vehicle,index) in SelectedVehicles" v-cloak>
                             <td>
                                 <h2 class="ui center aligned header xs " id="x" onclick="x()" >{{vehicle.driverName}}</h2>
                             </td>
@@ -121,9 +121,7 @@
                              <td>{{vehicle.vehicleSize}} 吨</td>
                             <td><span class="VhicleLoads">{{vehicle.vehicleActualSize}}</span> 吨</td>
                             <td class="right aligned " style="width:10% "><a class="ui button red " v-on:click="delVehicle(vehicle) " style="width:70px">删除 </a></td>
-
                         </tr>
-                        
                     </tbody>
                 </table>
                 <div><a class="ui button blue"  id="add" onclick="add()" style="display: block; width: 133px; margin: 0px auto; ">添加新司机</a></div>
@@ -143,7 +141,7 @@
                            <th>操作</th>
                        </thead>
                        <tbody >
-                           <tr v-for="(vehicle,index) in Vehicles " v-cloak>
+                           <tr v-for="(vehicle,index) in Vehicles" v-cloak>
                                <td>{{vehicle.driverName}}</td>
                                <td>{{vehicle.driverPhone}}</td>
                                <td>{{vehicle.vehicleNo}}</td>
@@ -204,6 +202,7 @@
                     vm.Vehicles[i]=arr[i];
                     vm.Vehicles[i].vehicleActualSize=arr[i].vehicleSize;
                 }
+                vm.$forceUpdate();
             },'json');
         },
         computed:{
@@ -246,21 +245,15 @@
                 },"json");
             }
         }
-        
-
     })
 </script>
 <script>    
 function add(){
-    $('.modal')
-  .modal('show');
     vm.qwer();
-;
+    $('.modal').modal('show');
 }
 function close_m(){
-    $('.modal')
-  .modal('hide')
-;
+    $('.modal').modal('hide');
 }
  function validedTex(tex){
      var Tex= Number(tex.value);
@@ -294,7 +287,7 @@ function close_m(){
    }
 
             }
- function AllLoads(){
+/* function AllLoads(){
      var allloads=0;
      var vihicleloads=document.getElementsByClassName("VhicleLoads");
      console.log(vihicleloads);
@@ -302,7 +295,7 @@ function close_m(){
          var allloads = array[index];
          
      }
- }
+ }*/
 </script>
 
 </html>

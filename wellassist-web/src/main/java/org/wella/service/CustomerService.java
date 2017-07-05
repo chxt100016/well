@@ -160,9 +160,9 @@ public interface CustomerService {
     int testPayOrder(long orderId);
 
 
-    Map<String,Object> getPayOrderPageInfo(long orderId);
+    Map<String,Object> getPayOrderPageInfo(long orderId,long userId);
 
-    Map<String,Object> getPayLogisticsPageInfo(long logisticsInfoId);
+    Map<String,Object> getPayLogisticsPageInfo(long logisticsInfoId,long userId);
 
     boolean isBalanceEnough(long userId, BigDecimal payMoney,int zfMethod,int rate);
 }

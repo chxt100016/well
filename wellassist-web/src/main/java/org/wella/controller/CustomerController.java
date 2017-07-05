@@ -368,18 +368,20 @@ public class CustomerController extends BaseController{
     */
    @RequestMapping("goPayOrder")
    public String goPayOrder(@RequestParam("orderId")String orderId,HttpServletRequest request,Model model){
-      Map<String,Object> orderInfo=customerServiceImpl.getPayOrderPageInfo(Long.parseLong(orderId));
+      User user=(User)request.getSession().getAttribute("user");
+      Map<String,Object> orderInfo=customerServiceImpl.getPayOrderPageInfo(Long.parseLong(orderId),user.getUserId());
       model.addAttribute("orderInfo",orderInfo);
-      model.addAttribute("user",(User)request.getSession().getAttribute("user"));
+      model.addAttribute("user",user);
       model.addAttribute("parentMenuNo","2");
       return "views/front/customer/order/editFukuan.jsp";
    }
 
    @RequestMapping("goPayLogistics")
    public String goPayLogistics(@RequestParam("logisticsInfoId")String logisticsInfoId,HttpServletRequest request,Model model){
-      Map<String,Object> logisticsInfo=customerServiceImpl.getPayLogisticsPageInfo(Long.parseLong(logisticsInfoId));
+      User user=(User)request.getSession().getAttribute("user");
+      Map<String,Object> logisticsInfo=customerServiceImpl.getPayLogisticsPageInfo(Long.parseLong(logisticsInfoId),user.getUserId());
       model.addAttribute("logisticsInfo",logisticsInfo);
-      model.addAttribute("user",(User)request.getSession().getAttribute("user"));
+      model.addAttribute("user",user);
       model.addAttribute("parentMenuNo","2");
       return "views/front/customer/order/payLogistics.jsp";
    }

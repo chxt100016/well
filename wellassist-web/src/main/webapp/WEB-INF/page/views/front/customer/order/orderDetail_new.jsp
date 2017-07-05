@@ -154,7 +154,7 @@
             </li>
             <li class="col-line">
                 <div class="fl-lf  tx-rg " style="width:200px;">付款状态：</div>
-                <div class="fl-lf"><c:if test="${info.orderState<2}">未付款</c:if>
+                <div class="fl-lf"><c:if test="${info.orderState==-1||info.orderState==0||info.orderState==1}">未付款</c:if>
                     <c:if test="${info.orderState>=2}">已付款</c:if>
                 </div>
             </li>
@@ -229,7 +229,6 @@
                         <c:if test="${zorder.zorderState==1}">
                             <div style="width: 500px;height:100px">
                                  <span>备注信息:</span>
-                                <br><br>
                                 <textarea name="receiveComment"   style=" width: 444px;height:80px" ></textarea>
                             </div>
                             <div class="ui right floated small primary icon button" onclick="confirmReceive(${zorder.zorderId},this)"> 确认收货 </div></c:if>
