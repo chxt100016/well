@@ -84,7 +84,7 @@
 					<c:forEach var="item" items="${info}">
 						<div id='sjListContent_0' style='border-bottom: solid 1px #E0E0E0; overflow:auto;'>
 							<div class='graybox' style='width:30%;line-height:50px;font-size:14px;float:left;border:none;text-align:center;border-right: solid 1px #d0d0d0;'>
-								&nbsp;${item.senderUserName}s
+								&nbsp;${item.senderUserName}
 							</div>
 							<div class='grayboxwithoutleft' style='width:22%;line-height:50px;font-size:14px;float:left;border:none;text-align:center;border-right: solid 1px #d0d0d0;'>
 								&nbsp;${item.companyLxr}

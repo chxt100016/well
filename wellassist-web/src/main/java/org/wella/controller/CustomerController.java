@@ -341,7 +341,7 @@ public class CustomerController extends BaseController{
       }
       if(user != null && CommonUtil.getIntFromString(orderId) > 0) {
          Map orderObj = this.getMyOneSingBO("wa_order", "order_id", Long.parseLong(orderId));
-         if(orderObj != null && orderObj.get("userId") != null && (long)orderObj.get("userId")==(user.getUserId()) && orderObj.get("orderState") != null && ((int)orderObj.get("orderState")==1||(int)orderObj.get("orderState")==11)) {
+         if(orderObj != null && orderObj.get("userId") != null && (long)orderObj.get("userId")==(user.getUserId()) && orderObj.get("orderState") != null && ((int)orderObj.get("orderState")==1||(int)orderObj.get("orderState")==11)||(int)orderObj.get("orderState")==13) {
             String sql = "";
             sql = " CALL logisticsPayProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + logisticsInfoId + "\',\'" + grabMoney + "\',\'" + zfMethod + "\',\'" + rate + "\',\'"+certificateImg+"\')";
             HashMap queryParam = new HashMap();

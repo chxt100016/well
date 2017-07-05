@@ -136,14 +136,14 @@
             </li>
             <li class="col-line">
                 <div class="fl-lf  tx-rg " style="width:200px;">付款状态：</div>
-                <div class="fl-lf"><c:if test="${info.orderState<2}">代付款</c:if>
-                    <c:if test="${info.orderState>=2}">已付款</c:if>
+                <div class="fl-lf"><c:if test="${fn:startsWith(info.orderState,'-')||fn:startsWith(info.orderState,0)||fn:startsWith(info.orderState,1)}">未付款</c:if>
+                    <c:if test="${!fn:startsWith(info.orderState,'-')&&fn:substring(info.orderState,0,1)>=2}">已付款</c:if>
                 </div>
             </li>
             <li class="col-line">
                 <div class="fl-lf  tx-rg " style="width:200px;">已收吨数：</div>
-                <div class="fl-lf"><c:if test="${info.orderState<=2}">未发货</c:if>
-                    <c:if test="${info.orderState>=3}">${info.sumNum}</c:if>
+                <div class="fl-lf"><c:if test="${fn:startsWith(info.orderState,'-')||fn:substring(info.orderState,0,1)<=2}">未发货</c:if>
+                    <c:if test="${!fn:startsWith(info.orderState,'-')&&fn:substring(info.orderState,0,1)>=3}">${info.sumNum}</c:if>
                 </div>
             </li>
             <li class="col-line">

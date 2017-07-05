@@ -91,8 +91,8 @@
 			<input type="hidden" name="grabMoney" value="${logisticsInfo.grabMoney}" />
 			<div class="formDd"  style="width:1000px;">
 	    		<div class="headDd">物流报价:${logisticsInfo.grabMoney}&nbsp;&nbsp;元</div>
-				<div>账户余额:${orderInfo.userMoney}&nbsp;&nbsp;元</div>
-				<div>授信余额:${orderInfo.userCreditMoney}&nbsp;&nbsp;元</div>
+				<div>账户余额:${logisticsInfo.userMoney}&nbsp;&nbsp;元</div>
+				<div>授信余额:${logisticsInfo.userCreditMoney}&nbsp;&nbsp;元</div>
 				<div style = "float : left; width:65%;">
 					<div class="rowDd" style = "width:60%; float:left;">
 						<div class="labeldd" align="right">公司名称:</div>

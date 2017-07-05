@@ -98,10 +98,15 @@
 							<td style="color:#a00;">
 								<c:if test="${item.orderState=='0'}">待确认</c:if>
 								<c:if test="${item.orderState=='1'}">待付款</c:if>
+								<c:if test="${item.orderState=='11'}">待物流付款</c:if>
+								<c:if test="${item.orderState=='12'}">待付款</c:if>
+								<c:if test="${item.orderState=='13'}">线下付款审核中</c:if>
+								<c:if test="${item.orderState=='14'}">线下付款审核中</c:if>
+								<c:if test="${item.orderState=='15'}">线下付款审核中</c:if>
 								<c:if test="${item.orderState=='2'}">已付款(未发货)</c:if>
 								<c:if test="${item.orderState=='3'}">发送中</c:if>
 								<c:if test="${item.orderState=='4'}">已发货</c:if>
-								<c:if test="${item.orderState=='5'}">发送发票</c:if>
+								<c:if test="${item.orderState=='5'}"><%--发送发票--%>已收货</c:if>
 								<c:if test="${item.orderState=='6'}">待评价</c:if>
 								<c:if test="${item.orderState=='7'}">已完成</c:if>
 							</td>
@@ -113,11 +118,13 @@
 								</td>
 							</tr>
 						</c:if>
+						<c:if test="${item.orderState!=-1}">
 						<tr>
 							<td>
 								<a style="cursor:pointer;color:black;" onclick="toURL('orderDetail', '${item.orderId}')">订单详情</a>
 							</td>
 						</tr>
+						</c:if>
 					</table>
 				</div>
 				<div class="grayboxwithoutleft" style="height:110px;font-size:16px; float:right; border:none;text-align:center; width:19%; ">
