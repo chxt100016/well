@@ -24,7 +24,7 @@
 </head>
 
 <body>
-    <div class="ui container segment" id="app1">
+    <div class="ui container segment" id="app1" style="width:990px;left:80px;position:relative">
         <h3 class="ui header">抢单大厅</h3>
         <div class="ui divider"></div>
 

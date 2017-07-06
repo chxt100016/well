@@ -19,7 +19,7 @@
 </head>
 
 <body>
-    <div class="ui container segment" id="app1">
+    <div class="ui container segment" id="app1" style="width:990px;left:150px;position:relative">
         <form id="grabForm" action="${pageContext.request.contextPath}/sender/grabLogisticsSubmit">
             <input type="hidden" name="senderUserId" value="${senderUserId}">
             <input type="hidden" name="grabVehicles" id="grabVehicles">
@@ -33,7 +33,7 @@
                     <span> 报价：</span>
                     <div class="ui left action input">
                         <a class="ui teal  button" v-on:click="minusprice"><i class="minus icon"></i></a>
-                        <input type="text" name="grabMoney" value="" v-model=price_quotes>
+                        <input type="text" name="grabMoney" style="height:35px" value="" v-model=price_quotes>
                         <a class="ui right teal button" v-on:click="plusprice"><i class="plus icon"></i></a>
                     </div>
                 </div>
@@ -59,14 +59,14 @@
                 <tbody>
                     <tr v-for="vehicle in Vehicles " v-cloak>
                         <td>
-                            <h2 class="ui center aligned header xs " id="x" onclick="x()" value="{{{vehicle.driverName}}}">{{vehicle.driverName}}</h2>
+                            <h4 class="ui center aligned header xs " id="x" onclick="x()" value="{{{vehicle.driverName}}}">{{vehicle.driverName}}</h4>
                         </td>
                         <td class="single line ">{{vehicle.driverPhone}}</td>
                         <td> {{vehicle.vehicleNo}}</td>
                         <td>{{vehicle.vehicleHangingNo}}</td>
                         <td>{{vehicle.vehicleSize}} 吨</td>
 
-                        <td class="right aligned " style="width:10% "><a class="ui button " v-on:click="delVehicle($index) ">DELETE </a></td>
+                        <td width="15%"><a class="negative ui button " v-on:click="delVehicle($index) " style="height:35px" >删除 </a></td>
 
                     </tr>
 

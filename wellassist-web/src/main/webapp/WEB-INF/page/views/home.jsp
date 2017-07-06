@@ -41,8 +41,8 @@
                     <div class="introduction">
                         <a class=""> </a>
                         <h1 class="ui inverted header">
-                            <span class="library" id="bigtype" > </span>
-                            <span class="tagline" id="type2"></span>
+                            <span class="library" id="bigtype" >WellAssist 供应链系统 </span>
+                            <span class="tagline" id="type2"> 维助 专为油气厂商提供优质供应链服务</span>
                         </h1>
                         <div class="ui hidden divider"></div>
 
@@ -63,7 +63,7 @@
                                 <div>Copyright 2017 WellAssist, Inc. All rights reserved.</div>
                             </div>
                             <div class="w-col w-col-6">
-                                <h5 class="footer-number">Want to talk to a human?&nbsp;<strong class="footer-bold"><a href="">121124</a></strong></h5>
+                                <h5 class="footer-number">W联系方式：&nbsp;<strong class="footer-bold"><a href="">0571-86057333</a></strong></h5>
                             </div>
                         </div>
                     </div>

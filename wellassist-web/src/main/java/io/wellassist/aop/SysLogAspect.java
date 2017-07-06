@@ -32,6 +32,9 @@ import java.util.Date;
 public class SysLogAspect {
 	@Autowired
 	private SysLogService sysLogService;
+
+
+
 	
 	@Pointcut("@annotation(io.wellassist.annotation.SysLog)")
 	public void logPointCut() { 
