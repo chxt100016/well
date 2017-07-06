@@ -57,10 +57,10 @@
 </head>
 
 <body>
-    <div class="ui container segment" id="app1" style="width:990px;">
+    <div class="ui container segment" id="app1" style="width:990px; left:80px;top:-10px">
         <h3 class="ui header">物流详情：</h3>
         <div class="ui divider"></div>
-        <div class="column container">
+        <div class="column ">
             <c:if test="${info.isSelfCar==0}">
                 <div class="fl-lf " style="width: 50%;">取货方式：买家自提</div>
             </c:if>
@@ -74,13 +74,14 @@
             <div class="fl-lf " style="width: 50%;">收货地址：${info.toAddress}</div>
             <div class="fl-lf " style="width: 50%;">买家联系人：${info.customerContacts}</div>
             <div class="fl-lf " style="width: 50%;">买家联系电话：${info.customerConTel}</div>
+            <br>
             <div class="right item fl-rg" style=" "><span class="">本块内容显示为
                 <c:if test="${info.isSelfCar==0}">买家</c:if>
                 <c:if test="${info.isSelfCar==1}">物流公司</c:if>
                 提交信息，请仔细核对</span>
 
             </div>
-            <br><br>
+            <br>
             <c:if test="${!empty info.vehicles}">
             <table class="ui celled padded table ">
                 <thead>
@@ -96,7 +97,7 @@
                 <c:forEach items="${info.vehicles}" var="vehicle">
                     <tr v-for="vehicle in Vehicles " v-cloak>
                         <td>
-                            <h2 class="ui center aligned header xs " id="x" onclick="x()" value="{{{vehicle.dr_name}}}">${vehicle.driverName}</h2>
+                            <h4 class="ui center aligned header xs " id="x" onclick="x()" value="{{{vehicle.dr_name}}}">${vehicle.driverName}</h4>
                         </td>
                         <td class="single line ">${vehicle.driverPhone}</td>
                         <td> ${vehicle.vehicleNo}</td>
@@ -109,7 +110,7 @@
                 </tbody>
             </table>
             </c:if>
-            <button onclick="javascript:window.history.go(-1);">返回</button>
+            <button onclick="javascript:window.history.go(-1);" class="ui toggle button">返回</button>
         </div>
     </div>
 
