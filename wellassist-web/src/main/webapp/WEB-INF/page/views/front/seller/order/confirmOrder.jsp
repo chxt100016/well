@@ -99,7 +99,7 @@
 				<input type="hidden" name="orderId" value="${orderInfo.orderId}" />
 
 				<div style="margin: 40px 0px 40px 80px;">
-						<input type="button" class="bluebutton" style="padding: 8px 16px; font-size:20px; border-radius: 6px; border:none;" value="返回" onclick="goBack();" />
+						<input type="button" class="bluebutton" style="padding: 8px 16px; font-size:20px; border-radius: 6px; border:none;" value="返回" onclick="window.history.go(-1);" <%--onclick="goBack();"--%> />
 						<input type="submit" id="submit" class="bluebutton" style="padding: 8px 16px; font-size:20px; border-radius: 6px; border:none;" value="确认" />
 				</div>
 			</div>

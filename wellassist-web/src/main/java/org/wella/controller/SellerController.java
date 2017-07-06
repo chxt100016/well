@@ -130,6 +130,8 @@ public class SellerController extends BaseController {
     public String confirmOrder(Model model,@RequestParam("orderId")String orderId){
         Map<String,Object> modelMap=sellerServiceImpl.getInfoForConfirmOrderPage(Long.valueOf(orderId));
         model.addAttribute("orderInfo",modelMap);
+        model.addAttribute("parentMenuNo", "1");
+        model.addAttribute("childMenuNo", "3");
         return "views/front/seller/order/confirmOrder.jsp";
     }
 

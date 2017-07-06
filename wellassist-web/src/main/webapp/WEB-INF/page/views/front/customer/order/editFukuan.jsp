@@ -295,7 +295,11 @@
 				    	$.post($("#ddfkForm").attr("action"),$("#ddfkForm").serialize(),function(data){
 				    		data = $.parseJSON(data);
 				            if(data.status=="1"){
-				            	alert("付款成功!");
+                                if(zfMethod == "5"){
+                                    alert("提交成功!");
+                                }else{
+                                    alert("付款成功!");
+                                }
 				            	window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-prodOrderList";
 				            } else {
 				            	alert(data.content);
@@ -319,7 +323,7 @@
 				    	$.post($("#ddfkForm").attr("action"),$("#ddfkForm").serialize(),function(data){
 				    		data = $.parseJSON(data);
 				            if(data.status=="1"){
-				                if(zfMethod = "5"){
+				                if(zfMethod == "5"){
 				                    alert("提交成功");
 								}else{
                                     alert("付款成功!");

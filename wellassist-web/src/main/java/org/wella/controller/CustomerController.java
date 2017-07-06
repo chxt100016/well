@@ -132,7 +132,11 @@ public class CustomerController extends BaseController{
    }
 
    @RequestMapping({"orderSuccess"})
-   public String orderSuccess(HttpServletRequest request, HttpServletResponse response) {
+   public String orderSuccess(HttpServletRequest request,Model model) {
+      User user=(User)request.getSession().getAttribute("user");
+      model.addAttribute("username",user.getUserName());
+      model.addAttribute("parentMenuNo", "1");
+      model.addAttribute("childMenuNo", "1");
       return "views/front/customer/ordersheetresult.jsp";
    }
 
@@ -204,10 +208,12 @@ public class CustomerController extends BaseController{
     */
    @RequestMapping("grabLogisticsList")
    public String grabLogisticsList(@RequestParam("logisticsInfoId")String logisticsInfoId, HttpServletRequest request,Model model){
+      User user=(User)request.getSession().getAttribute("user");
       long LIId=Long.parseLong(logisticsInfoId);
       List<Map<String,Object>> info=customerServiceImpl.grabLogisticsListInfo(LIId);
       model.addAttribute("info",info);
       model.addAttribute("logisticsInfoId",LIId);
+      model.addAttribute("username",user.getUserName());
       model.addAttribute("parentMenuNo","1");
       model.addAttribute("childMenuNo","2");
       return "views/front/customer/order/editQiangdan.jsp";
