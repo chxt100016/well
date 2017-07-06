@@ -4,15 +4,16 @@
 <link rel="stylesheet" 	href="<c:url value="/resources/wella/front/css/seller/publishpage.css"/>">
 <%--<script type="text/javascript" src="${pageContext.request.contextPath}/resources/library/js/jquery.form.js"></script>--%>
 <script src="${pageContext.request.contextPath}/statics/libs/ajaxupload.js"></script>
-<div class="mid_box" id="app">
+<div class="mid_box" id="app" style="width:999px;left:80px;position:relative">
 	<form id="product-publish" method="post" >
 
 		<table>
 			<tbody>
 			<tr>
-				<td><input type="hidden" name="prodId" value="${prod.prodId}"></td>
+				
 				<td class="form_label"><label for="">产品名称：</label></td>
 				<td><input type="text" placeholder="请填写您的产品名称" class="form-control" name="prodName" value="${prod.prodName}"></td>
+                <td><input type="hidden" name="prodId" value="${prod.prodId}"></td>
 			</tr>
 			<tr>
 				<td class="form_label"><label for="">货源类型：</label></td>

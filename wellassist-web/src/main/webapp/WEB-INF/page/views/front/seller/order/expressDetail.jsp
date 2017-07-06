@@ -13,13 +13,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script>
     <style>
         .mid_box {
-            width: 1100px;
-            margin: 0px auto;
+            width: 990px;
+          
             border: 1px solid rgba(34, 36, 38, .15);
             box-shadow: 0 2px 4px 0 rgba(34, 36, 38, .12), 0 2px 10px 0 rgba(34, 36, 38, .15);
             padding: 1em;
             font-size: 14px;
-            position: absolute;
+            position: relative;
+            left:80px;
         }
         
         .span_time {}
@@ -56,7 +57,7 @@
 </head>
 
 <body>
-    <div class="ui container segment" id="app1">
+    <div class="ui container segment" id="app1" style="width:990px;">
         <h3 class="ui header">物流详情：</h3>
         <div class="ui divider"></div>
         <div class="column container">
