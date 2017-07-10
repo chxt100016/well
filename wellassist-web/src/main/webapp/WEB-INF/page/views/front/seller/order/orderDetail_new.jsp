@@ -89,7 +89,7 @@
 </head>
 
 <body>
-    <div class="ui container segment" id="app1">
+    <div class="ui container segment" id="app1" style="width:990px;left:80px;top:-15px">
         <h3 class="ui header">订单详情：</h3>
         <div class="ui divider"></div>
         <div class="column container">
@@ -195,7 +195,7 @@
                     <th>电话</th>
                     <th>车牌号</th>
                     <th>车挂号</th>
-                    <th>容量</th>
+                    <th>装载量</th>
                 </tr>
             </thead>
             <tbody>
@@ -219,7 +219,7 @@
             <c:if test="${zorder.zorderState==2}">已收货</c:if><div>
         </c:forEach>
             </c:if>
-            <button onclick="javascript:window.history.go(-1);">返回</button>
+            <button onclick="javascript:window.history.go(-1);" class="ui primary button">返回</button>
     </div>
 </body>
 

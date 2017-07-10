@@ -147,7 +147,7 @@
                                <td>{{vehicle.vehicleNo}}</td>
                                <td>{{vehicle.vehicleHangingNo}} </td>
                                <td>
-                                   <input  class="vh" placeholder=" "  id="vehicleSize"  v-model="vehicle.vehicleActualSize" type="number" onblur="validedTex(this)"><span> 容量：<span >{{vehicle.vehicleSize}}</span> 顿</span></td>
+                                   <input  class="vh" placeholder=" "  id="vehicleSize"  v-model="vehicle.vehicleActualSize" type="number" onchange="validedTex(this)"><span> 容量：<span >{{vehicle.vehicleSize}}</span> 顿</span></td>
                                <td>
                                    <div class="ui checkbox">
                                     <input type="checkbox" name="example" v-bind:value="index" class="example" style="margin-left:0px" v-model="Selected">
@@ -168,24 +168,86 @@
                     </div>
                  </div>
                  <!--添加新司机弹框end-->
+
             <div class="ui form" style="width: 550px;height:200px">
                   <div class="field">
                 <label>备注信息：</label>
                 <textarea name="sendComment" style="width:549px;height:150px; max-width:550px;max-height:155px"></textarea>
                   </div>
             </div>
+            <div class=" ui column">   
+                <div class="field">
+                    <div class="ui labeled input">
+                        <div class="ui label">提货时间： </div>
+                        <input type="text" name="getTime" placeholder="" value=""  class="" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',})">
+                       
+                    </div> 
+                    
+                </div>
+            </div>
+            <br>
+            
+            <div class=" two fields">
+                        <div class="field">
+                            <label>凭证：</label>
+                            <img class="ui medium rounded image" src=" https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2183910153,835993914&fm=58">   
+                        </div>
+                        <div class="field">
+                            <div class="ui labeled input ">
+                                  <label>上传凭证：</label> <input type="file">
+                            </div>
+                        </div>
+
+            </div>
+            <br>
+             <div class=" ui column"> <label>收货地址：</label>${info.toAddress}</div>    
+
+           
+
         </form>
-        <div class="column"> <label>收货地址：</label>${info.toAddress}</div>
+
+       
 
         <div><a class="ui button green"  id="add" @click="sendProdSubmit" style="display: block; width: 133px; margin: 0px auto; ">确认</a></div>
-        <div>
-            <button onclick="AllLoads()">summary</button>
-        </div>
+        
     </div>
 
 </body>
-
+<!--<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>-->
 <script>
+    // $(function(){
+    //     // 检查模块，表单验证
+    //     var validator = $("#infoForm").validate({
+    //           errorPlacement: function(error, element) {
+    //             if ($(element).closest('div.field').children().filter("div.error-div ").length < 1)
+    //                 $(element).closest('div.field').append("<div class='error-div'></div>");
+    //                 $(element).closest('div.field').children().filter("div.error-div").append(error);
+    //         },
+    //         rules:{
+    //             zorderNum:{
+    //                 required:true,
+    //             },
+    //             getTime:{
+    //                  required:true,
+    //             }
+
+    //         },
+    //         messages:{
+    //             zorderNum:{
+    //                 required:"请输入发货量",
+    //             },
+    //             getTime:{
+    //                 required:"请输入提货时间" 
+
+    //             }
+
+    //         },
+    //         onfocusout:true,
+
+    //      });
+
+
+    // })
   
     var vm= new Vue({
         el:'#app1',
@@ -195,7 +257,7 @@
             Selected: [],
             SelectedVehicles:[]
         },
-        created:function(){
+        mounted:function(){
             $.post('${pageContext.request.contextPath}/seller/getOrderVehicles',{orderId:'${info.orderId}'},function(data){
                 var arr=JSON.parse(data);
                 for (i = 0; i < arr.length; i++) {
@@ -281,6 +343,7 @@ function close_m(){
     if(Tex>=c){
         console.log("太大了！");
         tex.value=c;
+
     }
    else{
     //    return tex.value= Tex;

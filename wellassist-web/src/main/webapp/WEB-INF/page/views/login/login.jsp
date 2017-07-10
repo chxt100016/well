@@ -96,7 +96,7 @@
                                 <div>Copyright 2017 WellAssist, Inc. All rights reserved.</div>
                             </div>
                             <div class="w-col w-col-6">
-                                <h5 class="footer-number">Want to talk to a human?&nbsp;<strong class="footer-bold"><a href="">121124</a></strong></h5>
+                                <h5 class="footer-number">联系方式：&nbsp;<strong class="footer-bold"><a href="">0571-86057333</a></strong></h5>
                             </div>
                         </div>
                     </div>
