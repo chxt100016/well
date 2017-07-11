@@ -1,7 +1,7 @@
 <%@ include file="../header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 
-<div id = "content-rect">
+<div id = "content-rect" style="position:relative;left: 190px;">
 	<!-- <div style="border:solid 1px #d0d0d0;font-size:18px;font-weight:bold;color:#0557ab;line-height:36px;text-align:left;">&nbsp;&nbsp;抢单列表</div> -->
 
 	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/sender/logisticsGrabList">
@@ -9,14 +9,15 @@
 		<input type="hidden" id="grabState" name="grabState" value="${param.grabState}">
 		<div class="row-header">
 		     <span class="header-title">抢单列表</span>
-		     <div style="float:right;">
-		     	<input type="text" name="orderNo" style="height:10px; float:left;margin-bottom:0px;" value="${param.orderNo}" placeholder = "订单编号"/>
-		     	<span class="span_search_btn_blue" style="margin-bottom:0px;" onclick="searchData(1);">搜索</span>
+		     <div class="ui input"style="float:right;">
+
+		     	<input type="text" name="orderNo" style="height:33px; float:left;margin-bottom:0px;" value="${param.orderNo}" placeholder = "订单编号"/>
+		     	<span class="ui button small blue" style="margin-bottom:0px;" onclick="searchData(1);">搜索</span>
 		     </div>
 		</div>
 	</form>
 	
-	<div style="border:solid 1px #d0d0d0;padding:6px;font-size:24px;margin-top:16px;height:20px;">
+	<div style="border:solid 1px #d0d0d0;padding:6px;font-size:24px;margin-top:16px;    height: 36px;">
 		<div style="width:40%;text-align:center;font-size:16px;float:left;">运输产品</div>
 		<div style="width:20%;text-align:center;font-size:16px;float:left;">运输</div>
 		<div style="width:20%;text-align:center;font-size:16px;float:left;">
