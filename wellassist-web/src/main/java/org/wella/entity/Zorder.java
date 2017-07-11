@@ -16,6 +16,8 @@ public class Zorder {
 
     private Date zorderDate;
 
+    private String zorderBill;
+
     private Byte zorderState;
 
     private Date modifyDate;
@@ -74,6 +76,14 @@ public class Zorder {
 
     public void setZorderDate(Date zorderDate) {
         this.zorderDate = zorderDate;
+    }
+
+    public String getZorderBill() {
+        return zorderBill;
+    }
+
+    public void setZorderBill(String zorderBill) {
+        this.zorderBill = zorderBill == null ? null : zorderBill.trim();
     }
 
     public Byte getZorderState() {

@@ -9,6 +9,7 @@
     <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script>
+    <script src="${pageContext.request.contextPath}/statics/libs/ajaxupload.js"></script>
     <style>
         .mid_box {
            width: 991px;
@@ -105,9 +106,6 @@
                             <th>容量</th>
                             <th>装载量</th>
                             <th>操作</th>
-                           
-                        
-
                         </tr>
                     </thead>
                     <tbody>
@@ -179,35 +177,27 @@
                 <div class="field">
                     <div class="ui labeled input">
                         <div class="ui label">提货时间： </div>
-                        <input type="text" name="getTime" placeholder="" value=""  class="" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',})">
-                       
-                    </div> 
-                    
+                        <input type="text" name="zorderDate" placeholder="" value=""  class="" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',})">
+                    </div>
                 </div>
             </div>
             <br>
             
             <div class=" two fields">
-                        <div class="field">
+                        <div class="field" id="zorderdiv" style="visibility: hidden">
                             <label>凭证：</label>
-                            <img class="ui medium rounded image" src=" https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2183910153,835993914&fm=58">   
+                            <img class="ui medium rounded image" id="zorderBillImg" src="">
                         </div>
+                <input type="hidden" name="zorderBill" id="zorderBill">
                         <div class="field">
                             <div class="ui labeled input ">
-                                  <label>上传凭证：</label> <input type="file">
+                                  <button class="ui button blue" id="upload">上传凭证</button><span>请上传小于5M、清晰、发货信息照片</span>
                             </div>
                         </div>
-
             </div>
             <br>
-             <div class=" ui column"> <label>收货地址：</label>${info.toAddress}</div>    
-
-           
-
+             <div class=" ui column"> <label>收货地址：</label>${info.toAddress}</div>
         </form>
-
-       
-
         <div><a class="ui button green"  id="add" @click="sendProdSubmit" style="display: block; width: 133px; margin: 0px auto; ">确认</a></div>
         
     </div>
@@ -215,6 +205,27 @@
 </body>
 <!--<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>-->
 <script>
+    $(document).ready(function () {
+        new AjaxUpload('#upload', {
+            action: '${pageContext.request.contextPath}/uploadFile',
+            name: 'file',
+            autoSubmit:true,
+            responseType:"json",
+            onSubmit:function(file, extension){
+                if (!(extension && /^(jpg|jpeg|png|gif)$/.test(extension.toLowerCase()))){
+                    alert('只支持jpg、png、gif格式的图片！');
+                    return false;
+                }
+            },
+            onComplete : function(file, data){
+                if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
+                $("#zorderdiv").css("visibility","visible");
+                $("#zorderBillImg").attr("src",data.path);
+                $("#zorderBill").val(data.path);
+                return;
+            }
+        });
+    });
     // $(function(){
     //     // 检查模块，表单验证
     //     var validator = $("#infoForm").validate({

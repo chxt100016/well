@@ -21,9 +21,9 @@ $(function () {
                 }else  if(value==1){
                     return "待付款";
                 }else if(value ==11){
-                    return "产品订单已付款，物流订单为付款";
+                    return "产品订单已付款，物流订单未付款";
                 }else  if(value==12){
-                    return "物流订单已付款，产品订单为付款";
+                    return "物流订单已付款，产品订单未付款";
                 }else if(value ==2){
                     return "未发货";
                 }else if(value==1){

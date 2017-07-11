@@ -10,6 +10,7 @@ import org.wella.entity.*;
 import org.wella.service.RegionService;
 import org.wella.service.SellerService;
 import org.wella.service.WaOrderService;
+import org.wella.utils.DateUtils;
 
 import java.math.BigDecimal;
 import java.security.PrivateKey;
@@ -283,7 +284,6 @@ public class SellerServiceImpl implements SellerService {
             ConvertUtil.convertDataBaseMapToJavaMap(basicinfo);
             ConvertUtil.convertDataBaseMapToJavaMap(vehiclesinfo);
             basicinfo.put("vehicles",vehiclesinfo);
-
             basicinfo.put("fromAddress",regionDao.getRegionDetailNameByRegionId((long)basicinfo.get("fromRegionId"))+" "+basicinfo.get("fromRegionAddr"));
             basicinfo.put("toAddress",regionDao.getRegionDetailNameByRegionId((long)basicinfo.get("toRegionId"))+" "+basicinfo.get("toRegionAddr"));
             return basicinfo;
@@ -320,6 +320,9 @@ public class SellerServiceImpl implements SellerService {
         String zorderPrice=(String)params.get("zorderPrice");
         String zorderNum=(String)params.get("zorderNum");
         String sendComment=(String)params.get("sendComment");
+        String zorderBill=(String)params.get("zorderBill");
+        String zorderDate=(String)params.get("zorderDate");
+        Date dZorderDate= DateUtils.parse(zorderDate,DateUtils.DATE_TIME_PATTERN);
         List<Map<String,Object>> orderVehicles=ConvertUtil.converJSONtoArrayListMap((String)params.get("orderVehicles"));
         //如果是第一次发货，修改订单状态
         Map<String,Object> order=orderDao.singleOrderByPrimaryKey(Long.parseLong(orderId));
@@ -343,11 +346,12 @@ public class SellerServiceImpl implements SellerService {
         zorder.setZorderPrice(new BigDecimal(zorderPrice));
         zorder.setZorderNum(new BigDecimal(zorderNum));
         zorder.setZorderMoney(zorder.getZorderNum().multiply(zorder.getZorderPrice()));
-        zorder.setZorderDate(new Date());
+        zorder.setZorderDate(dZorderDate);
         zorder.setZorderState((byte)1);
         zorder.setModifyDate(new Date());
         zorder.setUserId(userId);
         zorder.setSendComment(sendComment);
+        zorder.setZorderBill(zorderBill);
         zorderDao.createZorder(zorder);
         //insert wa_order_vehicle表新记录
         for(Map<String,Object> ov:orderVehicles){
@@ -360,7 +364,7 @@ public class SellerServiceImpl implements SellerService {
             orderVehicle.setVehicleSize(new BigDecimal(ov.get("vehicleSize").toString()));
             orderVehicle.setDriverName((String)ov.get("driverName"));
             orderVehicle.setDriverPhone((String)ov.get("driverPhone"));
-            orderVehicle.setDeliverActualDate(new Date());
+            orderVehicle.setDeliverActualDate(dZorderDate);
             orderVehicleDao.createOrderVehicle(orderVehicle);
         }
 

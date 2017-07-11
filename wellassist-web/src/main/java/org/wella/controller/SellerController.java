@@ -300,12 +300,12 @@ public class SellerController extends BaseController {
     }
 
     @RequestMapping("productList")
-    public String productList(HttpServletRequest request,Model model){
+    public String productList(HttpServletRequest request,Model model) {
         Map map = this.getConditionParam(request);
-        map.put("userType",0);
+        map.put("userType", 0);
         HttpSession session = HttpContextUtils.getHttpServletRequest().getSession();
         User user = (User) session.getAttribute("user");
-        map.put("userId",user.getUserId());
+        map.put("userId", user.getUserId());
         //产品列表展示
 
         ArrayList waProdList = this.sellerOrderMapper.getWaProdList(map);

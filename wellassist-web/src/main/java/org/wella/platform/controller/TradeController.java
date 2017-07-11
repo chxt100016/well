@@ -60,6 +60,7 @@ public class TradeController extends BaseController {
     public R offlinePayList(@RequestParam Map<String,Object> param){
         param.put("zfMethod",5);
         param.put("orderNo",param.get("queryStr"));
+        param.put("orderBy","FIELD(a.trans_state,-1,0,1,-2) ASC");
         Query query=new Query(param);
         List list=orderTransDao.listOrderTransAttachOrderinfoviewByConditions(query);
         ConvertUtil.convertDataBaseMapToJavaMap(list);
