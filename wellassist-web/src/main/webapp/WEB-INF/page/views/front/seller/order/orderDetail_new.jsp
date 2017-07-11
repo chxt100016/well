@@ -8,10 +8,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--<link href="css/style.css" rel="stylesheet">-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
     <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script>-->
     <style>
         .mid_box {
             width: 1100px;
@@ -62,7 +62,7 @@
         
         .container .item span {
             display: block;
-            width: 30%;
+            width: 70%;
             float: left
         }
         
@@ -84,6 +84,9 @@
         
         .col-line {
             height: 30px;
+        }
+        .grey{
+            color: #8590a6;
         }
     </style>
 </head>
@@ -124,29 +127,32 @@
                 <div class="fl-lf  tx-rg " style="width:200px;">总吨数：</div>
                 <div class="fl-lf">
                     <%--<c:if test="${not empty info.orderNumber and info.orderNumber!=info.saleNum}"><s>${info.saleNum}</s></c:if>--%>
-                        <c:if test="${not empty info.orderNumber and (info.orderNumber-info.saleNum>0.0000000001 or info.orderNumber-info.saleNum<-0.0000000001)}"><s>${info.saleNum}</s></c:if>
+                        
                         <c:if test="${empty info.orderNumber && empty info.confirmNumber}">${info.saleNum}</c:if>
                 <%--<c:if test="${empty info.orderNumber && !empty info.confirmNumber}">${info.confirmNumber}</c:if>--%>
                 <c:if test="${!empty info.orderNumber}">${info.orderNumber}</c:if>吨
+                <c:if test="${not empty info.orderNumber and (info.orderNumber-info.saleNum>0.0000000001 or info.orderNumber-info.saleNum<-0.0000000001)}"><s>${info.saleNum}</s></c:if>
                 </div>
             </li>
             <li class="col-line">
                 <div class="fl-lf  tx-rg " style="width:200px;">总价：</div>
                 <div class="fl-lf">
                     <%--<c:if test="${not empty info.orderNumber and info.orderNumber*info.orderPrice!=info.saleMoney}"><s>${info.saleMoney}</s></c:if>--%>
-                        <c:if test="${not empty info.orderNumber and (info.orderNumber*info.orderPrice-info.saleMoney>0.0000000001 or info.orderNumber*info.orderPrice-info.saleMoney<-0.0000000001)}"><s>${info.saleMoney}</s></c:if>
+                       
                         <c:if test="${empty info.orderNumber && empty info.confirmNumber}">${info.saleMoney}</c:if>
                     <%--<c:if test="${empty info.orderNumber && !empty info.confirmNumber}">${info.confirmNumber*info.comfirmPrice}</c:if>--%>
                     <c:if test="${!empty info.orderNumber }">${info.orderNumber*info.orderPrice}</c:if>元</div>
+                     <c:if test="${not empty info.orderNumber and (info.orderNumber*info.orderPrice-info.saleMoney>0.0000000001 or info.orderNumber*info.orderPrice-info.saleMoney<-0.0000000001)}"><s>${info.saleMoney}</s></c:if>
             </li>
             <li class="col-line">
                 <div class="fl-lf  tx-rg " style="width:200px;">单价：</div>
                 <div class="fl-lf">
                     <%--<c:if test="${not empty info.orderNumber and info.orderPrice!=(info.saleMoney/info.saleNum)}"><s>${info.saleMoney/info.saleNum}</s></c:if>--%>
-                        <c:if test="${not empty info.orderNumber and (info.orderPrice-(info.saleMoney/info.saleNum)>0.0000000001 or info.orderPrice-(info.saleMoney/info.saleNum)<-0.0000000001)}"><s>${info.saleMoney/info.saleNum}</s></c:if>
+                      
                         <c:if test="${empty info.orderNumber && empty info.confirmNumber}">${info.saleMoney/info.saleNum}</c:if>
                     <%--<c:if test="${empty info.orderNumber && !empty info.confirmNumber}">${info.comfirmPrice}</c:if>--%>
                     <c:if test="${!empty info.orderNumber  }">${info.orderPrice}</c:if>元</div>
+                      <c:if test="${not empty info.orderNumber and (info.orderPrice-(info.saleMoney/info.saleNum)>0.0000000001 or info.orderPrice-(info.saleMoney/info.saleNum)<-0.0000000001)}"><s>${info.saleMoney/info.saleNum}</s></c:if>
             </li>
             <li class="col-line">
                 <div class="fl-lf  tx-rg " style="width:200px;">付款状态：</div>
@@ -177,16 +183,18 @@
         </ul><br><br>
         <c:if test="${!empty info.zorders}">
         <h4 class="ui header">物流信息</h4>
+        <hr>
         <c:forEach items="${info.zorders}" var="zorder">
-        发货时间：<fmt:formatDate value="${zorder.zorderDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate><br>
-        子订单单价:${zorder.zorderPrice}
-        子订单发货量：${zorder.zorderNum}
-        子订单成交额：${zorder.zorderMoney}
+        <span class="grey "> 发货时间：</span><fmt:formatDate value="${zorder.zorderDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate><br>
+        <span class="grey ">子订单单价:</span> ${zorder.zorderPrice} &nbsp&nbsp
+         <span class="grey ">子订单发货量：</span> ${zorder.zorderNum} &nbsp&nbsp
+         <span class="grey ">子订单成交额：</span> ${zorder.zorderMoney}
         <c:if test="${not empty zorder.sendComment}">
-        发货备注：${zorder.sendComment}
+            <br>
+         <span class="grey ">发货备注：</span> ${zorder.sendComment}
         </c:if>
         <c:if test="${not empty zorder.receiveComment}">
-        收货备注：${zorder.receiveComment}
+        <span class="grey "> 收货备注：</span> ${zorder.receiveComment}
         </c:if>
         <table class="ui celled padded table ">
             <thead>
@@ -217,8 +225,10 @@
 
         <div><c:if test="${zorder.zorderState==1}">已发货</c:if>
             <c:if test="${zorder.zorderState==2}">已收货</c:if><div>
+                <hr>
         </c:forEach>
             </c:if>
+            
             <button onclick="javascript:window.history.go(-1);" class="ui primary button">返回</button>
     </div>
 </body>

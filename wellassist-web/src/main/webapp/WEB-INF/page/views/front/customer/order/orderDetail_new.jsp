@@ -95,7 +95,7 @@
 </head>
 
 <body>
-    <div class="ui container segment" id="app1" style="width:900px;left:110px">
+    <div class="ui container segment" id="app1" style="width:900px;left:40px;top:-15px">
         <h3 class="ui header">订单详情</h3>
         <div class="ui divider"></div>
         <div class="column " style="width:100%;height:40px">
@@ -130,27 +130,31 @@
             <li class="col-line">
                 <div class="fl-lf  tx-rg " style="width:200px;">总吨数：</div>
                 <div class="fl-lf">
-                    <c:if test="${not empty info.orderNumber and (info.orderNumber-info.saleNum>0.0000000001 or info.orderNumber-info.saleNum<-0.0000000001)}"><s>${info.saleNum}</s></c:if>
+                   
                     <c:if test="${empty info.orderNumber && empty info.confirmNumber}">${info.saleNum}</c:if>
                 <%--<c:if test="${empty info.orderNumber && !empty info.confirmNumber}">${info.confirmNumber}</c:if>--%>
                 <c:if test="${!empty info.orderNumber}">${info.orderNumber}</c:if> 吨
+                 <c:if test="${not empty info.orderNumber and (info.orderNumber-info.saleNum>0.0000000001 or info.orderNumber-info.saleNum<-0.0000000001)}"><s>${info.saleNum}</s></c:if>
                 </div>
             </li>
             <li class="col-line">
                 <div class="fl-lf  tx-rg " style="width:200px;">总价：</div>
                 <div class="fl-lf">
-                    <c:if test="${not empty info.orderNumber and (info.orderNumber*info.orderPrice-info.saleMoney>0.0000000001 or info.orderNumber*info.orderPrice-info.saleMoney<-0.0000000001)}"><s>${info.saleMoney}</s></c:if>
+                  
                     <c:if test="${empty info.orderNumber && empty info.confirmNumber}">${info.saleMoney}</c:if>
                     <%--<c:if test="${empty info.orderNumber && !empty info.confirmNumber}">${info.confirmNumber*info.comfirmPrice}</c:if>--%>
-                    <c:if test="${!empty info.orderNumber }">${info.orderNumber*info.orderPrice}</c:if> 元</div>
+                    <c:if test="${!empty info.orderNumber }">${info.orderNumber*info.orderPrice}</c:if> 元
+                      <c:if test="${not empty info.orderNumber and (info.orderNumber*info.orderPrice-info.saleMoney>0.0000000001 or info.orderNumber*info.orderPrice-info.saleMoney<-0.0000000001)}"><s>${info.saleMoney}</s></c:if>
+                      </div>
             </li>
             <li class="col-line">
                 <div class="fl-lf  tx-rg " style="width:200px;">单价：</div>
                 <div class="fl-lf">
-                    <c:if test="${not empty info.orderNumber and (info.orderPrice-(info.saleMoney/info.saleNum)>0.0000000001 or info.orderPrice-(info.saleMoney/info.saleNum)<-0.0000000001)}"><s>${info.saleMoney/info.saleNum}</s></c:if>
+                  
                     <c:if test="${empty info.orderNumber && empty info.confirmNumber}">${info.saleMoney/info.saleNum}</c:if>
                     <%--<c:if test="${empty info.orderNumber && !empty info.confirmNumber}">${info.comfirmPrice}</c:if>--%>
                     <c:if test="${!empty info.orderNumber  }">${info.orderPrice}</c:if> 元</div>
+                      <c:if test="${not empty info.orderNumber and (info.orderPrice-(info.saleMoney/info.saleNum)>0.0000000001 or info.orderPrice-(info.saleMoney/info.saleNum)<-0.0000000001)}"><s>${info.saleMoney/info.saleNum}</s></c:if>
             </li>
             <li class="col-line">
                 <div class="fl-lf  tx-rg " style="width:200px;">付款状态：</div>
@@ -231,7 +235,10 @@
                                  <span>备注信息:</span>
                                 <textarea name="receiveComment"   style=" width: 444px;height:80px" ></textarea>
                             </div>
-                            <div class="ui right floated small primary icon button" onclick="confirmReceive(${zorder.zorderId},this)"> 确认收货 </div></c:if>
+                            <div class="ui right floated small primary icon button" onclick="confirmReceive(${zorder.zorderId},this)"> 已收货，确认 </div>
+                             <div class="ui right floated small  icon red button" onclick=""> 已收货，存疑 </div>
+
+                        </c:if>
                          <c:if test="${zorder.zorderState==2}"><div class="ui  ">已收货 </div></c:if>
 
                     </th>
@@ -244,7 +251,7 @@
         </c:forEach>
          
             </c:if>
-        <button onclick="javascript:window.history.go(-1);">返回</button>
+        <button onclick="javascript:window.history.go(-1);" class="ui button">返回</button>
             </div>
     </div>
 </body>

@@ -4,8 +4,8 @@
 </div>
 <script type="text/javascript">
 	// 初始化函数
-	$(function(){
-		$("#leftmenu").height($("#content-rect").height());	
-	});
+	// $(function(){
+	// 	$("#leftmenu").height($("#content-rect").height());	
+	// });
 </script>
 	
