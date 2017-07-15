@@ -15,4 +15,6 @@ public interface OrderVehicleDao {
     void createOrderVehicle(OrderVehicle orderVehicle);
 
     List<Map<String,Object>> listOrderVehiclesByConditions(HashMap queryOv);
+
+    void updateByPrimaryKey(Map<String, Object> updateMap);
 }

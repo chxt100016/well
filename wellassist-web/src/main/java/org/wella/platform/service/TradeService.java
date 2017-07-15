@@ -9,4 +9,8 @@ public interface TradeService {
     Map<String,Object> findOfflinePayInfo(long orderTransId);
 
     int offlinePayCheckSubmit(Map<String, Object> param);
+
+    Map<String,Object> getOrderDetailPageInfo(long orderId);
+
+    void updateOrder(Map<String, Object> params);
 }

@@ -132,7 +132,6 @@
                 <div class="fl-lf">
                    
                     <c:if test="${empty info.orderNumber && empty info.confirmNumber}">${info.saleNum}</c:if>
-                <%--<c:if test="${empty info.orderNumber && !empty info.confirmNumber}">${info.confirmNumber}</c:if>--%>
                 <c:if test="${!empty info.orderNumber}">${info.orderNumber}</c:if> 吨
                  <c:if test="${not empty info.orderNumber and (info.orderNumber-info.saleNum>0.0000000001 or info.orderNumber-info.saleNum<-0.0000000001)}"><s>${info.saleNum}</s></c:if>
                 </div>
@@ -142,7 +141,6 @@
                 <div class="fl-lf">
                   
                     <c:if test="${empty info.orderNumber && empty info.confirmNumber}">${info.saleMoney}</c:if>
-                    <%--<c:if test="${empty info.orderNumber && !empty info.confirmNumber}">${info.confirmNumber*info.comfirmPrice}</c:if>--%>
                     <c:if test="${!empty info.orderNumber }">${info.orderNumber*info.orderPrice}</c:if> 元
                       <c:if test="${not empty info.orderNumber and (info.orderNumber*info.orderPrice-info.saleMoney>0.0000000001 or info.orderNumber*info.orderPrice-info.saleMoney<-0.0000000001)}"><s>${info.saleMoney}</s></c:if>
                       </div>
@@ -236,10 +234,11 @@
                                 <textarea name="receiveComment"   style=" width: 444px;height:80px" ></textarea>
                             </div>
                             <div class="ui right floated small primary icon button" onclick="confirmReceive(${zorder.zorderId},this)"> 已收货，确认 </div>
-                             <div class="ui right floated small  icon red button" onclick=""> 已收货，存疑 </div>
+                             <div class="ui right floated small  icon red button" onclick="doubtReceive(${zorder.zorderId},this)"> 已收货，存疑 </div>
 
                         </c:if>
-                         <c:if test="${zorder.zorderState==2}"><div class="ui  ">已收货 </div></c:if>
+                         <c:if test="${zorder.zorderState==2}"><div class="ui  ">已收货,确认 </div></c:if>
+                        <c:if test="${zorder.zorderState==11}"><div class="ui  ">已收货,存疑 </div></c:if>
 
                     </th>
                 </tr>
@@ -260,6 +259,19 @@
         var receiveComment=com.previousElementSibling.children[1].value;
         if(confirm("你要确定要操作吗？")){
             $.get("${pageContext.request.contextPath}/customer/zorderConfirmReceive",{zorderId:zorderId,receiveComment:receiveComment},function(data){
+                if(data.code==0){
+                    window.location.reload();
+                }
+            },"json")
+                .error(function(data){
+                    alert("操作失败！");
+                });
+        }
+    }
+    function doubtReceive(zorderId,com) {
+        var receiveComment=com.previousElementSibling.children[1].value;
+        if(confirm("你要确定要操作吗？")){
+            $.get("${pageContext.request.contextPath}/customer/zorderDoubtReceive",{zorderId:zorderId,receiveComment:receiveComment},function(data){
                 if(data.code==0){
                     window.location.reload();
                 }

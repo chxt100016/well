@@ -45,5 +45,11 @@ public interface WaOrderService {
      */
     List<Map<String,Object>> findOrderVehicles(long orderId);
 
+    /**
+     * 确认子订单是否全部确认收货
+     * @param orderId
+     */
+    boolean checkZordersConfirmed(long orderId);
+
 
 }

@@ -12,6 +12,7 @@ import org.wella.entity.VehicleInfo;
 import org.wella.service.RegionService;
 import org.wella.service.WaOrderService;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -152,6 +153,42 @@ public class WaOrderServiceImpl implements WaOrderService {
             return vehicles;
         }
         return null;
+    }
+
+    @Override
+    public boolean checkZordersConfirmed(long orderId) {
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        if((int)order.get("order_state")!=4){
+            return false;
+        }
+        Map queryzorder=new HashMap();
+        queryzorder.put("orderId",orderId);
+        List<Map<String,Object>> zorders=zorderDao.listZordersByConditions(queryzorder);
+        for(Map<String,Object> zor:zorders){
+            if ((int)zor.get("zorder_state")!=2){
+                return false;
+            }
+        }
+        Map updateOrder=new HashMap();
+        updateOrder.put("orderState",(byte)5);
+        updateOrder.put("orderId",orderId);
+        BigDecimal saleSjNum=new BigDecimal(0);
+        BigDecimal saleSjMoney=new BigDecimal(0);
+        for(Map<String,Object> zor:zorders){
+            saleSjNum=saleSjNum.add((BigDecimal)zor.get("zorder_num"));
+            saleSjMoney=saleSjMoney.add((BigDecimal)zor.get("zorder_money"));
+        }
+        updateOrder.put("saleSjNum",saleSjNum);
+        updateOrder.put("saleSjMoney",saleSjMoney);
+        orderDao.updateOrderByID(updateOrder);
+        if ((int)order.get("is_self_car")!=1){
+            return true;
+        }
+        Map updateLogisticsInfoMap=new HashMap();
+        updateLogisticsInfoMap.put("orderId",orderId);
+        updateLogisticsInfoMap.put("state",5);
+        logisticsInfoDao.updateByConditions(updateLogisticsInfoMap);
+        return true;
     }
 
 }

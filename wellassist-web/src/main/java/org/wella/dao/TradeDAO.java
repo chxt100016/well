@@ -76,4 +76,5 @@ public interface TradeDAO {
     int logisticsListCount(Map<String,Object> map);
 
     int prodOfflinePayCheckProcess(Map<String, Object> param);
+
 }

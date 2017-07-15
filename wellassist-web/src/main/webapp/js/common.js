@@ -73,3 +73,5 @@ function getSelectedRows() {
     
     return grid.getGridParam("selarrrow");
 }
+
+var baseUrl="/wellassist/";

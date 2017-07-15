@@ -171,6 +171,36 @@ public class TradeController extends BaseController {
         return R.ok().put("page",pageUtils);
     }
 
+    @RequestMapping("orderDetail")
+    public String orderDetail(@RequestParam("orderId")long orderId,Model model){
+        Map<String,Object> orderDetail=tradeServiceImpl.getOrderDetailPageInfo(orderId);
+        model.addAttribute("info",orderDetail);
+        return "views/platform/trade/order/orderDetail.html";
+    }
+
+    @RequestMapping("orderDetailSubmit")
+    @ResponseBody
+    public R orderDetailSubmit(@RequestParam Map<String,Object> params,HttpServletRequest request){
+        if (params.get("zorderId")!=null){
+            params.put("zorderIds",request.getParameterValues("zorderId"));
+            params.put("zorderStates",request.getParameterValues("zorderState"));
+            params.put("zorderPrices",request.getParameterValues("zorderPrice"));
+            params.put("zorderNums",request.getParameterValues("zorderNum"));
+        }
+        if(params.get("orderVehicleId")!=null){
+            params.put("orderVehicleIds",request.getParameterValues("orderVehicleId"));
+            params.put("vehicleActualSizes",request.getParameterValues("vehicleActualSize"));
+        }
+        params.put("ip",IPUtils.getIpAddr(request));
+        try {
+            tradeServiceImpl.updateOrder(params);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error();
+        }
+        return R.ok();
+    }
+
     @RequestMapping("logisticsList")
     @ResponseBody
     public R logisticsList(@RequestParam Map<String,Object> param) {

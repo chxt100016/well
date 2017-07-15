@@ -292,11 +292,16 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public int zorderConfirmReceive(long zorderId,String receiveComment) {
         int res=0;
-        Zorder zorder=new Zorder();
+        /*Zorder zorder=new Zorder();
         zorder.setZorderId(zorderId);
         zorder.setZorderState((byte)2);
         zorder.setReceiveComment(receiveComment);
-        res=zorderDao.updateByPrimaryKey(zorder);
+        res=zorderDao.updateByPrimaryKey(zorder);*/
+        Map<String,Object> updateMap=new HashMap();
+        updateMap.put("zorderId",zorderId);
+        updateMap.put("zorderState",(byte)2);
+        updateMap.put("receiveComment",receiveComment);
+        res=zorderDao.updateByPrimaryKey(updateMap);
         Map<String,Object> zo=zorderDao.singleZorderByPrimaryKey(zorderId);
         long orderId=(long)zo.get("order_id");
         Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
@@ -331,6 +336,16 @@ public class CustomerServiceImpl implements CustomerService {
         updateLogisticsInfoMap.put("state",5);
         res+=logisticsInfoDao.updateByConditions(updateLogisticsInfoMap);
         return res;
+    }
+
+    @Override
+    public void zorderDoubtReceive(long zorderId, String receiveComment) {
+        Map<String,Object> updateMap=new HashMap();
+        updateMap.put("zorderId",zorderId);
+        updateMap.put("zorderState",(byte)11);
+        updateMap.put("receiveComment",receiveComment);
+        zorderDao.updateByPrimaryKey(updateMap);
+
     }
 
     @Override

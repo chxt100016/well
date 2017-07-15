@@ -35,4 +35,43 @@
         </if>
     </select>
 
+    <update id="updateByPrimaryKey" parameterType="map" >
+        update wa_order_vehicle
+        <set >
+            <if test="orderId != null" >
+                order_id = #{orderId,jdbcType=BIGINT},
+            </if>
+            <if test="zorderId != null" >
+                zorder_id = #{zorderId,jdbcType=BIGINT},
+            </if>
+            <if test="vehicleNo != null" >
+                vehicle_no = #{vehicleNo,jdbcType=VARCHAR},
+            </if>
+            <if test="vehicleHangingNo != null" >
+                vehicle_hanging_no = #{vehicleHangingNo,jdbcType=VARCHAR},
+            </if>
+            <if test="vehicleSize != null" >
+                vehicle_size = #{vehicleSize,jdbcType=DECIMAL},
+            </if>
+            <if test="vehicleActualSize != null" >
+                vehicle_actual_size = #{vehicleActualSize,jdbcType=DECIMAL},
+            </if>
+            <if test="driverName != null" >
+                driver_name = #{driverName,jdbcType=VARCHAR},
+            </if>
+            <if test="driverPhone != null" >
+                driver_phone = #{driverPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveActualDate != null" >
+                receive_actual_date = #{receiveActualDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deliverActualDate != null" >
+                deliver_actual_date = #{deliverActualDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="receiveExceptDate != null" >
+                receive_except_date = #{receiveExceptDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where order_vehicle_id = #{orderVehicleId,jdbcType=BIGINT}
+    </update>
 </mapper>

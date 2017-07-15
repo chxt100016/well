@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    #parse("sys/header.html")
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://cdn.bootcss.com/fancybox/3.0.47/jquery.fancybox.css" rel="stylesheet">
+    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/fancybox/3.0.47/jquery.fancybox.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <style>
+        .mid_box {
+            width: 1100px;
+            margin: 0px auto;
+            border: 1px solid rgba(34, 36, 38, .15);
+            box-shadow: 0 2px 4px 0 rgba(34, 36, 38, .12), 0 2px 10px 0 rgba(34, 36, 38, .15);
+            padding: 1em;
+            font-size: 14px;
+            position: absolute;
+        }
+
+        .span_time {}
+
+        .span_status {
+            color: #adadad;
+        }
+
+        .fl-rg {
+            float: right;
+        }
+
+        .pd-lf-10 {
+            padding-left: 10px;
+        }
+
+        .pd-bt-10 {
+            padding-bottom: 10px;
+        }
+
+        table {
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mid_box">
+        <div class="row">
+            <!--<div class="col-md-12">
+                <h2> 交易详情</h2>
+                <hr>
+            </div>-->
+            <div class="col-md-12">
+                <div class=" panel  panel-success">
+                    <div class="panel-heading">卖家信息</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">卖家联系人：<span>$info.prodLxr</span></div>
+                            <div class="col-md-4">公司名称：<span>$info.sellerUserName</span></div>
+                            <div class="col-md-4">联系电话：<span>$info.prodLxrPhone</span></div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-4">产品名称：<span>$info.prodName</span></div>
+                            <div class="col-md-4">产品品类：<span>
+                                #if($info.prodType==0)
+                                天然气
+                                #elseif($info.prodType==1)
+                                原油
+                                #elseif($info.prodType==2)
+                                管道气
+                                #end
+                            </span></div>
+                            <div class="col-md-4">上货单价：<span>$info.prodPrice</span>元/吨</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class=" panel panel-info">
+                    <div class="panel-heading">买家信息</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">买家联系人：<span>$info.customerOrderLxr</span></div>
+                            <div class="col-md-4">公司名称：<span>$info.customerUserName</span></div>
+                            <div class="col-md-4">联系电话：<span>$info.customerOrderLxrPhone</span></div>
+                        </div>
+                        <br>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <h4>订单详情</h4>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">订单号:<span>$info.orderNo</span></div>
+                    <div class="col-md-6">下单时间：<span>
+                        $!date.format('yyyy-MM-dd HH:mm:ss',$!info.orderDate)
+                    </span></div>
+                </div>
+                <br>
+                <form action="" id="orderForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">商品名称：</span>
+                                <input type="text" class="form-control" disabled value="$info.prodName">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">商品类型：</span>
+                                <input type="text" class="form-control" disabled value="#if($info.prodType==0)天然气#elseif($info.prodType==1)原油#elseif($info.prodType==2)管道气#end">
+                            </div>
+                        </div>
+
+                    </div>
+                    <br>
+                    <input type="hidden" name="orderId" value="$info.orderId">
+                    <input type="hidden" name="orderState" value="$info.orderState">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">总吨数：</span>
+                                <input type="text" class="form-control" name="orderNumber"  value="#if(!$info.orderNumber)$info.saleNum#elseif($info.orderNumber)$info.orderNumber#end">
+                                <span class="input-group-addon">吨</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">单价：</span>
+                                <input type="text" class="form-control" name="orderPrice" value='#if(!$info.orderPrice)#set($salePrice=$info.saleMoney/$info.saleNum)$number.format("#0.00",$salePrice)#elseif($info.orderPrice)$info.orderPrice#end'>
+                                <span class="input-group-addon">元/吨</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">付款状态:</span>
+                                #set($Integer=0)
+                                <input type="text" class="form-control" disabled value='#if($info.orderState.toString().startsWith("-")||$info.orderState.toString().startsWith("0")||$info.orderState.toString().startsWith("1"))未付款#elseif(!$info.orderState.toString().startsWith("-")&&$Integer.parseInt($info.orderState.toString().substring(0,1))>=2)已付款#end'>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">已发吨数</span>
+                                <input type="text" class="form-control" disabled value="#if(!$info.sumNum)0#elseif($info.sumNum)$info.sumNum#end">
+                                <span class="input-group-addon">吨</span>
+                            </div>
+                        </div>
+                        <br>orderState=$info.orderState
+
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-4">货运方式:<span>
+                            #if($info.isSelfCar==0)
+                            自提
+                            #elseif($info.isSelfCar==1)
+                            第三方物流
+                            #end
+                        </span></div>
+                        <div class="col-md-4">发货时间：<span>$!date.format('yyyy-MM-dd HH:mm:ss',$!info.customerExceptDeliverDate) </span></div>
+                        <div class="col-md-4">收货时间：<span>$!date.format('yyyy-MM-dd HH:mm:ss',$!info.customerExceptReceiveDate) </span></div>
+                    </div>
+
+                    <hr>
+                    <!-- 子订单 -->
+                    #if($info.zorders&&$info.zorders.size()>0)
+                    #foreach($zorder in $info.zorders)
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class=" panel panel-info">
+                                <div class="panel-heading">分批发货</div>
+                                <input type="hidden" name="zorderId" value="$zorder.zorderId">
+                                <input type="hidden" name="zorderState" value="$zorder.zorderState">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-6">发货时间：<span>$!date.format('yyyy-MM-dd HH:mm:ss',$!zorder.zorderDate) </span></div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">子订单单价</span>
+                                                <input type="text" class="form-control" name="zorderPrice" value="$zorder.zorderPrice">
+                                                <span class="input-group-addon">元/吨</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">子订单发货量</span>
+                                                <input type="text" class="form-control" name="zorderNum" value="$zorder.zorderNum">
+                                                <span class="input-group-addon">吨</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <label for="">成交价格：</label>
+                                            <span>
+                                            #set($zorderMoney=$zorder.zorderPrice*$zorder.zorderNum)
+                                                $number.format("#0.00",$zorderMoney)
+                                        </span>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <label for="">物流状态：</label><span>
+                                            #if($zorder.zorderState==1)
+                                            已发货
+                                            #elseif($zorder.zorderState==11)
+                                            已收货，存疑
+                                            #elseif($zorder.zorderState==2)
+                                            已收货，确认
+                                            #end
+                                        </span>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label for="">司机信息:</label>
+                                            <table class=" table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>司机</th>
+                                                        <th>电话</th>
+                                                        <th>车牌号</th>
+                                                        <th>车挂号</th>
+                                                        <th width="20%">装载量 (吨）</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                #foreach($orderVehicle in $zorder.orderVehicles)
+                                                    <tr>
+                                                        <th scope="row">$orderVehicle.driverName</th>
+                                                        <td>$orderVehicle.driverPhone</td>
+                                                        <td>$orderVehicle.vehicleNo</td>
+                                                        <td>$orderVehicle.vehicleHangingNo</td>
+                                                        <td>
+                                                            <input type="hidden" name="orderVehicleId" value="$orderVehicle.orderVehicleId">
+                                                            <input type="text" name="vehicleActualSize" value="$orderVehicle.vehicleActualSize">
+                                                        </td>
+                                                    </tr>
+                                                #end
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                    <br>
+                                    <!-- <div class="row">
+                                         <div class="col-md-12">
+                                            <label for="">买家留言:</label>
+                                         </div>
+
+                                    </div> -->
+                                    <div class="row">
+                                        <div class="col-md-12"><label for="">买家留言：</label><span>$zorder.receiveComment</span></div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <label for="">凭证图片：</label>
+                                            <a class="fancybox" rel="group" href="$zorder.zorderBill">
+                                            <img src="$zorder.zorderBill" alt="" width="300px" height="150px">
+                                              </a>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                           
+                        </div>
+
+                    </div>
+                    #end
+                    #end
+                    <!-- 子订单结束 -->
+
+                    
+
+
+                </form>
+                <div class="row">
+                        <div class="col-md-3 col-md-offset-3">
+                            <button class="btn btn-info" onclick="saveOrder();">保存</button>
+                           <button class="btn btn-default" onclick="javascript:window.history.go(-1);">返回</button>
+                        </div>
+                         
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".fancybox").fancybox();
+    });
+    function saveOrder(){
+        $.post(baseUrl+"platform/trade/orderDetailSubmit",$("#orderForm").serialize(),function(data){
+            return;
+        },"json");
+    }
+</script>
+
+</html>

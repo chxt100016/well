@@ -16,7 +16,7 @@
       #{receiveComment,jdbcType=VARCHAR})
     </insert>
     
-    <update id="updateByPrimaryKey" parameterType="org.wella.entity.Zorder">
+    <update id="updateByPrimaryKey" parameterType="map">
         update wa_zorder
         <set >
             <if test="orderId != null" >

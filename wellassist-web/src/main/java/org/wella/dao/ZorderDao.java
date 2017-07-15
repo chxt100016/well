@@ -13,7 +13,7 @@ public interface ZorderDao {
 
     void createZorder(Zorder zorder);
 
-    int updateByPrimaryKey(Zorder zorder);
+    int updateByPrimaryKey(Map<String,Object> zorder);
 
     Map<String,Object> findProdCountByConditions(Map query);
 

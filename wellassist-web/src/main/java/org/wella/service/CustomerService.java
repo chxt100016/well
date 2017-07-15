@@ -132,6 +132,7 @@ public interface CustomerService {
 
     int zorderConfirmReceive(long zorderId,String receiveComment);
 
+    void zorderDoubtReceive(long zorderId, String receiveComment);
     /**
      * 物流订单列表数据
      * @param param
@@ -165,4 +166,5 @@ public interface CustomerService {
     Map<String,Object> getPayLogisticsPageInfo(long logisticsInfoId,long userId);
 
     boolean isBalanceEnough(long userId, BigDecimal payMoney,int zfMethod,int rate);
+
 }

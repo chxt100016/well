@@ -166,6 +166,18 @@ public class CustomerController extends BaseController{
       return R.error();
    }
 
+   @RequestMapping(value = "zorderDoubtReceive",method = RequestMethod.GET)
+   @ResponseBody
+   public R zorderDoubtReceive(@RequestParam("zorderId")String zorderId,@RequestParam("receiveComment")String receiveComment){
+      try {
+         customerServiceImpl.zorderDoubtReceive(Long.parseLong(zorderId),receiveComment);
+      } catch (NumberFormatException e) {
+         e.printStackTrace();
+         return R.error();
+      }
+      return R.ok();
+   }
+
 
    /**
     * 跳转物流详情页面
