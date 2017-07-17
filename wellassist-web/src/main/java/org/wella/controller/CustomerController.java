@@ -906,4 +906,22 @@ public class CustomerController extends BaseController{
       return obj;
    }
 
+   /**
+    * 授信账户页面
+    *
+    * @param request
+    * @param response
+    * @param model
+    * @return
+    */
+   @RequestMapping({"creditAccount"})
+   public String creditAccount(HttpServletRequest request, HttpServletResponse response, Model model) {
+      User user=(User)request.getSession().getAttribute("user");
+      model.addAttribute("parentMenuNo", "2");
+      model.addAttribute("childMenuNo", "2");
+      model.addAttribute("userName", user.getUserName());
+      model.addAttribute("sxMoney", user.getUserCreditMoney());
+      return "views/front/customer/finance/creditAccount_new.jsp";
+   }
+
 }

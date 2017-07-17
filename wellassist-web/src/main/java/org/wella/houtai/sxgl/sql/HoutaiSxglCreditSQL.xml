@@ -29,10 +29,10 @@
 	   			AND d.user_name LIKE '%${creditUserName}%'
 	   		</if>
 	   		<if test = "startCreditSqDate!=null">
-	   			AND a.credit_sq_date >= #{startCreditSqDate}
+	   			AND a.credit_apply_date >= #{startCreditSqDate}
 	   		</if>
 	   		<if test = "endCreditSqDate!=null">
-	   			AND a.credit_sq_date &lt;= #{endCreditSqDate}
+	   			AND a.credit_apply_date &lt;= #{endCreditSqDate}
 	   		</if>
 	   		<if test = "startCreditDate!=null">
 	   			AND a.credit_date >= #{startCreditDate}
@@ -47,7 +47,7 @@
 	   			AND a.credit_over_date &lt;= #{endCreditOverDate}
 	   		</if>
 	   	</where>
-	   ORDER BY a.credit_sq_date DESC  
+	   ORDER BY a.credit_apply_date DESC
 	   LIMIT ${start}, ${size}
 	</select>
 	<!-- 授信目录个数获得函数  -->
@@ -72,10 +72,10 @@
 	   			AND d.user_name LIKE '%${creditUserName}%'
 	   		</if>
 	   		<if test = "startCreditSqDate!=null">
-	   			AND a.credit_sq_date >= #{startCreditSqDate}
+	   			AND a.credit_apply_date >= #{startCreditSqDate}
 	   		</if>
 	   		<if test = "endCreditSqDate!=null">
-	   			AND a.credit_sq_date &lt;= #{endCreditSqDate}
+	   			AND a.credit_apply_date &lt;= #{endCreditSqDate}
 	   		</if>
 	   		<if test = "startCreditDate!=null">
 	   			AND a.credit_date >= #{startCreditDate}

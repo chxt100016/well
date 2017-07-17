@@ -160,7 +160,7 @@
                         <div class="field">
                             <div class="ui  checkbox">
                                 <input type="checkbox" <c:if test ="${childMenuNo == '2'}"> checked="checked" </c:if>>
-                                <label><a href = "${pageContext.request.contextPath}/front/customer/FinanceController-creditAccount">授信账户</a></label>
+                                <label><a href = "${pageContext.request.contextPath}/customer/creditAccount">授信账户</a></label>
                             </div>
                         </div>
                         <div class="field">
