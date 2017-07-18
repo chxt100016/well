@@ -35,14 +35,12 @@ public class RegisterController extends BaseController{
 
     @RequestMapping(value = {"registerPage"},method = RequestMethod.GET)
     public String registerPage(HttpServletRequest request, Model model){
-//        return "views/front/register.jsp";
         Map map = new HashMap();
         map.put("userType",0);
         List arrayList =  waUserDao.findUser(map);
         model.addAttribute("customerList", arrayList);
         model.addAttribute("provinceList", this.getChildRegionList(0));
         return "views/front/register.jsp";
-        //return "views/front/customer/login/register.jsp";
     }
 
     /**

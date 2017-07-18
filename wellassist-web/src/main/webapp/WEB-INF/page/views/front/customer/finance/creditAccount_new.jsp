@@ -44,7 +44,7 @@
                 <div class="column">还款日期:<span></span> </div>
             </div>
             <div class="row">
-                <div class="column" ><button class="ui positive button">申请/修改授信额度</button></div>
+                <div class="column" ><button class="ui positive button" onClick = "toURL('sxSq')">申请/修改授信额度</button></div>
             </div>
 
         </div>
@@ -83,5 +83,15 @@
     </div>
 
 </body>
+<script>
+    // 功能函数
+    function toURL(action){
+        var url = "";
+        if(action == 'sxSq'){
+            url = "${pageContext.request.contextPath}/customer/creditApply";
+            window.location.href = url;
+        }
+    }
+</script>
 
 <%@ include file="../footer.jsp"%>
