@@ -24,7 +24,7 @@
 
 
 <body>
-    <div class="ui container segment" id="app1" style="width:990px">
+    <div class="ui container segment" id="app1" style="width:990px ;left: 70px; top: -14px;">
         <h3>授信详情</h3>
         <div class="ui divider"></div>
         <div class="ui three column grid">
@@ -33,18 +33,20 @@
                     <h4>授信额度</h4>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style="display: inline-table">
                 <div class="column">总额度：<span>${sxMoney}</span> <span class="grey"> 万元</span></div>
                 <div class="column">到期日期：<span></span></div>
                 <div class="column">可用额度:<span>xxx</span> <span class="grey"> 万元</span></div>
             </div>
-            <div class="row">
+            <div class="row" style="display: inline-table">
                 <div class="column">我的借款：<span>xxx</span> <span class="grey"> 万元</span></div>
                 <div class="column">未还款：<span></span> <span class="grey"> 万元</span></div>
                 <div class="column">还款日期:<span></span> </div>
             </div>
-            <div class="row">
+
+            <div class="row" style="display: inline-table">
                 <div class="column" ><button class="ui positive button" onClick = "toURL('sxSq')">申请/修改授信额度</button></div>
+
             </div>
 
         </div>

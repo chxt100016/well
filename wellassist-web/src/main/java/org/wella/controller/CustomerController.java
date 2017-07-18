@@ -909,7 +909,6 @@ public class CustomerController extends BaseController{
    /**
     * 授信账户页面
     * @param request
-    * @param response
     * @param model
     * @return
     */
@@ -931,7 +930,7 @@ public class CustomerController extends BaseController{
 
    @RequestMapping("applyCreditLimit")
    public String applyCreditLimit(@RequestParam Map<String,Object> params){
-      params.put("creditMoney",Integer.parseInt());
+      params.put("creditMoney",Integer.parseInt((String) params.get("creditMoney")));
       return "redirect:./creditAccount";
    }
 
