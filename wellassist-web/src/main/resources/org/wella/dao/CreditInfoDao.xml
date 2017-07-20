@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.CreditInfoDao">
+
+    <insert id="createCreditInfo" parameterType="org.wella.entity.CreditInfo" useGeneratedKeys="true" keyProperty="infoId">
+        insert into wa_credit_info ( credit_id, credit_state,
+      content, mgr_user_id, admin_user_id,
+      mgr_date, mgr_ip)
+    values ( #{creditId,jdbcType=BIGINT}, #{creditState,jdbcType=TINYINT},
+      #{content,jdbcType=VARCHAR}, #{mgrUserId,jdbcType=BIGINT}, #{adminUserId,jdbcType=BIGINT},
+      #{mgrDate,jdbcType=TIMESTAMP}, #{mgrIp,jdbcType=VARCHAR})
+    </insert>
+</mapper>

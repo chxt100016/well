@@ -915,6 +915,7 @@ public class CustomerController extends BaseController{
    @RequestMapping({"creditAccount"})
    public String creditAccount(HttpServletRequest request, Model model) {
       User user=(User)request.getSession().getAttribute("user");
+      Map<String,Object> info=customerServiceImpl.findCreditAccountPageInfo(user.getUserId());
       model.addAttribute("parentMenuNo", "2");
       model.addAttribute("childMenuNo", "2");
       model.addAttribute("userName", user.getUserName());
@@ -924,14 +925,17 @@ public class CustomerController extends BaseController{
 
    @RequestMapping("creditApply")
    public String creditApply(){
-
       return "views/front/customer/finance/sxsq_new.jsp";
    }
 
    @RequestMapping("applyCreditLimit")
-   public String applyCreditLimit(@RequestParam Map<String,Object> params){
+   public String applyCreditLimit(@RequestParam Map<String,Object> params,HttpServletRequest request){
+      User user=(User)request.getSession().getAttribute("user");
       params.put("creditMoney",Integer.parseInt((String) params.get("creditMoney")));
-      return "redirect:./creditAccount";
+      params.put("userId",user.getUserId());
+      params.put("ip",IPUtils.getIpAddr(request));
+      customerServiceImpl.applyCreditLimit(params);
+      return "views/front/customer/finance/applyCreditSuccess.jsp";
    }
 
 }

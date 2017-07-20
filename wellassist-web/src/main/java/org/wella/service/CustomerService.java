@@ -167,4 +167,42 @@ public interface CustomerService {
 
     boolean isBalanceEnough(long userId, BigDecimal payMoney,int zfMethod,int rate);
 
+    /**
+     * 申请授信额度
+     * @param params
+     */
+    int applyCreditLimit(Map<String, Object> params);
+
+    /**
+     * 得到用户当前授信信息
+     * @param userId
+     * @return
+     */
+    Map<String,Object> getCurrentCredit(long userId);
+
+    /**
+     * 得到用户的授信额度
+     * @param userId
+     * @return
+     */
+    BigDecimal getUserCreditSjMoney(long userId);
+
+    /**
+     * 得到用户授信额度的该条授信记录
+     */
+    Map<String,Object> getSjCredit(long userId);
+
+    /**
+     * 在授信总额度变化时修改用户的可用额度
+     * @param userId
+     */
+    void updateUserCreditMoney(long userId);
+
+    /**
+     * 在授信总额度变化时修改用户的可用额度
+     * @param userId
+     */
+    void updateUserCreditMoney(long userId,BigDecimal creditSjMoney);
+
+    Map<String,Object> findCreditAccountPageInfo(Long userId);
 }

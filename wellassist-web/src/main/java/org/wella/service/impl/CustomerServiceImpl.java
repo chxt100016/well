@@ -51,6 +51,8 @@ public class CustomerServiceImpl implements CustomerService {
     private WaUserDao waUserDao;
     @Autowired
     private OrderHistoryTailDao orderHistoryTailDao;
+    @Autowired
+    private CreditDao creditDao;
 
 
     /**
@@ -493,5 +495,64 @@ public class CustomerServiceImpl implements CustomerService {
         return true;
     }
 
+    @Override
+    public int applyCreditLimit(Map<String, Object> params) {
+        params.put("other1","");
+        params.put("other2","");
+        params.put("other3","");
+        params.put("other4","");
+        return creditDao.applyCreditLimit(params);
+    }
 
+    @Override
+    public Map<String, Object> getCurrentCredit(long userId) {
+        Map param=new HashMap();
+        param.put("orderBy","credit_apply_date asc");
+        param.put("userId",userId);
+        Map<String,Object> res=creditDao.singleCreditByConditions(param);
+        ConvertUtil.convertDataBaseMapToJavaMap(res);
+        return null;
+    }
+
+    @Override
+    public BigDecimal getUserCreditSjMoney(long userId) {
+        Map param=new HashMap();
+        param.put("creditState",1);
+        param.put("userId",userId);
+        Map<String,Object> credit=creditDao.singleCreditByConditions(param);
+        if(null != credit && credit.size() != 0 && null != credit.get("credit_sj_money")){
+            return (BigDecimal)credit.get("credit_sj_money");
+        }
+        return new BigDecimal(0);
+    }
+
+    @Override
+    public Map<String, Object> getSjCredit(long userId) {
+        Map param=new HashMap();
+        param.put("creditState",1);
+        param.put("userId",userId);
+        Map<String,Object> credit=creditDao.singleCreditByConditions(param);
+        ConvertUtil.convertDataBaseMapToJavaMap(credit);
+        return credit;
+    }
+
+    @Override
+    public void updateUserCreditMoney(long userId) {
+        updateUserCreditMoney(userId,getUserCreditSjMoney(userId));
+    }
+
+    @Override
+    public void updateUserCreditMoney(long userId, BigDecimal creditSjMoney) {
+        Map<String,Object> user=waUserDao.singleUserByPrimaryKey(userId);
+        Map<String,Object> updatemap=new HashMap<>();
+        BigDecimal userCreditMoney=creditSjMoney.subtract((BigDecimal) user.get("user_lock_credit_money"));
+        updatemap.put("userId",user.get("user_id"));
+        updatemap.put("userCreditMoney",userCreditMoney);
+        waUserDao.updateUserByUserId(updatemap);
+    }
+
+    @Override
+    public Map<String, Object> findCreditAccountPageInfo(Long userId) {
+        return null;
+    }
 }

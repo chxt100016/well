@@ -3,39 +3,52 @@ package org.wella.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * Created by liuwen on 2017/5/9.
- */
 public class Credit {
-    private long creditId;
-    private long userId;
-    private BigDecimal creditMoney;
-    private Date creditOverDate;
-    private Date creditSqDate;
-    private Date creditDate;
-    private long creditUserId;
-    private BigDecimal creditSjMoney;
-    private int lixiRate;
-    private BigDecimal retHkMoney;
-    private BigDecimal remainHkMoney;
-    private BigDecimal lixiMoney;
-    private BigDecimal remainLxMoney;
-    private BigDecimal retLxMoney;
-    private byte creditState;
+    private Long creditId;
 
-    public long getCreditId() {
+    private Long userId;
+
+    private BigDecimal creditMoney;
+
+    private Date creditPaymentDays;
+
+    private Date creditDeadline;
+
+    private Date creditApplyDate;
+
+    private Date creditLoanDate;
+
+    private Long creditUserId;
+
+    private BigDecimal creditSjMoney;
+
+    private BigDecimal lixiRate;
+
+    private BigDecimal retHkMoney;
+
+    private BigDecimal remainHkMoney;
+
+    private BigDecimal lixiMoney;
+
+    private BigDecimal remainLxMoney;
+
+    private BigDecimal retLxMoney;
+
+    private Byte creditState;
+
+    public Long getCreditId() {
         return creditId;
     }
 
-    public void setCreditId(long creditId) {
+    public void setCreditId(Long creditId) {
         this.creditId = creditId;
     }
 
-    public long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -47,35 +60,43 @@ public class Credit {
         this.creditMoney = creditMoney;
     }
 
-    public Date getCreditOverDate() {
-        return creditOverDate;
+    public Date getCreditPaymentDays() {
+        return creditPaymentDays;
     }
 
-    public void setCreditOverDate(Date creditOverDate) {
-        this.creditOverDate = creditOverDate;
+    public void setCreditPaymentDays(Date creditPaymentDays) {
+        this.creditPaymentDays = creditPaymentDays;
     }
 
-    public Date getCreditSqDate() {
-        return creditSqDate;
+    public Date getCreditDeadline() {
+        return creditDeadline;
     }
 
-    public void setCreditSqDate(Date creditSqDate) {
-        this.creditSqDate = creditSqDate;
+    public void setCreditDeadline(Date creditDeadline) {
+        this.creditDeadline = creditDeadline;
     }
 
-    public Date getCreditDate() {
-        return creditDate;
+    public Date getCreditApplyDate() {
+        return creditApplyDate;
     }
 
-    public void setCreditDate(Date creditDate) {
-        this.creditDate = creditDate;
+    public void setCreditApplyDate(Date creditApplyDate) {
+        this.creditApplyDate = creditApplyDate;
     }
 
-    public long getCreditUserId() {
+    public Date getCreditLoanDate() {
+        return creditLoanDate;
+    }
+
+    public void setCreditLoanDate(Date creditLoanDate) {
+        this.creditLoanDate = creditLoanDate;
+    }
+
+    public Long getCreditUserId() {
         return creditUserId;
     }
 
-    public void setCreditUserId(long creditUserId) {
+    public void setCreditUserId(Long creditUserId) {
         this.creditUserId = creditUserId;
     }
 
@@ -87,11 +108,11 @@ public class Credit {
         this.creditSjMoney = creditSjMoney;
     }
 
-    public int getLixiRate() {
+    public BigDecimal getLixiRate() {
         return lixiRate;
     }
 
-    public void setLixiRate(int lixiRate) {
+    public void setLixiRate(BigDecimal lixiRate) {
         this.lixiRate = lixiRate;
     }
 
@@ -135,61 +156,11 @@ public class Credit {
         this.retLxMoney = retLxMoney;
     }
 
-    public byte getCreditState() {
+    public Byte getCreditState() {
         return creditState;
     }
 
-    public void setCreditState(byte creditState) {
+    public void setCreditState(Byte creditState) {
         this.creditState = creditState;
-    }
-
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Credit waCredit = (Credit) o;
-
-        if (creditId != waCredit.creditId) return false;
-        if (userId != waCredit.userId) return false;
-        if (creditUserId != waCredit.creditUserId) return false;
-        if (lixiRate != waCredit.lixiRate) return false;
-        if (creditState != waCredit.creditState) return false;
-        if (creditMoney != null ? !creditMoney.equals(waCredit.creditMoney) : waCredit.creditMoney != null)
-            return false;
-        if (creditOverDate != null ? !creditOverDate.equals(waCredit.creditOverDate) : waCredit.creditOverDate != null)
-            return false;
-        if (creditSqDate != null ? !creditSqDate.equals(waCredit.creditSqDate) : waCredit.creditSqDate != null)
-            return false;
-        if (creditDate != null ? !creditDate.equals(waCredit.creditDate) : waCredit.creditDate != null) return false;
-        if (creditSjMoney != null ? !creditSjMoney.equals(waCredit.creditSjMoney) : waCredit.creditSjMoney != null)
-            return false;
-        if (retHkMoney != null ? !retHkMoney.equals(waCredit.retHkMoney) : waCredit.retHkMoney != null) return false;
-        if (remainHkMoney != null ? !remainHkMoney.equals(waCredit.remainHkMoney) : waCredit.remainHkMoney != null)
-            return false;
-        if (lixiMoney != null ? !lixiMoney.equals(waCredit.lixiMoney) : waCredit.lixiMoney != null) return false;
-        if (remainLxMoney != null ? !remainLxMoney.equals(waCredit.remainLxMoney) : waCredit.remainLxMoney != null)
-            return false;
-        if (retLxMoney != null ? !retLxMoney.equals(waCredit.retLxMoney) : waCredit.retLxMoney != null) return false;
-
-        return true;
-    }
-
-    public int hashCode() {
-        int result = (int) (creditId ^ (creditId >>> 32));
-        result = 31 * result + (int) (userId ^ (userId >>> 32));
-        result = 31 * result + (creditMoney != null ? creditMoney.hashCode() : 0);
-        result = 31 * result + (creditOverDate != null ? creditOverDate.hashCode() : 0);
-        result = 31 * result + (creditSqDate != null ? creditSqDate.hashCode() : 0);
-        result = 31 * result + (creditDate != null ? creditDate.hashCode() : 0);
-        result = 31 * result + (int) (creditUserId ^ (creditUserId >>> 32));
-        result = 31 * result + (creditSjMoney != null ? creditSjMoney.hashCode() : 0);
-        result = 31 * result + lixiRate;
-        result = 31 * result + (retHkMoney != null ? retHkMoney.hashCode() : 0);
-        result = 31 * result + (remainHkMoney != null ? remainHkMoney.hashCode() : 0);
-        result = 31 * result + (lixiMoney != null ? lixiMoney.hashCode() : 0);
-        result = 31 * result + (remainLxMoney != null ? remainLxMoney.hashCode() : 0);
-        result = 31 * result + (retLxMoney != null ? retLxMoney.hashCode() : 0);
-        result = 31 * result + (int) creditState;
-        return result;
     }
 }

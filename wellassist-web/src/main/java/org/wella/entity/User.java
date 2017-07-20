@@ -48,7 +48,7 @@ public class User {
 
     private Integer loginFailNum;
 
-    private Integer lixiRate;
+    private BigDecimal lixiRate;
 
     private Byte lixiType;
 
@@ -244,11 +244,11 @@ public class User {
         this.loginFailNum = loginFailNum;
     }
 
-    public Integer getLixiRate() {
+    public BigDecimal getLixiRate() {
         return lixiRate;
     }
 
-    public void setLixiRate(Integer lixiRate) {
+    public void setLixiRate(BigDecimal lixiRate) {
         this.lixiRate = lixiRate;
     }
 

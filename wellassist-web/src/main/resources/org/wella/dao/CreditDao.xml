@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.CreditDao">
+
+    <select id="applyCreditLimit" statementType="CALLABLE" parameterType="map" resultType="int">
+        <![CDATA[
+        call sxSqProcess(
+        #{creditMoney,mode=IN},
+        #{ip,mode=IN},
+        #{userId,mode=IN},
+        #{bankBill,mode=IN},
+        #{companyBill,mode=IN},
+        #{accountingBill,mode=IN},
+        #{cashBill,mode=IN},
+        #{other1,mode=IN},
+        #{other2,mode=IN},
+        #{other3,mode=IN},
+        #{other4,mode=IN}
+        );]]>
+    </select>
+
+    <select id="listCreditAttachUserinfoByConditions" parameterType="map" resultType="map">
+        SELECT c.*,ui.`company_name`,ui.`company_lxr`,ui.`company_lxr_phone`
+        FROM wa_credit c LEFT JOIN wa_userinfo ui ON c.`user_id`=ui.`user_id`
+        <where>
+            <if test="companyName != null">
+                AND ui.company_name LIKE '%${companyName}%'
+            </if>
+        </where>
+        <if test="orderBy != null">
+            order BY ${orderBy}
+        </if>
+        <if test="offset != null and limit != null">
+            LIMIT ${offset}, ${limit}
+        </if>
+    </select>
+
+    <select id="listCreditAttachUserinfoByConditionsCount" parameterType="map" resultType="int">
+        SELECT count(*)
+        FROM wa_credit c LEFT JOIN wa_userinfo ui ON c.`user_id`=ui.`user_id`
+        <where>
+            <if test="companyName != null">
+                AND ui.company_name LIKE '%${companyName}%'
+            </if>
+        </where>
+    </select>
+
+    <select id="singleCreditByConditions" parameterType="map" resultType="map">
+        SELECT *
+        from wa_credit
+        <where>
+            <if test="creditState != null">
+                AND credit_state=#{creditState}
+            </if>
+            <if test="userId != null">
+                AND user_id=#{userId}
+            </if>
+        </where>
+        <if test="orderBy != null">
+            order BY ${orderBy}
+        </if>
+        limit 1
+    </select>
+
+    <select id="singleCreditInfoViewByPrimaryKey" parameterType="long" resultType="map">
+        SELECT *
+        from credit_info_view
+        where credit_id=#{creditId}
+    </select>
+
+    <update id="updateByPrimaryKey" parameterType="map" >
+        update wa_credit
+        <set >
+            <if test="userId != null" >
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="creditMoney != null" >
+                credit_money = #{creditMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="creditPaymentDays != null" >
+                credit_payment_days = #{creditPaymentDays,jdbcType=DATE},
+            </if>
+            <if test="creditDeadline != null" >
+                credit_deadline = #{creditDeadline,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creditApplyDate != null" >
+                credit_apply_date = #{creditApplyDate,jdbcType=DATE},
+            </if>
+            <if test="creditLoanDate != null" >
+                credit_loan_date = #{creditLoanDate,jdbcType=DATE},
+            </if>
+            <if test="creditUserId != null" >
+                credit_user_id = #{creditUserId,jdbcType=BIGINT},
+            </if>
+            <if test="creditSjMoney != null" >
+                credit_sj_money = #{creditSjMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="lixiRate != null" >
+                lixi_rate = #{lixiRate,jdbcType=INTEGER},
+            </if>
+            <if test="retHkMoney != null" >
+                ret_hk_money = #{retHkMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="remainHkMoney != null" >
+                remain_hk_money = #{remainHkMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="lixiMoney != null" >
+                lixi_money = #{lixiMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="remainLxMoney != null" >
+                remain_lx_money = #{remainLxMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="retLxMoney != null" >
+                ret_lx_money = #{retLxMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="creditState != null" >
+                credit_state = #{creditState,jdbcType=TINYINT},
+            </if>
+        </set>
+        where credit_id = #{creditId,jdbcType=BIGINT}
+    </update>
+
+    <select id="singleCreditByPrimaryKey" parameterType="long" resultType="map">
+        SELECT *
+        from wa_credit
+        where credit_id=#{creditId}
+    </select>
+</mapper>

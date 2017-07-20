@@ -75,7 +75,7 @@
                  </table>
              </div>
                 <br>
-            <form class="ui form segment" action="${pageContext.request.contextPath}/customer/applyCreditLimit">
+            <form class="ui form segment" action="${pageContext.request.contextPath}/customer/applyCreditLimit" method="post">
                 <div class="ui three column grid">
                     <div class="row">
                         <div class="column field" >
@@ -187,7 +187,7 @@
                     </div>
                 </div>
                 <br>
-                <div class="ui primary submit button">提交申请</div>
+                <button  class="ui primary button">提交申请</button>
             </form>
          </div>
     </body>
