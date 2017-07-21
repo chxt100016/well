@@ -46,6 +46,7 @@ public class CreditServiceImpl implements CreditService{
         int flag=(int)params.get("flag");
         long creditUserId=(long)params.get("creditUserId");
         String ip=(String)params.get("ip");
+        Date now=new Date();
 
         Map<String,Object> credit=creditDao.singleCreditByPrimaryKey(creditId);
         long userId=(long)credit.get("user_id");
@@ -59,7 +60,7 @@ public class CreditServiceImpl implements CreditService{
         ci.setCreditId(creditId);
         ci.setMgrUserId(creditUserId);
         ci.setAdminUserId(creditUserId);
-        ci.setMgrDate(new Date());
+        ci.setMgrDate(now);
         ci.setMgrIp(ip);
 
         if (flag == 1){
@@ -68,6 +69,7 @@ public class CreditServiceImpl implements CreditService{
             Calendar rightnow=Calendar.getInstance();
             rightnow.add(Calendar.MONTH,3);
             Date creditDeadline=rightnow.getTime();
+            updateCreditMap.put("creditStartDate",now);
             updateCreditMap.put("creditDeadline",creditDeadline);
 
             updateCreditMap.put("creditSjMoney",creditSjMoney);

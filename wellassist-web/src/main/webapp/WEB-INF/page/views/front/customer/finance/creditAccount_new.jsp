@@ -34,14 +34,19 @@
                 </div>
             </div>
             <div class="row" style="display: inline-table">
-                <div class="column">总额度：<span>${sxMoney}</span> <span class="grey"> 万元</span></div>
-                <div class="column">到期日期：<span></span></div>
-                <div class="column">可用额度:<span>xxx</span> <span class="grey"> 万元</span></div>
+                <div class="column">总额度：<span><c:if test="${not empty info.credit}"><fmt:formatNumber value="${info.credit.creditSjMoney}" pattern="#,###.##" type="number"/> </c:if>
+                <c:if test="${empty info.credit}">0</c:if>
+                </span> <span class="grey"> 元</span></div>
+                <div class="column">到期日期：<span>
+                    <c:if test="${not empty info.credit}"><fmt:formatDate value="${info.credit.creditDeadline}" pattern="yyyy-MM-dd"/> </c:if>
+                <c:if test="${empty info.credit}">无</c:if>
+                </span></div>
+                <div class="column">可用额度:<span><fmt:formatNumber value="${info.user.userCreditMoney}" pattern="#,###.##" type="number"/></span> <span class="grey"> 元</span></div>
             </div>
             <div class="row" style="display: inline-table">
-                <div class="column">我的借款：<span>xxx</span> <span class="grey"> 万元</span></div>
-                <div class="column">未还款：<span></span> <span class="grey"> 万元</span></div>
-                <div class="column">还款日期:<span></span> </div>
+                <%--<div class="column">我的借款：<span>xxx</span> <span class="grey"> 元</span></div>--%>
+                <div class="column">已用额度：<span><fmt:formatNumber value="${info.user.userLockCreditMoney}" pattern="#,###.##" type="number"/></span> <span class="grey"> 元</span></div>
+                <%--<div class="column">还款日期:<span>xxx</span> </div>--%>
             </div>
 
             <div class="row" style="display: inline-table">
@@ -90,8 +95,14 @@
     function toURL(action){
         var url = "";
         if(action == 'sxSq'){
-            url = "${pageContext.request.contextPath}/customer/creditApply";
-            window.location.href = url;
+            $.get("${pageContext.request.contextPath}/customer/isCreditApplyAvailable",{},function(r){
+                if(r.code==0){
+                    url = "${pageContext.request.contextPath}/customer/creditApply";
+                    window.location.href = url;
+                }else {
+                    alert(r.msg);
+                }
+            },"json");
         }
     }
 </script>

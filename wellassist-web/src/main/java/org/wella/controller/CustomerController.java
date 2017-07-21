@@ -916,18 +916,31 @@ public class CustomerController extends BaseController{
    public String creditAccount(HttpServletRequest request, Model model) {
       User user=(User)request.getSession().getAttribute("user");
       Map<String,Object> info=customerServiceImpl.findCreditAccountPageInfo(user.getUserId());
+      model.addAttribute("info",info);
       model.addAttribute("parentMenuNo", "2");
       model.addAttribute("childMenuNo", "2");
-      model.addAttribute("userName", user.getUserName());
-      model.addAttribute("sxMoney", user.getUserCreditMoney());
       return "views/front/customer/finance/creditAccount_new.jsp";
    }
 
+   /**
+    * 跳转授信申请页面
+    * @param request
+    * @return
+    */
    @RequestMapping("creditApply")
-   public String creditApply(){
+   public String creditApply(HttpServletRequest request,Model model){
+      User user=(User)request.getSession().getAttribute("user");
+      Map<String,Object> info=customerServiceImpl.findCreditApplyPageInfo(user.getUserId());
+      model.addAttribute("info",info);
       return "views/front/customer/finance/sxsq_new.jsp";
    }
 
+   /**
+    * 提交授信额度申请
+    * @param params
+    * @param request
+    * @return
+    */
    @RequestMapping("applyCreditLimit")
    public String applyCreditLimit(@RequestParam Map<String,Object> params,HttpServletRequest request){
       User user=(User)request.getSession().getAttribute("user");
@@ -937,5 +950,18 @@ public class CustomerController extends BaseController{
       customerServiceImpl.applyCreditLimit(params);
       return "views/front/customer/finance/applyCreditSuccess.jsp";
    }
+
+   @RequestMapping("isCreditApplyAvailable")
+   @ResponseBody
+   public R isCreditApplyAvailable(HttpServletRequest request){
+      User user=(User)request.getSession().getAttribute("user");
+      boolean flag=customerServiceImpl.isCreditApplyAvailable(user.getUserId());
+      if(flag){
+         return R.ok();
+      }
+      return R.error("当前申请正在审核中");
+   }
+
+
 
 }

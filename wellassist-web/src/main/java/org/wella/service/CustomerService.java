@@ -205,4 +205,13 @@ public interface CustomerService {
     void updateUserCreditMoney(long userId,BigDecimal creditSjMoney);
 
     Map<String,Object> findCreditAccountPageInfo(Long userId);
+
+    /**
+     * 判断用户是否已经提交了授信申请，是则不能再提交
+     * @param userId
+     * @return
+     */
+    boolean isCreditApplyAvailable(Long userId);
+
+    Map<String,Object> findCreditApplyPageInfo(Long userId);
 }

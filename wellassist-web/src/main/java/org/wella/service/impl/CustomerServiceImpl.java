@@ -507,11 +507,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Map<String, Object> getCurrentCredit(long userId) {
         Map param=new HashMap();
-        param.put("orderBy","credit_apply_date asc");
+        param.put("orderBy","credit_apply_date desc");
         param.put("userId",userId);
         Map<String,Object> res=creditDao.singleCreditByConditions(param);
         ConvertUtil.convertDataBaseMapToJavaMap(res);
-        return null;
+        return res;
     }
 
     @Override
@@ -532,8 +532,21 @@ public class CustomerServiceImpl implements CustomerService {
         param.put("creditState",1);
         param.put("userId",userId);
         Map<String,Object> credit=creditDao.singleCreditByConditions(param);
-        ConvertUtil.convertDataBaseMapToJavaMap(credit);
-        return credit;
+        if (null != credit && credit.size()>0){
+            ConvertUtil.convertDataBaseMapToJavaMap(credit);
+            return credit;
+        }
+        Map<String,Object> param1=new HashMap();
+        param1.put("creditState",-2);
+        param1.put("userId",userId);
+        param1.put("orderBy","credit_deadline desc");
+        Map<String,Object> deadcredit=creditDao.singleCreditByConditions(param1);
+        if (null != deadcredit && deadcredit.size()>0){
+            ConvertUtil.convertDataBaseMapToJavaMap(deadcredit);
+            return deadcredit;
+        }
+        return null;
+
     }
 
     @Override
@@ -553,6 +566,33 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Map<String, Object> findCreditAccountPageInfo(Long userId) {
-        return null;
+        Map<String,Object> res=new HashMap<>();
+        Map<String,Object> sjCredit=getSjCredit(userId);
+        res.put("credit",sjCredit);
+        Map<String,Object> user=waUserDao.singleUserByPrimaryKey(userId);
+        ConvertUtil.convertDataBaseMapToJavaMap(user);
+        res.put("user",user);
+        return res;
+    }
+
+    @Override
+    public boolean isCreditApplyAvailable(Long userId) {
+        Map<String,Object> credit=getCurrentCredit(userId);
+        if (null == credit || credit.size()==0){
+            return true;
+        }
+        int creditState=(int)credit.get("creditState");
+        if(creditState==0){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public Map<String, Object> findCreditApplyPageInfo(Long userId) {
+        Map<String,Object> res=new HashMap<>();
+        Map<String,Object> sjCredit=getSjCredit(userId);
+        res.put("sjCredit",sjCredit);
+        return res;
     }
 }

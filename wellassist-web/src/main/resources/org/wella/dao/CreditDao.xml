@@ -81,6 +81,9 @@
             <if test="creditPaymentDays != null" >
                 credit_payment_days = #{creditPaymentDays,jdbcType=DATE},
             </if>
+            <if test="creditStartDate != null" >
+                credit_start_date = #{creditStartDate,jdbcType=DATE},
+            </if>
             <if test="creditDeadline != null" >
                 credit_deadline = #{creditDeadline,jdbcType=TIMESTAMP},
             </if>

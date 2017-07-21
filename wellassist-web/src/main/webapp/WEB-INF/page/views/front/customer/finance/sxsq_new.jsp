@@ -67,9 +67,13 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>100</td>
-                        <td>授信中</td>
-                        <td><span>2017-7-17 </sapn> 至 <span>2017-12-17 </sapn> </td>
+                        <td><c:if test="${not empty info.sjCredit}"><fmt:formatNumber value="${info.sjCredit.creditSjMoney}" pattern="#,###.##" type="number"/> </c:if>
+                            <c:if test="${empty info.sjCredit}">0</c:if></td>
+                        <td><c:if test="${not empty info.sjCredit}"><c:if test="${info.sjCredit.creditState==1}">授信中</c:if><c:if test="${info.sjCredit.creditState==-2}">已过期</c:if></c:if>
+                            <c:if test="${empty info.sjCredit}">无</c:if></td>
+                        <td><c:if test="${not empty info.sjCredit}"><span><fmt:formatDate value="${info.sjCredit.creditStartDate}" pattern="yyyy-MM-dd"></fmt:formatDate></span> 至 <span><fmt:formatDate value="${info.sjCredit.creditDeadline}" pattern="yyyy-MM-dd"></fmt:formatDate> </span></c:if>
+                            <c:if test="${empty info.sjCredit}">0</c:if>
+                             </td>
                          </tr>
                      </tbody>
                  </table>

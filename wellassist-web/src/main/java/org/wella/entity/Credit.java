@@ -10,7 +10,11 @@ public class Credit {
 
     private BigDecimal creditMoney;
 
+
+
     private Date creditPaymentDays;
+
+    private Date creditStartDate;
 
     private Date creditDeadline;
 
@@ -66,6 +70,14 @@ public class Credit {
 
     public void setCreditPaymentDays(Date creditPaymentDays) {
         this.creditPaymentDays = creditPaymentDays;
+    }
+
+    public Date getCreditStartDate() {
+        return creditStartDate;
+    }
+
+    public void setCreditStartDate(Date creditStartDate) {
+        this.creditStartDate = creditStartDate;
     }
 
     public Date getCreditDeadline() {
