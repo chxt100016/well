@@ -9,7 +9,7 @@
 	}
 	div.formDd{
 		width:1000px;
-		text-align: left; 
+		text-align: left;
 		background: white;
 		box-shadow: 2px 2px 8px #808080;
 		padding:16px 0px 16px 0px;
@@ -370,11 +370,19 @@
 		  
 		  var Balance = $('#balancePay').val;
 		 var Amount = Number(${orderInfo.confirmPrice*orderInfo.confirmNumber});
+		 var LoanAmount = Number( ${orderInfo.userCreditMoney});
 		 var Loans=Number(loan.value);
+		 var Loanmin ;
+		 if(LoanAmount>=Amount ){
+		     Loanmin = Amount;
+		 }else{
+             Loanmin = LoanAmount;
+         }
+              console.log(Loanmin +"最小值");
 		 if(Loans >= Amount){
 			 console.log("太大了");
-			 loan.value = Amount;
-			 $('#loanPay').val(Amount);
+			 loan.value = Loanmin;
+			 $('#loanPay').val(Loanmin);
 			//  Balance = Amount - Loans ;	
 			  $('#balancePay').val(0)
 			  $('#balanceval').val(0);	 
@@ -385,7 +393,7 @@
 				 
 			 }
 		 
-		 console.log(Amount);
+		 console.log(Loanmin);
 	}
 </script>
 
