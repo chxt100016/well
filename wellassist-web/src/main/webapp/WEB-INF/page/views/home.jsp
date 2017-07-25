@@ -24,7 +24,7 @@
                         <div id="header_inner">
                             <div class="pure-menu pure-menu-horizontal pure-menu-open">
                                 <ul>
-                                    <li class="pure-dropdown hide-xs hide-sm hide-md"><a href="${pageContext.request.contextPath}/login/page" onclick="">登录 <i class="arrow"></i></a>
+                                    <li class="pure-dropdown hide-xs hide-sm hide-md"><a href="${pageContext.request.contextPath}/login/page" onclick="">登录<i class="arrow"></i></a>
 
                                     </li>
                                     <li class="hide-xs hide-sm hide-md mum_inc"><a href="${pageContext.request.contextPath}/register/registerPage">注册</a></li>
