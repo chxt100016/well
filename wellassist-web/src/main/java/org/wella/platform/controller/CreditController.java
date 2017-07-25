@@ -136,4 +136,29 @@ public class CreditController {
         Map<String,Object> loan=financeServiceImpl.getLoanOrderInfo(Long.parseLong(loanId));
         return R.ok().put("loan",loan);
     }
+
+    @RequestMapping("assignSubmit")
+    @ResponseBody
+    public R assignSubmit(@RequestParam("loanId")String loanId,@RequestParam("creditorId")String creditorId){
+        try {
+            creditServiceImpl.assignSubmit(Long.parseLong(loanId),Long.parseLong(creditorId));
+        } catch (NumberFormatException e) {
+            return R.error();
+        }
+        return R.ok();
+    }
+
+    @RequestMapping("assignRollback")
+    @ResponseBody
+    public R assignRollBack(@RequestParam("loanId")String loanId,HttpServletRequest request){
+        long userId=ShiroUtils.getUserId();
+        String ip=IPUtils.getIpAddr(request);
+        try {
+            creditServiceImpl.assignRollBack(Long.parseLong(loanId),userId,ip);
+        } catch (NumberFormatException e) {
+            return R.error();
+        }
+        return R.ok();
+    }
+
 }
