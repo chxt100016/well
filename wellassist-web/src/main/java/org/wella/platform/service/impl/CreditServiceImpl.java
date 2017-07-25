@@ -1,11 +1,14 @@
 package org.wella.platform.service.impl;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.CreditDao;
 import org.wella.dao.CreditInfoDao;
+import org.wella.dao.LoanAssignInfoDao;
+import org.wella.dao.LoanDao;
 import org.wella.entity.CreditInfo;
 import org.wella.platform.service.CreditService;
 import org.wella.service.CustomerService;
@@ -28,6 +31,11 @@ public class CreditServiceImpl implements CreditService{
     private CreditInfoDao creditInfoDao;
     @Autowired
     private CustomerService customerServiceImpl;
+    @Autowired
+    private LoanDao loanDao;
+    @Autowired
+    private LoanAssignInfoDao loanAssignInfoDao;
+
 
     @Override
     public Map<String, Object> findCreditApplyDetailInfo(long creditId) {
@@ -103,4 +111,55 @@ public class CreditServiceImpl implements CreditService{
         creditInfoDao.createCreditInfo(ci);
 
     }
+
+    /**
+     * 授信指派
+     * @param loanId
+     * @param creditorId
+     */
+    @Override
+    @Transactional
+    public void assignSubmit(long loanId, long creditorId) {
+        Map<String,Object> updateloan=new HashMap();
+        updateloan.put("loanId",loanId);
+        updateloan.put("creditUserId",creditorId);
+        updateloan.put("loanState",1);
+        loanDao.updateLoanByPrimaryKey(updateloan);
+
+        Map<String,Object> loanAssignInfo=new HashMap<>();
+        loanAssignInfo.put("loanId",loanId);
+        loanAssignInfo.put("creditorId",creditorId);
+        loanAssignInfo.put("state",0);
+        loanAssignInfo.put("createDate",new Date());
+        loanAssignInfoDao.insert(loanAssignInfo);
+    }
+
+    /**
+     * 授信撤回
+     * @param loanId
+     */
+    @Override
+    @Transactional
+    public void assignRollBack(long loanId,long mgrId,String ip) {
+        Map<String,Object> updateloan=new HashMap();
+        updateloan.put("loanId",loanId);
+        updateloan.put("creditUserId",0);
+        updateloan.put("loanState",0);
+        loanDao.updateLoanByPrimaryKey(updateloan);
+
+        Map<String,Object> queryLoanAssignInfo=new HashMap<>();
+        queryLoanAssignInfo.put("loanId",loanId);
+        queryLoanAssignInfo.put("state",0);
+        Map<String,Object> loanAssignInfo=loanAssignInfoDao.singleLoanAssignInfoByConditions(queryLoanAssignInfo);
+
+        Map<String,Object> updateLoanAssignInfo=new HashMap();
+        updateLoanAssignInfo.put("loanAssignInfoId",loanAssignInfo.get("loan_assign_info"));
+        updateLoanAssignInfo.put("state",-2);
+        updateLoanAssignInfo.put("operateDate",new Date());
+        updateLoanAssignInfo.put("operateIp",ip);
+        updateLoanAssignInfo.put("mgrId",mgrId);
+        loanAssignInfoDao.updateByPrimaryKey(updateLoanAssignInfo);
+    }
+
+
 }
