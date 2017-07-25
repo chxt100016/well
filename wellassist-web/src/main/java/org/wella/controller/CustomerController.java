@@ -291,13 +291,16 @@ public class CustomerController extends BaseController{
       obj.put("content", ConstantUtil.MSG_PARAM_ERR);
       String orderId = CommonUtil.GetRequestParam(request, "orderId", "0");
       String saleMoney = CommonUtil.GetRequestParam(request, "saleMoney", "0.00");
-      String rate = CommonUtil.GetRequestParam(request, "rate", "0");
+      /*String rate = CommonUtil.GetRequestParam(request, "rate", "0");*/
+      String loan = CommonUtil.GetRequestParam(request, "loan", "0");
+      String balance = CommonUtil.GetRequestParam(request, "balance", "0");
       String zfMethod = CommonUtil.GetRequestParam(request, "zfMethod", "2");
       String certificateImg = "";
+      String ip=IPUtils.getIpAddr(request);
       try {
          //资金不能从session里面拿！！！
          User user=(User)request.getSession().getAttribute("user");
-         if (!customerServiceImpl.isBalanceEnough(user.getUserId(),new BigDecimal(saleMoney),Integer.parseInt(zfMethod),Integer.parseInt(rate))){
+         if (!customerServiceImpl.isBalanceEnough(user.getUserId(),new BigDecimal(saleMoney),Integer.parseInt(zfMethod),new BigDecimal(balance),new BigDecimal(loan))){
             obj.put("content", ConstantUtil.MSG_MONEY_ERR);
             obj.put("status", "-1");
             this.echo(response, obj);
@@ -316,7 +319,7 @@ public class CustomerController extends BaseController{
             Map orderObj = this.getMyOneSingBO("wa_order", "order_id", Long.parseLong(orderId));
             if(orderObj != null && orderObj.get("userId") != null && (long)orderObj.get("userId")==(user.getUserId()) && orderObj.get("orderState") != null && ((int)orderObj.get("orderState")==1||(int)orderObj.get("orderState")==12)) {
                String sql = "";
-               sql = " CALL khFukuanProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + saleMoney + "\',\'" + zfMethod + "\',\'" + rate + "\',\'"+certificateImg+"\')";
+               sql = " CALL khFukuanProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + saleMoney + "\',\'" + zfMethod + "\',\'"  + balance +"\',\'" + loan +"\',\'" + certificateImg +"\',\'"+ip+"\')";
                HashMap queryParam = new HashMap();
                queryParam.put("strsql", sql);
                this.commonMapper.simpleSelectReturnList(queryParam);
@@ -341,10 +344,13 @@ public class CustomerController extends BaseController{
       String logisticsInfoId = CommonUtil.GetRequestParam(request, "logisticsInfoId", "0");
       String grabMoney = CommonUtil.GetRequestParam(request, "grabMoney", "0");
       String rate = CommonUtil.GetRequestParam(request, "rate", "0");
+      String balance = CommonUtil.GetRequestParam(request, "balance", "0");
+      String loan = CommonUtil.GetRequestParam(request, "loan", "0");
       String zfMethod = CommonUtil.GetRequestParam(request, "zfMethod", "2");
       String certificateImg = "";
+      String ip=IPUtils.getIpAddr(request);
       User user=(User)request.getSession().getAttribute("user");
-      if (!customerServiceImpl.isBalanceEnough(user.getUserId(),new BigDecimal(grabMoney),Integer.parseInt(zfMethod),Integer.parseInt(rate))){
+      if (!customerServiceImpl.isBalanceEnough(user.getUserId(),new BigDecimal(grabMoney),Integer.parseInt(zfMethod),new BigDecimal(balance),new BigDecimal(loan))){
          obj.put("content", ConstantUtil.MSG_MONEY_ERR);
          obj.put("status", "-1");
          return obj;
@@ -361,7 +367,7 @@ public class CustomerController extends BaseController{
          Map orderObj = this.getMyOneSingBO("wa_order", "order_id", Long.parseLong(orderId));
          if(orderObj != null && orderObj.get("userId") != null && (long)orderObj.get("userId")==(user.getUserId()) && orderObj.get("orderState") != null && ((int)orderObj.get("orderState")==1||(int)orderObj.get("orderState")==11)||(int)orderObj.get("orderState")==13) {
             String sql = "";
-            sql = " CALL logisticsPayProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + logisticsInfoId + "\',\'" + grabMoney + "\',\'" + zfMethod + "\',\'" + rate + "\',\'"+certificateImg+"\')";
+            sql = " CALL logisticsPayProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + logisticsInfoId + "\',\'" + grabMoney + "\',\'" + zfMethod + "\',\'" + rate + "\',\'" + certificateImg + "\',\'"+ip+"\')";
             HashMap queryParam = new HashMap();
             queryParam.put("strsql", sql);
             ArrayList<Map<String,Object>> result=this.commonMapper.simpleSelectReturnList(queryParam);
@@ -535,7 +541,6 @@ public class CustomerController extends BaseController{
    @RequestMapping("prodDetail")
    public String prodDetail(@RequestParam("prodId")String prodId, Model model){
       User user = (User) HttpContextUtils.getAttribute("user");
-
 
 
       model.addAttribute("userName", user.getUserName());

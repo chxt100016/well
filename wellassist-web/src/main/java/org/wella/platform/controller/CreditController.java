@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.CreditDao;
+import org.wella.dao.LoanDao;
 import org.wella.platform.service.CreditService;
+import org.wella.service.FinanceService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -27,13 +29,37 @@ public class CreditController {
     private CreditDao creditDao;
 
     @Autowired
+    private LoanDao loanDao;
+
+    @Autowired
     private CreditService creditServiceImpl;
 
+    @Autowired
+    private FinanceService financeServiceImpl;
+
+    /**
+     * 额度申请页面
+     * @return
+     */
     @RequestMapping("creditList.html")
     public String creditList(){
         return "views/platform/credit/creditList.html";
     }
 
+    /**
+     * 授信指派页面
+     * @return
+     */
+    @RequestMapping("creditAssignList.html")
+    public String creditAssignList(){
+        return "views/platform/credit/creditAssignList.html";
+    }
+
+    /**
+     * 额度申请列表
+     * @param params
+     * @return
+     */
     @RequestMapping("creditLimitList")
     @ResponseBody
     public R creditLimitList(@RequestParam Map<String,Object> params){
@@ -41,6 +67,22 @@ public class CreditController {
         List list=creditDao.listCreditAttachUserinfoByConditions(query);
         ConvertUtil.convertDataBaseMapToJavaMap(list);
         int totalCount=creditDao.listCreditAttachUserinfoByConditionsCount(query);
+        PageUtils pageUtils=new PageUtils(list,totalCount,query.getLimit(),query.getPage());
+        return R.ok().put("page",pageUtils);
+    }
+
+    /**
+     * 授信指派列表
+     * @param params
+     * @return
+     */
+    @RequestMapping("assignList")
+    @ResponseBody
+    public R assignList(@RequestParam Map<String,Object> params){
+        Query query=new Query(params);
+        List list=loanDao.listLoanOrderViewByConditions(query);
+        ConvertUtil.convertDataBaseMapToJavaMap(list);
+        int totalCount=loanDao.listLoanOrderViewByConditionsCount(query);
         PageUtils pageUtils=new PageUtils(list,totalCount,query.getLimit(),query.getPage());
         return R.ok().put("page",pageUtils);
     }
@@ -80,5 +122,18 @@ public class CreditController {
             return R.error();
         }
         return R.ok();
+    }
+
+    @RequestMapping("creditAssign")
+    public String creditAssign(@RequestParam("loanId")String loanId,Model model){
+        model.addAttribute("loanId",loanId);
+        return "views/platform/credit/creditAssignList/creditAssign.html";
+    }
+
+    @RequestMapping("getLoanOrderInfo")
+    @ResponseBody
+    public R getLoanOrderInfo(@RequestParam("loanId")String loanId){
+        Map<String,Object> loan=financeServiceImpl.getLoanOrderInfo(Long.parseLong(loanId));
+        return R.ok().put("loan",loan);
     }
 }

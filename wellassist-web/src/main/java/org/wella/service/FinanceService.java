@@ -24,5 +24,7 @@ public interface FinanceService {
      */
     int withdraw(Map<String,Object> map);
 
+    Map<String,Object> getLoanOrderInfo(long loanId);
+
 
 }

@@ -475,7 +475,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public boolean isBalanceEnough(long userId, BigDecimal payMoney, int zfMethod,int rate) {
+    public boolean isBalanceEnough(long userId, BigDecimal payMoney, int zfMethod,BigDecimal balanceZfMoney,BigDecimal loanZfMoney) {
         Map<String,Object> user=waUserDao.singleUserByPrimaryKey(userId);
         BigDecimal userMoney=(BigDecimal) user.get("user_money");
         BigDecimal userCreditMoney=(BigDecimal) user.get("user_credit_money");
@@ -484,7 +484,7 @@ public class CustomerServiceImpl implements CustomerService {
                 return false;
             }
         } else if(zfMethod==4) {
-            if(userMoney.multiply(new BigDecimal((100 - rate) / 100.0D)).add(userCreditMoney.multiply(new BigDecimal(rate/ 100.0D))).compareTo(payMoney)<0) {
+            if(userMoney.compareTo(balanceZfMoney)<0||userCreditMoney.compareTo(loanZfMoney)<0) {
                 return false;
             }
         } else if(zfMethod==3) {

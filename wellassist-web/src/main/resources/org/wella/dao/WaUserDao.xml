@@ -347,4 +347,17 @@
         from wa_user
         where user_id=#{userId}
     </select>
+
+    <select id="listUserAttachUserinfoByConditions" parameterType="map" resultType="map">
+        SELECT u.*,ui.`company_lxr`,ui.`company_lxr_phone`
+        FROM wa_user u LEFT JOIN wa_userinfo ui ON u.`user_id`=ui.`user_id`
+        <where>
+            <if test="userType != null">
+                AND u.user_type=#{userType}
+            </if>
+            <if test="userState != null">
+                AND u.user_state=#{userState}
+            </if>
+        </where>
+    </select>
 </mapper>

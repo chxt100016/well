@@ -54,4 +54,6 @@ public interface WaUserDao {
     void resetPassword(Map map);
 
     Map<String,Object> singleUserByPrimaryKey(@Param("userId") long userId);
+
+    List<Map<String,Object>> listUserAttachUserinfoByConditions(Map<String, Object> param);
 }

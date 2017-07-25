@@ -165,7 +165,7 @@ public interface CustomerService {
 
     Map<String,Object> getPayLogisticsPageInfo(long logisticsInfoId,long userId);
 
-    boolean isBalanceEnough(long userId, BigDecimal payMoney,int zfMethod,int rate);
+    boolean isBalanceEnough(long userId, BigDecimal payMoney, int zfMethod,BigDecimal balanceZfMoney,BigDecimal loanZfMoney);
 
     /**
      * 申请授信额度
