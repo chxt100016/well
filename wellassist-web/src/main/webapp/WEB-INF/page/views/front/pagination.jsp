@@ -2,18 +2,20 @@
 					
 <!-- pagenation -->
 <c:if test="${pageCount>1}">
-	<ul class="pagination">
+	<ul class="ui pagination menu">
 		<c:if test = "${page == 1}">
 			<li>
-			     <a href="#" aria-label="Previous">
-				 	<span aria-hidden="true">&laquo;</span>
+			     <a href="#" aria-label="Previous" class="icon item">
+					 <!-- <span aria-hidden="true">&laquo;</span> -->
+						  <i class="left chevron icon"></i>
 				 </a>
 			</li>
 		</c:if>
 		<c:if test = "${page > 1}">
 			<li>
-			     <a onclick="searchData('${page-1}')" aria-label="Previous" style="cursor:pointer;">
-				 	<span aria-hidden="true">&laquo;</span>
+			     <a onclick="searchData('${page-1}')" aria-label="Previous" style="cursor:pointer;" class="icon item">
+					 <!-- <span aria-hidden="true">&laquo;</span> -->
+						  <i class="left chevron icon"></i>
 				 </a>
 			</li>	
 		</c:if>
@@ -21,16 +23,16 @@
 		<c:forEach begin="1" end="${pageCount}" var="i">
 			<c:choose> 
 				<c:when test="${page==i}">
-					<li><a href="#" style="color:red;background-color: #eee;border-color: #ddd;">${i}</a></li>
+					<li><a href="#" class="active item">${i}</a></li>
 					<c:set var="initGap" value="1"/> 
 				</c:when>
 				<c:when test="${gap+1 > i || i + gap > pageCount || (  ( i >= page - gap ) && (i <= page + gap))}">
-					<li><a onclick="searchData('${i}');" style="cursor:pointer;">${i}</a></li>
+					<li><a onclick="searchData('${i}');" style="cursor:pointer;" class="item">${i}</a></li>
 					<c:set var="initGap" value="1"/> 
 				</c:when>
 				<c:otherwise>
 					<c:if test = "${initGap ==1}">
-						<li><span class='gap'>...</span></li>
+						<li><span class="disabled item">...</span></li>
 						<c:set var="initGap" value="0"/> 
 					</c:if>
 				</c:otherwise>
@@ -38,15 +40,17 @@
 		</c:forEach>
 		<c:if test = "${page == pageCount}">
 			<li>
-                  <a href="#" aria-label="Next">
-                      <span aria-hidden="true">&raquo;</span>
+                  <a href="#" aria-label="Next" class="icon item">
+					  <!-- <span aria-hidden="true">&raquo;</span> -->
+					  <i class="right chevron icon"></i>
                   </a>
               </li>
 		</c:if>
 		<c:if test = "${page != pageCount}">
 			  <li>
-                  <a onclick="searchData('${page + 1}')" aria-label="Next" style="cursor:pointer;">
-                      <span aria-hidden="true">&raquo;</span>
+                  <a onclick="searchData('${page + 1}')" aria-label="Next" style="cursor:pointer;" class="icon item">
+					  <!-- <span aria-hidden="true">&raquo;</span> -->
+					  <i class="right chevron icon"></i>
                   </a>
               </li>
 		</c:if>
