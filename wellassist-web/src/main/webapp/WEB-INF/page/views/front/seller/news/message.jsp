@@ -31,7 +31,7 @@
 		<div class="row-header">
 		     <span class="header-title">消息列表</span>
 		     <div style="float:right;">
-		     	<span class="span_search_btn_blue"   onclick="searchData(1);">搜索</span>
+		     	<span class="span_search_btn_blue_1"   onclick="searchData(1);">搜索</span>
 				 <input type="text" name="title"  value="${param.prodName}"/>
 			 </div>
 		</div>
@@ -46,24 +46,17 @@
 	</div>
 	<div style="border-bottom:solid 1px #d0d0d0;padding:6px;font-size:14px;margin-top:16px;height:16px;">
 		<div style="float:left;width:5%;">选择</div>
-		<div style="float:left;width:65%;">标题</div>
+		<div style="float:left;width:20%;">标题</div>
 		<div style="float:left;width:20%;">时间</div>
-		<div style="float:left;width:8%;">状态</div>
+		<div style="float:left;width:55%;">内容</div>
 	</div>
-	<c:forEach var="item" items="${newsList}">
+	<c:forEach var="item" items="${message}">
 		<div class="newsitem">
 			<div>
-				<div style="float:left;width:5%;"><input name="chkNewsId" value="${item.txId}" type="checkbox"></div>
-				<div style="float:left;width:65%;"><a style="cursor: pointer;" onclick="viewContent('${item.txId}')">${item.txName}</a></div>
-				<div style="float:left;width:20%;"><fmt:formatDate value="${item.txDate}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
-				<div style="float:left;">
-					<input type="hidden" id="isReadHidden_${item.txId}" value="${item.isRead}" />
-					<c:if test="${item.isRead==0}"><img id="isReadImg_${item.txId}" src="<c:url value="/resources/wella/front/images/news_unread.png"/>"></c:if>
-					<c:if test="${item.isRead==1}"><img id="isReadImg_${item.txId}" src="<c:url value="/resources/wella/front/images/news_read.png"/>"></c:if>
-				</div>
-			</div>
-			<div class="newsincontent" id="newsincontent_${item.txId}">
-				${item.txContent}
+				<div style="float:left;width:5%;"><input name="chkNewsId" value="${item.id}" type="checkbox"></div>
+				<div style="float:left;width:20%;"><a style="cursor: pointer;" onclick="viewContent('${item.id}')">${item.title}</a></div>
+				<div style="float:left;width:20%;">${item.date}</div>
+				<div style="float:left;width:55%;">${item.content}</div>
 			</div>
 		</div>
 	</c:forEach>
