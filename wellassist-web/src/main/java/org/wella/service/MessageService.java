@@ -1,6 +1,7 @@
 package org.wella.service;
 
 import org.springframework.stereotype.Service;
+import org.wella.entity.CreditRecord;
 import org.wella.entity.Message;
 
 import java.util.List;
@@ -20,5 +21,7 @@ public interface MessageService {
     void delMessage(Long[] id);
 
     void upMessage(Integer id);
+
+    List<CreditRecord> getCreditRecordList(Map<String, Object> map);
 
 }
