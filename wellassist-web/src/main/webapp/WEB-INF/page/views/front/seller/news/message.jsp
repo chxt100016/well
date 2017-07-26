@@ -26,16 +26,14 @@
 
 </head>
 <div id = "content-rect">
-	<div style="border:solid 1px #d0d0d0;font-size:18px;font-weight:bold;color:#0557ab;line-height:36px;text-align: left;">&nbsp;&nbsp;消息列表</div>
 	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/front/seller/SellerNewsController-xxList">
 		<input type="hidden" id="page" name="page" value="${param.page}">
-
 		<div class="row-header">
-		     <span class="header-title">订单列表</span>
+		     <span class="header-title">消息列表</span>
 		     <div style="float:right;">
-		     	<input type="text" name="prodName" style="height:10px; float:left;margin-bottom:0px;" value="${param.prodName}"/>
-		     	<span class="span_search_btn_blue" style="margin-bottom:0px;" onclick="searchData(1);">搜索</span>
-		     </div>
+		     	<span class="span_search_btn_blue"   onclick="searchData(1);">搜索</span>
+				 <input type="text" name="title"  value="${param.prodName}"/>
+			 </div>
 		</div>
 	</form>
 	<div style="border-bottom:solid 1px #d0d0d0;padding:6px;font-size:14px;margin-top:16px;height:32px;">
