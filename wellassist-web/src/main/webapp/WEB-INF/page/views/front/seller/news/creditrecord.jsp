@@ -29,7 +29,7 @@
 	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/front/seller/SellerNewsController-xxList">
 		<input type="hidden" id="page" name="page" value="${param.page}">
 		<div class="row-header">
-		     <span class="header-title">消息中心</span>
+		     <span class="header-title">征信中心</span>
 		     <div style="float:right;">
 		     	<span class="span_search_btn_blue_1"   onclick="searchData(1);">搜索</span>
 				 <input type="text" name="title"  value="${param.prodName}"/>
