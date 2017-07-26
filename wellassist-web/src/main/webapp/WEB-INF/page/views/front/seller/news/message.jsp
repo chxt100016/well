@@ -29,14 +29,14 @@
 	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/front/seller/SellerNewsController-xxList">
 		<input type="hidden" id="page" name="page" value="${param.page}">
 		<div class="row-header">
-		     <span class="header-title">消息列表</span>
+		     <span class="header-title">消息中心</span>
 		     <div style="float:right;">
 		     	<span class="span_search_btn_blue_1"   onclick="searchData(1);">搜索</span>
 				 <input type="text" name="title"  value="${param.prodName}"/>
 			 </div>
 		</div>
 	</form>
-	<div style="border-bottom:solid 1px #d0d0d0;padding:6px;font-size:14px;margin-top:16px;height:32px;">
+	<div style="border-bottom:solid 1px #d0d0d0;padding:2px;font-size:14px;margin-top:16px;height:32px;">
 		<div style="float:left;">
 			<input type="button" id="selReadBtn" value="标记所选为已读" />
 			<input type="button" id="selDelBtn"  value="删除所选" />
@@ -44,7 +44,7 @@
 		</div>
 		<div style="float:right;margin-top:12px;">未读 <span id="noReadCount">${noReadCount}</span>/全部 <span>${totalCount}</span></div>
 	</div>
-	<div style="border-bottom:solid 1px #d0d0d0;padding:6px;font-size:14px;margin-top:16px;height:16px;">
+	<div style="border-bottom:solid 1px #d0d0d0;font-size:14px;margin-top:16px;height:16px;">
 		<div style="float:left;width:5%;">选择</div>
 		<div style="float:left;width:20%;">标题</div>
 		<div style="float:left;width:20%;">时间</div>
@@ -60,8 +60,8 @@
 			</div>
 		</div>
 	</c:forEach>
-	<c:if test="${newsList== null || fn:length(newsList) == 0}">
-		<div style = "margin-top:10px; margin-left:20px; float:left;">没有资料</div>	 
+	<c:if test="${message== null || fn:length(message) == 0}">
+		<div style = "margin-top:10px; margin-left:20px; float:left;">没有消息</div>
     </c:if>	
 	<div class="right-pagination">
 		<%@ include file="../../pagination.jsp"%>
