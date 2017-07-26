@@ -290,7 +290,7 @@
 										<div class="field">
 											<div class="ui  checkbox">
 												<input type="checkbox" <c:if test ="${childMenuNo == '2'}"> checked="checked" </c:if>>
-												<label><a href = "#">征信计算</a></label>
+												<label><a href = "/mes/creditrecord">征信计算</a></label>
 											</div>
 										</div>
 
