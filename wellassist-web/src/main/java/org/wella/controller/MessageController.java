@@ -34,6 +34,7 @@ public class MessageController {
         User user = (User) httpSession.getAttribute("user");
         Query query = new Query(params);
             List<Message> message = messageServicesk.getMessageList(query);
+        Message m = new Message();
 
         model.addAttribute("parentMenuNo", "3");
         model.addAttribute("childMenuNo", "1");
