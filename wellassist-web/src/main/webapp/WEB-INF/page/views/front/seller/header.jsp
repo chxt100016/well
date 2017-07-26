@@ -277,14 +277,14 @@
 
 					<c:if test = "${parentMenuNo == '3'}">
 						<div class="item">
-							<a class="title <c:if test="${childMenuNo == '1' or childMenuNo =='2' }">active </c:if>"><i class="dropdown icon"></i> 消息通知 </a>
+							<a class="title <c:if test="${childMenuNo == '1' or childMenuNo =='2' }">active </c:if>"><i class="dropdown icon"></i> 消息中心 </a>
 							<div class="content <c:if test="${childMenuNo == '1' or childMenuNo =='2'}"> active </c:if>">
 								<div class="ui form">
 									<div class="grouped fields">
 										<div class="field">
 											<div class="ui  checkbox">
 												<input type="checkbox" <c:if test ="${childMenuNo == '1'}"> checked="checked" </c:if>>
-												<label><a href = "${pageContext.request.contextPath}/mes/message">消息列表</a></label>
+												<label><a href = "${pageContext.request.contextPath}/mes/message">消息中心</a></label>
 											</div>
 										</div>
 										<div class="field">
