@@ -2,6 +2,7 @@ package org.wella.dao;
 
 import io.wellassist.dao.BaseDao;
 import org.springframework.stereotype.Repository;
+import org.wella.entity.CreditRecord;
 import org.wella.entity.Message;
 
 import java.util.List;
@@ -19,5 +20,7 @@ public interface MessageDao extends BaseDao<Message> {
     void delMessage(Long[] id);
 
     void upMessage(Integer id);
+
+    List<CreditRecord> getCreditRecordList(Map<String, Object> map);
 
 }
