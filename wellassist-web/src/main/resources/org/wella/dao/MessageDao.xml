@@ -2,17 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.wella.dao.MessageDao">
-
-    <resultMap id="message" type="org.wella.entity.Message">
-        <id column="id" property="id"/>
-        <id column="title" property="title"/>
-        <result column="type" property="type"/>
-        <result column="content" property="content"/>
-
-    </resultMap>
-
-
-    <!-- 获取买家订单列表 -->
+    <!-- 获取消息列表 -->
     <select id="getMessageList" parameterType="String" resultType="org.wella.entity.Message">
         SELECT
            *
