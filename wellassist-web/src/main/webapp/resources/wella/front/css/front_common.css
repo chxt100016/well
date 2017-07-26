@@ -5,6 +5,8 @@
 .span_btn{float:left;margin-top:15px;cursor:pointer;width:100px;padding:5px 5px;color:red; border:1px solid red; border-radius:5px;}
 .span_btn_gray{float: left;margin-top: 15px;cursor: pointer;width: 100px; padding: 5px 5px;color: #565454;border: 1px solid #ADADAD;background-color: #ECECEC;border-radius: 5px; text-align:center;}
 .span_search_btn_blue{margin-right: 10px; color: white;background-color: #0A7BCA;border: none; margin-top: 0px; height: 15px; line-height: 15px; width: 50px; float: left; cursor: pointer; border-radius: 5px; text-align: center; padding: 5px;}
+.span_search_btn_blue_1{margin-right: 10px; color: white;background-color: #0A7BCA;border: none; margin-top: 0px; line-height: 15px; width: 50px; float: left; cursor: pointer; border-radius: 5px; text-align: center; padding: 5px;}
+
 .right-pagination {text-align: right;  float: none;}
 .pagination { display: inline-block; padding-left: 0; margin: 20px 0; border-radius: 4px;}
 .pagination>li {display: inline;}
