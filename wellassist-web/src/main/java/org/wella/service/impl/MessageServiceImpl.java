@@ -3,6 +3,7 @@ package org.wella.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.wella.dao.MessageDao;
+import org.wella.entity.CreditRecord;
 import org.wella.entity.Message;
 import org.wella.service.MessageService;
 
@@ -37,5 +38,10 @@ public class MessageServiceImpl implements MessageService{
     @Override
     public void upMessage(Integer id) {
 
+    }
+
+    @Override
+    public List<CreditRecord> getCreditRecordList(Map<String, Object> map) {
+        return messageDaosk.getCreditRecordList(map);
     }
 }
