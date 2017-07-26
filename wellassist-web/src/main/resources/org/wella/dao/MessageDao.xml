@@ -28,4 +28,25 @@
             </if>
         </where>
     </select>
+
+
+    <!-- 获取信誉度列表 -->
+    <select id="getCreditRecordList" parameterType="String" resultType="org.wella.entity.CreditRecord">
+        SELECT
+        *
+        FROM
+           wa_credit_record
+        ORDER BY id DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <!-- 获取信誉度列表总数 -->
+    <select id="getCreditRecordCount" parameterType="java.util.Map" resultType="int">
+        SELECT
+           count(*)
+        FROM
+          wa_credit_record
+    </select>
 </mapper>
