@@ -1,7 +1,11 @@
 package org.wella.controller;
 
 import io.wellassist.utils.HttpContextUtils;
+import io.wellassist.utils.PageUtils;
 import io.wellassist.utils.Query;
+import io.wellassist.utils.R;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +29,7 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = {"/mes/"})
 public class MessageController {
+    Logger logger = LoggerFactory.getLogger(MessageController.class);
 
     @Autowired
     private MessageService messageServicesk;
@@ -70,6 +75,21 @@ public class MessageController {
         model.addAttribute("userName", user.getUserName());
         model.addAttribute("creditrecordList",creditrecordList);
         return "views/front/seller/news/creditrecord.jsp";
+    }
+
+
+    /**
+     * 征信列表
+     * @param params
+     * @return
+     */
+    @RequestMapping("creditcalist")
+    public R getCreditCulationList(@RequestParam Map<String, Object> params){
+        Query query = new Query(params);
+        List <CreditRecord>creditrecordList = messageServicesk.getCreditRecordList(query);
+        int total = messageServicesk.queryRecordCount(query);
+        PageUtils pageUtil = new PageUtils(creditrecordList, total, query.getLimit(), query.getPage());
+        return R.ok().put("page",pageUtil);
     }
 
 
