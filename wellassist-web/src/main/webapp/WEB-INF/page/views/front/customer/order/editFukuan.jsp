@@ -371,6 +371,7 @@
 		  var Balance = $('#balancePay').val;
 		 var Amount = Number(${orderInfo.confirmPrice*orderInfo.confirmNumber});
 		 var LoanAmount = Number( ${orderInfo.userCreditMoney});
+		 var UserMoney = ${orderInfo.userMoney};
 		 var Loans=Number(loan.value);
 		 var Loanmin ;
 		 if(LoanAmount>=Amount ){
@@ -390,6 +391,11 @@
 			 else{
 				  $('#balancePay').val( Amount - Loans );
 				  $('#balanceval').val(Amount - Loans);
+				  if(Amount - Loans > UserMoney){
+					 $('#balancePay').val( 0 );
+				 	 $('#balanceval').val(0);
+					  alert("余额不足！")
+				  }
 				 
 			 }
 		 

@@ -29,7 +29,7 @@
 	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/front/seller/SellerNewsController-xxList">
 		<input type="hidden" id="page" name="page" value="${param.page}">
 		<div class="row-header">
-		     <span class="header-title">消息中心</span>
+		     <span class="header-title">征信中心</span>
 		     <div style="float:right;">
 		     	<span class="span_search_btn_blue_1"   onclick="searchData(1);">搜索</span>
 				 <input type="text" name="title"  value="${param.prodName}"/>
@@ -46,22 +46,30 @@
 	</div>
 	<div style="border-bottom:solid 1px #d0d0d0;font-size:14px;margin-top:16px;height:16px;">
 		<div style="float:left;width:5%;">选择</div>
-		<div style="float:left;width:20%;">标题</div>
-		<div style="float:left;width:20%;">时间</div>
-		<div style="float:left;width:55%;">内容</div>
+		<div style="float:left;width:10%;">用户ID</div>
+		<div style="float:left;width:10%;">企业ID</div>
+		<div style="float:left;width:10%;">信誉等级</div>
+		<div style="float:left;width:10%;">信誉类型</div>
+		<div style="float:left;width:10%;">等级发生时间</div>
+		<div style="float:left;width:10%;">评定机构</div>
+		<div style="float:left;width:12%;">备注</div>
 	</div>
-	<c:forEach var="item" items="${message}">
+	<c:forEach var="creditrecord" items="${creditrecordList}">
 		<div class="newsitem">
 			<div>
-				<div style="float:left;width:5%;"><input name="chkNewsId" value="${item.id}" type="checkbox"></div>
-				<div style="float:left;width:20%;"><a style="cursor: pointer;" onclick="viewContent('${item.id}')">${item.title}</a></div>
-				<div style="float:left;width:20%;">${item.date}</div>
-				<div style="float:left;width:55%;">${item.content}</div>
+				<div style="float:left;width:5%;"><input name="chkNewsId" value="${creditrecord.id}" type="checkbox"></div>
+				<div style="float:left;width:10%;"><a style="cursor: pointer;" onclick="viewContent('${creditrecord.id}')">${creditrecord.userId}</a></div>
+				<div style="float:left;width:10%;">${creditrecord.enterpriseId}</div>
+				<div style="float:left;width:10%;">${creditrecord.creditLevel}</div>
+				<div style="float:left;width:10%;">${creditrecord.creditType}</div>
+				<div style="float:left;width:10%;">${creditrecord.creditDate}</div>
+				<div style="float:left;width:10%;">${creditrecord.evaluationInstitution}</div>
+				<div style="float:left;width:12%;">${creditrecord.memo}</div>
 			</div>
 		</div>
 	</c:forEach>
-	<c:if test="${message== null || fn:length(message) == 0}">
-		<div style = "margin-top:10px; margin-left:20px; float:left;">没有消息</div>
+	<c:if test="${creditrecordList== null || fn:length(creditrecordList) == 0}">
+		<div style = "margin-top:10px; margin-left:20px; float:left;">没有等级</div>
     </c:if>	
 	<div class="right-pagination">
 		<%@ include file="../../pagination.jsp"%>

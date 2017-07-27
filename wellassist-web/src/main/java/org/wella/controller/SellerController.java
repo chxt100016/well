@@ -418,6 +418,8 @@ public class SellerController extends BaseController {
     public String message(Model model){
         HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
         User user = (User) httpSession.getAttribute("user");
+
+
         model.addAttribute("parentMenuNo", "3");
         model.addAttribute("childMenuNo", "1");
         model.addAttribute("userName", user.getUserName());
