@@ -155,7 +155,7 @@ public class CreditController {
         String ip=IPUtils.getIpAddr(request);
         try {
             creditServiceImpl.assignRollBack(Long.parseLong(loanId),userId,ip);
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             return R.error();
         }
         return R.ok();
