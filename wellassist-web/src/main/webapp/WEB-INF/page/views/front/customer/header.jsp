@@ -167,13 +167,13 @@
                         <div class="field">
                             <div class="ui  checkbox">
                                 <input type="checkbox" <c:if test ="${childMenuNo == '3'}"> checked="checked" </c:if>>
-                                <label><a href = "${pageContext.request.contextPath}/front/customer/FinanceController-sxSqList">申请记录</a></label>
+                                <label><a href = "${pageContext.request.contextPath}/customer/creditApplys">申请记录</a></label>
                             </div>
                         </div>
                         <div class="field">
                             <div class="ui  checkbox">
                                 <input type="checkbox" <c:if test ="${childMenuNo == '4'}"> checked="checked" </c:if>>
-                                <label><a href = "${pageContext.request.contextPath}/front/customer/FinanceController-hkList">还款记录</a></label>
+                                <label><a href = "${pageContext.request.contextPath}/customer/loansRepayRecords">还款记录</a></label>
                             </div>
                         </div>
 

@@ -67,6 +67,7 @@ public class CreditorServiceImpl implements CreditorService{
         BigDecimal lixiRateFkf=lixiRate.multiply(new BigDecimal(0.9));
         updateloan.put("lixiRateFkf",lixiRateFkf);
         updateloan.put("loanState",2);
+        updateloan.put("remainRepayMoney",loan.get("loan_money"));
         loanDao.updateLoanByPrimaryKey(updateloan);
 
         //update table wa_loan_assign_info

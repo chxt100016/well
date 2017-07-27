@@ -608,6 +608,12 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public int repayLoanByBalance(long userId, long loanId, BigDecimal principal, BigDecimal interest,String ip) {
+        Map<String,Object> user=waUserDao.singleUserByPrimaryKey(userId);
+        BigDecimal oldUserMoney=(BigDecimal)user.get("user_money");
+        if (oldUserMoney.compareTo(principal.add(interest))<0){
+            return 0;
+        }
+
         Map<String,Object> loan=loanDao.singleLoanByPrimaryKey(loanId);
         //update table wa_loan
         Map<String,Object> updateLoan=new HashMap<>();
@@ -632,6 +638,11 @@ public class CustomerServiceImpl implements CustomerService {
         repay.setRepayIp(ip);
         repayDao.createRepay(repay);
 
+        Map<String,Object> updateuser=new HashMap<>();
+        updateuser.put("userId",userId);
+        updateuser.put("userMoney",oldUserMoney.subtract(principal.add(interest)));
+        waUserDao.updateUserByUserId(updateuser);
+
         checkLoanRepayedOff(userId,loanId);
 
         return 1;
@@ -655,5 +666,58 @@ public class CustomerServiceImpl implements CustomerService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<Map<String, Object>> getLoansIndebt(Map params) {
+        params.put("loanState",2);
+        List<Map<String,Object>> res=loanDao.listLoanByConditions(params);
+        ConvertUtil.convertDataBaseMapToJavaMap(res);
+        return res;
+    }
+
+    @Override
+    public int getLoansIndebtCount(Map params) {
+        params.put("loanState",2);
+        int count=loanDao.listLoanByConditionsCount(params);
+        return count;
+    }
+
+    @Override
+    public List<Map<String, Object>> getLoansRepayDetail(Map params) {
+        params.put("inLoanState","(2,3)");
+        List<Map<String,Object>> res=loanDao.listLoanOrderViewByConditions(params);
+        ConvertUtil.convertDataBaseMapToJavaMap(res);
+        if (null != res && res.size()>0){
+            for (Map<String,Object> loan:res){
+                Map<String,Object> query=new HashMap<>();
+                query.put("loanId",loan.get("loanId"));
+                List<Map<String,Object>> repays=repayDao.listRepayByConditions(query);
+                ConvertUtil.convertDataBaseMapToJavaMap(repays);
+                loan.put("repays",repays);
+            }
+        }
+        return res;
+    }
+
+    @Override
+    public int getLoansRepayDetailCount(Map params) {
+        params.put("inLoanState","(2,3)");
+        int res=loanDao.listLoanByConditionsCount(params);
+        return res;
+    }
+
+    @Override
+    public List<Map<String, Object>> getCreditList(Map params) {
+        params.put("orderBy","credit_apply_date desc");
+        List<Map<String,Object>> res=creditDao.listCreditByConditions(params);
+        ConvertUtil.convertDataBaseMapToJavaMap(res);
+        return res;
+    }
+
+    @Override
+    public int getCreditListCount(Map params) {
+        int res=creditDao.listCreditByConditionsCount(params);
+        return res;
     }
 }

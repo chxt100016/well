@@ -26,6 +26,7 @@ import org.wella.front.mapper.FrontTixianMapper;
 import org.wella.front.mapper.FrontUserMoneyMapper;
 import org.wella.front.mapper.NewsMapper;
 import org.wella.service.CustomerService;
+import org.wella.service.FinanceService;
 import org.wella.service.WaOrderService;
 import org.wella.service.impl.CustomerServiceImpl;
 import org.wella.service.impl.FinanceServiceImpl;
@@ -82,7 +83,7 @@ public class CustomerController extends BaseController{
    private TradeDAO tradeDao;
 
     @Autowired
-    private FinanceServiceImpl financeService;
+    private FinanceService financeServiceImpl;
    /**
     * 买家下订单
     * @param map prodId，saleNum，danjia，saleMoney，isSelfCar，contacts，conTel，toRegionId
@@ -801,7 +802,7 @@ public class CustomerController extends BaseController{
    @RequestMapping("rechargeApply")
    @ResponseBody
    public R rechargeApply(@RequestParam Map<String,Object> params) {
-      int res = financeService.recharge(params);
+      int res = financeServiceImpl.recharge(params);
       if(res==1){
          return R.ok().put("state",1).put("content",ConstantUtil.MSG_SUCCESS);
       }else {
@@ -920,8 +921,20 @@ public class CustomerController extends BaseController{
    @RequestMapping({"creditAccount"})
    public String creditAccount(HttpServletRequest request, Model model) {
       User user=(User)request.getSession().getAttribute("user");
-      Map<String,Object> info=customerServiceImpl.findCreditAccountPageInfo(user.getUserId());
+      long userId=user.getUserId();
+      Map<String,Object> info=customerServiceImpl.findCreditAccountPageInfo(userId);
       model.addAttribute("info",info);
+      //已用额度
+      BigDecimal sumLoans=customerServiceImpl.getLoansSum(userId);
+      model.addAttribute("sumLoans",sumLoans);
+      //未还款授信
+      Map param = this.getConditionParam(request);
+      param.put("userId",userId);
+      List<Map<String,Object>> loans=customerServiceImpl.getLoansIndebt(param);
+      int totalCount=customerServiceImpl.getLoansIndebtCount(param);
+      this.setPagenationInfo(request,totalCount,Integer.parseInt(param.get("page").toString()));
+      model.addAttribute("loans",loans);
+
       model.addAttribute("parentMenuNo", "2");
       model.addAttribute("childMenuNo", "2");
       return "views/front/customer/finance/creditAccount_new.jsp";
@@ -967,6 +980,76 @@ public class CustomerController extends BaseController{
       return R.error("当前申请正在审核中");
    }
 
+   /**
+    * 跳转还款页面
+    * @param loanId
+    * @return
+    */
+   @RequestMapping("goRepayLoan")
+   public String goRepayLoan(@RequestParam("loanId")String loanId,Model model){
 
+      Map<String,Object> loan=financeServiceImpl.getLoanOrderInfo(Long.parseLong(loanId));
+      model.addAttribute("loan",loan);
+
+      model.addAttribute("parentMenuNo", "2");
+      return "views/front/customer/finance/repayment.jsp";
+   }
+
+   /**
+    * 还贷款处理方法
+    * @param loanId
+    * @param repayMoney
+    * @param interest
+    * @param request
+    * @return
+    */
+   @RequestMapping("repayLoan")
+   @ResponseBody
+   public R repayLoan(@RequestParam("loanId")String loanId,@RequestParam("repayMoney")String repayMoney,@RequestParam("interest")String interest,HttpServletRequest request){
+      User user=(User)request.getSession().getAttribute("user");
+      long userId=user.getUserId();
+      String ip=IPUtils.getIpAddr(request);
+      BigDecimal bInterest=new BigDecimal(interest);
+      BigDecimal principal=new BigDecimal(repayMoney).subtract(bInterest);
+      try {
+         int res=customerServiceImpl.repayLoanByBalance(userId,Long.parseLong(loanId),principal,bInterest,ip);
+         if (res==0){
+            return R.error("账户余额不足");
+         }
+      } catch (Exception e) {
+         e.printStackTrace();
+         return R.error();
+      }
+      return R.ok();
+   }
+
+   @RequestMapping("creditApplys")
+   public String creditApplys(Model model,HttpServletRequest request){
+      User user=(User)request.getSession().getAttribute("user");
+      Map param = this.getConditionParam(request);
+      param.put("userId",user.getUserId());
+      List<Map<String,Object>> credits=customerServiceImpl.getCreditList(param);
+      int totalCount=customerServiceImpl.getCreditListCount(param);
+      this.setPagenationInfo(request,totalCount,Integer.parseInt(param.get("page").toString()));
+      model.addAttribute("credits",credits);
+
+      model.addAttribute("parentMenuNo", "2");
+      model.addAttribute("childMenuNo", "3");
+      return "views/front/customer/finance/creditApplyRecords.jsp";
+   }
+
+   @RequestMapping("loansRepayRecords")
+   public String loansRepayRecords(Model model,HttpServletRequest request){
+      User user=(User)request.getSession().getAttribute("user");
+      Map param = this.getConditionParam(request,2);
+      param.put("userId",user.getUserId());
+      List<Map<String,Object>> loans=customerServiceImpl.getLoansRepayDetail(param);
+      int totalCount=customerServiceImpl.getLoansRepayDetailCount(param);
+      this.setPagenationInfo(request,totalCount,Integer.parseInt(param.get("page").toString()),2);
+      model.addAttribute("loans",loans);
+      model.addAttribute("parentMenuNo", "2");
+      model.addAttribute("childMenuNo", "4");
+      return "views/front/customer/finance/repayRecords.jsp";
+   }
 
 }

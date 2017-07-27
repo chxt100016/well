@@ -4,7 +4,7 @@
 <div id = "content-rect">
 	<div style="border:solid 1px #d0d0d0;font-size:18px;font-weight:bold;color:#0557ab;line-height:36px;text-align:left;">&nbsp;&nbsp;订单列表</div>
 
-	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-prodOrderList">
+	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/customer/orderList">
 		<input type="hidden" id="page" name="page" value="${param.page}">
 		<input type="hidden" id="orderState" name="orderState" value="${param.orderState}">
 		<%--

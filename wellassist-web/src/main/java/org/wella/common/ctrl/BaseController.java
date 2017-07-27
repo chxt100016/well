@@ -157,6 +157,29 @@ public class BaseController {
         return param;
     }
 
+    public Map<String, Object> getConditionParam(HttpServletRequest request,int size) {
+        HashMap param = new HashMap();
+        Enumeration e = request.getParameterNames();
+
+        while(e.hasMoreElements()) {
+            String keyName = e.nextElement().toString();
+            String keyValue = request.getParameter(keyName);
+            if(keyValue != null && !keyValue.equals("") && !keyName.equals("file")) {
+                param.put(keyName, keyValue);
+            }
+        }
+
+        param.put("size", size);
+        if(param.get("page") != null && !param.get("page").equals("")) {
+            param.put("start", Integer.valueOf((Integer.parseInt(param.get("page").toString()) - 1) * size));
+        } else {
+            param.put("start", "0");
+            param.put("page", "1");
+        }
+
+        return param;
+    }
+
     public Map<String, Object> getBoClass(HttpServletRequest request, String tableName) throws Exception {
         HashMap result = new HashMap();
         HashMap mapClass = new HashMap();
@@ -190,6 +213,12 @@ public class BaseController {
     public void setPagenationInfo(HttpServletRequest request, int totalCount, int page) {
         request.setAttribute("gap", Integer.valueOf(ConstantUtil.GAP));
         request.setAttribute("pageCount", Integer.valueOf((totalCount + ConstantUtil.PAGESIZE - 1) / ConstantUtil.PAGESIZE));
+        request.setAttribute("page", Integer.valueOf(page));
+    }
+
+    public void setPagenationInfo(HttpServletRequest request, int totalCount, int page,int gap) {
+        request.setAttribute("gap", gap);
+        request.setAttribute("pageCount", Integer.valueOf((totalCount + gap - 1) / gap));
         request.setAttribute("page", Integer.valueOf(page));
     }
 

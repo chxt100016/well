@@ -11,6 +11,7 @@ import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.CreditDao;
 import org.wella.dao.LoanDao;
 import org.wella.platform.service.CreditService;
+import org.wella.service.CreditorService;
 import org.wella.service.FinanceService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +37,9 @@ public class CreditController {
 
     @Autowired
     private FinanceService financeServiceImpl;
+
+    @Autowired
+    private CreditorService creditorServiceImpl;
 
     /**
      * 额度申请页面
@@ -139,9 +143,10 @@ public class CreditController {
 
     @RequestMapping("assignSubmit")
     @ResponseBody
-    public R assignSubmit(@RequestParam("loanId")String loanId,@RequestParam("creditorId")String creditorId){
+    public R assignSubmit(@RequestParam("loanId")String loanId,@RequestParam("creditorId")String creditorId,HttpServletRequest request){
         try {
             creditServiceImpl.assignSubmit(Long.parseLong(loanId),Long.parseLong(creditorId));
+            creditorServiceImpl.acceptLoan(Long.parseLong(loanId),Long.parseLong(creditorId),30,IPUtils.getIpAddr(request));
         } catch (NumberFormatException e) {
             return R.error();
         }

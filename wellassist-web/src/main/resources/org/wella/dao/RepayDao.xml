@@ -14,4 +14,19 @@
         #{content,jdbcType=VARCHAR})
     </insert>
 
+    <select id="listRepayByConditions" parameterType="map" resultType="map">
+        SELECT * from wa_repay
+        <where>
+            <if test="loanId != null">
+                AND loan_id=#{loanId}
+            </if>
+        </where>
+        <if test="orderBy != null">
+            order by ${orderBy}
+        </if>
+        <if test="offset != null and limit != null">
+            limit ${offset},${limit}
+        </if>
+    </select>
+
 </mapper>

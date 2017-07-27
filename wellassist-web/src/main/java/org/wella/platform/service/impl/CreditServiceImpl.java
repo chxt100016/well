@@ -87,7 +87,7 @@ public class CreditServiceImpl implements CreditService{
             Map<String,Object> oldcredit=customerServiceImpl.getSjCredit(userId);
             if (null != oldcredit && oldcredit.size()>0){
                 Map<String,Object> updateOldcredit=new HashMap<>();
-                updateOldcredit.put("creditId",oldcredit.get("credit_id"));
+                updateOldcredit.put("creditId",oldcredit.get("creditId"));
                 updateOldcredit.put("creditState",2);
                 creditDao.updateByPrimaryKey(updateOldcredit);
             }

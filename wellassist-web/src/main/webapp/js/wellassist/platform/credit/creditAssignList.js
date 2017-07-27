@@ -48,6 +48,7 @@
                     else if (value==0){return "待指派";}
                     else if (value==1){return "已指派";}
                     else if (value==2){return "已放款";}
+                    else if (value==3){return "已放款";}
                 }
             }, {
                 label: '操作',
@@ -59,7 +60,8 @@
                     else if(value==0){return '<a  class="btn btn-primary" href="./creditAssign?loanId='+loanId+'">指派</a>';}
 
                     else if(value==1){return '<a  class="btn btn-warning" onclick="recall('+loanId+')">撤回</a>';}
-                    else if(value==2){return '<a  class="btn btn-success" href="./creditLimitDetail?creditId='+loanId+'">查看</a>';}
+                    /*else if(value==2){return '<a  class="btn btn-success" href="./creditLimitDetail?creditId='+loanId+'">查看</a>';}*/
+                    else if(value==2){return '无';}else if(value==3){return '无';}
 
                 }
             }],

@@ -245,4 +245,47 @@ public interface CustomerService {
      * @return
      */
     boolean checkLoanRepayedOff(long userId,long loanId);
+
+    /**
+     * 未还清的贷款记录
+     * @param params:long userId,int start,int size
+     * @return
+     */
+    List<Map<String,Object>> getLoansIndebt(Map params);
+    /**
+     * 未还清的贷款记录count
+     * @param params:long userId,int start,int size
+     * @return
+     */
+    int getLoansIndebtCount(Map params);
+
+    /**
+     * 所有贷款及相应的还款详情
+     * @param params:long userId,int start,int size
+     * @return
+     */
+    List<Map<String,Object>> getLoansRepayDetail(Map params);
+
+    /**
+     * 所有贷款及相应的还款详情count
+     * @param params:long userId,int start,int size
+     * @return
+     */
+    int getLoansRepayDetailCount(Map params);
+
+    /**
+     * 用户额度申请记录
+     * @param params:long userId,int start,int size
+     * @return
+     */
+    List<Map<String,Object>> getCreditList(Map params);
+
+    /**
+     * 用户额度申请记录count
+     * @param params:long userId,int start,int size
+     * @return
+     */
+    int getCreditListCount(Map params);
+
+
 }

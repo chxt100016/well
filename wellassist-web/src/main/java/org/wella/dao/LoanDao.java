@@ -25,4 +25,8 @@ public interface LoanDao {
     Map<String,Object> singleLoanByPrimaryKey(@Param("loanId") long loanId);
 
     BigDecimal getLoansSum(@Param("userId") Long userId);
+
+    List<Map<String,Object>> listLoanByConditions(Map params);
+
+    int listLoanByConditionsCount(Map params);
 }
