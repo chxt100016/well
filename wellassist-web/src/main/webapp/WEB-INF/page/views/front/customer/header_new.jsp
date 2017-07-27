@@ -22,6 +22,7 @@
 		<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/new_style.css"/>">
 		<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
 		<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/theme-blue.css"/>">
+		
 
 		<!--[if IE 7]>
 		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/library/css/ie/ie7.css"/>">
