@@ -24,4 +24,8 @@ public interface MessageService {
 
     List<CreditRecord> getCreditRecordList(Map<String, Object> map);
 
+    int queryTotal(Map<String, Object> map);
+
+    int queryRecordCount(Map<String, Object> map);
+
 }
