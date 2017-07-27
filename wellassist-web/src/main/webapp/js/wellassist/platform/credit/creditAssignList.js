@@ -57,8 +57,10 @@
                     var loanId=row.loanId;
                     if(value==-2){return '<a  class="btn btn-danger" href="./creditAssign?loanId='+loanId+'">重新指派</a>';}
                     else if(value==0){return '<a  class="btn btn-primary" href="./creditAssign?loanId='+loanId+'">指派</a>';}
+
                     else if(value==1){return '<a  class="btn btn-warning" onclick="recall('+loanId+')">撤回</a>';}
                     else if(value==2){return '<a  class="btn btn-success" href="./creditLimitDetail?creditId='+loanId+'">查看</a>';}
+
                 }
             }],
             viewrecords: true,
@@ -126,22 +128,36 @@
             }
         }
     });
+    
     var url1='./assignRollback';
-    function recall(loanId){
+
+    function recall(x){
+        console.log(x);
      $.ajax({  
-                    type : "POST",  //提交方式  
+                    type : "GET",  //提交方式  
                     url : url1,//路径
                     dataType:'json',
+                    contentType: "application/json; charset=utf-8",
                     data : {  
-                        "loanId" : loanId ,
+                        "loanId" : x 
                     },
                      success : function(result) {//
                         if( result.code ==0 ){
                             console.log("成功")
+                            alert('撤销成功啦');
+                            window.location.reload();
                         }
                         else{
                              console.log('失败');
                         }
                      }
      })
+    // $.post(url1,{"loanId" : loanId },function(result){
+    //     if( result.code ==0 ){
+    //                         console.log("成功")
+    //                     }
+    //                     else{
+    //                          console.log('失败');
+    //                     }
+    // })
     }

@@ -153,7 +153,7 @@ public class CreditServiceImpl implements CreditService{
         Map<String,Object> loanAssignInfo=loanAssignInfoDao.singleLoanAssignInfoByConditions(queryLoanAssignInfo);
 
         Map<String,Object> updateLoanAssignInfo=new HashMap();
-        updateLoanAssignInfo.put("loanAssignInfoId",loanAssignInfo.get("loan_assign_info"));
+        updateLoanAssignInfo.put("loanAssignInfoId",loanAssignInfo.get("loan_assign_info_id"));
         updateLoanAssignInfo.put("state",-2);
         updateLoanAssignInfo.put("operateDate",new Date());
         updateLoanAssignInfo.put("operateIp",ip);

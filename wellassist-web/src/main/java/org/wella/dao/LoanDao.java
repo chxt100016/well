@@ -4,6 +4,7 @@ import io.wellassist.utils.Query;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -20,4 +21,8 @@ public interface LoanDao {
     Map<String,Object> singleLoanOrderViewByPrimaryKey(long loanId);
 
     Integer updateLoanByPrimaryKey(Map<String, Object> param);
+
+    Map<String,Object> singleLoanByPrimaryKey(@Param("loanId") long loanId);
+
+    BigDecimal getLoansSum(@Param("userId") Long userId);
 }

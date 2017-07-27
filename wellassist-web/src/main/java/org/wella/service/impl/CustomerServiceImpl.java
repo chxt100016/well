@@ -53,6 +53,10 @@ public class CustomerServiceImpl implements CustomerService {
     private OrderHistoryTailDao orderHistoryTailDao;
     @Autowired
     private CreditDao creditDao;
+    @Autowired
+    private LoanDao loanDao;
+    @Autowired
+    private RepayDao repayDao;
 
 
     /**
@@ -556,10 +560,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void updateUserCreditMoney(long userId, BigDecimal creditSjMoney) {
-        Map<String,Object> user=waUserDao.singleUserByPrimaryKey(userId);
         Map<String,Object> updatemap=new HashMap<>();
-        BigDecimal userCreditMoney=creditSjMoney.subtract((BigDecimal) user.get("user_lock_credit_money"));
-        updatemap.put("userId",user.get("user_id"));
+        BigDecimal userCreditMoney=creditSjMoney.subtract(getLoansSum(userId));
+        updatemap.put("userId",userId);
         updatemap.put("userCreditMoney",userCreditMoney);
         waUserDao.updateUserByUserId(updatemap);
     }
@@ -594,5 +597,63 @@ public class CustomerServiceImpl implements CustomerService {
         Map<String,Object> sjCredit=getSjCredit(userId);
         res.put("sjCredit",sjCredit);
         return res;
+    }
+
+    @Override
+    public BigDecimal getLoansSum(Long userId) {
+        BigDecimal sumLoans=loanDao.getLoansSum(userId);
+        return null==sumLoans?new BigDecimal(0):sumLoans;
+    }
+
+    @Override
+    @Transactional
+    public int repayLoanByBalance(long userId, long loanId, BigDecimal principal, BigDecimal interest,String ip) {
+        Map<String,Object> loan=loanDao.singleLoanByPrimaryKey(loanId);
+        //update table wa_loan
+        Map<String,Object> updateLoan=new HashMap<>();
+        updateLoan.put("loanId",loanId);
+        updateLoan.put("repayMoney",((BigDecimal)loan.get("repay_money")).add(principal));
+        updateLoan.put("repayLixi",((BigDecimal)loan.get("repay_lixi")).add(interest));
+        BigDecimal remainRepayMoney=((BigDecimal)loan.get("remain_repay_money")).subtract(principal);
+        updateLoan.put("remainRepayMoney",remainRepayMoney);
+        updateLoan.put("remainLixiMoney",new BigDecimal(0));
+        if (new BigDecimal(0).compareTo(remainRepayMoney)==0){
+            updateLoan.put("loanState",3);
+        }
+        loanDao.updateLoanByPrimaryKey(updateLoan);
+
+        //insert table wa_repay
+        Repay repay=new Repay();
+        repay.setLoanId(loanId);
+        repay.setUserId(userId);
+        repay.setRepayMoney(principal);
+        repay.setRepayInterestMoney(interest);
+        repay.setRepayDate(new Date());
+        repay.setRepayIp(ip);
+        repayDao.createRepay(repay);
+
+        checkLoanRepayedOff(userId,loanId);
+
+        return 1;
+    }
+
+    @Override
+    public boolean isLoanRepayedOff(long loanId) {
+        Map<String,Object> loan=loanDao.singleLoanByPrimaryKey(loanId);
+        BigDecimal zero=new BigDecimal(0);
+        if (zero.compareTo((BigDecimal) loan.get("remain_pay_money"))==0 && zero.compareTo((BigDecimal) loan.get("remain_lixi_money"))==0){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean checkLoanRepayedOff(long userId,long loanId) {
+        Map<String,Object> loan=loanDao.singleLoanByPrimaryKey(loanId);
+        if (3==(int)loan.get("loan_state")){
+            updateUserCreditMoney(userId);
+            return true;
+        }
+        return false;
     }
 }

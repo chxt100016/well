@@ -21,6 +21,9 @@
             <if test="loanId != null">
                 AND loan_id=#{loanId}
             </if>
+            <if test="creditorId != null">
+                AND creditor_id=#{creditorId}
+            </if>
             <if test="state != null">
                 AND state=#{state}
             </if>

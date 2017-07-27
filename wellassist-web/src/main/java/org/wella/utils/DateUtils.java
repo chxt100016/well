@@ -1,6 +1,7 @@
 package org.wella.utils;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -37,5 +38,13 @@ public class DateUtils {
             var5.printStackTrace();
         }
         return date;
+    }
+
+    public static Date addDays(Date before,int days){
+        Calendar rightNow = Calendar.getInstance();
+        rightNow.setTime(before);
+        rightNow.add(Calendar.DAY_OF_YEAR,days);
+        Date res=rightNow.getTime();
+        return res;
     }
 }

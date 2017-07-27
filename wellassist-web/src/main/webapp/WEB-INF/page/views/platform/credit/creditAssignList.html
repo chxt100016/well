@@ -5,6 +5,7 @@
     <title>Title</title>
     <!--valocity模板解析-->
     #parse("sys/header.html")
+    
     <style>
         .mid_box {
             width: 1100px;
@@ -42,7 +43,7 @@
 
 <body>
     <div id="rrapp" v-cloak>
-        <div >
+        <div>
             <div class="grid-btn">
                 <div class="form-group col-sm-2">
                     <input type="text" class="form-control" v-model="q.username" @keyup.enter="query" placeholder="公司名/订单编号">
@@ -54,7 +55,10 @@
             <div id="jqGridPager"></div>
         </div>
     </div>
+  
     <script src="${rc.contextPath}/js/wellassist/platform/credit/creditAssignList.js?_${date.systemTime}"></script>
+      <!-- <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script> -->
+ 
 </body>
 
 </html>
