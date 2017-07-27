@@ -12,7 +12,7 @@
                 {label: '评定机构',name: 'evaluationInstitution', width: 100},
                 {label: '备注', name: 'memo', width: 80},
                 {name: '操作',index:'ope',formatter:function(value,grid,rows,state){
-                    return "<a href=\"#\" style=\"color:#f60\" onclick=\"toModify("+value+")\">征信</a>&nbsp;&nbsp;"
+                    return "<a href=\"/mes/tocreditcal?id="+rows.id+"\" style=\"color:#f60\">征信</a>&nbsp;&nbsp;"
                         +"<a href=\"#\" style=\"color:#f60\" onclick=\"tovalue("+value+")\">查看</a>"
                 }
             }],
