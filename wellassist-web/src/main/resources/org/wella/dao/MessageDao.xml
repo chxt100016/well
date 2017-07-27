@@ -42,6 +42,20 @@
         </if>
     </select>
 
+
+    <!-- 获取信誉度列表 -->
+    <select id="getCreditRecord" parameterType="String" resultType="org.wella.entity.CreditRecord">
+        SELECT
+        *
+        FROM
+        wa_credit_record
+        <where>
+            id=#{id}
+        </where>
+
+    </select>
+
+
     <!-- 获取信誉度列表总数 -->
     <select id="queryRecordCount" parameterType="java.util.Map" resultType="int">
         SELECT
