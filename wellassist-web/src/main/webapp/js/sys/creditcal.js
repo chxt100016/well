@@ -2,34 +2,19 @@
         $("#jqGrid").jqGrid({
             url: '/mes/creditcalist/',
             datatype: "json",
-            colModel: [{
-                label: '用户ID',
-                name: 'userId',
-                width: 100
-            }, {
-                label: '企业ID',
-                name: 'enterpriseId',
-                width: 100
-            }, {
-                label: '信誉等级',
-                name:'creditLevel',
-                width: 100
-            },  {
-                label: '信誉类型',
-                name:'creditType',
-                width: 100
-            },  {
-                label: '等级发生时间',
-                name:'creditDate',
-                width: 100
-            }, {
-                label: '评定机构',
-                name: 'evaluationInstitution',
-                width: 100
-            }, {
-                label: '备注',
-                name: 'memo',
-                width: 80
+            colModel: [
+                { label: 'ID', name: 'id', index: "id", width: 45, key: true },
+                {label: '用户ID', name: 'userId', width: 100},
+                {label: '企业ID',name: 'enterpriseId',width: 100},
+                {label: '信誉等级',name:'creditLevel',width: 100},
+                {label: '信誉类型',name:'creditType',width: 100},
+                {label: '等级发生时间',name:'creditDate',width: 100},
+                {label: '评定机构',name: 'evaluationInstitution', width: 100},
+                {label: '备注', name: 'memo', width: 80},
+                {name: '操作',index:'ope',formatter:function(value,grid,rows,state){
+                    return "<a href=\"#\" style=\"color:#f60\" onclick=\"toModify("+value+")\">征信</a>&nbsp;&nbsp;"
+                        +"<a href=\"#\" style=\"color:#f60\" onclick=\"tovalue("+value+")\">查看</a>"
+                }
             }],
             viewrecords: true,
             height: 385,
@@ -63,7 +48,7 @@
         el: '#rrapp',
         data: {
             q: {
-                username: null
+                creditName: null
             },
             showList: true,
             title: null,
@@ -75,10 +60,11 @@
         },
         methods: {
             query: function() {
+                alert("ssssssss");
                 // vm.reload();
-                $("#jqGrid").jqGrid('setGridParam',{ 
+                $("#jqGrid").jqGrid('setGridParam',{
                 postData:{'companyName': vm.q.username},
-                page:1 
+                page:1
             }).trigger("reloadGrid");
             },
             add: function() {
@@ -92,6 +78,18 @@
 
                 //获取角色信息
                 this.getRoleList();
+            },
+            toModify: function(id) {
+
+                if (id == null) {
+                    return;
+                }
+                alert(id);
+                vm.showList = false;
+                vm.title = "修改";
+                console.log(vm.creditName);
+                vm.getUser(userId);
+
             },
             update: function(userId) {
 
