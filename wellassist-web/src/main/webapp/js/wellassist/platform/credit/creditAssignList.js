@@ -57,8 +57,10 @@
                     var loanId=row.loanId;
                     if(value==-2){return '<a  class="btn btn-danger" href="./creditAssign?loanId='+loanId+'">重新指派</a>';}
                     else if(value==0){return '<a  class="btn btn-primary" href="./creditAssign?loanId='+loanId+'">指派</a>';}
+
                     else if(value==1){return '<a  class="btn btn-warning" onclick="recall('+loanId+')">撤回</a>';}
                     else if(value==2){return '<a  class="btn btn-success" href="./creditLimitDetail?creditId='+loanId+'">查看</a>';}
+
                 }
             }],
             viewrecords: true,

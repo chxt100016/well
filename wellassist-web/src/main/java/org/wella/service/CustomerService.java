@@ -214,4 +214,35 @@ public interface CustomerService {
     boolean isCreditApplyAvailable(Long userId);
 
     Map<String,Object> findCreditApplyPageInfo(Long userId);
+
+    /**
+     * 授信负债总额（不算利息）
+     * @param userId
+     * @return
+     */
+    BigDecimal getLoansSum(Long userId);
+
+    /**
+     * 通过余额还款
+     * @param userId
+     * @param loanId
+     * @param principal 本金
+     * @param interest 利息
+     * @return 0:失败，1成功
+     */
+    int repayLoanByBalance(long userId,long loanId,BigDecimal principal,BigDecimal interest,String ip);
+
+    /**
+     * 单笔授信是否还清
+     * @param loanId
+     * @return
+     */
+    boolean isLoanRepayedOff(long loanId);
+
+    /**
+     * 每次还款后，校验单笔贷款是否还清，并相应提升可用额度
+     * @param loanId
+     * @return
+     */
+    boolean checkLoanRepayedOff(long userId,long loanId);
 }

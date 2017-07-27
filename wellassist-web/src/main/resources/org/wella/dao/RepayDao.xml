@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.RepayDao">
+
+    <insert id="createRepay" parameterType="org.wella.entity.Repay" >
+        insert into wa_repay ( money_id, loan_id,
+        credit_id, user_id, repay_money,
+        repay_interest_money, repay_date, repay_ip,
+        content)
+        values (#{moneyId,jdbcType=BIGINT}, #{loanId,jdbcType=BIGINT},
+        #{creditId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{repayMoney,jdbcType=DECIMAL},
+        #{repayInterestMoney,jdbcType=DECIMAL}, #{repayDate,jdbcType=TIMESTAMP}, #{repayIp,jdbcType=VARCHAR},
+        #{content,jdbcType=VARCHAR})
+    </insert>
+
+</mapper>

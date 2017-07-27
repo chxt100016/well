@@ -105,4 +105,16 @@
         where loan_id = #{loanId,jdbcType=BIGINT}
     </update>
 
+    <select id="singleLoanByPrimaryKey" parameterType="long" resultType="map">
+        select *
+        from wa_loan
+        WHERE loan_id=#{loanId}
+    </select>
+
+    <select id="getLoansSum" parameterType="long" resultType="java.math.BigDecimal">
+        SELECT sum(loan_money)
+        from wa_loan
+        WHERE user_id=#{userId}
+        AND loan_state not in (-3,3);
+    </select>
 </mapper>
