@@ -94,6 +94,14 @@ public class MessageController {
         return R.ok().put("page",pageUtil);
     }
 
+    @ResponseBody
+    @RequestMapping("tocreditcal")
+    public R tocreditcal(@RequestParam Map<String, Object> params){
+        Query query = new Query(params);
+        CreditRecord creditrecord = messageServicesk.getCreditRecord(query);
+        return R.ok().put("creditrecord",creditrecord);
+    }
+
 
 
 }

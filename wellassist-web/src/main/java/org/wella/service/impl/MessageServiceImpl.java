@@ -46,6 +46,11 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
+    public CreditRecord getCreditRecord(Map<String, Object> map) {
+        return messageDaosk.getCreditRecord(map);
+    }
+
+    @Override
     public int queryTotal(Map<String, Object> map) {
         return messageDaosk.queryTotal(map);
     }

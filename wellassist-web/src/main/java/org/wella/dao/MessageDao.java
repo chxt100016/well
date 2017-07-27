@@ -23,6 +23,7 @@ public interface MessageDao extends BaseDao<Message> {
 
     List<CreditRecord> getCreditRecordList(Map<String, Object> map);
 
+    CreditRecord getCreditRecord(Map<String, Object> map);
 
     int queryRecordCount(Map<String, Object> map);
 

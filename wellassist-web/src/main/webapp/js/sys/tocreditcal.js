@@ -1,6 +1,6 @@
  $(function() {
         $("#jqGrid").jqGrid({
-            url: '/mes/creditcalist/',
+            url: '/mes/tocreditcal/',
             datatype: "json",
             colModel: [
                 { label: 'ID', name: 'id', index: "id", width: 45, key: true },
@@ -10,12 +10,7 @@
                 {label: '信誉类型',name:'creditType',width: 100},
                 {label: '等级发生时间',name:'creditDate',width: 100},
                 {label: '评定机构',name: 'evaluationInstitution', width: 100},
-                {label: '备注', name: 'memo', width: 80},
-                {name: '操作',index:'ope',formatter:function(value,grid,rows,state){
-                    return "<a href=\"/mes/tocreditcal?id="+rows.id+"\" style=\"color:#f60\">征信</a>&nbsp;&nbsp;"
-                        +"<a href=\"#\" style=\"color:#f60\" onclick=\"tovalue("+value+")\">查看</a>"
-                }
-            }],
+                {label: '备注', name: 'memo', width: 80}],
             viewrecords: true,
             height: 385,
             rowNum: 10,
