@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.wella.entity.CreditRecord;
 import org.wella.entity.Message;
 import org.wella.entity.User;
@@ -83,6 +84,7 @@ public class MessageController {
      * @param params
      * @return
      */
+    @ResponseBody
     @RequestMapping("creditcalist")
     public R getCreditCulationList(@RequestParam Map<String, Object> params){
         Query query = new Query(params);
