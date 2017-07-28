@@ -38,7 +38,7 @@
                 <label for="">还款金额：</label>
                 <div class="field">
                     <div class="ui input focus">
-                        <input type="text" placeholder="还款金额" name="repaymentAmount" @change="valid('repay',$event)" >
+                        <input type="text" id="repaymentAmount" placeholder="还款金额" name="repaymentAmount" @change="valid('repay',$event)" >
                        
                     </div>
                      
@@ -152,7 +152,7 @@
                 //  $("#repayprin").html
             },
             repaySubmit:function(){
-                $.post('${pageContext.request.contextPath}/customer/repayLoan',{loanId:this.repaymentInfo.loanId,repayMoney:this.repays.Pincepal,interest:this.repaymentInfo.Interest},function(data){
+                $.post('${pageContext.request.contextPath}/customer/repayLoan',{loanId:this.repaymentInfo.loanId,repayMoney:$('#repaymentAmount').val(),interest:this.repaymentInfo.Interest},function(data){
                     if(data.code==0){
                         alert("还款成功");
                         window.history.go(-1);

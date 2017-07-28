@@ -1,10 +1,8 @@
 package org.wella.service.impl;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
 import org.wella.entity.*;
