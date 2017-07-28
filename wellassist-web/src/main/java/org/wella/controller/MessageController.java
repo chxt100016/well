@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -93,12 +94,10 @@ public class MessageController {
         PageUtils pageUtil = new PageUtils(creditrecordList, total, query.getLimit(), query.getPage());
         return R.ok().put("page",pageUtil);
     }
-
     @ResponseBody
-    @RequestMapping("tocreditcal")
-    public R tocreditcal(@RequestParam Map<String, Object> params){
-        Query query = new Query(params);
-        CreditRecord creditrecord = messageServicesk.getCreditRecord(query);
+    @RequestMapping("tocreditcal/{id}")
+    public R tocreditcal(@PathVariable("id") Long id){
+        CreditRecord creditrecord = messageServicesk.getCreditRecord(id);
         return R.ok().put("creditrecord",creditrecord);
     }
 
