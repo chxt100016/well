@@ -10,12 +10,8 @@
                 {label: '信誉类型',name:'creditType',width: 100},
                 {label: '等级发生时间',name:'creditDate',width: 100},
                 {label: '评定机构',name: 'evaluationInstitution', width: 100},
-                {label: '备注', name: 'memo', width: 80},
-                {name: '操作',index:'ope',formatter:function(value,grid,rows,state){
-                    return "<a href=\"/mes/tocreditcal?id="+rows.id+"\" style=\"color:#f60\">征信</a>&nbsp;&nbsp;"
-                        +"<a href=\"#\" style=\"color:#f60\" onclick=\"tovalue("+value+")\">查看</a>"
-                }
-            }],
+                {label: '备注', name: 'memo', width: 80}
+            ],
             viewrecords: true,
             height: 385,
             rowNum: 10,
@@ -23,6 +19,7 @@
             rownumbers: true,
             rownumWidth: 25,
             autowidth: true,
+            multiselect: true,
             pager: "#jqGridPager",
             jsonReader: {
                 root: "page.list",
@@ -53,14 +50,13 @@
             showList: true,
             title: null,
             roleList: {},
-            user: {
+            cds: {
                 status: 1,
                 roleIdList: []
             }
         },
         methods: {
             query: function() {
-                alert("ssssssss");
                 // vm.reload();
                 $("#jqGrid").jqGrid('setGridParam',{
                 postData:{'companyName': vm.q.username},
@@ -71,7 +67,7 @@
                 vm.showList = false;
                 vm.title = "新增";
                 vm.roleList = {};
-                vm.user = {
+                vm.creditrecord = {
                     status: 1,
                     roleIdList: []
                 };
@@ -79,34 +75,44 @@
                 //获取角色信息
                 this.getRoleList();
             },
-            toModify: function(id) {
-
+            update: function() {
+                var id = getSelectedRow();
                 if (id == null) {
                     return;
                 }
-                alert(id);
-                vm.showList = false;
-                vm.title = "修改";
-                console.log(vm.creditName);
-                vm.getUser(userId);
-
-            },
-            update: function(userId) {
-
-                if (userId == null) {
-                    return;
-                }
 
                 vm.showList = false;
-                vm.title = "修改";
-                  console.log(vm.user.userId);
-                vm.getUser(userId);
+                vm.title = "征信计算";
+                  console.log(vm.cds.id);
+                vm.getcreditcal(id);
 
             },
-            getUser: function(userId) {
-                $.get("../user/userinfo/" + userId, function(r) {
-                    vm.user = r.user;
+            getcreditcal: function(id) {
+                $.get("../mes/tocreditcal/"+id, function(r) {
+                    vm.cds =  r.creditrecord;
                 });
+            },
+            saveOrUpdate: function () {
+                alert("ha");
+                //var url = vm.spartEntity.id == null ? "spar/req/save":"spar/req/update";
+                //vm.spartEntity.directiveSendDate=$("#directiveSendDate").val();
+                //vm.spartEntity.partStorageDate=$("#partStorageDate").val();
+                //vm.spartEntity.directiveReceiveDate=$("#directiveReceiveDate").val();
+                //$.ajax({
+                //    type: "POST",
+                //    url: baseURL + url,
+                //    contentType: "application/json",
+                //    data: JSON.stringify(vm.spartEntity),
+                //    success: function(r){
+                //        if(r.code === 0){
+                //            alert('操作成功', function(){
+                //                vm.reload();
+                //            });
+                //        }else{
+                //            alert(r.msg);
+                //        }
+                //    }
+                //});
             },
             reload: function(event) {
                 vm.showList = true;
