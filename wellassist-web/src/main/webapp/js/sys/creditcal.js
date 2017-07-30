@@ -10,7 +10,11 @@
                 {label: '信誉类型',name:'creditType',width: 100},
                 {label: '等级发生时间',name:'creditDate',width: 100},
                 {label: '评定机构',name: 'evaluationInstitution', width: 100},
-                {label: '备注', name: 'memo', width: 80}
+                {label: '备注', name: 'memo', width: 80},
+                {label: '操作', name: '', width: 75 ,formatter: function (value, grid, rows, state) {
+                    return '<button  class="btn btn-primary" onclick="vm.getcreditcal(' + rows.id + ')">征信</button>'+'<button  class="btn btn-primary" onclick="vm.review(' + rows.id + ')">查看</button>'
+                    }
+                }
             ],
             viewrecords: true,
             height: 385,
@@ -89,8 +93,10 @@
             },
             getcreditcal: function(id) {
                 $.get("../mes/tocreditcal/"+id, function(r) {
+                    vm.title = "征信计算";
                     vm.cds =  r.creditrecord;
                 });
+                vm.showList = false;
             },
             saveOrUpdate: function () {
                 alert("ha");
