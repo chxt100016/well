@@ -24,7 +24,7 @@ public interface MessageService {
 
      void addCreditRecord(CreditRecord creditRecord);
 
-    List<Userinfo> getCreditRecordList(Map<String, Object> map);
+    List<CreditRecord> getCreditRecordList(Map<String, Object> map);
 
     Userinfo getCreditRecord(Long id);
 
