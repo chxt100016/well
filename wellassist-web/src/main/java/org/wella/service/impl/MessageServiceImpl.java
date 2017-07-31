@@ -2,9 +2,11 @@ package org.wella.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.wella.dao.MessageDao;
 import org.wella.entity.CreditRecord;
 import org.wella.entity.Message;
+import org.wella.entity.Userinfo;
 import org.wella.service.MessageService;
 
 import java.util.List;
@@ -40,14 +42,28 @@ public class MessageServiceImpl implements MessageService{
 
     }
 
+
+    @Transactional
     @Override
-    public List<CreditRecord> getCreditRecordList(Map<String, Object> map) {
+    public void addCreditRecord(CreditRecord creditRecord) {
+       try {
+           messageDaosk.addCreditRecord(creditRecord);
+       }catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+
+    @Override
+    public List<Userinfo> getCreditRecordList(Map<String, Object> map) {
         return messageDaosk.getCreditRecordList(map);
     }
 
+
     @Override
-    public CreditRecord getCreditRecord(Map<String, Object> map) {
-        return messageDaosk.getCreditRecord(map);
+    public  Userinfo getCreditRecord(Long id) {
+        return messageDaosk.getCreditRecord(id);
     }
 
     @Override
