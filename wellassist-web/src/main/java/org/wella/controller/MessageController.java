@@ -65,7 +65,7 @@ public class MessageController {
         HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
         User user = (User) httpSession.getAttribute("user");
         Query query = new Query(params);
-        List<CreditRecord> creditrecordList =null;// messageServicesk.getCreditRecordList(query);
+        List<CreditRecord> creditrecordList = messageServicesk.getCreditRecordList(query);
         Message m = new Message();
 
         model.addAttribute("parentMenuNo", "3");
@@ -85,12 +85,18 @@ public class MessageController {
     @RequestMapping("creditcalist")
     public R getCreditCulationList(@RequestParam Map<String, Object> params){
         Query query = new Query(params);
-        //List <CreditRecord>creditrecordList = messageServicesk.getCreditRecordList(query);
-        List <Userinfo>creditrecordList = messageServicesk.getCreditRecordList(query);
+        List <CreditRecord>creditrecordList = messageServicesk.getCreditRecordList(query);
         int total = messageServicesk.queryRecordCount(query);
         PageUtils pageUtil = new PageUtils(creditrecordList, total, query.getLimit(), query.getPage());
+
         return R.ok().put("page",pageUtil);
     }
+
+    /**
+     *
+     * @param userId
+     * @return
+     */
     @ResponseBody
     @RequestMapping("tocreditcal/{userId}")
     public R tocreditcal(@PathVariable("userId") Long userId){
