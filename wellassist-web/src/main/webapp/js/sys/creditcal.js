@@ -3,16 +3,29 @@
             url: '/mes/creditcalist/',
             datatype: "json",
             colModel: [
-                { label: 'ID', name: 'id', index: "id", width: 45, key: true },
-                {label: '用户ID', name: 'userId', width: 100},
-                {label: '企业ID',name: 'enterpriseId',width: 100},
-                {label: '信誉等级',name:'creditLevel',width: 100},
-                {label: '信誉类型',name:'creditType',width: 100},
-                {label: '等级发生时间',name:'creditDate',width: 100},
-                {label: '评定机构',name: 'evaluationInstitution', width: 100},
-                {label: '备注', name: 'memo', width: 80},
+                { label: '用户ID', name: 'userId', index: "userId", width: 45, key: true },
+                {label: '公司类型', name: 'companyType', width: 100,formatter: function (value, options, row) {
+                    if(value == 1){
+                        return '<span class="label label-success">央企</span>'
+                    }
+                    if(value == 2){
+                        return '<span class="label label-success">国企</span>'
+                    }
+                    if(value == 3){
+                        return '<span class="label label-success">民企</span>'
+                    }
+                    if(value == 4){
+                        return '<span class="label label-success">民企</span>'
+                    }
+                    if(value == 5){
+                        return '<span class="label label-success">上市企业</span>'
+                    }
+                }},
+                {label: '公司名称',name:'companyName',width: 100},
+                {label: '公司税号', name: 'companySh', width: 80},
+                {label: '公司注册详细地址', name: 'zcXxAddress', width: 80},
                 {label: '操作', name: '', width: 75 ,formatter: function (value, grid, rows, state) {
-                    return '<button  class="btn btn-primary" onclick="vm.getcreditcal(' + rows.id + ')">征信</button>'+'<button  class="btn btn-primary" onclick="vm.review(' + rows.id + ')">查看</button>'
+                    return '<button  class="btn btn-primary" onclick="vm.getcreditcal(' + rows.userId + ')">征信</button>'+'<button  class="btn btn-primary" onclick="vm.review(' + rows.userId + ')">查看</button>'
                     }
                 }
             ],
@@ -20,7 +33,7 @@
             height: 385,
             rowNum: 10,
             rowList: [10, 30, 50],
-            rownumbers: true,
+            rownumbers: false,
             rownumWidth: 25,
             autowidth: true,
             multiselect: true,
@@ -54,7 +67,7 @@
             showList: true,
             title: null,
             roleList: {},
-            cds: {
+            userinfo: {
                 status: 1,
                 roleIdList: []
             }
@@ -87,38 +100,33 @@
 
                 vm.showList = false;
                 vm.title = "征信计算";
-                  console.log(vm.cds.id);
+                  console.log(vm.userinfo.userId);
                 vm.getcreditcal(id);
 
             },
-            getcreditcal: function(id) {
-                $.get("../mes/tocreditcal/"+id, function(r) {
+            getcreditcal: function(userId) {
+                $.get("../mes/tocreditcal/"+userId, function(r) {
                     vm.title = "征信计算";
-                    vm.cds =  r.creditrecord;
+                    vm.userinfo =  r.userinfo;
                 });
                 vm.showList = false;
             },
             saveOrUpdate: function () {
-                alert("ha");
-                //var url = vm.spartEntity.id == null ? "spar/req/save":"spar/req/update";
-                //vm.spartEntity.directiveSendDate=$("#directiveSendDate").val();
-                //vm.spartEntity.partStorageDate=$("#partStorageDate").val();
-                //vm.spartEntity.directiveReceiveDate=$("#directiveReceiveDate").val();
-                //$.ajax({
-                //    type: "POST",
-                //    url: baseURL + url,
-                //    contentType: "application/json",
-                //    data: JSON.stringify(vm.spartEntity),
-                //    success: function(r){
-                //        if(r.code === 0){
-                //            alert('操作成功', function(){
-                //                vm.reload();
-                //            });
-                //        }else{
-                //            alert(r.msg);
-                //        }
-                //    }
-                //});
+                $.ajax({
+                    type: "POST",
+                    url: "../mes/save/",
+                    contentType: "application/json",
+                    data: JSON.stringify(vm.userinfo),
+                    success: function(r){
+                        if(r.code === 0){
+                            alert('操作成功', function(){
+                                vm.reload();
+                            });
+                        }else{
+                            alert(r.msg);
+                        }
+                    }
+                });
             },
             reload: function(event) {
                 vm.showList = true;
