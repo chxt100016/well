@@ -55,8 +55,8 @@ public class MessageServiceImpl implements MessageService{
     }
 
 
-    @Override
-    public List<Userinfo> getCreditRecordList(Map<String, Object> map) {
+
+    public List<CreditRecord> getCreditRecordList(Map<String, Object> map) {
         return messageDaosk.getCreditRecordList(map);
     }
 
