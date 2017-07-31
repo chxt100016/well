@@ -9,17 +9,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.wella.entity.CreditRecord;
 import org.wella.entity.Message;
 import org.wella.entity.User;
+import org.wella.entity.Userinfo;
 import org.wella.service.MessageService;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
@@ -69,7 +65,7 @@ public class MessageController {
         HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
         User user = (User) httpSession.getAttribute("user");
         Query query = new Query(params);
-        List<CreditRecord> creditrecordList = messageServicesk.getCreditRecordList(query);
+        List<CreditRecord> creditrecordList =null;// messageServicesk.getCreditRecordList(query);
         Message m = new Message();
 
         model.addAttribute("parentMenuNo", "3");
@@ -89,16 +85,27 @@ public class MessageController {
     @RequestMapping("creditcalist")
     public R getCreditCulationList(@RequestParam Map<String, Object> params){
         Query query = new Query(params);
-        List <CreditRecord>creditrecordList = messageServicesk.getCreditRecordList(query);
+        //List <CreditRecord>creditrecordList = messageServicesk.getCreditRecordList(query);
+        List <Userinfo>creditrecordList = messageServicesk.getCreditRecordList(query);
         int total = messageServicesk.queryRecordCount(query);
         PageUtils pageUtil = new PageUtils(creditrecordList, total, query.getLimit(), query.getPage());
         return R.ok().put("page",pageUtil);
     }
     @ResponseBody
-    @RequestMapping("tocreditcal/{id}")
-    public R tocreditcal(@PathVariable("id") Long id){
-        CreditRecord creditrecord = messageServicesk.getCreditRecord(id);
-        return R.ok().put("creditrecord",creditrecord);
+    @RequestMapping("tocreditcal/{userId}")
+    public R tocreditcal(@PathVariable("userId") Long userId){
+        Userinfo userinfo = messageServicesk.getCreditRecord(userId);
+        return R.ok().put("userinfo",userinfo);
+    }
+
+    /**
+     * 保存征信信息
+     */
+
+    @RequestMapping("save")
+    public R save(@RequestBody CreditRecord creditRecord){
+        messageServicesk.addCreditRecord(creditRecord);
+        return R.ok();
     }
 
 
