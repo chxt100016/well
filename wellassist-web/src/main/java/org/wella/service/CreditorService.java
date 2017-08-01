@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public interface CreditorService {
     /**
-     * 先忽略放款方资质审核测试，以后改这个接口
+     * 得到已认证的放款方list
      * @return
      */
     List<Map<String,Object>> findCreditorList();
@@ -42,5 +42,14 @@ public interface CreditorService {
      * @return
      */
     CreditorAuthenticInfo getAuthenticingInfo(long userId);
+
+    /**
+     * 得到已被指派未被确认的loans,待修改，未分页
+     * @param userId
+     * @return
+     */
+    List<Map<String,Object>> getAssignLoans(long userId);
+
+
 
 }

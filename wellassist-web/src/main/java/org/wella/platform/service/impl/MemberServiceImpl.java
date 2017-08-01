@@ -3,6 +3,7 @@ package org.wella.platform.service.impl;
 import io.wellassist.utils.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
@@ -223,6 +224,7 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
+    @Transactional
     public void authCreditor(long userId, String comment, int isAuthed) {
         Date now=new Date();
         Map<String,Object> updateuser=new HashMap<>();

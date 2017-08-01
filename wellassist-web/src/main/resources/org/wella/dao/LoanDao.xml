@@ -137,6 +137,9 @@
             <if test="userId != null">
                 AND user_id=#{userId}
             </if>
+            <if test="creditUserId != null">
+                AND credit_user_id=#{creditUserId}
+            </if>
             <if test="loanState !=null">
                 AND loan_state=#{loanState}
             </if>

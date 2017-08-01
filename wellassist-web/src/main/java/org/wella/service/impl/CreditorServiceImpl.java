@@ -39,7 +39,7 @@ public class CreditorServiceImpl implements CreditorService{
 
 
     /**
-     * 先忽略放款方资质审核，以后改这个接口
+     * 得到已认证的放款方list
      * @return
      */
     @Override
@@ -117,5 +117,15 @@ public class CreditorServiceImpl implements CreditorService{
         query.put("state",1);
         CreditorAuthenticInfo creditorAuthenticInfo=creditorAuthenticInfoDao.singlePoByConditons(query);
         return creditorAuthenticInfo;
+    }
+
+    @Override
+    public List<Map<String, Object>> getAssignLoans(long userId) {
+        Map<String,Object> query=new HashMap<>();
+        query.put("creditUserId",userId);
+        query.put("loanState",1);
+        List<Map<String, Object>> res=loanDao.listLoanByConditions(query);
+        ConvertUtil.convertDataBaseMapToJavaMap(res);
+        return res;
     }
 }
