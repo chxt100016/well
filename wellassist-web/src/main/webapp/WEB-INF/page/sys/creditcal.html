@@ -23,46 +23,131 @@
         <div class="panel-heading">{{title}}</div>
         <form class="form-horizontal">
             <div class="form-group">
-                <div class="col-sm-2 control-label">用户</div>
+                <div class="col-sm-2 control-label">用户ID</div>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="cds.userId" placeholder="用户ID" />
+                    <input type="text" class="form-control" v-model="userinfo.userId" placeholder="用户ID" />
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-sm-2 control-label">企业</div>
+                <div class="col-sm-2 control-label">公司类型</div>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="cds.enterpriseId" placeholder="企业ID" />
+                    <input type="text" class="form-control" v-model="userinfo.companyType" placeholder="公司类型" />
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-sm-2 control-label">信誉等级</div>
+                <div class="col-sm-2 control-label">公司名称</div>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="cds.creditLevel" placeholder="信誉等级" />
+                    <input type="text" class="form-control" v-model="userinfo.companyName" placeholder="公司名称" />
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-sm-2 control-label">信誉类型</div>
+                <div class="col-sm-2 control-label">公司Img</div>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="cds.creditType" placeholder="信誉类型" />
+                    <input type="text" class="form-control" v-model="userinfo.companyImg" placeholder="公司Img" />
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-sm-2 control-label">等级发生时间</div>
+                <div class="col-sm-2 control-label">公司营业执照</div>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control stt" data-link-field="partStorageDate"   placeholder="等级发生时间" />
+                    <input type="text" class="form-control stt" data-link-field="companyYyZz"   placeholder="公司营业执照" />
                 </div>
                 <input type="hidden" data-date-format="yyyy-mm-dd" id="creditDate"/>
             </div>
             <div class="form-group">
-                <div class="col-sm-2 control-label">评定机构</div>
+                <div class="col-sm-2 control-label">公司营业执照图片</div>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="cds.evaluationInstitution" placeholder="评定机构" />
+                    <input type="text" class="form-control" v-model="userinfo.companyYyZzImg" placeholder="公司营业执照图片" />
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-sm-2 control-label">备注</div>
+            <div class="col-sm-2 control-label">公司开户许可证</div>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" v-model="userinfo.companyKhXkz" placeholder="公司开户许可证" />
+            </div>
+        </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">公司许可证图片</div>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="cds.memo" placeholder="备注" />
+                    <input type="text" class="form-control" v-model="userinfo.companyXkzImg" placeholder="公司许可证图片" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">公司开户许可证</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="userinfo.companyTxkz" placeholder="公司开户许可证" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">公司特许可正图片</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="userinfo.companyTxkzImg" placeholder="公司特许可正图片" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">公司税号</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="userinfo.companySh" placeholder="公司税号" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">公司注册地区id</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="userinfo.zcRegionId" placeholder="公司注册地区id" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">公司注册详细地址</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="userinfo.zcXxAddress" placeholder="公司注册详细地址" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">公司法人名称</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="userinfo.companyLpName" placeholder="公司法人名称" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">公司办公地区id</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="userinfo.bgRegionId" placeholder="公司办公地区id" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">联系人</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="userinfo.companyLxr" placeholder="联系人" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">其他信息</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="userinfo.otherInfo" placeholder="其他信息" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">开户行</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="userinfo.companyKhh" placeholder="开户行" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">开户账号</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="userinfo.khAccount" placeholder="开户账号" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">开户名称</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="userinfo.khName" placeholder="开户名称" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2 control-label">上传征信资料</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="userinfo.updata" placeholder="上传征信资料" />
                 </div>
             </div>
             <div class="form-group">

@@ -4,6 +4,7 @@ import io.wellassist.dao.BaseDao;
 import org.springframework.stereotype.Repository;
 import org.wella.entity.CreditRecord;
 import org.wella.entity.Message;
+import org.wella.entity.Userinfo;
 
 import java.util.List;
 import java.util.Map;
@@ -23,8 +24,9 @@ public interface MessageDao extends BaseDao<Message> {
 
     List<CreditRecord> getCreditRecordList(Map<String, Object> map);
 
-    CreditRecord getCreditRecord(Map<String, Object> map);
+    Userinfo getCreditRecord(Long id);
 
     int queryRecordCount(Map<String, Object> map);
+    void addCreditRecord(CreditRecord creditRecord);
 
 }

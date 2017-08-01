@@ -17,6 +17,10 @@ public class CreditRecord {
     private String evaluationInstitution;
     private String memo;
 
+    private String dataType;
+    private String dataDate;
+    private String dataUrl;
+
     public Integer getId() {
         return id;
     }
@@ -72,6 +76,31 @@ public class CreditRecord {
 
     public void setEvaluationInstitution(String evaluationInstitution) {
         this.evaluationInstitution = evaluationInstitution;
+    }
+
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
+
+    public String getDataDate() {
+        return dataDate;
+    }
+
+    public void setDataDate(String dataDate) {
+        this.dataDate = dataDate;
+    }
+
+    public String getDataUrl() {
+        return dataUrl;
+    }
+
+    public void setDataUrl(String dataUrl) {
+        this.dataUrl = dataUrl;
     }
 
     public String getMemo() {

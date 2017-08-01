@@ -1,8 +1,8 @@
 package org.wella.service;
 
-import org.springframework.stereotype.Service;
 import org.wella.entity.CreditRecord;
 import org.wella.entity.Message;
+import org.wella.entity.Userinfo;
 
 import java.util.List;
 import java.util.Map;
@@ -22,9 +22,11 @@ public interface MessageService {
 
     void upMessage(Integer id);
 
+     void addCreditRecord(CreditRecord creditRecord);
+
     List<CreditRecord> getCreditRecordList(Map<String, Object> map);
 
-    CreditRecord getCreditRecord(Map<String, Object> map);
+    Userinfo getCreditRecord(Long id);
 
 
     int queryTotal(Map<String, Object> map);
