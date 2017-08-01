@@ -10,11 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.LoanDao;
-<<<<<<< HEAD
 import org.wella.platform.service.impl.MemberServiceImpl;
-=======
 import org.wella.dao.OrderDao;
->>>>>>> 70b84d3e77e0368981d566f8d1364421acca31cf
 import org.wella.service.SellerService;
 
 import java.util.List;
