@@ -32,4 +32,5 @@ public class SysPageController {
 	public String platformPage(@PathVariable("url") String url){
 		return "platform/" + url + ".html";
 	}
+
 }

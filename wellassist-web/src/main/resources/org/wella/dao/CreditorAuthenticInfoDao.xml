@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.CreditorAuthenticInfoDao">
+    <resultMap id="CreditorAuthenticInfoMap" type="org.wella.entity.CreditorAuthenticInfo" >
+        <id column="creditor_authentic_info_id" property="creditorAuthenticInfoId" jdbcType="BIGINT" />
+        <result column="user_id" property="userId" jdbcType="BIGINT" />
+        <result column="apply_date" property="applyDate" jdbcType="TIMESTAMP" />
+        <result column="mgr_date" property="mgrDate" jdbcType="TIMESTAMP" />
+        <result column="income" property="income" jdbcType="VARCHAR" />
+        <result column="liabilities" property="liabilities" jdbcType="VARCHAR" />
+        <result column="cash_flow" property="cashFlow" jdbcType="VARCHAR" />
+        <result column="qualifition" property="qualifition" jdbcType="VARCHAR" />
+        <result column="tax" property="tax" jdbcType="VARCHAR" />
+        <result column="other1" property="other1" jdbcType="VARCHAR" />
+        <result column="other2" property="other2" jdbcType="VARCHAR" />
+        <result column="other3" property="other3" jdbcType="VARCHAR" />
+        <result column="other4" property="other4" jdbcType="VARCHAR" />
+        <result column="state" property="state" jdbcType="TINYINT" />
+        <result column="comment" property="comment" jdbcType="VARCHAR" />
+    </resultMap>
+    <insert id="save" parameterType="org.wella.entity.CreditorAuthenticInfo" >
+        insert into wa_creditor_authentic_info (user_id, apply_date,
+        mgr_date, income, liabilities,
+        cash_flow, qualifition, tax,
+        other1, other2, other3,
+        other4, state, comment
+        )
+        values (#{userId,jdbcType=BIGINT}, #{applyDate,jdbcType=TIMESTAMP},
+        #{mgrDate,jdbcType=TIMESTAMP}, #{income,jdbcType=VARCHAR}, #{liabilities,jdbcType=VARCHAR},
+        #{cashFlow,jdbcType=VARCHAR}, #{qualifition,jdbcType=VARCHAR}, #{tax,jdbcType=VARCHAR},
+        #{other1,jdbcType=VARCHAR}, #{other2,jdbcType=VARCHAR}, #{other3,jdbcType=VARCHAR},
+        #{other4,jdbcType=VARCHAR}, #{state,jdbcType=TINYINT}, #{comment,jdbcType=VARCHAR}
+        )
+    </insert>
+    <select id="singlePoByConditons" parameterType="map" resultMap="CreditorAuthenticInfoMap">
+        SELECT *
+        from wa_creditor_authentic_info
+        <where>
+            <if test="userId != null">
+                AND user_id=#{userId}
+            </if>
+            <if test="state != null">
+                and state=#{state}
+            </if>
+        </where>
+        limit 1
+    </select>
+    <update id="update" parameterType="map">
+        update wa_creditor_authentic_info
+        <set >
+            <if test="userId != null" >
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="applyDate != null" >
+                apply_date = #{applyDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="mgrDate != null" >
+                mgr_date = #{mgrDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="income != null" >
+                income = #{income,jdbcType=VARCHAR},
+            </if>
+            <if test="liabilities != null" >
+                liabilities = #{liabilities,jdbcType=VARCHAR},
+            </if>
+            <if test="cashFlow != null" >
+                cash_flow = #{cashFlow,jdbcType=VARCHAR},
+            </if>
+            <if test="qualifition != null" >
+                qualifition = #{qualifition,jdbcType=VARCHAR},
+            </if>
+            <if test="tax != null" >
+                tax = #{tax,jdbcType=VARCHAR},
+            </if>
+            <if test="other1 != null" >
+                other1 = #{other1,jdbcType=VARCHAR},
+            </if>
+            <if test="other2 != null" >
+                other2 = #{other2,jdbcType=VARCHAR},
+            </if>
+            <if test="other3 != null" >
+                other3 = #{other3,jdbcType=VARCHAR},
+            </if>
+            <if test="other4 != null" >
+                other4 = #{other4,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null" >
+                state = #{state,jdbcType=TINYINT},
+            </if>
+            <if test="comment != null" >
+                comment = #{comment,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where creditor_authentic_info_id = #{creditorAuthenticInfoId,jdbcType=BIGINT}
+    </update>
+</mapper>

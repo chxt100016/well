@@ -1,5 +1,6 @@
 package org.wella.platform.service;
 
+import io.wellassist.utils.Query;
 import org.wella.entity.Prod;
 import org.wella.entity.User;
 import org.wella.entity.UserAccount;
@@ -181,9 +182,27 @@ public interface MemberService {
      * @return
      */
     List<Map<String,Object>> findGrapOrderRecord(Map map);
+
+
     //////////////////////////放款方管理相关接口方法\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    List<Map<String,Object>> findCreditorList(Map map);
 
 
+    int findCreditorCount(Map<String, Object> map);
+
+    /**
+     * 认证creditor
+     * @param userId
+     * @param comment ：审核意见
+     * @param isAuthed: 1通过；0不通过
+     */
+    void authCreditor(long userId, String comment, int isAuthed);
 
 
+    /**
+     * 审核认证放款方页面信息
+     * @param userId
+     * @return
+     */
+    Map<String,Object> authCreditorPageInfo(long userId);
 }

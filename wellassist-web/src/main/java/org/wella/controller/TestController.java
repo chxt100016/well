@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.LoanDao;
+<<<<<<< HEAD
 import org.wella.platform.service.impl.MemberServiceImpl;
+=======
+import org.wella.dao.OrderDao;
+>>>>>>> 70b84d3e77e0368981d566f8d1364421acca31cf
 import org.wella.service.SellerService;
 
 import java.util.List;
@@ -28,6 +32,8 @@ public class TestController {
     private MemberServiceImpl memberServiceImpl;
     @Autowired
     private LoanDao loanDao;
+    @Autowired
+    private OrderDao orderDao;
 
     @RequestMapping("test1")
     @ResponseBody
@@ -35,13 +41,14 @@ public class TestController {
         return sellerServiceImpl.getOrderLogisticsInfo(Long.parseLong(orderId));
     }
 
-    @RequestMapping("testAjaxPage")
+
+    @RequestMapping("testPage")
     @ResponseBody
-    public R testAjaxPage(@RequestParam Map<String, Object> params){
+    public R test1Page(@RequestParam Map<String,Object> params){
         Query query=new Query(params);
-        List list=loanDao.listLoanOrderViewByConditions(query);
+        List list=orderDao.listOrderAttachProd(query);
         ConvertUtil.convertDataBaseMapToJavaMap(list);
-        int totalCount=loanDao.listLoanOrderViewByConditionsCount(query);
+        int totalCount=orderDao.listOrderCount(query);
         PageUtils pageUtils=new PageUtils(list,totalCount,query.getLimit(),query.getPage());
         return R.ok().put("page",pageUtils);
     }

@@ -143,6 +143,9 @@
         <if test="start != null and size != null">
             LIMIT ${start},${size}
         </if>
+        <if test="offset != null and limit != null">
+            LIMIT ${offset},${limit}
+        </if>
     </select>
 
     <select id="listOrderCount" parameterType="map" resultType="int">
