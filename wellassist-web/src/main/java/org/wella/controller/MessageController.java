@@ -93,7 +93,7 @@ public class MessageController {
     }
 
     /**
-     *
+     *页面转向
      * @param userId
      * @return
      */
@@ -105,15 +105,12 @@ public class MessageController {
     }
 
     /**
-     * 保存征信信息
+     * 保存征信计算信息
      */
-
-    @RequestMapping("save")
+    @ResponseBody
+    @RequestMapping("creditcalsave")
     public R save(@RequestBody CreditRecord creditRecord){
         messageServicesk.addCreditRecord(creditRecord);
         return R.ok();
     }
-
-
-
 }
