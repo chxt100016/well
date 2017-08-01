@@ -27,7 +27,7 @@ public class FkfOrderCtrl extends BaseController {
 
     @RequestMapping({"front/fkf/FkfOrderCtrl-sxList"})
     public String sxList(HttpServletRequest request, HttpServletResponse response, Model model) {
-        MyInfo myInfo = this.getMyInfo(request);
+        /*MyInfo myInfo = this.getMyInfo(request);
         Map param = this.getConditionParam(request);
         param.put("creditUserId", myInfo.getUserId());
         ArrayList list0 = this.creditMapper.getCreditList(param);
@@ -38,8 +38,10 @@ public class FkfOrderCtrl extends BaseController {
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "1");
         model.addAttribute("userName", myInfo.getUserName());
-        model.addAttribute("list", list);
-        return "views/front/fkf/order/sxList.jsp";
+        model.addAttribute("list", list);*/
+        model.addAttribute("parentMenuNo", 1);
+        model.addAttribute("childMenuNo", 1);
+        return "/views/front/fkf/order/ExpressPro.html";
     }
 
     @RequestMapping({"front/fkf/FkfOrderCtrl-sxDetail"})

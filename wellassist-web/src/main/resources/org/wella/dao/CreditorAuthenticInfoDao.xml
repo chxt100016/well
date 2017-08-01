@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.CreditorAuthenticInfoDao">
+
+    <insert id="save" parameterType="org.wella.entity.CreditorAuthenticInfo" >
+        insert into wa_creditor_authentic_info (user_id, apply_date,
+        mgr_date, income, liabilities,
+        cash_flow, qualifition, tax,
+        other1, other2, other3,
+        other4, state, comment
+        )
+        values (#{userId,jdbcType=BIGINT}, #{applyDate,jdbcType=TIMESTAMP},
+        #{mgrDate,jdbcType=TIMESTAMP}, #{income,jdbcType=VARCHAR}, #{liabilities,jdbcType=VARCHAR},
+        #{cashFlow,jdbcType=VARCHAR}, #{qualifition,jdbcType=VARCHAR}, #{tax,jdbcType=VARCHAR},
+        #{other1,jdbcType=VARCHAR}, #{other2,jdbcType=VARCHAR}, #{other3,jdbcType=VARCHAR},
+        #{other4,jdbcType=VARCHAR}, #{state,jdbcType=TINYINT}, #{comment,jdbcType=VARCHAR}
+        )
+    </insert>
+
+</mapper>

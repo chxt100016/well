@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.wella.common.utils.ConvertUtil;
+import org.wella.dao.CreditorAuthenticInfoDao;
 import org.wella.dao.LoanAssignInfoDao;
 import org.wella.dao.LoanDao;
 import org.wella.dao.WaUserDao;
+import org.wella.entity.CreditorAuthenticInfo;
 import org.wella.service.CreditorService;
 import org.wella.utils.DateUtils;
 
@@ -32,6 +34,9 @@ public class CreditorServiceImpl implements CreditorService{
     @Autowired
     private LoanAssignInfoDao loanAssignInfoDao;
 
+    @Autowired
+    private CreditorAuthenticInfoDao creditorAuthenticInfoDao;
+
 
     /**
      * 先忽略放款方资质审核，以后改这个接口
@@ -42,6 +47,7 @@ public class CreditorServiceImpl implements CreditorService{
         Map<String,Object> param=new HashMap();
         param.put("userType",2);
         param.put("userState",1);
+        param.put("creditorState",2);
         List<Map<String,Object>> creditors=waUserDao.listUserAttachUserinfoByConditions(param);
         ConvertUtil.convertDataBaseMapToJavaMap(creditors);
         return creditors;
@@ -85,5 +91,22 @@ public class CreditorServiceImpl implements CreditorService{
         loanAssignInfoDao.updateByPrimaryKey(updateloanAssignInfo);
 
         return 1;
+    }
+
+    @Override
+    public int findCreditorState(long userId) {
+        Map<String,Object> user=waUserDao.singleUserByPrimaryKey(userId);
+        int creditorState=(int)user.get("creditor_state");
+        return creditorState;
+    }
+
+    @Override
+    @Transactional
+    public void qualityApply(CreditorAuthenticInfo creditorAuthenticInfo) {
+        creditorAuthenticInfoDao.save(creditorAuthenticInfo);
+        Map<String,Object> updateuser=new HashMap<>();
+        updateuser.put("userId",creditorAuthenticInfo.getUserId());
+        updateuser.put("creditorState",1);
+        waUserDao.updateUserByUserId(updateuser);
     }
 }

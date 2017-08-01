@@ -1,5 +1,6 @@
 package org.wella.platform.service;
 
+import io.wellassist.utils.Query;
 import org.wella.entity.Prod;
 import org.wella.entity.User;
 import org.wella.entity.UserAccount;
@@ -181,9 +182,11 @@ public interface MemberService {
      * @return
      */
     List<Map<String,Object>> findGrapOrderRecord(Map map);
+
+
     //////////////////////////放款方管理相关接口方法\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    List<Map<String,Object>> findCreditorList(Map map);
 
 
-
-
+    int findCreditorCount(Map<String, Object> map);
 }

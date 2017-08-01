@@ -1,5 +1,6 @@
 package org.wella.platform.service.impl;
 
+import io.wellassist.utils.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.wella.common.utils.CommonUtil;
@@ -198,5 +199,19 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public List<Map<String, Object>> findGrapOrderRecord(Map map) {
         return null;
+    }
+
+    @Override
+    public List<Map<String, Object>> findCreditorList(Map query) {
+        query.put("userType",2);
+        List<Map<String,Object>> res=waUserDao.listUserByConditions(query);
+        ConvertUtil.convertDataBaseMapToJavaMap(res);
+        return res;
+    }
+
+    @Override
+    public int findCreditorCount(Map<String, Object> map) {
+        int res=waUserDao.listUserByConditionsCount(map);
+        return 0;
     }
 }

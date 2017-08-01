@@ -1,5 +1,7 @@
 package org.wella.service;
 
+import org.wella.entity.CreditorAuthenticInfo;
+
 import java.util.List;
 import java.util.Map;
 
@@ -20,5 +22,18 @@ public interface CreditorService {
      * @return 0 失败 1成功
      */
     int acceptLoan(long loanId,long creditorUserId,int paymentDays,String operateIp);
+
+    /**
+     * 放款方资质状态
+     * @param userId
+     * @return 0:未通过，1：审核中，2：已通过
+     */
+    int findCreditorState(long userId);
+
+    /**
+     * 放款方提交资质审核
+     * @param creditorAuthenticInfo
+     */
+    void qualityApply(CreditorAuthenticInfo creditorAuthenticInfo);
 
 }

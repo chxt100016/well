@@ -8,6 +8,7 @@ import io.wellassist.utils.Query;
 import io.wellassist.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.WaUserDao;
 import org.wella.entity.Prod;
 import org.wella.entity.User;
@@ -58,6 +59,17 @@ public class MemberController extends AbstractController{
         PageUtils pageUtil = new PageUtils(sellerList, totalCount, query.getLimit(), query.getPage());
         return R.ok().put("page", pageUtil);
     }
+
+    @RequestMapping(value = "creditorList")
+    public R creditorList(@RequestParam Map<String,Object> params){
+        Query query=new Query(params);
+        List creditorList=memberServiceImpl.findCreditorList(query);
+        int totalCount=memberServiceImpl.findCreditorCount(query);
+        PageUtils pageUtil = new PageUtils(creditorList, totalCount, query.getLimit(), query.getPage());
+        return R.ok().put("page",pageUtil);
+    }
+
+
 
     /**
      * 用户信息查看

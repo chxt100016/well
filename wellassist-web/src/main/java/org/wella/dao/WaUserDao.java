@@ -1,5 +1,6 @@
 package org.wella.dao;
 
+import io.wellassist.utils.Query;
 import org.apache.ibatis.annotations.Param;
 import org.wella.entity.User;
 
@@ -56,4 +57,8 @@ public interface WaUserDao {
     Map<String,Object> singleUserByPrimaryKey(@Param("userId") long userId);
 
     List<Map<String,Object>> listUserAttachUserinfoByConditions(Map<String, Object> param);
+
+    List<Map<String,Object>> listUserByConditions(Map query);
+
+    int listUserByConditionsCount(Map<String, Object> map);
 }

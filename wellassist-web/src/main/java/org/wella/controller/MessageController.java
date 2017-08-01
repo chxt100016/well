@@ -94,12 +94,12 @@ public class MessageController {
         PageUtils pageUtil = new PageUtils(creditrecordList, total, query.getLimit(), query.getPage());
         return R.ok().put("page",pageUtil);
     }
-    @ResponseBody
+    /*@ResponseBody
     @RequestMapping("tocreditcal/{id}")
     public R tocreditcal(@PathVariable("id") Long id){
         CreditRecord creditrecord = messageServicesk.getCreditRecord(id);
         return R.ok().put("creditrecord",creditrecord);
-    }
+    }*/
 
 
 
