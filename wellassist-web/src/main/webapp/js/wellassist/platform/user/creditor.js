@@ -17,8 +17,9 @@ $(function () {
                 else if(value==2){return "已认证";}
             }},
             { label: '资质审核', name: 'creditorState', width: 100 ,formatter:function (value) {
+                var userId = row.userId;
                 if(value==0){return "未提交认证申请";}
-                else if(value==1){return '<a  class="btn btn-primary" href="#">审核</a>';}
+                else if(value==1){return '<a  class="btn btn-primary" href="./creditor/creditorAuthCheck?userId='+userId+'">审核</a>';}
                 else if(value==2){return '<a  class="btn btn-primary" href="#">查看</a>';}
             }},
             { label: '公司详情', name: '', index: "user_id", width: 45, key: true,formatter:function (value,option,row) {

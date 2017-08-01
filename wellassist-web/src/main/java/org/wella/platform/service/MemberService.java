@@ -189,4 +189,20 @@ public interface MemberService {
 
 
     int findCreditorCount(Map<String, Object> map);
+
+    /**
+     * 认证creditor
+     * @param userId
+     * @param comment ：审核意见
+     * @param isAuthed: 1通过；0不通过
+     */
+    void authCreditor(long userId, String comment, int isAuthed);
+
+
+    /**
+     * 审核认证放款方页面信息
+     * @param userId
+     * @return
+     */
+    Map<String,Object> authCreditorPageInfo(long userId);
 }

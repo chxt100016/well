@@ -7,10 +7,13 @@ import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
+import org.wella.entity.CreditorAuthenticInfo;
 import org.wella.entity.User;
 import org.wella.platform.service.MemberService;
+import org.wella.service.CreditorService;
 import org.wella.utils.MailUtil;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +34,10 @@ public class MemberServiceImpl implements MemberService{
     private ProdUserDao prodUserDao;
     @Autowired
     private RegionDao regionDao;
+    @Autowired
+    private CreditorService creditorServiceImpl;
+    @Autowired
+    private CreditorAuthenticInfoDao creditorAuthenticInfoDao;
 
 
     @Override
@@ -213,5 +220,40 @@ public class MemberServiceImpl implements MemberService{
     public int findCreditorCount(Map<String, Object> map) {
         int res=waUserDao.listUserByConditionsCount(map);
         return 0;
+    }
+
+    @Override
+    public void authCreditor(long userId, String comment, int isAuthed) {
+        Date now=new Date();
+        Map<String,Object> updateuser=new HashMap<>();
+        updateuser.put("userId",userId);
+
+        CreditorAuthenticInfo creditorAuthenticInfo=creditorServiceImpl.getAuthenticingInfo(userId);
+        Map<String,Object> updatecreditorauthInfo=new HashMap<>();
+        updatecreditorauthInfo.put("creditorAuthenticInfoId",creditorAuthenticInfo.getCreditorAuthenticInfoId());
+        updatecreditorauthInfo.put("mgrDate",now);
+        updatecreditorauthInfo.put("comment",comment);
+
+        if (isAuthed==1){
+            updateuser.put("creditorState",2);
+            updatecreditorauthInfo.put("state",2);
+        }else if (isAuthed==0){
+            updateuser.put("creditorState",0);
+            updatecreditorauthInfo.put("state",-1);
+        }
+        waUserDao.updateUserByUserId(updateuser);
+        creditorAuthenticInfoDao.update(updatecreditorauthInfo);
+    }
+
+    @Override
+    public Map<String, Object> authCreditorPageInfo(long userId) {
+        Map<String,Object> res=new HashMap<>();
+        Map<String,Object> userinfo=userinfoDao.singleUserinfoByPrimaryKey(userId);
+        res.put("companyName",userinfo.get("company_name"));
+        res.put("companyLxr",userinfo.get("company_lxr"));
+        res.put("companyLxrPhone",userinfo.get("company_lxr_phone"));
+        CreditorAuthenticInfo creditorAuthenticInfo=creditorServiceImpl.getAuthenticingInfo(userId);
+        res.put("authCreditorPageInfo",creditorAuthenticInfo);
+        return res;
     }
 }

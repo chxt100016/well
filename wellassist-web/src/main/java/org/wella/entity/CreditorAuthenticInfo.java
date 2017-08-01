@@ -1,6 +1,7 @@
 package org.wella.entity;
 
 import java.util.Date;
+import java.util.Map;
 
 public class CreditorAuthenticInfo {
     private Long creditorAuthenticInfoId;
@@ -152,4 +153,5 @@ public class CreditorAuthenticInfo {
     public void setComment(String comment) {
         this.comment = comment == null ? null : comment.trim();
     }
+
 }

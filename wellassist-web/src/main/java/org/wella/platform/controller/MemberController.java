@@ -184,4 +184,28 @@ public class MemberController extends AbstractController{
         Query query = new Query(params);
         List<Prod> prods=memberServiceImpl.findProductsByUserId(query);
     }*/
+
+    /**
+     * 认证creditor
+     * @param isAuthed:1通过，0不通过
+     * @return
+     */
+    @RequestMapping("authCreditor")
+    @ResponseBody
+    public R authCreditor(@RequestParam("userId")long userId,@RequestParam("comment")String comment,@RequestParam("isAuthed")int isAuthed){
+        try {
+            memberServiceImpl.authCreditor(userId,comment,isAuthed);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error();
+        }
+        return R.ok();
+    }
+
+    @RequestMapping("authCreditorPageInfo")
+    @ResponseBody
+    public R authCreditorPageInfo(@RequestParam("userId")long userId){
+        Map<String,Object> info=memberServiceImpl.authCreditorPageInfo(userId);
+        return R.ok().put("info",info);
+    }
 }

@@ -36,4 +36,11 @@ public interface CreditorService {
      */
     void qualityApply(CreditorAuthenticInfo creditorAuthenticInfo);
 
+    /**
+     * 得到待审核的那条wa_creditor_authentic_info 记录
+     * @param userId
+     * @return
+     */
+    CreditorAuthenticInfo getAuthenticingInfo(long userId);
+
 }

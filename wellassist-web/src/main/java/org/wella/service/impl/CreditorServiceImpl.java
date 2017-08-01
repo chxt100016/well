@@ -109,4 +109,13 @@ public class CreditorServiceImpl implements CreditorService{
         updateuser.put("creditorState",1);
         waUserDao.updateUserByUserId(updateuser);
     }
+
+    @Override
+    public CreditorAuthenticInfo getAuthenticingInfo(long userId) {
+        Map<String,Object> query=new HashMap<>();
+        query.put("userId",userId);
+        query.put("state",1);
+        CreditorAuthenticInfo creditorAuthenticInfo=creditorAuthenticInfoDao.singlePoByConditons(query);
+        return creditorAuthenticInfo;
+    }
 }
