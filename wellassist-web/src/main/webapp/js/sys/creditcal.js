@@ -111,15 +111,15 @@
                 });
                 vm.showList = false;
             },
-            saveOrUpdate: function () {
+            saveOrUpdate: function (event) {
+                var url="../mes/creditcalsave/";
                 $.ajax({
                     type: "POST",
-                    url: "../mes/save/",
-                    contentType: "application/json",
+                    url: url,
                     data: JSON.stringify(vm.userinfo),
                     success: function(r){
                         if(r.code === 0){
-                            alert('操作成功', function(){
+                            alert('操作成功', function(index){
                                 vm.reload();
                             });
                         }else{
