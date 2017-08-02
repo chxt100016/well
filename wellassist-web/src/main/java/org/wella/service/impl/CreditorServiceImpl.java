@@ -158,4 +158,17 @@ public class CreditorServiceImpl implements CreditorService{
         updateLoanAssignInfo.put("operateIp",ip);
         loanAssignInfoDao.updateByPrimaryKey(updateLoanAssignInfo);
     }
+
+    @Override
+    public List<Map<String, Object>> listLoanOrderViewByConditions(Map params) {
+        List<Map<String, Object>> loans=loanDao.listLoanOrderViewByConditions(params);
+        ConvertUtil.convertDataBaseMapToJavaMap(loans);
+        return loans;
+    }
+
+    @Override
+    public int listLoanCount(Map params) {
+        int res=loanDao.listLoanByConditionsCount(params);
+        return res;
+    }
 }

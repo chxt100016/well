@@ -70,4 +70,18 @@ public interface CreditorService {
      *放款方拒绝放款指派
      */
     void refuseLoan(long loanId, long creditorUserId, String ip);
+
+    /**
+     * 放款方展示各种列表
+     * @param params
+     * @return
+     */
+    List<Map<String,Object>> listLoanOrderViewByConditions(Map params);
+
+    /**
+     * 放款方展示各种列表 count 分页参数
+     * @param params
+     * @return
+     */
+    int listLoanCount(Map params);
 }

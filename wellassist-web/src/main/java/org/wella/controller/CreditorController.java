@@ -102,6 +102,12 @@ public class CreditorController {
         return R.ok();
     }
 
+    /**
+     * 放款方拒绝
+     * @param loanId
+     * @param request
+     * @return
+     */
     @RequestMapping("refuseLoan")
     @ResponseBody
     public R refuseLoan(@RequestParam("loanId")long loanId,HttpServletRequest request){
@@ -117,6 +123,47 @@ public class CreditorController {
         return R.ok();
     }
 
+    @RequestMapping("interestList")
+    @ResponseBody
+    public R interestList(@RequestParam Map<String,Object> params,HttpServletRequest request){
+        User user=(User)request.getSession().getAttribute("user");
+        long creditUserId=user.getUserId();
+        Query query=new Query(params);
+        query.put("creditUserId",creditUserId);
+        query.put("inLoanState","(2,3)");
+        List list=creditorServiceImpl.listLoanOrderViewByConditions(query);
+        int totalCount=creditorServiceImpl.listLoanCount(query);
+        PageUtils pageUtils=new PageUtils(list,totalCount,query.getLimit(),query.getPage());
+        return R.ok().put("page",pageUtils);
+    }
+
+    @RequestMapping("repayOffList")
+    @ResponseBody
+    public R repayOffList(@RequestParam Map<String,Object> params,HttpServletRequest request){
+        User user=(User)request.getSession().getAttribute("user");
+        long creditUserId=user.getUserId();
+        Query query=new Query(params);
+        query.put("creditUserId",creditUserId);
+        query.put("loanState",3);
+        List list=creditorServiceImpl.listLoanOrderViewByConditions(query);
+        int totalCount=creditorServiceImpl.listLoanCount(query);
+        PageUtils pageUtils=new PageUtils(list,totalCount,query.getLimit(),query.getPage());
+        return R.ok().put("page",pageUtils);
+    }
+
+    @RequestMapping("repayingList")
+    @ResponseBody
+    public R repayingList(@RequestParam Map<String,Object> params,HttpServletRequest request){
+        User user=(User)request.getSession().getAttribute("user");
+        long creditUserId=user.getUserId();
+        Query query=new Query(params);
+        query.put("creditUserId",creditUserId);
+        query.put("loanState",2);
+        List list=creditorServiceImpl.listLoanOrderViewByConditions(query);
+        int totalCount=creditorServiceImpl.listLoanCount(query);
+        PageUtils pageUtils=new PageUtils(list,totalCount,query.getLimit(),query.getPage());
+        return R.ok().put("page",pageUtils);
+    }
 
 
 }
