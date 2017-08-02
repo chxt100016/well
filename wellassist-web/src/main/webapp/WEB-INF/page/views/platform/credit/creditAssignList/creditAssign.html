@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    #parse("sys/header.html")
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+     <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script>  -->
+    <!-- <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+    <style>
+        .mid_box {
+            max-width: 1100px;
+            /*margin: 0px auto;*/
+            border: 1px solid rgba(34, 36, 38, .15);
+            box-shadow: 0 2px 4px 0 rgba(34, 36, 38, .12), 0 2px 10px 0 rgba(34, 36, 38, .15);
+            padding: 1em;
+            font-size: 14px;
+        }
+
+        .panelbox {
+            position: relative;
+            padding: 45px 15px 15px;
+            margin: 0 -15px 15px;
+            border-color: #e5e5e5 #eee #eee;
+            border-style: solid;
+            border-width: 1px 0;
+            -webkit-box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
+            box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
+        }
+
+        .panelbox:after {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #959595;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            /* content: "授信请求信息"; */
+        }
+
+        .sxInfo:after {
+            content: "放款请求信息";
+        }
+
+        .loanList:after {
+            content: "放款方列表";
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="app" class="mid_box">
+        <div class="panelbox sxInfo" data-example-id="panel-with-footer">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4">放款请求用户：{{loan.customerUserName}}</div>
+                        <div class="col-md-4">订单编号：{{loan.orderNo}}</div>
+                        <div class="col-md-4">请求放款金额：{{loan.loanMoney}} 元</div>
+                    </div>
+                </div>
+                <!-- <div class="panel-footer">Panel footer</div> -->
+            </div>
+        </div>
+        <div class="panelbox loanList ">
+            <table class="table table-bordered">
+                <thead>
+                    <th></th>
+                    <th>放款方</th>
+                    <th>联系人</th>
+                    <th>联系电话</th>
+                    <th>操作</th>
+                </thead>
+                <tbody>
+                     <tr v-for="(creditor,index) in creditors " v-cloak>
+                        <td>{{index+1}}</td>
+                        <td>{{creditor.userName}}</td>
+                        <td>{{creditor.companyLxr}}</td>
+                        <td>{{creditor.userPhone}}</td> 
+                        <td>
+                             <button class="btn-primary" v-show= '!loan.authorized' @click=authorize(creditor)>指定</button> 
+                            <!-- <input type="radio" name="authorization" value="" v-bind:value="index" v-model="Selected"> -->
+
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-8">
+                        <button  class="btn btn-success">提交</button>
+                        <button  class="btn btn-primary">返回</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+<script>
+    // var mockdata = {
+        /*custmerInfo:{
+            userCompany:'山水集团',
+            orderId:'213123112312',
+            money:'20000'
+            }
+        ,
+        loansInfo: [
+            {
+                companyName: '芝麻借贷',
+                userId: '2233423',
+                userPhone: '15722392332',
+                Contacts: '马云',
+                authorized: false
+            },
+            {
+                companyName: '香蕉借贷',
+                userId: '2233424',
+                userPhone: '15722392332',
+                Contacts: '丁建文',
+                authorized: false
+            },
+        ],*/
+    //     loanId:'$loanId',
+    //     Selected: [],
+    // }
+    // var mockdata='';
+//    var orderInfo='http://localhost:8080/wellassist/platform/credit/getLoanOrderInfo';
+   var orderInfo=' ../credit/getLoanOrderInfo';
+   var creditor='../../creditor/creditors';
+   var authorizeurl='../credit/assignSubmit';
+    var vm = new Vue({
+        el: '#app',
+        data: { 
+            loan:{},
+            creditors:{}
+        },
+        beforeCreate:function(){
+            console.log('ajx!');
+             var that = this;
+             //获取放款信息
+            $.ajax({  
+                    type : "POST",  //提交方式  
+                    url : orderInfo,//路径
+                    dataType:'json',
+                    data : {  
+                        "loanId" : "$loanId"  
+                    },//数据，这里使用的是Json格式进行传输  
+                    success : function(result) {//返回数据根据结果进行相应的处理  
+                        if ( result.code ==0 ) {  
+                            console.log('成功');
+                            console.log(result);
+                            that.loan=result.loan;
+                            
+                        } else {  
+                            console.log('失败')
+                        }  
+                    }  
+                });  
+                //获取放贷列表
+                   $.ajax({  
+                    type : "POST",  //提交方式  
+                    url : creditor,//路径
+                    dataType:'json',
+                    data : {  
+                        // "loanId" : "$loanId"  
+                    },//数据，这里使用的是Json格式进行传输  
+                    success : function(result) {//返回数据根据结果进行相应的处理  
+                        if ( result.code ==0 ) {  
+                            console.log('成功');
+                            console.log(result);
+                            that.creditors=result.creditors;
+                            
+                        } else {  
+                            console.log('失败')
+                        }  
+                    }  
+                }); 
+        },
+            methods:{
+              authorize:function(creditor){
+                  console.log(typeof(creditor.userId));
+                    $.ajax({  
+                    type : "POST",  //提交方式  
+                    url : authorizeurl,//路径
+                    dataType:'json',
+                    data : {  
+                        "loanId" : "$loanId" ,
+                        'creditorId':creditor.userId
+
+                    },//数据，这里使用的是Json格式进行传输  
+                    // beforeSend:function(){
+                    //     alert('sure?');
+                    // },
+                    success : function(result) {//返回数据根据结果进行相应的处理  
+                        if ( result.code ==0 ) {  
+                            console.log('成功');
+                            alert('操作成功！');
+                            console.log(result);
+                            window.history.go(-1);
+                            // that.creditors=result.creditors;
+                            
+                        } else {  
+                            console.log('失败');
+                              alert('操作失败！');
+                        }  
+                    }  
+                }); 
+
+              }
+            },
+
+    })
+
+</script>
+
+</html>

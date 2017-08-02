@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.MessageDao">
+    <!-- 获取消息列表 -->
+    <select id="getMessageList" parameterType="String" resultType="org.wella.entity.Message">
+        SELECT
+        *
+        FROM wa_message
+        <where>
+            <if test="title!=null and title!=''">
+                AND title = #{title}
+            </if>
+        </where>
+        ORDER BY id DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <!-- 获取买家订单列表总数 -->
+    <select id="getMessageListCount" parameterType="java.util.Map" resultType="int">
+        SELECT count(*)
+        FROM wa_message
+        <where>
+            <if test="title!=null and title!=''">
+                AND a.order_state = #{orderState}
+            </if>
+        </where>
+    </select>
+    <select id="getCreditRecordList" parameterType="String" resultType="org.wella.entity.Userinfo">
+        SELECT
+        *
+        FROM
+        wa_userinfo
+        ORDER BY user_id DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+
+    <!-- 获取信誉度列表 -->
+    <select id="getCreditRecord" resultType="org.wella.entity.Userinfo">
+        SELECT
+        *
+        FROM
+        wa_userinfo
+        <where>
+            user_id=#{userId}
+        </where>
+
+    </select>
+
+
+    <!-- 获取信誉度列表总数 -->
+    <select id="queryRecordCount" parameterType="java.util.Map" resultType="int">
+        SELECT
+           count(*)
+        FROM
+          wa_userinfo
+    </select>
+
+    <insert id="addCreditRecord" parameterType="org.wella.entity.CreditRecord" useGeneratedKeys="true"
+            keyProperty="id">
+      insert INTO
+        wa_credit_record
+         (
+         user_id,
+         enterprise_id,
+         data_type,
+         data_date,
+         data_url,
+         memo)
+         values(
+         #{userId},
+         #{enterpriseId},
+         #{dataType},
+         #{dataDate},
+         #{dataUrl},
+        #{memo})
+    </insert>
+</mapper>

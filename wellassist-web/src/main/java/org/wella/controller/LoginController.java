@@ -137,8 +137,9 @@ public class LoginController extends BaseController {
             model.addAttribute("spList",spList);
             return "/views/front/customer/home.jsp";
         }else if("2".equals(type)){
-
-            return "/views/front/fkf/home.jsp";
+            String zcAddress=customerServiceImpl.findZcAddress(userinfo);
+            model.addAttribute("address",zcAddress);
+            return "views/front/creditor/home.html";
         }else if("3".equals(type)){
             model.addAttribute("userName",user.getUserName());
             Map queryLogistics = new HashMap();

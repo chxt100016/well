@@ -1,10 +1,8 @@
 package org.wella.service.impl;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
 import org.wella.entity.*;
@@ -53,6 +51,10 @@ public class CustomerServiceImpl implements CustomerService {
     private OrderHistoryTailDao orderHistoryTailDao;
     @Autowired
     private CreditDao creditDao;
+    @Autowired
+    private LoanDao loanDao;
+    @Autowired
+    private RepayDao repayDao;
 
 
     /**
@@ -475,7 +477,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public boolean isBalanceEnough(long userId, BigDecimal payMoney, int zfMethod,int rate) {
+    public boolean isBalanceEnough(long userId, BigDecimal payMoney, int zfMethod,BigDecimal balanceZfMoney,BigDecimal loanZfMoney) {
         Map<String,Object> user=waUserDao.singleUserByPrimaryKey(userId);
         BigDecimal userMoney=(BigDecimal) user.get("user_money");
         BigDecimal userCreditMoney=(BigDecimal) user.get("user_credit_money");
@@ -484,7 +486,7 @@ public class CustomerServiceImpl implements CustomerService {
                 return false;
             }
         } else if(zfMethod==4) {
-            if(userMoney.multiply(new BigDecimal((100 - rate) / 100.0D)).add(userCreditMoney.multiply(new BigDecimal(rate/ 100.0D))).compareTo(payMoney)<0) {
+            if(userMoney.compareTo(balanceZfMoney)<0||userCreditMoney.compareTo(loanZfMoney)<0) {
                 return false;
             }
         } else if(zfMethod==3) {
@@ -507,11 +509,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Map<String, Object> getCurrentCredit(long userId) {
         Map param=new HashMap();
-        param.put("orderBy","credit_apply_date asc");
+        param.put("orderBy","credit_apply_date desc");
         param.put("userId",userId);
         Map<String,Object> res=creditDao.singleCreditByConditions(param);
         ConvertUtil.convertDataBaseMapToJavaMap(res);
-        return null;
+        return res;
     }
 
     @Override
@@ -532,8 +534,21 @@ public class CustomerServiceImpl implements CustomerService {
         param.put("creditState",1);
         param.put("userId",userId);
         Map<String,Object> credit=creditDao.singleCreditByConditions(param);
-        ConvertUtil.convertDataBaseMapToJavaMap(credit);
-        return credit;
+        if (null != credit && credit.size()>0){
+            ConvertUtil.convertDataBaseMapToJavaMap(credit);
+            return credit;
+        }
+        Map<String,Object> param1=new HashMap();
+        param1.put("creditState",-2);
+        param1.put("userId",userId);
+        param1.put("orderBy","credit_deadline desc");
+        Map<String,Object> deadcredit=creditDao.singleCreditByConditions(param1);
+        if (null != deadcredit && deadcredit.size()>0){
+            ConvertUtil.convertDataBaseMapToJavaMap(deadcredit);
+            return deadcredit;
+        }
+        return null;
+
     }
 
     @Override
@@ -543,16 +558,164 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void updateUserCreditMoney(long userId, BigDecimal creditSjMoney) {
-        Map<String,Object> user=waUserDao.singleUserByPrimaryKey(userId);
         Map<String,Object> updatemap=new HashMap<>();
-        BigDecimal userCreditMoney=creditSjMoney.subtract((BigDecimal) user.get("user_lock_credit_money"));
-        updatemap.put("userId",user.get("user_id"));
+        BigDecimal userCreditMoney=creditSjMoney.subtract(getLoansSum(userId));
+        updatemap.put("userId",userId);
         updatemap.put("userCreditMoney",userCreditMoney);
         waUserDao.updateUserByUserId(updatemap);
     }
 
     @Override
     public Map<String, Object> findCreditAccountPageInfo(Long userId) {
-        return null;
+        Map<String,Object> res=new HashMap<>();
+        Map<String,Object> sjCredit=getSjCredit(userId);
+        res.put("credit",sjCredit);
+        Map<String,Object> user=waUserDao.singleUserByPrimaryKey(userId);
+        ConvertUtil.convertDataBaseMapToJavaMap(user);
+        res.put("user",user);
+        return res;
+    }
+
+    @Override
+    public boolean isCreditApplyAvailable(Long userId) {
+        Map<String,Object> credit=getCurrentCredit(userId);
+        if (null == credit || credit.size()==0){
+            return true;
+        }
+        int creditState=(int)credit.get("creditState");
+        if(creditState==0){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public Map<String, Object> findCreditApplyPageInfo(Long userId) {
+        Map<String,Object> res=new HashMap<>();
+        Map<String,Object> sjCredit=getSjCredit(userId);
+        res.put("sjCredit",sjCredit);
+        return res;
+    }
+
+    @Override
+    public BigDecimal getLoansSum(Long userId) {
+        BigDecimal sumLoans=loanDao.getLoansSum(userId);
+        return null==sumLoans?new BigDecimal(0):sumLoans;
+    }
+
+    @Override
+    @Transactional
+    public int repayLoanByBalance(long userId, long loanId, BigDecimal principal, BigDecimal interest,String ip) {
+        Map<String,Object> user=waUserDao.singleUserByPrimaryKey(userId);
+        BigDecimal oldUserMoney=(BigDecimal)user.get("user_money");
+        if (oldUserMoney.compareTo(principal.add(interest))<0){
+            return 0;
+        }
+
+        Map<String,Object> loan=loanDao.singleLoanByPrimaryKey(loanId);
+        //update table wa_loan
+        Map<String,Object> updateLoan=new HashMap<>();
+        updateLoan.put("loanId",loanId);
+        updateLoan.put("repayMoney",((BigDecimal)loan.get("repay_money")).add(principal));
+        updateLoan.put("repayLixi",((BigDecimal)loan.get("repay_lixi")).add(interest));
+        BigDecimal remainRepayMoney=((BigDecimal)loan.get("remain_repay_money")).subtract(principal);
+        updateLoan.put("remainRepayMoney",remainRepayMoney);
+        updateLoan.put("remainLixiMoney",new BigDecimal(0));
+        if (new BigDecimal(0).compareTo(remainRepayMoney)==0){
+            updateLoan.put("loanState",3);
+        }
+        loanDao.updateLoanByPrimaryKey(updateLoan);
+
+        //insert table wa_repay
+        Repay repay=new Repay();
+        repay.setLoanId(loanId);
+        repay.setUserId(userId);
+        repay.setRepayMoney(principal);
+        repay.setRepayInterestMoney(interest);
+        repay.setRepayDate(new Date());
+        repay.setRepayIp(ip);
+        repayDao.createRepay(repay);
+
+        Map<String,Object> updateuser=new HashMap<>();
+        updateuser.put("userId",userId);
+        updateuser.put("userMoney",oldUserMoney.subtract(principal.add(interest)));
+        waUserDao.updateUserByUserId(updateuser);
+
+        checkLoanRepayedOff(userId,loanId);
+
+        return 1;
+    }
+
+    @Override
+    public boolean isLoanRepayedOff(long loanId) {
+        Map<String,Object> loan=loanDao.singleLoanByPrimaryKey(loanId);
+        BigDecimal zero=new BigDecimal(0);
+        if (zero.compareTo((BigDecimal) loan.get("remain_pay_money"))==0 && zero.compareTo((BigDecimal) loan.get("remain_lixi_money"))==0){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean checkLoanRepayedOff(long userId,long loanId) {
+        Map<String,Object> loan=loanDao.singleLoanByPrimaryKey(loanId);
+        if (3==(int)loan.get("loan_state")){
+            updateUserCreditMoney(userId);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<Map<String, Object>> getLoansIndebt(Map params) {
+        params.put("loanState",2);
+        List<Map<String,Object>> res=loanDao.listLoanByConditions(params);
+        ConvertUtil.convertDataBaseMapToJavaMap(res);
+        return res;
+    }
+
+    @Override
+    public int getLoansIndebtCount(Map params) {
+        params.put("loanState",2);
+        int count=loanDao.listLoanByConditionsCount(params);
+        return count;
+    }
+
+    @Override
+    public List<Map<String, Object>> getLoansRepayDetail(Map params) {
+        params.put("inLoanState","(2,3)");
+        List<Map<String,Object>> res=loanDao.listLoanOrderViewByConditions(params);
+        ConvertUtil.convertDataBaseMapToJavaMap(res);
+        if (null != res && res.size()>0){
+            for (Map<String,Object> loan:res){
+                Map<String,Object> query=new HashMap<>();
+                query.put("loanId",loan.get("loanId"));
+                List<Map<String,Object>> repays=repayDao.listRepayByConditions(query);
+                ConvertUtil.convertDataBaseMapToJavaMap(repays);
+                loan.put("repays",repays);
+            }
+        }
+        return res;
+    }
+
+    @Override
+    public int getLoansRepayDetailCount(Map params) {
+        params.put("inLoanState","(2,3)");
+        int res=loanDao.listLoanByConditionsCount(params);
+        return res;
+    }
+
+    @Override
+    public List<Map<String, Object>> getCreditList(Map params) {
+        params.put("orderBy","credit_apply_date desc");
+        List<Map<String,Object>> res=creditDao.listCreditByConditions(params);
+        ConvertUtil.convertDataBaseMapToJavaMap(res);
+        return res;
+    }
+
+    @Override
+    public int getCreditListCount(Map params) {
+        int res=creditDao.listCreditByConditionsCount(params);
+        return res;
     }
 }

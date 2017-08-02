@@ -5,7 +5,10 @@ import io.wellassist.utils.IPUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.wella.common.utils.ConvertUtil;
+import org.wella.dao.LoanDao;
 import org.wella.dao.TradeDAO;
+import org.wella.entity.Loan;
 import org.wella.entity.User;
 import org.wella.service.FinanceService;
 
@@ -20,6 +23,9 @@ public class FinanceServiceImpl implements FinanceService {
     @Autowired
     private TradeDAO tradeDAO;
 
+    @Autowired
+    private LoanDao loanDao;
+
     @Override
     public int recharge(Map<String, Object> map) {
         User user = (User) HttpContextUtils.getAttribute("user");
@@ -33,6 +39,13 @@ public class FinanceServiceImpl implements FinanceService {
     @Override
     public int withdraw(Map<String, Object> map) {
         return 0;
+    }
+
+    @Override
+    public Map<String, Object> getLoanOrderInfo(long loanId) {
+        Map<String,Object> res=loanDao.singleLoanOrderViewByPrimaryKey(loanId);
+        ConvertUtil.convertDataBaseMapToJavaMap(res);
+        return res;
     }
 
 

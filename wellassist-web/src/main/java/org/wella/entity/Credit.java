@@ -10,7 +10,11 @@ public class Credit {
 
     private BigDecimal creditMoney;
 
+    private String comment;
+
     private Date creditPaymentDays;
+
+    private Date creditStartDate;
 
     private Date creditDeadline;
 
@@ -35,6 +39,14 @@ public class Credit {
     private BigDecimal retLxMoney;
 
     private Byte creditState;
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
     public Long getCreditId() {
         return creditId;
@@ -66,6 +78,14 @@ public class Credit {
 
     public void setCreditPaymentDays(Date creditPaymentDays) {
         this.creditPaymentDays = creditPaymentDays;
+    }
+
+    public Date getCreditStartDate() {
+        return creditStartDate;
+    }
+
+    public void setCreditStartDate(Date creditStartDate) {
+        this.creditStartDate = creditStartDate;
     }
 
     public Date getCreditDeadline() {

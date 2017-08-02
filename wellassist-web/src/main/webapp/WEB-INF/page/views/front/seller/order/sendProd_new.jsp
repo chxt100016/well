@@ -122,7 +122,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <div><a class="ui button blue"  id="add" onclick="add()" style="display: block; width: 133px; margin: 0px auto; ">添加新司机</a></div>
+                <div><a class="ui button blue"  id="add" onclick="add()" style="display: block; width: 133px; margin: 0px auto; ">选择司机</a></div>
 
                 <!--添加新司机弹框-->
 

@@ -8,6 +8,7 @@ import io.wellassist.utils.Query;
 import io.wellassist.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.WaUserDao;
 import org.wella.entity.Prod;
 import org.wella.entity.User;
@@ -58,6 +59,17 @@ public class MemberController extends AbstractController{
         PageUtils pageUtil = new PageUtils(sellerList, totalCount, query.getLimit(), query.getPage());
         return R.ok().put("page", pageUtil);
     }
+
+    @RequestMapping(value = "creditorList")
+    public R creditorList(@RequestParam Map<String,Object> params){
+        Query query=new Query(params);
+        List creditorList=memberServiceImpl.findCreditorList(query);
+        int totalCount=memberServiceImpl.findCreditorCount(query);
+        PageUtils pageUtil = new PageUtils(creditorList, totalCount, query.getLimit(), query.getPage());
+        return R.ok().put("page",pageUtil);
+    }
+
+
 
     /**
      * 用户信息查看
@@ -172,4 +184,28 @@ public class MemberController extends AbstractController{
         Query query = new Query(params);
         List<Prod> prods=memberServiceImpl.findProductsByUserId(query);
     }*/
+
+    /**
+     * 认证creditor
+     * @param isAuthed:1通过，0不通过
+     * @return
+     */
+    @RequestMapping("authCreditor")
+    @ResponseBody
+    public R authCreditor(@RequestParam("userId")long userId,@RequestParam("comment")String comment,@RequestParam("isAuthed")int isAuthed){
+        try {
+            memberServiceImpl.authCreditor(userId,comment,isAuthed);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error();
+        }
+        return R.ok();
+    }
+
+    @RequestMapping("authCreditorPageInfo")
+    @ResponseBody
+    public R authCreditorPageInfo(@RequestParam("userId")long userId){
+        Map<String,Object> info=memberServiceImpl.authCreditorPageInfo(userId);
+        return R.ok().put("info",info);
+    }
 }

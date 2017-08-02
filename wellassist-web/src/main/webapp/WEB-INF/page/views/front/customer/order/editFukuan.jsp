@@ -9,7 +9,7 @@
 	}
 	div.formDd{
 		width:1000px;
-		text-align: left; 
+		text-align: left;
 		background: white;
 		box-shadow: 2px 2px 8px #808080;
 		padding:16px 0px 16px 0px;
@@ -75,6 +75,9 @@
 	.companyImg{
 		margin-left:50px;margin-top:10px;width:100px;height:155px;cursor:pointer;padding-left: 24px;float:left;
 	}
+	.ft-lf{
+		float:left
+	}
 </style>	
 <div style="margin-left: 0px; margin-top:20px;">
 	<div id="ddfkDiv" align="center">
@@ -128,15 +131,23 @@
 							<div class="contentdd" id="contentdd_2"  style="width:100%;border:solid 2px #c0c0c0;" ><label><input type = "radio" name = "zfMethod" value = "2" onclick = "changeZfMethod(2)" style = "margin-left:15px;margin-top:0px;" checked="checked" />&nbsp;&nbsp;余额支付</label></div>
 							<div class="contentdd" id="contentdd_3"  style="width:100%;"><label><input type = "radio" name = "zfMethod" value = "3" onclick = "changeZfMethod(3)" style = "margin-left:15px;margin-top:0px;" />&nbsp;&nbsp;授信余额付款</label></div>
 							<div class="contentdd" id="contentdd_4"  style="width:100%;">
-								<label>
+								<label class="ft-lf">
 									<input type = "radio" name = "zfMethod" value = "4" onclick = "changeZfMethod(4)" style = "margin-left:15px;margin-top:0px;" />&nbsp;&nbsp;组合付款
 								</label>
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;授信占比&nbsp;&nbsp;<select style="padding-top: 3px;" name="rate" id="zhan_rate">
+								<!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;授信占比&nbsp;&nbsp;<select style="padding-top: 3px;" name="rate" id="zhan_rate">
 									<option value = "10">10%</option>
 									<option value = "30">30%</option>
 									<option value = "50" selected = "selected">50%</option>
 									<option value = "80">80%</option>
-								</select>
+								</select> -->
+								<div style="width:250px;margin-left:30px"  class="ft-lf">
+									<input type="number" name="loan" style="width:100px"  id="loanPay" onchange="CompondPay(this)" onkeyup="value=value.replace(/[^[0-9]*[1-9][0-9]*$]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^[0-9]*[1-9][0-9]*$]/g,''))"> 
+									<span>授信金额</span>
+								</div>
+								<div style="width:250px;"  class="ft-lf"  >
+									<input type="number" style="width:100px"  disabled="disabled" id="balancePay"> <span>余额金额</span>
+									<input type="hidden" name="balance" id="balanceval">
+								</div>
 							</div>
 							<div class="contentdd" id="contentdd_5"  style="width:100%;">
 								<label>
@@ -305,6 +316,7 @@
 			    	if(confirm("你要确定操作吗？")){
 				    	$.post($("#ddfkForm").attr("action"),$("#ddfkForm").serialize(),function(data){
 				    		data = $.parseJSON(data);
+							
 				            if(data.status=="1"){
                                 if(zfMethod == "5"){
                                     alert("提交成功!");
@@ -351,6 +363,44 @@
 	    	}
 	    }
     });
+
+	// 组合支付函数
+	function CompondPay(loan){
+          console.log(loan.value);
+		  
+		  var Balance = $('#balancePay').val;
+		 var Amount = Number(${orderInfo.confirmPrice*orderInfo.confirmNumber});
+		 var LoanAmount = Number( ${orderInfo.userCreditMoney});
+		 var UserMoney = ${orderInfo.userMoney};
+		 var Loans=Number(loan.value);
+		 var Loanmin ;
+		 if(LoanAmount>=Amount ){
+		     Loanmin = Amount;
+		 }else{
+             Loanmin = LoanAmount;
+         }
+              console.log(Loanmin +"最小值");
+		 if(Loans >= Amount){
+			 console.log("太大了");
+			 loan.value = Loanmin;
+			 $('#loanPay').val(Loanmin);
+			//  Balance = Amount - Loans ;	
+			  $('#balancePay').val(0)
+			  $('#balanceval').val(0);	 
+			 }
+			 else{
+				  $('#balancePay').val( Amount - Loans );
+				  $('#balanceval').val(Amount - Loans);
+				  if(Amount - Loans > UserMoney){
+					 $('#balancePay').val( 0 );
+				 	 $('#balanceval').val(0);
+					  alert("余额不足！")
+				  }
+				 
+			 }
+		 
+		 console.log(Loanmin);
+	}
 </script>
 
 <%@ include file="../footer.jsp"%>

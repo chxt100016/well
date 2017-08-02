@@ -24,5 +24,12 @@ public interface FinanceService {
      */
     int withdraw(Map<String,Object> map);
 
+    /**
+     * 关联order的单条贷款详细信息
+     * @param loanId
+     * @return
+     */
+    Map<String,Object> getLoanOrderInfo(long loanId);
+
 
 }

@@ -300,7 +300,6 @@ public class FinanceController extends BaseController {
         } else {
             creditDengji = "0";
         }
-
         model.addAttribute("minMoney", minMoney);
         model.addAttribute("maxMoney", maxMoney);
         model.addAttribute("creditDengji", creditDengji);

@@ -69,6 +69,17 @@ public class PageController extends BaseController {
         model.addAttribute("userId",userId);
         return "views/platform/user/seller/sellerInfo.html";
     }
+    @RequestMapping("user/creditor/creditorInfo/{userId}")
+    public String creditorInfoPage(@PathVariable("userId")String userId,Model model){
+        model.addAttribute("userId",userId);
+        return "views/platform/user/creditor/creditorInfo.html";
+    }
+
+    @RequestMapping("user/creditor/creditorAuthCheck")
+    public String creditorAuthCheck(@RequestParam("userId")String userId,Model model){
+        model.addAttribute("userId",userId);
+        return "views/platform/user/creditor/creditorAuthCheck.html";
+    }
 
     @RequestMapping("user/customer/accountDetail/{userId}")
     public String accountDetailPage(@PathVariable("userId")String userId,Model model){

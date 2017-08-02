@@ -34,14 +34,19 @@
                 </div>
             </div>
             <div class="row" style="display: inline-table">
-                <div class="column">总额度：<span>${sxMoney}</span> <span class="grey"> 万元</span></div>
-                <div class="column">到期日期：<span></span></div>
-                <div class="column">可用额度:<span>xxx</span> <span class="grey"> 万元</span></div>
+                <div class="column">总额度：<span><c:if test="${not empty info.credit}"><fmt:formatNumber value="${info.credit.creditSjMoney}" pattern="#,###.##" type="number"/> </c:if>
+                <c:if test="${empty info.credit}">0</c:if>
+                </span> <span class="grey"> 元</span></div>
+                <div class="column">到期日期：<span>
+                    <c:if test="${not empty info.credit}"><fmt:formatDate value="${info.credit.creditDeadline}" pattern="yyyy-MM-dd"/> </c:if>
+                <c:if test="${empty info.credit}">无</c:if>
+                </span></div>
+                <div class="column">可用额度:<span><fmt:formatNumber value="${info.user.userCreditMoney}" pattern="#,###.##" type="number"/></span> <span class="grey"> 元</span></div>
             </div>
             <div class="row" style="display: inline-table">
-                <div class="column">我的借款：<span>xxx</span> <span class="grey"> 万元</span></div>
-                <div class="column">未还款：<span></span> <span class="grey"> 万元</span></div>
-                <div class="column">还款日期:<span></span> </div>
+                <%--<div class="column">我的借款：<span>xxx</span> <span class="grey"> 元</span></div>--%>
+                <div class="column">已用额度：<span><fmt:formatNumber value="${sumLoans}" pattern="#,###.##" type="number"/></span> <span class="grey"> 元</span></div>
+                <%--<div class="column">还款日期:<span>xxx</span> </div>--%>
             </div>
 
             <div class="row" style="display: inline-table">
@@ -51,47 +56,64 @@
 
         </div>
          <div class="ui divider"></div>
-         
+        <form id="searchFrm" method="post" action="${pageContext.request.contextPath}/customer/creditAccount">
+            <input type="hidden" id="page" name="page" value="${param.page}">
+        </form>
         <table class="ui celled striped  table ">
             <thead>
                 <tr>
-                    <th colspan="6">借款记录 </th>
+                    <th colspan="6">待还款 </th>
                 </tr>
                 <tr class="teal-bg ">
                     <th class="teal-bg">申请时间</th>
                     <th class="teal-bg">授信详情</th>
-                     <th class="teal-bg">授信金额(万元)</th>
-                    <th class="teal-bg">利率(%)</th>
-                     <th class="teal-bg">尾款剩余(万元)</th>
+                     <th class="teal-bg">授信金额(元)</th>
+                    <th class="teal-bg">利率(%%/日)</th>
+                     <th class="teal-bg">尾款剩余(元)</th>
                      <th class="teal-bg center aligned">操作</th>
                 </tr>
                 
             </thead>
-            <tbody> 
+            <tbody>
+            <c:if test="${not empty loans}">
+                <c:forEach items="${loans}" var="loan">
                 <tr>
-                    <td>2017-7-14</td>
-                     <td >申请成功</td>
-                     <td>100</td>
-                     <td>0.0126</td>
-                     <td>100</td>
+                    <td><fmt:formatDate value="${loan.applyDate}" pattern="yyyy-MM-dd"/></td>
+                     <td >待还款</td>
+                     <td><fmt:formatNumber value="${loan.loanMoney}" pattern="#,###.##" type="number"/></td>
+                     <td>${loan.lixiRate}</td>
+                     <td><fmt:formatNumber value="${loan.remainRepayMoney+loan.remainLixiMoney}" pattern="#,###.##" type="number"/></td>
                      <td class="center aligned">
-                         <button class="ui positive button">还款</button>
+                         <button class="ui positive button" onclick="toURL('goRepayLoan',${loan.loanId})">还款</button>
                      </td>
                 </tr>
+                </c:forEach>
+            </c:if>
+            <c:if test="${empty loans}">无欠款...</c:if>
             </tbody>
 
         </table>
-
+        <div class="right-pagination">
+            <%@ include file="../../pagination.jsp"%>
+        </div>
     </div>
 
 </body>
 <script>
     // 功能函数
-    function toURL(action){
+    function toURL(action,loanId){
         var url = "";
         if(action == 'sxSq'){
-            url = "${pageContext.request.contextPath}/customer/creditApply";
-            window.location.href = url;
+            $.get("${pageContext.request.contextPath}/customer/isCreditApplyAvailable",{},function(r){
+                if(r.code==0){
+                    url = "${pageContext.request.contextPath}/customer/creditApply";
+                    window.location.href = url;
+                }else {
+                    alert(r.msg);
+                }
+            },"json");
+        }else if (action == 'goRepayLoan'){
+            window.location.href="${pageContext.request.contextPath}/customer/goRepayLoan?loanId="+loanId;
         }
     }
 </script>

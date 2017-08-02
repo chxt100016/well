@@ -10,4 +10,8 @@ public interface CreditService {
     Map<String,Object> findCreditApplyDetailInfo(long creditId);
 
     void checkCreditApply(Map<String, Object> params);
+
+    void assignSubmit(long loanId,long creditorId);
+
+    void assignRollBack(long loanId,long mgrId,String ip);
 }

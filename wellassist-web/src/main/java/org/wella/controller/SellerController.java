@@ -2,9 +2,7 @@ package org.wella.controller;
 
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import io.wellassist.service.impl.UserServiceImpl;
 import io.wellassist.utils.HttpContextUtils;
 import io.wellassist.utils.IPUtils;
 import io.wellassist.utils.PageUtils;
@@ -13,11 +11,9 @@ import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.support.RequestContextUtils;
 import org.wella.common.ctrl.BaseController;
 import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
@@ -29,8 +25,6 @@ import org.wella.dao.WaUserDao;
 import org.wella.entity.User;
 import org.wella.entity.Userinfo;
 import org.wella.front.seller.mapper.SellerOrderMapper;
-import org.wella.platform.service.impl.ProductManageServiceImpl;
-import org.wella.service.CustomerService;
 import org.wella.service.WaOrderService;
 import org.wella.service.impl.ProductServiceImpl;
 import org.wella.service.impl.SellerServiceImpl;
@@ -424,10 +418,12 @@ public class SellerController extends BaseController {
     public String message(Model model){
         HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
         User user = (User) httpSession.getAttribute("user");
+
+
         model.addAttribute("parentMenuNo", "3");
         model.addAttribute("childMenuNo", "1");
         model.addAttribute("userName", user.getUserName());
-        return "views/front/seller/news/xxList.jsp";
+        return "views/front/seller/news/message.jsp";
     }
     @RequestMapping("finance")
     public String finance(Model model){

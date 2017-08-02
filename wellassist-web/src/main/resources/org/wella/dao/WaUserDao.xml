@@ -32,6 +32,7 @@
         <result column="activity_code" property="activityCode"/>
         <result column="reset_code" property="resetCode"/>
         <result column="supply_id" property="supplyId"/>
+        <result column="creditor_state" property="creditorState"></result>
     </resultMap>
 
     <select id="findUser" parameterType="map" resultMap="waUser">
@@ -225,6 +226,9 @@
             <if test="activityState != null" >
                 activity_state = #{activityState,jdbcType=BINARY},
             </if>
+            <if test="creditor_state != null">
+                creditor_state=#{creditorState,jdbcType=TINYINT},
+            </if>
         </set>
         WHERE user_id =${userId}
     </update>
@@ -346,5 +350,48 @@
         select *
         from wa_user
         where user_id=#{userId}
+    </select>
+
+    <select id="listUserAttachUserinfoByConditions" parameterType="map" resultType="map">
+        SELECT u.*,ui.`company_lxr`,ui.`company_lxr_phone`
+        FROM wa_user u LEFT JOIN wa_userinfo ui ON u.`user_id`=ui.`user_id`
+        <where>
+            <if test="userType != null">
+                AND u.user_type=#{userType}
+            </if>
+            <if test="userState != null">
+                AND u.user_state=#{userState}
+            </if>
+        </where>
+    </select>
+
+    <select id="listUserByConditions" parameterType="map" resultType="map">
+        SELECT * from wa_user
+        <where>
+            <if test="userType != null">
+                AND user_type=#{userType}
+            </if>
+            <if test="queryStr != null and queryStr.trim() != null">
+                and user_name LIKE '%${queryStr}%'
+            </if>
+        </where>
+        <if test="orderBy != null">
+            order by ${orderBy}
+        </if>
+        <if test="offset != null and limit != null">
+            limit #{offset},${limit}
+        </if>
+    </select>
+
+    <select id="listUserByConditionsCount" parameterType="map" resultType="int">
+        SELECT count(*) from wa_user
+        <where>
+            <if test="userType != null">
+                AND user_type=#{userType}
+            </if>
+            <if test="queryStr != null and queryStr.trim() != null">
+                and user_name LIKE '%${queryStr}%'
+            </if>
+        </where>
     </select>
 </mapper>

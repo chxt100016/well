@@ -42,7 +42,7 @@ public class SellerNewsController extends BaseController {
         model.addAttribute("parentMenuNo", "3");
         model.addAttribute("childMenuNo", "1");
         model.addAttribute("userName", myInfo.getUserName());
-        return "views/front/seller/news/xxList.jsp";
+        return "views/front/seller/news/message.jsp";
     }
 
     @RequestMapping(

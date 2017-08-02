@@ -18,7 +18,8 @@
 		<link rel="stylesheet" href="<c:url value="/resources/library/css/font-awesome.css"/>">
 		<!--[if IE 7]>
 		<link rel="stylesheet" href="<c:url value="/resources/library/css/font-awesome-ie7.min.css"/>">
-		<![endif]-->
+        <![endif]-->
+        <link rel="shortcut icon" type="image/x-icon" href="https://static.zhihu.com/static/favicon.ico" data-reactid="10">
 		<link rel="stylesheet" href="<c:url value="/resources/library/css/chosen.css"/>">
 		<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/styles.css"/>">
 		<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/new_style.css"/>">
@@ -70,7 +71,7 @@
 		<div align=center>
 			<div style="width:1100px;">
  					<span class="dropdown" style="float:left;">
-						<a data-toggle="dropdown" class="dropdown">${userName}&nbsp;<b class="icon-angle-down"></b></a>
+						<a data-toggle="dropdown" class="dropdown">${user.userName}&nbsp;<b class="icon-angle-down"></b></a>
 						<div class="dropdown-menu">
 							<div id="logout"><a style = "color: #1F2325; text-decoration: none;" href = "${pageContext.request.contextPath}/login/out">退出登陆</a></div>
 						</div>
@@ -166,13 +167,13 @@
                         <div class="field">
                             <div class="ui  checkbox">
                                 <input type="checkbox" <c:if test ="${childMenuNo == '3'}"> checked="checked" </c:if>>
-                                <label><a href = "${pageContext.request.contextPath}/front/customer/FinanceController-sxSqList">申请记录</a></label>
+                                <label><a href = "${pageContext.request.contextPath}/customer/creditApplys">申请记录</a></label>
                             </div>
                         </div>
                         <div class="field">
                             <div class="ui  checkbox">
                                 <input type="checkbox" <c:if test ="${childMenuNo == '4'}"> checked="checked" </c:if>>
-                                <label><a href = "${pageContext.request.contextPath}/front/customer/FinanceController-hkList">还款记录</a></label>
+                                <label><a href = "${pageContext.request.contextPath}/customer/loansRepayRecords">还款记录</a></label>
                             </div>
                         </div>
 

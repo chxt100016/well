@@ -68,6 +68,8 @@ public class User {
 
     private byte activityState;
 
+    private byte creditorState;
+
     public Long getUserId() {
         return userId;
     }
@@ -322,5 +324,13 @@ public class User {
 
     public void setActivityState(byte activityState) {
         this.activityState = activityState;
+    }
+
+    public byte getCreditorState() {
+        return creditorState;
+    }
+
+    public void setCreditorState(byte creditorState) {
+        this.creditorState = creditorState;
     }
 }

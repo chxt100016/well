@@ -121,12 +121,14 @@
 								<label>
 									<input type = "radio" name = "zfMethod" value = "4" onclick = "changeZfMethod(4)" style = "margin-left:15px;margin-top:0px;" />&nbsp;&nbsp;组合付款
 								</label>
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;授信占比&nbsp;&nbsp;<select style="padding-top: 3px;" name="rate" id="zhan_rate">
+								<!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;授信占比&nbsp;&nbsp;
+								<select style="padding-top: 3px;" name="rate" id="zhan_rate">
 									<option value = "10">10%</option>
 									<option value = "30">30%</option>
 									<option value = "50" selected = "selected">50%</option>
 									<option value = "80">80%</option>
-								</select>
+								</select> -->
+								<input type="number" > <span>授信金额</span>
 							</div>
 							<%--<div class="contentdd" id="contentdd_5"  style="width:100%;">
 								<label>

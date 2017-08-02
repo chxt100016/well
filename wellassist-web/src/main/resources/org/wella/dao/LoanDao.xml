@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.LoanDao">
+
+    <select id="listLoanOrderViewByConditions" parameterType="map" resultType="map">
+        SELECT *
+        from loan_order_view
+        <where>
+            <if test="queryStr != null">
+                AND (customer_user_name LIKE '%${queryStr}%' OR creditor_user_name LIKE '%${queryStr}%' OR order_no LIKE '%${queryStr}%')
+            </if>
+            <if test="creditUserId != null">
+                AND credit_user_id=#{creditUserId}
+            </if>
+            <if test="loanState !=null">
+                AND loan_state=#{loanState}
+            </if>
+            <if test="userId != null">
+                and user_id=#{userId}
+            </if>
+            <if test="inLoanState != null">
+                AND loan_state in ${inLoanState}
+            </if>
+        </where>
+        <if test="orderBy != null">
+            order BY ${orderBy}
+        </if>
+        <if test="offset != null and limit != null">
+            LIMIT ${offset}, ${limit}
+        </if>
+        <if test="start != null and size != null">
+            LIMIT ${start}, ${size}
+        </if>
+    </select>
+
+    <select id="listLoanOrderViewByConditionsCount" parameterType="map" resultType="int">
+        SELECT count(*)
+        from loan_order_view
+        <where>
+            <if test="queryStr != null">
+                AND (customer_user_name LIKE '%${queryStr}%' OR creditor_user_name LIKE '%${queryStr}%' OR order_no LIKE '%${queryStr}%')
+            </if>
+            <if test="inLoanState != null">
+                AND loan_state in ${loanState}
+            </if>
+        </where>
+    </select>
+
+    <select id="singleLoanOrderViewByPrimaryKey" parameterType="long" resultType="map">
+        SELECT *
+        from loan_order_view
+        WHERE loan_id=#{loanId}
+    </select>
+
+    <update id="updateLoanByPrimaryKey" parameterType="map">
+        update wa_loan
+        <set >
+            <if test="moneyId != null" >
+                money_id = #{moneyId,jdbcType=BIGINT},
+            </if>
+            <if test="creditId != null" >
+                credit_id = #{creditId,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null" >
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="creditUserId != null" >
+                credit_user_id = #{creditUserId,jdbcType=BIGINT},
+            </if>
+            <if test="loanMoney != null" >
+                loan_money = #{loanMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="loanInterestMoney != null" >
+                loan_interest_money = #{loanInterestMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="applyDate != null" >
+                apply_date = #{applyDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="loanDate != null" >
+                loan_date = #{loanDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="interestFreeDate != null" >
+                interest_free_date = #{interestFreeDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="paymentDate != null" >
+                payment_date = #{paymentDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lixiRate != null" >
+                lixi_rate = #{lixiRate,jdbcType=DECIMAL},
+            </if>
+            <if test="lixiRateFkf != null" >
+                lixi_rate_fkf = #{lixiRateFkf,jdbcType=DECIMAL},
+            </if>
+            <if test="repayMoney != null" >
+                repay_money = #{repayMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="remainRepayMoney != null" >
+                remain_repay_money = #{remainRepayMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="lixiMoney != null" >
+                lixi_money = #{lixiMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="lixiMoneyFkf != null" >
+                lixi_money_fkf = #{lixiMoneyFkf,jdbcType=DECIMAL},
+            </if>
+            <if test="repayLixi != null" >
+                repay_lixi = #{repayLixi,jdbcType=DECIMAL},
+            </if>
+            <if test="remainLixiMoney != null" >
+                remain_lixi_money = #{remainLixiMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="loanState != null" >
+                loan_state = #{loanState,jdbcType=TINYINT},
+            </if>
+            <if test="content != null" >
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="loanIp != null" >
+                loan_ip = #{loanIp,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where loan_id = #{loanId,jdbcType=BIGINT}
+    </update>
+
+    <select id="singleLoanByPrimaryKey" parameterType="long" resultType="map">
+        select *
+        from wa_loan
+        WHERE loan_id=#{loanId}
+    </select>
+
+    <select id="getLoansSum" parameterType="long" resultType="java.math.BigDecimal">
+        SELECT sum(loan_money)
+        from wa_loan
+        WHERE user_id=#{userId}
+        AND loan_state not in (-3,3);
+    </select>
+
+    <select id="listLoanByConditions" parameterType="map" resultType="map">
+        SELECT *
+        from wa_loan
+        <where>
+            <if test="userId != null">
+                AND user_id=#{userId}
+            </if>
+            <if test="creditUserId != null">
+                AND credit_user_id=#{creditUserId}
+            </if>
+            <if test="loanState !=null">
+                AND loan_state=#{loanState}
+            </if>
+            <if test="inLoanState != null">
+                and loan_state in ${inLoanState}
+            </if>
+        </where>
+        <if test="orderBy != null">
+            ORDER BY ${orderBy}
+        </if>
+        <if test="offset != null and limit != null">
+            LIMIT ${offset}, ${limit}
+        </if>
+        <if test="start !=null and size != null">
+            LIMIT ${start} , ${size}
+        </if>
+    </select>
+
+    <select id="listLoanByConditionsCount" parameterType="map" resultType="int">
+        SELECT count(*)
+        from wa_loan
+        <where>
+            <if test="userId != null">
+                AND user_id=#{userId}
+            </if>
+            <if test="creditUserId != null">
+                AND credit_user_id=#{creditUserId}
+            </if>
+            <if test="loanState !=null">
+                AND loan_state=#{loanState}
+            </if>
+            <if test="inLoanState != null">
+                and loan_state in ${inLoanState}
+            </if>
+        </where>
+    </select>
+</mapper>

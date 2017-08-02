@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.LoanAssignInfoDao">
+
+    <insert id="insert" parameterType="map">
+        insert into wa_loan_assign_info (loan_id, creditor_id,
+      state, comment, create_date,
+      operate_date, operate_ip, mgr_id
+      )
+    values ( #{loanId,jdbcType=BIGINT}, #{creditorId,jdbcType=BIGINT},
+      #{state,jdbcType=TINYINT}, #{comment,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+      #{operateDate,jdbcType=TIMESTAMP}, #{operateIp,jdbcType=VARCHAR}, #{mgrId,jdbcType=BIGINT}
+      )
+    </insert>
+
+    <select id="singleLoanAssignInfoByConditions" parameterType="map" resultType="map">
+        SELECT *
+        from wa_loan_assign_info
+        <where>
+            <if test="loanId != null">
+                AND loan_id=#{loanId}
+            </if>
+            <if test="creditorId != null">
+                AND creditor_id=#{creditorId}
+            </if>
+            <if test="state != null">
+                AND state=#{state}
+            </if>
+        </where>
+        limit 1
+    </select>
+
+    <update id="updateByPrimaryKey" parameterType="map">
+        update wa_loan_assign_info
+        <set >
+            <if test="loanId != null" >
+                loan_id = #{loanId,jdbcType=BIGINT},
+            </if>
+            <if test="creditorId != null" >
+                creditor_id = #{creditorId,jdbcType=BIGINT},
+            </if>
+            <if test="state != null" >
+                state = #{state,jdbcType=TINYINT},
+            </if>
+            <if test="comment != null" >
+                comment = #{comment,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null" >
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="operateDate != null" >
+                operate_date = #{operateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="operateIp != null" >
+                operate_ip = #{operateIp,jdbcType=VARCHAR},
+            </if>
+            <if test="mgrId != null" >
+                mgr_id = #{mgrId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where loan_assign_info_id = #{loanAssignInfoId,jdbcType=BIGINT}
+    </update>
+</mapper>

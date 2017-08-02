@@ -25,4 +25,8 @@ public interface CreditDao {
     void updateByPrimaryKey(Map<String, Object> params);
 
     Map<String,Object> singleCreditByPrimaryKey(@Param("creditId") long creditId);
+
+    List<Map<String,Object>> listCreditByConditions(Map params);
+
+    int listCreditByConditionsCount(Map params);
 }

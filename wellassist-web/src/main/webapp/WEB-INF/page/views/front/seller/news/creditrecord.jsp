@@ -26,20 +26,17 @@
 
 </head>
 <div id = "content-rect">
-	<div style="border:solid 1px #d0d0d0;font-size:18px;font-weight:bold;color:#0557ab;line-height:36px;text-align: left;">&nbsp;&nbsp;消息列表</div>
 	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/front/seller/SellerNewsController-xxList">
 		<input type="hidden" id="page" name="page" value="${param.page}">
-		<%--
 		<div class="row-header">
-		     <span class="header-title">订单列表</span>
+		     <span class="header-title">征信中心</span>
 		     <div style="float:right;">
-		     	<input type="text" name="prodName" style="height:10px; float:left;margin-bottom:0px;" value="${param.prodName}"/>
-		     	<span class="span_search_btn_blue" style="margin-bottom:0px;" onclick="searchData(1);">搜索</span>
-		     </div>
+		     	<span class="span_search_btn_blue_1"   onclick="searchData(1);">搜索</span>
+				 <input type="text" name="title"  value="${param.prodName}"/>
+			 </div>
 		</div>
-		--%>
 	</form>
-	<div style="border-bottom:solid 1px #d0d0d0;padding:6px;font-size:14px;margin-top:16px;height:32px;">
+	<div style="border-bottom:solid 1px #d0d0d0;padding:2px;font-size:14px;margin-top:16px;height:32px;">
 		<div style="float:left;">
 			<input type="button" id="selReadBtn" value="标记所选为已读" />
 			<input type="button" id="selDelBtn"  value="删除所选" />
@@ -47,31 +44,32 @@
 		</div>
 		<div style="float:right;margin-top:12px;">未读 <span id="noReadCount">${noReadCount}</span>/全部 <span>${totalCount}</span></div>
 	</div>
-	<div style="border-bottom:solid 1px #d0d0d0;padding:6px;font-size:14px;margin-top:16px;height:16px;">
+	<div style="border-bottom:solid 1px #d0d0d0;font-size:14px;margin-top:16px;height:16px;">
 		<div style="float:left;width:5%;">选择</div>
-		<div style="float:left;width:65%;">标题</div>
-		<div style="float:left;width:20%;">时间</div>
-		<div style="float:left;width:8%;">状态</div>
+		<div style="float:left;width:10%;">用户ID</div>
+		<div style="float:left;width:10%;">企业ID</div>
+		<div style="float:left;width:10%;">信誉等级</div>
+		<div style="float:left;width:10%;">信誉类型</div>
+		<div style="float:left;width:10%;">等级发生时间</div>
+		<div style="float:left;width:10%;">评定机构</div>
+		<div style="float:left;width:12%;">备注</div>
 	</div>
-	<c:forEach var="item" items="${newsList}">
+	<c:forEach var="creditrecord" items="${creditrecordList}">
 		<div class="newsitem">
 			<div>
-				<div style="float:left;width:5%;"><input name="chkNewsId" value="${item.txId}" type="checkbox"></div>
-				<div style="float:left;width:65%;"><a style="cursor: pointer;" onclick="viewContent('${item.txId}')">${item.txName}</a></div>
-				<div style="float:left;width:20%;"><fmt:formatDate value="${item.txDate}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
-				<div style="float:left;">
-					<input type="hidden" id="isReadHidden_${item.txId}" value="${item.isRead}" />
-					<c:if test="${item.isRead==0}"><img id="isReadImg_${item.txId}" src="<c:url value="/resources/wella/front/images/news_unread.png"/>"></c:if>
-					<c:if test="${item.isRead==1}"><img id="isReadImg_${item.txId}" src="<c:url value="/resources/wella/front/images/news_read.png"/>"></c:if>
-				</div>
-			</div>
-			<div class="newsincontent" id="newsincontent_${item.txId}">
-				${item.txContent}
+				<div style="float:left;width:5%;"><input name="chkNewsId" value="${creditrecord.id}" type="checkbox"></div>
+				<div style="float:left;width:10%;"><a style="cursor: pointer;" onclick="viewContent('${creditrecord.id}')">${creditrecord.userId}</a></div>
+				<div style="float:left;width:10%;">${creditrecord.enterpriseId}</div>
+				<div style="float:left;width:10%;">${creditrecord.creditLevel}</div>
+				<div style="float:left;width:10%;">${creditrecord.creditType}</div>
+				<div style="float:left;width:10%;">${creditrecord.creditDate}</div>
+				<div style="float:left;width:10%;">${creditrecord.evaluationInstitution}</div>
+				<div style="float:left;width:12%;">${creditrecord.memo}</div>
 			</div>
 		</div>
 	</c:forEach>
-	<c:if test="${newsList== null || fn:length(newsList) == 0}">
-		<div style = "margin-top:10px; margin-left:20px; float:left;">没有资料</div>	 
+	<c:if test="${creditrecordList== null || fn:length(creditrecordList) == 0}">
+		<div style = "margin-top:10px; margin-left:20px; float:left;">没有等级</div>
     </c:if>	
 	<div class="right-pagination">
 		<%@ include file="../../pagination.jsp"%>
