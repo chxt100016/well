@@ -5,6 +5,7 @@
 <head>
 	<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
 
+
 	<style>
 		.start_heading2{padding-top:20px;padding-bottom:20px;font-weight:bold;font-size:24px;}
 		.ware_button{float:right;color: white;background: red;padding: 6px;border-bottom-left-radius: 8px;border-top-left-radius: 8px;border-top-right-radius: 8px;border-bottom-right-radius: 8px;width: 61px;text-align: center;cursor:hand;font-size:16px;}

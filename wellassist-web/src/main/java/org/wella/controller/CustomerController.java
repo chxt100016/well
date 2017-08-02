@@ -593,7 +593,7 @@ public class CustomerController extends BaseController{
    /**
     * 重复，要删
     * 下订单界面
-    * @param prodId
+    * @param prodIdF
     * @param model
     * @return
     */
