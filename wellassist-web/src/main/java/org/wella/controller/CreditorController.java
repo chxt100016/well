@@ -54,13 +54,14 @@ public class CreditorController {
      * @return
      */
     @RequestMapping("creditorAuthApply")
-    public String creditorAuthApply(@RequestBody CreditorAuthenticInfo creditorAuthenticInfo,HttpServletRequest request){
+    @ResponseBody
+    public R creditorAuthApply(@RequestBody CreditorAuthenticInfo creditorAuthenticInfo,HttpServletRequest request){
         User user=(User)request.getSession().getAttribute("user");
         creditorAuthenticInfo.setUserId(user.getUserId());
         creditorAuthenticInfo.setApplyDate(new Date());
         creditorAuthenticInfo.setState((byte)1);
         creditorServiceImpl.qualityApply(creditorAuthenticInfo);
-        return "";
+        return R.ok();
     }
 
     /**
