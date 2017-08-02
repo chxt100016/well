@@ -74,11 +74,11 @@
  					<span class="dropdown" style="float:left;">
 						<a data-toggle="dropdown" class="dropdown">$user.userName&nbsp;<b class="icon-angle-down"></b></a>
 						<div class="dropdown-menu">
-							<div id="logout"><a style = "color: #1F2325; text-decoration: none;" href = "${rc.contextPath}/front/fkf/FkfLoginCtrl-logout">退出登陆</a></div>
+							<div id="logout"><a style = "color: #1F2325; text-decoration: none;" href = "${rc.contextPath}/login/out">退出登陆</a></div>
 						</div>
  					
  					</span>
-					<span style="float: right;"><a href="${rc.contextPath}/front/fkf/FkfHomeCtrl-home">返回首页</a></span>
+					<span style="float: right;"><a href="${rc.contextPath}/login/success?type=2">返回首页</a></span>
 			</div>
 		</div>
 	</div>
@@ -129,8 +129,9 @@
 						<div style="">财务中心</div>
 					</li>
 					<ul style="display: block;">
-						<li class="leftmenuleaf #if($childMenuNo==1)selected#end"><a href = "">利息列表</a></li>
-						<li class="leftmenuleaf #if($childMenuNo==2)selected#end"><a href = "">还款列表</a></li>
+						<li class="leftmenuleaf #if($childMenuNo==1)selected#end"><a href = "${rc.contextPath}/creditor/interestListPage">利息列表</a></li>
+						<li class="leftmenuleaf #if($childMenuNo==2)selected#end"><a href = "${rc.contextPath}/creditor/repayOffListPage">还款列表</a></li>
+						<li class="leftmenuleaf #if($childMenuNo==2)selected#end"><a href = "${rc.contextPath}/creditor/repayingListPage">未还款列表</a></li>
 					</ul>
 				</ul>
 			#end

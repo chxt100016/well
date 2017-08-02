@@ -29,4 +29,17 @@
         </if>
     </select>
 
+    <select id="singleRepayByConditions" parameterType="map" resultType="map">
+        SELECT *
+        from wa_repay
+        <where>
+            <if test="loanId != null">
+                AND loan_id=#{loanId}
+            </if>
+        </where>
+        <if test="orderBy != null">
+            ORDER by ${orderBy}
+        </if>
+        limit 1
+    </select>
 </mapper>

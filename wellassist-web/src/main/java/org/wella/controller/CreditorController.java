@@ -60,7 +60,12 @@ public class CreditorController {
         creditorAuthenticInfo.setUserId(user.getUserId());
         creditorAuthenticInfo.setApplyDate(new Date());
         creditorAuthenticInfo.setState((byte)1);
-        creditorServiceImpl.qualityApply(creditorAuthenticInfo);
+        try {
+            creditorServiceImpl.qualityApply(creditorAuthenticInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error();
+        }
         return R.ok();
     }
 
@@ -147,7 +152,7 @@ public class CreditorController {
         Query query=new Query(params);
         query.put("creditUserId",creditUserId);
         query.put("loanState",3);
-        List list=creditorServiceImpl.listLoanOrderViewByConditions(query);
+        List list=creditorServiceImpl.repayOffList(query);
         int totalCount=creditorServiceImpl.listLoanCount(query);
         PageUtils pageUtils=new PageUtils(list,totalCount,query.getLimit(),query.getPage());
         return R.ok().put("page",pageUtils);
@@ -205,4 +210,27 @@ public class CreditorController {
         return "views/front/creditor/order/loanCheck.html";
     }
 
+    @RequestMapping("interestListPage")
+    public String interestListPage(Model model){
+        model.addAttribute("parentMenuNo",2);
+        model.addAttribute("childMenuNo",1);
+        model.addAttribute("sideNavShow",1);
+        return "views/front/creditor/order/interestListPage.html";
+    }
+
+    @RequestMapping("repayOffListPage")
+    public String repayOffListPage(Model model){
+        model.addAttribute("parentMenuNo",2);
+        model.addAttribute("childMenuNo",2);
+        model.addAttribute("sideNavShow",1);
+        return "views/front/creditor/order/repayOffListPage.html";
+    }
+
+    @RequestMapping("repayingListPage")
+    public String repayingListPage(Model model){
+        model.addAttribute("parentMenuNo",2);
+        model.addAttribute("childMenuNo",3);
+        model.addAttribute("sideNavShow",1);
+        return "views/front/creditor/order/repayingListPage.html";
+    }
 }

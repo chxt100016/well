@@ -1,0 +1,210 @@
+#parse("sys/creditorheader.html")
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script>
+    <style>
+        .mid_box {
+            width: 990px !important;
+            margin: 0px auto;
+            border: 1px solid rgba(34, 36, 38, .15);
+            box-shadow: 0 2px 4px 0 rgba(34, 36, 38, .12), 0 2px 10px 0 rgba(34, 36, 38, .15);
+            padding: 1em;
+            font-size: 14px;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ui container segment mid_box" id="app1">
+        <h2 class="ui header">还款列表：</h2>
+        <div class="ui divider"></div>
+        <div>
+            <table class="ui table ">
+                <thead>
+                    <th>公司名称</th>
+                    <th>本金</th>
+                    <th>利息</th>
+                    <th>利率</th>
+                    <th>还款时间</th>
+                    <th>共计</th>
+                   
+                </thead>
+                <tbody>
+                     
+                     <tr v-for="list in lists">
+                        <td>{{list.customerUserName }}</td>
+                         <td>{{list.loanMoney }}</td>
+                          <td>{{list.lixiMoneyFkf}}</td>
+                          <td>{{list.lixiRateFkf}}</td>
+                          <td>{{list.paymentDate }}</td>
+                          <td>{{list.loanMoney +list.lixiMoneyFkf }}</td>
+                      
+                          
+                    </tr>
+                </tbody>
+                 <tfoot>
+                    <tr>
+                        <th colspan="8">
+                            <div class="ui right floated pagination menu">
+                                <a class="icon item" @click="turnPage(-1)">
+                                 <i class="left chevron icon"></i>
+                                    </a>
+                                <a class="item" v-for="index in indexs" v-bind:class="{ 'active': currentPage == index-1}" v-on:click="btnClick(index)">{{index}}</a>
+                                <a class="icon item" @click="turnPage(1)">
+                                <i class="right chevron icon"></i>
+                                </a>
+                            </div>
+                </tfoot>
+            </table>
+             <div class="ui active inline loader" v-if='loadingState' style="left:50%"></div>
+        </div>
+    </div>
+</body>
+<script>
+  const url1="${rc.contextPath}/creditor/repayingList";
+    
+    const vm = new Vue({
+        el:"#app1",
+         data() {
+            return {
+                lists: '',
+                selectedUsers: [], // 保存选中的 users 数组
+                selectedUser: {}, // 选中 user
+                fKey: '', // 过滤 name 的关键字
+                name: '', // 上一次过滤的 name 关键字，初始化为''
+                aKey: '', // select audit 的关键字
+                audit: '', // 上一次过滤的 audit关键字，初始化为''
+                limit: 10, // 每页显示行数
+                totalPage: '', // 总页数
+                currentPage: 0, // 当前页
+                jPage: 1,// 跳转到某页
+                loadingState: false,
+                dataState: false,
+            }
+        },
+        beforeCreate:function(){
+             var that = this;
+            console.log("ajxstart!!");
+            $.ajax({
+                type: "get",  //提交方式  
+                url: url1,//路径
+                dataType: 'json',
+                contentType: 'text/html;charset=UTF-8',
+                data: {
+                    // "loanId" : "$loanId"  
+                    'limit': 10,
+                    'page': 1
+                },//数据，这里使用的是Json格式进行传输  
+                success: function (result) {//返回数据根据结果进行相应的处理 
+                    console.log(result); 
+                    if (result.code == 0) {
+                        console.log('成功');
+                        // console.log(result.page.totalPage);
+                        that.lists = result.page.list;
+                        console.log(result.page.totalPage);
+                        that.totalPage = result.page.totalPage;
+                        // console.log(result);
+                        if (result.page.list.length == 0) {
+                            that.dataState = true
+
+                            // that.creditors=result.creditors;
+                        }
+                    }
+                    else {
+                        // console.log('失败');
+                        that.loadingState = false
+                    }
+                },
+                error: function () {
+                    that.loadingState = true
+                }
+            });
+        },
+          computed: {
+            indexs: function () {
+                var that = this;
+                var left = 1;
+                var right = that.totalPage;
+                var ar = [];
+                if (this.totalPage >= 5) {
+                    if (this.currentPage > 3 && this.currentPage < this.totalPage - 2) {
+                        left = this.currentPage - 2
+                        right = this.currentPage + 2
+                    } else {
+                        if (this.currentPage <= 3) {
+                            left = 1
+                            right = 5
+                        } else {
+                            right = this.totalPage
+                            left = this.totalPage - 4
+                        }
+                    }
+                }
+                while (left <= right) {
+                    ar.push(left)
+                    left++
+                }
+                return ar
+            }
+
+        },
+        methods:{
+           // 翻页方法别乱改
+            turnPage(num) {
+                if (num === 1) {
+                    if (this.currentPage === this.totalPage - 1) {
+                        return
+                    } else {
+                        this.currentPage++
+                    }
+                } else {
+                    if (this.currentPage === 0) {
+                        return
+                    } else {
+                        this.currentPage--
+                    }
+                }
+            },
+            btnClick: function (data) {//页码点击事件
+                var that = this;
+                if (data != this.currentPage + 1) {
+                    this.currentPage = data - 1;
+
+                }
+                console.log(data);
+                $.ajax({
+                    type: "get",  //提交方式  
+                    url: url1,//路径
+                    dataType: 'json',
+                    contentType: 'text/html;charset=UTF-8',
+                    data: {
+                        // "loanId" : "$loanId"  
+                        limit: 10,
+                        page: data
+                    },//数据，这里使用的是Json格式进行传输  
+                    success: function (result) {//返回数据根据结果进行相应的处理  
+                        if (result.code == 0) {
+                            // console.log('成功');
+                            // console.log(result.page.totalPage);
+                             that.lists = result.page.list;
+                            that.totalPage = result.page.totalPage;
+                            // console.log(vm.totalPage);
+                        
+
+                        } else {
+                            console.log('失败')
+                        }
+                    }
+                });
+            },
+        }
+    })
+</script>
+
+</html>
