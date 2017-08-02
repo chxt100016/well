@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.LoanDao;
+import org.wella.platform.service.impl.MemberServiceImpl;
 import org.wella.dao.OrderDao;
 import org.wella.service.SellerService;
 
@@ -25,6 +26,8 @@ public class TestController {
     @Autowired
     private SellerService sellerServiceImpl;
     @Autowired
+    private MemberServiceImpl memberServiceImpl;
+    @Autowired
     private LoanDao loanDao;
     @Autowired
     private OrderDao orderDao;
@@ -34,6 +37,7 @@ public class TestController {
     public Object test1(String orderId){
         return sellerServiceImpl.getOrderLogisticsInfo(Long.parseLong(orderId));
     }
+
 
     @RequestMapping("testPage")
     @ResponseBody

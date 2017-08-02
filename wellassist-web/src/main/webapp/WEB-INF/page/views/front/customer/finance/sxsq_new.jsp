@@ -192,6 +192,7 @@
                 </div>
                 <br>
                 <button  class="ui primary button">提交申请</button>
+                <a onclick="ddd">ddd</a>
             </form>
          </div>
     </body>
@@ -331,5 +332,6 @@
                   filesShow.innerHTML = "<p>"+filename+"</p>"+ '<i class="file excel outline icon excel-inco">'+'</i>';
                 }
             }
+         
         </script>
 </html>
