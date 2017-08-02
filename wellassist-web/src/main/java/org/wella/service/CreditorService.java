@@ -66,5 +66,8 @@ public interface CreditorService {
      */
     Map<String,Object> getLoanAssignInfo(long loanId,long creditorUserId);
 
-
+    /**
+     *放款方拒绝放款指派
+     */
+    void refuseLoan(long loanId, long creditorUserId, String ip);
 }

@@ -104,8 +104,16 @@ public class CreditorController {
 
     @RequestMapping("refuseLoan")
     @ResponseBody
-    public R refuseLoan(@RequestParam("loanId")long loanId){
-
+    public R refuseLoan(@RequestParam("loanId")long loanId,HttpServletRequest request){
+        User user=(User)request.getSession().getAttribute("user");
+        long userId=user.getUserId();
+        String ip= IPUtils.getIpAddr(request);
+        try {
+            creditorServiceImpl.refuseLoan(loanId,userId,ip);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error();
+        }
         return R.ok();
     }
 

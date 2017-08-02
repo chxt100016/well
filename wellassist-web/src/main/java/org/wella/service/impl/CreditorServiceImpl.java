@@ -140,4 +140,22 @@ public class CreditorServiceImpl implements CreditorService{
         ConvertUtil.convertDataBaseMapToJavaMap(loanAssignInfo);
         return loanAssignInfo;
     }
+
+    @Override
+    @Transactional
+    public void refuseLoan(long loanId, long creditorUserId, String ip) {
+        Map<String,Object> updateloan=new HashMap<>();
+        updateloan.put("loanId",loanId);
+        updateloan.put("creditUserId",0);
+        updateloan.put("loanState",0);
+        loanDao.updateLoanByPrimaryKey(updateloan);
+
+        Map<String,Object> loanAssignInfo=getLoanAssignInfo(loanId,creditorUserId);
+        Map<String,Object> updateLoanAssignInfo=new HashMap<>();
+        updateLoanAssignInfo.put("loanAssignInfoId",loanAssignInfo.get("loanAssignInfoId"));
+        updateLoanAssignInfo.put("state",-1);
+        updateLoanAssignInfo.put("operateDate",new Date());
+        updateLoanAssignInfo.put("operateIp",ip);
+        loanAssignInfoDao.updateByPrimaryKey(updateLoanAssignInfo);
+    }
 }
