@@ -1,0 +1,39 @@
+#parse("sys/creditorheader.html")
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    #*<link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>*#
+    <style>
+        #parent {
+            padding: 5% 0;
+        }
+
+        #child {
+            padding: 10% 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ui container segment" id="app1">
+        <div id="parent">
+            <div id="child">
+                <p class="ui center aligned header"> <i class="check square icon"></i>资料提交成功</p>
+                <p class="ui center aligned header">
+                    请等待审核
+                </p>
+                <br><br>
+                  <div class="ui horizontal divider">and </div>
+                <p class="ui center aligned ">
+                    <br><br>
+                    <button class="ui pink button" style="display:block;margin:0px auto">返回首页</button>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
