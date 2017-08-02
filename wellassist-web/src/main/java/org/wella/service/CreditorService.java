@@ -1,5 +1,6 @@
 package org.wella.service;
 
+import io.wellassist.utils.Query;
 import org.wella.entity.CreditorAuthenticInfo;
 
 import java.util.List;
@@ -44,12 +45,26 @@ public interface CreditorService {
     CreditorAuthenticInfo getAuthenticingInfo(long userId);
 
     /**
-     * 得到已被指派未被确认的loans,待修改，未分页
-     * @param userId
+     * 得到已被指派未被确认的loans
+     * @param query:creditUserId,limit,offset
      * @return
      */
-    List<Map<String,Object>> getAssignLoans(long userId);
+    List<Map<String,Object>> getAssignLoans(Map query);
 
+    /**
+     * 得到已被指派未被确认的loans count,分页参数
+     * @param query:creditUserId,limit,offset
+     * @return
+     */
+    int getAssignLoansCount(Map query);
+
+    /**
+     * 得到被指派的贷款 wa_loan_assign_info记录
+     * @param loanId
+     * @param creditorUserId
+     * @return
+     */
+    Map<String,Object> getLoanAssignInfo(long loanId,long creditorUserId);
 
 
 }

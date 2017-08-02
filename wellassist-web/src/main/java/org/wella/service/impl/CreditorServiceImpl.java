@@ -77,14 +77,10 @@ public class CreditorServiceImpl implements CreditorService{
         loanDao.updateLoanByPrimaryKey(updateloan);
 
         //update table wa_loan_assign_info
-        Map<String,Object> query=new HashMap<>();
-        query.put("loanId",loanId);
-        query.put("creditorId",creditorUserId);
-        query.put("state",0);
-        Map<String,Object> loanAssignInfo=loanAssignInfoDao.singleLoanAssignInfoByConditions(query);
+        Map<String,Object> loanAssignInfo=getLoanAssignInfo(loanId, creditorUserId);
 
         Map<String,Object> updateloanAssignInfo=new HashMap<>();
-        updateloanAssignInfo.put("loanAssignInfoId",loanAssignInfo.get("loan_assign_info_id"));
+        updateloanAssignInfo.put("loanAssignInfoId",loanAssignInfo.get("loanAssignInfoId"));
         updateloanAssignInfo.put("state",1);
         updateloanAssignInfo.put("operateDate",now);
         updateloanAssignInfo.put("operateIp",operateIp);
@@ -120,12 +116,28 @@ public class CreditorServiceImpl implements CreditorService{
     }
 
     @Override
-    public List<Map<String, Object>> getAssignLoans(long userId) {
-        Map<String,Object> query=new HashMap<>();
-        query.put("creditUserId",userId);
+    public List<Map<String,Object>> getAssignLoans(Map query) {
         query.put("loanState",1);
-        List<Map<String, Object>> res=loanDao.listLoanByConditions(query);
+        List<Map<String, Object>> res=loanDao.listLoanOrderViewByConditions(query);
         ConvertUtil.convertDataBaseMapToJavaMap(res);
         return res;
+    }
+
+    @Override
+    public int getAssignLoansCount(Map query) {
+        query.put("loanState",1);
+        int result=loanDao.listLoanByConditionsCount(query);
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> getLoanAssignInfo(long loanId, long creditorUserId) {
+        Map<String,Object> query=new HashMap<>();
+        query.put("loanId",loanId);
+        query.put("creditorId",creditorUserId);
+        query.put("state",0);
+        Map<String,Object> loanAssignInfo=loanAssignInfoDao.singleLoanAssignInfoByConditions(query);
+        ConvertUtil.convertDataBaseMapToJavaMap(loanAssignInfo);
+        return loanAssignInfo;
     }
 }

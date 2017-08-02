@@ -10,6 +10,12 @@
             <if test="queryStr != null">
                 AND (customer_user_name LIKE '%${queryStr}%' OR creditor_user_name LIKE '%${queryStr}%' OR order_no LIKE '%${queryStr}%')
             </if>
+            <if test="creditUserId != null">
+                AND credit_user_id=#{creditUserId}
+            </if>
+            <if test="loanState !=null">
+                AND loan_state=#{loanState}
+            </if>
             <if test="userId != null">
                 and user_id=#{userId}
             </if>
@@ -164,6 +170,9 @@
         <where>
             <if test="userId != null">
                 AND user_id=#{userId}
+            </if>
+            <if test="creditUserId != null">
+                AND credit_user_id=#{creditUserId}
             </if>
             <if test="loanState !=null">
                 AND loan_state=#{loanState}
