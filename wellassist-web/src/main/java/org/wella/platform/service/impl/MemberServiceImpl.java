@@ -240,7 +240,7 @@ public class MemberServiceImpl implements MemberService{
             updateuser.put("creditorState",2);
             updatecreditorauthInfo.put("state",2);
         }else if (isAuthed==0){
-            updateuser.put("creditorState",0);
+            updateuser.put("creditorState",-1);
             updatecreditorauthInfo.put("state",-1);
         }
         waUserDao.updateUserByUserId(updateuser);

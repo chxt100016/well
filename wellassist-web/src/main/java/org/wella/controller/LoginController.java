@@ -139,7 +139,7 @@ public class LoginController extends BaseController {
         }else if("2".equals(type)){
             String zcAddress=customerServiceImpl.findZcAddress(userinfo);
             model.addAttribute("address",zcAddress);
-            return "views/front/fkf/home.html";
+            return "views/front/creditor/home.html";
         }else if("3".equals(type)){
             model.addAttribute("userName",user.getUserName());
             Map queryLogistics = new HashMap();
