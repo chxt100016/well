@@ -146,7 +146,6 @@ public class CreditController {
     public R assignSubmit(@RequestParam("loanId")String loanId,@RequestParam("creditorId")String creditorId,HttpServletRequest request){
         try {
             creditServiceImpl.assignSubmit(Long.parseLong(loanId),Long.parseLong(creditorId));
-            creditorServiceImpl.acceptLoan(Long.parseLong(loanId),Long.parseLong(creditorId),30,IPUtils.getIpAddr(request));
         } catch (NumberFormatException e) {
             return R.error();
         }

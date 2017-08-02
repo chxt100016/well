@@ -4,6 +4,3 @@ workspace.xml
 *.war
 */target/*
 *.iml
-wellassist-web/src/main/webapp/WEB-INF/page/sys/pager.1.html
-wellassist-web/src/main/webapp/WEB-INF/page/sys/loansApp.html
-wellassist-web/src/main/webapp/WEB-INF/page/sys/loan_authorize.html
