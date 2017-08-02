@@ -10,11 +10,11 @@
           <element id="archive" name="wellassist-common-2.0.0.jar">
             <element id="module-output" name="wellassist-common" />
           </element>
-          <element id="library" level="project" name="Maven: com.qiniu:qiniu-java-sdk:7.2.6" />
-          <element id="library" level="project" name="Maven: com.qiniu:happy-dns-java:0.1.4" />
-          <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.6.2" />
+          <element id="library" level="project" name="Maven: com.qiniu:qiniu-java-sdk:7.2.7" />
           <element id="library" level="project" name="Maven: com.squareup.okhttp3:okhttp:3.3.1" />
           <element id="library" level="project" name="Maven: com.squareup.okio:okio:1.8.0" />
+          <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.6.2" />
+          <element id="library" level="project" name="Maven: com.qiniu:happy-dns-java:0.1.4" />
           <element id="library" level="project" name="Maven: com.aliyun.oss:aliyun-sdk-oss:2.5.0" />
           <element id="library" level="project" name="Maven: org.jdom:jdom:1.1" />
           <element id="library" level="project" name="Maven: net.sf.json-lib:json-lib:jdk15:2.4" />
