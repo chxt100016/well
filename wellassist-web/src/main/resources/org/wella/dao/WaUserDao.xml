@@ -226,7 +226,7 @@
             <if test="activityState != null" >
                 activity_state = #{activityState,jdbcType=BINARY},
             </if>
-            <if test="creditor_state != null">
+            <if test="creditorState != null">
                 creditor_state=#{creditorState,jdbcType=TINYINT},
             </if>
         </set>
