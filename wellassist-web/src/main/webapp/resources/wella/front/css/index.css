@@ -4,9 +4,9 @@ body {
 	font-weight:300;
 	line-height:1.6em;
 	color:#000;
+	background-color: #fff;
 	margin: 0;
 	padding: 0;
-	background-color: #fff;
 	/* background: #EFEFEF; */
 }
 .navbar{
@@ -61,12 +61,13 @@ body {
 	cursor: pointer;
 	margin: 10px 0 0 30px;
 }
-.navbar-login span:first-child{
-	font-size: 23px;
+.navbar-login span,.navbar-login img{
+	display: inline-block;
+	vertical-align: top;
 }
-.navbar-login span:last-child{
+.navbar-login span{
 	font-size: 15px;
-	margin: 0 0 0 8px; 
+	margin: 2px 0 0 8px; 
 }
 .navbar-loginwin{
 	position: absolute;
@@ -74,6 +75,7 @@ body {
 	right: 45px;
 	background:rgba(255,255,255,0.8);
 	padding: 60px 110px;
+	z-index: 22;
 }
 .navbar-loginwin img{margin-bottom: 20px;}
 .navbar-loginwin input{
@@ -95,13 +97,13 @@ body {
 .navbar-loginwin span{
 	color: #a9a9a9;
 }
-.banner{position: relative;}
 .banner-brand ul li{
 	list-style: none;
 	font-size: 80px;
 	line-height: 90px;
 	color: #fff;
 }
+.banner-img img{position: relative;}
 .banner-brand{
 	position: absolute;
 	top: 110px;
