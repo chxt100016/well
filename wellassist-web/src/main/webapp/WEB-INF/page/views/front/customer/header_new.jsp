@@ -20,7 +20,7 @@
 		<link rel="stylesheet" href="<c:url value="/resources/library/css/chosen.css"/>">
 		<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/styles.css"/>">
 		<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/new_style.css"/>">
-		<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
+		<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/header.css"/>">
 		<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/theme-blue.css"/>">
 		
 
@@ -56,7 +56,7 @@
 		<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/front_common.css"/>">
 	</head>
 	<!-- navigation bar -->
-	<div class="abovenavbar" style="height:45px;">
+	<div class="topheader" >
 		<div align=center>
 			<div style="width:1100px;">
  					<span class="dropdown" style="float:left;">
