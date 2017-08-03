@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%--<link href="home.css" rel="stylesheet">--%>
     <link rel="Stylesheet" type="text/css" href="<c:url value="/resources/wella/front/css/index.css "/>" />
+<link rel="Stylesheet" type="text/css" href="<c:url value="/resources/wella/front/css/iconfont.css "/>" />
     <%--<link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">--%>
     <%--<script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>--%>
     <%--<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>--%>
@@ -37,7 +38,7 @@
                     <form method="post" id="loginForm" name="loginForm">
                         <img src="${pageContext.request.contextPath}/resources/wella/front/images/logo.png" width="100" height="50" alt="logo"/><br>
                         <input type="text" name="username" placeholder="请输入你的用户名"><br>
-                        <input type="text" name="password" placeholder="请输入你的密码"><br>
+                        <input type="password" name="password" placeholder="请输入你的密码"><br>
                         <button id="login" onclick="loginSubmit()">登录</button><br>
                         <span><a href="${pageContext.request.contextPath}/register/registerPage">注册</a></span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span><a href="${pageContext.request.contextPath}/front/customer/CustomerLoginCtrl-getPass?userType=1"  data-w="600">忘记密码?</a></span>
                     </form>
@@ -47,7 +48,7 @@
     </header><!-- header end -->
     <banner>
         <div class="banner-img">
-            <img src="${pageContext.request.contextPath}/resources/wella/front/images/banner.jpg" width="1440" height="650" />
+            <img src="${pageContext.request.contextPath}/resources/wella/front/images/banner.jpg" width="100%" height="650" />
         </div>
         <div class="banner-brand">
             <ul>

@@ -1,459 +1,546 @@
-<%@ include file="header_new.jsp"%>
+<%@ include file="header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <html lang="en">
 <head>
-	<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
-
-
-	<style>
-		.start_heading2{padding-top:20px;padding-bottom:20px;font-weight:bold;font-size:24px;}
-		.ware_button{float:right;color: white;background: red;padding: 6px;border-bottom-left-radius: 8px;border-top-left-radius: 8px;border-top-right-radius: 8px;border-bottom-right-radius: 8px;width: 61px;text-align: center;cursor:hand;font-size:16px;}
-		.ware_maker_label{color: red;padding: 6px;float: left;}
-		.buyer_start_item{background: white;border: #c0c0c0;border-style: solid;border-width: 1px;}
-		span.selectedtab{ background:#0077dd;color:white;}
-		
-		.row-fld{margin-left:48px;margin-bottom: 24px; font-size:14px;}
-		.error-div{margin-left:56px;}
-	</style>
+   <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+     <script src="https://unpkg.com/vue/dist/vue.js"></script>
+     <style>
+     .errors{
+         color: #900b09;
+         width: 100%;
+         height: 120px;
+     }
+     .errors li{
+         width: 250px;
+         float:left;
+     }
+     </style>
 </head>
-<body style="margin:0; padding:0; background-color:#f5f5f5;">
-	<div class="main-wrapper" style="margin-left: 0px;margin-top:20px;">
-		<div align=center style="padding-top:12px;">
-			<div align=left style="width:1000px;">
-				<div style="border-bottom: solid 1px #e0e0e0; width: 1000px;padding-bottom:12px;margin-top:20px;margin-bottom: 24px;">
-					
-					<div style="text-align:center;font-size:20px; font-weight:600;">下&nbsp;&nbsp;单</div>
-				</div>
-			</div>
+<body>
+    <div class="ui container segment mid-content" id="app1" style="text-align:left; width: 900px;left: 110px; top: -13px">
+        <form id="infoForm" action="<c:url value="/customer/order"/>" method="post">
+            <input type="hidden" name="toRegionId" id = "toRegionId">
+            <input type="hidden" name="prodId" value="${prod.prodId}">
+            <input type="hidden" name="orderData" id="orderData">
+            <h2 class="ui header">订单信息</h2>
+            <div class="ui divider"></div>
 
-			<%--<form id = "infoForm" action="<c:url value="/front/customer/CustomerHomeCtrl-createOrder"/>" method="post">--%>
-				<form id = "infoForm" action="<c:url value="/customer/order"/>" method="post">
-				<input type = "hidden" name = "toRegionId"  id = "toRegionId" />
-			    <input type = "hidden" name = "prodId"  value = "${spInfo.prodId}" />
-			    <input type = "hidden" name = "orderData" id = "orderData"  />
-				<div align= left style="width:1000px; background: white;box-shadow: 2px 2px 8px #808080;padding-bottom:16px;">
-					<div style="margin-left:48px;margin-right:48px;padding-top:32px; margin-bottom: 24px; padding-bottom:12px;border-bottom:solid 2px #d0d0d0;font-size:17px;">订单信息</div>
-					<div class = "row-fld">产品名称: &nbsp;&nbsp;${spInfo.prodName}</div>
-					<div class = "row-fld">
-						<span style="margin-right: 64px;">商品类型: &nbsp;&nbsp;
-							<c:if test = "${spInfo.prodType == '0'}">
-								气体
-							</c:if>
-							<c:if test = "${spInfo.prodType == '1'}">
-								燃油
-							</c:if>
-						</span>
-						<span style="margin-right: 64px;">联系人: &nbsp;&nbsp;${spInfo.prodLxr}</span>
-						<span style="margin-right: 64px;"> 联系电话: &nbsp;&nbsp;${spInfo.prodLxrPhone}</span>
-					</div>
-					<div class = "row-fld">
-						<span style="margin-right: 64px;">供应量:&nbsp;&nbsp; <input name="saleNum" id="saleNum" placeholder="填写整车吨位的倍数" style="padding-left:3px;width:180px;margin-top:-6px;margin-right: 12px;" onkeyup="return validateNumber(this,value,0)">吨</span>
-						<span style="margin-right: 64px;">单价:&nbsp;&nbsp; <input id="danjia" name = "danjia"  value = "${spInfo.prodMoney}" placeholder="填写单价" style="padding-left:3px;width:120px;margin-top:-6px;margin-right: 12px;background-color:white;" readonly = "readonly" onkeyup="return validateNumber(this,value,0)">元</span>
-						<span style="margin-right: 64px;">总价:&nbsp;&nbsp; <input name="saleMoney" id="saleMoney"  style="width:120px;margin-top:-6px;margin-right: 12px; background-color:white;" readonly = "readonly">元</span>
-					</div>
-					<div class = "row-fld">
-							<span>提货地址: </span>
-							<span style="color:red;font-weight:bold;padding-left;10px;">${spInfo.fromRegionName} &nbsp;&nbsp;&nbsp;${spInfo.prodRegionAddr}</span>
-					</div>
-					<div class = "row-fld">
-							<span style = "margin-right:20px;">物流方式: </span>
-							<span style = "margin-right:20px;"><input type = "radio" name = "isSelfCar"  value = "0" checked = "checked"  style = "margin-right:10px;" onClick = "checkSelfCar(0);">&nbsp;&nbsp;自提</input></span>
-							<span style = "margin-right:20px;"><input type = "radio" name = "isSelfCar"  value = "1" onClick = "checkSelfCar(1);">&nbsp;&nbsp;配送</input></span>
-					</div>
-					<div style="margin-left:48px;margin-right:48px;padding-top:32px; margin-bottom: 24px; padding-bottom:12px;border-bottom:solid 2px #d0d0d0;font-size:17px;">物流信息</div>
-					<div id="wlxxDiv">
-						<div class="row-fld">
-							<span style = "margin-right: 64px;">发货时间:</span>
-							<input id="cfDate" name = "cfDate" style="height:25px;width:185px;" value="" class="Wdate" type="text" onfocus="var ddDate=$dp.$('ddDate');WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){ddDate.focus();},maxDate:'#F{$dp.$D(\'ddDate\')}'})">
-							<span style = "margin-right: 64px; margin-left:64px;">预计收货时间:</span>
-							<input id="ddDate"  name="ddDate" style="height:25px;width:185px;" value="" class="Wdate" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'cfDate\')}'})">
-						</div>
-						<div style="border:solid 1px #d0d0d0;font-size:24px;margin:16px 48px;overflow:auto;">
-							<div style="border-bottom: solid 1px#E0E0E0; overflow:auto;">
-								<div class="graybox" 			style="width:30%;line-height:50px;font-size:14px;float:left; border:none; border-right: solid 1px #d0d0d0;">
-									&nbsp; 司机名称 : <input type="text" id="sjmc" style="width:130px; line-height:normal" />
-								</div>
-								<div class="grayboxwithoutleft" style="width:30%;line-height:50px;font-size:14px;float:left;border:none; border-right: solid 1px #d0d0d0;">
-									&nbsp; 电话 : <input type="text" id="sjdh" style="width:130px;line-height:normal" />
-								</div>
-								<div class="grayboxwithoutleft" style="width:30%;line-height:50px;font-size:14px;float:left;border:none; border-right: solid 1px #d0d0d0;">
-									&nbsp; 车牌号 : <input type="text" id="cph" style="width:130px;line-height:normal" />
-								</div>
-								<div class="grayboxwithoutleft" style="width:8%;line-height:50px;font-size:14px;float:left;border:none; text-align:center;">
-									<a style="cursor:pointer;color:black;" onclick="addSj()">添加</a>
-								</div>
-							</div>
-						</div>
-						
-						<div style="border:solid 1px #d0d0d0;font-size:24px;margin-top:16px; overflow:auto;margin: 16px 48px;">
-							<div style="height:30px;background:#e0e0e0;font-size:16px;">
-								<div style="width:30%;line-height:30px;color:#807B7B;float:left;font-size:10px;text-align:center;border-right:solid 1px #d0d0d0;">
-									司机名称
-								</div>
-								<div style="width:30%;line-height:30px;color:#807B7B;float:left;font-size:10px;text-align:center;border-right:solid 1px #d0d0d0;">
-									电话
-								</div>
-								<div style="width:30%;line-height:30px;color:#807B7B;float:left;font-size:10px;text-align:center;border-right:solid 1px #d0d0d0;">
-									车牌号 
-								</div>
-								<div style="width:8%;line-height:30px;color:#807B7B;float:left;font-size:10px;text-align:center;">
-									操作
-								</div>
-							</div>
-							<div id="sjListContent"><font style="line-height:30px; font-size:14px;">没有数据!</font></div>
-						</div>
-					</div>	
-					
-					<div id="wuliudingdandiv" style="display:none;">
-						<div class = "row-fld">
-							<span style="margin-right: 64px;">联系人: <input name="vehicleLxr" id="vehicleLxr" style="width:250px;margin-top:-6px;margin-right: 12px;"></span>
-							<span style="margin-right: 64px;">联系电话: <input name="vehicleLxrPhone" id="vehicleLxrPhone" style="width:250px;margin-top:-6px;margin-right: 12px;"></span>
-						</div>
-						<div class = "row-fld">
-							<span>配送地址: </span>
-								<span>
-									<select name="prodRegionId_0" style="width:160px;padding: 3px 3px;">
-										<option value=''>-- 请选择省 --</option>
-										<c:forEach var="item" items="${shengRegionList}" varStatus="status">
-											<option value="${item.regionId}">${item.regionName}</option>
-										</c:forEach>
-								</select>
-								<select name="prodRegionId_1" style="width:160px;padding: 3px 3px;display:none;">
-									<option value=''>-- 请选择市 --</option>
-								</select>
-								<select name="prodRegionId_2" style="width:160px;padding: 3px 3px;display:none;">
-									<option value=''>-- 请选择区 --</option>
-								</select>
-							</span>
-						</div>
-						<div class = "row-fld">
-							<span style="margin-left: 61px;"><input name="toRegionAddr" id="toRegionAddr" style="width:250px;margin-top:-6px;margin-right: 12px; padding-left:3px;" placeholder="填写详细地址"></span>
-						</div>
-						
-					</div>
-					
-					<div align=center style="margin-bottom: 24px;">
-						<input type="button" id="back" class="green-button" style=" padding-left: 16px;padding-right: 16px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;border:none;" value="返回">
-						<input type="submit" id="submit" class="blue-button" style="padding-left: 16px;padding-right: 16px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;border:none;" value="确认下单">
-					</div>
-				</div>
-			</form>
-		</div>
+            <div class="column">
+                <div class="ui form">
+                    <div class="field">
+                        <label>产品名称：${prod.prodName}</label>
 
-	</div>
-<%--别动这个是弹出的警告modal框--%>
-<div class="modal fade warming_modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-     <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">提示</h4>
-      </div>
-	  <div class="modal-body">
-          ...
+                    </div>
+                    <div class=" three fields">
+                        <div class="field">
+                            <label>商品类型：
+                            <c:if test="${prod.prodType==0}">气体</c:if>
+                            <c:if test="${prod.prodType==1}">燃油</c:if>
+                            <c:if test="${prod.prodType==2}">管道气</c:if>
+                            </label>
+                        </div>
+                        <div class="field">
+                            <label>联系人：${prod.prodLxr}</label>
+                        </div>
+                        <div class="field">
+                            <label>联系电话：${prod.prodLxrPhone}</label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--订单信息end-->
+            <h2 class="ui header">配送信息</h2>
+            <div class="ui divider"></div>
+            <div class="column">
+                <div class="ui form">
+                    <div class="field">
+                        <label>提货地址：${prod.fromRegionName}&nbsp;${prod.prodRegionAddr}</label>
+
+                    </div>
+                    <div class=" two fields">
+                        <div class="field">
+                            <div class="ui labeled input">
+                                <label class="ui label">发货时间： </label>
+                                        <input type="text" name="deliverDate" value="" style="width:300px" id="deliverDate" onfocus="var receiveDate=$dp.$('receiveDate');WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){receiveDate.focus();},maxDate:'#F{$dp.$D(\'receiveDate\')}'})">
+                                
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui labeled input">
+                            <label class="ui label">收货时间： </label>
+                                <input type="text" name="receiveDate" value="" style="width:300px" id="receiveDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'deliverDate\')}'})">
+                             </div>  
+                        </div>
+
+                    </div>
+
+                    <div class=" two fields">
+                        <div class="field">
+                            <div class="ui labeled input" style="width:80%">
+                                <div class="ui label">联系人 </div>
+                                <input type="text" name="contacts" placeholder="" id="contacts" >
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui labeled input" style="width:80%">
+                                <div class="ui label">联系手机 </div>
+                                <input type="text" placeholder="" name="conTel" id="conTel" maxlength="11" class="number isPhone">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                     <div class="ui labeled input">
+                    <label  class="ui label">配送地址：</label> <select class="ui dropdown" name="prodRegionId_0">
+                    <option value="">-- 请选择省 --</option>
+                        <c:forEach var="item" items="${shengRegionList}" varStatus="status">
+                            <option value="${item.regionId}">${item.regionName}</option>
+                        </c:forEach>
+                    </select>
+                        <select name="prodRegionId_1" class="ui dropdown" style="display: none">
+                            <option value=''>-- 请选择市 --</option>
+                        </select>
+                        <select name="prodRegionId_2" class="ui dropdown" style="display: none">
+                            <option value=''>-- 请选择区 --</option>
+                        </select>
+                    
+                    </div>
+                </div>
+                <br>
+                <div class="field">
+                    <div class="ui labeled input">
+                        <div class="ui label">详细地址 </div>
+                        <input type="text" placeholder="" id="toRegionAddr" name="toRegionAddr"style="width:360px">
+                    </div>
+
+                </div>
+            </div>
+            <!--配送信息结束-->
+            <h2 class="ui header">下单信息</h2>
+            <div class="ui divider"></div>
+            <div class="column">
+                <div class="ui form">
+
+                    <div class=" three fields">
+                        <div class="field">
+                            <div class="ui labeled input">
+                                <div class="ui label">供应量 </div>
+                                <input type="text" placeholder="" name="saleNum" id="saleNum" onkeyup="return validateNumber(this,value,0)"><a class=" ui tag label ">吨 </a>
+                            </div>
+                        </div>
+                        <div class="field ">
+                            <div class="ui labeled input ">
+                                <div class="ui label ">单价 </div>
+                                <input type="text " placeholder=" " id="danjia" name="danjia" value="${prod.prodPrice}" readonly="true" onkeyup="return validateNumber(this,value,0)"><a class="ui tag label ">元 </a>
+                            </div>
+                        </div>
+                        <div class="field ">
+                            <div class="ui labeled input ">
+                                <div class="ui label ">总价 </div>
+                                <input type="text " placeholder=" " name="saleMoney" id="saleMoney" readonly="true"><a class="ui tag label ">元</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--//下单信息end-->
+            <h2 class="ui header ">配送选择</h2>
+            <div class="ui divider "></div>
+            <div class="ui form">
+                <div class=" inline fields ">
+                    <div class="field ">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="isSelfCar" checked="checked" value="0" onclick="checkSelfCar(0)" style="margin-left:0px">
+                            <label>我有车</label></div>
+                    </div>
+                    <div class=" ui field ">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="isSelfCar" value="1" onclick="checkSelfCar(1)" style="margin-left:0px">
+                            <label>需要物流</label></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui active tab " data-tab="owns " id="vehiclepage">
+               
+                <div>
+                    <span class="ui green button" onclick="$('.ui.modal').modal('show');" >添加司机信息</span>
+
+                </div>
+
+                
+                <table class="ui celled padded table ">
+                    <thead>
+                        <tr>
+                            <th class="single line ">司机名称</th>
+                            <th>电话</th>
+                            <th>车牌号</th>
+                            <th>车挂号</th>
+                            <th>容量 (吨)</th>
+                            <th>操作</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="vehicle in Vehicles ">
+                            <td>
+                                <h2 class="ui center aligned header driverName">{{vehicle.dr_name}}</h2>
+                            </td>
+                            <td class="single line driverPhone" >{{vehicle.dr_tel}}</td>
+                            <td class="carCode" > {{vehicle.dr_number}}</td>
+                            <%--<td> {{vehicle.hanging_number}} </td>--%>
+                            <td class="vehicleHangingNo"> {{vehicle.hanging_number}} </td>
+                            <td class="vehicleSize">{{vehicle.actual_size}} </td>
+                            <td class="right aligned " style="width:10% "><a class="ui button red " v-on:click="delVehicle(index) " style="width:70px;">删除</a></td>
+
+                            <%--<td class="right aligned " style="width:10% "><a class="ui button red " v-on:click="delVehicle($index) ">DELETE </a></td>--%>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="ui tab " data-tab="needs ">
+
+
+            </div>
+            <div class="ui divider "></div>
+            <button class="ui blue button " type="submit " id="submit ">提交 </button>
+
+
+        </form>
+        <div class="ui small modal" style=" height: 480px">
+                     <i class="close icon"></i>
+                        <div class="header">
+                        添加新司机
+                        </div>
+                <div class="content">
+                    <form class="ui form segment has_vehicle_form">
+                     <div class="ui form has_vehicle_form">
+                    <div class=" two fields ">
+                        <div class="field ">
+                            <div class="ui labeled input  ">
+                                <div class="ui label ">司机名称 </div>
+                                <input type="text " class="vh" placeholder=" " v-model="newVehicle.dr_name " id="dr_name" name="dr_name">
+                            </div>
+                        </div>
+                        <div class="field ">
+                            <div class="ui labeled input vh">
+                                <div class="ui label ">电话 </div>
+                                <input type="text " class="vh number isPhone" placeholder=" " v-model="newVehicle.dr_tel " id="dr_tel" name="dr_tel">
+                            </div>
+                        </div>
+                     
+                        
+
+                    </div>
+                    <div class="two fields">
+                           <div class="field ">
+                            <div class="ui labeled input ">
+                                <div class="ui label ">车牌 </div>
+                                <input type="text " class="vh" placeholder=" " v-model="newVehicle.dr_number " id="dr_number" name="dr_number">
+                            </div>
+                        </div>
+                         <div class="field ">
+                            <div class="ui labeled input ">
+                                <div class="ui label ">车挂号 </div>
+                                <input type="text " class="vh" placeholder=" " v-model="newVehicle.hanging_number " id="dr_number" name="dr_number">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="two fields">
+                           <div class="field ">
+                            <div class="ui labeled input ">
+                                <div class="ui label ">容量 </div>
+                                <input type="text " class="vh" placeholder=" " v-model="newVehicle.actual_size" id="actual_size" name="actual_size">
+                            </div>
+                        </div>
+                         
+                    </div>
+                  
+                    <ul class="errors" v-if="!isValid" >
+                        <p style="color:#234">填写时请注意：</p>
+                        <li v-if="!validation.dr_name">司机姓名不得为空</li>
+                        <!--<li v-show="!validation.dr_tel">请输入联系电话</li>-->
+                         <li v-if="!validation.dr_tel_num">请输入正确的联系电话</li>
+                        <li v-show="!validation.dr_number">请输入车辆车牌号码</li>
+                        <li v-show="!validation.actual_size">请输入车辆容量</li>
+                        <li v-if="!validation.actual_size_num">请输入正确车辆容量</li>
+                        <li  v-if="!validation.hanging_number">请输入车挂号</li>
+                        
+
+                    </ul>
+                </div>
+                    
+                </div>
+                <div class="actions">
+                    <div class="ui button cancel">取消</div>
+                    <div class="ui button green"  @click="createVehicle">保存</div>
+                </div>
+                </form>
         </div>
     </div>
-  </div>
-</div>
-<%--modal框end	--%>
+
+        
 </body>
-<script type="text/javascript">
-	// 初始化函数
-	$(function(){
-		// 检查模块
-	
-		$("#infoForm").validate({
-		    rules: {
-		    	saleNum: {required:true},
-		    	danjia: {required:true},
-		    	saleMoney: {required:true}
-		    },
-		    
-		    messages: {
-		    	saleNum:"请输入供应量！",
-		    	danjia:"请输入单价！",
-		    	saleMoney:"请输入总价！"
-		    },
-		    errorPlacement: function (error, element) { 
-		    	if($(element).closest('div.row-fld').children().filter("div.error-div").length < 1) 
-				$(element).closest('div.row-fld').append("<div class='error-div'></div>");	
-			$(element).closest('div.row-fld').children().filter("div.error-div").append(error);
-		    },
-		    submitHandler: function(form){
-		    	var isSelfCar = $(':radio[name="isSelfCar"]:checked').val();
-		    	var toRegionId = "";
-		    	if(isSelfCar == '1'){
-		    	  if($("#vehicleLxr").val() == undefined || $("#vehicleLxr").val() == ""){
-		    	  	// alert("请输入联系人!");
-						showalert("请输入联系人!");
-		    	  	return;
-		    	  }
-		    	  
-		    	  var vehicleLxrPhone = $("#vehicleLxrPhone").val();
-		    	  if(vehicleLxrPhone == undefined || vehicleLxrPhone == ""){
-						  showalert("请输入联系电话!");
-			    	  	return;
-		    	  }else if(!checkPhone(vehicleLxrPhone)){
-		    	  		// alert("不正确联系电话!");
-						  showalert("不正确的联系电话!");
-		    	  		return;
-		    	  }
-		    	  
-		    	  
-		    	  if($("select[name='prodRegionId_0']").val() != undefined && $("select[name='prodRegionId_0']").val() != '')
-		    	  	  toRegionId = $("select[name='prodRegionId_0']").val();
-		    	  if($("select[name='prodRegionId_1']").val() != undefined && $("select[name='prodRegionId_1']").val() != '')
-		    	  	  toRegionId = $("select[name='prodRegionId_1']").val();
-		    	  if($("select[name='prodRegionId_1']").val() != undefined && $("select[name='prodRegionId_2']").val() != '')
-		    	  	  toRegionId = $("select[name='prodRegionId_2']").val();
-		    	  if(toRegionId == ""){
-			    	  	// alert("请选择配送地址!");
-						  showalert("请选择配送地址!");
-			    	  	return;
-		    	  }
-		    	  
-		    	  if($("#toRegionAddr").val() == undefined || $("#toRegionAddr").val() == ""){
-		    	  	    // alert("请输入详细地址!");
-                         showalert("请输入详细地址!");
-		    	  	    return;
-		    	  }
-		    	}else if(isSelfCar == '0'){ // 我有车的话
-		    		var cfDate = $("#cfDate").val();
-					var ddDate = $("#ddDate").val();
-					
-					var itemNum = 0;
-					
-					jQuery("input[name='sjmc']").each(function(i){
-						itemNum++;
-					});
-					
-					if(cfDate==""){
-						// alert("请输入发货时间!");
-						showalert("请输入发货时间!");
-						$("#cfDate").focus();
-						return;
-					}
-					
-					if(ddDate==""){
-						// alert("请输入预计收货时间!");
-						showalert("请输入预计收货时间");
-						$("#ddDate").focus();
-						return;
-					}
-					
-					if(itemNum==0){
-						// alert("请输入司机信息!");
-						showalert("请输入司机信息!");
-						$("#sjmc").focus();
-						return;
-					}
-					
-					var arr = new Array();
-					
-					jQuery("input[name='sjmc']").each(function(i){
-						var cn = $(this).attr("cn");
-						
-						var obj = new Object();
-						
-						obj.sjmc = $("#sjmc_" + cn).val();
-						obj.sjdh = $("#sjdh_" + cn).val();
-						obj.cph  = $("#cph_" + cn).val();
-						
-						arr[arr.length] = obj;
-					});
-					
-					var orderData = JSON.stringify(arr);
-					$("#orderData").val(orderData);
-		    	}
-		    	
-		    	if(confirm("你要确定操作吗?")){
-			    	$.post($(form).attr("action"),$(form).serialize(),function(data){
-			    		alert(data.content);
-						// showalert(data.content);
-			            if(data.state==1 ){
-			            	window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerHomeCtrl-orderSuccess";
-			            }
-			      	}, "json");
-		    	}
-		    }	
-		})	
-	});
-	// 单价和数量变化函数	
-	function validateNumber(e, pnumber, type){
-		var len = 0;
-		if (!/^\d+$/.test(pnumber)){
-			if(isNaN(pnumber) == '0') return;
-			len = pnumber.length;
-			$(e).val(pnumber.substring(0,len-1));
-		}
-		
-		if(type==0){
-			var saleNum = $("#saleNum").val();
-			var saleDj  = $("#danjia").val();
-			
-			if(saleNum=="" || saleDj==""){
-				$("#saleMoney").val(0);
-			} else {
-				$("#saleMoney").val(saleNum*saleDj);	
-			}
-		}
-		
-		return false;
-	}
-	// 选择物流方式	
-	function checkSelfCar(type){
-		if(type == '0'){
-			$("#wuliudingdandiv").hide();
-			$("#wlxxDiv").show();
-		}else{
-			$("#wuliudingdandiv").show();			
-			$("#wlxxDiv").hide();
-		}
-	}
-	
-	// 选择地区函数
-	function getRegionList(pid,level){
-	if(pid!=null && pid!=""){
- 		$.post("${pageContext.request.contextPath}/front/seller/SellerOrderController-getRegionList",{pid:pid},function(data){
- 			data = $.parseJSON(data);
-            var regionList = data.regionList;
-            
-            $('#prodRegionId_' + level).empty();
-            var str = "";
-            
-            if(level==1) str = "<option value=''>-- 请选择市 --</option>";
-            else 		 str = "<option value=''>-- 请选择区 --</option>";
-            
- 			for(var i=0 ; i<regionList.length ; i++){
- 				str = str + "<option value='" + regionList[i].regionId + "'>" + regionList[i].regionName + "</option>";
- 			}
- 			
- 			$("select[name='prodRegionId_" + level + "']").html(str);
- 			if(regionList.length != 0){
- 				$("select[name='prodRegionId_" + level + "']").show();
- 				$("#toRegionId").val("");
- 			}else{
- 				$("#toRegionId").val(pid);
- 				$("select[name='prodRegionId_" + level + "']").hide();
- 			}
-      	})
-      	.error(function(data){
-      	});
-		}
-	}
-	// 省级目录变化函数
-	$("select[name='prodRegionId_0']").change(function(){
-		getRegionList($(this).val(),1);
-	});
-	
-	// 市级目录变化函数
-	$("select[name='prodRegionId_1']").change(function(){
-		getRegionList($(this).val(),2);
-	})
-		
-	// 区级目录变化函数
-	$("select[name='prodRegionId_2']").change(function(){
-		$("#toRegionId").val($(this).val());
-	})
-	// 我有车的话添加按键点击事件
-	var itemCn = 0;	
-	function addSj(){
-		
-		var sjmc = $("#sjmc").val();
-		var sjdh = $("#sjdh").val();
-		var cph  = $("#cph").val();
-		
-		if(sjmc==""){
-			// alert("请输入司机名称!");
-			showalert("请输入司机名称!");
-			$("#sjmc").focus();
-			return;
-		}
-		
-		if(sjdh==""){
-			// alert("请输入电话!");
-			showalert("请输入电话!");
-			$("#sjdh").focus();
-			return;
-		}else if(!checkPhone(sjdh)){
-			// alert("不正确电话!");
-	       showalert("不正确电话!");
-			$("#sjdh").focus();
-			return;
-		}
-		
-		if(cph==""){
-			showalert("请输入车牌号!");
-			$("#cph").focus();
-			return;
-		}
-		
-		var htmlStr = "<div id='sjListContent_" + itemCn + "' style='border-bottom: solid 1px #E0E0E0; overflow:auto;'>";
-		htmlStr = htmlStr + "<div class='graybox' style='width:30%;line-height:50px;font-size:14px;float:left;border:none;text-align:center;border-right: solid 1px #d0d0d0;'>";
-		htmlStr = htmlStr + sjmc + "<input type='hidden' cn='" + itemCn + "' id='sjmc_" + itemCn + "' name='sjmc' value='" + sjmc + "' style='width:130px;' /></div>";
-		htmlStr = htmlStr + "<div class='grayboxwithoutleft' style='width:30%;line-height:50px;font-size:14px;float:left;border:none;text-align:center;border-right: solid 1px #d0d0d0;'>";
-		htmlStr = htmlStr + sjdh + "<input type='hidden' cn='" + itemCn + "' id='sjdh_" + itemCn + "' name='sjdh' value='" + sjdh + "' style='width:130px;' /></div>";
-		htmlStr = htmlStr + "<div class='grayboxwithoutleft' style='width:30%;line-height:50px;font-size:14px;float:left;border:none;text-align:center;border-right: solid 1px #d0d0d0;'>";
-		htmlStr = htmlStr + cph + "<input type='hidden'  cn='" + itemCn + "' id='cph_" + itemCn + "'  name='cph'  value='" + cph + "'  style='width:130px;' /></div>";
-		htmlStr = htmlStr + "<div class='grayboxwithoutleft' style='width:8%;line-height:50px;font-size:14px;float:left;border:none;text-align:center;'>";
-		htmlStr = htmlStr + "<a style='cursor:pointer;color:black;' onclick='delSj(" + itemCn + ")'>删除</a></div></div>";
-		
-		var itemNum = 0;
-		
-		jQuery("input[name='sjmc']").each(function(i){
-			itemNum++;
-		});
-		
-		if(itemNum==0){
-			$("#sjListContent").html(htmlStr);	
-		} else {
-			$("#sjListContent").append(htmlStr);	
-		}
-		
-		itemCn++;
-		
-		$("#sjmc").val("");
-		$("#sjdh").val("");
-		$("#cph").val("");
-		
-	}
-	// 我有车的话删除按键点击事件
-	function delSj(cn){
-		$("#sjListContent_" + cn).remove();
-		var itemNum = 0;
-		
-		jQuery("input[name='sjmc']").each(function(i){
-			itemNum++;
-		});
-		
-		if(itemNum==0){
-			$("#sjListContent").html("<font style='line-height:30px; font-size:14px;'>没有数据!</font>");	
-		}
-	}	
-	
-	function showalert(xx){
-		$('.modal-body').html(xx);
-	   $('.warming_modal').modal('show');
-	};
-		
-		
-	$("#youche").click( function(){
-		$("#wuliudingdandiv").hide();
-		$("#youchediv").show();
-		if( $("#youche").hasClass("selectedtab")==false) $("#youche").addClass("selectedtab");
-		$("#wuliudingdan").removeClass("selectedtab");
-	});
-	$("#wuliudingdan").click( function(){
-		$("#youchediv").hide();
-		$("#wuliudingdandiv").show();
-		if( $("#wuliudingdan").hasClass("selectedtab")==false) $("#wuliudingdan").addClass("selectedtab");
-		$("#youche").removeClass("selectedtab");
-	});
-	
-	$("#back").click( function(){
-		history.back();
-	});
-	
+<script>
+    $(function() {
+        $('.tabular.menu .item').tab();
+    })
 </script>
-</html>
+<script>
+    var telRE = /^1(3|4|5|7|8)\d{9}$/;
+    var emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    var vehicleRef = '';
+    var vm = new Vue({
+        el: '#app1',
+        data: {
+            newVehicle: {
+                dr_name: '',
+                dr_tel: '',
+                dr_number: '',
+                hanging_number:'',
+                actual_size:'',
+            },
+            Vehicles: []
+        },
+        computed: {
+            validation: function() {
+                return {
+                    dr_name: !!this.newVehicle.dr_name.trim(),
+                    dr_tel:!!this.newVehicle.dr_tel.trim(),
+                    dr_tel_num: telRE.test(this.newVehicle.dr_tel),                 
+                    dr_number: !!this.newVehicle.dr_number.trim(),
+                    hanging_number: !!this.newVehicle.hanging_number.trim(),
+                    actual_size:!!this.newVehicle.actual_size.trim(),
+                    actual_size_num:!isNaN(this.newVehicle.actual_size),
+                }
+            },
+            isValid: function() {
+                var validation = this.validation
+                return Object.keys(validation).every(function(key) {
+                    return validation[key]
+                })
+            }
+        },
+        methods: {
+            createVehicle: function() {
+                if (this.isValid) {
+                    this.Vehicles.push(this.newVehicle)
+                        // 添加完newPerson对象后，重置newPerson对象  
+                    this.newVehicle = {
+                        dr_name: '',
+                        dr_tel: '',
+                        dr_number: '',
+                        hanging_number:'',
+                        actual_size:'',
+                    }
+                }
+                console.log(this.newVehicle);
+                $('.ui.modal').modal('hide');
+             
+            },
+            delVehicle: function(index) {
+                // 删一个数组元素  
+                this.Vehicles.splice(this.Vehicles.indexOf(index), 1);
+            }
+        }
+    })
+</script>
+<script>
+    // 初始化函数
+    $(function() {
+        // 检查模块
+
+        $("#infoForm ").validate({
+            errorPlacement: function(error, element) {
+                if ($(element).closest('div.field').children().filter("div.error-div ").length < 1)
+                    $(element).closest('div.field').append("<div class='error-div'></div>");
+                $(element).closest('div.field').children().filter("div.error-div").append(error);
+            },
+            rules: {
+                saleNum: {
+                    required: true,
+                    range:[1,500]
+                },
+                danjia: {
+                    required: true
+                },
+                saleMoney: {
+                    required: true
+                },
+                deliverDate: {
+                    required: true
+                },
+                reveive_date: {
+                    required: true
+                },
+                contacts: {
+                    required: true
+                },
+                conTel: {
+                    required: true,
+                },
+                toRegionAddr: {
+                    required: true
+                },
+
+            },
+            messages: {
+                saleNum: {
+                    required:"请输入供应量！",
+                    range:'供应量应在1-500吨以内！'
+                    },
+                danjia: "请输入单价！",
+                saleMoney: "请输入总价！",
+                deliverDate: "请输入发货时间",
+                reveive_date: "请输入收货时间！",
+                contacts: "请输入联系人",
+                conTel: {
+                    required: "请输入联系电话",
+
+                },
+                toRegionAddr: "请输入完整收货地址！",
+            },
+            submitHandler: function(form) {
+                var isSelfCar=$("input[type='radio'][name='isSelfCar']:checked").val();
+                console.log(isSelfCar);
+                if (isSelfCar == 0){
+                    var itemNum = 0;
+
+                    jQuery(".driverName").each(function(i){
+                        itemNum++;
+                    });
+
+                    if(itemNum==0){
+                        alert("请输入司机信息!");
+                        return;
+                    }
+
+                    var arr = new Array();
+
+                    var driverName=$(".driverName");
+                    var driverPhones=$(".driverPhone");
+                    var carCodes=$(".carCode");
+                    var vehicleHangingNo=$(".vehicleHangingNo");
+                    var vehicleSize=$(".vehicleSize");
+                    jQuery(".driverName").each(function(i){
+                        var obj = new Object();
+                        obj.driverName = driverName[i].innerHTML;
+                        obj.driverPhone = driverPhones[i].innerHTML;
+                        obj.carCode=carCodes[i].innerHTML;
+                        obj.vehicleHangingNo=vehicleHangingNo[i].innerHTML;
+                        obj.vehicleSize=vehicleSize[i].innerHTML;
+                        arr[arr.length] = obj;
+                    });
+
+                    var orderData = JSON.stringify(arr);
+                    $("#orderData").val(orderData);
+                }
+
+                if(confirm("你要确定操作吗?")){
+                    $.post($(form).attr("action"),$(form).serialize(),function(data){
+                        if(data.state==1 ){
+                            /*window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerHomeCtrl-orderSuccess";*/
+                            window.location.href = "${pageContext.request.contextPath}/customer/orderSuccess";
+                        }else{
+                            alert(data.content);
+                        }
+                    }, "json");
+                }
+            }
+
+        }); // 
+
+
+
+    }); //
+    // 单价和数量变化函数 
+    function validateNumber(e, pnumber, type) {
+        var len = 0;
+        if (!/^\d+$/.test(pnumber)) {
+            if (isNaN(pnumber) == '0') return;
+            len = pnumber.length;
+            $(e).val(pnumber.substring(0, len - 1));
+        }
+        if (type == 0) {
+            var saleNum = $("#saleNum").val();
+            var saleDj = $("#danjia").val();
+            if (saleNum == "" || saleDj == "") {
+                $("#saleMoney").val(0);
+            } else {
+                console.log($("#danjia").length);
+                $("#saleMoney").val(saleNum * saleDj);
+            }
+        }
+        return false;
+    }
+
+    // 手机验证
+    jQuery.validator.addMethod("isPhone", function(value, element) {
+        var length = value.length;
+        var mobile = /^(((13[0-9]{1})|(15[0-9]{1}))+\d{8})$/;
+        var tel = /^\d{3,4}-?\d{7,9}$/;
+        return this.optional(element) || (tel.test(value) || mobile.test(value));
+
+    }, "请正确填写您的联系电话");
+
+    function checkSelfCar(type) {
+        if (type == '0') {
+            // $("#wuliudingdandiv").hide();
+            $("#vehiclepage").show();
+        } else {
+            // $("#wuliudingdandiv").show();
+            $("#vehiclepage").hide();
+        }
+    }
+
+    // 选择地区函数
+    function getRegionList(pid,level){
+        if(pid!=null && pid!=""){
+            $.post("${pageContext.request.contextPath}/customer/getRegionList",{pid:pid},function(data){
+                data = $.parseJSON(data);
+                var regionList = data.regionList;
+
+                $('#prodRegionId_' + level).empty();
+                var str = "";
+
+                if(level==1) str = "<option value=''>-- 请选择市 --</option>";
+                else 		 str = "<option value=''>-- 请选择区 --</option>";
+
+                for(var i=0 ; i<regionList.length ; i++){
+                    str = str + "<option value='" + regionList[i].regionId + "'>" + regionList[i].regionName + "</option>";
+                }
+
+                $("select[name='prodRegionId_" + level + "']").html(str);
+                if(regionList.length != 0){
+                    $("select[name='prodRegionId_" + level + "']").show();
+                    $("#toRegionId").val("");
+                }else{
+                    $("#toRegionId").val(pid);
+                    $("select[name='prodRegionId_" + level + "']").hide();
+                }
+            })
+                .error(function(data){
+                });
+        }
+    }
+    // 省级目录变化函数
+    $("select[name='prodRegionId_0']").change(function(){
+        getRegionList($(this).val(),1);
+    });
+
+    // 市级目录变化函数
+    $("select[name='prodRegionId_1']").change(function(){
+        getRegionList($(this).val(),2);
+    })
+
+    // 区级目录变化函数
+    $("select[name='prodRegionId_2']").change(function(){
+        $("#toRegionId").val($(this).val());
+    })
+</script>
