@@ -69,6 +69,7 @@
 	<!-- navigation bar -->
 	<div class="topheader">
 		<div align=center>
+
 			<div class="max-lg" >
  					<div class="ui compact menu " style="float:left;">
 						 <div class="ui simple dropdown item">
@@ -81,6 +82,8 @@
 						</div>
  					</div>
 					<span style="float: right; margin-top: 10px" ><a class="vt-mid" href="${rc.contextPath}/front/fkf/FkfHomeCtrl-home">返回首页</a></span>
+
+
 			</div>
 		</div>
 	</div>
@@ -153,8 +156,9 @@
 						<div style="">财务中心</div>
 					</li>
 					<ul style="display: block;">
-						<li class="leftmenuleaf #if($childMenuNo==1)selected#end"><a href = "">利息列表</a></li>
-						<li class="leftmenuleaf #if($childMenuNo==2)selected#end"><a href = "">还款列表</a></li>
+						<li class="leftmenuleaf #if($childMenuNo==1)selected#end"><a href = "${rc.contextPath}/creditor/interestListPage">利息列表</a></li>
+						<li class="leftmenuleaf #if($childMenuNo==2)selected#end"><a href = "${rc.contextPath}/creditor/repayOffListPage">还款列表</a></li>
+						<li class="leftmenuleaf #if($childMenuNo==2)selected#end"><a href = "${rc.contextPath}/creditor/repayingListPage">未还款列表</a></li>
 					</ul>
 				</ul>
 			#end

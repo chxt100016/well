@@ -206,11 +206,10 @@
                 },
                 success: function (result) {
                     if (result.code == 0) {
-                        console.log("成功！");
-                        alert("审核成功")
+                        alert("审核成功");
+                        window.history.go(-1);
                     } else {
-                        console.log('失败');
-                         alert(result.msg)
+                         alert(result.msg);
                     }
                 }
 

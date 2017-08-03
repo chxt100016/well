@@ -29,4 +29,5 @@ public interface LoanDao {
     List<Map<String,Object>> listLoanByConditions(Map params);
 
     int listLoanByConditionsCount(Map params);
+
 }
