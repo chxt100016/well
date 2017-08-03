@@ -8,15 +8,15 @@
 	<meta name="author" content="Westilian: Kamrujaman Shohel">
 	<!-- <link rel="stylesheet" href="${rc.contextPath}/resources/library/css/bootstrap.css"> -->
 	     <link rel="stylesheet" href="${rc.contextPath}/resources/library/css/semantic.min.css"/>
-		<link rel="stylesheet" href="${rc.contextPath}/resources/library/css/bootstrap-responsive.css">
+		<!-- <link rel="stylesheet" href="${rc.contextPath}/resources/library/css/bootstrap-responsive.css"> -->
 		<link rel="stylesheet" href="${rc.contextPath}/resources/library/css/font-awesome.css">
 		<!--[if IE 7]>
 		<link rel="stylesheet" href="${rc.contextPath}/resources/library/css/font-awesome-ie7.min.css">
 		<![endif]-->
 		<link rel="stylesheet" href="${rc.contextPath}/resources/library/css/chosen.css">
-		<link rel="stylesheet" href="${rc.contextPath}/resources/wella/front/css/styles.css">
-		<link rel="stylesheet" href="${rc.contextPath}/resources/wella/front/css/pagetempl.css">
-		<link rel="stylesheet" href="${rc.contextPath}/resources/wella/front/css/theme-blue.css">
+		<!-- <link rel="stylesheet" href="${rc.contextPath}/resources/wella/front/css/styles.css"> -->
+		<link rel="stylesheet" href="${rc.contextPath}/resources/wella/front/css/header.css">
+		<link rel="stylesheet" href="${rc.contextPath}/resources/wella/front/css/common.css">
 		<!--[if IE 7]>
 		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/resources/library/css/ie/ie7.css">
 		<![endif]-->
@@ -67,61 +67,85 @@
 
 
 	<!-- navigation bar -->
-	<div class="abovenavbar">
+	<div class="topheader">
 		<div align=center>
-			<div style="width:1100px;">
-			
- 					<span class="dropdown" style="float:left;">
-						<a data-toggle="dropdown" class="dropdown">$user.userName&nbsp;<b class="icon-angle-down"></b></a>
-						<div class="dropdown-menu">
-							<div id="logout"><a style = "color: #1F2325; text-decoration: none;" href = "${rc.contextPath}/front/fkf/FkfLoginCtrl-logout">退出登陆</a></div>
+			<div class="max-lg" >
+ 					<div class="ui compact menu " style="float:left;">
+						 <div class="ui simple dropdown item">
+								$user.userName
+								<i class="dropdown icon"></i>
+								<div class="menu">
+										<div class="item"><a style = "color: #1F2325; text-decoration: none;" href = "${rc.contextPath}/front/fkf/FkfLoginCtrl-logout">退出登陆</a></div>
+									
+								</div>
 						</div>
- 					
- 					</span>
-					<span style="float: right;"><a href="${rc.contextPath}/front/fkf/FkfHomeCtrl-home">返回首页</a></span>
+ 					</div>
+					<span style="float: right; margin-top: 10px" ><a class="vt-mid" href="${rc.contextPath}/front/fkf/FkfHomeCtrl-home">返回首页</a></span>
 			</div>
 		</div>
 	</div>
 
 	<!-- top menu -->
-	<div class="navbar navbar-inverse top-nav" align=center style="height:50px;overflow:hidden">
+	<div class="navbar navbar-inverse top-nav wellblue" align=center style="height:50px;overflow:hidden">
 		<div class="navbar-inner">
 			<div class="container">
-				<div align=left style="width:1100px;">
-					<span class="title_account" style="line-height:100%; margin-top:9px">管理员</span>
-					<div class="nav-collapse" style="margin-left:22px;">
-						<ul class="nav">
-							<li id="dingdancenter" class="dropdown menu-break-left #if($parentMenuNo==1)topmenuselected#end">
-								<a class="dropdown-toggle" href="${rc.contextPath}/front/fkf/FkfOrderCtrl-sxList" style="font-size:16px;color:white;font-weight:bold;">授信中心</a>
+				<div align=left style="width:1400px;">
+					
+						<ul class="ui menu wellblue blue inverted">
+							<li class="item" class="mg-lf-30">管理员&nbsp&nbsp</li>
+							<li id="dingdancenter" class=" header item parentul #if($parentMenuNo==1)header#end">
+								<a class="" href="${rc.contextPath}/front/fkf/FkfOrderCtrl-sxList">授信中心</a>
 							</li>
-							<li id="financecenter" class="dropdown menu-break-left #if($parentMenuNo==2)topmenuselected#end">
-								<a class="dropdown-toggle" href="${rc.contextPath}/front/fkf/FkfFinanceController-lixiList" style="font-size:16px;color:white;font-weight:bold;">财务中心</a>
+							<li id="financecenter" class="item parentul#if($parentMenuNo==2)topmenuselected#end">
+								<a class="" href="${rc.contextPath}/front/fkf/FkfFinanceController-lixiList" >财务中心</a>
 							</li>
-							<li id="newscenter" class="dropdown menu-break-left #if($parentMenuNo==3)topmenuselected#end">
-								<a class="dropdown-toggle" href="${rc.contextPath}/front/fkf/FkfNewsController-xxList" style="font-size:16px;color:white;font-weight:bold;">消息中心</a>
+							<li id="newscenter" class=" item parentul#if($parentMenuNo==3)topmenuselected#end">
+								<a class="" href="${rc.contextPath}/front/fkf/FkfNewsController-xxList" >消息中心</a>
 							</li>
-							<li id="company_manage" class="dropdown menu-break-left menu-break-right #if($parentMenuNo==4)topmenuselected#end">
-								<a class="dropdown-toggle" href="${rc.contextPath}/front/fkf/FkfCompanyController-companyInfo" style="font-size:16px;color:white;font-weight:bold;">企业管理</a>
+							<li id="company_manage" class=" item parentul menu-break-right #if($parentMenuNo==4)topmenuselected#end">
+								<a class="" href="${rc.contextPath}/front/fkf/FkfCompanyController-companyInfo">企业管理</a>
 							</li>
 						</ul>
-					</div>
+					
 				</div>
 			</div>
 		</div>
 	</div>
 	#if($sideNavShow==1)
-	<div id="main_content" align=center style="background:white;width: 1100px;margin: 0px auto;padding-top: 32px;">
-		<div id="leftmenu" class="" style="border:solid 1px #d0d0d0;width:190px;float:left;">
+	<div id="main_content" align=center style="width: 1420px;margin: 0px auto;padding-top: 10px;">
+		<div id="leftmenu" class="ui vertical accordion menu" style="max-width:205px;float:left; margin-top:1em;position:fixed;z-index:99">
 			#if($parentMenuNo ==1)
-				<ul style="margin-left: -100px">
-					<li class="leftmenulevel1" #*onclick="menuparentclicked( this);"*#>
-						<div style="">授信管理</div>
-					</li>
-					<ul style="display: block;">
-						<li class="leftmenuleaf #if($childMenuNo==1)selected#end"><a onclick="authApply();">资格申请</a></li>
-						<li class="leftmenuleaf #if($childMenuNo==2)selected#end"><a href = "${rc.contextPath}/creditor/loanCheck">授信列表</a></li>
-					</ul>
-				</ul>	
+				<div  class="item">
+					<a class="active title">
+						<i class="dropdown icon"></i> <label for="" class="ft-sz-16">授信管理</label>
+					</a>
+					<div class="active content" style="display: block;">
+						<div class="ui form">
+							  <div class="grouped fields">
+								  <div class="field pointer">
+									  <div class="ui checkbox">
+									  <input type="checkbox" name="example" #if($childMenuNo==1) checked='checked'#end>
+									  <label onclick="authApply();" style="cursor:pointer">资格申请</label>
+									  </div>		
+								 </div>
+									
+								</div>
+								<div class="grouped fields">
+								  <div class="field pointer " >
+									  <a href="${rc.contextPath}/creditor/loanCheck"><div class="ui checkbox"  href = >
+									  <input type="checkbox" name="example" #if($childMenuNo==2) checked='checked'#end>
+									  <label style="cursor:pointer">授信列表</label>
+									  </div>	</a>	
+								 </div>
+									
+								</div>
+
+								<!-- <li class="leftmenuleaf #if($childMenuNo==2)selected#end"><a href = "${rc.contextPath}/creditor/loanCheck">授信列表</a></li> -->
+					        </div>
+						
+					  </div>
+					</div>
+				</div>	
 			#end
 			#if($parentMenuNo ==2)
 				<ul>
@@ -164,7 +188,9 @@
 	
 
 <script type="text/javascript">
-
+$('.ui.accordion')
+  .accordion()
+;
 	function authApply() {
 		$.get('${rc.contextPath}/creditor/creditorState',{},function(r){
 			if (r.code==0){
