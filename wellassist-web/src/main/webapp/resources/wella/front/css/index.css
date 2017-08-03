@@ -83,8 +83,9 @@ body {
 	border-radius: 5px;
 	border: 1px solid #a9a9a9;
 }
-.navbar-loginwin button{
+.navbar-loginwin .loginbtn{
 	width: 236px;
+	cursor: pointer;
 	padding: 8px 0;
 	margin: 15px auto 30px;
 	color: #fff;

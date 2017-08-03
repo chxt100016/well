@@ -63,35 +63,39 @@
             <div class="row pd-bt-10">
                 <div class="col-md-4 col-md-offset-1">利润表</div>
                 <div class="col-md-4">
-                    <a href="">下载</a></div>
+                    <a class="btn btn-success"  @click="downLoad(authoritions.authCreditorPageInfo.income,'利润表.zip')">下载</a></div>
             </div>
             <div class="row pd-bt-10">
                 <div class="col-md-4 col-md-offset-1">资产负债表</div>
                 <div class="col-md-4">
-                    <a href="">下载</a></div>
+                      <a class="btn btn-success" @click="downLoad(authoritions.authCreditorPageInfo.liabilities,'资产负债表.zip')">下载</a></div>
+                
             </div>
             <div class="row pd-bt-10">
                 <div class="col-md-4 col-md-offset-1">现金流量表</div>
                 <div class="col-md-4">
-                    <a href="">下载</a></div>
+                     <a  class="btn btn-success"  @click="downLoad(authoritions.authCreditorPageInfo.cash_flow,'现金流量表.zip')">下载</a></div>
             </div>
             <div class="row pd-bt-10">
                 <div class="col-md-4 col-md-offset-1">金融资质文件</div>
                 <div class="col-md-4">
-                    <a href="">下载</a></div>
+                     <a class="btn btn-success" @click="downLoad(authoritions.authCreditorPageInfo.qualifition,'金融资质文件.zip')">下载</a></div>
             </div>
             <div class="row pd-bt-10">
                 <div class="col-md-4 col-md-offset-1">纳税表</div>
                 <div class="col-md-4">
-                    <a href="">下载</a></div>
+                     <a class="btn btn-success"  @click="downLoad(authoritions.authCreditorPageInfo.tax,'纳税表.zip')">下载</a></div>
             </div>
             <div class="row pd-bt-10">
                 <div class="col-md-4 col-md-offset-1">其他</div>
                 <div class="col-md-4">
-                    <a href="">下载</a></div>
+                    <a class="btn btn-success"  >下载</a></div>
             </div>
 
         </div>
+
+    
+
 
         <div class="column pd_box" style="margin-top:10px">
             <h3 class="ui header">操作</h3>
@@ -147,8 +151,9 @@
             },
             checkComments:'',
         },
-        created: function () {
+        beforeCreate: function () {
             var that = this;
+            console.log("ajax");
             $.ajax({
                 type: 'post',
                 url: loanurl,
@@ -175,7 +180,7 @@
                 form.attr("style", "display:none");
                 form.attr("target", "");
                 form.attr("method", "post");
-                form.attr("action", "../../downloadCrossDomainFile");
+                form.attr("action", "${rc.contextPath}/downloadCrossDomainFile");
                 var input1 = $("<input>");
                 input1.attr("type", "hidden");
                 input1.attr("name", "targetUrl");
