@@ -420,7 +420,7 @@
 
         });
         function valided(){
-            var  $form = $('.form'),allFields = $form.form('get values');
+            var  $form = $('.form'),allFields = $form.form('get values')[1];
             console.log(allFields);
             console.log("验证无误可以提交");
             // $.post('${rc.contextPath}/creditor/creditorAuthApply',allFields,function(r){

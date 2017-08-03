@@ -89,7 +89,7 @@
                             prompt: '请输入还款金额'
                         },
                         {
-                            type: 'integer[0..10000000]',
+                            type: 'number',
                             prompt: '务必输入正确的金额'
                         },
                         // {
@@ -139,12 +139,12 @@
                 if(repays > amount){
                     event.currentTarget.value = amount;
                      console.log('太多了');
-                     this.repays.Pincepal=event.currentTarget.value-intersts;
+                     this.repays.Pincepal=(event.currentTarget.value-intersts).toFixed(2);
                        
                 }
                 else{
                     console.log("可以");
-                     this.repays.Pincepal=event.currentTarget.value-intersts;
+                     this.repays.Pincepal=(event.currentTarget.value-intersts).toFixed(2);
                 }
                 // let repayprins=repays-intersts;
                 // console.log(repayprins);
