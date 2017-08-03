@@ -84,4 +84,18 @@ public interface CreditorService {
      * @return
      */
     int listLoanCount(Map params);
+
+    /**
+     * 得到该贷款最近的一次repay 记录
+     * @param loanId
+     * @return
+     */
+    Map<String,Object> getLatestRepay(long loanId);
+
+    /**
+     * 已还款列表，加上字段：latestRepayDate
+     * @param query
+     * @return
+     */
+    List<Map<String,Object>> repayOffList(Query query);
 }

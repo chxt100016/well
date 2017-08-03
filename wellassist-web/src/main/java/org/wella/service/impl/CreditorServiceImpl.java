@@ -1,13 +1,11 @@
 package org.wella.service.impl;
 
+import io.wellassist.utils.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.wella.common.utils.ConvertUtil;
-import org.wella.dao.CreditorAuthenticInfoDao;
-import org.wella.dao.LoanAssignInfoDao;
-import org.wella.dao.LoanDao;
-import org.wella.dao.WaUserDao;
+import org.wella.dao.*;
 import org.wella.entity.CreditorAuthenticInfo;
 import org.wella.service.CreditorService;
 import org.wella.utils.DateUtils;
@@ -37,6 +35,8 @@ public class CreditorServiceImpl implements CreditorService{
     @Autowired
     private CreditorAuthenticInfoDao creditorAuthenticInfoDao;
 
+    @Autowired
+    private RepayDao repayDao;
 
     /**
      * 得到已认证的放款方list
@@ -68,7 +68,7 @@ public class CreditorServiceImpl implements CreditorService{
         updateloan.put("loanId",loanId);
         updateloan.put("loanDate",now);
         updateloan.put("interestFreeDate", DateUtils.addDays(now,7));
-        updateloan.put("paymentDate",DateUtils.addDays(now,37));
+        updateloan.put("paymentDate",DateUtils.addDays(now,7+paymentDays));
         BigDecimal lixiRate=(BigDecimal) loan.get("lixi_rate");
         BigDecimal lixiRateFkf=lixiRate.multiply(new BigDecimal(0.9));
         updateloan.put("lixiRateFkf",lixiRateFkf);
@@ -170,5 +170,26 @@ public class CreditorServiceImpl implements CreditorService{
     public int listLoanCount(Map params) {
         int res=loanDao.listLoanByConditionsCount(params);
         return res;
+    }
+
+    @Override
+    public Map<String, Object> getLatestRepay(long loanId) {
+        Map<String,Object> query=new HashMap<>();
+        query.put("loanId",loanId);
+        query.put("orderBy","repay_date desc");
+        Map<String,Object> res=repayDao.singleRepayByConditions(query);
+        ConvertUtil.convertDataBaseMapToJavaMap(res);
+        return res;
+    }
+
+    @Override
+    public List<Map<String,Object>> repayOffList(Query query) {
+        List<Map<String, Object>> loans=loanDao.listLoanOrderViewByConditions(query);
+        ConvertUtil.convertDataBaseMapToJavaMap(loans);
+        for (Map map:loans){
+            Map<String,Object> repay=getLatestRepay((long)map.get("loanId"));
+            map.put("latestRepayDate",repay.get("repayDate"));
+        }
+        return loans;
     }
 }

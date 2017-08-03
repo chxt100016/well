@@ -226,7 +226,7 @@
             <if test="activityState != null" >
                 activity_state = #{activityState,jdbcType=BINARY},
             </if>
-            <if test="creditor_state != null">
+            <if test="creditorState != null">
                 creditor_state=#{creditorState,jdbcType=TINYINT},
             </if>
         </set>
@@ -361,6 +361,9 @@
             </if>
             <if test="userState != null">
                 AND u.user_state=#{userState}
+            </if>
+            <if test="creditorState != null">
+                and u.creditor_state=#{creditorState}
             </if>
         </where>
     </select>

@@ -6,6 +6,7 @@ import io.wellassist.utils.Query;
 import io.wellassist.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,13 +54,19 @@ public class CreditorController {
      * @return
      */
     @RequestMapping("creditorAuthApply")
-    public String creditorAuthApply(@RequestBody CreditorAuthenticInfo creditorAuthenticInfo,HttpServletRequest request){
+    @ResponseBody
+    public R creditorAuthApply(@RequestBody CreditorAuthenticInfo creditorAuthenticInfo,HttpServletRequest request){
         User user=(User)request.getSession().getAttribute("user");
         creditorAuthenticInfo.setUserId(user.getUserId());
         creditorAuthenticInfo.setApplyDate(new Date());
         creditorAuthenticInfo.setState((byte)1);
-        creditorServiceImpl.qualityApply(creditorAuthenticInfo);
-        return "";
+        try {
+            creditorServiceImpl.qualityApply(creditorAuthenticInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error();
+        }
+        return R.ok();
     }
 
     /**
@@ -145,7 +152,7 @@ public class CreditorController {
         Query query=new Query(params);
         query.put("creditUserId",creditUserId);
         query.put("loanState",3);
-        List list=creditorServiceImpl.listLoanOrderViewByConditions(query);
+        List list=creditorServiceImpl.repayOffList(query);
         int totalCount=creditorServiceImpl.listLoanCount(query);
         PageUtils pageUtils=new PageUtils(list,totalCount,query.getLimit(),query.getPage());
         return R.ok().put("page",pageUtils);
@@ -165,5 +172,65 @@ public class CreditorController {
         return R.ok().put("page",pageUtils);
     }
 
+    /**
+     * 跳转放款资质申请页面
+     * @param model
+     * @return
+     */
+    @RequestMapping("qualityApply")
+    public String qualityApply(Model model){
+        model.addAttribute("parentMenuNo",1);
+        model.addAttribute("childMenuNo",1);
+        model.addAttribute("sideNavShow",1);
+        return "views/front/creditor/order/qualityApply.html";
+    }
 
+    /**
+     * 跳转放款资质申请提交成功页面
+     * @param model
+     * @return
+     */
+    @RequestMapping("qualityApplySuccess")
+    public String qualityApplySuccess(Model model){
+        model.addAttribute("parentMenuNo",1);
+        model.addAttribute("sideNavShow",0);
+        return "views/front/creditor/order/qualityApplySuccess.html";
+    }
+
+    /**
+     * 跳转放贷审核页面
+     * @param model
+     * @return
+     */
+    @RequestMapping("loanCheck")
+    public String loanCheck(Model model){
+        model.addAttribute("parentMenuNo",1);
+        model.addAttribute("childMenuNo",2);
+        model.addAttribute("sideNavShow",1);
+        return "views/front/creditor/order/loanCheck.html";
+    }
+
+    @RequestMapping("interestListPage")
+    public String interestListPage(Model model){
+        model.addAttribute("parentMenuNo",2);
+        model.addAttribute("childMenuNo",1);
+        model.addAttribute("sideNavShow",1);
+        return "views/front/creditor/order/interestListPage.html";
+    }
+
+    @RequestMapping("repayOffListPage")
+    public String repayOffListPage(Model model){
+        model.addAttribute("parentMenuNo",2);
+        model.addAttribute("childMenuNo",2);
+        model.addAttribute("sideNavShow",1);
+        return "views/front/creditor/order/repayOffListPage.html";
+    }
+
+    @RequestMapping("repayingListPage")
+    public String repayingListPage(Model model){
+        model.addAttribute("parentMenuNo",2);
+        model.addAttribute("childMenuNo",3);
+        model.addAttribute("sideNavShow",1);
+        return "views/front/creditor/order/repayingListPage.html";
+    }
 }
