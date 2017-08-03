@@ -35,6 +35,7 @@
 		<script src="${rc.contextPath}/resources/library/js/jquery.js"></script>
 		<!-- <script src="${rc.contextPath}/resources/library/js/jquery-ui-1.10.1.custom.min.js"></script> -->
 		<script src="${rc.contextPath}/resources/library/js/semantic.min.js"/>"></script>
+			<script src="${rc.contextPath}/resources/library/js/vue.min.js"/>"></script>
 		<!-- <script src="${rc.contextPath}/resources/library/js/bootstrap.js"></script> -->
 		<script src="${rc.contextPath}/resources/wella/common/js/accordion.nav.js"></script>
 		<script src="${rc.contextPath}/resources/common/js/global.js"></script>
@@ -96,17 +97,17 @@
 					
 						<ul class="ui menu wellblue blue inverted">
 							<li class="item" class="mg-lf-30">管理员&nbsp&nbsp</li>
-							<li id="dingdancenter" class=" header item parentul #if($parentMenuNo==1)header#end">
-								<a class="" href="${rc.contextPath}/front/fkf/FkfOrderCtrl-sxList">授信中心</a>
+							<li id="dingdancenter" class="  item parentul #if($parentMenuNo==1)header#end">
+								<a class="" href="${rc.contextPath}/creditor/loanCheck">授信中心</a>
 							</li>
-							<li id="financecenter" class="item parentul#if($parentMenuNo==2)topmenuselected#end">
-								<a class="" href="${rc.contextPath}/front/fkf/FkfFinanceController-lixiList" >财务中心</a>
+							<li id="financecenter" class="item parentul #if($parentMenuNo==2)header #end">
+								<a class="" href="${rc.contextPath}/creditor/interestListPage" >财务中心</a>
 							</li>
-							<li id="newscenter" class=" item parentul#if($parentMenuNo==3)topmenuselected#end">
-								<a class="" href="${rc.contextPath}/front/fkf/FkfNewsController-xxList" >消息中心</a>
+							<li id="newscenter" class=" item parentul#if($parentMenuNo==3)header#end">
+								<a class="" href="#" >消息中心</a>
 							</li>
-							<li id="company_manage" class=" item parentul menu-break-right #if($parentMenuNo==4)topmenuselected#end">
-								<a class="" href="${rc.contextPath}/front/fkf/FkfCompanyController-companyInfo">企业管理</a>
+							<li id="company_manage" class=" item parentul menu-break-right #if($parentMenuNo==4)header#end">
+								<a class="" href="#">企业管理</a>
 							</li>
 						</ul>
 					
@@ -138,11 +139,11 @@
 									  <a href="${rc.contextPath}/creditor/loanCheck"><div class="ui checkbox"  href = >
 									  <input type="checkbox" name="example" #if($childMenuNo==2) checked='checked'#end>
 									  <label style="cursor:pointer">授信列表</label>
-									  </div>	</a>	
+									  </div>	
+									</a>	
 								 </div>
 									
 								</div>
-
 								<!-- <li class="leftmenuleaf #if($childMenuNo==2)selected#end"><a href = "${rc.contextPath}/creditor/loanCheck">授信列表</a></li> -->
 					        </div>
 						
