@@ -53,8 +53,8 @@
                     <tr v-for="(item,index) in lists">
                         <td> {{ item.customerUserName }}</td>
                         <td>{{ item.loanMoney }}</td>
-                        <td>{{ item.loanDate }}</td>
-                        <td>{{ item.interestFreeDate }}</td>
+                        <td>{{ item.applyDate }}</td>
+                        <td>免息期为您确认放款后7日</td>
                         <td>
                             <div class="ui star rating" data-rating="3">
                                 <i class="icon active"></i>
@@ -62,7 +62,7 @@
                                 <i class="icon active"></i>
                             </div>
                         </td>
-                        <td>{{ item.lixiRateFkf }}</td>
+                        <td>{{ item.lixiRate*0.9 }}</td>
 
                         <td>
                             <button class="ui button positive" @click='agree(index,item.customerUserName,item.loanId,item.loanMoney)'>同意</button>
