@@ -287,12 +287,12 @@
 												<label><a href = "${pageContext.request.contextPath}/mes/message">消息中心</a></label>
 											</div>
 										</div>
-										<div class="field">
-											<div class="ui  checkbox">
-												<input type="checkbox" <c:if test ="${childMenuNo == '2'}"> checked="checked" </c:if>>
-												<label><a href = "/mes/creditrecord">征信计算</a></label>
-											</div>
-										</div>
+										<%--<div class="field">--%>
+											<%--<div class="ui  checkbox">--%>
+												<%--<input type="checkbox" <c:if test ="${childMenuNo == '2'}"> checked="checked" </c:if>>--%>
+												<%--<label><a href = "/mes/creditrecord">征信计算</a></label>--%>
+											<%--</div>--%>
+										<%--</div>--%>
 
 									</div>
 								</div>
