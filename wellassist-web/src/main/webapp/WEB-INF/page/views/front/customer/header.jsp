@@ -103,8 +103,8 @@
       						<li id="financecenter" class="<c:if test = "${parentMenuNo == '2' }"> topmenuselected</c:if>" >
 							  <a href="${pageContext.request.contextPath}/customer/accountInfo">财务中心</a></li>
       						<li id="newscenter" class="<c:if test = "${parentMenuNo == '3' }"> topmenuselected</c:if>">
-							  <%--<a href="${pageContext.request.contextPath}/customer/messagePage">消息中心</a></li>--%>
-                                  <a onclick="javascript:alert('功能待开发');">消息中心</a></li>
+							  <a href="${pageContext.request.contextPath}/mes/message">消息中心</a></li>
+                                  <%--<a onclick="javascript:alert('功能待开发');">消息中心</a></li>--%>
 							<li id="company_manage" class="<c:if test = "${parentMenuNo == '4' }"> topmenuselected</c:if>">
 							<a href="${pageContext.request.contextPath}/customer/companyInfo">个人中心</a></li>
           </ul>
@@ -198,6 +198,9 @@
         </div>
     </c:if>
 <%--财务中心end--%>
+
+
+
 <%--消息中心--%>
 <c:if test = "${parentMenuNo == '3'}">
           <div class="item">
@@ -209,7 +212,7 @@
                         <div class="field">
                             <div class="ui checkbox">
                                 <input type="checkbox" name="size" <c:if test ="${childMenuNo == '1'}"> checked="checked" </c:if> >
-                                <label><a href = "${pageContext.request.contextPath}/front/customer/NewsController-xxList">消息列表</a></label>
+                                <label><a href = "${pageContext.request.contextPath}/mes/message">消息列表</a></label>
                             </div>
                         </div>
 
