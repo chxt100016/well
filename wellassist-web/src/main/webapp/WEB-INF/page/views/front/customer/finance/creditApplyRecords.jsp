@@ -21,7 +21,7 @@
     <form id="searchFrm" method="post" action="${pageContext.request.contextPath}/customer/creditApplys">
         <input type="hidden" id="page" name="page" value="${param.page}">
     </form>
-    <div class="ui container segment" id="app1" style="width:990px">
+    <div class="ui container segment" id="app1" style="width:990px; left: 10px;margin-top: -1px;float:left">
         <h3>申请记录</h3>
         <div class="ui divider"></div>
            <table class="ui celled striped  table ">
