@@ -1,8 +1,10 @@
 package org.wella.dao;
 
+import io.wellassist.utils.Query;
 import org.apache.ibatis.annotations.Param;
 import org.wella.entity.Userinfo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,4 +29,10 @@ public interface UserinfoDao {
     int deleteByUserId(@Param("userId")long userId);
 
     Map<String,Object> singleUserinfoByPrimaryKey(@Param("userId")long userId);
+
+    List<Map<String,Object>> SelectCompanyList(Query query);
+
+
+    Integer SelectCompanyCount(Query query);
+
 }

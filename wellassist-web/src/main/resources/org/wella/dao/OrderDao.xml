@@ -221,4 +221,16 @@
         FROM orderinfoview
         WHERE order_id=#{orderId}
     </select>
+
+
+    <select id="financeDate" parameterType="java.util.Map" resultType="map">
+        select
+
+        YEAR(order_date)*100+MONTH(order_date)
+
+
+
+    </select>
+
+
 </mapper>

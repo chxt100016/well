@@ -45,4 +45,7 @@ public interface OrderDao {
     Map<String,Object> findOrderLogisticsBasicInfo(@Param("orderId")long orderId);
 
     Map<String,Object> singleOrderinfoByPrimaryKey(@Param("orderId") long orderId);
+
+    List<Map<Object,Object>>  financeDate(Map map);
+
 }

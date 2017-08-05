@@ -38,6 +38,9 @@ public class CreditorServiceImpl implements CreditorService{
     @Autowired
     private RepayDao repayDao;
 
+
+
+
     /**
      * 得到已认证的放款方list
      * @return
@@ -182,6 +185,8 @@ public class CreditorServiceImpl implements CreditorService{
         return res;
     }
 
+
+
     @Override
     public List<Map<String,Object>> repayOffList(Query query) {
         List<Map<String, Object>> loans=loanDao.listLoanOrderViewByConditions(query);
@@ -192,4 +197,10 @@ public class CreditorServiceImpl implements CreditorService{
         }
         return loans;
     }
+
+
+
+
+
+
 }
