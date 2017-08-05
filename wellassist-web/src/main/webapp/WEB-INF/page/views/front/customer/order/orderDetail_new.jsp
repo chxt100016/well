@@ -257,6 +257,7 @@
 <script>
     function confirmReceive(zorderId,com){
         var receiveComment=com.previousElementSibling.children[1].value;
+        
         if(confirm("你要确定要操作吗？")){
             $.get("${pageContext.request.contextPath}/customer/zorderConfirmReceive",{zorderId:zorderId,receiveComment:receiveComment},function(data){
                 if(data.code==0){
@@ -269,7 +270,9 @@
         }
     }
     function doubtReceive(zorderId,com) {
-        var receiveComment=com.previousElementSibling.children[1].value;
+        // var receiveComment=com.previousElementSibling.children[1].value;
+        var receiveComment=$("textarea[name=receiveComment]").val();
+        // console.log(receiveComment);
         if(confirm("你要确定要操作吗？")){
             $.get("${pageContext.request.contextPath}/customer/zorderDoubtReceive",{zorderId:zorderId,receiveComment:receiveComment},function(data){
                 if(data.code==0){

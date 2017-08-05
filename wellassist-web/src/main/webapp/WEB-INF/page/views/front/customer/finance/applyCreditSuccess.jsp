@@ -25,7 +25,7 @@
     <div class="ui container segment" id="app1">
         <div id="parent">
             <div id="child">
-                <p class="ui center aligned header"> <i class="check square icon"></i>申请成功</p>
+                <p class="ui center aligned header"> <i class="check square icon"></i>资料已提交</p>
                 <p class="ui center aligned header">
                     请等待审核
                 </p>
@@ -33,7 +33,7 @@
                   <div class="ui horizontal divider">and </div>
                 <p class="ui center aligned ">
                     <br><br>
-                    <button class="ui pink button" style="display:block;margin:0px auto" onclick="javascript:window.location.href='${pageContext.request.contextPath}/customer/creditAccount';">返回财务中心</button>
+                    <button class="ui black button" style="display:block;margin:0px auto" onclick="javascript:window.location.href='${pageContext.request.contextPath}/customer/creditAccount';">返回财务中心</button>
                 </p>
             </div>
         </div>

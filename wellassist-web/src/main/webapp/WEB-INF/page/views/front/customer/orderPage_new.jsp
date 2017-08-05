@@ -20,7 +20,7 @@
      </style>
 </head>
 <body>
-    <div class="ui container segment mid-content" id="app1" style="text-align:left; width: 900px;left: 110px; top: -13px">
+    <div class="ui container segment " id="app1" style=" text-align:left;width: 990px;float:left;margin-top:-1px ;left:10px">
         <form id="infoForm" action="<c:url value="/customer/order"/>" method="post">
             <input type="hidden" name="toRegionId" id = "toRegionId">
             <input type="hidden" name="prodId" value="${prod.prodId}">
