@@ -87,7 +87,7 @@
 								<a  href="${pageContext.request.contextPath}/customer/prodList">产品中心</a>
 							</li>
       						<li class="topmenuselected" class=" <c:if test = "${parentMenuNo == '1' }"> topmenuselected </c:if>" id="dingdancenter">
-							  <a href="${pageContext.request.contextPath}/customer/orderPage">订单中心</a></li>
+							  <a href="${pageContext.request.contextPath}/customer/orderList">订单中心</a></li>
       						<li id="financecenter" class="<c:if test = "${parentMenuNo == '2' }"> topmenuselected</c:if>" >
 							  <a href="${pageContext.request.contextPath}/customer/accountInfo">财务中心</a></li>
       						<li id="newscenter" class="<c:if test = "${parentMenuNo == '3' }"> topmenuselected</c:if>">

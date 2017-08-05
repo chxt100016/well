@@ -27,7 +27,7 @@
                 </div>
                 <ul class="navbar-nav">
                     <li class="active"><a href="index.html">首页</a></li> 
-                    <li><a href="#">公司动态</a></li>
+                    <li><a href="CompanyNews.html">公司动态</a></li>
                     <li><a href="Support.html">技术支持</a></li> 
                     <li><a href="AboutUs.html">关于我们</a></li>
                     <li><a href="ContactUs.html">联系我们</a></li>

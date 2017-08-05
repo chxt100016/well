@@ -23,6 +23,7 @@
 <body>
     <div class="ui container segment mid_box" id="app1">
         <h2 class="ui header">利息列表：</h2>
+        <div class="ui right floated">（免息期为7日，包括借款当日）</div>
         <div class="ui divider"></div>
         <div>
             <table class="ui table ">
@@ -36,7 +37,7 @@
                 </thead>
                 <tbody>
                       
-                     <tr v-for="list in lists">
+                     <tr v-for="list in lists" v-cloak>
                         <td>{{list.customerUserName }}</td>
                          <td>{{list.applyDate }}</td>
                           <td>{{list.lixiRateFkf}}</td>

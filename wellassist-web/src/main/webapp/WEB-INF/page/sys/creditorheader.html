@@ -121,38 +121,37 @@
 			#if($parentMenuNo ==1)
 				<div  class="item">
 					<a class="active title">
-						<i class="dropdown icon"></i> <label for="" class="ft-sz-16">授信管理</label>
+						<i class="dropdown icon"></i> <label for="" class="ft-sz-16">放贷管理</label>
 					</a>
 					<div class="active content" style="display: block;">
 						<div class="ui form">
 							  <div class="grouped fields">
-								  <div class="field pointer">
+								  <!-- <div class="field pointer">
 									  <div class="ui checkbox">
 									  <input type="checkbox" name="example" #if($childMenuNo==1) checked='checked'#end>
 									  <label onclick="authApply();" style="cursor:pointer">资格申请</label>
 									  </div>		
-								 </div>
+								 </div> -->
 									
 								</div>
 								<div class="grouped fields">
 								  <div class="field pointer " >
 									  <a href="${rc.contextPath}/creditor/loanCheck"><div class="ui checkbox"  href = >
 									  <input type="checkbox" name="example" #if($childMenuNo==2) checked='checked'#end>
-									  <label style="cursor:pointer">授信列表</label>
+									  <label style="cursor:pointer">放贷管理</label>
 									  </div>	
 									</a>	
-								 </div>
-									
+								 </div>									
 								</div>
 								<!-- <li class="leftmenuleaf #if($childMenuNo==2)selected#end"><a href = "${rc.contextPath}/creditor/loanCheck">授信列表</a></li> -->
 					        </div>
 						
 					  </div>
-					</div>
-				</div>	
+				</div>
+				
 			#end
 			#if($parentMenuNo ==2)
-				<ul>
+				<!-- <ul>
 					<li class="leftmenulevel1" onclick="menuparentclicked( this);">
 						<div style="">财务中心</div>
 					</li>
@@ -161,7 +160,47 @@
 						<li class="leftmenuleaf #if($childMenuNo==2)selected#end"><a href = "${rc.contextPath}/creditor/repayOffListPage">还款列表</a></li>
 						<li class="leftmenuleaf #if($childMenuNo==2)selected#end"><a href = "${rc.contextPath}/creditor/repayingListPage">未还款列表</a></li>
 					</ul>
-				</ul>
+				</ul> -->
+					<div  class="item">
+					<a class="active title">
+						<i class="dropdown icon"></i> <label for="" class="ft-sz-16">财务中心</label>
+					</a>
+					<div class="active content" style="display: block;">
+						<div class="ui form">
+							  <div class="grouped fields">
+								  <div class="field pointer">
+									    <a href="${rc.contextPath}/creditor/interestListPage">
+									  <div class="ui checkbox">
+									  <input type="checkbox" name="example" #if($childMenuNo==1) checked='checked'#end>
+									  <label style="cursor:pointer">利息列表</label>
+									  </div>
+									  </a>		
+								 </div>
+									
+								</div>
+								<div class="grouped fields">
+								  <div class="field pointer " >
+									  <a href="${rc.contextPath}/creditor/repayOffListPage"><div class="ui checkbox"   >
+									  <input type="checkbox" name="example" #if($childMenuNo==2) checked='checked'#end>
+									  <label style="cursor:pointer">还款列表</label>
+									  </div>	
+									</a>	
+								 </div>									
+								</div>
+								<div class="grouped fields">
+								  <div class="field pointer " >
+									  <a href="${rc.contextPath}/creditor/repayingListPage"><div class="ui checkbox"   >
+									  <input type="checkbox" name="example" #if($childMenuNo==3) checked='checked'#end>
+									  <label style="cursor:pointer;margin-left: 15px;">未还款列表</label>
+									  </div>	
+									</a>	
+								 </div>									
+								</div>
+								<!-- <li class="leftmenuleaf #if($childMenuNo==2)selected#end"><a href = "${rc.contextPath}/creditor/loanCheck">授信列表</a></li> -->
+					        </div>
+						
+					  </div>
+				</div>
 			#end
 			#if($parentMenuNo ==3)
 				<ul>

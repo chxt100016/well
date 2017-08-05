@@ -83,21 +83,21 @@
                 <div class="ui three column grid">
                     <div class="row">
                         <div class="column field" >
-                            <label for="">申请额度:</label>
+                            <label for="">期望额度:</label>
                             <input type="text" name="creditMoney">
                             
                         </div>
                     </div>
-                    <h5>资质提交：</h5>
+                    <h5>资质提交： （请上传贵公司近三年以下资料）</h5>
                     <div class="row">
                         <div  class=" ui cards">
                              <div class="card" style=" margin-left: 24px;">
                                 <div class="content">
                                     <div class="header">
-                                       银行对账单
+                                       利润表
                                     </div>
                                     <div class="description">
-                                        请上传EXCEL文件
+                                        请上传rar、zip文件
                                     </div>
                                    
                                  </div>
@@ -119,10 +119,10 @@
                              <div class="card">
                                 <div class="content">
                                     <div class="header">
-                                       个人财务报表
+                                       资产负债表
                                     </div>
                                     <div class="description">
-                                        请上传EXCEL文件
+                                        请上传rar、zip文件
                                     </div>
                                    
                                  </div>
@@ -143,10 +143,10 @@
                             <div class="card">
                                         <div class="content">
                                             <div class="header">
-                                            会计报表
+                                            现金流量表
                                             </div>
                                             <div class="description">
-                                                请上传EXCEL文件
+                                                请上传rar、zip文件
                                             </div>
                                         </div>
                                         <div class="extra content field" >
@@ -167,10 +167,10 @@
                             <div class="card" style=" margin-left: 24px;">
                                         <div class="content">
                                             <div class="header">
-                                            现金流量表
+                                            纳税表
                                             </div>
                                             <div class="description">
-                                                请上传EXCEL文件
+                                                请上传rar、zip文件
                                             </div>
                                         </div>
                                         <div class="extra content field" >
@@ -192,7 +192,7 @@
                 </div>
                 <br>
                 <button  class="ui primary button">提交申请</button>
-                <a onclick="ddd">ddd</a>
+            
             </form>
          </div>
     </body>
@@ -204,8 +204,8 @@
                     autoSubmit:true,
                     responseType:"json",
                     onSubmit:function(file, extension){
-                        if (!(extension && /^(xls|xlsx)$/.test(extension.toLowerCase()))){
-                            alert('只支持xls、xlsx格式的文件！');
+                        if (!(extension && /^(rar|zip)$/.test(extension.toLowerCase()))){
+                            alert('只支持rar、zip格式的文件！');
                             return false;
                         }
                     },
@@ -223,8 +223,8 @@
                     autoSubmit:true,
                     responseType:"json",
                     onSubmit:function(file, extension){
-                        if (!(extension && /^(xls|xlsx)$/.test(extension.toLowerCase()))){
-                            alert('只支持xls、xlsx格式的文件！');
+                        if (!(extension && /^(rar|zip)$/.test(extension.toLowerCase()))){
+                            alert('只支持rar、zip格式的文件！');
                             return false;
                         }
                     },
@@ -241,8 +241,8 @@
                     autoSubmit:true,
                     responseType:"json",
                     onSubmit:function(file, extension){
-                        if (!(extension && /^(xls|xlsx)$/.test(extension.toLowerCase()))){
-                            alert('只支持xls、xlsx格式的文件！');
+                        if (!(extension && /^(rar|zip)$/.test(extension.toLowerCase()))){
+                            alert('只支持rar、zip格式的文件！');
                             return false;
                         }
                     },
@@ -259,8 +259,8 @@
                     autoSubmit:true,
                     responseType:"json",
                     onSubmit:function(file, extension){
-                        if (!(extension && /^(xls|xlsx)$/.test(extension.toLowerCase()))){
-                            alert('只支持xls、xlsx格式的文件！');
+                        if (!(extension && /^(rar|zip)$/.test(extension.toLowerCase()))){
+                            alert('只支持rar、zipx格式的文件！');
                             return false;
                         }
                     },
@@ -329,7 +329,7 @@
                 if (!filename) {
                 }
                 else{
-                  filesShow.innerHTML = "<p>"+filename+"</p>"+ '<i class="file excel outline icon excel-inco">'+'</i>';
+                  filesShow.innerHTML = "<p>"+filename+"</p>"+ '<i class="file archive outline icon excel-inco">'+'</i>';
                 }
             }
          

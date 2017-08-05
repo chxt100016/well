@@ -30,13 +30,14 @@
     <form id="searchFrm" method="post" action="${pageContext.request.contextPath}/customer/loansRepayRecords">
         <input type="hidden" id="page" name="page" value="${param.page}">
     </form>
-        <div class="ui container segment" id="app1" style="width:990px">
+        <div class="ui container segment" id="app1" style="width:990px;float:left;left:10px;margin-top:-1px">
             <h3>还款记录</h3>
             <div class="ui divider"></div>
             <c:if test="${not empty loans}">
                 <c:forEach items="${loans}" var="loan">
             <div class="ui segment">
                 <br>
+                 <h4 class="ui horizontal divider header"><i class="bar chart icon"></i> 借款信息 </h4>
                 <div class="ui equal width grid">
                     <div class="column">订单编号：${loan.orderNo}</div>
                     <div class="column">还款状态:<c:if test="${loan.loanState==2}">待还款</c:if><c:if test="${loan.loanState==3}">已还清</c:if></div>
@@ -52,7 +53,7 @@
                     <div class="column">已还利息：${loan.repayLixi} 元</div>
                     <div class="column">尾款：${loan.remainRepayMoney+loan.remainLixiMoney} 元</div>
                 </div>
-                <h4 class="ui horizontal divider header"><i class="bar chart icon"></i> 还款记录 </h4>
+                <h4 class="ui horizontal divider header"><i class="bar alarm outline icon"></i> 还款记录 </h4>
 
 
                 <c:if test="${not empty loan.repays}">
