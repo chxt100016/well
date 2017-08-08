@@ -13,6 +13,7 @@
 .ui.celled.table tr td, .ui.celled.table tr th {border-left: 0;}
 .ui.menu li{list-style: none;}
 .active{color: #000 !important;}
+.cztab tr td img{border: 1px solid #f2f2f2;}
 .cztab tr td img:hover,.cztab tr td img:active{border: 1px solid #0068b7;}
 </style>
 
@@ -32,7 +33,7 @@
 						</td>
 						<td>&emsp;元</td>
 						<td>&emsp;&emsp;&emsp;充值方式</td>
-						<td>&emsp;<img src="img/u3142.png" /></td>
+						<td style="">&emsp;<img src="../img/zxlogo.jpg" /></td>
 						<td>&emsp;&emsp;<button class="ui primary button">充值</button></td>
 					</tr>
 				</table>
