@@ -3,12 +3,13 @@
 
 <style>
 	.cd-rect{width: 1000px; margin: auto;overflow: auto;}
-	.row-fld{width:230px; background: white;box-shadow: 3px 3px 3px #c0c0c0;padding:0px;overflow: auto; float: left; margin-top:10px; margin-right:20px;}
-	.sp_img{width:230px; height:169px;}
+	.row-fld{width:300px; background: white;box-shadow: 3px 3px 3px #c0c0c0;padding:0px;overflow: auto; float: left; margin-top:10px; margin-right:20px;}
+	.sp_img{width:290px; height:220px;}
 </style>
 
-<div id = "content-rect">
-	<div class = "cd-rect" style="padding:5px;">
+<div class= "container1">
+	<div class="container2">
+	<div class = "" style="padding:5px; width:80%; margin:0px auto">
 		 <c:forEach var="item" items="${spList}">
 			<div  class = "row-fld" style="">
 				<div style="position:relative;">
@@ -37,6 +38,7 @@
 				</div>
 			</div>
 	 	</c:forEach> 
+	</div>
 	</div>
 </div>
 

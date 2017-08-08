@@ -30,7 +30,7 @@
                 <thead>
                     <th>公司名称</th>
                     <th>借出时间</th>
-                    <th>利率</th>
+                    <th>利率‰</th>
                     <th>已产生利息(元)</th>
                     <th>备注</th>
                    
@@ -78,7 +78,7 @@
                 name: '', // 上一次过滤的 name 关键字，初始化为''
                 aKey: '', // select audit 的关键字
                 audit: '', // 上一次过滤的 audit关键字，初始化为''
-                limit: 10, // 每页显示行数
+                limit: '', // 每页显示行数
                 totalPage: '', // 总页数
                 currentPage: 0, // 当前页
                 jPage: 1,// 跳转到某页
@@ -149,6 +149,7 @@
                     left++
                 }
                 return ar
+                console.log(ar)
             }
 
         },

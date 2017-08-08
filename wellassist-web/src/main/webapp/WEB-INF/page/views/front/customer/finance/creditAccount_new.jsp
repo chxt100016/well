@@ -68,7 +68,7 @@
                     <th class="teal-bg">申请时间</th>
                     <th class="teal-bg">授信详情</th>
                      <th class="teal-bg">授信金额(元)</th>
-                    <th class="teal-bg">利率(%%/日)</th>
+                    <th class="teal-bg">利率(‱/日)</th>
                      <th class="teal-bg">尾款剩余(元)</th>
                      <th class="teal-bg center aligned">操作</th>
                 </tr>

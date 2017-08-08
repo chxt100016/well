@@ -79,9 +79,9 @@
                         <td><fmt:formatDate value="${repay.repayDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                         <%--<td>还款成功</td>--%>
                         <td>余额支付</td>
-                        <td>${repay.repayMoney}</td>
-                        <td>${repay.repayInterestMoney}</td>
-                        <td>${loan.lixiRate}</td>
+                        <td>${repay.repayMoney}元</td>
+                        <td>${repay.repayInterestMoney}元</td>
+                        <td>${loan.lixiRate}‱</td>
                     </tr>
                     </c:forEach>
 

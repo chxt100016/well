@@ -960,8 +960,8 @@ public class CustomerController extends BaseController {
       this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
       model.addAttribute("loans", loans);
 
-      model.addAttribute("parentMenuNo", "2");
-      model.addAttribute("childMenuNo", "2");
+      model.addAttribute("parentMenuNo", "6");
+      model.addAttribute("childMenuNo", "1");
       return "views/front/customer/finance/creditAccount_new.jsp";
    }
 
@@ -1062,22 +1062,22 @@ public class CustomerController extends BaseController {
       this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
       model.addAttribute("credits", credits);
 
-      model.addAttribute("parentMenuNo", "2");
-      model.addAttribute("childMenuNo", "3");
+      model.addAttribute("parentMenuNo", "6");
+      model.addAttribute("childMenuNo", "2");
       return "views/front/customer/finance/creditApplyRecords.jsp";
    }
 
    @RequestMapping("loansRepayRecords")
-   public String loansRepayRecords(Model model, HttpServletRequest request) {
-      User user = (User) request.getSession().getAttribute("user");
-      Map param = this.getConditionParam(request, 2);
-      param.put("userId", user.getUserId());
-      List<Map<String, Object>> loans = customerServiceImpl.getLoansRepayDetail(param);
-      int totalCount = customerServiceImpl.getLoansRepayDetailCount(param);
-      this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()), 2);
-      model.addAttribute("loans", loans);
-      model.addAttribute("parentMenuNo", "2");
-      model.addAttribute("childMenuNo", "4");
+   public String loansRepayRecords(Model model,HttpServletRequest request){
+      User user=(User)request.getSession().getAttribute("user");
+      Map param = this.getConditionParam(request,2);
+      param.put("userId",user.getUserId());
+      List<Map<String,Object>> loans=customerServiceImpl.getLoansRepayDetail(param);
+      int totalCount=customerServiceImpl.getLoansRepayDetailCount(param);
+      this.setPagenationInfo(request,totalCount,Integer.parseInt(param.get("page").toString()),2);
+      model.addAttribute("loans",loans);
+      model.addAttribute("parentMenuNo", "6");
+      model.addAttribute("childMenuNo", "3");
       return "views/front/customer/finance/repayRecords.jsp";
    }
 

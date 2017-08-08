@@ -8,6 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
      <script src="https://unpkg.com/vue/dist/vue.js"></script>
      <style>
+         .error-div{
+        color: #900b09;
+         width: 100%;
+         }
      .errors{
          color: #900b09;
          width: 100%;
@@ -17,10 +21,15 @@
          width: 250px;
          float:left;
      }
+     .contentbox{
+         border: 1px solid #999;
+     }
      </style>
 </head>
 <body>
-    <div class="ui container segment " id="app1" style=" text-align:left;width: 990px;float:left;margin-top:-1px ;left:10px">
+    <div class="container1"> 
+        <div class="container2">
+    <div class="ui container" id="app1" style=" text-align:left;width: 1200px;margin-top:-1px ;left:10px">
         <form id="infoForm" action="<c:url value="/customer/order"/>" method="post">
             <input type="hidden" name="toRegionId" id = "toRegionId">
             <input type="hidden" name="prodId" value="${prod.prodId}">
@@ -197,7 +206,6 @@
                             <td class="vehicleHangingNo"> {{vehicle.hanging_number}} </td>
                             <td class="vehicleSize">{{vehicle.actual_size}} </td>
                             <td class="right aligned " style="width:10% "><a class="ui button red " v-on:click="delVehicle(index) " style="width:70px;">删除</a></td>
-
                             <%--<td class="right aligned " style="width:10% "><a class="ui button red " v-on:click="delVehicle($index) ">DELETE </a></td>--%>
 
                         </tr>
@@ -284,13 +292,14 @@
                 </form>
         </div>
     </div>
-
+    </div>
+</div>
         
 </body>
 <script>
-    $(function() {
-        $('.tabular.menu .item').tab();
-    })
+    // $(function() {
+    //     $('.tabular.menu .item').tab();
+    // })
 </script>
 <script>
     var telRE = /^1(3|4|5|7|8)\d{9}$/;
