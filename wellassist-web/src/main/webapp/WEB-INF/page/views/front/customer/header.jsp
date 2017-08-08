@@ -12,13 +12,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="<c:url value="/resources/library/css/semantic.min.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/library/css/font-awesome.css"/>">
-
-    	<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/header.css"/>">
+   <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/common.css"/>">
+        <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/header.css"/>">
+       
     
     <script src="<c:url value="/resources/library/js/jquery.js"/>"></script>
     <script src="<c:url value="/resources/library/js/semantic.min.js"/>"></script>
+    <script src="<c:url value="/resources/common/js/global.js"/>"></script>
     <script src="${pageContext.request.contextPath}/resources/common/js/jquery.validate.js"></script>
     <script src="${pageContext.request.contextPath}/resources/library/js/My97DatePicker/WdatePicker.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/common/js/common.js"></script>
      <script src="<c:url value="/resources/library/js/vue.min.js"/>"></script>
 
 
@@ -27,21 +30,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script> -->
     <style>
        
-        .container{
-            border: 1px solid #adadad;
-            margin-left: 210px;
-            float: left;
+        .container1{
+            float: right;
             width: 100%;
-            height:990px;
-            padding-top: 75px;
-            padding-left: 30px;
+            min-height:990px;
+      
+          
+        }
+        .container2{
+            margin-left: 210px;
         }
 
     </style>
 </head>
 
 <body>
-    <div class="ui vertical inverted sticky  accordion  menu fixed top grey3" style="height: 800px !important;" id="leftMenu">
+    <div class="ui vertical inverted sticky  accordion  menu fixed top grey3" style="height: 800px !important;width:210px ;margin-right:-210px;" id="leftMenu">
         <div class="item leftheader grey2">
             <a class="ui logo icon image" href="/">
                 <h2>管理员</h2>
