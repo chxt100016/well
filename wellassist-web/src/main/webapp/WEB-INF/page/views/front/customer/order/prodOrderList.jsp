@@ -144,7 +144,19 @@
                         </span>
                     </td>
                     <td>
-                        <span>  评价</span>
+                        	<c:if test="${item.orderState==0||item.orderState==1}">
+						<span class="span_btn" onClick="toURL('cancelOrder', '${item.orderId}')">取消订单</span>
+					</c:if>
+					<c:if test="${item.orderState==1||item.orderState==12}">
+						<span class="span_btn" onClick="toURL('editFukuan', '${item.orderId}')">付款</span>
+					</c:if>
+					<c:if test="${item.orderState==3 ||item.orderState==4}">
+							<span class="span_btn" onClick="toURL('orderDetail', '${item.orderId}')">发货详情</span>
+					</c:if>
+							
+					<c:if test="${item.orderState==6}">
+						<span class="span_btn" onClick="toURL('editPingjia', '${item.orderId}')">评价</span>
+					</c:if>
                     </td>
                   
 				</tr>
