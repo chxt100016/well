@@ -4,6 +4,7 @@
 <mapper namespace="org.wella.dao.UserinfoDao">
 
 
+
     <select id="getOrderUserinfoByUserid" parameterType="long" resultType="org.wella.entity.Userinfo">
         SELECT  b.company_lxr, b.company_lxr_phone
         from wa_user a inner join wa_userinfo b on a.user_id = b.user_id
@@ -129,4 +130,25 @@
         from wa_userinfo
         where user_id=#{userId}
     </select>
+
+
+
+    <select id="SelectCompanyList" parameterType="java.util.Map" resultType="map">
+        select
+           company_name as companyName,
+           company_type as companyType,
+           sp_type as spType,
+           zc_xx_address as zcXxAddress,
+           company_lxr_phone as companyLxrPhone
+           from  wa_loan inner join wa_userinfo on user_id=user_id
+             where credit_user_id=#{creditUserId} and loan_state=2
+        <if test="offset != null and limit != null">
+            LIMIT ${offset}, ${limit}
+        </if>
+    </select>
+    
+    
+
+    
+    
 </mapper>

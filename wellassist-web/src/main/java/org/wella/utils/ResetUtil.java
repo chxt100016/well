@@ -1,7 +1,6 @@
 package org.wella.utils;
 
 import com.sun.mail.util.MailSSLSocketFactory;
-import com.sun.org.glassfish.external.statistics.annotations.Reset;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;

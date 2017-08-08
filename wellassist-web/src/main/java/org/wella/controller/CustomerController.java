@@ -45,58 +45,60 @@ import java.util.*;
  */
 @Controller
 @RequestMapping(value = "/customer/")
-public class CustomerController extends BaseController{
-    @Autowired
-    private CustomerServiceImpl customerServiceImpl;
+public class CustomerController extends BaseController {
+   @Autowired
+   private CustomerServiceImpl customerServiceImpl;
 
-    @Autowired
-    private WaUserDao userDao;
+   @Autowired
+   private WaUserDao userDao;
 
-    @Autowired
-    private ProdDao prodDao;
+   @Autowired
+   private ProdDao prodDao;
 
-    @Autowired
-    private CustomerBackOrderMapper customerBackOrderMapper;
+   @Autowired
+   private CustomerBackOrderMapper customerBackOrderMapper;
 
-    @Autowired
-    private FrontUserMoneyMapper userMoneyMapper0;
+   @Autowired
+   private FrontUserMoneyMapper userMoneyMapper0;
 
-    @Autowired
-    private NewsMapper newsMapper;
+   @Autowired
+   private NewsMapper newsMapper;
 
-    @Autowired
-    private UserinfoDao userinfoDao;
+   @Autowired
+   private UserinfoDao userinfoDao;
 
-    @Autowired
-    private WithdrawDAO withdrawDAO;
+   @Autowired
+   private WithdrawDAO withdrawDAO;
 
-    @Autowired
-    private FrontBankOrderMapper bankOrderMapper0;
+   @Autowired
+   private FrontBankOrderMapper bankOrderMapper0;
 
-    @Autowired
-    private WaOrderService waOrderServiceImpl;
+   @Autowired
+   private WaOrderService waOrderServiceImpl;
 
-    @Autowired
-    private BankcardDao bankcardDao;
+   @Autowired
+   private BankcardDao bankcardDao;
 
    @Autowired
    private TradeDAO tradeDao;
 
-    @Autowired
-    private FinanceService financeServiceImpl;
+   @Autowired
+   private FinanceService financeServiceImpl;
+
    /**
     * 买家下订单
-    * @param map prodId，saleNum，danjia，saleMoney，isSelfCar，contacts，conTel，toRegionId
-    *                toRegionAddr，orderData，deliverDate，receiveDate，customerExceptCarriage
+    *
+    * @param map      prodId，saleNum，danjia，saleMoney，isSelfCar，contacts，conTel，toRegionId
+    *                 toRegionAddr，orderData，deliverDate，receiveDate，customerExceptCarriage
     * @param response
     */
-   @RequestMapping(value = "order",method = RequestMethod.POST)
-   public void order(@RequestParam Map<String, Object> map,HttpServletRequest request, HttpServletResponse response) {
+   @RequestMapping(value = "order", method = RequestMethod.POST)
+   public void order(@RequestParam Map<String, Object> map, HttpServletRequest request, HttpServletResponse response) {
       User user = (User) HttpContextUtils.getHttpServletRequest().getSession().getAttribute("user");
-      long userId=user.getUserId();
-      map.put("userId",userId);
-      String ip=getIpAddr(request);
-      map.put("orderIp",ip);
+      long userId = user.getUserId();
+      map.put("userId", userId);
+      String ip = getIpAddr(request);
+      map.put("orderIp", ip);
       JSONObject res = new JSONObject();
       try {
          customerServiceImpl.order(map);
@@ -116,7 +118,7 @@ public class CustomerController extends BaseController{
       String prodId = CommonUtil.GetRequestParam(request, "prodId", "0");
       HashMap param = new HashMap();
       param.put("prodId", prodId);
-      Map prodMap=customerServiceImpl.findProdById(param);
+      Map prodMap = customerServiceImpl.findProdById(param);
 
       HashMap param1 = new HashMap();
       param1.put("parentRegionId", "0");
@@ -133,9 +135,9 @@ public class CustomerController extends BaseController{
    }
 
    @RequestMapping({"orderSuccess"})
-   public String orderSuccess(HttpServletRequest request,Model model) {
-      User user=(User)request.getSession().getAttribute("user");
-      model.addAttribute("username",user.getUserName());
+   public String orderSuccess(HttpServletRequest request, Model model) {
+      User user = (User) request.getSession().getAttribute("user");
+      model.addAttribute("username", user.getUserName());
       model.addAttribute("parentMenuNo", "1");
       model.addAttribute("childMenuNo", "1");
       return "views/front/customer/ordersheetresult.jsp";
@@ -143,35 +145,36 @@ public class CustomerController extends BaseController{
 
    /**
     * 跳转订单详情页面
+    *
     * @param model
     * @return
     */
    @RequestMapping("orderDetail")
-   public String orderDetail(@RequestParam("orderId")String orderId,HttpServletRequest request, Model model){
-      User user=(User)request.getSession().getAttribute("user");
-      Map<String,Object> orderDetail=customerServiceImpl.getOrderDetailInfo(Long.parseLong(orderId));
-      model.addAttribute("info",orderDetail);
+   public String orderDetail(@RequestParam("orderId") String orderId, HttpServletRequest request, Model model) {
+      User user = (User) request.getSession().getAttribute("user");
+      Map<String, Object> orderDetail = customerServiceImpl.getOrderDetailInfo(Long.parseLong(orderId));
+      model.addAttribute("info", orderDetail);
       model.addAttribute("userName", user.getUserName());
       model.addAttribute("parentMenuNo", "1");
       model.addAttribute("childMenuNo", "1");
       return "views/front/customer/order/orderDetail_new.jsp";
    }
 
-   @RequestMapping(value = "zorderConfirmReceive",method = RequestMethod.GET)
+   @RequestMapping(value = "zorderConfirmReceive", method = RequestMethod.GET)
    @ResponseBody
-   public R zorderConfirmReceive(@RequestParam("zorderId")String zorderId,@RequestParam("receiveComment")String receiveComment){
-      int res=customerServiceImpl.zorderConfirmReceive(Long.parseLong(zorderId),receiveComment);
-      if(res>0){
+   public R zorderConfirmReceive(@RequestParam("zorderId") String zorderId, @RequestParam("receiveComment") String receiveComment) {
+      int res = customerServiceImpl.zorderConfirmReceive(Long.parseLong(zorderId), receiveComment);
+      if (res > 0) {
          return R.ok();
       }
       return R.error();
    }
 
-   @RequestMapping(value = "zorderDoubtReceive",method = RequestMethod.GET)
+   @RequestMapping(value = "zorderDoubtReceive", method = RequestMethod.GET)
    @ResponseBody
-   public R zorderDoubtReceive(@RequestParam("zorderId")String zorderId,@RequestParam("receiveComment")String receiveComment){
+   public R zorderDoubtReceive(@RequestParam("zorderId") String zorderId, @RequestParam("receiveComment") String receiveComment) {
       try {
-         customerServiceImpl.zorderDoubtReceive(Long.parseLong(zorderId),receiveComment);
+         customerServiceImpl.zorderDoubtReceive(Long.parseLong(zorderId), receiveComment);
       } catch (NumberFormatException e) {
          e.printStackTrace();
          return R.error();
@@ -182,14 +185,15 @@ public class CustomerController extends BaseController{
 
    /**
     * 跳转物流详情页面
+    *
     * @param model
     * @return
     */
    @RequestMapping("logisticsDetail")
-   public String logisticsDetail(HttpServletRequest request,@RequestParam("orderId")String orderId, Model model){
-      User user=(User)request.getSession().getAttribute("user");
-      Map<String,Object> info=waOrderServiceImpl.findOrderLogisticsInfo(Long.parseLong(orderId));
-      model.addAttribute("info",info);
+   public String logisticsDetail(HttpServletRequest request, @RequestParam("orderId") String orderId, Model model) {
+      User user = (User) request.getSession().getAttribute("user");
+      Map<String, Object> info = waOrderServiceImpl.findOrderLogisticsInfo(Long.parseLong(orderId));
+      model.addAttribute("info", info);
       model.addAttribute("userName", user.getUserName());
       model.addAttribute("parentMenuNo", "1");
       model.addAttribute("childMenuNo", "1");
@@ -201,18 +205,18 @@ public class CustomerController extends BaseController{
     * 跳转买家物流订单界面
     */
    @RequestMapping("logisticsInfoList")
-   public String logisticsInfoList(HttpServletRequest request,Model model){
-      Map param=getConditionParam(request);
-      User user=(User)request.getSession().getAttribute("user");
-      long userId=user.getUserId();
-      param.put("userId",userId);
-      List<Map<String, Object>> info=customerServiceImpl.logisticsInfoListInfo(param);
-      int totalCount=customerServiceImpl.logisticsInfoListInfoCount(param);
+   public String logisticsInfoList(HttpServletRequest request, Model model) {
+      Map param = getConditionParam(request);
+      User user = (User) request.getSession().getAttribute("user");
+      long userId = user.getUserId();
+      param.put("userId", userId);
+      List<Map<String, Object>> info = customerServiceImpl.logisticsInfoListInfo(param);
+      int totalCount = customerServiceImpl.logisticsInfoListInfoCount(param);
       this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
-      model.addAttribute("info",info);
-      model.addAttribute("parentMenuNo","1");
-      model.addAttribute("childMenuNo","2");
-      model.addAttribute("userName",user.getUserName());
+      model.addAttribute("info", info);
+      model.addAttribute("parentMenuNo", "1");
+      model.addAttribute("childMenuNo", "2");
+      model.addAttribute("userName", user.getUserName());
       return "views/front/customer/order/wlOrderList.jsp";
    }
 
@@ -220,30 +224,31 @@ public class CustomerController extends BaseController{
     * 跳转抢单信息页面
     */
    @RequestMapping("grabLogisticsList")
-   public String grabLogisticsList(@RequestParam("logisticsInfoId")String logisticsInfoId, HttpServletRequest request,Model model){
-      User user=(User)request.getSession().getAttribute("user");
-      long LIId=Long.parseLong(logisticsInfoId);
-      List<Map<String,Object>> info=customerServiceImpl.grabLogisticsListInfo(LIId);
-      model.addAttribute("info",info);
-      model.addAttribute("logisticsInfoId",LIId);
-      model.addAttribute("username",user.getUserName());
-      model.addAttribute("parentMenuNo","1");
-      model.addAttribute("childMenuNo","2");
+   public String grabLogisticsList(@RequestParam("logisticsInfoId") String logisticsInfoId, HttpServletRequest request, Model model) {
+      User user = (User) request.getSession().getAttribute("user");
+      long LIId = Long.parseLong(logisticsInfoId);
+      List<Map<String, Object>> info = customerServiceImpl.grabLogisticsListInfo(LIId);
+      model.addAttribute("info", info);
+      model.addAttribute("logisticsInfoId", LIId);
+      model.addAttribute("username", user.getUserName());
+      model.addAttribute("parentMenuNo", "1");
+      model.addAttribute("childMenuNo", "2");
       return "views/front/customer/order/editQiangdan.jsp";
    }
 
    /**
     * 买家选择物流抢单
+    *
     * @param
     * @param
     * @param
     */
    @RequestMapping("chooseGrab")
    @ResponseBody
-   public R chooseGrab(@RequestParam Map param){
+   public R chooseGrab(@RequestParam Map param) {
       try {
          customerServiceImpl.chooseGrab(param);
-      }catch (Exception e){
+      } catch (Exception e) {
          e.printStackTrace();
          return R.error();
       }
@@ -252,7 +257,7 @@ public class CustomerController extends BaseController{
 
    @RequestMapping("testPayLogistics")
    @ResponseBody
-   public R testPayLogistics(@RequestParam("logisticsInfoId") String logisticsInfoId){
+   public R testPayLogistics(@RequestParam("logisticsInfoId") String logisticsInfoId) {
       try {
          customerServiceImpl.testPayLogistics(Long.parseLong(logisticsInfoId));
       } catch (NumberFormatException e) {
@@ -264,10 +269,10 @@ public class CustomerController extends BaseController{
 
    @RequestMapping("testPayOrder")
    @ResponseBody
-   public R testPayOrder(@RequestParam("orderId")String orderId){
+   public R testPayOrder(@RequestParam("orderId") String orderId) {
       try {
-         int res=customerServiceImpl.testPayOrder(Long.parseLong(orderId));
-         if(res>0){
+         int res = customerServiceImpl.testPayOrder(Long.parseLong(orderId));
+         if (res > 0) {
             return R.ok();
          }
       } catch (Exception e) {
@@ -279,6 +284,7 @@ public class CustomerController extends BaseController{
 
    /**
     * 买家支付订单的处理方法
+    *
     * @param request
     * @param response
     */
@@ -297,30 +303,30 @@ public class CustomerController extends BaseController{
       String balance = CommonUtil.GetRequestParam(request, "balance", "0");
       String zfMethod = CommonUtil.GetRequestParam(request, "zfMethod", "2");
       String certificateImg = "";
-      String ip=IPUtils.getIpAddr(request);
+      String ip = IPUtils.getIpAddr(request);
       try {
          //资金不能从session里面拿！！！
-         User user=(User)request.getSession().getAttribute("user");
-         if (!customerServiceImpl.isBalanceEnough(user.getUserId(),new BigDecimal(saleMoney),Integer.parseInt(zfMethod),new BigDecimal(balance),new BigDecimal(loan))){
+         User user = (User) request.getSession().getAttribute("user");
+         if (!customerServiceImpl.isBalanceEnough(user.getUserId(), new BigDecimal(saleMoney), Integer.parseInt(zfMethod), new BigDecimal(balance), new BigDecimal(loan))) {
             obj.put("content", ConstantUtil.MSG_MONEY_ERR);
             obj.put("status", "-1");
             this.echo(response, obj);
             return;
          }
-         if(zfMethod.equals("5")) {
-            certificateImg=CommonUtil.GetRequestParam(request, "certificateImg", "");
-            if("".equals(certificateImg)){
+         if (zfMethod.equals("5")) {
+            certificateImg = CommonUtil.GetRequestParam(request, "certificateImg", "");
+            if ("".equals(certificateImg)) {
                obj.put("content", ConstantUtil.MSG_PARAM_ERR);
                obj.put("status", "-1");
                this.echo(response, obj);
                return;
             }
          }
-         if(user != null && CommonUtil.getIntFromString(orderId) > 0) {
+         if (user != null && CommonUtil.getIntFromString(orderId) > 0) {
             Map orderObj = this.getMyOneSingBO("wa_order", "order_id", Long.parseLong(orderId));
-            if(orderObj != null && orderObj.get("userId") != null && (long)orderObj.get("userId")==(user.getUserId()) && orderObj.get("orderState") != null && ((int)orderObj.get("orderState")==1||(int)orderObj.get("orderState")==12)) {
+            if (orderObj != null && orderObj.get("userId") != null && (long) orderObj.get("userId") == (user.getUserId()) && orderObj.get("orderState") != null && ((int) orderObj.get("orderState") == 1 || (int) orderObj.get("orderState") == 12)) {
                String sql = "";
-               sql = " CALL khFukuanProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + saleMoney + "\',\'" + zfMethod + "\',\'"  + balance +"\',\'" + loan +"\',\'" + certificateImg +"\',\'"+ip+"\')";
+               sql = " CALL khFukuanProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + saleMoney + "\',\'" + zfMethod + "\',\'" + balance + "\',\'" + loan + "\',\'" + certificateImg + "\',\'" + ip + "\')";
                HashMap queryParam = new HashMap();
                queryParam.put("strsql", sql);
                this.commonMapper.simpleSelectReturnList(queryParam);
@@ -339,8 +345,8 @@ public class CustomerController extends BaseController{
    @RequestMapping(value = {"payLogistics"},
            method = {RequestMethod.POST})
    @ResponseBody
-   public JSONObject payLogistics(HttpServletRequest request, HttpServletResponse response){
-      JSONObject obj=new JSONObject();
+   public JSONObject payLogistics(HttpServletRequest request, HttpServletResponse response) {
+      JSONObject obj = new JSONObject();
       String orderId = CommonUtil.GetRequestParam(request, "orderId", "0");
       String logisticsInfoId = CommonUtil.GetRequestParam(request, "logisticsInfoId", "0");
       String grabMoney = CommonUtil.GetRequestParam(request, "grabMoney", "0");
@@ -349,30 +355,30 @@ public class CustomerController extends BaseController{
       String loan = CommonUtil.GetRequestParam(request, "loan", "0");
       String zfMethod = CommonUtil.GetRequestParam(request, "zfMethod", "2");
       String certificateImg = "";
-      String ip=IPUtils.getIpAddr(request);
-      User user=(User)request.getSession().getAttribute("user");
-      if (!customerServiceImpl.isBalanceEnough(user.getUserId(),new BigDecimal(grabMoney),Integer.parseInt(zfMethod),new BigDecimal(balance),new BigDecimal(loan))){
+      String ip = IPUtils.getIpAddr(request);
+      User user = (User) request.getSession().getAttribute("user");
+      if (!customerServiceImpl.isBalanceEnough(user.getUserId(), new BigDecimal(grabMoney), Integer.parseInt(zfMethod), new BigDecimal(balance), new BigDecimal(loan))) {
          obj.put("content", ConstantUtil.MSG_MONEY_ERR);
          obj.put("status", "-1");
          return obj;
       }
-      if(zfMethod.equals("5")) {
-         certificateImg=CommonUtil.GetRequestParam(request, "certificateImg", "");
-         if("".equals(certificateImg)){
+      if (zfMethod.equals("5")) {
+         certificateImg = CommonUtil.GetRequestParam(request, "certificateImg", "");
+         if ("".equals(certificateImg)) {
             obj.put("content", ConstantUtil.MSG_PARAM_ERR);
             obj.put("status", "-1");
             return obj;
          }
       }
-      if(user != null && CommonUtil.getIntFromString(orderId) > 0) {
+      if (user != null && CommonUtil.getIntFromString(orderId) > 0) {
          Map orderObj = this.getMyOneSingBO("wa_order", "order_id", Long.parseLong(orderId));
-         if(orderObj != null && orderObj.get("userId") != null && (long)orderObj.get("userId")==(user.getUserId()) && orderObj.get("orderState") != null && ((int)orderObj.get("orderState")==1||(int)orderObj.get("orderState")==11)||(int)orderObj.get("orderState")==13) {
+         if (orderObj != null && orderObj.get("userId") != null && (long) orderObj.get("userId") == (user.getUserId()) && orderObj.get("orderState") != null && ((int) orderObj.get("orderState") == 1 || (int) orderObj.get("orderState") == 11) || (int) orderObj.get("orderState") == 13) {
             String sql = "";
-            sql = " CALL logisticsPayProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + logisticsInfoId + "\',\'" + grabMoney + "\',\'" + zfMethod + "\',\'" + rate + "\',\'" + certificateImg + "\',\'"+ip+"\')";
+            sql = " CALL logisticsPayProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + logisticsInfoId + "\',\'" + grabMoney + "\',\'" + zfMethod + "\',\'" + rate + "\',\'" + certificateImg + "\',\'" + ip + "\')";
             HashMap queryParam = new HashMap();
             queryParam.put("strsql", sql);
-            ArrayList<Map<String,Object>> result=this.commonMapper.simpleSelectReturnList(queryParam);
-            if ((int)result.get(0).get("result")==1){
+            ArrayList<Map<String, Object>> result = this.commonMapper.simpleSelectReturnList(queryParam);
+            if ((int) result.get(0).get("result") == 1) {
                obj.put("content", ConstantUtil.MSG_SUCCESS);
                obj.put("status", "1");
                return obj;
@@ -386,28 +392,29 @@ public class CustomerController extends BaseController{
 
    /**
     * 跳转订单付款页面
+    *
     * @param orderId
     * @param request
     * @param model
     * @return
     */
    @RequestMapping("goPayOrder")
-   public String goPayOrder(@RequestParam("orderId")String orderId,HttpServletRequest request,Model model){
-      User user=(User)request.getSession().getAttribute("user");
-      Map<String,Object> orderInfo=customerServiceImpl.getPayOrderPageInfo(Long.parseLong(orderId),user.getUserId());
-      model.addAttribute("orderInfo",orderInfo);
-      model.addAttribute("user",user);
-      model.addAttribute("parentMenuNo","2");
+   public String goPayOrder(@RequestParam("orderId") String orderId, HttpServletRequest request, Model model) {
+      User user = (User) request.getSession().getAttribute("user");
+      Map<String, Object> orderInfo = customerServiceImpl.getPayOrderPageInfo(Long.parseLong(orderId), user.getUserId());
+      model.addAttribute("orderInfo", orderInfo);
+      model.addAttribute("user", user);
+      model.addAttribute("parentMenuNo", "2");
       return "views/front/customer/order/editFukuan.jsp";
    }
 
    @RequestMapping("goPayLogistics")
-   public String goPayLogistics(@RequestParam("logisticsInfoId")String logisticsInfoId,HttpServletRequest request,Model model){
-      User user=(User)request.getSession().getAttribute("user");
-      Map<String,Object> logisticsInfo=customerServiceImpl.getPayLogisticsPageInfo(Long.parseLong(logisticsInfoId),user.getUserId());
-      model.addAttribute("logisticsInfo",logisticsInfo);
-      model.addAttribute("user",user);
-      model.addAttribute("parentMenuNo","2");
+   public String goPayLogistics(@RequestParam("logisticsInfoId") String logisticsInfoId, HttpServletRequest request, Model model) {
+      User user = (User) request.getSession().getAttribute("user");
+      Map<String, Object> logisticsInfo = customerServiceImpl.getPayLogisticsPageInfo(Long.parseLong(logisticsInfoId), user.getUserId());
+      model.addAttribute("logisticsInfo", logisticsInfo);
+      model.addAttribute("user", user);
+      model.addAttribute("parentMenuNo", "2");
       return "views/front/customer/order/payLogistics.jsp";
    }
 
@@ -435,112 +442,118 @@ public class CustomerController extends BaseController{
       return "views/front/customer/company/changePass.jsp";
    }
 
-   /**修改支付密码
+   /**
+    * 修改支付密码
     *
     * @param map
     */
    @RequestMapping("changePayPassword")
    @ResponseBody
-   public R changePayPassword(@RequestParam Map<String,Object>map){
+   public R changePayPassword(@RequestParam Map<String, Object> map) {
       HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
       User user = (User) httpSession.getAttribute("user");
       String paynewpass = map.get("paynewpass").toString();
       //MD5加密
       String password = CommonUtil.MD5(paynewpass);
       user.setCzPass(password);
-      Map<String,Object> updateMap = new HashedMap();
-      updateMap.put("userId",user.getUserId());
-      updateMap.put("czPassword",user.getCzPass());
+      Map<String, Object> updateMap = new HashedMap();
+      updateMap.put("userId", user.getUserId());
+      updateMap.put("czPassword", user.getCzPass());
       try {
          userDao.resetPassword(updateMap);
-         return R.ok().put("state",1);
-      }catch (Exception e){
+         return R.ok().put("state", 1);
+      } catch (Exception e) {
          e.printStackTrace();
-         return R.error().put("state",0);
+         return R.error().put("state", 0);
       }
    }
 
-   /**检验支付密码
-    *修改支付密码前要输入原有的支付密码，原有的支付密码从session中获取
+   /**
+    * 检验支付密码
+    * 修改支付密码前要输入原有的支付密码，原有的支付密码从session中获取
+    *
     * @param map
     */
    @RequestMapping("checkPayPassword")
    @ResponseBody
-   public R checkPayPassword(@RequestParam Map<String,Object>map){
+   public R checkPayPassword(@RequestParam Map<String, Object> map) {
       HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
       User user = (User) httpSession.getAttribute("user");
       String payoldpass = map.get("oldPass").toString();
       //MD5加密
       String password = CommonUtil.MD5(payoldpass);
-      if(password.equals(user.getCzPass())){
-         return R.ok().put("state",1);
-      }else{
-         return R.error().put("state",0);
+      if (password.equals(user.getCzPass())) {
+         return R.ok().put("state", 1);
+      } else {
+         return R.error().put("state", 0);
       }
    }
 
-   /**修改登录密码
-    *1.修改session中的操作密码，2.修改数据库中session密码
+   /**
+    * 修改登录密码
+    * 1.修改session中的操作密码，2.修改数据库中session密码
+    *
     * @param map
     */
    @RequestMapping("changeLoginPassword")
    @ResponseBody
-   public R changeLoginPassword(@RequestParam Map<String,Object>map){
+   public R changeLoginPassword(@RequestParam Map<String, Object> map) {
       HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
       User user = (User) httpSession.getAttribute("user");
       String newpass = map.get("newpass").toString();
       //MD5加密
       String password = CommonUtil.MD5(newpass);
       user.setUserPass(password);
-      Map<String,Object> updateMap = new HashedMap();
-      updateMap.put("userId",user.getUserId());
-      updateMap.put("userPassword",user.getUserPass());
-      try{
+      Map<String, Object> updateMap = new HashedMap();
+      updateMap.put("userId", user.getUserId());
+      updateMap.put("userPassword", user.getUserPass());
+      try {
          userDao.resetPassword(updateMap);
-         return R.ok().put("state",1);
-      }
-      catch (Exception e){
+         return R.ok().put("state", 1);
+      } catch (Exception e) {
          e.printStackTrace();
-         return R.error().put("state",0);
+         return R.error().put("state", 0);
       }
    }
 
-   /**检验登录密码
-    *修改登录密码前要输入原有的登录密码，原有的登录密码可以从session中获取
+   /**
+    * 检验登录密码
+    * 修改登录密码前要输入原有的登录密码，原有的登录密码可以从session中获取
+    *
     * @param map
     */
    @RequestMapping("checkLoginPassword")
    @ResponseBody
-   public R checkLoginPassword(@RequestParam Map<String,Object>map){
+   public R checkLoginPassword(@RequestParam Map<String, Object> map) {
       HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
       User user = (User) httpSession.getAttribute("user");
       String payoldpass = map.get("oldPass").toString();
       //MD5加密
       String password = CommonUtil.MD5(payoldpass);
-      if(password.equals(user.getUserPass())){
-         return R.ok().put("state",1);
-      }else{
-         return R.error().put("state",0);
+      if (password.equals(user.getUserPass())) {
+         return R.ok().put("state", 1);
+      } else {
+         return R.error().put("state", 0);
       }
    }
 
    @RequestMapping("checkCzPassword")
-   public void checkWithdrawPassword(@RequestParam("pass") String oldPass,HttpServletResponse response){
+   public void checkWithdrawPassword(@RequestParam("pass") String oldPass, HttpServletResponse response) {
       HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
       User user = (User) httpSession.getAttribute("user");
       //MD5加密
       String password = CommonUtil.MD5(oldPass);
       Boolean res = Boolean.valueOf(false);
-      if(password.equals(user.getCzPass())){
+      if (password.equals(user.getCzPass())) {
          res = Boolean.valueOf(true);
-      }else{
+      } else {
          res = Boolean.valueOf(false);
       }
-      this.echo(response,res.toString());
+      this.echo(response, res.toString());
    }
 
    @RequestMapping("prodDetail")
-   public String prodDetail(@RequestParam("prodId")String prodId, Model model){
+   public String prodDetail(@RequestParam("prodId") String prodId, Model model) {
       User user = (User) HttpContextUtils.getAttribute("user");
 
 
@@ -550,9 +563,9 @@ public class CustomerController extends BaseController{
    }
 
    @RequestMapping("prodList")
-   public String prodList(@RequestParam Map<String,Object>map,Model model){
+   public String prodList(@RequestParam Map<String, Object> map, Model model) {
       User user = (User) HttpContextUtils.getAttribute("user");
-      map.put("userId",user.getSupplyId());
+      map.put("userId", user.getSupplyId());
       List<Prod> prodList = prodDao.findProdByUserId(map);
       model.addAttribute("spList", prodList);
       model.addAttribute("userName", user.getUserName());
@@ -564,20 +577,21 @@ public class CustomerController extends BaseController{
 
    /**
     * 买方订单列表
+    *
     * @param request
     * @param model
     * @return
     */
    @RequestMapping("orderList")
-   public String orderList(HttpServletRequest request,Model model){
+   public String orderList(HttpServletRequest request, Model model) {
       User user = (User) HttpContextUtils.getAttribute("user");
       Map param = this.getConditionParam(request);
       param.put("userId", user.getUserId());
-      ArrayList<Map<String,Object>> waOrderList = this.customerBackOrderMapper.getWaOrderList(param);
+      ArrayList<Map<String, Object>> waOrderList = this.customerBackOrderMapper.getWaOrderList(param);
       ConvertUtil.convertDataBaseMapToJavaMap(waOrderList);
-      for (Map<String,Object> waOrder:waOrderList){
-         Map<String,Object> orderlog=waOrderServiceImpl.findNewestOrderLog(Long.parseLong(waOrder.get("orderId").toString()));
-         if(orderlog!=null &&orderlog.size()>0){
+      for (Map<String, Object> waOrder : waOrderList) {
+         Map<String, Object> orderlog = waOrderServiceImpl.findNewestOrderLog(Long.parseLong(waOrder.get("orderId").toString()));
+         if (orderlog != null && orderlog.size() > 0) {
             waOrder.putAll(orderlog);
          }
       }
@@ -593,19 +607,20 @@ public class CustomerController extends BaseController{
    /**
     * 重复，要删
     * 下订单界面
+    *
     * @param prodIdF
     * @param model
     * @return
     */
-   @RequestMapping(value = "orderPage",method = RequestMethod.GET)
-   public String orderPage(@RequestParam String prodId,Model model){
+   @RequestMapping(value = "orderPage", method = RequestMethod.GET)
+   public String orderPage(@RequestParam String prodId, Model model) {
       HashMap param = new HashMap();
       param.put("prodId", prodId);
       Map prod = this.prodDao.findProdById(param);
       ConvertUtil.convertDataBaseMapToJavaMap(prod);
       String regionId = "";
       String regionName = "";
-      if(prod != null) {
+      if (prod != null) {
          regionId = prod.get("prodRegionId").toString();
          try {
             regionName = this.getRegionDetailName(regionId);
@@ -666,16 +681,17 @@ public class CustomerController extends BaseController{
 
    /**
     * 进入个人中心，查看企业信息
+    *
     * @param model
     * @return
     */
    @RequestMapping("companyInfo")
-   public String companyInfo(Model model){
+   public String companyInfo(Model model) {
       HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
-      User user =(User) httpSession.getAttribute("user");
+      User user = (User) httpSession.getAttribute("user");
       Userinfo userinfo = (Userinfo) httpSession.getAttribute("userInfo");
-      model.addAttribute("user",user);
-      model.addAttribute("userInfo",userinfo);
+      model.addAttribute("user", user);
+      model.addAttribute("userInfo", userinfo);
       model.addAttribute("parentMenuNo", "4");
       model.addAttribute("childMenuNo", "1");
       String pParam = userinfo.getZcRegionId().toString().substring(0, 2) + "0000";
@@ -694,59 +710,61 @@ public class CustomerController extends BaseController{
 
    /**
     * 进入个人中心，查看企业信息
+    *
     * @param model
     * @return
     */
    @RequestMapping("bankcardPage")
-   public String bankcardPage(Model model){
+   public String bankcardPage(Model model) {
       HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
-      User user =(User) httpSession.getAttribute("user");
+      User user = (User) httpSession.getAttribute("user");
       Userinfo userinfo = (Userinfo) httpSession.getAttribute("userInfo");
       List<Bankcard> bankcardList = bankcardDao.getCardListByUserId(user.getUserId());
-      model.addAttribute("user",user);
-      model.addAttribute("userInfo",userinfo);
+      model.addAttribute("user", user);
+      model.addAttribute("userInfo", userinfo);
       model.addAttribute("parentMenuNo", "4");
       model.addAttribute("childMenuNo", "4");
-      model.addAttribute("Cards",bankcardList);
-      model.addAttribute("userName",user.getUserName());
+      model.addAttribute("Cards", bankcardList);
+      model.addAttribute("userName", user.getUserName());
       return "views/front/customer/company/bankcard.jsp";
    }
 
    /**
     * 进入联系方式的修改页面
+    *
     * @param model
     * @return
     */
    @RequestMapping("contact")
-   public String contact(Model model){
+   public String contact(Model model) {
       HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
-      User user =(User) httpSession.getAttribute("user");
+      User user = (User) httpSession.getAttribute("user");
       Userinfo userinfo = (Userinfo) httpSession.getAttribute("userInfo");
       model.addAttribute("parentMenuNo", "4");
       model.addAttribute("childMenuNo", "2");
       model.addAttribute("user", user);
       model.addAttribute("userInfo", userinfo);
-      model.addAttribute("userName",user.getUserName());
+      model.addAttribute("userName", user.getUserName());
       return "views/front/customer/company/contactMode.jsp";
    }
 
    @RequestMapping("updateContact")
    @ResponseBody
-   public R updateContext(@RequestParam Map<String,Object> params){
+   public R updateContext(@RequestParam Map<String, Object> params) {
       HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
       User user = (User) httpSession.getAttribute("user");
       params.put("userId", user.getUserId());
       try {
          userinfoDao.updateUserinfoByUserId(params);
-         return R.ok().put("state",1);
+         return R.ok().put("state", 1);
       } catch (Exception e) {
          e.printStackTrace();
-         return R.error().put("state",0);
+         return R.error().put("state", 0);
       }
    }
 
    @RequestMapping("withdraw")
-   public String withdraw(HttpServletRequest request,  Model model) {
+   public String withdraw(HttpServletRequest request, Model model) {
       User user = (User) HttpContextUtils.getAttribute("user");
       String userId = user.getUserId().toString();
       Map param = this.getConditionParam(request);
@@ -768,18 +786,19 @@ public class CustomerController extends BaseController{
 
    @RequestMapping("withdrawProcess")
    @ResponseBody
-   public R withdrawProcess(@RequestParam Map<String,Object> params){
+   public R withdrawProcess(@RequestParam Map<String, Object> params) {
       User user = (User) HttpContextUtils.getAttribute("user");
-      params.put("userId",user.getUserId());
+      params.put("userId", user.getUserId());
       params.put("withdrawIp", IPUtils.getIpAddr(HttpContextUtils.getHttpServletRequest()));
       try {
          int result = withdrawDAO.withdrawApply(params);
-         return R.ok().put("state",1).put("content","请求已经受理");
+         return R.ok().put("state", 1).put("content", "请求已经受理");
       } catch (Exception e) {
          e.printStackTrace();
-         return R.ok().put("state",-1).put("content","系统错误");
+         return R.ok().put("state", -1).put("content", "系统错误");
       }
    }
+
    @RequestMapping({"rechargeRecord"})
    public String rechargeRecord(HttpServletRequest request, Model model) {
       User user = (User) HttpContextUtils.getAttribute("user");
@@ -801,11 +820,11 @@ public class CustomerController extends BaseController{
 
    @RequestMapping("rechargeApply")
    @ResponseBody
-   public R rechargeApply(@RequestParam Map<String,Object> params) {
+   public R rechargeApply(@RequestParam Map<String, Object> params) {
       int res = financeServiceImpl.recharge(params);
-      if(res==1){
-         return R.ok().put("state",1).put("content",ConstantUtil.MSG_SUCCESS);
-      }else {
+      if (res == 1) {
+         return R.ok().put("state", 1).put("content", ConstantUtil.MSG_SUCCESS);
+      } else {
          return R.error().put("state", 0).put("content", ConstantUtil.MSG_FAILS);
       }
    }
@@ -813,7 +832,7 @@ public class CustomerController extends BaseController{
    @RequestMapping("withdrawRecordList")
    public String withdrawRecordList(HttpServletRequest request, Model model) {
       User user = (User) HttpContextUtils.getAttribute("user");
-      Map<String,Object> param = this.getConditionParam(request);
+      Map<String, Object> param = this.getConditionParam(request);
       param.put("geTxState", "0");
       param.put("ltTxState", "3");
       param.put("userId", user.getUserId());
@@ -833,35 +852,19 @@ public class CustomerController extends BaseController{
 
    /**
     * 添加银行卡的异步请求
+    *
     * @return
     */
    @RequestMapping("addBankcard")
    @ResponseBody
-   public R addBankcard(@RequestParam Map<String,Object> map){
-     User user = (User) HttpContextUtils.getAttribute("user");
-     long userId = user.getUserId();
-     map.put("userId",userId);
-     map.put("addTime",new Date());
-      try {
-         long key = bankcardDao.addCard(map);
-         return R.ok().put("content","添加成功");
-      } catch (Exception e) {
-         e.printStackTrace();
-         return R.error();
-      }
-   }
-   /**
-    * 添加银行卡的异步请求
-    * @return
-    */
-   @RequestMapping("getCards")
-   @ResponseBody
-   public R getCards(@RequestParam Map<String,Object> map){
+   public R addBankcard(@RequestParam Map<String, Object> map) {
       User user = (User) HttpContextUtils.getAttribute("user");
       long userId = user.getUserId();
+      map.put("userId", userId);
+      map.put("addTime", new Date());
       try {
-         List<Bankcard> cards = bankcardDao.getCardListByUserId(userId);
-         return R.ok().put("content","添加成功").put("Cards",cards);
+         long key = bankcardDao.addCard(map);
+         return R.ok().put("content", "添加成功");
       } catch (Exception e) {
          e.printStackTrace();
          return R.error();
@@ -870,16 +873,36 @@ public class CustomerController extends BaseController{
 
    /**
     * 添加银行卡的异步请求
+    *
+    * @return
+    */
+   @RequestMapping("getCards")
+   @ResponseBody
+   public R getCards(@RequestParam Map<String, Object> map) {
+      User user = (User) HttpContextUtils.getAttribute("user");
+      long userId = user.getUserId();
+      try {
+         List<Bankcard> cards = bankcardDao.getCardListByUserId(userId);
+         return R.ok().put("content", "添加成功").put("Cards", cards);
+      } catch (Exception e) {
+         e.printStackTrace();
+         return R.error();
+      }
+   }
+
+   /**
+    * 添加银行卡的异步请求
+    *
     * @return
     */
    @RequestMapping("delBankcard")
    @ResponseBody
-   public R delBankcard(@RequestParam Map<String,Object> map){
+   public R delBankcard(@RequestParam Map<String, Object> map) {
       User user = (User) HttpContextUtils.getAttribute("user");
       long userId = user.getUserId();
       try {
-        int count = bankcardDao.delCard(Long.parseLong(map.get("bankcardId").toString()));
-         return R.ok().put("content","添加成功").put("count",count);
+         int count = bankcardDao.delCard(Long.parseLong(map.get("bankcardId").toString()));
+         return R.ok().put("content", "添加成功").put("count", count);
       } catch (Exception e) {
          e.printStackTrace();
          return R.error();
@@ -888,52 +911,54 @@ public class CustomerController extends BaseController{
 
    /**
     * 买家取消订单
+    *
     * @param request
     * @return
     */
    @RequestMapping("cancelOrder")
    @ResponseBody
-   public Object cancelOrder(HttpServletRequest request){
-      JSONObject obj=new JSONObject();
-      String orderId=CommonUtil.GetRequestParam(request,"orderId","0");
-      User user=(User)request.getSession().getAttribute("user");
-      String ip=IPUtils.getIpAddr(request);
+   public Object cancelOrder(HttpServletRequest request) {
+      JSONObject obj = new JSONObject();
+      String orderId = CommonUtil.GetRequestParam(request, "orderId", "0");
+      User user = (User) request.getSession().getAttribute("user");
+      String ip = IPUtils.getIpAddr(request);
       String sql = "";
-      sql = " CALL customerCancelOrder(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" +ip+"\')";
+      sql = " CALL customerCancelOrder(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + ip + "\')";
       HashMap queryParam = new HashMap();
       queryParam.put("strsql", sql);
-      ArrayList<Map<String,Object>> result=this.commonMapper.simpleSelectReturnList(queryParam);
-      if ((int)result.get(0).get("result")==1){
+      ArrayList<Map<String, Object>> result = this.commonMapper.simpleSelectReturnList(queryParam);
+      if ((int) result.get(0).get("result") == 1) {
          obj.put("content", ConstantUtil.MSG_SUCCESS);
          obj.put("status", 1);
          return obj;
       }
-      obj.put("status",-1);
+      obj.put("status", -1);
       return obj;
    }
 
    /**
     * 授信账户页面
+    *
     * @param request
     * @param model
     * @return
     */
    @RequestMapping({"creditAccount"})
    public String creditAccount(HttpServletRequest request, Model model) {
-      User user=(User)request.getSession().getAttribute("user");
-      long userId=user.getUserId();
-      Map<String,Object> info=customerServiceImpl.findCreditAccountPageInfo(userId);
-      model.addAttribute("info",info);
+      User user = (User) request.getSession().getAttribute("user");
+      long userId = user.getUserId();
+      Map<String, Object> info = customerServiceImpl.findCreditAccountPageInfo(userId);
+      model.addAttribute("info", info);
       //已用额度
-      BigDecimal sumLoans=customerServiceImpl.getLoansSum(userId);
-      model.addAttribute("sumLoans",sumLoans);
+      BigDecimal sumLoans = customerServiceImpl.getLoansSum(userId);
+      model.addAttribute("sumLoans", sumLoans);
       //未还款授信
       Map param = this.getConditionParam(request);
-      param.put("userId",userId);
-      List<Map<String,Object>> loans=customerServiceImpl.getLoansIndebt(param);
-      int totalCount=customerServiceImpl.getLoansIndebtCount(param);
-      this.setPagenationInfo(request,totalCount,Integer.parseInt(param.get("page").toString()));
-      model.addAttribute("loans",loans);
+      param.put("userId", userId);
+      List<Map<String, Object>> loans = customerServiceImpl.getLoansIndebt(param);
+      int totalCount = customerServiceImpl.getLoansIndebtCount(param);
+      this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
+      model.addAttribute("loans", loans);
 
       model.addAttribute("parentMenuNo", "6");
       model.addAttribute("childMenuNo", "1");
@@ -942,39 +967,41 @@ public class CustomerController extends BaseController{
 
    /**
     * 跳转授信申请页面
+    *
     * @param request
     * @return
     */
    @RequestMapping("creditApply")
-   public String creditApply(HttpServletRequest request,Model model){
-      User user=(User)request.getSession().getAttribute("user");
-      Map<String,Object> info=customerServiceImpl.findCreditApplyPageInfo(user.getUserId());
-      model.addAttribute("info",info);
+   public String creditApply(HttpServletRequest request, Model model) {
+      User user = (User) request.getSession().getAttribute("user");
+      Map<String, Object> info = customerServiceImpl.findCreditApplyPageInfo(user.getUserId());
+      model.addAttribute("info", info);
       return "views/front/customer/finance/sxsq_new.jsp";
    }
 
    /**
     * 提交授信额度申请
+    *
     * @param params
     * @param request
     * @return
     */
    @RequestMapping("applyCreditLimit")
-   public String applyCreditLimit(@RequestParam Map<String,Object> params,HttpServletRequest request){
-      User user=(User)request.getSession().getAttribute("user");
-      params.put("creditMoney",Integer.parseInt((String) params.get("creditMoney")));
-      params.put("userId",user.getUserId());
-      params.put("ip",IPUtils.getIpAddr(request));
+   public String applyCreditLimit(@RequestParam Map<String, Object> params, HttpServletRequest request) {
+      User user = (User) request.getSession().getAttribute("user");
+      params.put("creditMoney", Integer.parseInt((String) params.get("creditMoney")));
+      params.put("userId", user.getUserId());
+      params.put("ip", IPUtils.getIpAddr(request));
       customerServiceImpl.applyCreditLimit(params);
       return "views/front/customer/finance/applyCreditSuccess.jsp";
    }
 
    @RequestMapping("isCreditApplyAvailable")
    @ResponseBody
-   public R isCreditApplyAvailable(HttpServletRequest request){
-      User user=(User)request.getSession().getAttribute("user");
-      boolean flag=customerServiceImpl.isCreditApplyAvailable(user.getUserId());
-      if(flag){
+   public R isCreditApplyAvailable(HttpServletRequest request) {
+      User user = (User) request.getSession().getAttribute("user");
+      boolean flag = customerServiceImpl.isCreditApplyAvailable(user.getUserId());
+      if (flag) {
          return R.ok();
       }
       return R.error("当前申请正在审核中");
@@ -982,14 +1009,15 @@ public class CustomerController extends BaseController{
 
    /**
     * 跳转还款页面
+    *
     * @param loanId
     * @return
     */
    @RequestMapping("goRepayLoan")
-   public String goRepayLoan(@RequestParam("loanId")String loanId,Model model){
+   public String goRepayLoan(@RequestParam("loanId") String loanId, Model model) {
 
-      Map<String,Object> loan=financeServiceImpl.getLoanOrderInfo(Long.parseLong(loanId));
-      model.addAttribute("loan",loan);
+      Map<String, Object> loan = financeServiceImpl.getLoanOrderInfo(Long.parseLong(loanId));
+      model.addAttribute("loan", loan);
 
       model.addAttribute("parentMenuNo", "2");
       return "views/front/customer/finance/repayment.jsp";
@@ -997,6 +1025,7 @@ public class CustomerController extends BaseController{
 
    /**
     * 还贷款处理方法
+    *
     * @param loanId
     * @param repayMoney
     * @param interest
@@ -1005,15 +1034,15 @@ public class CustomerController extends BaseController{
     */
    @RequestMapping("repayLoan")
    @ResponseBody
-   public R repayLoan(@RequestParam("loanId")String loanId,@RequestParam("repayMoney")String repayMoney,@RequestParam("interest")String interest,HttpServletRequest request){
-      User user=(User)request.getSession().getAttribute("user");
-      long userId=user.getUserId();
-      String ip=IPUtils.getIpAddr(request);
-      BigDecimal bInterest=new BigDecimal(interest);
-      BigDecimal principal=new BigDecimal(repayMoney).subtract(bInterest);
+   public R repayLoan(@RequestParam("loanId") String loanId, @RequestParam("repayMoney") String repayMoney, @RequestParam("interest") String interest, HttpServletRequest request) {
+      User user = (User) request.getSession().getAttribute("user");
+      long userId = user.getUserId();
+      String ip = IPUtils.getIpAddr(request);
+      BigDecimal bInterest = new BigDecimal(interest);
+      BigDecimal principal = new BigDecimal(repayMoney).subtract(bInterest);
       try {
-         int res=customerServiceImpl.repayLoanByBalance(userId,Long.parseLong(loanId),principal,bInterest,ip);
-         if (res==0){
+         int res = customerServiceImpl.repayLoanByBalance(userId, Long.parseLong(loanId), principal, bInterest, ip);
+         if (res == 0) {
             return R.error("账户余额不足");
          }
       } catch (Exception e) {
@@ -1024,14 +1053,14 @@ public class CustomerController extends BaseController{
    }
 
    @RequestMapping("creditApplys")
-   public String creditApplys(Model model,HttpServletRequest request){
-      User user=(User)request.getSession().getAttribute("user");
+   public String creditApplys(Model model, HttpServletRequest request) {
+      User user = (User) request.getSession().getAttribute("user");
       Map param = this.getConditionParam(request);
-      param.put("userId",user.getUserId());
-      List<Map<String,Object>> credits=customerServiceImpl.getCreditList(param);
-      int totalCount=customerServiceImpl.getCreditListCount(param);
-      this.setPagenationInfo(request,totalCount,Integer.parseInt(param.get("page").toString()));
-      model.addAttribute("credits",credits);
+      param.put("userId", user.getUserId());
+      List<Map<String, Object>> credits = customerServiceImpl.getCreditList(param);
+      int totalCount = customerServiceImpl.getCreditListCount(param);
+      this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
+      model.addAttribute("credits", credits);
 
       model.addAttribute("parentMenuNo", "6");
       model.addAttribute("childMenuNo", "2");
@@ -1051,5 +1080,11 @@ public class CustomerController extends BaseController{
       model.addAttribute("childMenuNo", "3");
       return "views/front/customer/finance/repayRecords.jsp";
    }
+
+
+
+
+
+
 
 }
