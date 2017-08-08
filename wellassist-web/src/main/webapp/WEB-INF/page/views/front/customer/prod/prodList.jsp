@@ -7,8 +7,9 @@
 	.sp_img{width:290px; height:220px;}
 </style>
 
-<div class= "container">
-	<div class = "" style="padding:5px;">
+<div class= "container1">
+	<div class="container2">
+	<div class = "" style="padding:5px; width:80%; margin:0px auto">
 		 <c:forEach var="item" items="${spList}">
 			<div  class = "row-fld" style="">
 				<div style="position:relative;">
@@ -37,6 +38,7 @@
 				</div>
 			</div>
 	 	</c:forEach> 
+	</div>
 	</div>
 </div>
 
