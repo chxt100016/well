@@ -28,7 +28,23 @@
                     <th width="30%">产品详情</th>
                     <th>金额（元）</th>
                     <th>数量（吨）</th>
-                    <th>交易状态</th>
+					<!-- <th>交易状态</th> -->
+					<th>
+							<div class="ui pointing dropdown  item"  id="dropdown2"tabindex="0">
+							<span class="text">交易状态</span>
+							<i class="dropdown icon"></i>
+							<div class="menu transition hidden" tabindex="-1">
+                                <div onclick="$('#vehicleState').val('');searchData(1);" class="item">全部</div>
+								<div onclick="$('#vehicleState').val('-1');searchData(1);" class="item">已取消</div>
+								<div onclick="$('#vehicleState').val('0');searchData(1);" class="item">待确认</div>
+								<div onclick="$('#vehicleState').val('2');searchData(1);" class="item">待支付</div>
+								<div onclick="$('#vehicleState').val('3');searchData(1);" class="item">待提货</div>
+								<div onclick="$('#vehicleState').val('4');searchData(1);" class="item">已发货</div>
+								<div onclick="$('#vehicleState').val('5');searchData(1);" class="item">已完成</div>
+							</div>
+									
+							</div>
+					</th>
                     <th>交易操作</th>
                 </tr>
             </thead>
@@ -109,10 +125,13 @@
 <script type = "text/javascript">
 	// 初始化函数
 	$(function(){
-		$('.fancybox').fancybox();
-		
+		// $('.fancybox').fancybox();
+		 $('#dropdown2')
+        .dropdown()
 		var url = $("#searchFrm").attr("action")+"?"+$("#searchFrm").serialize();
  		setPageUrl(url);
+		 	
+;
 	});
 	
 	function toURL(action, vehicleTrans, orderId){
