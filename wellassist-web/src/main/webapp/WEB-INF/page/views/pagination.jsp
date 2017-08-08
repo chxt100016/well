@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <!-- pagenation -->
 <c:if test="${pageCount>1}">
-	<div class="pagination page">
+	<div class="pagination page" style="text-align:center;padding-top:15px;">
 		<c:if test="${page == 1}">
 			<span class="previous_page disabled" style="border-left-width: 1px;">上一页</span>
 		</c:if>
