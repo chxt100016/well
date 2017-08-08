@@ -6,7 +6,7 @@
    <title></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-     <script src="https://unpkg.com/vue/dist/vue.js"></script>
+     
      <style>
      .errors{
          color: #900b09;
@@ -20,7 +20,8 @@
      </style>
 </head>
 <body>
-    <div class="ui container segment " id="app1" style=" text-align:left;width: 990px;float:left;margin-top:-1px ;left:10px">
+ <div class="container">
+    <div class="ui container segment " id="app1" style=" text-align:left;float:left";>
         <form id="infoForm" action="<c:url value="/customer/order"/>" method="post">
             <input type="hidden" name="toRegionId" id = "toRegionId">
             <input type="hidden" name="prodId" value="${prod.prodId}">
@@ -197,7 +198,6 @@
                             <td class="vehicleHangingNo"> {{vehicle.hanging_number}} </td>
                             <td class="vehicleSize">{{vehicle.actual_size}} </td>
                             <td class="right aligned " style="width:10% "><a class="ui button red " v-on:click="delVehicle(index) " style="width:70px;">删除</a></td>
-
                             <%--<td class="right aligned " style="width:10% "><a class="ui button red " v-on:click="delVehicle($index) ">DELETE </a></td>--%>
 
                         </tr>
@@ -285,7 +285,7 @@
         </div>
     </div>
 
-        
+ </div>       
 </body>
 <script>
     $(function() {
@@ -294,7 +294,7 @@
 </script>
 <script>
     var telRE = /^1(3|4|5|7|8)\d{9}$/;
-    var emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    var emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     var vehicleRef = '';
     var vm = new Vue({
         el: '#app1',
@@ -340,7 +340,7 @@
                         actual_size:'',
                     }
                 }
-                console.log(this.newVehicle);
+                console.log(this.newVehicle);  
                 $('.ui.modal').modal('hide');
              
             },
