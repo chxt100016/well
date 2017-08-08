@@ -1,6 +1,7 @@
 package org.wella.platform.service.impl;
 
 import io.wellassist.utils.IPUtils;
+import io.wellassist.utils.Query;
 import io.wellassist.utils.ShiroUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,7 +91,8 @@ public class TradeServiceImpl implements TradeService{
     public void updateOrder(Map<String, Object> params) {
         //更新订单单价和数量
         OrderLog ol=new OrderLog();
-        ol.setOrderId(Long.parseLong((String) params.get("orderId")));
+        long orderId=Long.parseLong((String) params.get("orderId"));
+        ol.setOrderId(orderId);
         ol.setOrderPrice(Double.parseDouble((String)params.get("orderPrice")));
         ol.setOrderNumber(Double.parseDouble((String)params.get("orderNumber")));
         ol.setOperationTime(new Date());
@@ -131,9 +133,33 @@ public class TradeServiceImpl implements TradeService{
             }
         }
 
-        waOrderServiceImpl.checkZordersConfirmed(Long.parseLong((String) params.get("orderId")));
+        waOrderServiceImpl.checkZordersConfirmed(orderId);
+
+        Map<String,Object> updateorder=new HashMap<>();
+        updateorder.put("orderId",orderId);
+        updateorder.put("hasQuestion",0);
+        orderDao.updateOrderByID(updateorder);
 
     }
 
+    @Override
+    public List orderList(Query query) {
+        List<Map<String,Object>> res=tradeDao.orderList(query);
+        if (res == null ||res.size()==0){
+            return res;
+        }
+        for (Map<String,Object> order:res){
+            if (waOrderServiceImpl.idZordersQuestion((long)order.get("orderId"))){
+                order.put("isZordersQuestion",1);
+            }else{
+                order.put("isZordersQuestion",0);
+            }
+        }
+        return res;
+    }
 
+    @Override
+    public int orderListCount(Query query) {
+        return tradeDao.orderListCount(query);
+    }
 }

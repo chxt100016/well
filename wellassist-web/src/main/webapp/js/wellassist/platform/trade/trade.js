@@ -14,6 +14,10 @@ $(function () {
             { label: '交易金额', name: 'total', width: 100 },
             { label: '交易时间', name: 'orderDate', width: 100},
             { label: '交易状态', name: 'orderState', width: 100 ,formatter:function (value,option,row) {
+                var isZordersQuestion=row.isZordersQuestion;
+                if (isZordersQuestion==1){
+                    return "买家收货存疑";
+                }
                 if(value==0){
                     return "待确认";
                 }else if(value ==-1){
@@ -77,7 +81,10 @@ var vm = new Vue({
     },
     methods: {
         query: function () {
-            vm.reload();
+            $("#jqGrid").jqGrid('setGridParam',{
+                postData:{'queryStr': vm.q.username,'hasQuestion':null},
+                page:1
+            }).trigger("reloadGrid");
         },
         update:function(){
             var orderId = getSelectedRow();
@@ -85,6 +92,12 @@ var vm = new Vue({
                 return ;
             }
             window.location.href=baseUrl+"platform/trade/orderDetail?orderId="+orderId;
+        },
+        hasQuestion: function () {
+            $("#jqGrid").jqGrid('setGridParam',{
+                postData:{'hasQuestion': 1},
+                page:1
+            }).trigger("reloadGrid");
         }
     }
 });

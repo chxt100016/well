@@ -172,9 +172,9 @@ public class CustomerController extends BaseController {
 
    @RequestMapping(value = "zorderDoubtReceive", method = RequestMethod.GET)
    @ResponseBody
-   public R zorderDoubtReceive(@RequestParam("zorderId") String zorderId, @RequestParam("receiveComment") String receiveComment) {
+   public R zorderDoubtReceive(@RequestParam("orderId")String orderId,@RequestParam("zorderId") String zorderId, @RequestParam("receiveComment") String receiveComment) {
       try {
-         customerServiceImpl.zorderDoubtReceive(Long.parseLong(zorderId), receiveComment);
+         customerServiceImpl.zorderDoubtReceive(Long.parseLong(orderId),Long.parseLong(zorderId), receiveComment);
       } catch (NumberFormatException e) {
          e.printStackTrace();
          return R.error();

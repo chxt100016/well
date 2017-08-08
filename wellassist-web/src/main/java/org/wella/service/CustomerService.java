@@ -132,7 +132,7 @@ public interface CustomerService {
 
     int zorderConfirmReceive(long zorderId,String receiveComment);
 
-    void zorderDoubtReceive(long zorderId, String receiveComment);
+    void zorderDoubtReceive(long orderId,long zorderId, String receiveComment);
     /**
      * 物流订单列表数据
      * @param param

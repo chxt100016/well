@@ -66,6 +66,8 @@ public class Order {
 
     private BigDecimal customerExceptCarriage;
 
+    private byte hasQuestion;
+
     public Long getOrderId() {
         return orderId;
     }
@@ -312,5 +314,13 @@ public class Order {
 
     public void setCustomerExceptCarriage(BigDecimal customerExceptCarriage) {
         this.customerExceptCarriage = customerExceptCarriage;
+    }
+
+    public byte getHasQuestion() {
+        return hasQuestion;
+    }
+
+    public void setHasQuestion(byte hasQuestion) {
+        this.hasQuestion = hasQuestion;
     }
 }

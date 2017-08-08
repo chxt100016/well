@@ -40,7 +40,7 @@
                         <img src="${pageContext.request.contextPath}/resources/wella/front/images/logo.png" width="100" height="50" alt="logo"/><br>
                         <input type="text" name="username" placeholder="请输入你的用户名"><br>
                         <input type="password" name="password" placeholder="请输入你的密码"><br>
-                         <div  class="loginbtn"id="login" onclick="loginSubmit()">登录</div><br>
+                         <div  class="loginbtn" id="login" onclick="loginSubmit()">登录</div><br>
                         <span><a href="${pageContext.request.contextPath}/register/registerPage">注册</a></span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span><a href="${pageContext.request.contextPath}/front/customer/CustomerLoginCtrl-getPass?userType=1"  data-w="600">忘记密码?</a></span>
                     </form>
                 </div>
@@ -96,4 +96,4 @@ function loginSubmit() {
 }
 </script>
 </body>
-        </html>
+</html>

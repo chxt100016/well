@@ -240,6 +240,14 @@
     <select id="orderList" parameterType="map" resultType="map">
           SELECT *
           FROM orderlistview
+          <where>
+              <if test='queryStr != null and queryStr.trim() != ""'>
+                  (orderNo LIKE concat('%',#{queryStr},'%') or customerName LIKE concat('%',#{queryStr},'%') OR sellerName LIKE concat('%',#{queryStr},'%'))
+              </if>
+              <if test='hasQuestion != null and hasQuestion.trim() != ""'>
+                  AND hasQuestion=${hasQuestion}
+              </if>
+          </where>
           ORDER BY orderDate DESC
           LIMIT ${offset}, ${limit}
     </select>
@@ -248,6 +256,14 @@
     <select id="orderListCount" parameterType="map" resultType="int">
           SELECT count(orderNo)
           FROM orderlistview
+        <where>
+            <if test='queryStr != null and queryStr.trim() != ""'>
+                (orderNo LIKE concat('%',#{queryStr},'%') or customerName LIKE concat('%',#{queryStr},'%') OR sellerName LIKE concat('%',#{queryStr},'%'))
+            </if>
+            <if test='hasQuestion != null and hasQuestion.trim() != ""'>
+                AND hasQuestion=${hasQuestion}
+            </if>
+        </where>
     </select>
 
 

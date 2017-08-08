@@ -165,8 +165,8 @@ public class TradeController extends BaseController {
     @ResponseBody
     public R orders(@RequestParam Map<String,Object> param) {
         Query query = new Query(param);
-        List list = tradeDAO.orderList(query);
-        int totalCount = tradeDAO.orderListCount(query);
+        List list = tradeServiceImpl.orderList(query);
+        int totalCount = tradeServiceImpl.orderListCount(query);
         PageUtils pageUtils = new PageUtils(list,totalCount,query.getLimit(),query.getPage());
         return R.ok().put("page",pageUtils);
     }

@@ -191,4 +191,15 @@ public class WaOrderServiceImpl implements WaOrderService {
         return true;
     }
 
+    @Override
+    public boolean idZordersQuestion(long orderId) {
+        Map query=new HashMap();
+        query.put("orderId",orderId);
+        query.put("zorderState",11);
+        List<Map<String,Object>> zorders=zorderDao.listZordersByConditions(query);
+        if (zorders != null && zorders.size()>0){
+            return true;
+        }
+        return false;
+    }
 }

@@ -51,5 +51,12 @@ public interface WaOrderService {
      */
     boolean checkZordersConfirmed(long orderId);
 
+    /**
+     * 该订单是否存疑
+     * @param orderId
+     * @return
+     */
+    boolean idZordersQuestion(long orderId);
+
 
 }
