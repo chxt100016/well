@@ -1,4 +1,4 @@
-﻿<%@ include file="../header_new.jsp"%>
+﻿<%@ include file="../header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 
 <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
@@ -76,6 +76,10 @@
 		margin-left:50px;margin-top:10px;width:100px;height:155px;cursor:pointer;padding-left: 24px;float:left;
 	}
 </style>	
+<div class="container1">
+	<div class="container2">
+
+	
 <div style="margin-left: 0px; margin-top:20px;">
 	<div id="ddfkDiv" align="center">
 		<div style="width:1000px;">
@@ -118,7 +122,7 @@
 							<div class="contentdd" id="contentdd_2"  style="width:100%;border:solid 2px #c0c0c0;" ><label><input type = "radio" name = "zfMethod" value = "2" onclick = "changeZfMethod(2)" style = "margin-left:15px;margin-top:0px;" checked="checked" />&nbsp;&nbsp;余额支付</label></div>
 							<div class="contentdd" id="contentdd_3"  style="width:100%;"><label><input type = "radio" name = "zfMethod" value = "3" onclick = "changeZfMethod(3)" style = "margin-left:15px;margin-top:0px;" />&nbsp;&nbsp;授信余额付款</label></div>
 							<div class="contentdd" id="contentdd_4"  style="width:100%;">
-								<label>
+								<label style="display:block;float:left">
 									<input type = "radio" name = "zfMethod" value = "4" onclick = "changeZfMethod(4)" style = "margin-left:15px;margin-top:0px;" />&nbsp;&nbsp;组合付款
 								</label>
 								<!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;授信占比&nbsp;&nbsp;
@@ -128,28 +132,34 @@
 									<option value = "50" selected = "selected">50%</option>
 									<option value = "80">80%</option>
 								</select> -->
-								<input type="number" > <span>授信金额</span>
+								 <div style="width:250px;float:left">
+									 <input type="number" > <span>授信金额</span>
+									</div>
+									<div  style="width:250px;float:left">
+										<input type="text" disabled="disabled">
+										<span>账户金额</span>
+									</div>
 							</div>
-							<%--<div class="contentdd" id="contentdd_5"  style="width:100%;">
+							<div class="contentdd" id="contentdd_5"  style="width:100%;">
 								<label>
 									<input type = "radio" name = "zfMethod" value = "5" onclick = "changeZfMethod(5)" style = "margin-left:15px;margin-top:0px;" />&nbsp;&nbsp;线下付款
 								</label>
-								&lt;%&ndash;<div id="zhifu_certificate" style="float:right;display:none;">
+								<div id="zhifu_certificate" style="float:right;display:none;">
 									<input type="hidden" id="certificateImg" name="certificateImg" />
 									<a id="certificateImgA" class="fancybox" data-fancybox-group="zfxy" style="display:none;">
 										<img id="certificateImgImg" src='' style="width:40px; height:40px; border:none; margin-right:20px;" />
 									</a>
 									<input id="certificateImgFile" name="file" type="file" style="cursor:pointer;" />
-								</div>&ndash;%&gt;
-								<div id="zhifu_certificate" style="float:right;display: none">
+								</div>
+								<!-- <div id="zhifu_certificate" style="float:right;display: none">
 									<input type="hidden" id="certificateImg" name="certificateImg" />
 									<a id="certificateImgA" class="fancybox" data-fancybox-group="zfxy">
 										<img id="certificateImgImg" src='' style="width:40px; height:40px; border:none; margin-right:20px;" />
 									</a>
 									<a  id="upload1"  class="btn btn-primary">上传文件</a>
-								</div>
+								</div> -->
 							</div>
-							<div class="contentdd" id="contentdd_1"  style="width:100%;"><label><input type = "radio" name = "zfMethod" value = "1" onclick = "changeZfMethod(4)" style = "margin-left:15px;margin-top:0px;" />&nbsp;&nbsp;银行转账</label></div>--%>
+							<%--<div class="contentdd" id="contentdd_1"  style="width:100%;"><label><input type = "radio" name = "zfMethod" value = "1" onclick = "changeZfMethod(4)" style = "margin-left:15px;margin-top:0px;" />&nbsp;&nbsp;银行转账</label></div>--%>
 						</div>
 					</div>
 					<div class="rowDd" id="zhifu_pass">
@@ -184,6 +194,8 @@
 			</form>
 		</div>
 	</div>
+</div>
+</div>
 </div>
 
 <script type="text/javascript">
@@ -294,8 +306,10 @@
 		            	alert("支付密码错误！");
 		            	return;
 		            }
+						console.log($("#ddfkForm").serialize());
 			    	if(confirm("你要确定操作吗？")){
 				    	$.post($("#ddfkForm").attr("action"),$("#ddfkForm").serialize(),function(data){
+						
 				    		data = $.parseJSON(data);
 				            if(data.status=="1"){
 				            	alert("付款成功!");
@@ -334,7 +348,46 @@
 			    }
 	    	}
 	    }
+	
+
     });
+		// 组合支付函数
+	function CompondPay(loan){
+          console.log(loan.value);
+		  
+		  var Balance = $('#balancePay').val;
+		 var Amount = Number(${orderInfo.confirmPrice*orderInfo.confirmNumber});
+		 var LoanAmount = Number( ${orderInfo.userCreditMoney});
+		 var UserMoney = ${orderInfo.userMoney};
+		 var Loans=Number(loan.value);
+		 var Loanmin ;
+		 if(LoanAmount>=Amount ){
+		     Loanmin = Amount;
+		 }else{
+             Loanmin = LoanAmount;
+         }
+              console.log(Loanmin +"最小值");
+		 if(Loans >= Amount){
+			 console.log("太大了");
+			 loan.value = Loanmin;
+			 $('#loanPay').val(Loanmin);
+			//  Balance = Amount - Loans ;	
+			  $('#balancePay').val(0)
+			  $('#balanceval').val(0);	 
+			 }
+			 else{
+				  $('#balancePay').val( Amount - Loans );
+				  $('#balanceval').val(Amount - Loans);
+				  if(Amount - Loans > UserMoney){
+					 $('#balancePay').val( 0 );
+				 	 $('#balanceval').val(0);
+					  alert("余额不足！")
+				  }
+				 
+			 }
+		 
+		 console.log(Loanmin);
+	}
 </script>
 
 <%@ include file="../footer.jsp"%>

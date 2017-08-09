@@ -73,9 +73,9 @@
          .ui.inverted.menu .item, .ui.inverted.menu .item>a:hover{
               color: #fff!important;
          }
-         .active{
+         /* .active{
              color: #fff !important;
-         }
+         } */
         
         .pd-10{
           padding: 10px

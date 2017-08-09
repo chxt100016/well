@@ -34,7 +34,7 @@
         <div  class="container2">
 
         
-        <div class="ui container segment" id="app1" style="width:990px;float:left;left:10px;margin-top:-1px">
+        <div class="ui container segment" id="app1" style="left:10px;margin-top:-1px">
             <h3>还款记录</h3>
             <div class="ui divider"></div>
             <c:if test="${not empty loans}">
@@ -97,12 +97,19 @@
             </div>
                 </c:forEach>
             </c:if>
+            <div class="ui grid">
+            <div class=" row">
+            <div class=" right floated five column">
+                <!-- <div style="float:right"> -->
+                <%@ include file="../../pagination.jsp"%>
+                <!-- </div> -->
+            </div>
+            </div>
+        </div>
             <c:if test="${empty loans}">
                 没有记录...
             </c:if>
-            <div class="right-pagination">
-                <%@ include file="../../pagination.jsp"%>
-            </div>
+            
         </div>
         </div>
     </div>
