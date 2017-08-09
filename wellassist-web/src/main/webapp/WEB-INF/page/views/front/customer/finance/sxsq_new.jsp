@@ -1,4 +1,4 @@
-<%@ include file="../header_new.jsp"%>
+<%@ include file="../header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,6 +55,10 @@
 </head>
 
 <body>
+    <div class="container1">
+        <div class="container2">
+
+       
     <div class="ui container segment" id="app1" style="width:990px">
         <h3>授信额度申请</h3>
         <div class="ui divider"></div>
@@ -195,6 +199,8 @@
             
             </form>
          </div>
+         </div>
+    </div>
     </body>
         <script>
             $(function () {
