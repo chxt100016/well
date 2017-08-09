@@ -237,7 +237,9 @@
                         data = $.parseJSON(data);
                         if(data.status==1){
                             window.location.reload();
-                        }
+                        }else{
+							alert("操作失败")
+						}
                     })
 				}
 			} else if(action=='editFahuo'){
