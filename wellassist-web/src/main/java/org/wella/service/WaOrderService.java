@@ -58,5 +58,12 @@ public interface WaOrderService {
      */
     boolean idZordersQuestion(long orderId);
 
+    /**
+     * 检查商品订单和物流订单是否都已付款完成，是则将order_state 置为2
+     * 以后改为数据库触发器写法
+     * @param orderId
+     * @return
+     */
+    boolean checkOrderPayOff(long orderId);
 
 }
