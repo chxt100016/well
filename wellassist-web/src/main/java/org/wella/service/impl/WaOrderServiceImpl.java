@@ -191,4 +191,39 @@ public class WaOrderServiceImpl implements WaOrderService {
         return true;
     }
 
+    @Override
+    public boolean idZordersQuestion(long orderId) {
+        Map query=new HashMap();
+        query.put("orderId",orderId);
+        query.put("zorderState",11);
+        List<Map<String,Object>> zorders=zorderDao.listZordersByConditions(query);
+        if (zorders != null && zorders.size()>0){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean checkOrderPayOff(long orderId) {
+        Map<String,Object> updateOrder=new HashMap<>();
+        updateOrder.put("orderId",orderId);
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        int isSelfCar=(int)order.get("is_self_car");
+        int prodPayState=(int)order.get("prod_pay_state");
+        int logidticsPayState=(int)order.get("logistics_pay_state");
+        if (isSelfCar==0){
+            if (prodPayState==5){
+                updateOrder.put("orderState",(byte)2);
+                orderDao.updateOrderByID(updateOrder);
+                return true;
+            }
+        }else if (isSelfCar==1){
+            if (prodPayState==5 && logidticsPayState==5){
+                updateOrder.put("orderState",(byte)2);
+                orderDao.updateOrderByID(updateOrder);
+                return true;
+            }
+        }
+        return false;
+    }
 }

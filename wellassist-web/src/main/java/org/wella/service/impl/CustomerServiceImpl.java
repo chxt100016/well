@@ -1,5 +1,6 @@
 package org.wella.service.impl;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -348,13 +349,16 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void zorderDoubtReceive(long zorderId, String receiveComment) {
+    public void zorderDoubtReceive(long orderId,long zorderId, String receiveComment) {
         Map<String, Object> updateMap = new HashMap();
         updateMap.put("zorderId", zorderId);
         updateMap.put("zorderState", (byte) 11);
         updateMap.put("receiveComment", receiveComment);
         zorderDao.updateByPrimaryKey(updateMap);
-
+        Map<String,Object> updateOrder=new HashMap();
+        updateOrder.put("orderId",orderId);
+        updateOrder.put("hasQuestion",1);
+        orderDao.updateOrderByID(updateOrder);
     }
 
     @Override

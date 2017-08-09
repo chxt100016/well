@@ -72,7 +72,9 @@ public class FinanceController extends BaseController {
     }
 
     @RequestMapping({"front/customer/FinanceController-czSq"})
-    public String czSq(HttpServletRequest request, HttpServletResponse response) {
+    public String czSq(HttpServletRequest request, HttpServletResponse response,Model model) {
+        model.addAttribute("parentMenuNo","2");
+        model.addAttribute("childMenuNo","5");
         return "views/front/customer/finance/czSq.jsp";
     }
 

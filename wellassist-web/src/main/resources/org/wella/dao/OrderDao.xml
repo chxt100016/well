@@ -45,7 +45,7 @@
         <result column="sale_sj_money" property="saleSjMoney"/>
         <result column="sq_money" property="sqMoney"/>
         <result column="order_type" property="orderType"/>
-
+        <result column="has_question" property="hasQuestion"/>
     </resultMap>
 
 	<insert id="createOrder" useGeneratedKeys="true" keyProperty="orderId" parameterType="org.wella.entity.Order">
@@ -86,6 +86,7 @@
             <if test="pjContent != null">pj_content = #{pj_Content},</if>
             <if test="orderState != null">order_state = #{orderState},</if>
             <if test="djModifyDate != null">dj_modify_date = #{djModifyDate}</if>
+            <if test="hasQuestion != null">has_question = #{hasQuestion}</if>
         </trim>
         where order_id = #{orderId}
     </update>

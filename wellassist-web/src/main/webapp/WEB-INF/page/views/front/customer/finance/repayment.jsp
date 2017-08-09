@@ -1,4 +1,4 @@
-<%@ include file="../header_new.jsp"%>
+<%@ include file="../header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,19 +17,26 @@
         .ui.form .inline.fields .field .prompt {
             vertical-align: middle;
         }
+        [v-cloak]{
+            display: block;
+        }
     </style>
 </head>
 
 <body>
+    <div class="container1">
+        <div class="container2">
+
+        
     <div class="ui container segment" id="app1" style="width:990px">
         <h3>还款</h3>
         <div class="ui divider"></div>
-        <div class="ui three column grid">
-            <div class="row">
-                <div class="column">未还款:<span>{{repaymentInfo.Amounts}} 元</span></div>
-                <div class="column">利息:{{repaymentInfo.Interest}} 元&nbsp<a href="">详情</a></div>
-                <div class="column">还款期限:{{repaymentInfo.Deadline}}</div>
-            </div>
+        <div class="ui three  grid" v-clock>
+           
+                <div class="three wide column">未还款:<span>{{repaymentInfo.Amounts}} 元</span></div>
+                <div class="three wide column">利息:{{repaymentInfo.Interest}} 元&nbsp<a href="">详情</a></div>
+                <div class="three wide column">还款期限:{{repaymentInfo.Deadline}}</div>
+           
         </div>
         <form class="ui form segment repayment">
 
@@ -71,7 +78,8 @@
     </div>
 
     </div>
-
+</div>
+    </div>
 </body>
 <script>
     $(function(){

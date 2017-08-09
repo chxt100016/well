@@ -212,7 +212,7 @@
             </thead>
             <tbody>
             <c:forEach items="${zorder.orderVehicles}" var="orderVehicle">
-                <tr v-for="vehicle in Vehicles " v-cloak>
+                <tr>
                     <td>
                         <h3 class="ui center aligned header xs " id="x" onclick="x()" value="${orderVehicle.driverName}">${orderVehicle.driverName}</h3>
                     </td>
@@ -234,7 +234,7 @@
                                 <textarea name="receiveComment"   style=" width: 444px;height:80px" ></textarea>
                             </div>
                             <div class="ui right floated small primary icon button" onclick="confirmReceive(${zorder.zorderId},this)"> 已收货，确认 </div>
-                             <div class="ui right floated small  icon red button" onclick="doubtReceive(${zorder.zorderId},this)"> 已收货，存疑 </div>
+                             <div class="ui right floated small  icon red button" onclick="doubtReceive(${info.orderId},${zorder.zorderId},this)"> 已收货，存疑 </div>
 
                         </c:if>
                          <c:if test="${zorder.zorderState==2}"><div class="ui  ">已收货,确认 </div></c:if>
@@ -269,12 +269,12 @@
                 });
         }
     }
-    function doubtReceive(zorderId,com) {
+    function doubtReceive(orderId,zorderId,com) {
         // var receiveComment=com.previousElementSibling.children[1].value;
         var receiveComment=$("textarea[name=receiveComment]").val();
         // console.log(receiveComment);
         if(confirm("你要确定要操作吗？")){
-            $.get("${pageContext.request.contextPath}/customer/zorderDoubtReceive",{zorderId:zorderId,receiveComment:receiveComment},function(data){
+            $.get("${pageContext.request.contextPath}/customer/zorderDoubtReceive",{orderId:orderId,zorderId:zorderId,receiveComment:receiveComment},function(data){
                 if(data.code==0){
                     window.location.reload();
                 }

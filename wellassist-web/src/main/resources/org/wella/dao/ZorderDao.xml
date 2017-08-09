@@ -78,6 +78,9 @@
             <if test="orderId != null">
                 and order_id=${orderId}
             </if>
+            <if test="zorderState != null">
+                and zorder_state=#{zorderState}
+            </if>
         </where>
         <if test="orderBy != null">
         order by ${orderBy}

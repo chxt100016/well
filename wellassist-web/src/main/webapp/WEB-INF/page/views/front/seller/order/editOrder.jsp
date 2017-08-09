@@ -46,7 +46,7 @@
     	margin-top:6px;
 	}
 </style>	
-<div style="margin-left: 0px; margin-top:20px;">
+<div style="width:990px;float:left">
 	<div id="ddXqDiv" align="center"  >
 		<div style="width:1000px;">
 			<div style="border-bottom: solid 1px #e0e0e0; width: 1000px;padding-bottom:12px;margin-top:20px;margin-bottom: 24px;">

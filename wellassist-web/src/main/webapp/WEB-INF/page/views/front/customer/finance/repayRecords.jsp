@@ -30,7 +30,11 @@
     <form id="searchFrm" method="post" action="${pageContext.request.contextPath}/customer/loansRepayRecords">
         <input type="hidden" id="page" name="page" value="${param.page}">
     </form>
-        <div class="ui container segment" id="app1" style="width:990px;float:left;left:10px;margin-top:-1px">
+    <div class="container1">
+        <div  class="container2">
+
+        
+        <div class="ui container segment" id="app1" style="left:10px;margin-top:-1px">
             <h3>还款记录</h3>
             <div class="ui divider"></div>
             <c:if test="${not empty loans}">
@@ -79,9 +83,9 @@
                         <td><fmt:formatDate value="${repay.repayDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                         <%--<td>还款成功</td>--%>
                         <td>余额支付</td>
-                        <td>${repay.repayMoney}</td>
-                        <td>${repay.repayInterestMoney}</td>
-                        <td>${loan.lixiRate}</td>
+                        <td>${repay.repayMoney}元</td>
+                        <td>${repay.repayInterestMoney}元</td>
+                        <td>${loan.lixiRate}‱</td>
                     </tr>
                     </c:forEach>
 
@@ -93,13 +97,22 @@
             </div>
                 </c:forEach>
             </c:if>
+            <div class="ui grid">
+            <div class=" row">
+            <div class=" right floated five column">
+                <!-- <div style="float:right"> -->
+                <%@ include file="../../pagination.jsp"%>
+                <!-- </div> -->
+            </div>
+            </div>
+        </div>
             <c:if test="${empty loans}">
                 没有记录...
             </c:if>
-            <div class="right-pagination">
-                <%@ include file="../../pagination.jsp"%>
-            </div>
+            
         </div>
+        </div>
+    </div>
     </body>
 
     </html>

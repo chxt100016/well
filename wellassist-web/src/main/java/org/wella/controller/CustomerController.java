@@ -172,9 +172,9 @@ public class CustomerController extends BaseController {
 
    @RequestMapping(value = "zorderDoubtReceive", method = RequestMethod.GET)
    @ResponseBody
-   public R zorderDoubtReceive(@RequestParam("zorderId") String zorderId, @RequestParam("receiveComment") String receiveComment) {
+   public R zorderDoubtReceive(@RequestParam("orderId")String orderId,@RequestParam("zorderId") String zorderId, @RequestParam("receiveComment") String receiveComment) {
       try {
-         customerServiceImpl.zorderDoubtReceive(Long.parseLong(zorderId), receiveComment);
+         customerServiceImpl.zorderDoubtReceive(Long.parseLong(orderId),Long.parseLong(zorderId), receiveComment);
       } catch (NumberFormatException e) {
          e.printStackTrace();
          return R.error();
@@ -298,7 +298,6 @@ public class CustomerController extends BaseController {
       obj.put("content", ConstantUtil.MSG_PARAM_ERR);
       String orderId = CommonUtil.GetRequestParam(request, "orderId", "0");
       String saleMoney = CommonUtil.GetRequestParam(request, "saleMoney", "0.00");
-      /*String rate = CommonUtil.GetRequestParam(request, "rate", "0");*/
       String loan = CommonUtil.GetRequestParam(request, "loan", "0");
       String balance = CommonUtil.GetRequestParam(request, "balance", "0");
       String zfMethod = CommonUtil.GetRequestParam(request, "zfMethod", "2");
@@ -374,7 +373,7 @@ public class CustomerController extends BaseController {
          Map orderObj = this.getMyOneSingBO("wa_order", "order_id", Long.parseLong(orderId));
          if (orderObj != null && orderObj.get("userId") != null && (long) orderObj.get("userId") == (user.getUserId()) && orderObj.get("orderState") != null && ((int) orderObj.get("orderState") == 1 || (int) orderObj.get("orderState") == 11) || (int) orderObj.get("orderState") == 13) {
             String sql = "";
-            sql = " CALL logisticsPayProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + logisticsInfoId + "\',\'" + grabMoney + "\',\'" + zfMethod + "\',\'" + rate + "\',\'" + certificateImg + "\',\'" + ip + "\')";
+            sql = " CALL logisticsPayProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + logisticsInfoId + "\',\'" + grabMoney + "\',\'" + zfMethod + "\',\'" + balance + "\',\'" + loan + "\',\'" + rate + "\',\'" + certificateImg + "\',\'" + ip + "\')";
             HashMap queryParam = new HashMap();
             queryParam.put("strsql", sql);
             ArrayList<Map<String, Object>> result = this.commonMapper.simpleSelectReturnList(queryParam);
@@ -538,18 +537,17 @@ public class CustomerController extends BaseController {
    }
 
    @RequestMapping("checkCzPassword")
-   public void checkWithdrawPassword(@RequestParam("pass") String oldPass, HttpServletResponse response) {
+   @ResponseBody
+   public R checkWithdrawPassword(@RequestParam("pass") String oldPass, HttpServletResponse response) {
       HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
       User user = (User) httpSession.getAttribute("user");
       //MD5加密
       String password = CommonUtil.MD5(oldPass);
-      Boolean res = Boolean.valueOf(false);
       if (password.equals(user.getCzPass())) {
-         res = Boolean.valueOf(true);
+         return R.ok();
       } else {
-         res = Boolean.valueOf(false);
+         return R.error().put("msg","支付密码错误");
       }
-      this.echo(response, res.toString());
    }
 
    @RequestMapping("prodDetail")
@@ -960,8 +958,8 @@ public class CustomerController extends BaseController {
       this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
       model.addAttribute("loans", loans);
 
-      model.addAttribute("parentMenuNo", "2");
-      model.addAttribute("childMenuNo", "2");
+      model.addAttribute("parentMenuNo", "6");
+      model.addAttribute("childMenuNo", "1");
       return "views/front/customer/finance/creditAccount_new.jsp";
    }
 
@@ -1062,22 +1060,22 @@ public class CustomerController extends BaseController {
       this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
       model.addAttribute("credits", credits);
 
-      model.addAttribute("parentMenuNo", "2");
-      model.addAttribute("childMenuNo", "3");
+      model.addAttribute("parentMenuNo", "6");
+      model.addAttribute("childMenuNo", "2");
       return "views/front/customer/finance/creditApplyRecords.jsp";
    }
 
    @RequestMapping("loansRepayRecords")
-   public String loansRepayRecords(Model model, HttpServletRequest request) {
-      User user = (User) request.getSession().getAttribute("user");
-      Map param = this.getConditionParam(request, 2);
-      param.put("userId", user.getUserId());
-      List<Map<String, Object>> loans = customerServiceImpl.getLoansRepayDetail(param);
-      int totalCount = customerServiceImpl.getLoansRepayDetailCount(param);
-      this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()), 2);
-      model.addAttribute("loans", loans);
-      model.addAttribute("parentMenuNo", "2");
-      model.addAttribute("childMenuNo", "4");
+   public String loansRepayRecords(Model model,HttpServletRequest request){
+      User user=(User)request.getSession().getAttribute("user");
+      Map param = this.getConditionParam(request,2);
+      param.put("userId",user.getUserId());
+      List<Map<String,Object>> loans=customerServiceImpl.getLoansRepayDetail(param);
+      int totalCount=customerServiceImpl.getLoansRepayDetailCount(param);
+      this.setPagenationInfo(request,totalCount,Integer.parseInt(param.get("page").toString()),2);
+      model.addAttribute("loans",loans);
+      model.addAttribute("parentMenuNo", "6");
+      model.addAttribute("childMenuNo", "3");
       return "views/front/customer/finance/repayRecords.jsp";
    }
 

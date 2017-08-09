@@ -21,6 +21,10 @@
     <form id="searchFrm" method="post" action="${pageContext.request.contextPath}/customer/creditApplys">
         <input type="hidden" id="page" name="page" value="${param.page}">
     </form>
+    <div class="container1">
+        <div class="container2">
+
+       
     <div class="ui container segment" id="app1" style="width:990px; left: 10px;margin-top: -1px;float:left">
         <h3>申请记录</h3>
         <div class="ui divider"></div>
@@ -70,6 +74,8 @@
             <%@ include file="../../pagination.jsp"%>
         </div>
 
+    </div>
+     </div>
     </div>
     </body>
 </html>

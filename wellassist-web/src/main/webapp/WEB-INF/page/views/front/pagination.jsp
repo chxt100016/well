@@ -2,20 +2,20 @@
 					
 <!-- pagenation -->
 <c:if test="${pageCount>1}">
-	<ul class="ui pagination menu">
+	<ul class="ui pagination menu" style="padding:0;">
 		<c:if test = "${page == 1}">
 			<li>
 			     <a href="#" aria-label="Previous" class="icon item">
 					 <!-- <span aria-hidden="true">&laquo;</span> -->
-						  <i class="left chevron icon"></i>
+					<i class="left chevron icon"></i>
 				 </a>
 			</li>
 		</c:if>
 		<c:if test = "${page > 1}">
 			<li>
 			     <a onclick="searchData('${page-1}')" aria-label="Previous" style="cursor:pointer;" class="icon item">
-					 <!-- <span aria-hidden="true">&laquo;</span> -->
-						  <i class="left chevron icon"></i>
+					<!-- <span aria-hidden="true">&laquo;</span> -->
+					<i class="left chevron icon"></i>
 				 </a>
 			</li>	
 		</c:if>

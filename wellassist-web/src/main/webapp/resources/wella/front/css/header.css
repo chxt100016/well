@@ -17,6 +17,74 @@
     box-shadow: 0px 0px 0px 0px #0076c2 !important;
     
 }
+ .leftheader {
+            height: 62px;
+        }
+
+        .topheader {
+
+            /* border: 1px solid #999; */
+            height: 62px;
+            padding: 7px;
+            background: #e5ecf4;
+            font-size: 15px !important;
+        }
+        
+
+        .menu .item>i.icon {
+            float: left !important;
+        }
+
+        .grey1 {
+            background: #e5ecf4 !important;
+            border: none !important;
+            box-shadow: none!important;
+        }
+
+        .grey2 {
+            background: #3b4c5e !important;
+        }
+
+        .grey3 {
+            background: #4f657c !important;
+        }
+        .selceted{
+            background: #6cd2de!important;
+        }
+
+       .font-grey {
+           color: #adadad !important;
+           
+        }
+        .font-white{
+            color:#FFf !important;
+
+        }
+         .font-grey:hover{
+             color: #FFf !important;
+         }
+         .ui.inverted.menu .dropdown.item:hover, .ui.inverted.menu .link.item:hover, .ui.inverted.menu a.item:hover, .ui.link.inverted.menu .item:hover{
+             color: #fff!important;
+             /* background: red; */
+         }
+         .ui.inverted.menu .item, .ui.inverted.menu .item>a{
+             color:#adadad ;
+         }
+         .ui.inverted.menu .item, .ui.inverted.menu .item>a:hover{
+              color: #fff!important;
+         }
+         /* .active{
+             color: #fff !important;
+         } */
+        
+        .pd-10{
+          padding: 10px
+        }
+        .pointer{
+            cursor: pointer;
+        }
+
 [v-cloak] {
 display: none;
 } 
+
