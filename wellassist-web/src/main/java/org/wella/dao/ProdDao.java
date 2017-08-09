@@ -43,4 +43,10 @@ public interface ProdDao {
     Map<String,Object> singleProdByPrimaryKey(long prod_id);
 
     int totalCount(Map params);
+
+
+    Map<String,Object> selectSalenum(Long orderId);
+
+
+    //void updateKucun(Map map);
 }

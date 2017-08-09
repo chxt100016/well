@@ -32,8 +32,8 @@
 		</div>
 	</div>
 	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/front/customer/FinanceController-accountInfo">
-		<input type="hidden" id="page" name="page" value="${param.page}">
-	</form>
+	<input type="hidden" id="page" name="page" value="${param.page}">
+</form>
 	<div class = "row2">交易记录</div>
 
 	<div style="border-bottom:solid 1px #d0d0d0;padding:6px;font-size:14px;margin-top:16px;height:16px;">
@@ -81,10 +81,10 @@
 				alert("账号金额不够！");
 				return;
 			}
-			url = "${pageContext.request.contextPath}/front/seller/SellerFinanceController-txSq?userMoney="+userMoney;
+			url = "${pageContext.request.contextPath}/sender/FinanceCtrl-txSq?userMoney="+userMoney;
 			window.location.href = url;
 		}else if(action == 'czSq'){
-			url = "${pageContext.request.contextPath}/front/seller/SellerFinanceController-czSq";
+			url = "${pageContext.request.contextPath}/sender/FinanceController-czSq";
 			window.location.href = url;
 		}
 		

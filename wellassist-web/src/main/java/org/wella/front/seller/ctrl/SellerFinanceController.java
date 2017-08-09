@@ -15,6 +15,7 @@ import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.common.vo.MyInfo;
+import org.wella.front.mapper.FrontBankOrderMapper;
 import org.wella.front.mapper.FrontTixianMapper;
 import org.wella.front.mapper.FrontUserMoneyMapper;
 
@@ -24,6 +25,10 @@ public class SellerFinanceController extends BaseController {
     public FrontUserMoneyMapper userMoneyMapper0;
     @Autowired
     public FrontTixianMapper tixianMapper0;
+
+    @Autowired
+    public FrontBankOrderMapper bankOrderMapper0;
+
 
     public SellerFinanceController() {
     }
@@ -62,7 +67,9 @@ public class SellerFinanceController extends BaseController {
         model.addAttribute("userId", userId);
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("parentMenuNo", Integer.valueOf(2));
-        return "views/front/sender/finance/txSq.jsp";
+        return "views/front/seller/finance/txSq.jsp";
+
+        // return "view/front/sender/finance/txsq.jsp"
     }
 
     @RequestMapping({"front/seller/SellerFinanceController-checkWorkPass"})
@@ -137,4 +144,32 @@ public class SellerFinanceController extends BaseController {
         model.addAttribute("list", list);
         return "views/front/seller/finance/txList.jsp";
     }
+
+    @RequestMapping({"front/seller/SellerFinanceController-czSq"})
+    public String czSq(HttpServletRequest request, HttpServletResponse response) {
+        return "views/front/seller/finance/czSq.jsp";
+    }
+
+
+    @RequestMapping({"front/seller/SellerFinanceController-czList"})
+    public String czList(HttpServletRequest request, HttpServletResponse response, Model model) {
+        MyInfo myInfo = this.getMyInfo(request);
+        String userId = myInfo.getUserId();
+        Map param = this.getConditionParam(request);
+        param.put("userId", userId);
+        ArrayList list = this.bankOrderMapper0.getCzList(param);
+        ConvertUtil.convertDataBaseMapToJavaMap(list);
+        int totalCount = this.bankOrderMapper0.getCzListCount(param);
+        Map retInfo = this.bankOrderMapper0.getCzMoneyInfo(param);
+        this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
+        model.addAttribute("list", list);
+        model.addAttribute("parentMenuNo", "2");
+        model.addAttribute("childMenuNo", "5");
+        model.addAttribute("userName", myInfo.getUserName());
+        model.addAttribute("zfMoney", retInfo.get("zfMoney"));
+        return "views/front/seller/finance/czSqList.jsp";
+    }
+
+
+
 }

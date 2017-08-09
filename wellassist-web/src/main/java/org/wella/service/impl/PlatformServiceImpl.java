@@ -1,5 +1,9 @@
 package org.wella.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.wella.dao.UserinfoDao;
+import org.wella.dao.WaUserDao;
 import org.wella.entity.Order;
 import org.wella.entity.Prod;
 import org.wella.service.PlatformService;
@@ -10,7 +14,21 @@ import java.util.Map;
 /**
  * Created by liuwen on 2017/5/10.
  */
+
+@Service("platformServiceImpl")
 public class PlatformServiceImpl implements PlatformService {
+
+
+    @Autowired
+    private WaUserDao waUserDao;
+
+
+    @Autowired
+    private UserinfoDao userinfoDao;
+
+
+
+
     @Override
     public List<Order> findOrderList() {
         return null;
@@ -63,6 +81,21 @@ public class PlatformServiceImpl implements PlatformService {
 
     @Override
     public void processloanApply(int orderId) {
+
+    }
+
+
+    @Override
+    public void insertCustomer(Map map) {
+        waUserDao.createUser(map);
+        userinfoDao.createWaUserInfo(map);
+
+
+
+
+
+
+
 
     }
 }

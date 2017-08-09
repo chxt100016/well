@@ -55,7 +55,7 @@
 
 		<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/leftmenu.css"/>">
 		<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/front_common.css"/>">
-	</head>
+
 	<style>
 		.more a:hover {
 			background: #71160d;
@@ -65,7 +65,7 @@
 			background: #0557ab;
 		}*/
 	</style>
-
+    </head>
 	<!-- navigation bar -->
 	<div class="abovenavbar" style="height:45px">
 		<div align=center>

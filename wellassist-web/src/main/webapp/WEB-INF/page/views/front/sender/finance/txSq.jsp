@@ -21,7 +21,7 @@
 				<div style="text-align:center;font-size:18px; font-weight:500;">提现</div>
 			</div>
 		
-			<form id = "infoForm" action="${pageContext.request.contextPath}/front/sender/FinanceCtrl-addTx" method="post">
+			<form id = "infoForm" action="${pageContext.request.contextPath}/sender/withdrawProcess" method="post">
 			<div   align=left style="box-shadow: 2px 2px 8px #aaa;padding-bottom:16px;margin-left: 48px;margin-right: 48px; font-size:16px;border-bottom: 1px solid #aaa; background-color:white;">
 				<div class = "one-fld" style="margin-left:32px;margin-right:32px;padding-top:32px;">
 					<span style="display:inline-block; text-align:right;width:10%;margin-right:2%;">开户名</span>
@@ -89,7 +89,7 @@
     	    	account: {required:true},
     	    	txMoney:{required: true, number:true},
     	    	pass:{required:true, remote: {
-    	    		url: "${pageContext.request.contextPath}/front/sender/FinanceCtrl-checkWorkPass",
+    	    		url: "${pageContext.request.contextPath}/sender/checkCzPassword",
     	    		type: "Post",
     	    		data: {
     	    			      userId:"${userId}"
@@ -125,7 +125,7 @@
     	    	$.post($(form).attr("action"),$(form).serialize(),function(data){
     	    		alert(data.content);
     	            if(data.state==1 ){
-    	            	window.location.href = "${pageContext.request.contextPath}/front/sender/FinanceCtrl-txList";
+    	            	window.location.href = "${pageContext.request.contextPath}/sender/withdrawRecordList";
     	            }
     	      	}, "json");
     	    }

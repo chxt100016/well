@@ -254,4 +254,23 @@
 			AND prod_state = #{prodState}
 		</if>
 	</select>
+
+
+
+	<select id="selectSalenum"  parameterType="long"  resultType="map">
+		 SELECT    sale_num AS saleNum, prod_id AS prodId
+		   FROM  wa_prod  WHERE   prod_id=(
+                    SELECT       wp.prod_id        FROM  wa_prod   AS  wp INNER JOIN wa_order AS wa
+                    ON  wp.prod_id=wa.prod_id  WHERE   wa.order_id=#{orderId}
+            )
+	</select>
+
+
+
+
+	<update id="updateKucun" parameterType="java.util.Map" >
+		update wa_prod   set sale_num=#{saleNum} where prod_id=#{prodId}
+	</update>
+
+
 </mapper>

@@ -60,7 +60,7 @@ div.error{
         	companyLxrPhone: "请输入联系手机号码！"
         },
 	    submitHandler: function(form){
-	    	var act_url = "${pageContext.request.contextPath}/front/sender/CompanyController-contactModeUpdate";
+	    	var act_url = "${pageContext.request.contextPath}/sender/updateContact";
 	    	$(form).attr("action", act_url);
 			$.post($(form).attr("action"),$(form).serialize(),function(data){
 	    		data = $.parseJSON(data);

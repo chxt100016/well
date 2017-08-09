@@ -25,6 +25,11 @@
 
 <body>
     <div class="ui container segment" id="app1" style="width:990px;left:80px;position:relative">
+
+        <form id="searchFrm" method="post" action="${pageContext.request.contextPath}/sender/vehicleGrabHall">
+            <input type="hidden" id="page" name="page" value="${param.page}">
+        </form>
+
         <h3 class="ui header">抢单大厅</h3>
         <div class="ui divider"></div>
 

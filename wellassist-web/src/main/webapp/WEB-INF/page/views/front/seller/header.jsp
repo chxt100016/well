@@ -98,11 +98,11 @@
 				  <a href="${pageContext.request.contextPath}/seller/order">订单中心</a>
 			  </li>
 			  <li id="financecenter" class="<c:if test = "${parentMenuNo == '2' }"> topmenuselected</c:if>" >
-				  <%--<a href="${pageContext.request.contextPath}/seller/finance">财务中心</a></li>--%>
-				  <a onclick="javascript:alert('功能待开发');">财务中心</a></li>
-			  <li id="newscenter" class="<c:if test = "${parentMenuNo == '3' }"> topmenuselected</c:if>">
-				  <a href="${pageContext.request.contextPath}/mes/message">消息中心</a></li>
-				  <%--<a onclick="javascript:alert('功能待开发');">消息中心</a></li>--%>
+				   <a href="${pageContext.request.contextPath}/seller/accountInfo">财务中心</a></li>
+            <%--     <a onclick="javascript:alert('功能待开发');">财务中心</a></li>   --%>
+            <li id="newscenter" class="<c:if test = "${parentMenuNo == '3' }"> topmenuselected</c:if>">
+                <a href="${pageContext.request.contextPath}/mes/message">消息中心</a></li>
+                <%--<a onclick="javascript:alert('功能待开发');">消息中心</a></li>--%>
 							<li id="company_manage" class="<c:if test = "${parentMenuNo == '4' }"> topmenuselected</c:if>">
 							<a href="${pageContext.request.contextPath}/seller/companyInfo">个人中心</a></li>
           </ul>
@@ -157,6 +157,7 @@
 					</ul>
 				</ul>
 			</c:if>
+
 			<c:if test = "${parentMenuNo == '3'}">
 				<ul>
 					<li class="leftmenulevel1" onclick="menuparentclicked( this);">
@@ -184,6 +185,44 @@
 		</div>-->
 
 				<div class="ui vertical accordion menu" id="leftmenu" style="max-width:205px;float:left">
+
+					<c:if test = "${parentMenuNo == '2'}">
+					<div class="item">
+						<a class="title <c:if test="${childMenuNo == '1' or childMenuNo =='6'or childMenuNo =='5' }">active </c:if>"><i class="dropdown icon"></i> 财务中心 </a>
+						<div class="<c:if test="${childMenuNo == '1' or childMenuNo =='6'or childMenuNo =='5'}"> active </c:if> content">
+							<div class="ui form">
+								<div class="grouped fields">
+									<div class="field">
+										<div class="ui  checkbox">
+											<input type="checkbox" name="size"  <c:if test ="${childMenuNo == '1'}"> checked="checked" </c:if> >
+											<label> <a href = "${pageContext.request.contextPath}/seller/accountInfo">账户信息</a></label>
+										</div>
+									</div>
+									<div class="field">
+										<div class="ui checkbox">
+											<input type="checkbox" name="size" <c:if test ="${childMenuNo == '6'}"> checked="checked" </c:if> >
+											<label><a href = "${pageContext.request.contextPath}/seller/withdrawRecordList">提现记录</a></label>
+										</div>
+									</div>
+									<div class="field">
+										<div class="ui checkbox">
+											<input type="checkbox" name="size" <c:if test ="${childMenuNo == '5'}"> checked="checked" </c:if> >
+											<label><a href = "${pageContext.request.contextPath}/seller/rechargeRecord">充值记录</a></label>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					</c:if>
+
+
+
+
+
+
+
 				<c:if test = "${parentMenuNo == '5'}">
 						<div class="item">
 							<a class="title <c:if test="${childMenuNo == '1'}">active </c:if>"><i class="dropdown icon"></i> 订单中心 </a>
@@ -247,6 +286,81 @@
 							</div>
 						</div>
 			    </c:if>
+
+
+
+					<c:if test = "${parentMenuNo == '4'}">
+						<div class="item">
+							<a class="title active "><i class="dropdown icon"></i> 账户设置 </a>
+							<div class=" active content">
+								<div class="ui form">
+									<div class="grouped fields">
+										<div class="field">
+											<div class="ui  checkbox">
+												<input type="checkbox" name="size" <c:if test ="${childMenuNo == '1'}"> checked="checked" </c:if>  >
+												<label> <a href = "${pageContext.request.contextPath}/seller/companyInfo">公司信息</a></label>
+											</div>
+										</div>
+										<div class="field">
+											<div class="ui checkbox">
+												<input type="checkbox" name="size" <c:if test ="${childMenuNo == '2'}"> checked="checked" </c:if> >
+												<label><a href = "${pageContext.request.contextPath}/seller/contact">联系方式</a></label>
+											</div>
+										</div>
+										<div class="field">
+											<div class="ui checkbox">
+												<input type="checkbox" name="size" <c:if test ="${childMenuNo == '3'}"> checked="checked" </c:if> >
+												<label><a href = "${pageContext.request.contextPath}/seller/password">修改密码</a></label>
+											</div>
+										</div>
+										<div class="field">
+											<div class="ui  checkbox">
+												<input type="checkbox" name="size" <c:if test ="${childMenuNo == '4'}"> checked="checked" </c:if>  >
+												<label> <a href = "${pageContext.request.contextPath}/seller/bankcardPage">银行卡管理</a></label>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</c:if>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 				<c:if test = "${parentMenuNo == '1'}">
 					<div class="item">

@@ -96,9 +96,9 @@
         },
 	    submitHandler: function(form){
 	    	var oldPass = $("#oldpass").val();
-	    	$.post("${pageContext.request.contextPath}/front/sender/CompanyCtrl-checkOrgPass", {oldPass:oldPass},	function(data) {
+	    	$.post("${pageContext.request.contextPath}/sender/checkLoginPassword", {oldPass:oldPass},	function(data) {
 				if(data.state == 1) {
-					var act_url = "${pageContext.request.contextPath}/front/sender/CompanyCtrl-updateNewPass";
+					var act_url = "${pageContext.request.contextPath}/sender/changeLoginPassword";
 			    	$.post(act_url,$(form).serialize(),function(data){
 			    		data = $.parseJSON(data);
 			    		if(data.state==1){
@@ -137,9 +137,9 @@
         },
 	    submitHandler: function(form){
 	    	var oldPass = $("#payoldpass").val();
-	    	$.post("${pageContext.request.contextPath}/front/sender/CompanyCtrl-checkPayOrgPass", {oldPass:oldPass},	function(data) {
+	    	$.post("${pageContext.request.contextPath}/sender/checkPayPasswor", {oldPass:oldPass},	function(data) {
 				if(data.state == 1) {
-					var act_url = "${pageContext.request.contextPath}/front/sender/CompanyCtrl-updatePayNewPass";
+					var act_url = "${pageContext.request.contextPath}/sender/changePayPassword";
 			    	$.post(act_url,$(form).serialize(),function(data){
 			    		data = $.parseJSON(data);
 			    		if(data.state==1){

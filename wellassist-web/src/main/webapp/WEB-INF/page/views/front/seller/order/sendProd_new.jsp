@@ -69,7 +69,7 @@
                 <div class="right item fl-rg" style="width:40%">
                     <span class="ui inverted ">总量:${info.orderNumber}</span>
                     <span class="ui inverted ">已发货:${info.deliverNumCount}</span>
-                    <span class="ui inverted ">当前库存:${info.restNum}<span>
+                    <span class="ui inverted "    id="infoRestNum">当前库存:${info.restNum}<span>
 
                 </div>
                 <br><br>
@@ -79,7 +79,7 @@
                 <div class="ui form">
                      <div class=" two fields">
                         <div class="field">
-                            <div class="ui labeled input"><div class="ui label">发货量： </div> <input type="text" name="zorderNum" placeholder="" id="zorderNum">
+                            <div class="ui labeled input"><div class="ui label">发货量: </div> <input type="text" name="zorderNum" placeholder="" id="zorderNum" onkeyup="change()">
                                 <div class="ui basic label">吨</div>
                       </div>
                       </div> 
@@ -325,6 +325,19 @@ function add(){
     vm.qwer();
     $('.modal').modal('show');
 }
+
+
+function change(){
+    var infoRestNum=${info.restNum}
+    var zorderNum=$("#zorderNum").val();
+    if(zorderNum>infoRestNum){
+        alert("当前库存不足！");
+    }
+    var num=infoRestNum-zorderNum;
+    $("#infoRestNum").text("当前库存:"+num);
+}
+
+
 function close_m(){
     $('.modal').modal('hide');
 }

@@ -27,11 +27,11 @@
 		<div class = "row1_2">
 			<span class = "col1">${userMoney}</span>
 			<span class = "col2">&nbsp;&nbsp;元</span>
-			<span id="fillmoney" class="smallbutton" style="margin-left:32px; display:none;">充值</span>
+			<span id="fillmoney" class="smallbutton" style="margin-left:32px;" onClick = "toURL('czSq')">充值</span>
 			<span id="getmoney" class="smallbutton" style="margin-left:12px;"  onClick = "toURL('txSq')">提现</span>
 		</div>
 	</div>
-	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/front/seller/SellerFinanceController-accountInfo">
+	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/front/seller/FinanceController-accountInfo">
 		<input type="hidden" id="page" name="page" value="${param.page}">
 	</form>
 	<div class = "row2">交易记录</div>
@@ -83,8 +83,11 @@
 			}
 			url = "${pageContext.request.contextPath}/front/seller/SellerFinanceController-txSq?userMoney="+userMoney;
 			window.location.href = url;
+		}else if(action == 'czSq'){
+			url = "${pageContext.request.contextPath}/front/seller/SellerFinanceController-czSq";
+			window.location.href = url;
 		}
 		
 	}
 </script>
-<%@ include file="../footer.html"%>
+<%@ include file="../footer.jsp"%>
