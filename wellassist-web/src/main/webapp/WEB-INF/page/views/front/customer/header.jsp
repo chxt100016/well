@@ -217,7 +217,7 @@
                     </div>
                 </div>
                 <div class="item" style="padding:5px 40px 5px 20px ">
-                    <img class="ui avatar image" src="../img/xx.jpg" style="width:40px ;height:40px">
+                    <img class="ui avatar image" src="${userInfo.companyImg}" style="width:40px ;height:40px">
                 </div>
             </div>
         </div>
