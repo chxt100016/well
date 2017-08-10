@@ -204,7 +204,7 @@ public class WaOrderServiceImpl implements WaOrderService {
     }
 
     @Override
-    public boolean checkOrderPayOff(long orderId) {
+    public boolean checkOrderRepayOff(long orderId) {
         Map<String,Object> updateOrder=new HashMap<>();
         updateOrder.put("orderId",orderId);
         Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);

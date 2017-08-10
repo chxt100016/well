@@ -15,4 +15,6 @@ public interface OrderTransDao {
     int listOrderTransAttachOrderinfoviewByConditionsCount(Map param);
 
     Map<String,Object> singleOrderTransAttachOrderinfoviewByPrimaryKey(@Param("orderTransId")long orderTransId);
+
+    Map<String,Object> singlePoByConditions(Map param);
 }

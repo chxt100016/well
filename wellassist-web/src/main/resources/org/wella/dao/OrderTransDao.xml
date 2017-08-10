@@ -41,4 +41,18 @@
         FROM wa_order_trans a LEFT JOIN orderinfoview b ON a.`order_id`=b.`order_id`
         WHERE a.trans_id=#{orderTransId}
     </select>
+
+    <select id="singlePoByConditions" parameterType="map" resultType="map">
+        SELECT *
+        from wa_order_trans
+        <where>
+            <if test="orderId != null">
+                AND order_id=#{orderId}
+            </if>
+            <if test="inTransState != null">
+                AND trans_state in ${inTransState}
+            </if>
+        </where>
+        limit 1
+    </select>
 </mapper>

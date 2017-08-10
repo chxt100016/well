@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.UserMoneyDao">
+
+    <update id="update" parameterType="map">
+        update wa_user_money
+        <set >
+            <if test="userId != null" >
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="jyType != null" >
+                jy_type = #{jyType,jdbcType=TINYINT},
+            </if>
+            <if test="orderId != null" >
+                order_id = #{orderId,jdbcType=BIGINT},
+            </if>
+            <if test="jyMc != null" >
+                jy_mc = #{jyMc,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null" >
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="jyMoney != null" >
+                jy_money = #{jyMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="jySjMoney != null" >
+                jy_sj_money = #{jySjMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="mgrUserId != null" >
+                mgr_user_id = #{mgrUserId,jdbcType=BIGINT},
+            </if>
+            <if test="mgrIp != null" >
+                mgr_ip = #{mgrIp,jdbcType=VARCHAR},
+            </if>
+            <if test="jyDate != null" >
+                jy_date = #{jyDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="completeDate != null" >
+                complete_date = #{completeDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="jyState != null" >
+                jy_state = #{jyState,jdbcType=TINYINT},
+            </if>
+        </set>
+        where money_id = #{moneyId,jdbcType=BIGINT}
+    </update>
+
+</mapper>

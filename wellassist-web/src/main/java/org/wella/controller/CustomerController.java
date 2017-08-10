@@ -329,6 +329,7 @@ public class CustomerController extends BaseController {
                HashMap queryParam = new HashMap();
                queryParam.put("strsql", sql);
                this.commonMapper.simpleSelectReturnList(queryParam);
+               waOrderServiceImpl.checkOrderRepayOff(Long.parseLong(orderId));
                ret = "1";
                obj.put("content", ConstantUtil.MSG_SUCCESS);
             }
@@ -378,6 +379,7 @@ public class CustomerController extends BaseController {
             queryParam.put("strsql", sql);
             ArrayList<Map<String, Object>> result = this.commonMapper.simpleSelectReturnList(queryParam);
             if ((int) result.get(0).get("result") == 1) {
+               waOrderServiceImpl.checkOrderRepayOff(Long.parseLong(orderId));
                obj.put("content", ConstantUtil.MSG_SUCCESS);
                obj.put("status", "1");
                return obj;

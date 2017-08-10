@@ -165,4 +165,22 @@ public class CreditController {
         return R.ok();
     }
 
+    /**
+     * 驳回贷款申请
+     * @param loanId
+     * @return
+     */
+    @RequestMapping("loanSayno")
+    @ResponseBody
+    public R loanSayno(@RequestParam("loanId")long loanId){
+        try {
+            creditServiceImpl.loanSayno(loanId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error();
+        }
+        return R.ok();
+    }
+
+
 }

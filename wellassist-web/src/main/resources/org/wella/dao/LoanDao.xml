@@ -22,6 +22,9 @@
             <if test="inLoanState != null">
                 AND loan_state in ${inLoanState}
             </if>
+            <if test="orderId != null">
+                and order_id=#{orderId}
+            </if>
         </where>
         <if test="orderBy != null">
             order BY ${orderBy}
@@ -181,6 +184,11 @@
                 and loan_state in ${inLoanState}
             </if>
         </where>
+    </select>
+
+    <select id="singleLoanFkViewByPrimaryKey" parameterType="long" resultType="map">
+        SELECT * from loan_fk_view
+        WHERE loan_id=#{loanId}
     </select>
 
 </mapper>
