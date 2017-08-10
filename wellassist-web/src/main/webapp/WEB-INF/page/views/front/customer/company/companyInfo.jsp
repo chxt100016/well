@@ -21,6 +21,44 @@ div.error{
    	display: inline-block;
    	padding-left: 42px;
 }
+        .file {
+            position: relative;
+            display: inline-block;
+            background: #21BA45;
+            border: 1px solid #21BA45;
+            border-radius: 4px;
+            padding: 4px 12px;
+            overflow: hidden;
+            color: #FFF;
+            text-decoration: none;
+            text-indent: 0;
+            line-height: 20px;
+        }
+
+        .file input {
+            position: absolute;
+            font-size: 100px;
+            right: 0;
+            top: 0;
+            opacity: 0;
+        }
+
+        .file:hover {
+            background: #AADFFD;
+            border-color: #78C3F3;
+            color: #004974;
+            text-decoration: none;
+        }
+        .white-color{color: #fff}
+        .excel-inco{
+                font-size: 25px !important;
+			    width: 45px !important;
+			    background: #fff;
+			    border: none;
+			    color: green;
+			    float: right;
+			    margin-top: -25px !important;
+        }
 </style>
 
 </head>
@@ -33,7 +71,7 @@ div.error{
 				<div style="font-size:14px;padding:32px 45px;display: inline-block;width: 90%;">
 					<div>
 						<div id="companyicon" style="float:left;width:12%;height:100px;border:solid 1px #ccc;">
-							<img id="icon" style="margin:8px;" src="${userInfo.companyImg}">
+							<img id="icon" style="margin:8px;" src="${userInfo.companyImg}">							
 						</div>
 						<div style="float:left;margin-left:32px;">
 							<div style="font-size:20px;font-weight:bold;margin-bottom:12px;">${user.userName}</div>
@@ -52,6 +90,12 @@ div.error{
 								<span style="margin-right:12px;">进行中的交易:</span>
 								<span style="color:red;">${ingJyCn}</span>
 								<span style="margin-right:24px;">笔</span>
+							</div>
+							<div class="ui" style="margin-bottom:12px;font-size:16px;">
+								<a id="upload"  class="ui button primary">更换头像</a>
+								<!-- <a class="fancybox" rel="group" href="userInfo.companyImg">
+									<img id="icon" src="userInfo.companyImg" width="136px" height="134px" />
+								</a> -->
 							</div>
 						</div>
 					</div>
@@ -114,66 +158,84 @@ div.error{
 				<div class="ui input" style="width:30%;">
 					<input type="text" name="IDcard" id="IDcard" placeholder="请输入法人的身份证号" value="">
 				</div>
-				<form class="ui form">
+				<form class="ui form" action="${pageContext.request.contextPath}/customer/companyInfo" method="post">
 	                <div class="ui three column grid">
-	                    <div class="row">
-	                        <div  class=" ui cards">
-	                            <div class="card" style="">
-	                                <div class="content">
-	                                    <div class="header">
-	                                       营业执照
-	                                    </div>                                   
-	                                 </div>
-	                                <div class="extra content field" >
-	                                    <a href="javascript:;" class="file">
-	                                    	<div class="ui button positive " type="file" name="comLic" id="" onchange="handleFiles(this)" >
-												选择文件&emsp;<i class="upload icon white" ></i>
-	                                    	</div>
-	                                         <!-- <span class="white">选择文件</span>
-	                                          <i class="upload icon white" ></i>
-	                                         <input type="file" name="comLic" id="" onchange="handleFiles(this)"> -->
-	                                    </a>                                        
-	                                 </div>                                
-	                            </div>
-	                            <div class="card">
-	                                <div class="content">
-	                                    <div class="header">
-	                                       开户许可
-	                                    </div>   
-	                                 </div>
-	                                <div class="extra content field" >
-	                                    <a href="javascript:;" class="file" >
-	                                    	<div class="ui button positive " type="file" name="opLic" id="" onchange="handleFiles(this)" >
-												选择文件&emsp;<i class="upload icon white" ></i>
-	                                    	</div>
-	                                        <!-- <span class="white">选择文件</span>
-	                                        <i class="upload icon white" ></i>
-	                                        <input type="file" name="opLic" id="" onchange="handleFiles(this)"> -->
-	                                    </a>
-	                                </div>
-	                            </div>
-	                            <div class="card">
-	                                <div class="content">
-	                                    <div class="header">
-	                                       公司章程
-	                                    </div>   
-	                                 </div>
-	                                <div class="extra content field" >
-	                                    <a href="javascript:;" class="file" >
-	                                    	<div class="ui button positive " type="file" name="comArt" id="" onchange="handleFiles(this)" >
-												选择文件&emsp;<i class="upload icon white" ></i>
-	                                    	</div>
-	                                        <!-- <span class="white">选择文件</span>
-	                                        <i class="upload icon white" ></i>
-	                                        <input type="file" name="comArt" id="" onchange="handleFiles(this)"> -->
-	                                    </a>
-	                                </div>
-	                            </div>
-	                        </div>
-	                    </div>                
+	                    <div class="row" style="margin-top:30px;">
+                        <div  class=" ui cards">
+                             <div class="card" style=" margin-left: 24px;">
+                                <div class="content">
+                                    <div class="header">
+                                       营业执照
+                                    </div>
+                                    <div class="description">
+                                        请上传jpg、png文件
+                                    </div>
+                                   
+                                 </div>
+                                <div class="extra content field" >
+                                    <div class="meta"  style=" height: 35px">
+                                    	<img src="../img/logo.png" />
+                                    </div>
+                                    <a href="javascript:;" class="file" style="margin-top:55px;">
+                                         <span class="white-color">选择文件</span>
+                                          <i class="upload icon white-color" ></i>
+                                         <input type="file"  id="upload1">
+                                        <input type="hidden" name="companyper">
+                                        <%--<a id="bankBill" download="bankBill.xlsx">download</a>--%>
+                                    </a>                                       
+                                 </div>                                
+                             </div>
+                             <div class="card">
+                                <div class="content">
+                                    <div class="header">
+                                       开户许可
+                                    </div>
+                                    <div class="description">
+                                        请上传jpg、png文件
+                                    </div>
+                                   
+                                 </div>
+                                <div class="extra content field" >
+                                    <div class="meta"  style=" height: 35px">
+                                    	<img src="../img/zxlogo.jpg" />
+                                    </div>
+                                    <a href="javascript:;" class="file"  style="margin-top:55px;">
+                                         <span class="white-color">选择文件</span>
+                                          <i class="upload icon white-color" ></i>
+                                         <input type="file" id="upload2">
+                                        <input type="hidden" name="openper">
+                                    </a>
+                                        
+                                 </div>
+                             </div>
+                            <div class="card">
+                                        <div class="content">
+                                            <div class="header">
+                                            公司章程
+                                            </div>
+                                            <div class="description">
+                                                请上传jpg、png文件
+                                            </div>
+                                        </div>
+                                        <div class="extra content field" >
+                                            <div class="meta"  style=" height: 35px">
+		                                    	<img src="../img/logo.png" />
+		                                    </div>
+                                            <a href="javascript:;" class="file" style="margin-top:55px;">
+                                                <span class="white-color">选择文件</span>
+                                                <i class="upload icon white-color" ></i>
+                                                <input type="file" id="upload3">
+                                                <input type="hidden" name="companyart">
+                                            </a>
+                                                
+                                        </div>
+                                        
+                             </div>
+                        </div>
+                    </div>                
 	                </div><br>
 
-	                <div class="ui primary submit button">提交申请</div>              
+	                <div class="ui primary submit button">保存</div>              
             	</form>
 			</div>
 		</div>
@@ -252,4 +314,106 @@ div.error{
 		}
 	}
 </script>
+<script>
+            $(function () {
+                new AjaxUpload('#upload1', {
+                    action: '${pageContext.request.contextPath}/uploadFile',
+                    name: 'file',
+                    autoSubmit:true,
+                    responseType:"json",
+                    onSubmit:function(file, extension){
+                        if (!(extension && /^(jpg|png)$/.test(extension.toLowerCase()))){
+                            alert('只支持jpg、png格式的文件！');
+                            return false;
+                        }
+                    },
+                    onComplete : function(file, data){
+                        if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
+                        $(":input[name='companyper'][type='hidden']").val(data.path);
+                        /*$("a#bankBill").attr("href",data.path);*/
+                        handleFiles(document.getElementById("upload1"),file);
+                        return;
+                    }
+                });
+                new AjaxUpload('#upload2', {
+                    action: '${pageContext.request.contextPath}/uploadFile',
+                    name: 'file',
+                    autoSubmit:true,
+                    responseType:"json",
+                    onSubmit:function(file, extension){
+                        if (!(extension && /^(jpg|png)$/.test(extension.toLowerCase()))){
+                            alert('只支持jpg、png格式的文件！');
+                            return false;
+                        }
+                    },
+                    onComplete : function(file, data){
+                        if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
+                        $(":input[name='openper'][type='hidden']").val(data.path);
+                        handleFiles(document.getElementById("upload2"),file);
+                        return;
+                    }
+                });
+                new AjaxUpload('#upload3', {
+                    action: '${pageContext.request.contextPath}/uploadFile',
+                    name: 'file',
+                    autoSubmit:true,
+                    responseType:"json",
+                    onSubmit:function(file, extension){
+                        if (!(extension && /^(jpg|png)$/.test(extension.toLowerCase()))){
+                            alert('只支持jpg、png格式的文件！');
+                            return false;
+                        }
+                    },
+                    onComplete : function(file, data){
+                        if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
+                        $(":input[name='companyart'][type='hidden']").val(data.path);
+                        handleFiles(document.getElementById("upload3"),file);
+                        return;
+                    }
+                });
+                $('.ui.form').form({
+                    fields: {
+                        companyper:{
+                            identifier: 'companyper',
+                            rules: [
+                                {
+                                    type: 'empty',
+                                    prompt: '请上传营业执照'
+                                }
+                            ]
+                        },
+                        openper:{
+                            identifier: 'openper',
+                            rules: [
+                                {
+                                    type: 'empty',
+                                    prompt: '请上传开户许可'
+                                }
+                            ]
+                        },
+                        companyart:{
+                            identifier: 'companyart',
+                            rules: [
+                                {
+                                    type: 'empty',
+                                    prompt: '请上传公司章程'
+                                }
+                            ]
+                        }
+                    },
+                    inline: true,
+                    on: 'blur'
+                })
+                    ;
+            })
+            function handleFiles(files,filename) {
+                var filesShow= files.parentNode.parentNode.firstChild.nextElementSibling;
+                if (!filename) {
+                }
+                else{
+                  filesShow.innerHTML = "<p>"+filename+"</p>"+ '<i class="file archive outline icon excel-inco">'+'</i>';
+                }
+            }
+         
+        </script>
 <%@ include file="../footer.jsp"%>

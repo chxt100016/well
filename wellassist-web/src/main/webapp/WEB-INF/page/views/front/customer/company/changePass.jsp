@@ -91,7 +91,7 @@
 	$("#companyicon").height($("#companyicon").width());
 	$("#icon").height($("#companyicon").innerHeight()-16);
 	$("#icon").width($("#companyicon").innerWidth()-16);
-	$("input[type=password]").css("font-size", "16px");
+	// $("input[type=password]").css("font-size", "16px");
 	
 	
 	$("#frm_pass").validate({

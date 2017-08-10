@@ -52,7 +52,7 @@ div.error{
 	$("#companyicon").height($("#companyicon").width());
 	$("#icon").height($("#companyicon").innerHeight()-16);
 	$("#icon").width($("#companyicon").innerWidth()-16);
-	$("input[type=text]").css("font-size", "16px");
+
 	
 	
 	$("form").validate({

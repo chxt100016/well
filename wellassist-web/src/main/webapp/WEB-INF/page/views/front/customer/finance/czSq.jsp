@@ -28,16 +28,16 @@
 				<div style="height: 48px;background-color:white;"></div>
 				<table style="padding-left:4%;padding-right:4%;width:92%;background-color:white;">
 					<tr>
-						<td class="caption" style="width:20%;text-align:center;">充值金额</td>
+						<td class="caption" style="width:20%;text-align:center;font-size:14px;font-weight:600">充值金额</td>
 						<td style="width:30%;">
-							<div class = "one-fld">
-								<input type="text" id = "rechargeMoney" name="rechargeMoney" style="width:90%;">
+							<div class = "one-fld ui input">
+								<input type="text" id = "rechargeMoney" name="rechargeMoney" placeholder="请输入你的充值金额" style="width:90%;">
 							</div>
 						</td>
 						<td class="caption" style="text-align:left;">元</td>
 					</tr>
 					<tr>
-						<td class="caption" style="text-align:center;">充值方式：</td>
+						<td class="caption" style="text-align:center;">充值方式</td>
 						<%--<td><img  class = "fsImg" src="<c:url value="/resources/upload/images/bank_mark/china_citic_bank.png"/>"  onclick = "selectPayFs('1', this);"></td>
 						<td><img class = "fsImg  selected" src="<c:url value="/resources/upload/images/bank_mark/xianxia.png"/>"  onclick = "selectPayFs('0', this);"></td>--%>
 						<td>
@@ -58,8 +58,10 @@
 				</table>
 	
 				<div align=center style="margin-bottom: 24px;">
-					<input type="button"  class="bluebutton" style="padding-left: 16px;padding-right: 16px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;border:none;" value="返回" onclick="goBack();">
-					<input type="submit" id="submit" class="bluebutton" style="padding-left: 16px;padding-right: 16px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;border:none;" value="确认充值">
+					<!-- <input type="button" value="返回" onclick="goBack();"> -->
+					<div class="ui button primary">
+						<input type="submit" id="submit" value="确认充值">
+					</div>
 				</div>
 			</div>
 		</form>
