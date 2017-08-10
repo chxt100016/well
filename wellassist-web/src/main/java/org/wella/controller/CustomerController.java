@@ -345,7 +345,7 @@ public class CustomerController extends BaseController {
    @RequestMapping(value = {"payLogistics"},
            method = {RequestMethod.POST})
    @ResponseBody
-   public JSONObject payLogistics(HttpServletRequest request, HttpServletResponse response) {
+   public JSONObject payLogistics(@RequestParam Map<String,Object> params, HttpServletRequest request, HttpServletResponse response) {
       JSONObject obj = new JSONObject();
       String orderId = CommonUtil.GetRequestParam(request, "orderId", "0");
       String logisticsInfoId = CommonUtil.GetRequestParam(request, "logisticsInfoId", "0");

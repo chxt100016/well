@@ -7,9 +7,7 @@
 	href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
 
 <script src="<c:url value="/resources/library/js/chosen.jquery.js"/>"></script>
-<script
-	src="<c:url value="/resources/library/js/bootstrap-fileupload.js"/>">
-</script>
+<script src="<c:url value="/resources/library/js/bootstrap-fileupload.js"/>"></script>
 
 <style>
 div.error{
@@ -20,28 +18,35 @@ div.error{
 </style>
 
 </head>
-<div id = "content-rect"  style="text-align:left;">
-
-	<div style="border:solid 1px #d0d0d0;">
-		<div style="border-bottom:solid 1px #d0d0d0;padding:6px;font-size:18px;color:#0557ab;font-weight: bold;">联系方式</div>
-		
-		<form action="#" method="post">
-			<div style="font-size:14px;padding-left:8px;padding-top:32px;">
-				<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">联系人</span>
-				<input type="text" name="companyLxr" id="companyLxr" placeholder="请输入联系人" value="${myInfo.companyLxr}">
+<div style="min-height: 990px;width: 100%;">
+	<div style="margin:40px 0 0 210px;">
+		<div id = "content-rect" style="width:90%;">
+			<div>
+				<div style="border-bottom:solid 1px #d0d0d0;padding-bottom:10px;font-size:15px;font-weight: 600;">联系方式</div>
+				
+				<form action="#" method="post">
+					<div style="font-size:14px;padding-left:8px;padding-top:32px;">
+						<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">联系人</span>
+						<div class="ui input">
+						  	<input type="text" name="companyLxr" id="companyLxr" placeholder="请输入联系人" value="${myInfo.companyLxr}">
+						</div>
+						
+					</div>
+					<div style="font-size:14px;padding-left:8px;padding-top:24px;">
+						<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">联系手机号码</span>
+						<div class="ui input">
+							<input type="text" name="companyLxrPhone" id="companyLxrPhone" placeholder="请输入联系手机号码"  value="${myInfo.companyLxrPhone}">
+						</div>
+					</div>
+					
+					<div style="margin-bottom: 32px;margin-top: 32px;margin-left: 11%;">
+						<input type="submit" id="submit" class=" ui primary button" value="保存">
+						<input type="reset" id="reset" class=" ui button" value="重置">
+					</div>
+				</form>
 			</div>
-			<div style="font-size:14px;padding-left:8px;padding-top:24px;">
-				<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">联系手机号码</span>
-				<input type="text" name="companyLxrPhone" id="companyLxrPhone" placeholder="请输入联系手机号码"  value="${myInfo.companyLxrPhone}">
-			</div>
-			
-			<div style="margin-bottom: 32px;margin-top: 32px;margin-left: 11%;">
-				<input type="submit" id="submit" class="bluebutton" style="padding-left: 24px;padding-right: 24px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;border:none;" value="保存">
-			</div>
-		</form>
+		</div>
 	</div>
-
-
 </div>
 <script type="text/javascript">
 	$("#companyicon").height($("#companyicon").width());

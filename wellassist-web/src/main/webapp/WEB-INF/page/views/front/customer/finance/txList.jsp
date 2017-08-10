@@ -8,7 +8,6 @@
 <style>
 	span.smallbutton{cursor: pointer;padding: 4px 8px;text-align: center;color: #666666;font-size: 13px;border-radius: 4px;}
 	.header-title{font-size: 15px;font-weight: 600;}
-	.container{margin: 0 8%;}
 	.row1{padding:6px;font-size:20px;margin-top:16px;padding-bottom:16px;}
 	.row1_1{margin-top:16px; margin-left: 12px;font-size: 16px;text-align: left;color: #747474;}
 	.row1_2{margin-top:16px; margin-left: 24px;font-size: 20px; margin-bottom:16px;text-align:left;}
@@ -21,16 +20,15 @@
     .ui.table tr:nth-child(odd) td {background-color: #f2f2f2;}
     .ui.celled.table tr td, .ui.celled.table tr th {border-left: 0;}
     .ui.menu li{list-style: none;}
-    .active{color: #000 !important;}
     .txtab tr td{
 		line-height: 50px;
     }
 </style>
 
 </head>
-<div class="container">
-	<div style="width:75%;margin:0 auto;">
-		<div id = "content-rect">		
+<div class="container1">
+	<div style="margin:40px 0 0 210px;">
+		<div id = "content-rect" style="width:90%;">		
 			<div class = "row-header" style="border-bottom:1px solid #d0d0d0;padding-bottom:10px;"><span class = "header-title">提现</span></div>
 			<!-- <div class = "row1">
 				<div class = "row1_2">

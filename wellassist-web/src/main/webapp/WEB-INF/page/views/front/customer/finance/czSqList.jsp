@@ -5,39 +5,43 @@
 <link rel="stylesheet"	href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
 
 <style>
-.container{margin: 0 8%;}
+.container1{min-height: 990px;width: 100%;}
 .header-title{font-size: 15px;font-weight: 600;}
 .ui.table thead th {border-bottom: 0;}
 .ui.table tr td {border-top: 0;}
 .ui.table tr:nth-child(odd) td {background-color: #f2f2f2;}
 .ui.celled.table tr td, .ui.celled.table tr th {border-left: 0;}
 .ui.menu li{list-style: none;}
-.active{color: #000 !important;}
+.cztab tr td{line-height: 50px;}
 .cztab tr td img{border: 1px solid #f2f2f2;}
 .cztab tr td img:hover,.cztab tr td img:active{border: 1px solid #0068b7;}
 </style>
 
 </head>
-<div class="container">
-	<div style="width:75%;margin:0 auto;">
-		<div id = "content-rect">
+<div class="container1">
+	<div style="margin:40px 0 0 210px;">
+		<div id = "content-rect" style="width:90%;">
 			<div class = "row-header" style="border-bottom:1px solid #d0d0d0;padding-bottom:10px;"><span class = "header-title">充值</span></div>
-			<div style="margin:40px 60px 60px;">
-				<table style="font-size: 14px;font-weight: 600;" class="cztab">
-					<tr>
-						<td>充值金额</td>
-						<td>
-							<div class="ui input" style="margin-left:15px;">
-								<input placeholder="请输入你的充值金额" type="text">
-							</div>
-						</td>
-						<td>&emsp;元</td>
-						<td>&emsp;&emsp;&emsp;充值方式</td>
-						<td style="">&emsp;<img src="../img/zxlogo.jpg" /></td>
-						<td>&emsp;&emsp;<button class="ui primary button">充值</button></td>
-					</tr>
-				</table>
-			</div>
+			<table style="font-size: 14px;font-weight: 600;margin:40px 60px 60px;" class="cztab">
+				<tr>
+					<td>充值金额</td>
+					<td>
+						<div class="ui input" style="margin-left:15px;">
+							<input placeholder="请输入你的充值金额" type="text">
+						</div>
+					</td>
+					<td>&emsp;元</td>
+				</tr>
+				<tr>
+					<td>充值方式</td>
+					<td style="text-align:center;">&emsp;<img src="../img/zxlogo.jpg" /></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td style="text-align:center;"><button class="ui primary button">充值</button></td>
+				</tr>
+			</table>
 			<div class = "row-header" style="border-bottom:1px solid #d0d0d0;padding-bottom:10px;"><span class = "header-title">充值记录</span></div>
 			<form id="searchFrm" method="get" action="${pageContext.request.contextPath}/front/customer/FinanceController-czList">
 				<input type="hidden" id="page" name="page" value="${param.page}">

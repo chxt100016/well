@@ -1,213 +1,378 @@
-﻿<%@ include file="../header_new.jsp"%>
+﻿<%@ include file="../header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 
 <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
 <script src="${pageContext.request.contextPath}/statics/libs/ajaxupload.js"></script>
 <style>
-	body{
-		background: #f5f5f5;
-	}
-	div.formDd{
-		width:1000px;
-		text-align: left;
-		background: white;
-		box-shadow: 2px 2px 8px #808080;
-		padding:16px 0px 16px 0px;
-	}
-	div.headDd{
-		margin-left:48px;
-		margin-right:48px;
-		padding-top:32px;
-		margin-bottom: 24px;
-		padding-bottom:12px;
-		border-bottom:solid 2px #d0d0d0;
-		font-size:18px;
-	}
-	div.rowDd{
-		clear: both;
-		height: 50px;
-		line-height: 50px;
-		font-size: 14px;	
-	}
-	
-	
-	.rowDd .labeldd{
-		float: left;
-		width: 100px;
-	}
-	.rowDd .contentdd{
-		float: left;
-		margin-left: 15px;
-	}
-	.backBtn{
-		font-weight: bold;
-    	cursor: pointer;
-    	color: #2482df;
-    	text-align:center;
-    	font-size:16px;
-    	float:left;
-    	margin-top:6px;
-	}
-	.error-div{display:inline; margin-left:10px;}
-	.zizhixinxi{
-		border: dashed 2px #c0c0c0;
-		padding: 8px;
-		margin-right: 16px;
-	}
-	.yingyetxt{
-		position: absolute;
-	    bottom: -50px;
-	    left: -4px;
-	    width: 120px!important;
-	 }
-	 .fileManage{
-		position:absolute;
-		width: 140px!important;
-	    float: left;
-	    height: 140px!important;
-	    position: absolute;
-	    top: 0px;
-	    left: 0px;
-	    cursor:pointer;
-	    opacity: 0;
-	    z-index: 9999;
-	}
-	.companyImg{
-		margin-left:50px;margin-top:10px;width:100px;height:155px;cursor:pointer;padding-left: 24px;float:left;
-	}
-	.ft-lf{
-		float:left
-	}
+	.pd-10 {
+        padding: 10px !important;
+    }
+
+    .pd-lf-30 {
+        padding-left: 30px
+    }
+
+    .ft-sz-15 {
+        font-size: 15px
+    }
+
+    .ft-sz-16 {
+        font-size: 16px
+    }
+
+    .ft-sz-17 {
+        font-size: 17px
+    }
+    #combox{
+        display: none;
+    }
+    #combox2{
+        display: none;
+    }
+     .file {
+            position: relative;
+            display: inline-block;
+            background: #21BA45;
+            border: 1px solid #21BA45;
+            border-radius: 4px;
+            padding: 4px 12px;
+            overflow: hidden;
+            color: #FFF;
+            text-decoration: none;
+            text-indent: 0;
+            line-height: 20px;
+        }
+
+        .file input {
+            position: absolute;
+            font-size: 100px;
+            right: 0;
+            top: 0;
+            opacity: 0;
+        }
 </style>	
-<div style="margin-left: 0px; margin-top:20px;">
-	<div id="ddfkDiv" align="center">
-		<div style="width:1000px;">
-			<div style="border-bottom: solid 1px #e0e0e0; width: 1000px;padding-bottom:12px;margin-top:20px;margin-bottom: 24px;">
+<body>
+    <div class="container1">
+        <div class="container2">
 
-				<div style="text-align:center;font-size:24px;">订单预付款</div>
-			</div>
-		</div>
-		<%--<form id="ddfkForm" action="${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-setFukuan" method="post" enctype="multipart/form-data">--%>
-		<form id="ddfkForm" action="${pageContext.request.contextPath}/customer/payOrder" method="post" enctype="multipart/form-data">
-				<input type="hidden" name="orderId" value="${orderInfo.orderId}" />
-			<input type="hidden" name="saleMoney" value="${orderInfo.confirmPrice*orderInfo.confirmNumber}" />
-			<div class="formDd"  style="width:1000px;">
-	    		<div class="headDd">订单金额:${orderInfo.confirmPrice*orderInfo.confirmNumber}&nbsp;&nbsp;元</div>
-				<div  style = "float : left; width:65%;">
-					<div class="rowDd" style = "width:50%; float:left;">
-					    <div class="labeldd" align="right">账户余额:</div>
-					 	<div class="contentdd">${orderInfo.userMoney}&nbsp;&nbsp;元</div>
-					</div>
-					<div class="rowDd" style = "width:50%; float:left; clear:none;">
-					    <div class="labeldd" align="right">授信余额:</div>
-					 	<div class="contentdd">${orderInfo.userCreditMoney}&nbsp;&nbsp;元</div>
-					</div>
+        
+    <div class="ui container segment">
+        <div class=" ui items column">
+            <div class="item" style="display:block">
+                <div class="ui right floated">
+                    <img src="<c:url value="/resources/wella/front/images/zhifu1.png"/>" alt="">
+                </div>
+            </div>
+            <div class="column">
+                <h4>订单信息</h4>
+                <div class="ui divider"></div>
+            </div>
+            <div class="ui container pd-10 pd-lf-30">
+                <span class="ft-sz-15">订单金额:</span> <span class="ft-sz-17"> ${orderInfo.confirmPrice*orderInfo.confirmNumber}</span>
+                <table class="ui table">
+                    <tr>
+                        <td>订单编号 ${orderInfo.orderNo}</td>
+                        <td>公司名称 ：${orderInfo.sellerUserName}</td>
+                    </tr>
 
-				</div>
+                    <tr>
+                        <td>账户余额 ${orderInfo.userMoney}</td>
+                        <td>授信余额 ${orderInfo.userCreditMoney}</td>
+					</tr>
+					<tr>
+						<td>订单内容:${orderInfo.prodName}</td>
+						<td>吨数：${orderInfo.saleNum}吨</td>
+					</tr>
+                </table>
+            </div>
+            <br>
 
-			
-				<div style = "float : left; width:65%;">
-					<div class="rowDd" style = "width:50%; float:left;">
-						<div class="labeldd" align="right">公司名称:</div>
-						<div class="contentdd">${orderInfo.sellerUserName}</div>
-					</div>
-					<div class="rowDd" style = "width:50%; float:left; clear:none;">
-						<div class="labeldd" align="right">订单编号:</div>
-						<div class="contentdd">${orderInfo.orderNo}</div>
-					</div>
-					<div class="rowDd">
-						<div class="labeldd" align="right">订单内容:</div>
-						<div class="contentdd">${orderInfo.prodName} &nbsp;&nbsp;${orderInfo.saleNum}吨</div>
-					</div>
-				</div>
-				<%--<div style="float:left;width: 34%;padding-top: 35px; " >
-					<span style="margin-left:30%; font-size:16px;">应还金额:</span>
-					<span style="font-size:20px;color:red;">&nbsp;&nbsp;&nbsp;&nbsp;${orderInfo.saleMoney}&nbsp;&nbsp;元</span>
-				</div>--%>
-				<div style = "clear:both;"></div>
-				<div class="headDd">付款方式</div>
-					<div class="rowDd">
-						<div class="contentdd" style="margin-left: 25px;width:900px;">
-							<div class="contentdd" id="contentdd_2"  style="width:100%;border:solid 2px #c0c0c0;" ><label><input type = "radio" name = "zfMethod" value = "2" onclick = "changeZfMethod(2)" style = "margin-left:15px;margin-top:0px;" checked="checked" />&nbsp;&nbsp;余额支付</label></div>
-							<div class="contentdd" id="contentdd_3"  style="width:100%;"><label><input type = "radio" name = "zfMethod" value = "3" onclick = "changeZfMethod(3)" style = "margin-left:15px;margin-top:0px;" />&nbsp;&nbsp;授信余额付款</label></div>
-							<div class="contentdd" id="contentdd_4"  style="width:100%;">
-								<label class="ft-lf">
-									<input type = "radio" name = "zfMethod" value = "4" onclick = "changeZfMethod(4)" style = "margin-left:15px;margin-top:0px;" />&nbsp;&nbsp;组合付款
-								</label>
-								<!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;授信占比&nbsp;&nbsp;<select style="padding-top: 3px;" name="rate" id="zhan_rate">
-									<option value = "10">10%</option>
-									<option value = "30">30%</option>
-									<option value = "50" selected = "selected">50%</option>
-									<option value = "80">80%</option>
-								</select> -->
-								<div style="width:250px;margin-left:30px"  class="ft-lf">
-									<input type="number" name="loan" style="width:100px"  id="loanPay" onchange="CompondPay(this)" onkeyup="value=value.replace(/[^[0-9]*[1-9][0-9]*$]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^[0-9]*[1-9][0-9]*$]/g,''))"> 
-									<span>授信金额</span>
-								</div>
-								<div style="width:250px;"  class="ft-lf"  >
-									<input type="number" style="width:100px"  disabled="disabled" id="balancePay"> <span>余额金额</span>
-									<input type="hidden" name="balance" id="balanceval">
-								</div>
-							</div>
-							<div class="contentdd" id="contentdd_5"  style="width:100%;">
-								<label>
-									<input type = "radio" name = "zfMethod" value = "5" onclick = "changeZfMethod(5)" style = "margin-left:15px;margin-top:0px;" />&nbsp;&nbsp;线下付款
-								</label>
-								<%--<div id="zhifu_certificate" style="float:right;display:none;">
-									<input type="hidden" id="certificateImg" name="certificateImg" />
-									<a id="certificateImgA" class="fancybox" data-fancybox-group="zfxy" style="display:none;">
-										<img id="certificateImgImg" src='' style="width:40px; height:40px; border:none; margin-right:20px;" />
-									</a>
-									<input id="certificateImgFile" name="file" type="file" style="cursor:pointer;" />
-								</div>--%>
-								<div id="zhifu_certificate" style="float:right;display: none">
-									<input type="hidden" id="certificateImg" name="certificateImg" />
-									<a id="certificateImgA" class="fancybox" data-fancybox-group="zfxy">
-										<img id="certificateImgImg" src='' style="width:40px; height:40px; border:none; margin-right:20px;" />
-									</a>
-									<a  id="upload1"  class="btn btn-primary">上传文件</a>
-								</div>
-							</div>
-							<%--<div class="contentdd" id="contentdd_1"  style="width:100%;"><label><input type = "radio" name = "zfMethod" value = "1" onclick = "changeZfMethod(4)" style = "margin-left:15px;margin-top:0px;" />&nbsp;&nbsp;银行转账</label></div>--%>
-						</div>
-					</div>
-					<div class="rowDd" id="zhifu_pass">
-						 <div class="labeldd" align="right" style="margin-left: 10px;">支付密码 :</div>
-						 <div class="contentdd">
-						    <input type = "password" name = "pass" style="margin-bottom: 0px;" id = "pass" placeholder = "请输入支付密码"/>
-						 </div>
-					</div>
-					<div class="rowDd" id="zhifu_card" style="display:none;">
-						 <div class="labeldd" align="right" style="margin-left: 10px;"></div>
-						 <div class="companyImg">
-							<div class="zizhixinxi" id="bank1" style="width:130px;height:130px;float: left;position:relative; margin-top: 10px;border:solid 2px #c0c0c0;" onclick="onSelBanc(1);">
-								<div align=center style="height:70px;background:url('${pageContext.request.contextPath}/resources/wella/front/images/zizhi_icon.png') no-repeat center;"></div>
-								<div class="zizhititle" style="line-height:20px;text-align:center;font-weight:bold;font-size:16px;">中信银行</div>
-								<img id="yingye_imgpath4" class="yingyeimg" style="" src="" />
-							</div>
-						</div>
-						<%--
-						<div class="companyImg">
-							<div class="zizhixinxi"  id="bank2" style="width:130px;height:130px;float: left;position:relative; margin-top: 10px;" onclick="onSelBanc(2);">
-								<div align=center style="height:70px;background:url('${pageContext.request.contextPath}/resources/wella/front/images/zizhi_icon.png') no-repeat center;"></div>
-								<div class="zizhititle" style="line-height:20px;text-align:center;font-weight:bold;font-size:16px;">线下支付</div>
-								<img id="yingye_imgpath4" class="yingyeimg" style="" src="" />
-							</div>
-						</div>
-						--%>
-					</div>
-				<div class="rowDd">
-					<input type="button" class="bluebutton" style="margin-left:45px; margin-top:15px; padding: 8px 16px; font-size:20px; border-radius: 6px; border:none;" value="返回" <%--onclick="goBack();" --%> onclick="javascript:window.history.go(-1);"/>
-					<input type="submit" id="submit" class="bluebutton" style="margin-left:45px; margin-top:15px; padding: 8px 16px; font-size:20px; border-radius: 6px; border:none;" value="确认支付" />
-				</div>
-			</form>
-		</div>
-	</div>
+            <div class="column">
+                <h4>付款方式</h4>
+                <div class="ui divider"></div>
+            </div>
+            <form class="ui form" id="payform"   autocomplete="new-password" >
+                <div class="ui container pd-10 pd-lf-30">
+                    <div class="grouped fields">
+
+                        <div class="field pd-10">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="zfMethod" checked="checked" onchange="bond(1)" value="2">
+                                <label>余额支付</label>
+                            </div>
+                        </div>
+                        <div class="field pd-10">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="zfMethod" onchange="bond(2)" value="3">
+                                <label>授信支付</label>
+                            </div>
+                        </div>
+
+                        <div class="field pd-10">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="zfMethod" id="combinationPay" onchange="bond(3)"  value="4">
+
+                                <label>组合支付</label>
+                                
+                            </div>
+                            <div style="width:300px;margin-bottom:0px" class="inline  pd-10" id="combox">
+                                <div class="field" >
+                                    <label style="display:block;float:left">授信金额:</lebel>
+                                        <input type="text" style="display:none">
+                                    <input type="text" name="loans" style="display:block;float:left" placeholder="输入授信金额"  onchange="moneyCheck(this)">
+                                    <input type="checkbox" name="cb" id="bondc"  style=" visibility:hidden;">
+                                </div>
+                                <div class="">
+                                    <label style="display:block;float:left">余额金额:</lebel>
+                                        <input type="text" name="" id="balancePay" style="display:block;float:left" disabled=true >
+                                </div>
+                             </div>
+                        </div>
+
+                        <div class="field pd-10">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="zfMethod" onchange="bond(4)" id="offLine" value="5">
+                                <label>线下支付</label>
+                            </div>
+                            <div style="width:400px;margin-bottom:0px; height:auto;min-height:200px" class="inline  pd-10" id="combox2" >
+                                <div class="field" >
+                                    <label style="display:block;float:left">上传凭证:</lebel>
+                                    <div class="meta" style=" height: 35px" id="proInfo">
+                                    无文件
+
+                                     </div>
+                                <a href="javascript:;" class="file">
+                                     <i class="upload icon white" ></i>
+                                    <input type="hidden" name="proof" id="prohidden">
+                                    <input type="file" name="" style="display:block;float:left" id="profile" >
+                                    <input type="checkbox" name="proflag" id="proflag"  style=" visibility:hidden;">
+                                </a>
+                                </div>
+                                 <img id="proimg" class="yingyeimg" style="display:none" src=""  width="250px" height="180px"/>
+                               
+                             </div>
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+                <div class="ui divider"></div>
+                <div class="ui container field ">
+                    <div  style="width:100% ">
+                    <span>支付密码：</span> <input type="password" style="width:250px" name="pass" placeholder="别忘记输入密码哦" autocomplete = 'new-password'>
+                    </div>
+                </div>
+                <div class=" ui button primary submit">确定支付</div> <div class="ui button " onclick=" window.location.href ='${pageContext.request.contextPath}/customer/orderList'">返回</div>
+                 
+
+            </form>
+        </div>
+
+    </div>
 </div>
+    </div>
 
-<script type="text/javascript">
-    $(document).ready(function(){
-        new AjaxUpload('#upload1', {
+</body>
+<script>
+    var xm =1000;
+    var payform = $('#payform');
+    const url1="${pageContext.request.contextPath}/customer/checkCzPassword";
+    const url2="${pageContext.request.contextPath}/customer/payOrder";
+    const payMoney=${orderInfo.confirmPrice*orderInfo.confirmNumber};
+    const loanLeft=${orderInfo.userCreditMoney};
+    const banlanceLeft= ${orderInfo.userMoney};
+
+    $('.ui.form')
+        .form({
+            on: 'blur',
+            inline: true,
+            fields: {
+                payment: {
+                    identifier: 'payment',
+                    rules: [
+                        {
+                            type: 'empty',
+                            prompt: '请勾选账户支付方式'
+                        }
+                    ]
+                },
+                combinationPay: {
+                    identifier: 'loans',
+                    depends: 'cb',
+                    rules: [
+                        {
+                            type: 'empty',
+                            prompt: '请输入授信额度'
+                        },
+                        {
+                            type: 'regExp[/^[0-9].*$/]',
+                            prompt:"别小于0哦"
+                        },
+                        {
+                            type: 'number',
+                            prompt:"数字哦"
+                        },
+                      
+                    ]
+
+                },
+                offLine:{
+                   identifier: 'proof',
+                    depends: 'proflag',
+					rules: [
+                        {
+                            type: 'empty',
+                            prompt: '请上传凭证'
+                        },
+                    
+                      
+
+                    ]
+                },
+                password: {
+                    identifier: 'pass',
+                    rules: [
+                        {
+                            type: 'empty',
+                            prompt: '密码'
+                        }
+                    ]
+                }
+
+            },
+            onSuccess: function(e) {
+                //阻止表单的提交
+                // console.log("onSuccess");
+                var allFields = payform.form('get values');
+                var paypass= payform.form('get value','pass');
+                // var zfMethod= payform.form("get value","zfMethod");
+                // var loan = payform.form("get value","loans");
+                // var balance= $("balancePay").value;
+                // console.log(paypass);
+                // console.log($("#balancePay").val());
+                // console.log(allFields);
+               function GetJsonData() {
+                    var json = {
+                        
+                        "zfMethod":payform.form("get value","zfMethod"),
+                        "loan": payform.form("get value","loans"),
+                        "balance": $("#balancePay").val(),
+                        'orderId':${orderInfo.orderId},
+						'saleMoney': ${orderInfo.confirmPrice*orderInfo.confirmNumber},
+                        'certificateImg':$("#prohidden").val()
+                    };
+                    return json;
+                };
+                console.log(GetJsonData());
+                e.preventDefault();
+                $.ajax({
+                     type: "Post",
+                     url: url1,
+                     data:{pass:paypass},
+                    //  contentType:'application/json',
+                     dataType: "json",
+                     success:function(result){
+                         if(result.code==0){
+                             console.log("ok");
+                             //密码无误
+                             
+                            //  $.ajax({
+                            //     type: "Post",
+                            //     url: url2,
+                            //     data:JSON.stringify(GetJsonData()),
+                            //     dataType: "json",
+                            //       contentType:'application/json',
+                            //     success:function(result){
+                            //       if(result.status==1){
+                            //           alert(result.content)
+                            //       }else{
+                            //           alert(result.content)
+                            //       }
+
+                            //     }
+                            //  })
+                       $.post(url2,GetJsonData(),function(result){
+                            if(result.status==1){
+                                      alert(result.content);
+                                       window.location.href = "${pageContext.request.contextPath}/customer/orderList";
+                                  }else{
+                                      alert(result.content);
+                                    
+                                  }
+                         },'json');
+                         }
+                         else if(result.code==500){
+                             alert("朋友你的密码好像有点问题");
+                              console.log("error pass")
+                         }
+                         else{
+                             console.log("fail!");
+							 
+                         }
+                     }
+                })
+
+               
+            }
+
+        });
+
+
+
+    function bond(x) {
+        //    let chk= x.checked;
+        // $("#bondc").removeAttr("checked");
+        if (x ===3) {
+            $('#combox2').hide(1000);
+            $('#combox').show(1000);
+            $("#bondc").prop("checked", "checked");
+            // console.log($("#bondc")); 
+        }
+        else if(x===4){
+            $('#combox').hide(1000);
+			$('#combox2').show(1000);
+			$("#proflag").prop("checked", "checked");
+        }
+         else {
+            	$("#bondc").removeAttr("checked");
+				$("#proflag").removeAttr("checked");
+				$('#combox').hide(1000);
+				$('#combox2').hide(1000);
+        }
+        console.log(x)
+    }
+
+    function moneyCheck(_this){
+        var xmin='';
+        if(loanLeft>=payMoney){
+            xmin=payMoney;
+        }
+        else{
+            xmin= loanLeft;
+        }
+
+          var loanVal= _this.value;
+        
+          if(loanVal >=xmin ) {
+             _this.value =xmin;
+             $("#balancePay").val(0);
+          }
+        
+          else{
+               $("#balancePay").val(payMoney-_this.value);
+          }
+        //   console.log(loanVal);
+    }
+
+
+    // $(function () {
+    //     valid();
+    // })
+
+</script>
+<script>
+       $(document).ready(function(){
+        new AjaxUpload('#profile', {
             action: '${pageContext.request.contextPath}/uploadFile',
             name: 'file',
             autoSubmit:true,
@@ -220,187 +385,31 @@
             },
             onComplete : function(file, data){
                 if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
-				$("#certificateImgImg").attr("src",data.path);
-                $("#certificateImg").val(data.path);
+                // $("#profile").val(data.path);
+				$("#proimg").attr("src",data.path);
+                $("#prohidden").val(data.path);
+                 $("#proInfo").html( "<p>" + file + "</p>" );
+                 $("#proimg").show();
                 return;
             }
         });
+//       function handleFiles(files,filename) {
+//         var filesShow = files.parentNode.parentNode.firstChild.nextElementSibling;
+
+//         if (!filename) {
+//   console.log('null')
+//         }
+//         else {
+//             filesShow.innerHTML = "<p>" + filename + "</p>" + '<i class="file outline icon excel-inco ">' + '</i>';
+
+//         }
+//         console.log(filesShow)
+//         console.log(files.value)
+//     }
+
+
     });
-
-	var bankId = 0;
-	
-	/*$('.fancybox').fancybox();*/
-
-	$(".backBtn").click(function(){
-		goBack();
-	});
-	
-	// 支付方式变径函数
-	function changeZfMethod(index){
-		var zfMethod = $(':radio[name="zfMethod"]:checked').val();
-		$(".contentdd").css("border","none");
-		$("#contentdd_"+zfMethod).css("border","2px solid #c0c0c0");
-		
-		if(zfMethod == '1'){
-			$("#zhifu_pass").hide();
-			$("#zhifu_card").show();
-			$("#zhifu_certificate").hide();
-		}else{
-			$("#zhifu_pass").show();
-			$("#zhifu_card").hide();
-			$("#zhifu_certificate").hide();
-
-			if(zfMethod == '5') $("#zhifu_certificate").show();
-		}
-	}
-
-	function onSelBanc(type){
-		$(".zizhixinxi").css("border","dashed 2px #c0c0c0");
-		$("#bank"+type).css("border","solid 2px #c0c0c0");
-		bankId = parseInt(type) -1 ;
-	}
-	
-	$("#certificateImgFile").change(function(){
-		uploadImage();
-	});
-	
-	function uploadImage(){
- 		var options = {
-            url:  "${pageContext.request.contextPath}/uploadFile",
-            type:"POST",
-            dataType:"json",
-            data:{},
-            success : function(data) {
-          	  if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
-       		  $("#certificateImg").val(data.path);
-       		  $("#certificateImgA").attr("href","${pageContext.request.contextPath}/" + data.path);
-       		  $("#certificateImgImg").attr("src","${pageContext.request.contextPath}/" + data.path);
-       		  $("#certificateImgA").show();
-          	  return;
-          	  //-----------
-            },
-            error : function(data) {
-            	alert(data);
-            }
- 		}
- 		$("#ddfkForm").ajaxSubmit(options);
- 		
- 	}
-	
-	// validate检查
-	$("#ddfkForm").validate({
-	    rules: {
-	    },
-	    messages: {
-	    	
-	    },
-	    errorPlacement: function (error, element) {
-	    	if($(element).closest('div.rowDd').children().filter("div.error-div").length < 1) 
-				$(element).closest('div.rowDd').append("<div class='error-div'></div>");	
-			$(element).closest('div.rowDd').children().filter("div.error-div").append(error);	
-		},
-	    submitHandler: function(form){
-	    	var zfMethod = $(':radio[name="zfMethod"]:checked').val();
-	    	if(zfMethod != "1"){
-	    		var pass = $("input[name='pass']").val();
-	    		if(pass == undefined || pass == ""){
-	    			alert("请输入支付密码");
-	    			return;
-	    		}
-	    		var url = "${pageContext.request.contextPath}/customer/checkCzPassword";
-	    		$.post(url,{"pass":pass},function(data){
-		            if(data=="false"){
-		            	alert("支付密码错误！");
-		            	return;
-		            }
-			    	if(confirm("你要确定操作吗？")){
-				    	$.post($("#ddfkForm").attr("action"),$("#ddfkForm").serialize(),function(data){
-				    		data = $.parseJSON(data);
-							
-				            if(data.status=="1"){
-                                if(zfMethod == "5"){
-                                    alert("提交成功!");
-                                }else{
-                                    alert("付款成功!");
-                                }
-				            	window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-prodOrderList";
-				            } else {
-				            	alert(data.content);
-				            }
-				      	})
-				      	.error(function(data){
-				      		alert("操作失败！")
-				      	});
-			    	}
-		      	});
-	    	}else {
-	    		if (bankId == "0")
-	    			zfMethod = "1";
-	    		else 
-	    			zfMethod = "5";
-	    		if(zfMethod == "1")
-	    		    alert("功能待开发");
-	    		    return;
-	    		$("input[name='zfMethod']").val(zfMethod);
-	    		if(confirm("你要确定操作吗？")){
-				    	$.post($("#ddfkForm").attr("action"),$("#ddfkForm").serialize(),function(data){
-				    		data = $.parseJSON(data);
-				            if(data.status=="1"){
-				                if(zfMethod == "5"){
-				                    alert("提交成功");
-								}else{
-                                    alert("付款成功!");
-								}
-				            	window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-prodOrderList";
-				            } else {
-				            	alert(data.content);
-				            }
-				      	})
-				      	.error(function(data){
-				      		alert("操作失败！")
-				      	});
-			    }
-	    	}
-	    }
-    });
-
-	// 组合支付函数
-	function CompondPay(loan){
-          console.log(loan.value);
-		  
-		  var Balance = $('#balancePay').val;
-		 var Amount = Number(${orderInfo.confirmPrice*orderInfo.confirmNumber});
-		 var LoanAmount = Number( ${orderInfo.userCreditMoney});
-		 var UserMoney = ${orderInfo.userMoney};
-		 var Loans=Number(loan.value);
-		 var Loanmin ;
-		 if(LoanAmount>=Amount ){
-		     Loanmin = Amount;
-		 }else{
-             Loanmin = LoanAmount;
-         }
-              console.log(Loanmin +"最小值");
-		 if(Loans >= Amount){
-			 console.log("太大了");
-			 loan.value = Loanmin;
-			 $('#loanPay').val(Loanmin);
-			//  Balance = Amount - Loans ;	
-			  $('#balancePay').val(0)
-			  $('#balanceval').val(0);	 
-			 }
-			 else{
-				  $('#balancePay').val( Amount - Loans );
-				  $('#balanceval').val(Amount - Loans);
-				  if(Amount - Loans > UserMoney){
-					 $('#balancePay').val( 0 );
-				 	 $('#balanceval').val(0);
-					  alert("余额不足！")
-				  }
-				 
-			 }
-		 
-		 console.log(Loanmin);
-	}
 </script>
+</html>
 
 <%@ include file="../footer.jsp"%>

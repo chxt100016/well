@@ -7,11 +7,10 @@
 	href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
 
 <script src="<c:url value="/resources/library/js/chosen.jquery.js"/>"></script>
-<script
-	src="<c:url value="/resources/library/js/bootstrap-fileupload.js"/>">
-</script>
+<script src="<c:url value="/resources/library/js/bootstrap-fileupload.js"/>"></script>
 
 <style>
+.container1{min-height: 990px;width: 100%;}
 select{width:120px;}
 input {
 	padding: 5px;
@@ -25,83 +24,159 @@ div.error{
 </style>
 
 </head>
-<div id = "content-rect" style="text-align:left;">
+<div class="container1">
+	<div style="margin:40px 0 0 210px;">
+		<div id = "content-rect" style="width:90%;">
+			<div style="border-bottom:solid 1px #d0d0d0;padding-bottom:10px;font-size:15px;font-weight: 600;">企业信息</div>
 
-	<div style="border:solid 1px #d0d0d0;">
-		<div style="border-bottom:solid 1px #d0d0d0;padding:6px;font-size:18px;color:#0557ab;font-weight: bold;">公司信息</div>
-
-		<form action="#" method="post">		
-			<div style="font-size:14px;padding:32px 45px;display: inline-block;width: 90%;">
-				<div>
-					<div style="float:left;margin-right:8px;width:10%;">当前头像: </div>
-					<div id="companyicon" style="float:left;width:12%;height:100px;border:solid 1px #ccc;">
-						<img id="icon" style="margin:8px;" src="${userInfo.companyImg}">
-					</div>
-					<div style="float:left;margin-left:32px;">
-						<div style="font-size:20px;font-weight:bold;margin-bottom:12px;">${user.userName}</div>
-						<div style="margin-bottom:12px;font-size:16px;">
-							<img src="<c:url value="/resources/wella/front/images/seller/lianxiicon1.png"/>">
-							<span style="margin-left:8px;margin-right:42px;">实名认证</span>
-							<img src="<c:url value="/resources/wella/front/images/seller/lianxiicon2.png"/>">
-							<span style="margin-left:8px;margin-right:42px;">手机认证</span>
-							<img src="<c:url value="/resources/wella/front/images/seller/lianxiicon3.png"/>">
-							<span style="margin-left:8px;margin-right:42px;">营业执照已认证</span>
+			<form action="#" method="post">		
+				<div style="font-size:14px;padding:32px 45px;display: inline-block;width: 90%;">
+					<div>
+						<div id="companyicon" style="float:left;width:12%;height:100px;border:solid 1px #ccc;">
+							<img id="icon" style="margin:8px;" src="${userInfo.companyImg}">
 						</div>
-						<div style="margin-bottom:12px;font-size:16px;">
-							<span style="margin-right:12px;">近三个月交易:</span>
-							<span style="color:red;">${threeJyCn}</span>
-							<span style="margin-right:24px;">笔</span>
-							<span style="margin-right:12px;">进行中的交易:</span>
-							<span style="color:red;">${ingJyCn}</span>
-							<span style="margin-right:24px;">笔</span>
+						<div style="float:left;margin-left:32px;">
+							<div style="font-size:20px;font-weight:bold;margin-bottom:12px;">${user.userName}</div>
+							<div style="margin-bottom:12px;font-size:16px;">
+								<img src="<c:url value="/resources/wella/front/images/seller/lianxiicon1.png"/>">
+								<span style="margin-left:8px;margin-right:42px;">实名认证</span>
+								<img src="<c:url value="/resources/wella/front/images/seller/lianxiicon2.png"/>">
+								<span style="margin-left:8px;margin-right:42px;">手机认证</span>
+								<img src="<c:url value="/resources/wella/front/images/seller/lianxiicon3.png"/>">
+								<span style="margin-left:8px;margin-right:42px;">营业执照已认证</span>
+							</div>
+							<div style="margin-bottom:12px;font-size:16px;">
+								<span style="margin-right:12px;">近三个月交易:</span>
+								<span style="color:red;">${threeJyCn}</span>
+								<span style="margin-right:24px;">笔</span>
+								<span style="margin-right:12px;">进行中的交易:</span>
+								<span style="color:red;">${ingJyCn}</span>
+								<span style="margin-right:24px;">笔</span>
+							</div>
 						</div>
 					</div>
 				</div>
+				<div style="margin-top:24px;display: inline-block;width: 90%;padding-left:45px;">
+					<span style="display:inline-block;width:10%;font-size:14px;">所在地区</span>
+					<select class="ui selection dropdown" id="provinceId" name="provinceId" onchange="selRegion(0);">
+						<option>--请选择省--</option>
+						<c:forEach items="${provinceList}" var="item" varStatus="status">
+							<option value="${item.regionId}" <c:if test="${item.regionId==provinceId}" >selected</c:if> >${item.regionName}</option>
+						</c:forEach>
+					</select>
+					<select class="ui selection dropdown" id="cityId" name="cityId" onchange="selRegion(1);">
+						<option>--请选择市--</option>
+						<c:forEach items="${cityList}" var="item" varStatus="status">
+							<option value="${item.regionId}"  <c:if test="${item.regionId==cityId}" >selected</c:if>  >${item.regionName}</option>
+						</c:forEach>
+					</select>
+					<select class="ui selection dropdown" id="regionId" name="regionId" onchange="selRegion(2);">
+						<option>--请选择区--</option>
+						<c:forEach items="${countyList}" var="item" varStatus="status">
+							<option value="${item.regionId}"  <c:if test="${item.regionId==userInfo.zcRegionId}" >selected</c:if> >${item.regionName}</option>
+						</c:forEach>
+					</select>
+				</div>
+				<div style="margin-top:24px;padding-left:45px;display: inline-block;width: 90%;">
+					<span style="display:inline-block;width:10%;font-size:14px;">详细地址</span>
+					<div class="ui input" style="width:38.7%;">
+						<input type="textarea" name="zcXxAddress" id="zcXxAddress" placeholder="请输入详细地址" style="width:40%;" value="${userInfo.zcXxAddress}">
+					</div>
+				</div>
+		
+		
+				<div style="margin-top:24px;padding-left:45px;display: inline-block;width: 90%;">
+					<span style="display:inline-block;width:10%;font-size:14px;">电子邮箱</span>
+					<div class="ui input" style="width:38.7%;">
+						<input type="text" name="userEmail" id="userEmail" placeholder="请输入电子邮箱" style="width:40%;" value="${user.userEmail}">
+					</div>
+				</div>
+				
+				<div style="margin-top:24px;padding-left:45px;display: inline-block;width: 90%;">
+					<span style="display:inline-block;width:10%;font-size:14px;">手机号码</span>
+					<div class="ui input" style="width:38.7%;">
+						<input type="text" name="userPhone" id="userPhone" placeholder="请输入手机号码" style="width:40%;" value="${user.userPhone}">
+					</div>
+				</div>
+				
+				
+				<div style="margin-bottom: 32px;margin-top: 32px;margin-left: 11%;">
+					<!-- <span id="submit" class="bluebutton" style="padding-left: 16px;padding-right: 16px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;" align=center>确认下单</span> -->
+					<input type="submit" id="submit" class=" ui primary button" value="保存">
+					<input type="reset" id="reset" class=" ui button" value="重置">
+				</div>
+				<input type="hidden" name="zc_region_id" id="zc_region_id" value="${userInfo.zcRegionId}"/>
+			</form>
+
+			<div style="border-bottom:solid 1px #d0d0d0;padding-bottom:10px;font-size:15px;font-weight: 600;">资质信息</div>
+			<div style="margin-top:24px;padding-left:45px;width: 90%;">
+				<span>法人身份证：</span>
+				<div class="ui input" style="width:30%;">
+					<input type="text" name="IDcard" id="IDcard" placeholder="请输入法人的身份证号" value="">
+				</div>
+				<form class="ui form">
+	                <div class="ui three column grid">
+	                    <div class="row">
+	                        <div  class=" ui cards">
+	                            <div class="card" style="">
+	                                <div class="content">
+	                                    <div class="header">
+	                                       营业执照
+	                                    </div>                                   
+	                                 </div>
+	                                <div class="extra content field" >
+	                                    <a href="javascript:;" class="file">
+	                                    	<div class="ui button positive " type="file" name="comLic" id="" onchange="handleFiles(this)" >
+												选择文件&emsp;<i class="upload icon white" ></i>
+	                                    	</div>
+	                                         <!-- <span class="white">选择文件</span>
+	                                          <i class="upload icon white" ></i>
+	                                         <input type="file" name="comLic" id="" onchange="handleFiles(this)"> -->
+	                                    </a>                                        
+	                                 </div>                                
+	                            </div>
+	                            <div class="card">
+	                                <div class="content">
+	                                    <div class="header">
+	                                       开户许可
+	                                    </div>   
+	                                 </div>
+	                                <div class="extra content field" >
+	                                    <a href="javascript:;" class="file" >
+	                                    	<div class="ui button positive " type="file" name="opLic" id="" onchange="handleFiles(this)" >
+												选择文件&emsp;<i class="upload icon white" ></i>
+	                                    	</div>
+	                                        <!-- <span class="white">选择文件</span>
+	                                        <i class="upload icon white" ></i>
+	                                        <input type="file" name="opLic" id="" onchange="handleFiles(this)"> -->
+	                                    </a>
+	                                </div>
+	                            </div>
+	                            <div class="card">
+	                                <div class="content">
+	                                    <div class="header">
+	                                       公司章程
+	                                    </div>   
+	                                 </div>
+	                                <div class="extra content field" >
+	                                    <a href="javascript:;" class="file" >
+	                                    	<div class="ui button positive " type="file" name="comArt" id="" onchange="handleFiles(this)" >
+												选择文件&emsp;<i class="upload icon white" ></i>
+	                                    	</div>
+	                                        <!-- <span class="white">选择文件</span>
+	                                        <i class="upload icon white" ></i>
+	                                        <input type="file" name="comArt" id="" onchange="handleFiles(this)"> -->
+	                                    </a>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>                
+	                </div><br>
+
+	                <div class="ui primary submit button">提交申请</div>              
+            	</form>
 			</div>
-			<div style="margin-top:24px;display: inline-block;width: 90%;padding-left:45px;">
-				<span style="display:inline-block;width:10%;font-size:14px;">所在地区</span>
-				<select id="provinceId" name="provinceId" onchange="selRegion(0);">
-					<option>--请选择省--</option>
-					<c:forEach items="${provinceList}" var="item" varStatus="status">
-						<option value="${item.regionId}" <c:if test="${item.regionId==provinceId}" >selected</c:if> >${item.regionName}</option>
-					</c:forEach>
-				</select>
-				<select id="cityId" name="cityId" onchange="selRegion(1);">
-					<option>--请选择市--</option>
-					<c:forEach items="${cityList}" var="item" varStatus="status">
-						<option value="${item.regionId}"  <c:if test="${item.regionId==cityId}" >selected</c:if>  >${item.regionName}</option>
-					</c:forEach>
-				</select>
-				<select id="regionId" name="regionId" onchange="selRegion(2);">
-					<option>--请选择区--</option>
-					<c:forEach items="${countyList}" var="item" varStatus="status">
-						<option value="${item.regionId}"  <c:if test="${item.regionId==userInfo.zcRegionId}" >selected</c:if> >${item.regionName}</option>
-					</c:forEach>
-				</select>
-			</div>
-			<div style="margin-top:24px;padding-left:45px;display: inline-block;width: 90%;">
-				<span style="display:inline-block;width:10%;font-size:14px;">详细地址</span>
-				<input name="zcXxAddress" id="zcXxAddress" placeholder="请输入详细地址" style="width:40%;height: 30px;" value="${userInfo.zcXxAddress}">
-			</div>
-	
-	
-			<div style="margin-top:24px;padding-left:45px;display: inline-block;width: 90%;">
-				<span style="display:inline-block;width:10%;font-size:14px;">电子邮箱</span>
-				<input name="userEmail" id="userEmail" placeholder="请输入电子邮箱" style="width:40%;height: 30px;" value="${user.userEmail}">
-			</div>
-			
-			<div style="margin-top:24px;padding-left:45px;display: inline-block;width: 90%;">
-				<span style="display:inline-block;width:10%;font-size:14px;">手机号码</span>
-				<input name="userPhone" id="userPhone" placeholder="请输入手机号码" style="width:40%;height: 30px;" value="${user.userPhone}">
-			</div>
-			
-			
-			<div style="margin-bottom: 32px;margin-top: 32px;margin-left: 11%;">
-				<!-- <span id="submit" class="bluebutton" style="padding-left: 16px;padding-right: 16px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;" align=center>确认下单</span> -->
-				<input type="submit" id="submit" class="bluebutton" style="padding-left: 24px;padding-right: 24px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;border:none;" value="保存">
-			</div>
-			<input type="hidden" name="zc_region_id" id="zc_region_id" value="${userInfo.zcRegionId}"/>
-		</form>
+		</div>
 	</div>
 </div>
 <script type="text/javascript">
@@ -145,7 +220,7 @@ div.error{
 		errorElement: "div",
 		errorClass: "error"
 	});
-	
+
 	function selRegion(type){
 		var regionId = '';
 		
