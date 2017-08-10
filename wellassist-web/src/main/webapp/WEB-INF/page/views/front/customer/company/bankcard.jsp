@@ -133,8 +133,7 @@
     </div>
 </div>
 <script>
-// $('.ui.form')
-//   .form({
+// $('.ui.form').form({
 //     inline : true,
 //     on     : 'blur'
 //     fields : {

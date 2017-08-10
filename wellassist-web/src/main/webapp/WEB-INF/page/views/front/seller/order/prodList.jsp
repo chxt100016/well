@@ -1,9 +1,13 @@
 <%@ include file="../header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 
-<div id = "content-rect">
-	<div style="border:solid 1px #d0d0d0;font-size:18px;font-weight:bold;color:#0557ab;line-height:36px;">&nbsp;&nbsp;产品列表</div>
+<div class="container1">
+	<div class="container2">
 
+<div id = "content-rect" style="width:90%">
+	 <br>
+   <h4>产品列表</h4>
+   <div class="ui divider"></div>
 	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/front/seller/SellerOrderController-prodList">
 		<input type="hidden" id="page" name="page" value="${param.page}">
 		<input type="hidden" id="prodState" name="prodState" value="${param.prodState}">
@@ -17,94 +21,78 @@
 		</div>
 		--%>
 	</form>
-	
-	<div style="border:solid 1px #d0d0d0;padding:6px;font-size:24px;margin-top:16px;height:30px;">
-		<div style="width:40%;text-align:center;font-size:16px;float:left;">产品详情</div>
-		<div style="width:20%;text-align:center;font-size:16px;float:left;">价格</div>
-		<div style="width:20%;text-align:center;font-size:16px;float:left;">
-			<span class="dropdown">
-				<a data-toggle="dropdown" class="dropdown" style="color: #444444;">状态&nbsp;<b class="icon-angle-down"></b></a>
-				<div class="dropdown-menu">
-					<div onclick="$('#prodState').val('');searchData(1);">全部</div>
-					<div onclick="$('#prodState').val('0');searchData(1);">未提交</div>
-					<div onclick="$('#prodState').val('1');searchData(1);">审核中</div>
-					<div onclick="$('#prodState').val('-2');searchData(1);">审核不通过</div>
-					<div onclick="$('#prodState').val('2');searchData(1);">已上架</div>
-					<div onclick="$('#prodState').val('-1');searchData(1);">已下架</div>
-				</div>
-			</span>
-		</div>
-		<div style="width:20%;text-align:center;font-size:16px;float:left;">操作</div>
+	 <!-- <ul class="ds-bl pd-10 ft-sz-15">
+            <li class="ds-bl fl-lt pd-10  ulSelected" style="padding-left:0px">全部订单</li>
+            <li class="ds-bl fl-lt pd-10">待付款</li>
+            <li class="ds-bl fl-lt pd-10">待发货</li>
+            <li class="ds-bl fl-lt pd-10">待收货</li>
+        </ul> -->
+		<br>
+		
+	<div>
+		<div class="fl-rg pd-20" >
+		   <a href="${pageContext.request.contextPath}/front/seller/SellerOrderController-prodPub">+产品上新</a>
+				
+			</div>
 	</div>
-	<c:forEach var="item" items="${waProdList}">
-		<div style="border:solid 1px #d0d0d0;font-size:24px;margin-top:16px; overflow:auto;">
-				<div style= "border-bottom: solid 1px #E0E0E0; overflow:auto;">
-					<div class="graybox" style="width:40%;height:110px;font-size:14px;float:left; border:none; border-right: solid 1px #d0d0d0;">
-						<div style = "margin-left:10px;line-height:106px; float:left;">
-							<a class="fancybox" href="${item.prodImg}" data-fancybox-group="gallery" title=""><img src="${item.prodImg}"  style="width:80px; height:80px;" onerror = "noExitImg(this, '${pageContext.request.contextPath}');"/></a>
-						</div>
-						<div style = "margin-left:10px;line-height:106px; float:left;">
-							<a href="${pageContext.request.contextPath}/front/seller/SellerOrderController-prodDetail?prodId=${item.prodId}">${item.prodName}</a>
-						</div>
-						<div style = "margin-right:10px;line-height:106px; float:right;color:#A1A2A9;">
-							${item.prodNum}吨
-						</div>	
-					</div>
-					<div class="grayboxwithoutleft" style="width:20%;line-height:106px;height:110px;font-size:14px;float:left;border:none; border-right: solid 1px #d0d0d0; text-align: center;">
-						${item.prodPrice}元
-					</div>
-					<div class="grayboxwithoutleft" style="width:20%;height:110px;font-size:14px;float:left;border:none; border-right: solid 1px #d0d0d0; text-align: center;">
-						<table style="width:100%;height:90px;text-align:center;margin-top:10px;">
-							<tr>
-								<td style="color:#a00;">
-									<c:if test="${item.prodState=='-2'}">审核不通过</c:if>
-									<c:if test="${item.prodState=='-1'}">已下架</c:if>
-									<c:if test="${item.prodState=='0'}">未提交</c:if>
-									<c:if test="${item.prodState=='1'}">审核中</c:if>
-									<c:if test="${item.prodState=='2'}">已上架</c:if>
-								</td>
-							</tr>
-							
-							<c:if test="${item.prodState=='-2' || item.prodState=='0'}">
-								<tr>
-									<td>
-										<a style="cursor:pointer;color:black;" onclick="toURL('setProdState', '${item.prodId}')">提交</a>
-									</td>
-								</tr>
+	<table class="ui basic table ft-sz-14">
+		<thead>
+			 <tr class="grey-4">
+				  <th width="30%">产品详情</th>
+                    <th>品类</th>
+                    <th>单价（元/吨）</th>
+					<th>储备量</th>
+					<th>产品状态</th>
+					<th>操作</th>
+			</tr>
+			<tbody>	
+				<c:forEach var="item" items="${waProdList}">
+					 <tr class="">
+						<td class="right-border">
+                           	<img src="${item.prodImg}" alt="" width="100px" height="74px" class="ds-bl fl-lt">
+                        	<span class="ds-bl fl-lt pd-lf-20 ft-wt-bd " style="padding-top: 25px;width: 190px;"> ${item.prodName}</span>
+						</td>
+						<td class="right-border tx-ct">
+
+						</td>
+						<td class="right-border tx-ct">
+                           ${item.prodPrice}
+						</td>
+						<td class="right-border tx-ct">
+							${item.prodNum}
+						</td>
+						<td class="right-border ">
+							<c:if test="${item.prodState=='-2'}">审核不通过</c:if>
+							<c:if test="${item.prodState=='-1'}">已下架</c:if>
+							<c:if test="${item.prodState=='0'}">未提交</c:if>
+							<c:if test="${item.prodState=='1'}">审核中</c:if>
+							<c:if test="${item.prodState=='2'}">已上架</c:if>
+						</td>
+						<td class=" ">
+							<c:if test="${item.prodState=='-2' || item.prodState=='0'}">				
+										<a style="cursor:pointer;color:black;" onclick="toURL('setProdState', '${item.prodId}')">提交</a>								
 							</c:if>
-							<c:if test="${item.prodState=='-1'}">
-								<tr>
-									<td>
-										<a style="cursor:pointer;color:black;" onclick="toURL('setProdState', '${item.prodId}')">上架</a>
-									</td>
-								</tr>
+							<c:if test="${item.prodState=='-1'}">								
+										<a style="cursor:pointer;color:black;" onclick="toURL('setProdState', '${item.prodId}')">上架</a>									
 							</c:if>
-							<c:if test="${item.prodState=='2'}">
-								<tr>
-									<td>
+							<c:if test="${item.prodState=='2'}">								
 										<a style="cursor:pointer;color:black;" onclick="toURL('setProdState', '${item.prodId}')">下架</a>
-									</td>
-								</tr>
+									
 							</c:if>
-						</table>
-					</div>
-					<div class="grayboxwithoutleft" style="height:110px;font-size:16px; float:right; border:none;text-align:center; width:19%; ">
-						<c:if test="${item.prodState!='1'}">
-							<span class="span_btn" onClick = "editProduct('${item.prodId}')">编辑</span>
-						</c:if>
-						<c:if test="${item.prodState=='-2' or item.prodState=='-1' or item.prodState=='0'}">
-							<span class="span_btn_gray" onClick = "editProduct('${item.prodId}')">删除</span>
-						</c:if>
-					</div>
-				</div>
-		</div>
-	</c:forEach>
-	<c:if test="${waProdList== null || fn:length(waProdList) == 0}">
-		<div style = "margin-top:10px; margin-left:20px; float:left;">没有资料</div>	 
-    </c:if>	
+
+						</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</thead>
+	</table>
+
 	<div class="right-pagination">
 		<%@ include file="../../pagination.jsp"%>
     </div>
+</div>
+
+	</div>
 </div>
 
 <div style="clear:both;width:50%;height:30px;"></div>

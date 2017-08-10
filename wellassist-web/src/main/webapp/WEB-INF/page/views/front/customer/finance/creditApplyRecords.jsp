@@ -21,12 +21,13 @@
     <form id="searchFrm" method="post" action="${pageContext.request.contextPath}/customer/creditApplys">
         <input type="hidden" id="page" name="page" value="${param.page}">
     </form>
-    <div class="container1">
-        <div class="container2">
+<div class="container1">
+    <div style="margin:40px 0 0 210px;">
+        <div id = "content-rect" style="width:90%;">  
 
        
-    <div class="ui container segment" id="app1" style="width:990px; left: 10px;margin-top: -1px;float:left">
-        <h3>申请记录</h3>
+    <div class="ui container" id="app1" style="width:100%; left: 10px;margin-top: -1px;float:left">
+        <h4>申请记录</h4>
         <div class="ui divider"></div>
            <table class="ui celled striped  table ">
             <thead>
@@ -70,12 +71,13 @@
             </tbody>
 
         </table>
-        <div class="right-pagination">
+        <div class="right-pagination" style="text-align:center;">
             <%@ include file="../../pagination.jsp"%>
         </div>
 
     </div>
      </div>
     </div>
+</div>
     </body>
 </html>

@@ -55,11 +55,10 @@
 </head>
 
 <body>
-    <div class="container1">
-        <div class="container2">
-
-       
-    <div class="ui container segment" id="app1" style="width:990px">
+<div class="container1">
+    <div style="margin:40px 0 0 210px;">
+        <div id = "content-rect" style="width:90%;">
+    <div class="ui container" id="app1" style="width:100%;">
         <h3>授信额度申请</h3>
         <div class="ui divider"></div>
         <div class="row">
@@ -83,7 +82,7 @@
                  </table>
              </div>
                 <br>
-            <form class="ui form segment" action="${pageContext.request.contextPath}/customer/applyCreditLimit" method="post">
+            <form class="ui form" action="${pageContext.request.contextPath}/customer/applyCreditLimit" method="post">
                 <div class="ui three column grid">
                     <div class="row">
                         <div class="column field" >
@@ -201,6 +200,7 @@
          </div>
          </div>
     </div>
+</div>
     </body>
         <script>
             $(function () {

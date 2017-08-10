@@ -30,16 +30,17 @@
     <form id="searchFrm" method="post" action="${pageContext.request.contextPath}/customer/loansRepayRecords">
         <input type="hidden" id="page" name="page" value="${param.page}">
     </form>
-    <div class="container1">
-        <div  class="container2">
+<div class="container1">
+    <div style="margin:40px 0 0 210px;">
+        <div id = "content-rect" style="width:90%;"> 
 
         
-        <div class="ui container segment" id="app1" style="left:10px;margin-top:-1px">
-            <h3>还款记录</h3>
+        <div class="ui container" id="app1" style="width: 100%; left:10px;margin-top:-1px">
+            <h4>还款记录</h4>
             <div class="ui divider"></div>
             <c:if test="${not empty loans}">
                 <c:forEach items="${loans}" var="loan">
-            <div class="ui segment">
+            <div class="ui">
                 <br>
                  <h4 class="ui horizontal divider header"><i class="bar chart icon"></i> 借款信息 </h4>
                 <div class="ui equal width grid">
@@ -99,7 +100,7 @@
             </c:if>
             <div class="ui grid">
             <div class=" row">
-            <div class=" right floated five column">
+            <div class=" right floated five column" style="text-align:center;margin-top:20px;">
                 <!-- <div style="float:right"> -->
                 <%@ include file="../../pagination.jsp"%>
                 <!-- </div> -->
@@ -113,6 +114,7 @@
         </div>
         </div>
     </div>
+</div>
     </body>
 
     </html>

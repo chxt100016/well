@@ -36,7 +36,7 @@
 					<span class = "col2">&nbsp;&nbsp;元</span>
 				</div>
 			</div> -->
-			<table style="font-size: 14px;font-weight: 600;margin: 40px 60px 60px;" class="txtab">
+			<table style="font-size: 14px;font-weight: 600;margin: 20px 60px 60px;" class="txtab">
 				<tr>
 					<td>提现金额&emsp;&emsp;&emsp;</td>
 					<td>
