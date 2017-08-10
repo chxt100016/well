@@ -349,7 +349,7 @@ public class SellerServiceImpl implements SellerService {
             updateOrderMap.put("orderId", Long.parseLong(orderId));
             updateOrderMap.put("orderState", 3);
             orderDao.updateOrderByID(updateOrderMap);
-            //如果是第三方物流，将wa_logitics_info表的state置为3
+            //如果是第三方物流，将wa_logitics_info表的state置为4
             if ((int) order.get("is_self_car") == 1) {
                 Map updateLogisticsInfoMap = new HashMap();
                 updateLogisticsInfoMap.put("orderId", Long.parseLong(orderId));

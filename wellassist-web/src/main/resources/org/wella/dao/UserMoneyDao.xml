@@ -46,4 +46,9 @@
         where money_id = #{moneyId,jdbcType=BIGINT}
     </update>
 
+    <select id="singlePoByPrimaryKey" parameterType="long" resultType="map">
+        SELECT *
+        from wa_user_money
+        where money_id=#{moneyId}
+    </select>
 </mapper>

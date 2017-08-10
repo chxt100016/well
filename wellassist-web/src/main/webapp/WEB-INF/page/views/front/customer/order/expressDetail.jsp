@@ -117,9 +117,9 @@
                 </thead>
                 <tbody>
                 <c:forEach items="${info.vehicles}" var="vehicle">
-                    <tr v-for="vehicle in Vehicles " v-cloak>
+                    <tr>
                         <td>
-                            <h2 class="ui center aligned header xs " id="x" onclick="x()" value="{{{vehicle.dr_name}}}">${vehicle.driverName}</h2>
+                            <h2 class="ui center aligned header" >${vehicle.driverName}</h2>
                         </td>
                         <td class="single line ">${vehicle.driverPhone}</td>
                         <td> ${vehicle.vehicleNo}</td>

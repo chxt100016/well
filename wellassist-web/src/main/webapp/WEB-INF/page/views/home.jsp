@@ -180,12 +180,10 @@ function loginSubmit() {
             window.location.href = "${pageContext.request.contextPath}/login/success?type=" + tempData.type;
         } else {
             alert(tempData.content);
-             window.location.href = "${pageContext.request.contextPath}/login/page";
         }
     })
     .error(function(data) {
-        window.location.href = "${pageContext.request.contextPath}/login/page";
-        alert("操作失败！")
+        alert("操作失败！");
     });
 }
 </script>

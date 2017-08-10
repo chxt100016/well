@@ -9,4 +9,6 @@ public interface LogisticsTransDao {
 
     Map<String,Object> singlePoByConditions(Map param);
 
+    void update(Map map);
+
 }

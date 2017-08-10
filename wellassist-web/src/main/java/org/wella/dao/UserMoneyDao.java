@@ -1,5 +1,6 @@
 package org.wella.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import org.wella.entity.Bankcard;
 
@@ -14,4 +15,5 @@ public interface UserMoneyDao {
 
     void update(Map map);
 
+    Map<String,Object> singlePoByPrimaryKey(@Param("moneyId") long moneyId);
 }

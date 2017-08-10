@@ -16,4 +16,65 @@
         </where>
         limit 1
     </select>
+
+    <update id="update" parameterType="map" >
+        update wa_logistics_trans
+        <set >
+            <if test="logisticsInfoId != null" >
+                logistics_info_id = #{logisticsInfoId,jdbcType=BIGINT},
+            </if>
+            <if test="orderId != null" >
+                order_id = #{orderId,jdbcType=BIGINT},
+            </if>
+            <if test="loanId != null" >
+                loan_id = #{loanId,jdbcType=BIGINT},
+            </if>
+            <if test="moneyId != null" >
+                money_id = #{moneyId,jdbcType=BIGINT},
+            </if>
+            <if test="zfMoney != null" >
+                zf_money = #{zfMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="zfSjMoney != null" >
+                zf_sj_money = #{zfSjMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="rate != null" >
+                rate = #{rate,jdbcType=INTEGER},
+            </if>
+            <if test="balanceZfMoney != null" >
+                balance_zf_money = #{balanceZfMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="loanZfMoney != null" >
+                loan_zf_money = #{loanZfMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="zfMethod != null" >
+                zf_method = #{zfMethod,jdbcType=TINYINT},
+            </if>
+            <if test="zfId != null" >
+                zf_id = #{zfId,jdbcType=BIGINT},
+            </if>
+            <if test="bankId != null" >
+                bank_id = #{bankId,jdbcType=BIGINT},
+            </if>
+            <if test="zfName != null" >
+                zf_name = #{zfName,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null" >
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="content1 != null" >
+                content1 = #{content1,jdbcType=VARCHAR},
+            </if>
+            <if test="tjDate != null" >
+                tj_date = #{tjDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="completeDate != null" >
+                complete_date = #{completeDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="transState != null" >
+                trans_state = #{transState,jdbcType=TINYINT},
+            </if>
+        </set>
+        where logistics_trans_id = #{logisticsTransId,jdbcType=BIGINT}
+    </update>
 </mapper>
