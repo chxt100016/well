@@ -13,10 +13,10 @@
 	
 <div id = "content-rect" style="width:90%">
 	 <ul class="ds-bl pd-10 ft-sz-15">
-            <li class="ds-bl fl-lt pd-10  ulSelected" style="padding-left:0px">全部订单</li>
-            <li class="ds-bl fl-lt pd-10">待付款</li>
-            <li class="ds-bl fl-lt pd-10">待发货</li>
-            <li class="ds-bl fl-lt pd-10">待收货</li>
+            <li class="ds-bl fl-lt pd-10 pointer  <c:if test="${empty param.orderState ||(param.orderState != '1'&&param.orderState != '2' && param.orderState != '3')}" >ulSelected</c:if>" onclick="$('#orderState').val('');searchData(1);" style="padding-left:0px">全部订单</li>
+            <li class="ds-bl fl-lt pd-10 pointer <c:if test="${param.orderState == '1'}">ulSelected</c:if>" onclick="$('#orderState').val('1');searchData(1);">待付款</li>
+            <li class="ds-bl fl-lt pd-10 pointer <c:if test="${param.orderState == '2'}">ulSelected</c:if>" onclick="$('#orderState').val('2');searchData(1);">待发货</li>
+            <li class="ds-bl fl-lt pd-10 pointer <c:if test="${param.orderState == '3'}">ulSelected</c:if>" onclick="$('#orderState').val('3');searchData(1);">待收货</li>
         </ul>
 		<br>
 		
@@ -58,7 +58,7 @@
             <tbody>
             <c:forEach var="item" items="${waOrderList}">
                 <tr class="blue-3">
-                    <td colspan="5"><span>${item.orderDate}</span><span>订单号：${item.orderNo}</span></td>
+                    <td colspan="5"><span><fmt:formatDate value="${item.orderDate}" pattern="yyyy-MM-dd HH:mm:ss"/> </span><span>订单号：${item.orderNo}</span></td>
                     <td> <span  class="pointer" onClick="toURL('cancelOrder', '${item.orderId}')" style="font-size:15px"><i class="trash icon"></i></span></td>
                 </tr>
                 <tr>

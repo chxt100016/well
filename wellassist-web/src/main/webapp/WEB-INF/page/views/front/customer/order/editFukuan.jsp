@@ -68,7 +68,9 @@
                 <div class="ui divider"></div>
             </div>
             <div class="ui container pd-10 pd-lf-30">
-                <span class="ft-sz-15">订单金额:</span> <span class="ft-sz-17"> ${orderInfo.confirmPrice*orderInfo.confirmNumber}</span>
+                <span class="ft-sz-15">订单金额:</span> <span class="ft-sz-17">
+                <fmt:formatNumber value="${orderInfo.confirmPrice*orderInfo.confirmNumber}" pattern="#.00" type="number"/>
+                元</span>
                 <table class="ui table">
                     <tr>
                         <td>订单编号 ${orderInfo.orderNo}</td>
@@ -76,9 +78,9 @@
                     </tr>
 
                     <tr>
-                        <td>账户余额 ${orderInfo.userMoney}</td>
-                        <td>授信余额 <c:if test="${userSumCredit!=0}">${orderInfo.userCreditMoney}</c:if>
-                            <c:if test="${userSumCredit==0}">未授信</c:if>
+                        <td>账户余额 ${orderInfo.userMoney}元</td>
+                        <td>授信余额  <c:if test="${userSumCredit!=0}">${orderInfo.userCreditMoney}元</c:if>
+                            <c:if test="${userSumCredit==0}">&nbsp;&nbsp;未授信</c:if>
                         </td>
 					</tr>
 					<tr>
@@ -324,12 +326,25 @@
     function bond(x) {
         //    let chk= x.checked;
         // $("#bondc").removeAttr("checked");
+
+
         if (x ===3) {
+            alert("请申请账户授信");
+            if(${userSumCredit}==0){
+                $.get("${pageContext.request.contextPath}/customer/isCreditApplyAvailable",{},function(r){
+                    if(r.code==0){
+                        url = "${pageContext.request.contextPath}/customer/creditApply";
+                        window.location.href = url;
+                    }else {
+                        alert(r.msg);
+                    }
+                },"json");
+
             $('#combox2').hide(1000);
             $('#combox').show(1000);
             $("#bondc").prop("checked", "checked");
             // console.log($("#bondc")); 
-        }
+        }}
         else if(x===4){
             $('#combox').hide(1000);
 			$('#combox2').show(1000);
@@ -341,6 +356,20 @@
 				$('#combox').hide(1000);
 				$('#combox2').hide(1000);
         }
+        if (x===2){
+            alert("请申请账户授信");
+            if(${userSumCredit}==0){
+                $.get("${pageContext.request.contextPath}/customer/isCreditApplyAvailable",{},function(r){
+                    if(r.code==0){
+                        url = "${pageContext.request.contextPath}/customer/creditApply";
+                        window.location.href = url;
+                    }else {
+                        alert(r.msg);
+                    }
+                },"json");
+            }
+        }
+
         console.log(x)
     }
 

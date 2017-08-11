@@ -85,7 +85,7 @@ public class CreditController {
     @ResponseBody
     public R assignList(@RequestParam Map<String,Object> params){
         Query query=new Query(params);
-        query.put("orderBy","field(loan_state,0,-2,1,2,3,-1) asc");
+        query.put("orderBy","field(loan_state,0,-2,1,2,3,-1),apply_date desc");
         List list=loanDao.listLoanOrderViewByConditions(query);
         ConvertUtil.convertDataBaseMapToJavaMap(list);
         int totalCount=loanDao.listLoanOrderViewByConditionsCount(query);

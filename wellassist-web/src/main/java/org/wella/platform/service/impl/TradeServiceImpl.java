@@ -170,6 +170,7 @@ public class TradeServiceImpl implements TradeService{
                 updateMap.put("zorderId",Long.parseLong(zorderIds[i]));
                 updateMap.put("zorderNum",new BigDecimal(zorderNums[i]));
                 updateMap.put("zorderPrice",new BigDecimal(zorderPrices[i]));
+                updateMap.put("zorderMoney",new BigDecimal(zorderNums[i]).multiply(new BigDecimal(zorderPrices[i])));
                 //如果子订单状态未为已收货，存疑，则修改为确认
                 if (zorderState==11){
                     updateMap.put("zorderState",2);

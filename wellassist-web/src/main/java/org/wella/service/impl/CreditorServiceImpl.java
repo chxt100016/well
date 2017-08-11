@@ -172,6 +172,7 @@ public class CreditorServiceImpl implements CreditorService{
     @Override
     public List<Map<String,Object>> getAssignLoans(Map query) {
         query.put("loanState",1);
+        query.put("orderBy","apply_date desc");
         List<Map<String, Object>> res=loanDao.listLoanOrderViewByConditions(query);
         ConvertUtil.convertDataBaseMapToJavaMap(res);
         return res;
