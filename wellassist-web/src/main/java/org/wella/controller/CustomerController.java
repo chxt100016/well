@@ -696,8 +696,8 @@ public class CustomerController extends BaseController {
       model.addAttribute("userInfo", userinfo);
       model.addAttribute("parentMenuNo", "4");
       model.addAttribute("childMenuNo", "1");
-      String pParam = userinfo.get("zc_region_id").toString().substring(0, 2) + "0000";
-      String cParam = userinfo.get("zc_region_id").toString().substring(0, 4) + "00";
+      String pParam = userinfo.get("zcRegionId").toString().substring(0, 2) + "0000";
+      String cParam = userinfo.get("zcRegionId").toString().substring(0, 4) + "00";
       //省列表
       model.addAttribute("provinceList", this.getChildRegionList(0));
       model.addAttribute("provinceId", pParam);
@@ -706,7 +706,7 @@ public class CustomerController extends BaseController {
       model.addAttribute("cityId", cParam);
       //区列表
       model.addAttribute("countyList", this.getChildRegionList(CommonUtil.getIntFromString(cParam)));
-      model.addAttribute("userName", user.get("user_name"));
+      model.addAttribute("userName", user.get("userName"));
       return "views/front/customer/company/companyInfo.jsp";
    }
 
