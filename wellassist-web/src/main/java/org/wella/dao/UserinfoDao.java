@@ -20,7 +20,7 @@ public interface UserinfoDao {
 
     Userinfo findUserinfoByUserid(@Param("userId")long userId);
 
-    void createWaUserInfo(Map map);
+    Integer createWaUserInfo(Map map);
 
     Map<String,Object> findUserInfoById(@Param("userId")long id);
 
@@ -34,5 +34,7 @@ public interface UserinfoDao {
 
 
     Integer SelectCompanyCount(Query query);
+
+    Integer insertWaUserInfo(Map  map);
 
 }

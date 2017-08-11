@@ -63,13 +63,18 @@ var vm = new Vue({
             vm.reload();
         },
         add: function(){
-            vm.showList = false;
+           /* vm.showList = false;
             vm.title = "新增";
             vm.roleList = {};
             vm.user = {status:1,roleIdList:[]};
 
             //获取角色信息
-            this.getRoleList();
+            this.getRoleList();*/
+
+
+         // window.location.href="./seller/sellerInsert.html"
+
+          window.location.href="./sellerInsert"
         },
         update: function () {
             var userId = getSelectedRow();

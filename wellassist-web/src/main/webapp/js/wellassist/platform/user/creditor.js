@@ -57,6 +57,12 @@ $(function () {
 });
 
 
+
+function insert() {
+    console.log("dsjfn");
+    window.location.href="./creditorInsert"
+}
+
 var vm = new Vue({
     el:'#rrapp',
     data:{
@@ -79,13 +85,17 @@ var vm = new Vue({
             }).trigger("reloadGrid");
         },
         add: function(){
-            vm.showList = false;
+           /* vm.showList = false;
             vm.title = "新增";
             vm.roleList = {};
             vm.user = {status:1,roleIdList:[]};
 
             //获取角色信息
-            this.getRoleList();
+            this.getRoleList();*/
+
+            //window.location.href="./creditorInsert"
+            window.location.href="./creditorInsert.html";
+
         },
         getUser: function(userId){
             $.get("../sys/user/info/"+userId, function(r){

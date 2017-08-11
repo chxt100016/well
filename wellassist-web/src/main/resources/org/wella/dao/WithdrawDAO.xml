@@ -84,7 +84,6 @@
     <select id="withdrawApply" statementType="CALLABLE" parameterType="map" resultType="int">
         <![CDATA[
         call withdrawApply(
-        #{withdrawName,mode=IN,jdbcType=VARCHAR},
         #{withdrawBank,mode=IN,jdbcType=VARCHAR},
         #{account,mode=IN,jdbcType=VARCHAR},
         #{withdrawMoney,mode=IN,jdbcType=DECIMAL},

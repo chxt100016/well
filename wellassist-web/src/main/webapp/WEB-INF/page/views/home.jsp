@@ -8,18 +8,18 @@
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <%--<link href="home.css" rel="stylesheet">--%>
-          <link rel="Stylesheet" type="text/css" href="<c:url value="resources/wella/front/css/index.css "/>" />
+          <link rel="Stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/wella/front/css/index.css" />
           <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
              <%--<link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
             <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
             <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>--%>
-            <script src="<c:url value="resources/wella/front/js/typetype.min.js "/>"></script>
+            <script src="${pageContext.request.contextPath}/resources/wella/front/js/typetype.min.js"></script>
 
         </head>
         <body>
 <div class="ui horizontal list">
     <div class="item">
-        <img class="ui image" href="index.html" src="img/logo.png" width="110" height="auto">
+        <img class="ui image" href="index.html" src="${pageContext.request.contextPath}/img/logo.png" width="110" height="auto">
     </div>
     <div class="item" style="margin:0 30px 0 485px;">
         <div class="ui top secondary pointing menu">
@@ -44,13 +44,13 @@
         <!-- 轮播（Carousel）项目 -->
         <div class="carousel-inner">
             <div class="item active">
-                <img src="img/slide1.jpg" alt="First slide">
+                <img src="${pageContext.request.contextPath}/img/slide1.jpg" alt="First slide">
                 <div class="flex-caption">
                     <h3>维助供应链</h3> 
                 </div> 
             </div>
             <div class="item">
-                <img src="img/slide2.jpg" alt="Second slide">
+                <img src="${pageContext.request.contextPath}/img/slide2.jpg" alt="Second slide">
                 <div class="flex-caption">
                     <h3>专为清洁能源提供优质服务</h3>  
                 </div>
@@ -121,7 +121,7 @@
     <section id="content" style="margin-bottom:50px;">
         <div class="row">           
             <div class="col-lg-6">
-                <img src="img/about-us.jpg" width="600" height="700" />
+                <img src="${pageContext.request.contextPath}/img/about-us.jpg" width="600" height="700" />
             </div>
             <div class="col-lg-6">
                 <iframe src="http://www.map-generator.org/ca443ddb-2746-4679-918b-a9715ff83784/iframe-map.aspx" scrolling="no" width="600px" height="550px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><br>
@@ -146,7 +146,7 @@
     margin: -35px 5px 50px 0;cursor:pointer;"></i>
     <form class="ui form" method="post" id="loginForm" name="loginForm">
         <div class="field" style="text-align:center;">
-            <img src="img/logo.png" width="100" height="50" alt="logo"/>
+            <img src="${pageContext.request.contextPath}/img/logo.png" width="100" height="50" alt="logo"/>
         </div>
         <div class="field">
             <input placeholder="请输入你的用户名" name="username" type="text">

@@ -129,7 +129,12 @@ public class LoginController extends BaseController {
         }else if("1".equals(type)){
             model.addAttribute("user",user);
             model.addAttribute("userInfo",userinfo);
-            String zcAddress=customerServiceImpl.findZcAddress(userinfo);
+            String zcAddress="";
+            if(userinfo.getZcRegionId()!=null){
+                 zcAddress=customerServiceImpl.findZcAddress(userinfo);
+            }else{
+                 zcAddress=userinfo.getZcXxAddress();
+            }
             model.addAttribute("address",zcAddress);
             HashMap queryProd=new HashMap();
             queryProd.put("userId",user.getUserId());
@@ -187,7 +192,7 @@ public class LoginController extends BaseController {
     public String loginOut (){
         HttpSession session = HttpContextUtils.getHttpServletRequest().getSession();
         session = null;
-        return "views/login/login.jsp";
+        return "views/home.jsp";
     }
 
 }

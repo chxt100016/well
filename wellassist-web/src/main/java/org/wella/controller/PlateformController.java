@@ -41,14 +41,12 @@ public class PlateformController {
 
     @ResponseBody
     @RequestMapping("insertCustomer")
-    public R insertCustomer(@RequestParam Map<String,Object> map){
-        platformService.insertCustomer(map);
-        return new R();
-
+    public R insertCustomer(@RequestBody  Map<String,Object> map){
+       boolean result= platformService.insertCustomer(map);
+       if(result==true){
+           return R.ok();
+       }
+       return R.error();
     }
-
-
-
-
 
 }

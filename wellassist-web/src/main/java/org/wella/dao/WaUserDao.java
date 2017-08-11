@@ -16,7 +16,7 @@ public interface WaUserDao {
     List<User> findUser(Map map);
 
     //返回插入的条数
-    void createUser(Map map);
+    Integer  createUser(Map map);
 
     HashMap getCountByName(Map map);
 
@@ -61,4 +61,8 @@ public interface WaUserDao {
     List<Map<String,Object>> listUserByConditions(Map query);
 
     int listUserByConditionsCount(Map<String, Object> map);
+
+
+
+    Integer insertUser(Map map);
 }
