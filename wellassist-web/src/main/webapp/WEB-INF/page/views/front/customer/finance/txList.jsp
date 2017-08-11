@@ -26,8 +26,8 @@
 </style>
 
 </head>
-<div class="container1">
-	<div style="margin:40px 0 0 210px;">
+<div class="container1" id="app">
+	  <div class="container2">
 		<div id = "content-rect" style="width:90%;">		
 			<div class = "row-header" style="border-bottom:1px solid #d0d0d0;padding-bottom:10px;"><span class = "header-title">提现</span></div>
 			<!-- <div class = "row1">
@@ -49,22 +49,25 @@
 				</tr>
 				<tr>
 					<td>提现账户&emsp;&emsp;&emsp;</td>
-					<td style="text-align:center;">303**********3030&emsp;&emsp;</td>
-					<td>（已绑定中信银行）&emsp;&emsp;</td>
+					<!-- <td style="text-align:center;">303**********3030&emsp;&emsp;</td> -->
+					<!-- <td>（已绑定中信银行）&emsp;&emsp;</td> -->
 					<td>
-						<div class="ui selection dropdown">
+						<div class="ui selection dropdown" style="width:250px">
 							<i class="dropdown icon"></i>
 							  <div class="default text">跟换</div>
 							  <div class="menu">
-								 <div class="item" v-for='card in Cards'><img class="ui avatar image"src="<c:url value="/resources/upload/images/bank_mark/zxyh.jpg"/>"s>  {{card.bankName}}*** <span class="bkAcc">{{card.bankAccount}}</span> </div>
+								 <div class="item" v-for='card in Cards'>
+									 <img class="ui avatar image"src="<c:url value="/resources/upload/images/bank_mark/zxyh.jpg"/>"> 
+									  {{card.bankName}} *** <span class="bkAcc">{{card.bankAccount}}</span>
+								</div>
 								</div>
 						</div>
 					</td>
 				</tr>
 				<tr>
 					<td></td>
-					<td></td>
 					<td>&emsp;&emsp;<button class="ui primary button">提现</button></td>
+					<td></td>
 					<td></td>
 				</tr>
 			</table>
@@ -132,6 +135,7 @@
 		</div>
 	</div>
 </div>
+</div>
 
 <script type = "text/javascript">
 	// 功能函数
@@ -142,9 +146,45 @@
 	function setTxState(withdrawState){
 		$("#withdrawState").val(withdrawState);
 		$("#searchFrm").submit();
-	}
-	$('.ui.dropdown')
+	};
+	
+
+const url1= '${pageContext.request.contextPath}/userinfo/getCards';
+const vm = new Vue({
+  el:"#app",
+  data:{
+   Cards:'',
+//    selected:''
+  },
+  created:  function(){
+	    var that =this;
+	  $.get(url1,'',function(data){
+			if(data.code==0){
+			console.log(data.Cards);
+				for (var i = 0; i < data.Cards.length; i++) {
+				var str='' ,str2;
+				str= data.Cards[i].bankAccount;
+				// str = Number(str);
+				str2 = str.substring(str.length-4);
+				data.Cards[i].bankAccount =str2;
+				console.log(data.Cards[i].bankAccount);
+			}
+			 that.Cards= data.Cards
+			}
+
+			else{
+				console.log('出错了')
+			}
+	  },'json')
+  }
+
+})
+</script>
+<script>	
+ $(function(){
+	 $('.ui.dropdown')
   .dropdown()
 ;
+ })
 </script>
 <%@ include file="../footer.jsp"%>

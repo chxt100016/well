@@ -167,9 +167,9 @@
                     <div onclick="window.location.href='${pageContext.request.contextPath}/seller/companyInfo'"  class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '4'&&childMenuNo  == '1' }"> font-white</c:if> ">
                        <span > 公司信息</span>
                     </div>
-                    <div onclick="window.location.href='${pageContext.request.contextPath}/seller/contact'"  class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '4'&&childMenuNo  == '2' }"> font-white</c:if> ">
+                    <!-- <div onclick="window.location.href='${pageContext.request.contextPath}/seller/contact'"  class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '4'&&childMenuNo  == '2' }"> font-white</c:if> ">
                        <span > 联系方式</span>
-                    </div>  
+                    </div>   -->
                     <div onclick="window.location.href='${pageContext.request.contextPath}/seller/password'"  class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '4'&&childMenuNo  == '3' }"> font-white</c:if> ">
                        <span > 修改密码</span>
                     </div> 

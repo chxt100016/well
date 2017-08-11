@@ -1,7 +1,11 @@
 <%@ include file="../header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 
-<div id = "content-rect" style="position:relative;left: 190px;">
+<div class="container1">
+	<div class="container2">
+
+	
+<div id = "content-rect" style="width:90%">
 	<div style="border:solid 1px #d0d0d0;font-size:18px;font-weight:bold;color:#0557ab;line-height:36px;text-align:left;">&nbsp;&nbsp;订单列表</div>
 
 	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/sender/logisticsOrderList">
@@ -13,7 +17,8 @@
 		<div style="width:40%;text-align:center;font-size:16px;float:left;">运输产品</div>
 		<div style="width:20%;text-align:center;font-size:16px;float:left;">运输</div>
 		<div style="width:20%;text-align:center;font-size:16px;float:left;">
-			<span class="dropdown">
+			状态
+			<!-- <span class="dropdown">
 				<a data-toggle="dropdown" class="dropdown" style="color: #444444;">状态&nbsp;<b class="icon-angle-down"></b></a>
 				<div class="dropdown-menu">
 					<div onclick="$('#vehicleState').val('');searchData(1);">全部</div>
@@ -22,12 +27,12 @@
 					<div onclick="$('#vehicleState').val('4');searchData(1);">配送中</div>
 					<div onclick="$('#vehicleState').val('5');searchData(1);">已完成</div>
 				</div>
-			</span>
+			</span> -->
 		</div>
 		<div style="width:20%;text-align:center;font-size:16px;float:left;">操作</div>
 	</div>
 	<c:forEach var="item" items="${info}">
-		<div style="border:solid 1px #d0d0d0;font-size:24px;margin-top:16px; overflow:auto;"">
+		<div style="border:solid 1px #d0d0d0;font-size:24px;margin-top:16px; overflow:auto;">
 			<div style="height:30px;background:#e0e0e0;font-size:16px;">
 				<div style = "margin-left:10px;line-height:30px; color: #807B7B;float:left; font-size:10px;">
 					${item.orderDate} &nbsp;&nbsp;&nbsp;&nbsp; 订单编号：${item.orderNo}
@@ -96,6 +101,8 @@
 	<div class="right-pagination">
 		<%@ include file="../../pagination.jsp"%>
     </div>
+</div>
+</div>
 </div>
 
 <div style="clear:both;width:50%;height:30px;"></div>

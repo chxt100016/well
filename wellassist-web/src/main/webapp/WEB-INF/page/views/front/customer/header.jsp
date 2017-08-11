@@ -185,9 +185,9 @@
                     <div onclick="window.location.href='${pageContext.request.contextPath}/customer/companyInfo'"  class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '4'&&childMenuNo  == '1' }"> font-white</c:if> ">
                        <span > 公司信息</span>
                     </div>
-                    <div onclick="window.location.href='${pageContext.request.contextPath}/customer/contact'"  class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '4'&&childMenuNo  == '2' }"> font-white</c:if> ">
+                    <!-- <div onclick="window.location.href='${pageContext.request.contextPath}/customer/contact'"  class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '4'&&childMenuNo  == '2' }"> font-white</c:if> ">
                        <span > 联系方式</span>
-                    </div>  
+                    </div>   -->
                     <div onclick="window.location.href='${pageContext.request.contextPath}/customer/password'"  class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '4'&&childMenuNo  == '3' }"> font-white</c:if> ">
                        <span > 修改密码</span>
                     </div> 
@@ -213,7 +213,7 @@
             <div class="right menu">
                 <div class="ui dropdown item">${user.userName}&nbsp;您好 <i class="dropdown icon"></i>
                     <div class="menu">
-                        <a class="item">离开</a>
+                        <a class="item" href="${pageContext.request.contextPath}/login/out">离开</a>
 
                     </div>
                 </div>

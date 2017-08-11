@@ -1,7 +1,11 @@
 <%@ include file="../header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+ 
+<div class="container1">
+	<div class="container2">
 
-<div id = "content-rect" style="position:relative;left: 190px;">
+
+<div id = "content-rect" >
 	<!-- <div style="border:solid 1px #d0d0d0;font-size:18px;font-weight:bold;color:#0557ab;line-height:36px;text-align:left;">&nbsp;&nbsp;抢单列表</div> -->
 
 	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/sender/logisticsGrabList">
@@ -21,14 +25,15 @@
 		<div style="width:40%;text-align:center;font-size:16px;float:left;">运输产品</div>
 		<div style="width:20%;text-align:center;font-size:16px;float:left;">运输</div>
 		<div style="width:20%;text-align:center;font-size:16px;float:left;">
-			<span class="dropdown">
+			状态
+			<!-- <span class="dropdown">
 				<a data-toggle="dropdown" class="dropdown" style="color: #444444;">状态&nbsp;<b class="icon-angle-down"></b></a>
 				<div class="dropdown-menu">
 					<div onclick="$('#grabState').val('');searchData(1);">全部</div>
 					<div onclick="$('#grabState').val('-1');searchData(1);">取消</div>
 					<div onclick="$('#grabState').val('0');searchData(1);">未确定</div>
 					<div onclick="$('#grabState').val('1');searchData(1);">确定</div>
-				</div>
+				</div> -->
 			</span>
 		</div>
 		<div style="width:20%;text-align:center;font-size:16px;float:left;">操作</div>
@@ -105,6 +110,8 @@
 	<div class="right-pagination">
 		<%@ include file="../../pagination.jsp"%>
     </div>
+</div>
+	</div>
 </div>
 
 <div style="clear:both;width:50%;height:30px;"></div>

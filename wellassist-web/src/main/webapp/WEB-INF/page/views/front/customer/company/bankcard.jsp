@@ -7,13 +7,10 @@
     <title>银行卡管理</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
-    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script>
-</head>
-<div style="min-height: 990px;width: 100%;">
-    <div style="margin:40px 0 0 210px;">
+    
+<div class="container1">
+    <div class="container2">
+
         <div class="content-rect" style="width:90%;" id="app1">
             <!-- <div style="border-bottom:solid 1px #d0d0d0;padding-bottom:10px;font-size:15px;font-weight: 600;">我的银行卡</div>
             <table>
@@ -128,10 +125,11 @@
         </div>
         <div>
         
-
         
     </div>
 </div>
+ </div>
+
 <script>
 // $('.ui.form').form({
 //     inline : true,
