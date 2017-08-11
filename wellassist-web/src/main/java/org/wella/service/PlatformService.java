@@ -34,7 +34,7 @@ public interface PlatformService {
     void processloanApply(int orderId);
 
 
-    void insertCustomer(Map map);
+    boolean insertCustomer(Map map);
 
 
 

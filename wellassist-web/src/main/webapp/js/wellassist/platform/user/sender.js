@@ -70,6 +70,9 @@ var vm = new Vue({
 
             //获取角色信息
             this.getRoleList();
+
+
+
         },
         update: function () {
             var userId = getSelectedRow();
@@ -124,7 +127,7 @@ var vm = new Vue({
                 }
             });
         },
-        getUser: function(userId){
+   /*     getUser: function(userId){
             $.get("../sys/user/info/"+userId, function(r){
                 vm.user = r.user;
             });
@@ -139,7 +142,7 @@ var vm = new Vue({
                 vm.user = r.user;
             });
             vm.showList = false;
-        },
+        },*/
         reload: function (event) {
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam','page');

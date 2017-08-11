@@ -109,16 +109,20 @@
             }).trigger("reloadGrid");
             },
             add: function() {
-                vm.showList = false;
-                vm.title = "新增";
-                vm.roleList = {};
-                vm.user = {
-                    status: 1,
-                    roleIdList: []
-                };
+                /*vm.showList = false;
+                 vm.title = "新增";
+                 vm.roleList = {};
+                 vm.user = {
+                 status: 1,
+                 roleIdList: []
+                 };
+                 //获取角色信息
+                 this.getRoleList();*/
 
-                //获取角色信息
-                this.getRoleList();
+               // window.location.href="./customerInsert";
+               window.location.href="./customerInsert.html"
+
+
             },
             update: function(userId) {
 
@@ -190,3 +194,11 @@
             }
         }
     });
+
+
+
+function  insert() {
+    console.log("dshbfh");
+    console.log("dshbfh");
+    window.location.herf="customer/customerInsert.html";
+}

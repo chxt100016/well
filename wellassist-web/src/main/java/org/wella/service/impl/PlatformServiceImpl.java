@@ -2,6 +2,7 @@ package org.wella.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.wella.common.utils.CommonUtil;
 import org.wella.dao.UserinfoDao;
 import org.wella.dao.WaUserDao;
 import org.wella.entity.Order;
@@ -86,16 +87,18 @@ public class PlatformServiceImpl implements PlatformService {
 
 
     @Override
-    public void insertCustomer(Map map) {
-        waUserDao.createUser(map);
-        userinfoDao.createWaUserInfo(map);
-
-
-
-
-
-
-
-
+    public boolean insertCustomer(Map map) {
+        String zcXxAddress=(String)map.get("address");
+        String czPass=(String)map.get("czPass");
+        map.put("caPass", CommonUtil.MD5(czPass));
+        map.put("zcXxAddress",zcXxAddress);
+        Integer result=waUserDao.insertUser(map);
+        if(result>0){
+           Integer result1=userinfoDao.insertWaUserInfo(map);
+           if(result1>0){
+               return true;
+           }
+        }
+        return false;
     }
 }

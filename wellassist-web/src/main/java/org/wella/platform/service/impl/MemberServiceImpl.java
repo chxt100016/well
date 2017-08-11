@@ -45,12 +45,17 @@ public class MemberServiceImpl implements MemberService{
     public Map<String, Object> findUserInfoById(long id) {
         Map res=userinfoDao.findUserInfoById(id);
         ConvertUtil.convertDataBaseMapToJavaMap(res);
-        String zcRegionId=(String)res.get("zcRegionId");
-        String zcXxAddress=(String)res.get("zcXxAddress");
-        HashMap query=new HashMap();
-        query.put("regionId",zcRegionId);
-        String address=regionDao.getRegionDetailName(query)+" "+zcXxAddress;
-        res.put("address",address);
+        if(res.get("zcRegionId")!=null&&res.get("zcXxAddress")!=null){
+            String zcRegionId=(String)res.get("zcRegionId");
+            String zcXxAddress=(String)res.get("zcXxAddress");
+            HashMap query=new HashMap();
+            query.put("regionId",zcRegionId);
+            String address=regionDao.getRegionDetailName(query)+" "+zcXxAddress;
+            res.put("address",address);
+        }else{
+            String zcXxAddress=(String)res.get("zcXxAddress");
+            res.put("address",zcXxAddress);
+        }
         return res;
     }
 

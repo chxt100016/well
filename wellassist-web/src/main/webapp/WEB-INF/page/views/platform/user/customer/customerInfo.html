@@ -281,6 +281,7 @@
             onComplete : function(file, data){
                 if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
                 vm.user.companyYyZzImg=data.path;
+                console.log(data.path);
                 return;
             }
         });

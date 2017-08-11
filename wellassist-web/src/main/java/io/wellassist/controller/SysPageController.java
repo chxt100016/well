@@ -33,4 +33,7 @@ public class SysPageController {
 		return "platform/" + url + ".html";
 	}
 
+
+
+
 }
