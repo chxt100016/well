@@ -10,13 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.wella.entity.CreditRecord;
-import org.wella.entity.Message;
-import org.wella.entity.User;
-import org.wella.entity.Userinfo;
+import org.wella.dao.BankcardDao;
+import org.wella.entity.*;
 import org.wella.service.MessageService;
+import org.wella.service.UserinfoService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,100 +26,145 @@ import java.util.Map;
  */
 
 @Controller
-@RequestMapping(value = {"/mes/"})
-public class MessageController {
-    Logger logger = LoggerFactory.getLogger(MessageController.class);
+@RequestMapping(value = {"/userinfo/"})
+public class UserinfoController {
+    Logger logger = LoggerFactory.getLogger(UserinfoController.class);
 
     @Autowired
-    private MessageService messageServicesk;
+    private UserinfoService userinfoServiceImpl;
 
-    /**
-     * 消息列表
-     * @param params
-     * @param model
-     * @return
-     */
-    @RequestMapping("message")
-    public String message(@RequestParam Map<String, Object> params, Model model){
-        HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
-        User user = (User) httpSession.getAttribute("user");
-        Query query = new Query(params);
-            List<Message> message = messageServicesk.getMessageList(query);
-        Message m = new Message();
+    @Autowired
+    private BankcardDao bankcardDao;
 
-        model.addAttribute("parentMenuNo", "3");
-        model.addAttribute("childMenuNo", "1");
-        model.addAttribute("userName", user.getUserName());
-        model.addAttribute("message",message);
-        return "views/front/seller/news/message.jsp";
-    }
-
-
-    /**
-     * 信誉度
-     * @param params
-     * @param model
-     * @return
-     */
-    @RequestMapping("creditrecord")
-    public String getCreditRecord(@RequestParam Map<String, Object> params, Model model){
-        HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
-        User user = (User) httpSession.getAttribute("user");
-        Query query = new Query(params);
-        List<CreditRecord> creditrecordList = messageServicesk.getCreditRecordList(query);
-        Message m = new Message();
-
-        model.addAttribute("parentMenuNo", "3");
-        model.addAttribute("childMenuNo", "1");
-        model.addAttribute("userName", user.getUserName());
-        model.addAttribute("creditrecordList",creditrecordList);
-        return "views/front/seller/news/creditrecord.jsp";
-    }
-
-
-    /**
-     * 征信列表
-     * @param params
-     * @return
-     */
+    @RequestMapping(value = "updateCompanyInfo")
     @ResponseBody
-    @RequestMapping("creditcalist")
-    public R getCreditCulationList(@RequestParam Map<String, Object> params){
-        Query query = new Query(params);
-        List <CreditRecord>creditrecordList = messageServicesk.getCreditRecordList(query);
-        int total = messageServicesk.queryRecordCount(query);
-        PageUtils pageUtil = new PageUtils(creditrecordList, total, query.getLimit(), query.getPage());
-
-        return R.ok().put("page",pageUtil);
-    }
-
-    /*@ResponseBody
-    @RequestMapping("tocreditcal/{id}")
-    public R tocreditcal(@PathVariable("id") Long id){
-        CreditRecord creditrecord = messageServicesk.getCreditRecord(id);
-        return R.ok().put("creditrecord",creditrecord);
-    }*/
-
-
-    /**
-     *页面转向
-     * @param userId
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping("tocreditcal/{userId}")
-    public R tocreditcal(@PathVariable("userId") Long userId){
-        Userinfo userinfo = messageServicesk.getCreditRecord(userId);
-        return R.ok().put("userinfo",userinfo);
-    }
-
-    /**
-     * 保存征信计算信息
-     */
-    @ResponseBody
-    @RequestMapping("creditcalsave")
-    public R save(@RequestBody CreditRecord creditRecord){
-        messageServicesk.addCreditRecord(creditRecord);
+    public R updateCompanyInfo(@RequestParam Map params, HttpServletRequest request){
+        User user=(User)request.getSession().getAttribute("user");
+        params.put("userId",user.getUserId());
+        try {
+            userinfoServiceImpl.updateCompanyInfo(params);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error();
+        }
         return R.ok();
+    }
+
+    @RequestMapping("checkOrgPass")
+    @ResponseBody
+    public R checkOrgPass(@RequestParam("oldPass") String oldPass,HttpServletRequest request){
+        User user=(User)request.getSession().getAttribute("user");
+        long userId=user.getUserId();
+        boolean flag= false;
+        try {
+            flag = userinfoServiceImpl.checkOrgPass(userId,oldPass,0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error();
+        }
+        return R.ok().put("flag",flag);
+    }
+
+    @RequestMapping("checkPayOrgPass")
+    @ResponseBody
+    public R checkPayOrgPass(@RequestParam("oldPass") String oldPass,HttpServletRequest request){
+        User user=(User)request.getSession().getAttribute("user");
+        long userId=user.getUserId();
+        boolean flag= false;
+        try {
+            flag = userinfoServiceImpl.checkOrgPass(userId,oldPass,1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error();
+        }
+        return R.ok().put("flag",flag);
+    }
+
+    @RequestMapping("updatePayNewPass")
+    @ResponseBody
+    public R updatePayNewPass(@RequestParam("payNewpass")String payNewpass,HttpServletRequest request){
+        User user=(User)request.getSession().getAttribute("user");
+        long userId=user.getUserId();
+        try {
+            userinfoServiceImpl.updatePayNewPass(userId,payNewpass);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error();
+        }
+        return R.ok();
+    }
+
+    @RequestMapping("updateLoginNewPass")
+    @ResponseBody
+    public R updateLoginNewPass(@RequestParam("loginNewpass")String loginNewPass,HttpServletRequest request){
+        User user=(User)request.getSession().getAttribute("user");
+        long userId=user.getUserId();
+        try {
+            userinfoServiceImpl.updateLoginNewPass(userId,loginNewPass);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error();
+        }
+        return R.ok();
+    }
+
+    /**
+     * 添加银行卡的异步请求
+     *
+     * @return
+     */
+    @RequestMapping("addBankcard")
+    @ResponseBody
+    public R addBankcard(@RequestParam Map<String, Object> map) {
+        User user = (User) HttpContextUtils.getAttribute("user");
+        long userId = user.getUserId();
+        map.put("userId", userId);
+        map.put("addTime", new Date());
+        try {
+            long key = bankcardDao.addCard(map);
+            return R.ok().put("content", "添加成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error();
+        }
+    }
+
+
+    /**
+     * 添加银行卡的异步请求
+     *
+     * @return
+     */
+    @RequestMapping("getCards")
+    @ResponseBody
+    public R getCards(@RequestParam Map<String, Object> map) {
+        User user = (User) HttpContextUtils.getAttribute("user");
+        long userId = user.getUserId();
+        try {
+            List<Bankcard> cards = bankcardDao.getCardListByUserId(userId);
+            return R.ok().put("content", "添加成功").put("Cards", cards);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error();
+        }
+    }
+
+    /**
+     * 添加银行卡的异步请求
+     *
+     * @return
+     */
+    @RequestMapping("delBankcard")
+    @ResponseBody
+    public R delBankcard(@RequestParam Map<String, Object> map) {
+        User user = (User) HttpContextUtils.getAttribute("user");
+        long userId = user.getUserId();
+        try {
+            int count = bankcardDao.delCard(Long.parseLong(map.get("bankcardId").toString()));
+            return R.ok().put("content", "删除成功").put("count", count);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error();
+        }
     }
 }

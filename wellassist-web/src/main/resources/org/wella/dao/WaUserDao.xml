@@ -172,13 +172,13 @@
             <if test="userPhone != null" >
                 user_phone = #{userPhone,jdbcType=VARCHAR},
             </if>
-            <if test="userSeatPhone != null" >
+            <if test='userSeatPhone != null and userSeatPhone.trim()!="" '>
                 user_seat_phone = #{userSeatPhone,jdbcType=VARCHAR},
             </if>
-            <if test="userEmail != null" >
+            <if test='userEmail != null and userEmail.trim()!= "" ' >
                 user_email = #{userEmail,jdbcType=VARCHAR},
             </if>
-            <if test="legalIdCard != null" >
+            <if test='legalIdCard != null and legalIdCard.trim()!="" ' >
                 legal_id_card = #{legalIdCard,jdbcType=VARCHAR},
             </if>
             <if test="userPass != null" >

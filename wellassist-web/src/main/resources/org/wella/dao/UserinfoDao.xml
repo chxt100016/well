@@ -47,9 +47,6 @@
     <update id="updateUserinfoByUserId" parameterType="java.util.Map">
         UPDATE wa_userinfo
         <set >
-            <if test="userId != null" >
-                user_id = #{userId,jdbcType=BIGINT},
-            </if>
             <if test="companyType != null" >
                 company_type = #{companyType,jdbcType=TINYINT},
             </if>
@@ -59,34 +56,34 @@
             <if test="companyName != null" >
                 company_name = #{companyName,jdbcType=VARCHAR},
             </if>
-            <if test="companyImg != null" >
+            <if test='companyImg != null and companyImg.trim() != "" ' >
                 company_img = #{companyImg,jdbcType=VARCHAR},
             </if>
             <if test="companyYyZz != null" >
                 company_yy_zz = #{companyYyZz,jdbcType=VARCHAR},
             </if>
-            <if test="companyYyZzImg != null" >
+            <if test='companyYyZzImg != null companyYyZzImg.trim() != "" ' >
                 company_yy_zz_img = #{companyYyZzImg,jdbcType=VARCHAR},
             </if>
             <if test="companyKhXkz != null" >
                 company_kh_xkz = #{companyKhXkz,jdbcType=VARCHAR},
             </if>
-            <if test="companyXkzImg != null" >
+            <if test='companyXkzImg != null and companyXkzImg.trim()!=""' >
                 company_xkz_img = #{companyXkzImg,jdbcType=VARCHAR},
             </if>
             <if test="companyTxkz != null" >
                 company_txkz = #{companyTxkz,jdbcType=VARCHAR},
             </if>
-            <if test="companyTxkzImg != null" >
+            <if test='companyTxkzImg != null and companyTxkzImg.trim()!=""' >
                 company_txkz_img = #{companyTxkzImg,jdbcType=VARCHAR},
             </if>
             <if test="companySh != null" >
                 company_sh = #{companySh,jdbcType=VARCHAR},
             </if>
-            <if test="zcRegionId != null" >
+            <if test='zcRegionId != null and zcRegionId.trim() != ""' >
                 zc_region_id = #{zcRegionId,jdbcType=VARCHAR},
             </if>
-            <if test="zcXxAddress != null" >
+            <if test='zcXxAddress != null and zcXxAddress.trim() != ""' >
                 zc_xx_address = #{zcXxAddress,jdbcType=VARCHAR},
             </if>
             <if test="companyLpName != null" >
@@ -98,11 +95,14 @@
             <if test="bgXxAddress != null" >
                 bg_xx_address = #{bgXxAddress,jdbcType=VARCHAR},
             </if>
-            <if test="companyLxr != null" >
+            <if test='companyLxr != null and companyLxr.trim() != ""' >
                 company_lxr = #{companyLxr,jdbcType=VARCHAR},
             </if>
-            <if test="companyLxrPhone != null" >
+            <if test='companyLxrPhone != null and companyLxrPhone.trim() != ""' >
                 company_lxr_phone = #{companyLxrPhone,jdbcType=VARCHAR},
+            </if>
+            <if test='companyLxrEmail != null and companyLxrEmail.trim() != ""' >
+                company_lxr_email = #{companyLxrEmail,jdbcType=VARCHAR},
             </if>
             <if test="otherInfo != null" >
                 other_info = #{otherInfo,jdbcType=VARCHAR},
