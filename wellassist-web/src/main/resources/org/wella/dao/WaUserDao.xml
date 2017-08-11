@@ -70,6 +70,10 @@
 
     </select>
 
+
+
+    <!-- supply_id=${supply_id}  -->
+
     <insert id="createUser" parameterType="map">
         		insert into wa_user
         		set user_type = #{user_type},
@@ -83,11 +87,26 @@
         		user_reg_no = #{user_reg_no},
         		user_name = #{user_name},
         		activity_code = #{activity_code},
-                supply_id=${supply_id}
+                supply_id=#{supply_id}
         <selectKey keyProperty="newId" resultType="String">
             select last_insert_id()
         </selectKey>
     </insert>
+
+
+
+
+    <insert id="insertUser" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+        insert into wa_user (user_id,user_type,create_date,user_pass,user_email,user_account,user_seat_phone,
+          legal_id_card,user_reg_no,user_name,activity_code,supply_id,user_state,activity_state
+        ) values (#{userId},#{userType},NOW(),#{caPass},#{userEmail},#{userAccount},#{userSeatPhone},#{legalIdCard},
+        #{userRegNo},#{userName},#{activityCode},#{supplyId},1,1)
+    </insert>
+
+
+
+
+
 
     <select id="getCountByName" parameterType="java.util.Map"  resultType = "java.util.HashMap"  >
         SELECT COUNT(*) cn

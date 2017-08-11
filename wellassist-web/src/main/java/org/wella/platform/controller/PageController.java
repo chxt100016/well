@@ -166,4 +166,45 @@ public class PageController extends BaseController {
         model.addAttribute("provinceList", this.getChildRegionList(0));
         return "views/platform/product/edit.html";
     }
+
+
+
+    @RequestMapping("user/customerInsert")
+    public String customerInsert(Model model){
+        return "views/platform/user/customer/customerInsert.html";
+    }
+
+
+
+    @RequestMapping("user/sellerInsert")
+    public String sellerInsert(Model model){
+        return  "views/platform/user/seller/sellerInsert.html";
+    }
+
+
+    @RequestMapping("user/creditorInsert")
+    public String creditorInsert(Model model){
+        return  "views/platform/user/creditor/creditorInsert.html";
+    }
+
+
+    @RequestMapping("user/customer")
+    public String returnCustomer(Model model){
+        return "views/platform/user/customer.html";
+    }
+
+
+
+    @RequestMapping("user/seller")
+    public String returnSeller(Model model){
+        return "views/platform/user/seller.html";
+    }
+
+
+
+    @RequestMapping("user/creditor")
+    public String returnCreditor(Model model){
+        return "views/platform/user/creditor.html";
+    }
+
 }
