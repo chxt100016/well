@@ -689,7 +689,9 @@ public class CustomerController extends BaseController {
    public String companyInfo(Model model) {
       HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
       Map user = userDao.singleUserByPrimaryKey(((User) httpSession.getAttribute("user")).getUserId());
+      ConvertUtil.convertDataBaseMapToJavaMap(user);
       Map userinfo = userinfoDao.singleUserinfoByPrimaryKey(((Userinfo) httpSession.getAttribute("userInfo")).getUserId());
+      ConvertUtil.convertDataBaseMapToJavaMap(userinfo);
       model.addAttribute("user", user);
       model.addAttribute("userInfo", userinfo);
       model.addAttribute("parentMenuNo", "4");
