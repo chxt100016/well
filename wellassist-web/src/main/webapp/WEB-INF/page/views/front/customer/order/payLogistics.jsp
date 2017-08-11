@@ -78,7 +78,9 @@
 
                     <tr>
                         <td>账户余额 ${logisticsInfo.userMoney}</td>
-                        <td>授信余额 ${logisticsInfo.userCreditMoney}</td>
+                        <td>授信余额  <c:if test="${userSumCredit!=0}">${logisticsInfo.userCreditMoney}</c:if>
+                            <c:if test="${userSumCredit==0}">未授信</c:if>
+                        </td>
 					</tr>
 					<tr>
 						<td>订单内容:>${logisticsInfo.prodName}</td>

@@ -405,6 +405,7 @@ public class CustomerController extends BaseController {
       Map<String, Object> orderInfo = customerServiceImpl.getPayOrderPageInfo(Long.parseLong(orderId), user.getUserId());
       model.addAttribute("orderInfo", orderInfo);
       model.addAttribute("user", user);
+      model.addAttribute("userSumCredit",customerServiceImpl.getUserCreditSjMoney(user.getUserId()));
       model.addAttribute("parentMenuNo", "2");
       return "views/front/customer/order/editFukuan.jsp";
    }
@@ -415,6 +416,7 @@ public class CustomerController extends BaseController {
       Map<String, Object> logisticsInfo = customerServiceImpl.getPayLogisticsPageInfo(Long.parseLong(logisticsInfoId), user.getUserId());
       model.addAttribute("logisticsInfo", logisticsInfo);
       model.addAttribute("user", user);
+      model.addAttribute("userSumCredit",customerServiceImpl.getUserCreditSjMoney(user.getUserId()));
       model.addAttribute("parentMenuNo", "2");
       return "views/front/customer/order/payLogistics.jsp";
    }

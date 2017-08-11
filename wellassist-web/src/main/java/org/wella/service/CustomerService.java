@@ -181,7 +181,7 @@ public interface CustomerService {
     Map<String,Object> getCurrentCredit(long userId);
 
     /**
-     * 得到用户的授信额度
+     * 得到用户的授信总额度
      * @param userId
      * @return
      */
