@@ -142,7 +142,7 @@ public class UserinfoController {
         long userId = user.getUserId();
         try {
             List<Bankcard> cards = bankcardDao.getCardListByUserId(userId);
-            return R.ok().put("content", "添加成功").put("Cards", cards);
+            return R.ok().put("Cards", cards);
         } catch (Exception e) {
             e.printStackTrace();
             return R.error();
