@@ -187,7 +187,7 @@ public class LoginController extends BaseController {
     public String loginOut (){
         HttpSession session = HttpContextUtils.getHttpServletRequest().getSession();
         session = null;
-        return "views/login/login.jsp";
+        return "views/home.jsp";
     }
 
 }
