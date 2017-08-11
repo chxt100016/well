@@ -55,85 +55,130 @@
             display: block;
             float: left
         }
+        .ui .table tr th{
+            background-color:#daf3ff;
+        }
     </style>
 </head>
 
 <body>
-    <div class="ui container segment" id="content-rect" style="margin-top:0px;left: 10px;" >
-        <h3 class="ui header">物流详情</h3>
-        <div class="ui divider"></div>
-        <div class="column ">
-            <c:if test="${info.isSelfCar==0}">
-                <div class="fl-lf " style="width: 80%;">取货方式：买家自提</div>
-            </c:if>
-            <c:if test="${info.isSelfCar==1}">
-                <div class="fl-lf " style="width: 80%;">
-                <div  class="fl-lf "><span class="a-color-base">物流公司名称：</span> </div>
-                <div class="fl-rg "> <span >${info.senderName}</span></div>
+<div class="container1">
+    <div style="margin:40px 0 0 210px;">
+        <div id = "content-rect" style="width:90%;">
+            <div class="ui container" id="content-rect" style="margin-top:0px;left: 10px;width:100%;" >
+                <h4 class="ui header">物流详情</h4>
+                <div class="ui divider"></div>
+                <!-- <table>
+                    <tr>
+                        <c:if test="${info.isSelfCar==0}">
+                            <td>取货方式：买家自提</td>
+                        </c:if>
+                    </tr>
+                    <tr>
+                        <c:if test="${info.isSelfCar==1}">
+                            <td>物流公司名称：</td>
+                            <td>${info.senderName}</td>
+                        </c:if>
+                    </tr>
+                    <tr>
+                        <td>&emsp;&emsp;发货时间：</td>
+                        <td><fmt:formatDate value="${info.deliverDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
+                    </tr>
+                    <tr>
+                        <td>&emsp;&emsp;收货时间：</td>
+                        <td><fmt:formatDate value="${info.deliverDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
+                    </tr>
+                    <tr>
+                        <td>&emsp;&emsp;发货地址：</td>
+                        <td>${info.fromAddress}</td>
+                    </tr>
+                    <tr>
+                        <td>&emsp;&emsp;收货地址：</td>
+                        <td>${info.toAddress}</td>
+                    </tr>
+                    <tr>
+                        <td>&ensp;&ensp;买家联系人：</td>
+                        <td>${info.customerContacts}</td>
+                    </tr>
+                    <tr>
+                        <td>买家联系电话：</td>
+                        <td>${info.customerConTel}</td>
+                    </tr>
+                </table> -->
+                <div class="column" style="font-size: 14px;font-weight: 600;margin: 20px 0 40px 60px;line-height: 25px;">
+                    <c:if test="${info.isSelfCar==0}">
+                        <div class="fl-lf ">取货方式：买家自提</div><br>
+                    </c:if>
+                    <c:if test="${info.isSelfCar==1}">
+                        <div class="fl-lf ">
+                        <div  class="fl-lf "><span class="a-color-base">物流公司名称：</span> </div>
+                        <div class="fl-rg "> <span >${info.senderName}</span></div>
+                        </div><br>
+                    </c:if>
+
+                    <div class="fl-lf "> 
+                        <div  class="fl-lf "><span class="a-color-base">发货时间：</span> </div>
+                        <div class="fl-rg "> <span ><fmt:formatDate value="${info.deliverDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate> </span></div>
+                    </div><br>
+
+                    <div class="fl-lf ">
+                        <div  class="fl-lf "><span class="a-color-base">收货时间：</span> </div>
+                        <div class="fl-rg "> <span ><fmt:formatDate value="${info.receiveDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span> </div>
+                     </div><br>
+                    <div class="fl-lf ">
+                        <div  class="fl-lf "><span class="a-color-base">发货地址：</span> </div>
+                        <div class="fl-rg "> <span >${info.fromAddress}</span> </div>
+                    </div><br>
+                    <div class="fl-lf ">
+                        <div  class="fl-lf "><span class="a-color-base">收货地址：</span> </div>
+                        <div class="fl-rg "><span> ${info.toAddress}</span> </div>
+                    </div><br>
+                    <div class="fl-lf ">
+                        <div  class="fl-lf "><span class="a-color-base">买家联系人：</span> </div>
+                        <div class="fl-rg "><span>${info.customerContacts}</span> </div>
+                    </div><br>
+                    <div class="fl-lf ">
+                        <div  class="fl-lf "><span class="a-color-base">买家联系电话：</span> </div>
+                        <div class="fl-rg "><span>${info.customerConTel}</span> </div>
+                    </div><br>
+                    <div class="right item fl-rg" style=" "><span class=""></span>
+
+                    </div>
+                    
                 </div>
-            </c:if>
+                <c:if test="${!empty info.vehicles}">
+                    <table class="ui celled padded table ">
+                        <thead>
+                            <tr>
+                                <th class="single line ">司机</th>
+                                <th>电话</th>
+                                <th>车牌号</th>
+                                <th>车挂号</th>
+                                <th>容量</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${info.vehicles}" var="vehicle">
+                            <tr>
+                                <td>
+                                    <h2 class="ui center aligned header" >${vehicle.driverName}</h2>
+                                </td>
+                                <td class="single line ">${vehicle.driverPhone}</td>
+                                <td> ${vehicle.vehicleNo}</td>
+                                <td>${vehicle.vehicleHangingNo}</td>
+                                <td>${vehicle.vehicleSize} 吨</td>
 
-            <div class="fl-lf " style="width: 80%;"> 
-                <div  class="fl-lf "><span class="a-color-base">发货时间：</span> </div>
-                <div class="fl-rg "> <span ><fmt:formatDate value="${info.deliverDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate> </span></div>
-            </div>
+                            </tr>
+                        </c:forEach>
 
-            <div class="fl-lf " style="width: 80%;">
-                <div  class="fl-lf "><span class="a-color-base">收货时间：</span> </div>
-                <div class="fl-rg "> <span ><fmt:formatDate value="${info.receiveDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span> </div>
-             </div>
-            <div class="fl-lf " style="width: 80%;">
-                <div  class="fl-lf "><span class="a-color-base">发货地址：</span> </div>
-                <div class="fl-rg "> <span >${info.fromAddress}</span> </div>
+                        </tbody>
+                    </table>
+                    </c:if>
+                <button class="ui button primary" onclick="javascript:window.history.go(-1);">返回</button>
             </div>
-            <div class="fl-lf " style="width:80%;">
-                <div  class="fl-lf "><span class="a-color-base">收货地址：</span> </div>
-                <div class="fl-rg "><span> ${info.toAddress}</span> </div>
-            </div>
-            <div class="fl-lf " style="width: 80%;">
-                <div  class="fl-lf "><span class="a-color-base">买家联系人：</span> </div>
-                <div class="fl-rg "><span>${info.customerContacts}</span> </div>
-            </div>
-            <div class="fl-lf " style="width: 80%;">
-                <div  class="fl-lf "><span class="a-color-base">买家联系电话：</span> </div>
-                <div class="fl-rg "><span>${info.customerConTel}</span> </div>
-            </div>
-            <div class="right item fl-rg" style=" "><span class=""></span>
-
-            </div>
-            <br><br>
-            
         </div>
-        <c:if test="${!empty info.vehicles}">
-            <table class="ui celled padded table ">
-                <thead>
-                    <tr>
-                        <th class="single line ">司机</th>
-                        <th>电话</th>
-                        <th>车牌号</th>
-                        <th>车挂号</th>
-                        <th>容量</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${info.vehicles}" var="vehicle">
-                    <tr>
-                        <td>
-                            <h2 class="ui center aligned header" >${vehicle.driverName}</h2>
-                        </td>
-                        <td class="single line ">${vehicle.driverPhone}</td>
-                        <td> ${vehicle.vehicleNo}</td>
-                        <td>${vehicle.vehicleHangingNo}</td>
-                        <td>${vehicle.vehicleSize} 吨</td>
-
-                    </tr>
-                </c:forEach>
-
-                </tbody>
-            </table>
-            </c:if>
-        <button onclick="javascript:window.history.go(-1);">返回</button>
     </div>
+</div>
 
 </body>
 <%@ include file="../footer.jsp"%>

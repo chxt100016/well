@@ -135,5 +135,7 @@
 		$("#withdrawState").val(withdrawState);
 		$("#searchFrm").submit();
 	}
+
+	
 </script>
 <%@ include file="../footer.jsp"%>

@@ -17,6 +17,10 @@
 .cztab tr td img:hover,.cztab tr td img:active{border: 1px solid #0068b7;}
 .formtab tr td{border-top: 15px solid #fff;}
 .red{color:#ff0000;}
+.logotab tr td{border:10px solid #fff;}
+.logotab tr td img{border: 1px solid rgb(242,242,242);}
+.logotab tr td:hover img{border: 1px solid rgb(97,123,144);}
+.selected{border: 1px solid rgb(97,123,144)!important;}
 </style>
 
 </head>
@@ -64,15 +68,31 @@
 						<%--<td><img  class = "fsImg" src="<c:url value="/resources/upload/images/bank_mark/china_citic_bank.png"/>"  onclick = "selectPayFs('1', this);"></td>
 						<td><img class = "fsImg  selected" src="<c:url value="/resources/upload/images/bank_mark/xianxia.png"/>"  onclick = "selectPayFs('0', this);"></td>--%>
 						<td>
-							<div class="ui floating labeled icon dropdown button">
+							<!-- <div class="ui floating labeled icon dropdown button"> -->
   								<!-- <i class="payment icon"></i> -->
-									<span class="text">选择银行卡</span>
-									<div class="menu">
+									<!-- <span class="text">选择银行卡</span> -->
+									<!-- <div class="menu"> -->
 										<!-- <div class="header">请选择您添加过的银行卡 </div> -->
-										<div class="item"><img class="ui avatar image" src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国银行(1158)  </div>
-										<div class="item"><img class="ui avatar image" src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国农业银行 </div>
-										<div class="item"><img class="ui avatar image" src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国人民很行 </div>
-									</div>
+										<!-- <div class="item inline"><img src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国银行(1158)  </div>
+										<div class="item inline"><img src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国农业银行 </div>
+										<div class="item inline"><img src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国人民很行 </div>
+									</div> -->
+							<!-- </div> -->
+							<div class="menu">
+								<table class="logotab">
+									<tr>
+										<td><img src="../img/logo-zx.png" class="selected"></td>
+										<td><img src="../img/logo-js.png"></td>
+										<td><img src="../img/logo-gs.png"></td>
+										<td><img src="../img/logo-jt.png"></td>
+									</tr>
+									<tr>
+										<td><img src="../img/logo-ny.png"></td>
+										<td><img src="../img/logo-zs.png"></td>
+										<td><img src="../img/logo-zg.png"></td>
+										<td></td>
+									</tr>
+								</table>
 							</div>
 						</td>
 						<td></td>
@@ -168,25 +188,27 @@
 		$(obj).addClass("selected");
 		rechargeType = selZfType;
 	}
-	// $('#infoForm')
-	//   .form({	    
+	// $('#infoForm').form({	    
 	//     inline : true,
 	//     on     : 'blur',
 	//     fields : {
-	//     	rules: [
-	//           {
-	//             type: 'empty',
-	//             prompt: '请输入充值金额！'
-	//           },
-	//           {
-	//             type: 'integer',
-	//             prompt: '请输入只数字形式！'
-	//           },
-	//           {
-	//           	type:'/^\+?[1-9]\d*$/',
-	//           	prompt:'充值金额不正确！'
-	//           },
-	//         ]
+	//     	rechargeMoney:{
+	//     		identifier: 'rechargeMoney',
+	//     		rules: [
+	// 	          {
+	// 	            type: 'empty',
+	// 	            prompt: '请输入充值金额！'
+	// 	          },
+	// 	          {
+	// 	            type: 'integer',
+	// 	            prompt: '请输入只数字形式！'
+	// 	          },
+	// 	          {
+	// 	          	type:'/^\+?[1-9]\d*$/',
+	// 	          	prompt:'充值金额不正确！'
+	// 	          },
+	// 	        ]
+	// 	    }	    	
 	//     }
 	//   })
 	// ;
@@ -235,23 +257,43 @@
 	
 </script>
 
-<script>	
-$(function(){
+<script>
+$('.logotab tr td').click(function(){
+
+	$(this).parent().find("img").removeClass("selected");
+	$(this).find("img").addClass("selected");
+})
+
+$('.menu').click(function(){
+	
+	// rechargeMoney
+	// var rechargeMoney = $("#rechargeMoney").val().trim();
+	// if (rechargeMoney) {
+
+	// 	alert("充值金额 : " + rechargeMoney);
+	// } else {
+	// 	alert("请输入充值金额！");
+	// }
+	/*onClick:functitianxieon(value,text,$selecttd){
+		console.log(value);
+	}*/
+
+})
 
 
 // $('.ui.accordion').accordion();
-$('.dropdown')
-  .dropdown({
+// $('.dropdown')
+//   .dropdown({
     // you can use any ui transition
-    transition: 'drop',
+    // transition: 'drop',
 	// action:'combo',
-	onclick: function(value, text, $selectedItem) {
-     console.log(value);
-    }
-  })
-;
+// 	onclick: function(value, text, $selectedItem) {
+//      console.log(value);
+//     }
+//   })
+// ;
 
-})
+
 
 </script>
 <%@ include file="../footer.jsp"%>
