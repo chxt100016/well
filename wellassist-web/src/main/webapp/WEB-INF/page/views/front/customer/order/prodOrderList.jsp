@@ -28,7 +28,7 @@
             <thead>
                 <tr class="grey-4">
                     <th width="30%">产品详情</th>
-                    <th>金额（元）</th>
+                    <th class="tx-ct">金额（元）</th>
                     <th>数量（吨）</th>
                     <th>物流信息</th>
 					<!-- <th>交易状态</th> -->
@@ -76,7 +76,7 @@
 							<c:otherwise>
 								<c:if test="${item.saleNum!=null and item.saleNum>0}">
 									
-											单价：${item.saleMoney/item.saleNum}元/吨
+										单价：${item.saleMoney/item.saleNum}元/吨
 										
 								</c:if>
 							</c:otherwise>
@@ -84,16 +84,7 @@
                         </span>
                     </td>
                     <td class="right-border tx-ct" >
-                        	<c:if test="${not empty item.orderNumber and not empty item.orderPrice}">
-							${item.orderNumber}吨
-						</c:if>
-						<c:if test="${empty item.orderNumber or empty item.orderPrice}">
-							${item.saleNum}吨
-						</c:if>
-						<c:if test="${item.orderState==5||item.orderState==6||item.orderState==7}">(成交量 ${item.saleSjNum}吨)</c:if>
-                    </td>
-                    <td class="right-border tx-ct" >
-                        <span>
+                        	  <span>
                         <c:if test="${not empty item.orderNumber and not empty item.orderPrice}">
 									总价：${item.orderNumber*item.orderPrice}元
 								</c:if>
@@ -104,7 +95,17 @@
 								<br/>
 								(成交额：${item.saleSjMoney}元)
 							   </c:if>
-                         </span>
+						 </span>
+                    </td>
+                    <td class="right-border tx-ct" >
+                      
+							<c:if test="${not empty item.orderNumber and not empty item.orderPrice}">
+							${item.orderNumber}吨
+						</c:if>
+						<c:if test="${empty item.orderNumber or empty item.orderPrice}">
+							${item.saleNum}吨
+						</c:if>
+						<c:if test="${item.orderState==5||item.orderState==6||item.orderState==7}">(成交量 ${item.saleSjNum}吨)</c:if>
                     </td>
                     <td class="right-border tx-ct" >
                         <span class="ds-bl fl-lt pd-lf-20 ft-wt-bd " style=""> 

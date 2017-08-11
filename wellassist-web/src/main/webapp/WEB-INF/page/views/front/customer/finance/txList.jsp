@@ -51,7 +51,15 @@
 					<td>提现账户&emsp;&emsp;&emsp;</td>
 					<td style="text-align:center;">303**********3030&emsp;&emsp;</td>
 					<td>（已绑定中信银行）&emsp;&emsp;</td>
-					<td>更换</td>
+					<td>
+						<div class="ui selection dropdown">
+							<i class="dropdown icon"></i>
+							  <div class="default text">跟换</div>
+							  <div class="menu">
+								 <div class="item" v-for='card in Cards'><img class="ui avatar image"src="<c:url value="/resources/upload/images/bank_mark/zxyh.jpg"/>"s>  {{card.bankName}}*** <span class="bkAcc">{{card.bankAccount}}</span> </div>
+								</div>
+						</div>
+					</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -135,5 +143,8 @@
 		$("#withdrawState").val(withdrawState);
 		$("#searchFrm").submit();
 	}
+	$('.ui.dropdown')
+  .dropdown()
+;
 </script>
 <%@ include file="../footer.jsp"%>

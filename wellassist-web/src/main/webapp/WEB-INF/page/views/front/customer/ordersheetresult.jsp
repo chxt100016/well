@@ -80,22 +80,69 @@
 </head>
 
 <body>
-    <div class="ui container segment" id="app1" >
-        <div id="parent">
-            <div id="child">
-                <p class="ui center aligned header"> <i class="check square icon"></i> 订单提交成功、</p>
-                <p class="ui center aligned header">
-                   数量待审核中
-                </p>
-                <br><br>
-                  <div class="ui horizontal divider">and </div>
-                <p class="ui center aligned ">
-                    <br><br>
-                    <a href="<c:url value="/customer/orderList"/>"> <button class="ui black button" style="display:block;margin:0px auto">返回订单列表</button></a>
-                </p>
-            </div>
-        </div>
-    </div>
+<div class="container1">
+	<div style="margin:40px 0 0 210px;">
+		<div id = "content-rect" style="width:90%;">
+		
+		<table style="text-align:center;margin-right:0;">
+			<tr>
+				<td style="border-right:solid 3px #fff;"><img src="../img/apply1.png" /></td>
+				<td style="border-right:solid 3px #fff;"><img src="../img/apply1.png" /></td>
+				<td><img src="../img/apply2.png" /></td>
+			</tr>
+			<tr>
+				<td style="color:#ffd287">1、填写订单</td>
+				<td style="color:#ffd287">2、等待商家确认</td>
+				<td style="color:#f39800">3、确认付款</td>
+			</tr>
+		</table>
+		<div style="border:1px solid #f2f2f2;margin-top:40px;padding:100px 0 50px;">
+			<table>
+				<tr>
+					<td rowspan="2" style="border-right:20px solid #fff;"><img src="../img/success.png" /></td>
+					<td style="font-size:24px;font-weight:600;">支付成功!</td>
+				</tr>
+				<tr>
+					<td style="font-size:15px;font-weight:600;">下单时间：${item.orderDate}</td>
+				</tr>
+			</table>
+			<div style="background-color:#f2f2f2;line-height:60px;height:60px;text-align:center;width:100%;margin-top:30px;">
+				<table style="font-size:15px;font-weight:600;">
+					<tr>
+						<td>订单号：</td>
+						<td style="text-align:left;" width="65%">${item.orderNo}</td>
+						<td>你可以在<a href="">订单中心</a>下查看该页面</td>
+					</tr>
+				</table>
+			</div>
+			<div style="margin-top:50px;text-align:center;">
+				<div class="ui button primary">
+					<span>产品中心</span>
+				</div>
+				<div class="ui button" style="margin-left:40px;">
+					<span>订单列表</span>
+				</div>
+			</div>
+		</div>
+		    <!-- <div class="ui container" id="app1" width="100%" >
+		        <div id="parent">
+		            <div id="child">
+		                <p class="ui center aligned header"> <i class="check square icon"></i> 订单提交成功、</p>
+		                <p class="ui center aligned header">
+		                   数量待审核中
+		                </p>
+		                <br><br>
+		                  <div class="ui horizontal divider">and </div>
+		                <p class="ui center aligned ">
+		                    <br><br>
+		                    <a href="<c:url value="/customer/orderList"/>"> <button class="ui black button" style="display:block;margin:0px auto">返回订单列表</button></a>
+		                </p>
+		            </div>
+		        </div>
+		    </div> -->
+		</div>
+	</div>
+</div>
 </body>
 
 </html>
