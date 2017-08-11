@@ -30,4 +30,5 @@ public interface LoanDao {
 
     int listLoanByConditionsCount(Map params);
 
+    Map<String,Object> singleLoanFkViewByPrimaryKey(long loanId);
 }

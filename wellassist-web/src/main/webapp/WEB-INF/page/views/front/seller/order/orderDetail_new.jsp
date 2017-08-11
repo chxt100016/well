@@ -208,9 +208,9 @@
             </thead>
             <tbody>
             <c:forEach items="${zorder.orderVehicles}" var="orderVehicle">
-                <tr v-for="vehicle in Vehicles " v-cloak>
+                <tr >
                     <td>
-                        <h2 class="ui center aligned header xs " id="x" onclick="x()" value="${orderVehicle.driverName}">${orderVehicle.driverName}</h2>
+                        <h2 class="ui center aligned header " value="${orderVehicle.driverName}">${orderVehicle.driverName}</h2>
                     </td>
                     <td class="single line ">${orderVehicle.driverPhone}</td>
                     <td> ${orderVehicle.vehicleNo}</td>

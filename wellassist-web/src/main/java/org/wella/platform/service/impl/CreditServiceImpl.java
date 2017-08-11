@@ -5,19 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.wella.common.utils.ConvertUtil;
-import org.wella.dao.CreditDao;
-import org.wella.dao.CreditInfoDao;
-import org.wella.dao.LoanAssignInfoDao;
-import org.wella.dao.LoanDao;
+import org.wella.dao.*;
 import org.wella.entity.CreditInfo;
 import org.wella.platform.service.CreditService;
 import org.wella.service.CustomerService;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by liuwen on 2017/5/18.
@@ -35,6 +29,16 @@ public class CreditServiceImpl implements CreditService{
     private LoanDao loanDao;
     @Autowired
     private LoanAssignInfoDao loanAssignInfoDao;
+    @Autowired
+    private OrderDao orderDao;
+    @Autowired
+    private WaUserDao waUserDao;
+    @Autowired
+    private OrderTransDao orderTransDao;
+    @Autowired
+    private LogisticsTransDao logisticsTransDao;
+    @Autowired
+    private UserMoneyDao userMoneyDao;
 
 
     @Override
@@ -161,5 +165,89 @@ public class CreditServiceImpl implements CreditService{
         loanAssignInfoDao.updateByPrimaryKey(updateLoanAssignInfo);
     }
 
+    @Override
+    @Transactional
+    public void loanSayno(long loanId) {
+        Map<String,Object> loanFkView=loanDao.singleLoanFkViewByPrimaryKey(loanId);
+        Map<String,Object> loan=loanDao.singleLoanByPrimaryKey(loanId);
+        long orderId=(long)loanFkView.get("order_id");
+        long moneyId=(long)loanFkView.get("money_id");
+        long userId=(long)loan.get("user_id");
+        Map<String,Object> user=waUserDao.singleUserByPrimaryKey(userId);
 
+        Map query=new HashMap();
+        query.put("orderId",orderId);
+        List<Map<String,Object>> loanOrderViews=loanDao.listLoanOrderViewByConditions(query);
+        for (Map lov:loanOrderViews){
+            Map<String,Object> updateloan=new HashMap<>();
+            updateloan.put("loanId",lov.get("loan_id"));
+            updateloan.put("loanState",-1);
+            loanDao.updateLoanByPrimaryKey(updateloan);
+        }
+
+        //使该订单失效
+        Map<String,Object> updateorder=new HashMap<>();
+        updateorder.put("orderId",orderId);
+        updateorder.put("orderState",-2);
+        if ((int)loanFkView.get("jy_type")==1){
+            updateorder.put("prodPayState",-1);
+        }else if ((int)loanFkView.get("jy_type")==3){
+            updateorder.put("logisticsPayState",-1);
+        }
+        orderDao.updateOrderByID(updateorder);
+
+        //回滚已支付金额
+        BigDecimal userMoney=(BigDecimal) user.get("user_money");
+        BigDecimal userLockMoney=(BigDecimal) user.get("user_lock_money");
+        BigDecimal userCreditMoney=(BigDecimal) user.get("user_credit_money");
+        BigDecimal userLockCreditMoney=(BigDecimal) user.get("user_lock_credit_money");
+        Map<String,Object> queryOrderTrans=new HashMap<>();
+        queryOrderTrans.put("orderId",orderId);
+        queryOrderTrans.put("inTransState","(0,1)");
+        Map<String,Object> orderTrans=orderTransDao.singlePoByConditions(queryOrderTrans);
+        if (orderTrans!=null&&orderTrans.size()>0){
+            int zfMethod=(int)orderTrans.get("zf_method");
+            BigDecimal zfMoney=(BigDecimal)orderTrans.get("zf_money");
+            BigDecimal balanceZfMoney=(BigDecimal)orderTrans.get("balance_zf_money");
+            BigDecimal loanZfMoney=(BigDecimal)orderTrans.get("loan_zf_money");
+            if (zfMethod==2){
+                userMoney=userMoney.add(zfMoney);
+                userLockMoney=userLockMoney.subtract(zfMoney);
+            }else if (zfMethod==3||zfMethod==4){
+                userMoney=userMoney.add(balanceZfMoney);
+                userLockMoney=userLockMoney.subtract(balanceZfMoney);
+                userCreditMoney=userCreditMoney.add(loanZfMoney);
+                userLockCreditMoney=userLockCreditMoney.subtract(loanZfMoney);
+            }
+        }
+        Map<String,Object> logisticsTrans=logisticsTransDao.singlePoByConditions(queryOrderTrans);
+        if (logisticsTrans!=null&&logisticsTrans.size()>0){
+            int zfMethod=(int)logisticsTrans.get("zf_method");
+            BigDecimal zfMoney=(BigDecimal)logisticsTrans.get("zf_money");
+            BigDecimal balanceZfMoney=(BigDecimal)logisticsTrans.get("balance_zf_money");
+            BigDecimal loanZfMoney=(BigDecimal)logisticsTrans.get("loan_zf_money");
+            if (zfMethod==2){
+                userMoney=userMoney.add(zfMoney);
+                userLockMoney=userLockMoney.subtract(zfMoney);
+            }else if (zfMethod==3||zfMethod==4){
+                userMoney=userMoney.add(balanceZfMoney);
+                userLockMoney=userLockMoney.subtract(balanceZfMoney);
+                userCreditMoney=userCreditMoney.add(loanZfMoney);
+                userLockCreditMoney=userLockCreditMoney.subtract(loanZfMoney);
+            }
+        }
+        Map<String,Object> updateuser=new HashMap<>();
+        updateuser.put("userId",userId);
+        updateuser.put("userMoney",userMoney);
+        updateuser.put("userLockMoney",userLockMoney);
+        updateuser.put("userCreditMoney",userCreditMoney);
+        updateuser.put("userLockCreditMoney",userLockCreditMoney);
+        waUserDao.updateUserByUserId(updateuser);
+
+        //update wa_user_money
+        Map<String,Object> updateusermoney=new HashMap<>();
+        updateusermoney.put("moneyId",moneyId);
+        updateusermoney.put("jyState",-1);
+        userMoneyDao.update(updateusermoney);
+    }
 }

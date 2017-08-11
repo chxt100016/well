@@ -1,6 +1,10 @@
 <%@ include file="../header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 
+<div class="container1">
+	<div class="container2">
+		
+	
 <div id = "content-rect">
 	<div style="border:solid 1px #d0d0d0;font-size:18px;font-weight:bold;color:#0557ab;line-height:36px;">&nbsp;&nbsp;订单列表</div>
 
@@ -13,7 +17,7 @@
 		<div style="width:40%;text-align:center;font-size:16px;float:left;">产品详情</div>
 		<div style="width:20%;text-align:center;font-size:16px;float:left;">价格</div>
 		<div style="width:20%;text-align:center;font-size:16px;float:left;">
-			<span class="dropdown">
+			<!-- <span class="dropdown">
 				<a data-toggle="dropdown" class="dropdown" style="color: #444444;">状态&nbsp;<b class="icon-angle-down"></b></a>
 				<div class="dropdown-menu">
 					<div onclick="$('#orderState').val('');searchData(1);">全部</div>
@@ -26,7 +30,7 @@
 					<div onclick="$('#orderState').val('6');searchData(1);">待评价</div>
 					<div onclick="$('#orderState').val('7');searchData(1);">已完成</div>
 				</div>
-			</span>
+			</span> -->
 		</div>
 		<div style="width:20%;text-align:center;font-size:16px;float:left;">操作</div>
 	</div>
@@ -156,6 +160,8 @@
 	<div class="right-pagination">
 		<%@ include file="../../pagination.jsp"%>
     </div>
+</div>
+</div>
 </div>
 
 <div style="clear:both;width:50%;height:30px;"></div>

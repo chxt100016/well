@@ -19,9 +19,9 @@
                 name: 'transState',
                 width: 100,
                 formatter: function(value, options, row) {
-                    if(value==-1){return "待审核";}
+                    if(value==0){return "待审核";}
                     else if (value==-2){return "审核不通过";}
-                    else if (value>-1){return "已通过";}
+                    else if (value>=1){return "已通过";}
                     return value;
                 }
             }, {
@@ -29,10 +29,10 @@
                 name: 'transState',
                 width: 80,
                 formatter: function(value, options, row) {
-                    var orderTransId=row.transId;
-                    if(value==-1){return '<a  class="btn btn-primary" href="./offlinePayCheck?orderTransId='+orderTransId+'">审核</a>';}
+                    var orderTransId=row.orderTransId;
+                    if(value==0){return '<a  class="btn btn-primary" href="./offlinePayCheck?orderTransId='+orderTransId+'">审核</a>';}
                     else if (value==-2){return '<a  class="btn btn-primary" href="./offlinePayDetail?orderTransId='+orderTransId+'">查看</a>';}
-                    else if (value>-1){return '<a  class="btn btn-primary" href="./offlinePayDetail?orderTransId='+orderTransId+'">查看</a>';}
+                    else if (value>=1){return '<a  class="btn btn-primary" href="./offlinePayDetail?orderTransId='+orderTransId+'">查看</a>';}
                 }
             }],
             viewrecords: true,

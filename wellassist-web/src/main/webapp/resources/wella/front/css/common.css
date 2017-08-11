@@ -11,6 +11,23 @@ a:hover {color:#628828;}
 .fl-rg {
             float: right
         }
+.pd-10{
+    padding: 10px;
+}
+.pd-20{
+    padding: 20px;
+}.pd-30{
+    padding: 30px;
+}
+.mg-10{
+    margin: 10px
+}
+.mg-20{
+    margin: 20px
+}
+.mg-30{
+    margin: 30px
+}
 .pd-lf-10 {
     padding-left: 10px
 }
@@ -120,6 +137,10 @@ a:hover {color:#628828;}
 .pointer{
     cursor: pointer
 }
+ .middleAlign{
+  display: table-cell;
+vertical-align: middle;
+ }
      [v-cloak] {
     display: none !important;
 }

@@ -9,15 +9,26 @@
             }, {
                 label: '订单编号',
                 name: 'orderNo',
-                width: 100
+                width: 130
             }, {
                 label: '贷款金额(元)',
                 name:'loanMoney',
-                width: 100
+                width: 80
+            }, {
+                label: '支付对象',
+                name:'jyType',
+                width: 100,
+                formatter: function(value) {
+                    if(value==1){
+                        return "商品订单";
+                    }else if(value==3){
+                        return "物流订单";
+                    };
+                }
             },  {
                 label: '利率（%%/日）',
                 name:'lixiRate',
-                width: 100,
+                width: 65,
                 formatter: function(value) {
                     return value;
                 }
@@ -45,6 +56,7 @@
                 width: 100,
                 formatter: function(value) {
                     if(value==-2){return "拒绝放款";}
+                    else if (value==-1){return "驳回";}
                     else if (value==0){return "待指派";}
                     else if (value==1){return "已指派";}
                     else if (value==2){return "已放款";}
@@ -57,10 +69,10 @@
                 formatter: function(value, options, row) {
                     var loanId=row.loanId;
                     if(value==-2){return '<a  class="btn btn-danger" href="./creditAssign?loanId='+loanId+'">重新指派</a>';}
-                    else if(value==0){return '<a  class="btn btn-primary" href="./creditAssign?loanId='+loanId+'">指派</a>';}
+                    else if(value==-1){return '无';}
+                    else if(value==0){return '<a  class="btn btn-primary" href="./creditAssign?loanId='+loanId+'">指派</a><a  class="btn btn-warning" onclick="sayno('+loanId+')">驳回</a>';}
 
                     else if(value==1){return '<a  class="btn btn-warning" onclick="recall('+loanId+')">撤回</a>';}
-                    /*else if(value==2){return '<a  class="btn btn-success" href="./creditLimitDetail?creditId='+loanId+'">查看</a>';}*/
                     else if(value==2){return '无';}else if(value==3){return '无';}
 
                 }
@@ -143,23 +155,26 @@
                     data : {  
                         "loanId" : x 
                     },
-                     success : function(result) {//
+                     success : function(result) {
                         if( result.code ==0 ){
-                            console.log("成功")
-                            alert('撤销成功啦');
+                            alert('撤销成功');
                             window.location.reload();
                         }
                         else{
-                             console.log('失败');
+                             alert(result.msg);
                         }
                      }
      })
-    // $.post(url1,{"loanId" : loanId },function(result){
-    //     if( result.code ==0 ){
-    //                         console.log("成功")
-    //                     }
-    //                     else{
-    //                          console.log('失败');
-    //                     }
-    // })
+    }
+
+    function sayno(loanId) {
+        $.get(baseUrl+"platform/credit/loanSayno",{loanId:loanId},function (result) {
+            if( result.code ==0 ){
+                alert('已驳回授信，并取消用户该订单');
+                window.location.reload();
+            }
+            else{
+                alert(result.msg);
+            }
+        },"json");
     }

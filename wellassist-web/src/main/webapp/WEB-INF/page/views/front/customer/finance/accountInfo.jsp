@@ -32,8 +32,8 @@
 				<div class = "row1_2">
 					<span class = "col1">${userMoney}</span>
 					<span class = "col2">&nbsp;&nbsp;元</span>
-					<span id="fillmoney" class="smallbutton" style="margin-left:32px;" onClick = "toURL('czSq')">充值</span>
-					<span id="getmoney" class="smallbutton" style="margin-left:12px;"  onClick = "toURL('txSq')">提现</span>
+					<span id="fillmoney" class="smallbutton" style="margin-left:32px;" onClick = "toURL('czSqList')">充值</span>
+					<span id="getmoney" class="smallbutton" style="margin-left:12px;"  onClick = "toURL('txList')">提现</span>
 				</div>
 			</div>
 			<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/front/customer/FinanceController-accountInfo">
@@ -81,16 +81,16 @@
 	// 功能函数
 	function toURL(action){
 		var url = "";
-		if(action == 'txSq'){
+		if(action == 'txList'){
 			var userMoney = ${userMoney};
 			if(parseInt(userMoney) <= 0){
 				alert("账号金额不够！");
 				return;
 			}
-			url = "${pageContext.request.contextPath}/front/customer/FinanceControlle-txSq?userMoney="+userMoney;
+			url = "${pageContext.request.contextPath}/customer/withdrawRecordList";
 			window.location.href = url;
-		}else if(action == 'czSq'){
-			url = "${pageContext.request.contextPath}/front/customer/FinanceController-czSq";
+		}else if(action == 'czSqList'){
+			url = "${pageContext.request.contextPath}/customer/rechargeRecord";
 			window.location.href = url;
 		}
 		

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.wella.common.ctrl.BaseController;
 import org.wella.common.utils.CommonUtil;
 import org.wella.common.vo.MyInfo;
@@ -86,7 +87,7 @@ public class SellerCompanyController extends BaseController {
     }
 
     @RequestMapping({"front/seller/company/SellerCompanyController-companyInfoUpdate"})
-    public void companyInfoUpdate(HttpServletRequest request, HttpServletResponse response, Model model) {
+    public void companyInfoUpdate(@RequestParam Map params, HttpServletRequest request, HttpServletResponse response, Model model) {
         HashMap param = new HashMap();
         HashMap mapClass = new HashMap();
         JSONObject obj = new JSONObject();

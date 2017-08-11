@@ -14,4 +14,10 @@ public interface CreditService {
     void assignSubmit(long loanId,long creditorId);
 
     void assignRollBack(long loanId,long mgrId,String ip);
+
+    /**
+     * 驳回贷款申请
+     * @param loanId
+     */
+    void loanSayno(long loanId);
 }

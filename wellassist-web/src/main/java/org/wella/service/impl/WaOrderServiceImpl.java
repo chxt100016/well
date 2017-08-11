@@ -204,13 +204,19 @@ public class WaOrderServiceImpl implements WaOrderService {
     }
 
     @Override
-    public boolean checkOrderPayOff(long orderId) {
+    public boolean checkOrderRepayOff(long orderId) {
         Map<String,Object> updateOrder=new HashMap<>();
         updateOrder.put("orderId",orderId);
         Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
         int isSelfCar=(int)order.get("is_self_car");
+        if (order.get("prod_pay_state")==null){
+            order.put("prod_pay_state",0);
+        }
+        if (order.get("logistics_pay_state")==null){
+            order.put("logistics_pay_state",0);
+        }
         int prodPayState=(int)order.get("prod_pay_state");
-        int logidticsPayState=(int)order.get("logistics_pay_state");
+        int logisticsPayState=(int)order.get("logistics_pay_state");
         if (isSelfCar==0){
             if (prodPayState==5){
                 updateOrder.put("orderState",(byte)2);
@@ -218,7 +224,7 @@ public class WaOrderServiceImpl implements WaOrderService {
                 return true;
             }
         }else if (isSelfCar==1){
-            if (prodPayState==5 && logidticsPayState==5){
+            if (prodPayState==5 && logisticsPayState==5){
                 updateOrder.put("orderState",(byte)2);
                 orderDao.updateOrderByID(updateOrder);
                 return true;

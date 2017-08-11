@@ -133,8 +133,7 @@
     </div>
 </div>
 <script>
-// $('.ui.form')
-//   .form({
+// $('.ui.form').form({
 //     inline : true,
 //     on     : 'blur'
 //     fields : {
@@ -191,6 +190,7 @@
                 bankCode: ''
             },
             Cards:[] ,
+           
         },
         computed: {
             validation: function() {
@@ -209,7 +209,7 @@
             }
         },
         created:function () {
-            $.get('./getCards',function(data){
+            $.get('${pageContext.request.contextPath}/userinfo/getCards',function(data){
                 if(typeof data ==="object"){
                     vm.Cards = data.Cards;
                 }else {
@@ -221,7 +221,7 @@
             createCard: function() {
                 if (this.isValid) {
                     //项后台发送ajax请求，完成数据存储
-                    $.post("./addBankcard",vm.new_card,function (data) {
+                    $.post("${pageContext.request.contextPath}/userinfo/addBankcard",vm.new_card,function (data) {
                         if(data.code == 0){
                             // alert(JSON.stringify(this));
                             vm.Cards.push(vm.new_card);
@@ -244,7 +244,7 @@
             delCard: function(card) {
                 $.ajax({
                     type:'post',
-                    url:'./delBankcard',
+                    url:'${pageContext.request.contextPath}/userinfo/delBankcard',
                     dataType:'json',
                     data:card,
                     success: function(r){
