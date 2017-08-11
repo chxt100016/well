@@ -17,9 +17,9 @@
 		insert into wa_order_logistics_info (order_id, deliver_date,
 		  receive_date, contacts, con_tel,
 		  address)
-		values (#{orderId,jdbcType=BIGINT}, #{deliverDate,jdbcType=DATE},
-		  #{receiveDate,jdbcType=DATE}, #{contacts,jdbcType=VARCHAR}, #{conTel,jdbcType=CHAR},
-		  #{address,jdbcType=VARCHAR})
+		values (#{orderId}, #{deliverDate},
+		  #{receiveDate}, #{contacts}, #{conTel},
+		  #{address})
 	</insert>
 
 	<select id="findUser" parameterType="map" resultMap="orderLogistInfo">

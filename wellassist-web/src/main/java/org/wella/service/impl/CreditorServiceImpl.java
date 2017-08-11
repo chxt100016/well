@@ -1,6 +1,7 @@
 package org.wella.service.impl;
 
 import io.wellassist.utils.Query;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,6 +9,7 @@ import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
 import org.wella.entity.CreditorAuthenticInfo;
 import org.wella.service.CreditorService;
+import org.wella.service.WaOrderService;
 import org.wella.utils.DateUtils;
 
 import java.math.BigDecimal;
@@ -37,6 +39,21 @@ public class CreditorServiceImpl implements CreditorService{
 
     @Autowired
     private RepayDao repayDao;
+
+    @Autowired
+    private OrderDao orderDao;
+
+    @Autowired
+    private OrderTransDao orderTransDao;
+
+    @Autowired
+    private LogisticsTransDao logisticsTransDao;
+
+    @Autowired
+    private UserMoneyDao userMoneyDao;
+
+    @Autowired
+    private WaOrderService waOrderServiceImpl;
 
 
 
@@ -88,6 +105,40 @@ public class CreditorServiceImpl implements CreditorService{
         updateloanAssignInfo.put("operateDate",now);
         updateloanAssignInfo.put("operateIp",operateIp);
         loanAssignInfoDao.updateByPrimaryKey(updateloanAssignInfo);
+
+        //订单授信付款已到账，修改相应订单状态
+        Map<String,Object> loanFkView=loanDao.singleLoanFkViewByPrimaryKey(loanId);
+        if (loanFkView!=null && loanFkView.size()>0){
+            Map<String,Object> update=new HashMap();
+            if ((int)loanFkView.get("jy_type")==1){
+                update.put("orderId",loanFkView.get("order_id"));
+                update.put("prodPayState",5);
+                orderDao.updateOrderByID(update);
+                update.clear();
+                update.put("orderTransId",loanFkView.get("order_trans_id"));
+                update.put("transState",1);
+                orderTransDao.update(update);
+                update.clear();
+                update.put("moneyId",loanFkView.get("money_id"));
+                update.put("jyState",1);
+                userMoneyDao.update(update);
+                update.clear();
+            }else if ((int)loanFkView.get("jy_type")==3){
+                update.put("orderId",loanFkView.get("order_id"));
+                update.put("logisticsPayState",5);
+                orderDao.updateOrderByID(update);
+                update.clear();
+                update.put("logisticsTransId",loanFkView.get("logistics_trans_id"));
+                update.put("transState",1);
+                logisticsTransDao.update(update);
+                update.clear();
+                update.put("moneyId",loanFkView.get("money_id"));
+                update.put("jyState",1);
+                userMoneyDao.update(update);
+                update.clear();
+            }
+            waOrderServiceImpl.checkOrderRepayOff((long)loanFkView.get("order_id"));
+        }
 
         return 1;
     }

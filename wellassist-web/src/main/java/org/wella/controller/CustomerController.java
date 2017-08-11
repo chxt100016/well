@@ -329,6 +329,7 @@ public class CustomerController extends BaseController {
                HashMap queryParam = new HashMap();
                queryParam.put("strsql", sql);
                this.commonMapper.simpleSelectReturnList(queryParam);
+               waOrderServiceImpl.checkOrderRepayOff(Long.parseLong(orderId));
                ret = "1";
                obj.put("content", ConstantUtil.MSG_SUCCESS);
             }
@@ -378,6 +379,7 @@ public class CustomerController extends BaseController {
             queryParam.put("strsql", sql);
             ArrayList<Map<String, Object>> result = this.commonMapper.simpleSelectReturnList(queryParam);
             if ((int) result.get(0).get("result") == 1) {
+               waOrderServiceImpl.checkOrderRepayOff(Long.parseLong(orderId));
                obj.put("content", ConstantUtil.MSG_SUCCESS);
                obj.put("status", "1");
                return obj;
@@ -686,14 +688,14 @@ public class CustomerController extends BaseController {
    @RequestMapping("companyInfo")
    public String companyInfo(Model model) {
       HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
-      User user = (User) httpSession.getAttribute("user");
-      Userinfo userinfo = (Userinfo) httpSession.getAttribute("userInfo");
+      Map user = userDao.singleUserByPrimaryKey(((User) httpSession.getAttribute("user")).getUserId());
+      Map userinfo = userinfoDao.singleUserinfoByPrimaryKey(((Userinfo) httpSession.getAttribute("userInfo")).getUserId());
       model.addAttribute("user", user);
       model.addAttribute("userInfo", userinfo);
       model.addAttribute("parentMenuNo", "4");
       model.addAttribute("childMenuNo", "1");
-      String pParam = userinfo.getZcRegionId().toString().substring(0, 2) + "0000";
-      String cParam = userinfo.getZcRegionId().toString().substring(0, 4) + "00";
+      String pParam = userinfo.get("zc_region_id").toString().substring(0, 2) + "0000";
+      String cParam = userinfo.get("zc_region_id").toString().substring(0, 4) + "00";
       //省列表
       model.addAttribute("provinceList", this.getChildRegionList(0));
       model.addAttribute("provinceId", pParam);
@@ -702,12 +704,12 @@ public class CustomerController extends BaseController {
       model.addAttribute("cityId", cParam);
       //区列表
       model.addAttribute("countyList", this.getChildRegionList(CommonUtil.getIntFromString(cParam)));
-      model.addAttribute("userName", user.getUserName());
+      model.addAttribute("userName", user.get("user_name"));
       return "views/front/customer/company/companyInfo.jsp";
    }
 
    /**
-    * 进入个人中心，查看企业信息
+    *
     *
     * @param model
     * @return

@@ -20,7 +20,7 @@
         </ul>
 		<br>
 		
-	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-prodOrderList">
+	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/customer/orderList">
 		<input type="hidden" id="page" name="page" value="${param.page}">
 		<input type="hidden" id="orderState" name="orderState" value="${param.orderState}">
 	</form>
@@ -119,14 +119,22 @@
                         </span>
                     </td>
                     <td class="right-border tx-ct" >
-                         <span class="ds-bl fl-lt pd-lf-20 ft-wt-bd " style=""> 
+                         <span class="ds-bl fl-lt pd-lf-20 ft-wt-bd " style="">
+							 <c:if test="${item.orderState==-2}">管理员取消</c:if>
                              <c:if test="${item.orderState=='0'}">待确认</c:if>
-								<c:if test="${item.orderState=='1'}">待付款</c:if>
+								<%--<c:if test="${item.orderState=='1'}">待付款</c:if>
 								<c:if test="${item.orderState=='11'}">待物流付款</c:if>
 								<c:if test="${item.orderState=='12'}">待付款</c:if>
 								<c:if test="${item.orderState=='13'}">线下付款审核中</c:if>
 								<c:if test="${item.orderState=='14'}">线下付款审核中</c:if>
-								<c:if test="${item.orderState=='15'}">线下付款审核中</c:if>
+								<c:if test="${item.orderState=='15'}">线下付款审核中</c:if>--%>
+							 <c:if test="${item.orderState==1}">
+								 <c:if test="${item.prodPayState==-2}">线下付款审核不通过</c:if>
+								 <c:if test="${item.prodPayState==0}">待付款</c:if>
+								 <c:if test="${item.prodPayState==1}">授信付款等待到账</c:if>
+								 <c:if test="${item.prodPayState==2}">线下付款审核中</c:if>
+								 <c:if test="${item.prodPayState==5}">待物流付款</c:if>
+							 </c:if>
 								<c:if test="${item.orderState=='2'}">已付款</c:if>
 								<c:if test="${item.orderState=='22'}">已付款(线下支付申请)</c:if>
 								<c:if test="${item.orderState=='21'}">已付款(中信支付申请)</c:if>
@@ -145,12 +153,20 @@
                         </span>
                     </td>
                     <td>
-                        	<c:if test="${item.orderState==0||item.orderState==1}">
+                        	<c:if test="${item.orderState==0}">
 						<span class="span_btn pointer" onClick="toURL('cancelOrder', '${item.orderId}')">取消订单</span>
 					</c:if>
-					<c:if test="${item.orderState==1||item.orderState==12}">
+						<c:if test="${item.orderState==1}">
+							<c:if test="${item.isSelfCar==0&&(item.prodPayState==0||item.prodPayState==-2)}"><span class="span_btn pointer" onClick="toURL('cancelOrder', '${item.orderId}')">取消订单</span></c:if>
+							<c:if test="${item.isSelfCar==1&&(item.prodPayState==0||item.prodPayState==-2)&&(item.logisticsPayState==0||item.logisticsPayState==-2)}"><span class="span_btn pointer" onClick="toURL('cancelOrder', '${item.orderId}')">取消订单</span></c:if>
+						</c:if>
+					<%--<c:if test="${item.orderState==1||item.orderState==12}">
 						<span class="span_btn pointer ft-wt-bd" onClick="toURL('editFukuan', '${item.orderId}')">付款</span>
-					</c:if>
+					</c:if>--%>
+						<c:if test="${item.orderState==1}">
+							<c:if test="${item.prodPayState==-2}"><span class="span_btn pointer ft-wt-bd" onClick="toURL('editFukuan', '${item.orderId}')">付款</span></c:if>
+							<c:if test="${item.prodPayState==0}"><span class="span_btn pointer ft-wt-bd" onClick="toURL('editFukuan', '${item.orderId}')">付款</span></c:if>
+						</c:if>
 					<c:if test="${item.orderState==3 ||item.orderState==4}">
 							<span class="span_btn" onClick="toURL('orderDetail', '${item.orderId}')">发货详情</span>
 					</c:if>

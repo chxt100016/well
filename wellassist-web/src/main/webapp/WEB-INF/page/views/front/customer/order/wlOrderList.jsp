@@ -71,12 +71,26 @@
                          </span>
                     </td>
                     <td class="right-border tx-ct" >
-                        <span class="ds-bl fl-lt pd-lf-20 ft-wt-bd " style=""> 
+                        <span class="ds-bl fl-lt pd-lf-20 ft-wt-bd " style="">
+                            <c:if test="${item.orderState==-2}">管理员取消订单</c:if>
                            	<c:if test="${item.state==-1}">无效</c:if>
 								<c:if test="${item.state==0}">待确认</c:if>
-								<c:if test="${item.state==2}">待支付</c:if>
-								<c:if test="${item.state==3}">待提货</c:if>
+								<%--<c:if test="${item.state==2}">待支付</c:if>--%>
+                            <c:if test="${item.state==2}">
+                            <c:if test="${item.orderState==1}">
+                                <c:if test="${item.logisticsPayState==-2}">线下付款审核不通过</c:if>
+                                <c:if test="${item.logisticsPayState==-1}">授信付款驳回</c:if>
+                                <c:if test="${item.logisticsPayState==0}">待付款</c:if>
+                                <c:if test="${item.logisticsPayState==1}">授信付款等待到账</c:if>
+                                <c:if test="${item.logisticsPayState==2}">线下付款审核中</c:if>
+                                <c:if test="${item.logisticsPayState==5}">待商品订单付款</c:if>
+                            </c:if>
+                            </c:if>
+								<%--<c:if test="${item.state==3}">待提货</c:if>
 								<c:if test="${item.state==4}">已发货</c:if>
+								<c:if test="${item.state==5}">已完成</c:if>--%>
+                            <c:if test="${item.orderState==2}">待提货</c:if>
+                            <c:if test="${item.state==4}">已发货</c:if>
 								<c:if test="${item.state==5}">已完成</c:if>
                         </span>
                         <br>
@@ -92,9 +106,15 @@
                            <c:if test="${item.state==0}">
 						<span class="span_btn" onClick="toURL('qiangdan', '${item.logisticsId}')">抢单详情</span>
 					</c:if>
-					<c:if test="${item.state==2}">
+					<%--<c:if test="${item.state==2}">
 						<span class="span_btn" onClick="toURL('payLogistics', '${item.logisticsId}')">付款</span>
-					</c:if>
+					</c:if>--%>
+                             <c:if test="${item.state==2}">
+                             <c:if test="${item.orderState==1}">
+                                 <c:if test="${item.logisticsPayState==-2}"><span class="span_btn" onClick="toURL('payLogistics', '${item.logisticsId}')">付款</span></c:if>
+                                 <c:if test="${item.logisticsPayState==0}"><span class="span_btn" onClick="toURL('payLogistics', '${item.logisticsId}')">付款</span></c:if>
+                             </c:if>
+                         </c:if>
                          </span>
                        
                     </td>

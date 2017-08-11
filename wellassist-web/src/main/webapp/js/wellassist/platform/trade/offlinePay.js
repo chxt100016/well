@@ -29,7 +29,7 @@
                 name: 'transState',
                 width: 80,
                 formatter: function(value, options, row) {
-                    var orderTransId=row.transId;
+                    var orderTransId=row.orderTransId;
                     if(value==-1){return '<a  class="btn btn-primary" href="./offlinePayCheck?orderTransId='+orderTransId+'">审核</a>';}
                     else if (value==-2){return '<a  class="btn btn-primary" href="./offlinePayDetail?orderTransId='+orderTransId+'">查看</a>';}
                     else if (value>-1){return '<a  class="btn btn-primary" href="./offlinePayDetail?orderTransId='+orderTransId+'">查看</a>';}

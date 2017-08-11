@@ -329,7 +329,7 @@ public class SellerServiceImpl implements SellerService {
         Date dZorderDate = DateUtils.parse(zorderDate, DateUtils.DATE_TIME_PATTERN);
         List<Map<String, Object>> orderVehicles = ConvertUtil.converJSONtoArrayListMap((String) params.get("orderVehicles"));
 
-        /*//减库存
+        //减库存
         Map<String, Object> map = prodDao.selectSalenum(Long.parseLong(orderId));
         if (map.containsKey("saleNum")) {
             Integer number = (Integer) map.get("saleNum") + Integer.parseInt(zorderNum);
@@ -338,7 +338,7 @@ public class SellerServiceImpl implements SellerService {
             map.put("saleNum", Integer.parseInt(zorderNum));
         }
         //prodDao.updateKucun(map);
-        prodDao.updateProdByPrimaryKey(map);*/
+        prodDao.updateProdByPrimaryKey(map);
 
 
         //如果是第一次发货，修改订单状态
@@ -349,7 +349,7 @@ public class SellerServiceImpl implements SellerService {
             updateOrderMap.put("orderId", Long.parseLong(orderId));
             updateOrderMap.put("orderState", 3);
             orderDao.updateOrderByID(updateOrderMap);
-            //如果是第三方物流，将wa_logitics_info表的state置为3
+            //如果是第三方物流，将wa_logitics_info表的state置为4
             if ((int) order.get("is_self_car") == 1) {
                 Map updateLogisticsInfoMap = new HashMap();
                 updateLogisticsInfoMap.put("orderId", Long.parseLong(orderId));
