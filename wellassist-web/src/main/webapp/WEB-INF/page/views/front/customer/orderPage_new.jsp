@@ -24,17 +24,26 @@
      .contentbox{
          border: 1px solid #999;
      }
+        .clear{
+            clear: both
+        }
      </style>
 </head>
 <body>
     <div class="container1"> 
         <div class="container2">
-    <div class="ui container" id="app1" style=" text-align:left;width: 1200px;margin-top:-1px ;left:10px">
+           
+           
+    <div class="ui container" id="app1" style=" text-align:left;margin-top:-1px ;left:10px">
+            <div class="ds-bl column" >
+                <img class="fl-rg ds-bl" src="<c:url value="/resources/wella/front/images/zhifu2.png"/>" alt="">
+            </div>
         <form id="infoForm" action="<c:url value="/customer/order"/>" method="post">
             <input type="hidden" name="toRegionId" id = "toRegionId">
             <input type="hidden" name="prodId" value="${prod.prodId}">
             <input type="hidden" name="orderData" id="orderData">
-            <h2 class="ui header">订单信息</h2>
+            <div class="clear">
+            <h4 class="ui header">订单信息</h4>
             <div class="ui divider"></div>
 
             <div class="column">

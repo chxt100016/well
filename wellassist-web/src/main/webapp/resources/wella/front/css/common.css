@@ -137,6 +137,10 @@ a:hover {color:#628828;}
 .pointer{
     cursor: pointer
 }
+ .middleAlign{
+  display: table-cell;
+vertical-align: middle;
+ }
      [v-cloak] {
     display: none !important;
 }
