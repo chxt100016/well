@@ -68,17 +68,17 @@
 						<%--<td><img  class = "fsImg" src="<c:url value="/resources/upload/images/bank_mark/china_citic_bank.png"/>"  onclick = "selectPayFs('1', this);"></td>
 						<td><img class = "fsImg  selected" src="<c:url value="/resources/upload/images/bank_mark/xianxia.png"/>"  onclick = "selectPayFs('0', this);"></td>--%>
 						<td>
-							<!-- <div class="ui floating labeled icon dropdown button"> -->
-  								<!-- <i class="payment icon"></i> -->
-									<!-- <span class="text">选择银行卡</span> -->
-									<!-- <div class="menu"> -->
-										<!-- <div class="header">请选择您添加过的银行卡 </div> -->
-										<!-- <div class="item inline"><img src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国银行(1158)  </div>
+							<div class="ui floating labeled icon dropdown button">
+  								<i class="payment icon"></i>
+									<span class="text">选择银行卡</span>
+									<div class="menu">
+										<div class="header">请选择您添加过的银行卡 </div>
+										<div class="item inline"><img src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国银行(1158)  </div>
 										<div class="item inline"><img src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国农业银行 </div>
 										<div class="item inline"><img src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国人民很行 </div>
-									</div> -->
-							<!-- </div> -->
-							<div class="menu">
+									</div>
+							</div>
+							<!-- <div class="menu">
 								<table class="logotab">
 									<tr>
 										<td><img src="../img/logo-zx.png" class="selected"></td>
@@ -93,7 +93,7 @@
 										<td></td>
 									</tr>
 								</table>
-							</div>
+							</div> -->
 						</td>
 						<td></td>
 					</tr>
@@ -258,13 +258,13 @@
 </script>
 
 <script>
-$('.logotab tr td').click(function(){
+// $('.logotab tr td').click(function(){
 
-	$(this).parent().find("img").removeClass("selected");
-	$(this).find("img").addClass("selected");
-})
+// 	$(this).parent().find("img").removeClass("selected");
+// 	$(this).find("img").addClass("selected");
+// })
 
-$('.menu').click(function(){
+// $('.menu').click(function(){
 	
 	// rechargeMoney
 	// var rechargeMoney = $("#rechargeMoney").val().trim();
@@ -278,20 +278,22 @@ $('.menu').click(function(){
 		console.log(value);
 	}*/
 
+// })
+
+$(function(){
+	$('.ui.accordion').accordion();
+	$('.dropdown')
+	  .dropdown({
+	    // you can use any ui transition
+	    transition: 'drop',
+		// action:'combo',
+		onclick: function(value, text, $selectedItem) {
+	     console.log(value);
+	    }
+	  })
+	;
 })
 
-
-// $('.ui.accordion').accordion();
-// $('.dropdown')
-//   .dropdown({
-    // you can use any ui transition
-    // transition: 'drop',
-	// action:'combo',
-// 	onclick: function(value, text, $selectedItem) {
-//      console.log(value);
-//     }
-//   })
-// ;
 
 
 
