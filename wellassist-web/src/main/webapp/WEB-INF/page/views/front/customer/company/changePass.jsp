@@ -35,7 +35,7 @@
 					<div style="font-size:14px;padding-left:8px;padding-top:12px;">
 						<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">设置新密码</span>
 						<div class="ui input">
-							<input type="password" name="newpass"  id="newpass" style="width:40%;">
+							<input type="password" name="loginNewpass"  id="newpass" style="width:40%;">
 						</div>
 					</div>
 					<div style="font-size:14px;padding-left:8px;padding-top:12px;">
@@ -46,8 +46,8 @@
 					</div>
 			
 					<div style="margin-bottom: 32px;margin-top: 32px;margin-left: 11%;">
-						<input type="submit" id="submitloginpass" class=" ui primary button" value="确定">
-						<input type="reset" id="reset" class=" ui button" value="重置">
+						<input type="submit" id="submitloginpass1" class=" ui primary button" value="确定">
+						<input type="reset" id="reset1" class=" ui button" value="重置">
 					</div>
 				</form>
 			</div>
@@ -65,7 +65,7 @@
 					<div style="font-size:14px;padding-left:8px;padding-top:12px;">
 						<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">设置新密码</span>
 						<div class="ui input">
-							<input type="password" name="paynewpass" id="paynewpass"  style="width:40%;">
+							<input type="password" name="payNewpass" id="paynewpass"  style="width:40%;">
 						</div>
 					</div>
 					<div style="font-size:14px;padding-left:8px;padding-top:12px;">
@@ -77,8 +77,8 @@
 			
 					<div style="margin-bottom: 32px;margin-top: 32px;margin-left: 11%;">
 						<!-- <span id="submit" class="bluebutton" style="padding-left: 16px;padding-right: 16px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;" align=center>确认下单</span> -->
-						<input type="submit" id="submitpaypass" class=" ui primary button" value="确定">
-						<input type="reset" id="reset" class=" ui button" value="重置">
+						<input type="submit" id="submitpaypass2" class=" ui primary button" value="确定">
+						<input type="reset" id="reset2" class=" ui button" value="重置">
 					</div>
 				</form>
 			</div>
@@ -110,25 +110,32 @@
         },
 	    submitHandler: function(form){
 	    	var oldPass = $("#oldpass").val();
-	    	$.post("${pageContext.request.contextPath}/front/seller/company/SellerCompanyController-checkOrgPass", {oldPass:oldPass},	function(data) {
-				if(data.state == 1) {
-					var act_url = "${pageContext.request.contextPath}/front/seller/company/SellerCompanyController-updateNewPass";
+	    	$.post("${pageContext.request.contextPath}/userinfo/checkOrgPass", {oldPass:oldPass},	function(data) {
+				if(data.code == 0) {
+					if(data.flag){
+					var act_url = "${pageContext.request.contextPath}/userinfo/updateLoginNewPass";
 			    	$.post(act_url,$(form).serialize(),function(data){
 			    		data = $.parseJSON(data);
-			    		if(data.state==1){
+			    		if(data.code==0){
 			            	alert("保存成功!");
 			            }else{
-			            	alert(data.content);
+			            	alert(data.msg);
 			            }
 			      	})
 			      	.error(function(data){
 			      		alert("保存失败！")
 			      	});
-				}else{
-					alert("原来密码不正确!");
+					 }else{
+						 alert("朋友你的密码是不是输错了")
+					 }
+
+				}
+				else{
+					//原密码有问题
+					alert(data.msg);
 				}
 			}, 'json');
-	    	
+			
 	    },
 		errorElement: "div",
 		errorClass: "error"
@@ -151,22 +158,27 @@
         },
 	    submitHandler: function(form){
 	    	var oldPass = $("#payoldpass").val();
-	    	$.post("${pageContext.request.contextPath}/front/customer/CompanyController-checkPayOrgPass", {oldPass:oldPass},	function(data) {
-				if(data.state == 1) {
-					var act_url = "${pageContext.request.contextPath}/front/customer/CompanyController-updatePayNewPass";
+	    	$.post("${pageContext.request.contextPath}/userinfo/checkPayOrgPass", {oldPass:oldPass},	function(data) {
+				if(data.code == 0) {
+					if(data.flag){
+					var act_url = "${pageContext.request.contextPath}/userinfo/updatePayNewPass";
 			    	$.post(act_url,$(form).serialize(),function(data){
 			    		data = $.parseJSON(data);
-			    		if(data.state==1){
+			    		if(data.code==0){
 			            	alert("保存成功!");
 			            }else{
-			            	alert(data.content);
+			            	alert(data.msg);
 			            }
 			      	})
 			      	.error(function(data){
 			      		alert("保存失败！")
 			      	});
-				}else{
-					alert("原来密码不正确!");
+				  }else{
+					  alert("原支付密码输入不正确!");
+				  }
+				}
+				else{
+					alert(data.msg);
 				}
 			}, 'json');
 	    	

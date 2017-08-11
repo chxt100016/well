@@ -190,6 +190,7 @@
                 bankCode: ''
             },
             Cards:[] ,
+           
         },
         computed: {
             validation: function() {

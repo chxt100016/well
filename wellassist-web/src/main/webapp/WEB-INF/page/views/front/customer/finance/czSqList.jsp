@@ -21,7 +21,7 @@
 
 </head>
 <div class="container1">
-	<div style="margin:40px 0 0 210px;">
+	<div style="margin:40px 0 0 210px;" id='app'>
 		<div id = "content-rect" style="width:90%;">
 			<div class = "row-header" style="border-bottom:1px solid #d0d0d0;padding-bottom:10px;"><span class = "header-title">充值</span></div>
 			<!-- <form id = "infoForm" action="${pageContext.request.contextPath}/customer/rechargeApply" method="post">
@@ -49,34 +49,61 @@
 			<form id = "infoForm" action="${pageContext.request.contextPath}/customer/rechargeApply" method="post">
 			<input type = "hidden" id = "rechargeType" name = "rechargeType"/>
 			
-				<table style="width:90%;" class="formtab">
-					<tr>
-						<td class="caption" style="width:7%;font-size:14px;font-weight:600;">充值金额</td>
-						<td style="width:17%;">
-							<div class = "one-fld ui input">
-								<input type="text" id = "rechargeMoney" name="rechargeMoney" placeholder="请输入你的充值金额" style="width:90%;">
+				
+				<div style="width:100% ;">
+					 <div class="column" style="padding-left:50px ;height:50px;padding-top:10px">
+						<div class="caption middleAlign" style="font-size:14px;font-weight:600; width:90px">充值金额:</div>
+						<div class="middleAlign">
+							<div class = "one-fld ui input" >
+								<input type="text" id = "rechargeMoney" name="rechargeMoney" placeholder="请输入你的充值金额" style="">
+
 							</div>
-						</td>
-						<td class="caption" style="text-align:left;font-size:14px;font-weight:600;">元</td>
-					</tr>
+						</div>
+					 <div class="caption middleAlign" style="font-size:14px;font-weight:600; width:90px">元</div> 
+					</div>
+					 <div class="column" style="padding-left:50px ;height:50px;padding-top:10px"  >
+						<div class="caption middleAlign" style="font-size:14px;font-weight:600; width:90px">充值方式:</div>
+						<div class="middleAlign">
+							<div class="ui floating labeled icon dropdown button">
+								<i class="payment icon"></i>
+							<span class="text">选择银行卡</span>
+							<div class="menu" id="bankMenu"   style="width:230px">
+										<!-- <div class="header">请选择您添加过的银行卡 </div> -->
+										<!-- <div class="item"><img class="ui avatar image" src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国银行(1158)  </div>
+										<div class="item"><img class="ui avatar image" src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国农业银行 </div>
+										<div class="item"><img class="ui avatar image" src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国人民很行 </div> -->
+								   <!-- <div class="header">请选择您添加过的银行卡 </div> -->
+										  <div class="header">请选择您添加过的银行卡 </div>
+								      <div class="item" v-for='card in Cards'><img class="ui avatar image"src="<c:url value="/resources/upload/images/bank_mark/zxyh.jpg"/>"s>  {{card.bankName}}*** <span class="bkAcc">{{card.bankAccount}}</span> </div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					
+					
+
+
+
+<!-- 
 					<tr>
 						<td class="caption" style="font-size:14px;font-weight:600;">充值方式</td>
 						<%--<td><img  class = "fsImg" src="<c:url value="/resources/upload/images/bank_mark/china_citic_bank.png"/>"  onclick = "selectPayFs('1', this);"></td>
 						<td><img class = "fsImg  selected" src="<c:url value="/resources/upload/images/bank_mark/xianxia.png"/>"  onclick = "selectPayFs('0', this);"></td>--%>
 						<td>
-							<div class="ui floating labeled icon dropdown button">
+							<div class="ui floating labeled icon dropdown button"> -->
   								<!-- <i class="payment icon"></i> -->
-									<span class="text">选择银行卡</span>
-									<div class="menu">
+									<!-- <span class="text">选择银行卡</span>
+									<div class="menu"> -->
 										<!-- <div class="header">请选择您添加过的银行卡 </div> -->
-										<div class="item"><img class="ui avatar image" src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国银行(1158)  </div>
+										<!-- <div class="item"><img class="ui avatar image" src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国银行(1158)  </div>
 										<div class="item"><img class="ui avatar image" src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国农业银行 </div>
 										<div class="item"><img class="ui avatar image" src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国人民很行 </div>
-									</div>
-							</div>
+									</div> -->
+							<!-- </div>
 						</td>
-						<td></td>
-					</tr>
+						<td></td> -->
+					<!-- </tr> -->
 					<tr>
 						<td></td>
 						<td style="text-align:right;">
@@ -149,7 +176,9 @@
 				<%@ include file="../../pagination.jsp"%>
 		    </div>	
 		</div>
+		</div>
 	</div>
+	
 </div>
 		
 <script type = "text/javascript">
@@ -200,11 +229,13 @@
     	    messages: {
     	    	rechargeMoney:{required:"请输入充值金额！" , number:"请输入只数字形式！"}
     	    },
-    	    errorPlacement: function (error, element) { 
-    	    	if($(element).closest('.one-fld').children().filter("div.error-div").length < 1) 
-    			$(element).closest('.one-fld').append("<div class='error-div red'></div>");	
-    		$(element).closest('.one-fld').children().filter("div.error-div").append(error);
-    	    },
+    	    // errorPlacement: function (error, element) { 
+    	    // 	if($(element).closest('.one-fld').children().filter("div.error").length < 1) 
+    		// 	$(element).closest('.one-fld').append("<div class='error-div'></div>");	
+    		//     $(element).closest('.one-fld').children().filter("div.error").append(error);
+    	    // },
+			errorElement: "div",
+		    errorClass: "error",
     	    submitHandler: function(form){
     	    	var rechargeMoney = $("#rechargeMoney").val();
     	    	if(parseInt(rechargeMoney) <= 0){
@@ -220,6 +251,13 @@
     	      	}, "json");
     	    }
     	});	
+		
+     $('.ui.dropdown')
+  .dropdown()
+;
+  
+	
+
 	});
 
 	// $("td").attr("valign", "top");
@@ -230,28 +268,54 @@
 	// $("#back").click( function(){
 	// 	goBack();
 	// });
-
-	
-	
-</script>
-
-<script>	
-$(function(){
-
-
 // $('.ui.accordion').accordion();
 $('.dropdown')
   .dropdown({
     // you can use any ui transition
     transition: 'drop',
 	// action:'combo',
-	onclick: function(value, text, $selectedItem) {
-     console.log(value);
-    }
+	// onclick: function(value, text, $selectedItem) {
+    //  console.log(value);
+    // }
   })
 ;
+	
+	
+</script>
 
-})
+<script>	
+const url1="${pageContext.request.contextPath}/userinfo/getCards"
+  var vm = new Vue({
+		  el:'#app',
+		  data:{
+           Cards:{},
+		  },
+		  created: function(){
+			  var that =this;
+               $.get(url1,'',function(data){
+		  if(data.code==0){
+			  console.log(data.Cards);
+			//   $("#")
+			for (var i = 0; i < data.Cards.length; i++) {
+				var str='' ,str2;
+				str= data.Cards[i].bankAccount;
+				// str = Number(str);
+				str2 = str.substring(str.length-4);
+				data.Cards[i].bankAccount =str2;
+				console.log(data.Cards[i].bankAccount);
+			}
+			
+			 that.Cards= data.Cards
+			
+		  }else{
+			  console.log('false')
+		  }
+		  
+	  },'json')
+		  },
+    
+
+	  })
 
 </script>
 <%@ include file="../footer.jsp"%>

@@ -8,6 +8,7 @@
 
 <script src="<c:url value="/resources/library/js/chosen.jquery.js"/>"></script>
 <script src="<c:url value="/resources/library/js/bootstrap-fileupload.js"/>"></script>
+<script src="${pageContext.request.contextPath}/statics/libs/ajaxupload.js"></script>
 
 <style>
 .container1{min-height: 990px;width: 100%;}
@@ -71,7 +72,7 @@ div.error{
 				<div style="font-size:14px;padding:32px 45px;display: inline-block;width: 90%;">
 					<div>
 						<div id="companyicon" style="float:left;width:12%;height:100px;border:solid 1px #ccc;">
-							<img id="icon" style="margin:8px;" src="${userInfo.companyImg}">							
+							<img id="icon" style="margin:8px;" src="${userInfo.companyImg}" width="93px;height:93px">							
 						</div>
 						<div style="float:left;margin-left:32px;">
 							<div style="font-size:20px;font-weight:bold;margin-bottom:12px;">${user.userName}</div>
@@ -92,7 +93,8 @@ div.error{
 								<span style="margin-right:24px;">笔</span>
 							</div>
 							<div class="ui" style="margin-bottom:12px;font-size:16px;">
-								<a id="upload"  class="ui button primary">更换头像</a>
+                                <a id="upload"  class="ui button primary" style="width:100px;height:40px">更换头像 <input type="file"  style="opacity: 0;"></a>
+                                <input type="hidden" class="" name="companyImg" value="${userInfo.companyImg}">
 								<!-- <a class="fancybox" rel="group" href="userInfo.companyImg">
 									<img id="icon" src="userInfo.companyImg" width="136px" height="134px" />
 								</a> -->
@@ -119,7 +121,9 @@ div.error{
 						<c:forEach items="${countyList}" var="item" varStatus="status">
 							<option value="${item.regionId}"  <c:if test="${item.regionId==userInfo.zcRegionId}" >selected</c:if> >${item.regionName}</option>
 						</c:forEach>
-					</select>
+                    </select>
+                    <!-- <span>reginid:${userInfo.zcRegionId}</span> -->
+                    <input type="hidden" name="zcRegionId" id="zc_region_id" value="${userInfo.zcRegionId}"/>
 				</div>
 				<div style="margin-top:24px;padding-left:45px;display: inline-block;width: 90%;">
 					<span style="display:inline-block;width:10%;font-size:14px;">详细地址</span>
@@ -144,17 +148,40 @@ div.error{
 				</div>
 				
 				
-				<div style="margin-bottom: 32px;margin-top: 32px;margin-left: 11%;">
-					<!-- <span id="submit" class="bluebutton" style="padding-left: 16px;padding-right: 16px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;" align=center>确认下单</span> -->
-					<input type="submit" id="submit" class=" ui primary button" value="保存">
-					
-				</div>
-                <input type="hidden" name="zc_region_id" id="zc_region_id" value="${userInfo.zcRegionId}"/>
-                <div style="border-bottom:solid 1px #d0d0d0;padding-bottom:10px;font-size:15px;font-weight: 600;">资质信息</div>
-			<div style="margin-top:24px;padding-left:45px;width: 90%;">
+				
+                
+                <div>
+                    <br>
+				<div style="border-bottom:solid 1px #d0d0d0;padding-bottom:10px;font-size:15px;font-weight: 600;">联系方式</div>
+				
+				
+					<div style="font-size:14px;padding-left:8px;padding-top:32px;">
+						<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">联系人</span>
+						<div class="ui input">
+						  	<input type="text" name="companyLxr" id="companyLxr" placeholder="请输入联系人" value="${userInfo.companyLxr}">
+						</div>
+						
+					</div>
+					<div style="font-size:14px;padding-left:8px;padding-top:24px;">
+						<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">联系人手机号码</span>
+						<div class="ui input">
+							<input type="text" name="companyLxrPhone" id="companyLxrPhone" placeholder="请输入联系手机号码"  value="${userInfo.companyLxrPhone}">
+						</div>
+                    </div>
+                    <!-- <div style="font-size:14px;padding-left:8px;padding-top:24px;">
+						<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">联系人邮箱</span>
+						<div class="ui input">
+							<input type="text" name="companyLxrEmail" id="companyLxrEmail" placeholder="请输入联系手机号码"  value="${userInfo.companyLxrEmail}">
+						</div>
+					</div> -->
+					<br>
+            </div>
+                <br>
+            <div style="border-bottom:solid 1px #d0d0d0;padding-bottom:10px;font-size:15px;font-weight: 600;">资质信息</div>
+			  <div style="margin-top:24px;padding-left:45px;">
 				<span>法人身份证：</span>
 				<div class="ui input" style="width:30%;">
-					<input type="text" name="IDcard" id="IDcard" placeholder="请输入法人的身份证号" value="">
+					<input type="text" name="legalIdCard" id="IDcard" placeholder="请输入法人的身份证号" value="${user.legalIdCard}">
 				</div>
 				
 	                <div class="ui three column grid">
@@ -171,14 +198,14 @@ div.error{
                                    
                                  </div>
                                 <div class="extra content field" >
-                                    <div class="meta"  style=" height: 35px">
-                                    	<img src="" />
+                                    <div class="meta"  >
+                                    	<img src="${userInfo.companyYyZzImg}"  width="100%" height="200px" id="img1"/>
                                     </div>
                                     <a href="javascript:;" class="file" style="margin-top:55px;">
                                          <span class="white-color">选择文件</span>
                                           <i class="upload icon white-color" ></i>
                                          <input type="file"  id="upload1">
-                                        <input type="hidden" name="companyYyZzImg">
+                                        <input type="hidden" id="imgflag1"name="companyYyZzImg" value="${userInfo.companyYyZzImg}">
                                         <%--<a id="bankBill" download="bankBill.xlsx">download</a>--%>
                                     </a>                                       
                                  </div>                                
@@ -194,14 +221,14 @@ div.error{
                                    
                                  </div>
                                 <div class="extra content field" >
-                                    <div class="meta"  style=" height: 35px">
-                                    	<img src="../img/zxlogo.jpg" />
+                                    <div class="meta"  >
+                                    	<img src="${userInfo.companyXkzImg}"  width="100%" height="200px" id="img2" />
                                     </div>
                                     <a href="javascript:;" class="file"  style="margin-top:55px;">
                                          <span class="white-color">选择文件</span>
                                           <i class="upload icon white-color" ></i>
                                          <input type="file" id="upload2">
-                                        <input type="hidden" name="openper">
+                                        <input type="hidden" name="companyXkzImg" id="imgflag2" value="${userInfo.companyXkzImg}">
                                     </a>
                                         
                                  </div>
@@ -216,14 +243,14 @@ div.error{
                                             </div>
                                         </div>
                                         <div class="extra content field" >
-                                            <div class="meta"  style=" height: 35px">
-		                                    	<img src="../img/logo.png" />
+                                            <div class="meta"  >
+		                                    	<img src="${userInfo.companyTxkzImg}"   width="100%" height="200px" id="img3"/>
 		                                    </div>
                                             <a href="javascript:;" class="file" style="margin-top:55px;">
                                                 <span class="white-color">选择文件</span>
                                                 <i class="upload icon white-color" ></i>
                                                 <input type="file" id="upload3">
-                                                <input type="hidden" name="companyart">
+                                                <input type="hidden" id="imgflag3" name="companyTxkzImg" value="${userInfo.companyTxkzImg}">
                                             </a>
                                                 
                                         </div>
@@ -233,7 +260,11 @@ div.error{
                     </div>                
 	                </div><br>
 
-	                <div class="ui primary  button">保存</div>              
+	               <div style="margin-bottom: 32px;margin-top: 32px;">
+					<!-- <span id="submit" class="bluebutton" style="padding-left: 16px;padding-right: 16px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;" align=center>确认下单</span> -->
+					<input type="submit" id="submit" class=" ui primary button" value="保存">
+					
+				</div>    
             	
 			</div>
 
@@ -255,7 +286,17 @@ div.error{
         	userEmail: "required",
             companyYyZzImg:'required',
             companyXkzImg:'required',
-            companyTxkzImg:'required'
+            companyTxkzImg:'required',
+            legalIdCard:{
+                required:true,
+                maxlength:18
+                },
+             companyLxrPhone:{
+                digits:true,
+                required:true,
+            }
+
+
         },
         messages: {
         	zcXxAddress: "请输入详细地址！",
@@ -263,7 +304,16 @@ div.error{
         	userEmail: "请输入电子邮箱！",
             companyYyZzImg:'请上传许可证',
             companyXkzImg:'许可证',
-            companyTxkzImg:'特许经营许可证'
+            companyTxkzImg:'特许经营许可证',
+            legalIdCard:{
+              required:  '身份证要填哦',
+              maxlength:'国内身份证是18位哦'
+              },
+
+            companyLxrPhone:{
+                digits:'请输入合法的手机号',
+                required:'请输入合法的手机号',
+            }
         },
 	    submitHandler: function(form){
 	    	var region_id = $("#zc_region_id").val();
@@ -272,14 +322,15 @@ div.error{
     			alert("请选择地区信息");
     			return false;
     		}
-	    	var act_url = "${pageContext.request.contextPath}/front/seller/company/SellerCompanyController-companyInfoUpdate";
+            console.log($(form).serialize());
+	    	var act_url = "${pageContext.request.contextPath}/userinfo/updateCompanyInfo";
 	    	$(form).attr("action", act_url);
 			$.post($(form).attr("action"),$(form).serialize(),function(data){
 	    		data = $.parseJSON(data);
-	    		if(data.state==1){
+	    		if(data.code==0){
 	            	alert("保存成功!");
 	            }else{
-	            	alert(data.content);
+	            	alert(data.msg);
 	            }
 	      	})
 	      	.error(function(data){
@@ -324,6 +375,26 @@ div.error{
 </script>
 <script>
             $(function () {
+                new AjaxUpload('#upload', {
+                    action: '${pageContext.request.contextPath}/uploadFile',
+                    name: 'file',
+                    autoSubmit:true,
+                    responseType:"json",
+                    onSubmit:function(file, extension){
+                        if (!(extension && /^(jpg|png)$/.test(extension.toLowerCase()))){
+                            alert('只支持jpg、png格式的文件！');
+                            return false;
+                        }
+                    },
+                    onComplete : function(file, data){
+                        console.log("success!");
+                        if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
+                        $(":input[name='companyImg'][type='hidden']").val(data.path);
+                        /*$("a#bankBill").attr("href",data.path);*/
+                        $("#icon").attr("src",data.path);
+                        return;
+                    }
+                });
                 new AjaxUpload('#upload1', {
                     action: '${pageContext.request.contextPath}/uploadFile',
                     name: 'file',
@@ -336,10 +407,11 @@ div.error{
                         }
                     },
                     onComplete : function(file, data){
+                        console.log("success!");
                         if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
-                        $(":input[name='companyper'][type='hidden']").val(data.path);
+                        $(":input[name='companyYyZzImg'][type='hidden']").val(data.path);
                         /*$("a#bankBill").attr("href",data.path);*/
-                        handleFiles(document.getElementById("upload1"),file);
+                        $("#img1").attr("src",data.path);
                         return;
                     }
                 });
@@ -356,8 +428,8 @@ div.error{
                     },
                     onComplete : function(file, data){
                         if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
-                        $(":input[name='openper'][type='hidden']").val(data.path);
-                        handleFiles(document.getElementById("upload2"),file);
+                        $(":input[name='companyXkzImg'][type='hidden']").val(data.path);
+                          $("#img2").attr("src",data.path);
                         return;
                     }
                 });
@@ -374,45 +446,17 @@ div.error{
                     },
                     onComplete : function(file, data){
                         if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
-                        $(":input[name='companyart'][type='hidden']").val(data.path);
-                        handleFiles(document.getElementById("upload3"),file);
+                        $(":input[name='companyTxkzImg'][type='hidden']").val(data.path);
+                       $("#img3").attr("src",data.path);
                         return;
                     }
                 });
-                $('.ui.form').form({
-                    fields: {
-                        companyper:{
-                            identifier: 'companyper',
-                            rules: [
-                                {
-                                    type: 'empty',
-                                    prompt: '请上传营业执照'
-                                }
-                            ]
-                        },
-                        openper:{
-                            identifier: 'openper',
-                            rules: [
-                                {
-                                    type: 'empty',
-                                    prompt: '请上传开户许可'
-                                }
-                            ]
-                        },
-                        companyart:{
-                            identifier: 'companyart',
-                            rules: [
-                                {
-                                    type: 'empty',
-                                    prompt: '请上传公司章程'
-                                }
-                            ]
-                        }
-                    },
-                    inline: true,
-                    on: 'blur'
-                })
-                    ;
+
+
+                function getArea(){
+                    $("#provinceId")
+                }
+               
             })
             function handleFiles(files,filename) {
                 var filesShow= files.parentNode.parentNode.firstChild.nextElementSibling;

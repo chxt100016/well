@@ -62,7 +62,7 @@
             <if test="companyYyZz != null" >
                 company_yy_zz = #{companyYyZz,jdbcType=VARCHAR},
             </if>
-            <if test='companyYyZzImg != null companyYyZzImg.trim() != "" ' >
+            <if test='companyYyZzImg != null and companyYyZzImg.trim() != "" ' >
                 company_yy_zz_img = #{companyYyZzImg,jdbcType=VARCHAR},
             </if>
             <if test="companyKhXkz != null" >
