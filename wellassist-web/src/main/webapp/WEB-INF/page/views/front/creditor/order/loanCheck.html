@@ -1,4 +1,5 @@
 #parse("sys/creditorheader.html")
+
 <head>
     <title></title>
     <meta charset="UTF-8">
@@ -21,20 +22,23 @@
 </head>
 
 <body>
-    <div class="ui container segment mid_box" id="app1">
-        <h2 class="ui header">放贷操作：</h2>
-        <div class="ui divider"></div>
-        <div>
-            <table class="ui table ">
-                <thead>
-                    <div class="ui active inline loader" v-if='loadingState'></div>
-                    <th>公司名称</th>
-                    <th>请求金额</th>
-                    <th>请求时间</th>
-                    <th>免息期</th>
-                    <th>信用等级</th>
-                    <th>利率</th>
-                    <!-- <th>
+    <div class="container1">
+        <div class="container2">
+
+            <div class="ui container segment mid_box" id="app1">
+                <h2 class="ui header">放贷操作：</h2>
+                <div class="ui divider"></div>
+                <div>
+                    <table class="ui table ">
+                        <thead>
+                            <div class="ui active inline loader" v-if='loadingState'></div>
+                            <th>公司名称</th>
+                            <th>请求金额</th>
+                            <th>请求时间</th>
+                            <th>免息期</th>
+                            <th>信用等级</th>
+                            <th>利率</th>
+                            <!-- <th>
                         <select name="aKey" type="hidden" v-model.lazy="aKey" class="ui dropdown">
                                 <option value="">所有</option>
                                 <option value="0">未审核</option>
@@ -43,94 +47,133 @@
                                 <option value="3">审核不通过</option>
                          </select>
                     </th> -->
-                    <th width="21%" class="center ui">操作</th>
+                            <th width="21%" class="center ui">操作</th>
 
-                </thead>
-                <tbody>
-                    <tr v-if="dataState">
-                        <td>暂无数据</td>
-                    </tr>
-                    <tr v-for="(item,index) in lists">
-                        <td> {{ item.customerUserName }}</td>
-                        <td>{{ item.loanMoney }}</td>
-                        <td>{{ item.applyDate }}</td>
-                        <td>免息期为您确认放款后7日</td>
-                        <td>
-                            <div class="ui star rating" data-rating="3">
-                                <i class="icon active"></i>
-                                <i class="icon active"></i>
-                                <i class="icon active"></i>
-                            </div>
-                        </td>
-                        <td>{{ item.lixiRate*0.9 }}</td>
+                        </thead>
+                        <tbody>
+                            <tr v-if="dataState">
+                                <td>暂无数据</td>
+                            </tr>
+                            <tr v-for="(item,index) in lists">
+                                <td> {{ item.customerUserName }}</td>
+                                <td>{{ item.loanMoney }}</td>
+                                <td>{{ item.applyDate }}</td>
+                                <td>免息期为您确认放款后7日</td>
+                                <td>
+                                    <div class="ui star rating" data-rating="3">
+                                        <i class="icon active"></i>
+                                        <i class="icon active"></i>
+                                        <i class="icon active"></i>
+                                    </div>
+                                </td>
+                                <td>{{ item.lixiRate*0.9 }}</td>
 
-                        <td>
-                            <button class="ui button positive" @click='agree(index,item.customerUserName,item.loanId,item.loanMoney)'>同意</button>
-                            <button class="ui button negative " @click="Disapprove(item.loanId)">不同意</button>
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th colspan="8">
-                            <div class="ui right floated pagination menu">
-                                <a class="icon item" @click="turnPage(-1)">
+                                <td>
+                                    <button class="ui button positive" @click='agree(index,item.customerUserName,item.loanId,item.loanMoney)'>同意</button>
+                                    <button class="ui button negative " @click="disgree(index,item.customerUserName,item.loanId,item.loanMoney)">不同意</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="8">
+                                    <div class="ui right floated pagination menu">
+                                        <a class="icon item" @click="turnPage(-1)">
                                  <i class="left chevron icon"></i>
                                     </a>
-                                <a class="item" v-for="index in indexs" v-bind:class="{ 'active': currentPage == index-1}" v-on:click="btnClick(index)">{{index}}</a>
-                                <a class="icon item" @click="turnPage(1)">
+                                        <a class="item" v-for="index in indexs" v-bind:class="{ 'active': currentPage == index-1}" v-on:click="btnClick(index)">{{index}}</a>
+                                        <a class="icon item" @click="turnPage(1)">
                                 <i class="right chevron icon"></i>
                                 </a>
-                            </div>
-                </tfoot>
-            </table>
-        </div>
-        <!-- 弹出层 -->
-        <div class="ui  small modal">
-            <i class="close icon"></i>
-            <div class="header">
-                放款操作
-            </div>
-            <div class=" content">
-
-                <div class="description">
-                    <div>贷款公司名称：{{loanInfo.customerUserName}}</div>
-                    <div>贷款金额：{{loanInfo.loanMoney}}元</div>
-                    <div class="ui form">
-                        <div class="inline fields">
-                            <label>还款时间</label>
-                            <div class="field">
-                                <div class="ui radio checkbox">
-                                    <input type="radio" name="frequency" value="30" v-model="loanInfo.paymentDays">
-                                    <label>30天</label>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <div class="ui radio checkbox">
-                                    <input type="radio" name="frequency" value="60" v-model="loanInfo.paymentDays">
-                                    <label>60天</label>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <div class="ui radio checkbox">
-                                    <input type="radio" name="frequency" value="90" v-model="loanInfo.paymentDays">
-                                    <label>90天</label>
-                                </div>
-                            </div>
-                        </div>
+                                    </div>
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- 弹出层 -->
+                <div class="ui  small modal" id="agree">
+                    <i class="close icon"></i>
+                    <div class="header">
+                        放款操作
                     </div>
+                    <div class=" content">
 
+                        <div class="description">
+                            <div>贷款公司名称：{{loanInfo.customerUserName}}</div>
+                            <div>贷款金额：{{loanInfo.loanMoney}}元</div>
+                            <div class="ui form">
+                                <div class="inline fields">
+                                    <label>还款时间</label>
+                                    <div class="field">
+                                        <div class="ui radio checkbox">
+                                            <input type="radio" name="frequency" value="30" v-model="loanInfo.paymentDays">
+                                            <label>7</label>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="ui radio checkbox">
+                                            <input type="radio" name="frequency" value="60" v-model="loanInfo.paymentDays">
+                                            <label>14天</label>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="ui radio checkbox">
+                                            <input type="radio" name="frequency" value="90" v-model="loanInfo.paymentDays">
+                                            <label>30天</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <span>注：免息期为“放款成功后七日”</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="actions">
+                        <div class="ui button ">取消</div>
+                        <div class="ui button" @click="Postloans">确认</div>
+                    </div>
                 </div>
 
+                <!-- 弹出层 -->
+                <div class="ui  small modal" id="disagree">
+                    <i class="close icon"></i>
+                    <div class="header">
+                        放款操作
+                    </div>
+                    <div class=" content">
+
+                        <div class="description">
+                            <div>贷款公司名称：{{loanInfo.customerUserName}}</div>
+                            <div>贷款金额：{{loanInfo.loanMoney}}元</div>
+                            <form class="ui reply form">
+                                <div class="field">
+                                    <textarea placeholder="请输入此次拒绝放款的原因或者备注"></textarea>
+                                </div>
+                                <div class="ui blue labeled submit icon button"><i class="icon edit"></i> 提交 </div>
+                            </form>
+                            <div>
+                                <span>注：取消后，将无法撤回”</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="actions">
+                        <div class="ui button ">取消</div>
+                        <div class="ui button" @click="Disapprove">确认</div>
+                    </div>
+                </div>
+
+
+
+
+
             </div>
-            <div class="actions">
-                <div class="ui button ">Cancel</div>
-                <div class="ui button" @click="Postloans">OK</div>
-            </div>
+
         </div>
-
     </div>
-
 </body>
 <!-- <script>
     $(function () {
@@ -245,7 +288,16 @@
                 vm.loanInfo.customerUserName = customerUserName;
                 vm.loanInfo.loanMoney = loanMoney;
                 vm.loanInfo.loanid = loanId;
-                $('.ui.modal')
+                $('#agree')
+                    .modal('show')
+                    ;
+            },
+            disgree:function (index, customerUserName, loanId, loanMoney) {
+                console.log(index + customerUserName + loanId);
+                vm.loanInfo.customerUserName = customerUserName;
+                vm.loanInfo.loanMoney = loanMoney;
+                vm.loanInfo.loanid = loanId;
+                $('#disagree')
                     .modal('show')
                     ;
             },
@@ -341,10 +393,10 @@
                         if (result.code == 0) {
                             // console.log('成功');
                             // console.log(result.page.totalPage);
-                             that.lists = result.page.list;
+                            that.lists = result.page.list;
                             that.totalPage = result.page.totalPage;
                             // console.log(vm.totalPage);
-                        
+
 
                         } else {
                             console.log('失败')

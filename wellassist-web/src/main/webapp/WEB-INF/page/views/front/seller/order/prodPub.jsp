@@ -2,6 +2,10 @@
     <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
         <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/seller/publishpage.css"/>">
+        <div class="container1">
+            <div class="container2">
+
+          
 
         <div class="mid_box" id="app" style="width:991px;left: 50px;float:left;margin-left: 10px;">
             <form id="product-publish" method="post" class="ui form">
@@ -105,6 +109,8 @@
             </form>
         </div>
 
+        </div>
+      </div>
         </div>
 
         <script>

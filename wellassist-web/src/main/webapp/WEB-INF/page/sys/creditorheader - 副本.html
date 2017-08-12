@@ -1,0 +1,267 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>放款放管理员页面</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Admin Panel Template">
+	<meta name="author" content="Westilian: Kamrujaman Shohel">
+	<!-- <link rel="stylesheet" href="${rc.contextPath}/resources/library/css/bootstrap.css"> -->
+	     <link rel="stylesheet" href="${rc.contextPath}/resources/library/css/semantic.min.css"/>
+		<!-- <link rel="stylesheet" href="${rc.contextPath}/resources/library/css/bootstrap-responsive.css"> -->
+		<link rel="stylesheet" href="${rc.contextPath}/resources/library/css/font-awesome.css">
+		<!--[if IE 7]>
+		<link rel="stylesheet" href="${rc.contextPath}/resources/library/css/font-awesome-ie7.min.css">
+		<![endif]-->
+		<link rel="stylesheet" href="${rc.contextPath}/resources/library/css/chosen.css">
+		<!-- <link rel="stylesheet" href="${rc.contextPath}/resources/wella/front/css/styles.css"> -->
+		<link rel="stylesheet" href="${rc.contextPath}/resources/wella/front/css/header.css">
+		<link rel="stylesheet" href="${rc.contextPath}/resources/wella/front/css/common.css">
+		<!--[if IE 7]>
+		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/resources/library/css/ie/ie7.css">
+		<![endif]-->
+		<!--[if IE 8]>
+		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/resources/library/css/ie/ie8.css">
+		<![endif]-->
+		<!--[if IE 9]>
+		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/resources/library/css/ie/ie9.css">
+		<![endif]-->
+		<link rel="shortcut icon" href="${rc.contextPath}/resources/wella/common/ico/wellassist.png">
+		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="${rc.contextPath}/resources/wella/common/ico/wellassist-144.png">
+		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="${rc.contextPath}/resources/wella/common/ico/wellassist-114.png">
+		<link rel="apple-touch-icon-precomposed" sizes="72x72"   href="${rc.contextPath}/resources/common/ico/wellassist-72.png">
+		<link rel="apple-touch-icon-precomposed" href="${rc.contextPath}/resources/wella/common/ico/wellassist-57.png">
+		<!--============ javascript ===========-->
+		<script src="${rc.contextPath}/resources/library/js/jquery.js"></script>
+		<!-- <script src="${rc.contextPath}/resources/library/js/jquery-ui-1.10.1.custom.min.js"></script> -->
+		<script src="${rc.contextPath}/resources/library/js/semantic.min.js"/>"></script>
+			<script src="${rc.contextPath}/resources/library/js/vue.min.js"/>"></script>
+		<!-- <script src="${rc.contextPath}/resources/library/js/bootstrap.js"></script> -->
+		<script src="${rc.contextPath}/resources/wella/common/js/accordion.nav.js"></script>
+		<script src="${rc.contextPath}/resources/common/js/global.js"></script>
+		
+		<!-- <script src="${rc.contextPath}/resources/common/js/jquery.validate.js"></script> -->
+	    <!-- <script src="${rc.contextPath}/resources/houtai/js/jquery.form.js"></script> -->
+	    
+	    <!-- <link   href="${rc.contextPath}/resources/houtai/css/jquery.fancybox.css" rel="stylesheet" />
+		<script src="${rc.contextPath}/resources/houtai/js/jquery.fancybox.js"></script> -->
+		
+		<script src="${rc.contextPath}/resources/library/js/My97DatePicker/WdatePicker.js"></script>
+		<script src="${rc.contextPath}/resources/common/js/common.js"></script>
+
+		<link rel="stylesheet" href="${rc.contextPath}/resources/wella/front/css/leftmenu.css">
+		<link rel="stylesheet" href="${rc.contextPath}/resources/wella/front/css/front_common.css">
+		
+		<style>
+			.more a:hover {
+				background: #71160d;
+			}
+			li.topmenuselected{
+				background: #0557ab;
+			}
+		</style>
+</head>
+<style>
+	.more a:hover {	background: #71160d;}
+	li.topmenuselected{	background: #0557ab;}
+</style>
+
+
+	<!-- navigation bar -->
+	<div class="topheader">
+		<div align=center>
+
+			<div class="max-lg" >
+ 					<div class="ui compact menu " style="float:left;">
+						 <div class="ui simple dropdown item">
+								$user.userName
+								<i class="dropdown icon"></i>
+								<div class="menu">
+										<div class="item"><a style = "color: #1F2325; text-decoration: none;" href = "${rc.contextPath}/front/fkf/FkfLoginCtrl-logout">退出登陆</a></div>
+									
+								</div>
+						</div>
+ 					</div>
+					<span style="float: right; margin-top: 10px" ><a class="vt-mid" href="${rc.contextPath}/front/fkf/FkfHomeCtrl-home">返回首页</a></span>
+
+
+			</div>
+		</div>
+	</div>
+
+	<!-- top menu -->
+	<div class="navbar navbar-inverse top-nav wellblue" align=center style="height:50px;overflow:hidden">
+		<div class="navbar-inner">
+			<div class="container">
+				<div align=left style="width:1400px;">
+					
+						<ul class="ui menu wellblue blue inverted">
+							<li class="item" class="mg-lf-30">管理员&nbsp&nbsp</li>
+							<li id="dingdancenter" class="  item parentul #if($parentMenuNo==1)header#end">
+								<a class="" href="${rc.contextPath}/creditor/loanCheck">放贷中心</a>
+							</li>
+							<li id="financecenter" class="item parentul #if($parentMenuNo==2)header #end">
+								<a class="" href="${rc.contextPath}/creditor/interestListPage" >财务中心</a>
+							</li>
+							<li id="newscenter" class=" item parentul#if($parentMenuNo==3)header#end">
+								<a class="" href="#" >消息中心</a>
+							</li>
+							<li id="company_manage" class=" item parentul menu-break-right #if($parentMenuNo==4)header#end">
+								<a class="" href="#">企业管理</a>
+							</li>
+						</ul>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	#if($sideNavShow==1)
+	<div id="main_content" align=center style="width: 1420px;margin: 0px auto;padding-top: 10px;">
+		<div id="leftmenu" class="ui vertical accordion menu" style="max-width:205px;float:left; margin-top:1em;position:fixed;z-index:99">
+			#if($parentMenuNo ==1)
+				<div  class="item">
+					<a class="active title">
+						<i class="dropdown icon"></i> <label for="" class="ft-sz-16">放贷管理</label>
+					</a>
+					<div class="active content" style="display: block;">
+						<div class="ui form">
+							  <div class="grouped fields">
+								  <!-- <div class="field pointer">
+									  <div class="ui checkbox">
+									  <input type="checkbox" name="example" #if($childMenuNo==1) checked='checked'#end>
+									  <label onclick="authApply();" style="cursor:pointer">资格申请</label>
+									  </div>		
+								 </div> -->
+									
+								</div>
+								<div class="grouped fields">
+								  <div class="field pointer " >
+									  <a href="${rc.contextPath}/creditor/loanCheck"><div class="ui checkbox"  href = >
+									  <input type="checkbox" name="example" #if($childMenuNo==2) checked='checked'#end>
+									  <label style="cursor:pointer">放贷管理</label>
+									  </div>	
+									</a>	
+								 </div>									
+								</div>
+								<!-- <li class="leftmenuleaf #if($childMenuNo==2)selected#end"><a href = "${rc.contextPath}/creditor/loanCheck">授信列表</a></li> -->
+					        </div>
+						
+					  </div>
+				</div>
+				
+			#end
+			#if($parentMenuNo ==2)
+				<!-- <ul>
+					<li class="leftmenulevel1" onclick="menuparentclicked( this);">
+						<div style="">财务中心</div>
+					</li>
+					<ul style="display: block;">
+						<li class="leftmenuleaf #if($childMenuNo==1)selected#end"><a href = "${rc.contextPath}/creditor/interestListPage">利息列表</a></li>
+						<li class="leftmenuleaf #if($childMenuNo==2)selected#end"><a href = "${rc.contextPath}/creditor/repayOffListPage">还款列表</a></li>
+						<li class="leftmenuleaf #if($childMenuNo==2)selected#end"><a href = "${rc.contextPath}/creditor/repayingListPage">未还款列表</a></li>
+					</ul>
+				</ul> -->
+					<div  class="item">
+					<a class="active title">
+						<i class="dropdown icon"></i> <label for="" class="ft-sz-16">财务中心</label>
+					</a>
+					<div class="active content" style="display: block;">
+						<div class="ui form">
+							  <div class="grouped fields">
+								  <div class="field pointer">
+									    <a href="${rc.contextPath}/creditor/interestListPage">
+									  <div class="ui checkbox">
+									  <input type="checkbox" name="example" #if($childMenuNo==1) checked='checked'#end>
+									  <label style="cursor:pointer">利息列表</label>
+									  </div>
+									  </a>		
+								 </div>
+									
+								</div>
+								<div class="grouped fields">
+								  <div class="field pointer " >
+									  <a href="${rc.contextPath}/creditor/repayOffListPage"><div class="ui checkbox"   >
+									  <input type="checkbox" name="example" #if($childMenuNo==2) checked='checked'#end>
+									  <label style="cursor:pointer">还款列表</label>
+									  </div>	
+									</a>	
+								 </div>									
+								</div>
+								<div class="grouped fields">
+								  <div class="field pointer " >
+									  <a href="${rc.contextPath}/creditor/repayingListPage"><div class="ui checkbox"   >
+									  <input type="checkbox" name="example" #if($childMenuNo==3) checked='checked'#end>
+									  <label style="cursor:pointer;margin-left: 15px;">未还款列表</label>
+									  </div>	
+									</a>	
+								 </div>									
+								</div>
+								<!-- <li class="leftmenuleaf #if($childMenuNo==2)selected#end"><a href = "${rc.contextPath}/creditor/loanCheck">授信列表</a></li> -->
+					        </div>
+						
+					  </div>
+				</div>
+			#end
+			#if($parentMenuNo ==3)
+				<ul>
+					<li class="leftmenulevel1" onclick="menuparentclicked( this);">
+						<div style="">消息中心</div>
+					</li>
+					<ul style="display: block;">
+						<li class="leftmenuleaf #if($childMenuNo==1)selected#end"><a href = "">消息通知</a></li>
+					</ul>
+				</ul>
+			#end
+			#if($parentMenuNo ==4)
+				<ul>
+					<li class="leftmenulevel1" onclick="menuparentclicked( this);">
+						<div style="">信息设置</div>
+					</li>
+					<ul style="display: block;">
+						<li class="leftmenuleaf #if($childMenuNo==1)selected#end"><a href = "">公司信息</a></li>
+						<li class="leftmenuleaf #if($childMenuNo==2)selected#end"><a href = "">联系方式</a></li>
+						<li class="leftmenuleaf #if($childMenuNo==3)selected#end"><a href = "">修改密码</a></li>
+					</ul>
+				</ul>
+			#end
+		</div>
+	</div>
+	#end
+			
+		
+	
+
+<script type="text/javascript">
+$('.ui.accordion')
+  .accordion()
+;
+	function authApply() {
+		$.get('${rc.contextPath}/creditor/creditorState',{},function(r){
+			if (r.code==0){
+			    if (r.state==0||r.state==-1){
+			        window.location.href="${rc.contextPath}/creditor/qualityApply";
+				}else if (r.state==1){
+			        alert("您的资质正在审核中");
+				}else if (r.state=2){
+					alert("您已通过放款资质审核");
+				}
+			}else{
+			    alert(r.msg);
+			}
+		},'json');
+    }
+	
+	#*function menuparentclicked( obj){
+		var nextobj = $(obj).nextAll("ul:first");
+		if( $(nextobj).css("display")!="none"){
+			$(nextobj).slideUp();
+			$(obj).css("list-style-image", "url('${rc.contextPath}/resources/wella/front/images/lftmnuitmcollapsed.png')");
+		} else {
+			$(nextobj).slideDown();
+			$(obj).css("list-style-image", "url('${rc.contextPath}/resources/wella/front/images/lftmnuitmexpanded.png')");
+		}
+	}*#
+
+</script>
+
+

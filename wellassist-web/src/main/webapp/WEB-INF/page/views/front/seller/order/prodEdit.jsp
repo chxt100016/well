@@ -4,7 +4,11 @@
 <link rel="stylesheet" 	href="<c:url value="/resources/wella/front/css/seller/publishpage.css"/>">
 <%--<script type="text/javascript" src="${pageContext.request.contextPath}/resources/library/js/jquery.form.js"></script>--%>
 <script src="${pageContext.request.contextPath}/statics/libs/ajaxupload.js"></script>
-<div class="mid_box" id="app" style="width:999px;left:80px;position:relative">
+<div class="container1">
+    <div class="container2">
+
+   
+<div class="mid_box" id="app" >
 	<form id="product-publish" method="post" >
 
 		<table>
@@ -111,7 +115,8 @@
 		</div>
 	</form>
 </div>
-
+ </div>
+</div>
 <script>
     /*function clearFileName() {
         $("input[type='file']").each(function() {
