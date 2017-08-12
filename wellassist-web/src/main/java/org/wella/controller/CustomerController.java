@@ -56,6 +56,9 @@ public class CustomerController extends BaseController {
    private ProdDao prodDao;
 
    @Autowired
+   private OrderDao orderDao;
+
+   @Autowired
    private CustomerBackOrderMapper customerBackOrderMapper;
 
    @Autowired
@@ -93,24 +96,22 @@ public class CustomerController extends BaseController {
     * @param response
     */
    @RequestMapping(value = "order", method = RequestMethod.POST)
-   public void order(@RequestParam Map<String, Object> map, HttpServletRequest request, HttpServletResponse response) {
+   @ResponseBody
+   public R order(@RequestParam Map<String, Object> map, HttpServletRequest request, HttpServletResponse response) {
       User user = (User) HttpContextUtils.getHttpServletRequest().getSession().getAttribute("user");
       long userId = user.getUserId();
       map.put("userId", userId);
       String ip = getIpAddr(request);
       map.put("orderIp", ip);
       JSONObject res = new JSONObject();
+      long orderId=0;
       try {
-         customerServiceImpl.order(map);
-         res.put("state", "1");
-         res.put("content", ConstantUtil.MSG_SUCCESS);
+         orderId=customerServiceImpl.order(map);
       } catch (Exception e) {
-         res.put("state", "2");
-         res.put("content", ConstantUtil.MSG_FAILS);
          e.printStackTrace();
-      } finally {
-         this.echo(response, res);
+         return R.error();
       }
+      return R.ok().put("orderId",orderId);
    }
 
    @RequestMapping("makeOrder")
@@ -135,9 +136,12 @@ public class CustomerController extends BaseController {
    }
 
    @RequestMapping({"orderSuccess"})
-   public String orderSuccess(HttpServletRequest request, Model model) {
+   public String orderSuccess(@RequestParam("orderId")long orderId, HttpServletRequest request, Model model) {
       User user = (User) request.getSession().getAttribute("user");
+      Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
       model.addAttribute("username", user.getUserName());
+      model.addAttribute("orderNo",order.get("order_no"));
+      model.addAttribute("orderDate",order.get("order_date"));
       model.addAttribute("parentMenuNo", "1");
       model.addAttribute("childMenuNo", "1");
       return "views/front/customer/ordersheetresult.jsp";

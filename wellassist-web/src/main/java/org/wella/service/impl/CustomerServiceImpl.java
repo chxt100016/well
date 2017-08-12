@@ -68,7 +68,7 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     @Transactional
-    public void order(Map map) {
+    public long order(Map map) {
         //获取与用户和产品相关联的信息写入订单表中
         long userId = (long) map.get("userId");
         Userinfo userinfo = userinfoDao.getOrderUserinfoByUserid(userId);
@@ -147,6 +147,8 @@ public class CustomerServiceImpl implements CustomerService {
         orderHistoryTail.setContent("买家下单。");
         orderHistoryTail.setTailDate(new Date());
         orderHistoryTailDao.createOrderHistoryTail(orderHistoryTail);*/
+
+        return order.getOrderId();
     }
 
 

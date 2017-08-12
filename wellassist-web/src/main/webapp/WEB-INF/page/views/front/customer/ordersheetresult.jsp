@@ -86,9 +86,9 @@
 		
 		<table style="text-align:center;margin-right:0;">
 			<tr>
-				<td style="border-right:solid 3px #fff;"><img src="../img/apply1.png" /></td>
-				<td style="border-right:solid 3px #fff;"><img src="../img/apply1.png" /></td>
-				<td><img src="../img/apply2.png" /></td>
+				<td style="border-right:solid 3px #fff;"><img src="${pageContext.request.contextPath}/img/apply1.png" /></td>
+				<td style="border-right:solid 3px #fff;"><img src="${pageContext.request.contextPath}/img/apply1.png" /></td>
+				<td><img src="${pageContext.request.contextPath}/img/apply2.png" /></td>
 			</tr>
 			<tr>
 				<td style="color:#ffd287">1、填写订单</td>
@@ -103,25 +103,26 @@
 					<td style="font-size:24px;font-weight:600;">支付成功!</td>
 				</tr>
 				<tr>
-					<td style="font-size:15px;font-weight:600;">下单时间：${item.orderDate}</td>
+					<td style="font-size:15px;font-weight:600;">下单时间：<fmt:formatDate value="${orderDate}" pattern="yyyy-MM-dd HH:mm:ss"></td>
 				</tr>
 			</table>
 			<div style="background-color:#f2f2f2;line-height:60px;height:60px;text-align:center;width:100%;margin-top:30px;">
 				<table style="font-size:15px;font-weight:600;">
 					<tr>
 						<td>订单号：</td>
-						<td style="text-align:left;" width="65%">${item.orderNo}</td>
-						<td>你可以在<a href="">订单中心</a>下查看该页面</td>
+						<td style="text-align:left;" width="65%">${orderNo}</td>
+						<td>你可以在<a href="${pageContext.request.contextPath}/customer/orderList">订单中心</a>下查看该页面</td>
 					</tr>
 				</table>
 			</div>
-			<div style="margin-top:50px;text-align:center;">
+			<div style="margin-top:50px;text-align:center;"><a href="${pageContext.request.contextPath}/customer/prodList">
 				<div class="ui button primary">
 					<span>产品中心</span>
-				</div>
+				</div></a>
+				<a href="${pageContext.request.contextPath}/customer/orderList">
 				<div class="ui button" style="margin-left:40px;">
 					<span>订单列表</span>
-				</div>
+				</div></a>
 			</div>
 		</div>
 		    <!-- <div class="ui container" id="app1" width="100%" >

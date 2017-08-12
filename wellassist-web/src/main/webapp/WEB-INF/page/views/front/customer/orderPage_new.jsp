@@ -462,11 +462,11 @@
 
                 if(confirm("你要确定操作吗?")){
                     $.post($(form).attr("action"),$(form).serialize(),function(data){
-                        if(data.state==1 ){
+                        if(data.code==0 ){
                             /*window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerHomeCtrl-orderSuccess";*/
-                            window.location.href = "${pageContext.request.contextPath}/customer/orderSuccess";
+                            window.location.href = "${pageContext.request.contextPath}/customer/orderSuccess?orderId="+data.orderId;
                         }else{
-                            alert(data.content);
+                            alert(data.msg);
                         }
                     }, "json");
                 }

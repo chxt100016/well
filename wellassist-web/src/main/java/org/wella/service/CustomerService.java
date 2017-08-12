@@ -19,7 +19,7 @@ public interface CustomerService {
      * 1.根据表单填写的内容，向表wa_order表中插入一条记录，此时订单的业务编发要根据相应的逻辑生成
      * 2.在表wa_order_info表中生成一条记录
      */
-    void order(Map map);
+    long order(Map map);
 
     /**
      *订单支付
