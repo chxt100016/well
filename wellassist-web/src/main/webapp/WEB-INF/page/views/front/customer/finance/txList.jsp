@@ -36,12 +36,14 @@
 					<span class = "col2">&nbsp;&nbsp;元</span>
 				</div>
 			</div> -->
+			<form action="" class="ui form txform">
 			<table style="font-size: 14px;font-weight: 600;margin: 20px 60px 60px;" class="txtab">
+				
 				<tr>
 					<td>提现金额&emsp;&emsp;&emsp;</td>
-					<td>
-						<div class="ui input" style="margin-left:15px;">
-							<input placeholder="请输入你的提现金额" type="text">
+					<td class="field">
+						<div class="ui input" style="width:220px">
+							<input placeholder="请输入你的提现金额" type="text" v-model='selCards.withdrawMoney' name='money'>
 						</div>&emsp;元
 					</td>
 					<td></td>
@@ -51,26 +53,27 @@
 					<td>提现账户&emsp;&emsp;&emsp;</td>
 					<!-- <td style="text-align:center;">303**********3030&emsp;&emsp;</td> -->
 					<!-- <td>（已绑定中信银行）&emsp;&emsp;</td> -->
-					<td>
-						<div class="ui selection dropdown" style="width:250px">
+					<td class="field">
+						<select class="ui fluid normal dropdown " style="width:250px" id="bankS"  @change='secBank()' name='account'>
 							<i class="dropdown icon"></i>
-							  <div class="default text">跟换</div>
-							  <div class="menu">
-								 <div class="item" v-for='card in Cards'>
-									 <img class="ui avatar image"src="<c:url value="/resources/upload/images/bank_mark/zxyh.jpg"/>"> 
-									  {{card.bankName}} *** <span class="bkAcc">{{card.bankAccount}}</span>
-								</div>
-								</div>
-						</div>
+							      <option class="default text" >请选择体现账户</option> 
+								 <option  class="item" v-for='(card,index) in Cards' v-bind:value="index" >
+									 <span @click="selected(index,card.bankName,card.bankAccountNew)"> {{card.bankName}} *** </span>
+									  <span class="bkAcc">{{card.bankAccountNew}}</span>
+								</option >
+								
+						</select>
 					</td>
 				</tr>
 				<tr>
 					<td></td>
-					<td>&emsp;&emsp;<button class="ui primary button">提现</button></td>
+					<td>&emsp;&emsp;<div class="ui primary button submit" @click="crash">提现</div></td>
 					<td></td>
 					<td></td>
 				</tr>
+				
 			</table>
+			</form>
 			<form id="searchFrm" method="get" action="${pageContext.request.contextPath}/customer/withdrawRecordList">
 				<input type="hidden" id="page" name="page" value="${param.page}">
 				<input type="hidden" id="withdrawState" name="withdrawState" value="${param.withdrawState}">
@@ -139,21 +142,59 @@
 
 <script type = "text/javascript">
 	// 功能函数
-	function toURL(action){
-	}
+	
 	
 	// 状态选择函数
-	function setTxState(withdrawState){
-		$("#withdrawState").val(withdrawState);
-		$("#searchFrm").submit();
-	};
+	$(function(){
+
 	
+$('.txform')
+  .form({
+	  fields: {
+		  money:{
+			   identifier: 'money',
+				rules: [
+				{
+					type   : 'empty',
+					prompt : '朋友你得提多少钱'
+				},
+				{
+				 type: 'number',
+				 prompt:'数字啊兄弟'	
+				}
+			]
+		  },
+		  account: {
+			   identifier: 'account',
+				rules: [
+				{
+					type   : 'empty',
+					prompt : '朋友你的账户要选好'
+				}
+			]
+		  }
+	  },
+	  on: 'blur',
+	  inline : true,
+	onSuccess: function(e) {
+        //阻止表单的提交
+        e.preventDefault();
+    }
+  })	
+
+  })
 
 const url1= '${pageContext.request.contextPath}/userinfo/getCards';
+const url2= '${pageContext.request.contextPath}/finance/withdrawProcess';
 const vm = new Vue({
   el:"#app",
   data:{
    Cards:'',
+   selCards:{
+	   withdrawBank:'',
+	   account:'',
+	   withdrawMoney:'',
+   }
 //    selected:''
   },
   created:  function(){
@@ -166,8 +207,8 @@ const vm = new Vue({
 				str= data.Cards[i].bankAccount;
 				// str = Number(str);
 				str2 = str.substring(str.length-4);
-				data.Cards[i].bankAccount =str2;
-				console.log(data.Cards[i].bankAccount);
+				data.Cards[i].bankAccountNew =str2;
+				console.log(data.Cards[i].bankAccountNew);
 			}
 			 that.Cards= data.Cards
 			}
@@ -176,6 +217,44 @@ const vm = new Vue({
 				console.log('出错了')
 			}
 	  },'json')
+  },
+  methods:{
+	  secBank:function(){
+		   var that =this;
+		  let sid= $("#bankS").val();
+		  console.log(sid);
+		  that.selCards.withdrawBank=that.Cards[sid].bankName;
+		  that.selCards.account=that.Cards[sid].bankAccount;
+		  console.log(that.selCards);
+	  },
+	  selected:function(index,bankName,bankAccountNew){
+       console.log(index);
+	  },
+	  crash:function(){
+		  var that =this;
+					if( $('.txform').form('is valid')){
+			// form is valid (both email and name)
+		      	$.ajax({
+						type: "post",  //提交方式  
+						url: url2,//路径
+						dataType: 'json',
+						//  contentType: 'text/html;charset=UTF-8',
+						data: that.selCards,
+						success:function(result){
+								if(result.code==0){
+									alert("成功")
+								}
+								else{
+									alert(result.msg)
+								}
+						}
+				  })
+			
+			
+			}
+	 		 }
+  
+  
   }
 
 })
