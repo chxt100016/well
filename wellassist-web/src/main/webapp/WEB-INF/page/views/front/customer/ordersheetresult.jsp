@@ -99,11 +99,11 @@
 		<div style="border:1px solid #f2f2f2;margin-top:40px;padding:100px 0 50px;">
 			<table>
 				<tr>
-					<td rowspan="2" style="border-right:20px solid #fff;"><img src="../img/success.png" /></td>
+					<td rowspan="2" style="border-right:20px solid #fff;"><img src="${pageContext.request.contextPath}/img/success.png" /></td>
 					<td style="font-size:24px;font-weight:600;">支付成功!</td>
 				</tr>
 				<tr>
-					<td style="font-size:15px;font-weight:600;">下单时间：<fmt:formatDate value="${orderDate}" pattern="yyyy-MM-dd HH:mm:ss"></td>
+					<td style="font-size:15px;font-weight:600;">下单时间：<fmt:formatDate value="${orderDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				</tr>
 			</table>
 			<div style="background-color:#f2f2f2;line-height:60px;height:60px;text-align:center;width:100%;margin-top:30px;">
