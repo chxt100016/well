@@ -15,13 +15,14 @@ $(function () {
                     else if(value == "1"){return "通过"}
                 }
             },
-            {label: '审核', name: '', width: 75 ,formatter:function (value,option,row) {
+            {label: '审核', name: 'userState', width: 75 ,formatter:function (value,option,row) {
                     var userId = row.userId;
-                    var state = row.userState;
                     // if(state==1){
                     //     return '<button  class="btn btn-primary" onclick="vm.review('+ userId + ')">查看</button>'
                     // }else {
-                        return '<button  class="btn btn-primary" onclick="vm.review(' + userId + ')">审核</button>'
+                if(value == "0"){return '<button  class="btn btn-primary" onclick="vm.review(' + userId + ')">审核</button>'}
+                else if(value == "-1"){return '<button  class="btn btn-danger" onclick="vm.review(' + userId + ')">再审核</button>'}
+                else if(value == "1"){return '<button  class="btn btn-warning " onclick="vm.review(' + userId + ')">再审核</button>'}
                     // }
                 }
             }

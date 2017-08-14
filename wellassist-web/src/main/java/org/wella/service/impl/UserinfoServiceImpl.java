@@ -32,6 +32,10 @@ public class UserinfoServiceImpl implements UserinfoService{
     @Autowired
     private UserinfoDao userinfoDao;
 
+    @Autowired
+    private WaAdressDao  waAdressDao;
+
+
     @Override
     @Transactional
     public void updateCompanyInfo(Map params) {
@@ -88,5 +92,44 @@ public class UserinfoServiceImpl implements UserinfoService{
         update.put("userId",userId);
         update.put("userPass",CommonUtil.MD5(loginNewPass));
         waUserDao.updateUserByUserId(update);
+    }
+
+
+    @Override
+    public Integer addAddress(Map map) {
+        return waAdressDao.addAddress(map);
+    }
+
+
+
+   /* String pParam = userinfo.get("zcRegionId").toString().substring(0, 2) + "0000";
+    String cParam = userinfo.get("zcRegionId").toString().substring(0, 4) + "00";
+    //省列表
+      model.addAttribute("provinceList", this.getChildRegionList(0));
+      model.addAttribute("provinceId", pParam);
+    //市列表
+      model.addAttribute("cityList", this.getChildRegionList(CommonUtil.getIntFromString(pParam)));
+      model.addAttribute("cityId", cParam);
+    //区列表
+      model.addAttribute("countyList", this.getChildRegionList(CommonUtil.getIntFromString(cParam)));
+      model.addAttribute("userName", user.get("userName"));*/
+
+
+
+    @Override
+    public List<Map<String, Object>> selectAddress(Long userId) {
+        List<Map<String,Object>> list=waAdressDao.selectAddress(userId);
+        for(Map map:list){
+
+
+        }
+        return null;
+
+    }
+
+
+    @Override
+    public Integer updateDefault(Long id) {
+        return waAdressDao.updateDefault(id);
     }
 }

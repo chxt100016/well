@@ -35,7 +35,10 @@ public class WaFinanceController {
     private FrontUserMoneyMapper userMoneyMapper0;
 
     @Autowired
-    private WithdrawDAO withdrawDAO;
+    private WithdrawDAO  withdrawDAO;
+
+
+
 
 
 
@@ -71,6 +74,22 @@ public class WaFinanceController {
             return R.error().put("state", 0).put("content", ConstantUtil.MSG_FAILS);
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     //财务信息接口

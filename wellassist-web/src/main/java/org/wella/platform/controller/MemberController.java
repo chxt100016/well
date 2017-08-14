@@ -52,8 +52,20 @@ public class MemberController extends AbstractController{
     @RequestMapping(value = "sellerList")
     public R sellerList(@RequestParam Map<String, Object> params){
         Query query = new Query(params);
-        query.put("userType", "3");
         List sellerList = memberServiceImpl.findSellerInfo(query);
+        int totalCount = waUserDao.findUserTotal(query);
+        //查询列表数据
+        PageUtils pageUtil = new PageUtils(sellerList, totalCount, query.getLimit(), query.getPage());
+        return R.ok().put("page", pageUtil);
+    }
+
+    /**
+     * 进入物流方管理界面的请求处理
+     */
+    @RequestMapping(value = "senderList")
+    public R senderList(@RequestParam Map<String, Object> params){
+        Query query = new Query(params);
+        List sellerList = memberServiceImpl.findSenderList(query);
         int totalCount = waUserDao.findUserTotal(query);
         //查询列表数据
         PageUtils pageUtil = new PageUtils(sellerList, totalCount, query.getLimit(), query.getPage());
