@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/wellassist-api/wellassist-api.iml" filepath="$PROJECT_DIR$/wellassist-api/wellassist-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/wellassist-common/wellassist-common.iml" filepath="$PROJECT_DIR$/wellassist-common/wellassist-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/wellassist-gen/wellassist-gen.iml" filepath="$PROJECT_DIR$/wellassist-gen/wellassist-gen.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wellassist-pay/wellassist-pay.iml" filepath="$PROJECT_DIR$/wellassist-pay/wellassist-pay.iml" />
       <module fileurl="file://$PROJECT_DIR$/wellassist-schedule/wellassist-schedule.iml" filepath="$PROJECT_DIR$/wellassist-schedule/wellassist-schedule.iml" />
       <module fileurl="file://$PROJECT_DIR$/wellassist-shiro/wellassist-shiro.iml" filepath="$PROJECT_DIR$/wellassist-shiro/wellassist-shiro.iml" />
       <module fileurl="file://$PROJECT_DIR$/wellassist-web/wellassist-web.iml" filepath="$PROJECT_DIR$/wellassist-web/wellassist-web.iml" />

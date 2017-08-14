@@ -84,7 +84,7 @@
 			    <thead>
 			        <tr>
 			            <th width="27%">时间</th>
-			            <th width="26%" style="border-bottom: 15px solid #fff;border-left:1px solid #d0d0d0;padding: 0;">名称</th>
+			            <th width="26%" style="border-bottom: 15px solid #fff;border-left:1px solid #d0d0d0;padding: 0;">账户</th>
 			            <th width="24%" style="border-bottom: 15px solid #fff;border-left:1px solid #d0d0d0;padding: 0;">金额(元)</th>
 			            <th width="23%" style="border-bottom: 15px solid #fff;border-left:1px solid #d0d0d0;padding: 0;">
 			            <div class="ui compact">
@@ -106,7 +106,7 @@
 		        <c:forEach var = "item" items = "${list}">
 		        <tr>
 		            <td>[<fmt:formatDate value="${item.withdrawDate}" pattern="yyyy-MM-dd HH:mm:ss"/>]</td>
-		            <td>${item.withdrawName}</td>
+		            <td>${item.account}</td>
 		            <td style="color:#009900;">${item.withdrawMoney}</td>
 		            <td>
 		                <c:if test = "${item.withdrawState == '-1'}">

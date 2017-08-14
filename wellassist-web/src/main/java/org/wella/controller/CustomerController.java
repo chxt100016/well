@@ -88,6 +88,9 @@ public class CustomerController extends BaseController {
    @Autowired
    private FinanceService financeServiceImpl;
 
+   @Autowired
+   private BankOrderDao bankOrderDao;
+
    /**
     * 买家下订单
     *
@@ -813,16 +816,16 @@ public class CustomerController extends BaseController {
       String userId = user.getUserId().toString();
       Map param = this.getConditionParam(request);
       param.put("userId", userId);
-      ArrayList list = this.bankOrderMapper0.getCzList(param);
+      List list = bankOrderDao.listPoByConditions(param);
       ConvertUtil.convertDataBaseMapToJavaMap(list);
-      int totalCount = this.bankOrderMapper0.getCzListCount(param);
-      Map retInfo = this.bankOrderMapper0.getCzMoneyInfo(param);
+      int totalCount = bankOrderDao.listPoByConditionsCount(param);
+      /*Map retInfo = this.bankOrderMapper0.getCzMoneyInfo(param);*/
       this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
       model.addAttribute("list", list);
       model.addAttribute("parentMenuNo", "2");
       model.addAttribute("childMenuNo", "5");
       model.addAttribute("userName", user.getUserName());
-      model.addAttribute("zfMoney", retInfo.get("zfMoney"));
+      /*model.addAttribute("zfMoney", retInfo.get("zfMoney"));*/
       return "views/front/customer/finance/czSqList.jsp";
    }
 
