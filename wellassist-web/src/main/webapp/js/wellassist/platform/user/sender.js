@@ -3,7 +3,7 @@
  */
 $(function () {
     $("#jqGrid").jqGrid({
-        url: '../user/sellerList',
+        url: '../user/senderList',
         datatype: "json",
         colModel: [
             { label: 'id', name: 'userId', index: "user_id", width: 45, key: true },
@@ -13,7 +13,7 @@ $(function () {
             }},
             { label: '公司详情', name: '', index: "user_id", width: 45, key: true,formatter:function (value,option,row) {
                 var userId = row.userId;
-                return '<a  class="btn btn-primary" href="./seller/sellerInfo/'+userId+'">公司详情</a>';
+                return '<a  class="btn btn-primary" href="./sender/senderInfo/'+userId+'">公司详情</a>';
             } }
         ],
         viewrecords: true,

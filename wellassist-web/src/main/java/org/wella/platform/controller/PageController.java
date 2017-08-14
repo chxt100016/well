@@ -69,6 +69,11 @@ public class PageController extends BaseController {
         model.addAttribute("userId",userId);
         return "views/platform/user/seller/sellerInfo.html";
     }
+    @RequestMapping("user/sender/senderInfo/{userId}")
+    public String senderInfoPage(@PathVariable("userId")String userId,Model model){
+        model.addAttribute("userId",userId);
+        return "views/platform/user/sender/senderInfo.html";
+    }
     @RequestMapping("user/creditor/creditorInfo/{userId}")
     public String creditorInfoPage(@PathVariable("userId")String userId,Model model){
         model.addAttribute("userId",userId);

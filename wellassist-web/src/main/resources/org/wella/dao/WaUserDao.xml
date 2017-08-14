@@ -265,7 +265,7 @@
         u.user_id,ui.`company_img`,ui.`company_name`,u.`create_date`,u.`user_money`,u.user_credit_money,u.supply_id
     </sql>
     <sql id="platformSenderInfo">
-        u.user_id,ui.company_img,ui.company_name,u.create_date
+        u.`user_id`,ui.`company_name`,u.`create_date`,u.`user_money`,ui.`company_img`
     </sql>
 
     <select id="findPlatformUserInfo" parameterType="java.util.Map" resultType="java.util.Map">
