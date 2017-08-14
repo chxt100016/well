@@ -34,7 +34,8 @@ public class WaFinanceController {
     @Autowired
     private FrontUserMoneyMapper userMoneyMapper0;
 
-
+    @Autowired
+    private WithdrawDAO  withdrawDAO;
 
     @Autowired
     private FinanceService financeServiceImpl;
@@ -43,7 +44,7 @@ public class WaFinanceController {
     @Autowired
     private TradeDAO tradeDao;
 
-  /*  @RequestMapping("withdrawProcess")
+    @RequestMapping("withdrawProcess")
     @ResponseBody
     public R withdrawProcess(@RequestParam Map<String, Object> params) {
         User user = (User) HttpContextUtils.getAttribute("user");
@@ -57,7 +58,7 @@ public class WaFinanceController {
             return R.ok().put("state", -1).put("content", "系统错误");
         }
     }
-*/
+
     @RequestMapping("rechargeApply")
     @ResponseBody
     public R rechargeApply(@RequestParam Map<String, Object> params) {
