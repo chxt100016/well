@@ -50,7 +50,7 @@
             <a class="ui logo icon image" href="/">
                 <h2>管理员</h2>
             </a>
-            <a href="/"><b>UI 文档</b></a>
+            <a href="/"></a>
 
         </div>
         <a class="item grey3  ">  <i class="user icon"></i> 我的工作台 </a>

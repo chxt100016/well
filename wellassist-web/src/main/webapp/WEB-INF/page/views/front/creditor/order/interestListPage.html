@@ -158,10 +158,12 @@
             turnPage(num) {
                 if (num === 1) {
                     if (this.currentPage === this.totalPage - 1) {
+                        
                         return
                     } else {
                         this.currentPage++
                     }
+                    
                 } else {
                     if (this.currentPage === 0) {
                         return
