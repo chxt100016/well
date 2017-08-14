@@ -35,7 +35,10 @@ public class WaFinanceController {
     private FrontUserMoneyMapper userMoneyMapper0;
 
     @Autowired
-    private WithdrawDAO withdrawDAO;
+    private WithdrawDAO  withdrawDAO;
+
+
+
 
     @Autowired
     private FinanceService financeServiceImpl;
