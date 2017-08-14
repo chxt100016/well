@@ -15,6 +15,7 @@
         <module name="wellassist-api" />
         <module name="wellassist-common" />
         <module name="wellassist-gen" />
+        <module name="wellassist-pay" />
         <module name="wellassist-schedule" />
         <module name="wellassist-shiro" />
         <module name="wellassist-web" />
@@ -25,6 +26,7 @@
       <module name="wellassist-api" target="1.7" />
       <module name="wellassist-common" target="1.7" />
       <module name="wellassist-gen" target="1.7" />
+      <module name="wellassist-pay" target="1.7" />
       <module name="wellassist-schedule" target="1.7" />
       <module name="wellassist-shiro" target="1.7" />
       <module name="wellassist-web" target="1.7" />
