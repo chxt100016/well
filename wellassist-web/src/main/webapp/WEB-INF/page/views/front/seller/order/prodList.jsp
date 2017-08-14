@@ -1,6 +1,8 @@
 <%@ include file="../header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<style type="text/css">
 
+</style>
 <div class="container1">
 	<div class="container2">
 
@@ -30,20 +32,60 @@
 		<br>
 		
 	<div>
-		<div class="fl-rg pd-20" >
-		   <a href="${pageContext.request.contextPath}/front/seller/SellerOrderController-prodPub">+产品上新</a>
+		<div class="fl-rg pd-20" style="font-size:14px;font-weight:600;color:#FF4400;" >
+		   <a href="${pageContext.request.contextPath}/front/seller/SellerOrderController-prodPub">+&ensp;产品上新</a>
 				
 			</div>
 	</div>
-	<table class="ui basic table ft-sz-14">
+	<!-- <table style="background-color:#e4ecf3; text-align:center;width:100%;line-height:35px;">
+		<thead>
+			<tr class="grey-4">
+			  	<th>产品详情</th>
+                <th>品类</th>
+                <th>单价(元/吨)</th>
+				<th>储备量</th>
+				<th>产品状态</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+	</table>
+	<c:forEach var="item" items="${waProdList}">
+	<table class="prodtab" style="width:100%;border:1px solid #f2f2f2;">
+		<tr>
+			<td><img src="${item.prodImg}" alt="" width="100px" height="74px">&emsp;${item.prodName}</td>
+			<td>一级品</td>
+			<td>${item.prodPrice}</td>
+			<td>${item.prodNum}</td>
+			<td>
+				<c:if test="${item.prodState=='-2'}">审核不通过</c:if>
+				<c:if test="${item.prodState=='-1'}">已下架</c:if>
+				<c:if test="${item.prodState=='0'}">未提交</c:if>
+				<c:if test="${item.prodState=='1'}">审核中</c:if>
+				<c:if test="${item.prodState=='2'}">已上架</c:if>
+			</td>
+			<td>
+				<c:if test="${item.prodState=='-2' || item.prodState=='0'}">				
+					<a style="cursor:pointer;color:black;" onclick="toURL('setProdState', '${item.prodId}')">提交</a>								
+				</c:if>
+				<c:if test="${item.prodState=='-1'}">						
+					<a style="cursor:pointer;color:black;" onclick="toURL('setProdState', '${item.prodId}')">上架</a>									
+				</c:if>
+				<c:if test="${item.prodState=='2'}">								
+					<a style="cursor:pointer;color:black;" onclick="toURL('setProdState', '${item.prodId}')">下架</a>	
+				</c:if>
+			</td>
+		</tr>
+	</table>
+	</c:forEach> -->
+	<table class="ui basic table ft-sz-14" style="text-align:center;">
 		<thead>
 			 <tr class="grey-4">
-				  <th width="30%">产品详情</th>
-                    <th>品类</th>
-                    <th>单价（元/吨）</th>
-					<th>储备量</th>
-					<th>产品状态</th>
-					<th>操作</th>
+			  	<th>产品详情</th>
+                <th>品类</th>
+                <th>单价（元/吨）</th>
+				<th>储备量</th>
+				<th>产品状态</th>
+				<th>操作</th>
 			</tr>
 			<tbody>	
 				<c:forEach var="item" items="${waProdList}">
