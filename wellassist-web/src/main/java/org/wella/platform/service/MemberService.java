@@ -165,7 +165,7 @@ public interface MemberService {
      * @param map
      * @return
      */
-    List<Map<String,Object>> findSendsList(Map map);
+    List<Map<String,Object>> findSenderList(Map map);
 
     /**
      * 暂且不考虑
@@ -205,4 +205,6 @@ public interface MemberService {
      * @return
      */
     Map<String,Object> authCreditorPageInfo(long userId);
+
+
 }

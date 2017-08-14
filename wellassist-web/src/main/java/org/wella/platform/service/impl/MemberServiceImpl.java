@@ -197,11 +197,11 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public List<Map<String, Object>> findSendsList(Map map) {
+    public List<Map<String, Object>> findSenderList(Map map) {
         map.put("userType",3);
         List<Map<String,Object>> list = waUserDao.findPlatformUserInfo(map);
         ConvertUtil.convertDataBaseMapToJavaMap(list);
-        return waUserDao.findPlatformUserInfo(map);
+        return list;
     }
 
     @Override
@@ -263,4 +263,6 @@ public class MemberServiceImpl implements MemberService{
         res.put("authCreditorPageInfo",creditorAuthenticInfo);
         return res;
     }
+
+
 }
