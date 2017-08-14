@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.WaAddress">
+
+
+
+    <insert id="addAddress" parameterType="java.util.Map" >
+        REPLACE into  wa_Address (id,user_id,region_id,address,state) values (#{id},#{user_Id},#{regionId},#{address},#{state})
+    </insert>
+
+
+
+
+    <select id="selectAddress" parameterType="Long" resultType="map">
+        select
+            id as id,
+            region_id as regionId,
+            address as address,
+            state as state
+            FROM  wa_address
+            where user_id=#{userId}
+    </select>
+
+
+
+    <update id="updateDefault" parameterType="Long" >
+        update wa_adress set state=1 where id=#{id}
+    </update>
+
+
+
+</mapper>
