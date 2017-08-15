@@ -83,42 +83,13 @@
 								</div>
 
 							</div>
+						</div>										
+                            <div style="margin-left:300px"> 
+							<input class="ui button primary" type="submit" id="submit" value="充值">
+							</div>
+								<!-- <input type="submit" id="submit" value="确认充值"> -->
 						</div>
 					
-					
-
-
-
-<!-- 
-					<tr>
-						<td class="caption" style="font-size:14px;font-weight:600;">充值方式</td>
-						<%--<td><img  class = "fsImg" src="<c:url value="/resources/upload/images/bank_mark/china_citic_bank.png"/>"  onclick = "selectPayFs('1', this);"></td>
-						<td><img class = "fsImg  selected" src="<c:url value="/resources/upload/images/bank_mark/xianxia.png"/>"  onclick = "selectPayFs('0', this);"></td>--%>
-						<td>
-							<div class="ui floating labeled icon dropdown button"> -->
-  								<!-- <i class="payment icon"></i> -->
-									<!-- <span class="text">选择银行卡</span>
-									<div class="menu"> -->
-										<!-- <div class="header">请选择您添加过的银行卡 </div> -->
-										<!-- <div class="item"><img class="ui avatar image" src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国银行(1158)  </div>
-										<div class="item"><img class="ui avatar image" src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国农业银行 </div>
-										<div class="item"><img class="ui avatar image" src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国人民很行 </div>
-									</div> -->
-							<!-- </div>
-						</td>
-						<td></td> -->
-					<!-- </tr> -->
-					<tr>
-						<td></td>
-						<td style="text-align:right;">
-						<div align=center style="margin-bottom: 24px;">
-							<!-- <input type="button" value="返回" onclick="goBack();"> -->
-							<button class="ui button primary" type="submit" id="submit">充值</button>
-								<!-- <input type="submit" id="submit" value="确认充值"> -->
-						</div></td>
-						<td></td>
-					</tr>
-				</table>
 		</form>
 			<div class = "row-header" style="border-bottom:1px solid #d0d0d0;padding-bottom:10px;"><span class = "header-title">充值记录</span></div>
 			<form id="searchFrm" method="get" action="${pageContext.request.contextPath}/front/customer/FinanceController-czList">
