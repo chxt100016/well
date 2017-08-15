@@ -8,6 +8,8 @@ import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
 import org.wella.entity.CreditorAuthenticInfo;
+import org.wella.entity.VehicleGrabInfo;
+import org.wella.entity.VehicleInfo;
 import org.wella.service.CreditorService;
 import org.wella.service.UserinfoService;
 import org.wella.service.WaOrderService;
@@ -34,6 +36,15 @@ public class UserinfoServiceImpl implements UserinfoService{
 
     @Autowired
     private WaAdressDao  waAdressDao;
+
+    @Autowired
+    private VehicleGrabDao vehicleGrabDao;
+
+    @Autowired
+    private VehicleGrabInfoDao  vehicleGrabInfoDao;
+
+    @Autowired
+    private VehicleInfoDao  vehicleInfoDao;
 
 
     @Override
@@ -131,5 +142,57 @@ public class UserinfoServiceImpl implements UserinfoService{
     @Override
     public Integer updateDefault(Long id) {
         return waAdressDao.updateDefault(id);
+    }
+
+
+    @Override
+    public Integer  operationDriver(Byte userType,Map map) {
+        Integer result;
+        switch (userType) {
+            case 3:
+                Map param = vehicleGrabDao.selectVgdId(map);
+                VehicleGrabInfo vehicleGrabInfo = new VehicleGrabInfo();
+                vehicleGrabInfo.setVehicleGrabId((Long) param.get("vehicleGrabId"));
+                vehicleGrabInfo.setDriverName((String) map.get("driverName"));
+                vehicleGrabInfo.setDriverPhone((String) map.get("driverPhone"));
+                vehicleGrabInfo.setVehicleHangingNo((String) map.get("vehicleHangingNo"));
+                vehicleGrabInfo.setVehicleNo((String) map.get("vehicleNo"));
+                vehicleGrabInfo.setVehicleSize((Double) map.get("vehicleSize"));
+                result = vehicleGrabInfoDao.createVehicleGrabInfo(vehicleGrabInfo);
+                return result;
+            case 0:
+                VehicleInfo vehicleInfo = new VehicleInfo();
+                vehicleInfo.setOrderId((Long) map.get("orderId"));
+                vehicleInfo.setDriverName((String) map.get("driverName"));
+                vehicleInfo.setDriverPhone((String) map.get("driverPhone"));
+                vehicleInfo.setVehicleHangingNo((String) map.get("vehicleHangingNo"));
+                vehicleInfo.setVehicleNo((String) map.get("vehicleNo"));
+                vehicleInfo.setVehicleSize((Double) map.get("vehicleSize"));
+                result = vehicleInfoDao.createVehicleInfo(vehicleInfo);
+                return result;
+            default:
+                return 0;
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+    @Override
+    public Integer deleteDriver(Byte userType, Long id) {
+        Integer result;
+        if(userType==3){
+             result=vehicleGrabInfoDao.deleteDriver(id);
+        }else{
+             result=vehicleInfoDao.deleteDriver(id);
+        }
+        return result;
     }
 }
