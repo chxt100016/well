@@ -172,16 +172,16 @@ public class UserinfoServiceImpl implements UserinfoService{
                 vehicleGrabInfo.setVehicleSize((double)size);
                 result = vehicleGrabInfoDao.createVehicleGrabInfo(vehicleGrabInfo);
                 return result;
-            case 0:
+            case 1:
                 VehicleInfo vehicleInfo = new VehicleInfo();
-                int orderId= (int) map.get("orderId");
-                vehicleInfo.setOrderId((long)orderId);
+                String orderId= (String)map.get("orderId");
+                vehicleInfo.setOrderId(Long.parseLong(orderId));
                 vehicleInfo.setDriverName((String) map.get("driverName"));
                 vehicleInfo.setDriverPhone((String) map.get("driverPhone"));
                 vehicleInfo.setVehicleHangingNo((String) map.get("vehicleHangingNo"));
                 vehicleInfo.setVehicleNo((String) map.get("vehicleNo"));
-                int vehicleSize= (int) map.get("vehicleSize");
-                vehicleInfo.setVehicleSize((double)vehicleSize);
+                String vehicleSize= (String) map.get("vehicleSize");
+                vehicleInfo.setVehicleSize(Double.parseDouble(vehicleSize));
                 result = vehicleInfoDao.createVehicleInfo(vehicleInfo);
                 return result;
             default:

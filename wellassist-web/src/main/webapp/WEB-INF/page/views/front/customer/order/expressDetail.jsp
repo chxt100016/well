@@ -266,7 +266,7 @@
               $.ajax({
                     type: 'post', 
                     url:url1,
-                    data:allFields,
+                    data:JSON.stringify(allFields),
                     dataType:'json',
                     contentType:'application/json',
                     success:function(result){
