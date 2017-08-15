@@ -1,157 +1,170 @@
 ﻿<%@ include file="../header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
-${info.toString()}
-<%--<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
+<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
+<head>
+	  <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-	body{
-		background: #f5f5f5;
-	}
-	div.formDd{
-		
-		text-align: left; 
-		background: white;
-		box-shadow: 2px 2px 8px #808080;
-		padding:16px 0px 16px 0px;
-	}
-	div.headDd{
-		margin-left:48px;
-		margin-right:48px;
-		padding-top:32px;
-		margin-bottom: 24px;
-		padding-bottom:12px;
-		border-bottom:solid 2px #d0d0d0;
-		font-size:18px;
-	}
-	div.rowDd{
-		clear: both;
-		height: 50px;
-		line-height: 50px;
-		font-size: 14px;	
-	}
-	.rowDd .labeldd{
-		float: left;
-		width: 100px;
-	}
-	.rowDd .contentdd{
-		float: left;
-		margin-left: 15px;
-	}
-	.backBtn{
-		font-weight: bold;
-    	cursor: pointer;
-    	color: #2482df;
-    	text-align:center;
-    	font-size:16px;
-    	float:left;
-    	margin-top:6px;
-	}
-	.mid-content {
- position: relative;
-    text-align: left;
-    width: 900px;
-    left: 110px;
-    top: -13px;
-}
-</style>	
-<div style="margin-left: 0px; margin-top:20px;">
-	<div id="qdDiv" align="center" class="mid-content">
-		<div >
-			<div style="border-bottom: solid 1px #e0e0e0;padding-bottom:12px;margin-top:20px;margin-bottom: 24px;">
+	     .middleAlign {
+            display: table-cell;
+            vertical-align: middle;
+        }
+     .pd-lf-10{padding-left: 10px}
+        .pd-lf-30 {
+            padding-left: 30px;
+        }
+        .ft-sz-18{
+ font-size: 18px;
+ font-weight: bold;
+        }
 
-				<div style="text-align:center;font-size:24px;">抢单详情</div>
-			</div>
-		</div>
-		<form id="qdForm" action="${pageContext.request.contextPath}/customer/chooseGrab" method="post">
-			<div class="formDd">
-				<div style="border:solid 1px #d0d0d0;font-size:24px;margin-top:16px; overflow:auto;margin: 16px 48px;">
-					<div style="height:30px;background:#e0e0e0;font-size:16px;">
-						<div style="width:30%;line-height:30px;color:#807B7B;float:left;font-size:10px;text-align:center;border-right:solid 1px #d0d0d0;">
-							物流公司名
+        .blue33 {
+            background: #f2f7fb !important;
+        }
+
+        .grey4 {
+            background: #fafafa!important;
+        }
+
+        .pd-tp-20 {
+            padding-top: 20px
+        }
+        .pd-bt-10{padding-bottom: 10px}
+        .pd-bt-15{padding-bottom: 15px}
+        .pd-lf-40{padding-left: 40px;} 
+         .pd-bt-40{padding-bottom: 40px;} 
+        .pd-tp-40{padding-top: 40px;}
+
+        .pd-lf-30 {
+            padding-left: 30px;
+        }
+        .mg-lf-30{margin-left: 30px}
+
+        .pd-rg-30 {
+            padding-right: 30px;
+        }
+        .fl-lf{
+             float: left
+        }
+        .dp-bl{
+            display: block;
+        }
+         .middleAlign{
+  display: table-cell;
+vertical-align: middle;
+ }
+ .extable tr td{
+     width: 50%
+ }
+ .tablebox:nth-child(odd){
+  background: #fafafa;
+  border-right: 2px solid #fff;
+   border-top:  2px solid #fff; 
+ }
+  .tablebox:nth-child(even){
+  background: #f2f7fb;
+   border-top:  2px solid #fff; 
+ }
+
+</style>
+</head>
+<body>
+	
+
+<div class="container1">
+	<div class="container2">
+		 <div class="ui  container">
+        <div class=" ui items ">
+            <div class="column">
+                <h4>物流选择</h4>
+                <div class="ui divider"></div>
+            </div>
+            <div class="column"> 
+                <table class="ui table">
+                    <thead>
+                        <th class="blue33" colspan="2">订单号：${info.logisticsInfoView.orderNo}</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="middleAlign" style="height:99px">
+                                <img src="${info.logisticsInfoView.prodImg}" alt="" width="70px" height="70px" class="ds-bl mg-lf-30 fl-lf ">
+                                <span class="middleAlign pd-tp-20 pd-lf-10">${info.logisticsInfoView.prodName}</span>
+                                <span class="fl-lf pd-lf-10">  报价：${info.logisticsInfoView.customerExceptCarriage}</span>
+                            </td>
+                            <td  class="middleAlign">
+                                <span>提货地址：${info.logisticsInfoView.toAddress}</span>
+                                <br>
+                                <span>配送地址：${info.logisticsInfoView.fromAddress}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+            <div class="column" style="margin-top:30px">
+                <div class="extable" width="100%"> 
+                    <div>
+						<c:forEach var="item" items="${info.vehicleGrabs}">
+                        <div  style="width:49%;float:left;" class="tablebox pd-bt-40">
+                            <div class="pd-lf-40 pd-tp-40 middleAlign" style="height:140px" >
+                                <img src="${item.companyImg}" alt="" width="100px" height="100px" class="ds-bl fl-lf  ">
+                                <div class="fl-lf pd-bt-15 pd-lf-30  ft-sz-18" style="width:350px" >${item.senderUserName}</div>
+                                <div class="fl-lf pd-bt-15 pd-lf-30  " style="width:350px">浙江省杭州市江干区航海路968号</div>
+                                <div class="fl-lf  pd-lf-30  pd-bt-15 " style="width:350px">报价：${item.grabMoney}<span>联系人：${item.companyLxr}</span></div>
+                                
+                                <div class="fl-lf" style="width:350px;margin-top:20px" >
+									<div class="ui button fl-lf " style="width:100px;"  onclick="choseExp('${item.vehicleGrabId}')">选择</div>
+									
+                                    <div class="fl-lf pd-bt-15 pd-lf-30  " style="">联系电话：${item.companyLxrPhone}</div>
+                                </div>
+                            </div>
 						</div>
-						<div style="width:22%;line-height:30px;color:#807B7B;float:left;font-size:10px;text-align:center;border-right:solid 1px #d0d0d0;">
-							联系人
-						</div>
-						<div style="width:22%;line-height:30px;color:#807B7B;float:left;font-size:10px;text-align:center;border-right:solid 1px #d0d0d0;">
-							联系电话
-						</div>
-						<div style="width:14%;line-height:30px;color:#807B7B;float:left;font-size:10px;text-align:center;border-right:solid 1px #d0d0d0;">
-							运费 
-						</div>
-						<div style="width:9%;line-height:30px;color:#807B7B;float:left;font-size:10px;text-align:center;">
-							选择
-						</div>
-					</div>
-					<c:forEach var="item" items="${info}">
-						<div id='sjListContent_0' style='border-bottom: solid 1px #E0E0E0; overflow:auto;'>
-							<div class='graybox' style='width:30%;line-height:50px;font-size:14px;float:left;border:none;text-align:center;border-right: solid 1px #d0d0d0;'>
-								&nbsp;${item.senderUserName}
-							</div>
-							<div class='grayboxwithoutleft' style='width:22%;line-height:50px;font-size:14px;float:left;border:none;text-align:center;border-right: solid 1px #d0d0d0;'>
-								&nbsp;${item.companyLxr}
-							</div>
-							<div class='grayboxwithoutleft' style='width:22%;line-height:50px;font-size:14px;float:left;border:none;text-align:center;border-right: solid 1px #d0d0d0;'>
-								&nbsp;${item.companyLxrPhone}
-							</div>
-							<div class='grayboxwithoutleft' style='width:14%;line-height:50px;font-size:14px;float:left;border:none;text-align:center;border-right: solid 1px #d0d0d0;'>
-								&nbsp;${item.grabMoney}
-							</div>
-							<div class='grayboxwithoutleft' style='width:9%;line-height:50px;font-size:14px;float:left;border:none;text-align:center;'>
-								<input type="radio" name="grabId" value="${item.vehicleGrabId}" />
-							</div>
-						</div>
-					</c:forEach>
-					&lt;%&ndash;<c:if test="${vehicleGrabList== null || fn:length(vehicleGrabList) == 0}">
-							  <div id='sjListContent_0' style='border-bottom: solid 1px #E0E0E0; overflow:auto; height:30px;font-size:14px;padding-left:10px; padding-top:5px;'>
-							  	  	没有抢单
-							  </div>	
-				    </c:if>&ndash;%&gt;
-					<c:if test="${empty info}">
-						<div id='sjListContent_0' style='border-bottom: solid 1px #E0E0E0; overflow:auto; height:30px;font-size:14px;padding-left:10px; padding-top:5px;'>
-							没有抢单
-						</div>
-					</c:if>
-				</div>
-			    <input type="hidden" name="logisticsInfoId" value="${logisticsInfoId}" />
-				<div style="margin: 40px 0px 40px 80px;">
-					<input type="button" class="bluebutton" style="padding: 8px 16px; font-size:20px; border-radius: 6px; border:none;" value="返回" &lt;%&ndash;onclick="goBack();" &ndash;%&gt;onclick="javascript:window.history.go(-1);" />
-					<input type="submit" id="submit" class="bluebutton" style="padding: 8px 16px; font-size:20px; border-radius: 6px; border:none; <c:if test = "${fn:length(info) == 0}">display:none;</c:if>" value="确认"   />
-				</div>
-			</div>
-		</form>
+						</c:forEach>
+                     
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
 	</div>
+
 </div>
+</body>
 
 <script type="text/javascript">
 
 	$(".backBtn").click(function(){
 		goBack();
 	});
-	
-	// validate检查
-	$("#qdForm").validate({
-	    rules: {
-	    	grabId:{required: true}
-	    },
-	    messages: {
-	    	grabId:{required: "请选择物流公司!"}
-	    },
-	    errorPlacement: function (error, element) {},
-	    submitHandler: function(form){
-	    	if(confirm("你要确定操作吗？")){
-		    	$.post($("#qdForm").attr("action"),$("#qdForm").serialize(),function(data){
-		    	    data=JSON.parse(data);
-		            if(data.code==0){
-		            	window.location.href = "${pageContext.request.contextPath}/customer/logisticsInfoList";
-		            }else{
-		                alert(data.msg);
-                    }
-		      	})
-		      	.error(function(data){
-		      		alert("操作失败！")
-		      	});
-	    	}
-	    }
-    });
-</script>--%>
+	const url= "${pageContext.request.contextPath}/customer/chooseGrab"
+function choseExp(grabId){
+   $.ajax({
+	  	 url:url,
+		   type:'post',
+		 data:{
+			 logisticsInfoId:${logisticsInfoId},
+			 grabId:grabId
+			},
+		dataType:'json',
+		 success:function(result){
+			 if(result.code==0){
+				 alert("操作成功！");
+				window.location.href = "${pageContext.request.contextPath}/customer/logisticsInfoList";
 
-<%@ include file="../footer.jsp"%>
+			 }
+			else{
+				alert(result.msg)
+			}
+		 }
+
+   })
+}
+</script>
+
+<!-- <%@ include file="../footer.jsp"%> -->
