@@ -11,16 +11,22 @@
 	<div class="container2">
 <div id = "content-rect" style="width:90%">
 	 <ul class="ds-bl pd-10 ft-sz-15">
-            <li class="ds-bl fl-lt pd-10  ulSelected" style="padding-left:0px">全部订单</li>
+           <%-- <li class="ds-bl fl-lt pd-10  ulSelected" style="padding-left:0px">全部订单</li>
             <li class="ds-bl fl-lt pd-10">待选择</li>
             <li class="ds-bl fl-lt pd-10">待付款</li>
-            <li class="ds-bl fl-lt pd-10">已确认</li>
+            <li class="ds-bl fl-lt pd-10">已确认</li>--%>
+
+
+
+
+
+
         </ul>
 		<br>
 		
 	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/customer/logisticsInfoList">
 		<input type="hidden" id="page" name="page" value="${param.page}">
-		<input type="hidden" id="orderState" name="orderState" value="${param.orderState}">
+		<input type="hidden" id="vehicleState" name="state" value="${param.orderState}">
 	</form>
         <table class="ui basic table ft-sz-14">
             <thead>
