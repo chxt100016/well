@@ -67,7 +67,7 @@
                     <div onclick="window.location.href='${pageContext.request.contextPath}/seller/productList'"  class="content pd-10 pointer font-grey  <c:if test = "${parentMenuNo == '1'&&childMenuNo == '2' }"> font-white</c:if>  ">
                        产品大厅
 					</div>
-					<div onclick="window.location.href='${pageContext.request.contextPath}/front/seller/SellerOrderController-prodPub'"  class="content pd-10 pointer font-grey  <c:if test = "${parentMenuNo == '1'&&childMenuNo == '1' }"> font-white</c:if>  ">
+					<div onclick="window.location.href='${pageContext.request.contextPath}/seller/publishPage'"  class="content pd-10 pointer font-grey  <c:if test = "${parentMenuNo == '1'&&childMenuNo == '1' }"> font-white</c:if>  ">
                        产品发布
                     </div>
                    
@@ -189,7 +189,7 @@
 
 
 
-    <div class="topheader" style="margin-top:-20px">
+    <div class="topheader" >
         <div class="ui mini menu grey1">
 
             <div class="right menu">

@@ -261,6 +261,7 @@ div.error{
 	                </div><br>
 
 	               <div style="margin-bottom: 32px;margin-top: 32px;">
+                       <br>
 					<!-- <span id="submit" class="bluebutton" style="padding-left: 16px;padding-right: 16px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;" align=center>确认下单</span> -->
 					<input type="submit" id="submit" class=" ui primary button" value="保存">
 					
