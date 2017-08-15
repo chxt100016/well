@@ -215,7 +215,7 @@ public class UserinfoController {
      */
     @ResponseBody
     @RequestMapping("updateDefault")
-    public R updateDefault(@RequestParam("id") Long id){
+    public R updateDefault(Long id){
         Integer result=userinfoServiceImpl.updateDefault(id);
         if(result>0){
             return R.ok();
@@ -223,6 +223,49 @@ public class UserinfoController {
         return R.error();
 
     }
+
+
+    /**
+     *
+     * 物流方和买方操作司机   修改或者增加
+     *
+     * @param map
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("operationDriver")
+    public R operationDriver(@RequestBody Map map){
+        User user=(User) HttpContextUtils.getAttribute("user");
+        Byte userType=user.getUserType();
+        Long userId=user.getUserId();
+        map.put("userId",userId);
+        Integer  result=userinfoServiceImpl.operationDriver(userType,map);
+        if(result>0){
+            return R.ok();
+        }
+        return  R.error();
+    }
+
+
+    /**
+     *
+     * 物流方和买方 删除司机
+     *
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("deleteDriver")
+    public R deleteDriver(Long id){
+        User user=(User) HttpContextUtils.getAttribute("user");
+        Byte userType=user.getUserType();
+        Integer result=userinfoServiceImpl.deleteDriver(userType,id);
+        if(result>0){
+            return R.ok();
+        }
+        return R.error();
+    }
+
 
 
 }

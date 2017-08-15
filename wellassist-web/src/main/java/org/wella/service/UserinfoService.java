@@ -37,6 +37,12 @@ public interface UserinfoService {
     Integer updateDefault(Long id);
 
 
+    Integer operationDriver(Byte userType,Map map);
+
+
+    Integer deleteDriver(Byte userType,Long id);
+
+
 
 
 }

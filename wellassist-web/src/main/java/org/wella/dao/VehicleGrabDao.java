@@ -24,4 +24,7 @@ public interface VehicleGrabDao {
     int updateByPrimaryKey(Map<String, Object> vehicleGrab);
 
     Map<String,Object> singleVehicleGrabByPrimaryKey(@Param("vehicleGrabId") long vehicleGrabId);
+
+    Map<String,Object> selectVgdId(Map map);
+
 }

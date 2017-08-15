@@ -27,4 +27,12 @@
 			limit ${start},${size}
 		</if>
 	</select>
+
+
+	<delete id="deleteDriver" parameterType="Long">
+		delete from wa_vehicle_info where id=#{id}
+	</delete>
+
+
+
 </mapper>

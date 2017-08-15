@@ -129,4 +129,17 @@
         from wa_vehicle_grab
         WHERE vehicle_grab_id=#{vehicleGrabId}
     </select>
+
+
+    <select id="selectVgdId" parameterType="java.util.Map" resultType="map">
+        select
+            vehicle_grab_id  as vehicleGrabId
+        FROM  wa_vehicle_grab
+        where order_id=#{orderId}
+         and sender_user_id=#{userId}
+    </select>
+
+
+
+
 </mapper>

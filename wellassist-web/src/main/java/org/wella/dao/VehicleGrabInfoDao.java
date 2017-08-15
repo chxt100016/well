@@ -13,4 +13,6 @@ public interface VehicleGrabInfoDao {
     int createVehicleGrabInfo(VehicleGrabInfo vehicleGrabInfo);
 
     List<Map<String,Object>> listVehicleGrabInfoByConditions(Map query);
+
+    Integer deleteDriver(Long id);
 }

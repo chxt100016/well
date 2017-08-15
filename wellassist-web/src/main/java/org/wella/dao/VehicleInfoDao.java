@@ -9,7 +9,12 @@ import java.util.Map;
  * Created by Administrator on 2017/5/11.
  */
 public interface VehicleInfoDao {
-    void createVehicleInfo(VehicleInfo vehicleInfo);
+    int createVehicleInfo(VehicleInfo vehicleInfo);
 
     List<Map<String,Object>> listVehicleInfoByConditions(Map vehicleInfoQuery);
+
+
+    Integer deleteDriver(Long id);
+
+
 }
