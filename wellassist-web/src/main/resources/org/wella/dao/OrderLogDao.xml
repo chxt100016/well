@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.wella.dao.OrderLogDao">
-	<insert id="createOrderLog" parameterType="org.wella.entity.OrderLog">
+	<insert id="createOrderLog" useGeneratedKeys="true" keyProperty="id" parameterType="org.wella.entity.OrderLog">
 		INSERT  INTO wa_order_log (order_id,order_price,order_number,operation_time,user_id,operation_ip)
 		VALUES (#{orderId},#{orderPrice},#{orderNumber},#{operationTime},#{userId},#{operationIp})
 	</insert>
@@ -13,6 +13,12 @@
 		WHERE order_id=#{orderId}
 		ORDER BY operation_time DESC
 		LIMIT 1
+	</select>
+
+	<select id="singlePoByPrimaryKey" parameterType="long" resultType="map">
+		SELECT *
+		from wa_order_log
+		WHERE id=#{orderLogId}
 	</select>
 
 </mapper>

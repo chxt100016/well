@@ -235,5 +235,9 @@
 
     </select>
 
-
+    <select id="selectOrderNoByOrderId" parameterType="long" resultType="string">
+        select order_no
+        from wa_order
+        where order_id=#{orderId}
+    </select>
 </mapper>

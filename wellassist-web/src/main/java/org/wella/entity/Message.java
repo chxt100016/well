@@ -1,28 +1,38 @@
 package org.wella.entity;
 
-import sun.text.resources.FormatData;
+import java.util.Date;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-
-/**
- * Created by xuqinghuo on 2017/7/25.
- */
 public class Message {
+    private Long id;
 
-    private Integer id;
+    private Long userId;
+
     private String title;
-    private String type;
-    private String date;
+
+    private Byte type;
+
+    private Byte status;
+
     private String content;
 
+    private Date date;
 
-    public Integer getId() {
+    private Byte isRead;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getTitle() {
@@ -30,28 +40,46 @@ public class Message {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title = title == null ? null : title.trim();
     }
 
-    public String getType() {return type;}
+    public Byte getType() {
+        return type;
+    }
 
-    public void setType(String type) {
+    public void setType(Byte type) {
         this.type = type;
     }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
+    }
+
     public String getContent() {
         return content;
     }
+
     public void setContent(String content) {
-        this.content = content;
+        this.content = content == null ? null : content.trim();
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
     public void setDate(Date date) {
-        SimpleDateFormat dateF = new SimpleDateFormat("yyyy-MM-dd");
-        this.date = dateF.format(date);
+        this.date = date;
     }
 
+    public Byte getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(Byte isRead) {
+        this.isRead = isRead;
+    }
 }

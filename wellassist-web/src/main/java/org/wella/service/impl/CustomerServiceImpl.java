@@ -59,6 +59,8 @@ public class CustomerServiceImpl implements CustomerService {
     private RepayDao repayDao;
     @Autowired
     private RegionService regionServiceImpl;
+    @Autowired
+    private MessageServiceImpl messageServicesk;
 
 
 
@@ -434,6 +436,8 @@ public class CustomerServiceImpl implements CustomerService {
         updateLogisticsInfo.put("senderUserId", (long) vehicleGrab.get("sender_user_id"));
         updateLogisticsInfo.put("vehicleGrabId", vehicleGrabId);
         res += logisticsInfoDao.updateByPrimaryKey(updateLogisticsInfo);
+
+        messageServicesk.handleChooseGrabMessage(logisticsInfoId);
         return res;
     }
 
