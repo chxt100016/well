@@ -92,9 +92,94 @@
 </head>
 
 <body>
-    <div class="ui container segment" id="app1" style="width:990px;left:80px;top:-15px">
-        <h3 class="ui header">订单详情：</h3>
+<div class="container1">
+    <div style="margin:40px 0 0 210px;">
+    <div class="ui container" id="app1" style="width:90%;left:80px;top:-15px">
+        <h4 class="ui header">订单详情：</h4>
         <div class="ui divider"></div>
+        <table class="ui table">
+            <tr>
+                <td>当前订单付款状态</td>
+                <td>
+                    <c:if test="${fn:startsWith(info.orderState,'-')||fn:startsWith(info.orderState,0)||fn:startsWith(info.orderState,1)}">未付款</c:if>
+                    <c:if test="${!fn:startsWith(info.orderState,'-')&&fn:substring(info.orderState,0,1)>=2}">已付款</c:if>
+                </td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>订单号：</td>
+                <td>${info.orderNo}</td>
+                <td></td>
+                <td>货运方式：</td>
+                <td>
+                    <c:if test="${info.isSelfCar==0}">自提</c:if>
+                    <c:if test="${info.isSelfCar==1}">平台物流</c:if>
+                </td>
+            </tr>
+            <tr>
+                <td>下单时间：</td>
+                <td><fmt:formatDate value="${info.orderDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>发货时间：</td>
+                <td><fmt:formatDate value="${info.deliverDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>预计收货时间：</td>
+                <td><fmt:formatDate value="${info.receiveDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+        <table class="ui table">
+            <tr>
+                <th>产品</th>
+                <th>品类</th>
+                <th>单价(元/吨)</th>
+                <th>数量(吨)</th>
+                <th>总价(元)</th>
+                <th>状态</th>
+            </tr>
+            <tr>
+                <td>
+                    <div class="comment">
+                        <a class="avatar">
+                            <img src="${info.prodImg}">
+                        </a>
+                        <div class="content">
+                            <a class="author">${info.prodName}</a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <c:if test="${info.prodType==0}">天然气</c:if>
+                    <c:if test="${info.prodType==1}">原油</c:if>
+                    <c:if test="${info.prodType==2}">管道气</c:if>
+                </td>
+                <td>
+                    <c:if test="${empty info.orderNumber && empty info.confirmNumber}">${info.saleMoney/info.saleNum}</c:if>
+                    <c:if test="${!empty info.orderNumber  }">${info.orderPrice}</c:if>元</div>
+                    <c:if test="${not empty info.orderNumber and (info.orderPrice-(info.saleMoney/info.saleNum)>0.0000000001 or info.orderPrice-(info.saleMoney/info.saleNum)<-0.0000000001)}"><s>${info.saleMoney/info.saleNum}</s></c:if>
+                </td>
+                <td>
+                    <c:if test="${empty info.orderNumber && empty info.confirmNumber}">${info.saleNum}</c:if>
+                    <c:if test="${!empty info.orderNumber}">${info.orderNumber}</c:if>吨
+                    <c:if test="${not empty info.orderNumber and (info.orderNumber-info.saleNum>0.0000000001 or info.orderNumber-info.saleNum<-0.0000000001)}"><s>${info.saleNum}</s></c:if>
+                </td>
+                <td>  
+                    <c:if test="${empty info.orderNumber && empty info.confirmNumber}">${info.saleMoney}</c:if>
+                    <c:if test="${!empty info.orderNumber }">${info.orderNumber*info.orderPrice}</c:if>元</div>
+                    <c:if test="${not empty info.orderNumber and (info.orderNumber*info.orderPrice-info.saleMoney>0.0000000001 or info.orderNumber*info.orderPrice-info.saleMoney<-0.0000000001)}"><s>${info.saleMoney}</s></c:if>
+                </td>
+            </tr>
+        </table>
         <div class="column container">
             <div class="fl-lf " style="width: 50%;"> 订单号：${info.orderNo}</div>
             <div class="right item fl-rg" style="width: 40%;"><span class="ui inverted ">下单时间:<fmt:formatDate value="${info.orderDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate> </span>

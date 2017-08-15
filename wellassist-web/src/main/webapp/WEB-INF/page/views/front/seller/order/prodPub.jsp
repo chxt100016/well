@@ -1,49 +1,45 @@
 ﻿<%@ include file="../header.jsp"%>
     <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-        <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/seller/publishpage.css"/>">
-        <div class="container1">
-            <div class="container2">
+    <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/seller/publishpage.css"/>">
 
-          
-
-        <div class="mid_box" id="app" style="width:991px;left: 50px;float:left;margin-left: 10px;">
+<div class="container1">
+    <div style="margin:40px 0 0 210px;">
+        <div id="app" style="width:90%;">
+            <h4 class="ui header" style="font-size:15px;font-weight:600;">添加产品</h4>
+            <div class="ui divider"></div>
             <form id="product-publish" method="post" class="ui form">
                 <table>
                     <tbody>
                         <tr>
                             <td class="form_label"><label for="">产品名称：</label></td>
                             <td>
-                                
-                                    <input type="text" placeholder="请填写您的产品名称" class="" name="prodName">
-                              
+                                <input type="text" placeholder="请填写您的产品名称" class="" name="prodName">
                             </td>
-                        </tr>
-                        <tr>
+                            <td></td>
                             <td class="form_label"><label for="">货源类型：</label></td>
                             <td>
                                 <select class="form-control" name="prodType">
-							     <option value="2">管道气</option>
-							     <option value="1">原油</option>
-							    <option value="0">天然气</option>
-						</select>
+                                    <option>请选择你的货源分类</option>
+                                    <option value="2">管道气</option>
+                                    <option value="1">原油</option>
+                                    <option value="0">天然气</option>
+                                </select>
                             </td>
+                            <td></td>
                         </tr>
-
                         <tr>
                             <td class="form_label"><label for="">供应量：</label></td>
                             <td><input type="text" placeholder="请填写供应量" class="" name="prodNum"> </td>
-                            <td>吨</td>
-                        </tr>
-                        <tr>
+                            <td>&emsp;吨</td>
                             <td class="form_label"><label for="" class="form_label">单价：</label></td>
                             <td><input type="text" placeholder="请填写产品单价" class="" name="prodPrice"> </td>
-                            <td>元/吨</td>
+                            <td>&emsp;元/吨</td>
                         </tr>
                         <tr>
                             <td class="form_label"><label for="" class="form_label">所在地区：</label></td>
                             <input type="hidden" name="prodRegionId" id="prodRegionId">
-                            <td style="padding: 5px 0px; padding-left:10px">
+                            <td colspan="3" style="padding: 5px 0px; padding-left:10px">
                                 <select id="provinceId" name="provinceId" onchange="selRegion(0);" style="width:132px;float:left">
                                     <option>--请选择省--</option>
                                     <c:forEach items="${provinceList}" var="item" varStatus="status">
@@ -57,19 +53,20 @@
                                     <option>--请选择区--</option>
                                 </select>
                             </td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <tr>
-                            <td>
-                                <label for="" class="form_label"></label></td>
-                            </td>
-                            <td><input type="text" placeholder="请填写具体地址" class="" name="prodRegionAddr"></td>
+                            <td><label for="" class="form_label"></label>详细地址：</td>
+                            <td colspan="2"><input type="text" placeholder="请填写具体地址" class="" name="prodRegionAddr"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td class="form_label"><label for="">联系人：</label></td>
                             <td><input type="text" placeholder="请填写该产品联系人的姓名" class="" name="prodLxr"> </td>
                             <td></td>
-                        </tr>
-                        <tr>
                             <td class="form_label"><label for="">联系电话：</label></td>
                             <td><input type="text" placeholder="请填写该联系人电话" class="" name="prodLxrPhone"> </td>
                             <td></td>
@@ -92,20 +89,27 @@
                             </td>
                             <td  colspan="3">
                                 <div id="editor">
-                                <p>此处可编辑产品详情</p>
-                            </div>
-
+                                    <p>此处可编辑产品详情</p>
+                                </div>
                             </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><input type="reset" name="reset" style="display: none;" /></td>
+                            <td><button class="ui primary button">提交</button>&emsp;<a class="ui button" href="#" role="button" type="reset">返回</a></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="row">
+                <!-- <div class="row">
                     <div style="width:300px;margin:0px auto">
                         <input type="reset" name="reset" style="display: none;" />
                         <button class="btn btn-info" style="width:120px;float:left;display:block">发布</button>
                         <a class="btn btn-default" href="#" role="button" style="width:120px;float:right;display:block" type="reset">返回</a>
                     </div>
-                </div>
+                </div> -->
             </form>
         </div>
 
