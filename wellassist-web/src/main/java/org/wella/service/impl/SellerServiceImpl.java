@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
 import org.wella.entity.*;
+import org.wella.service.MessageService;
 import org.wella.service.RegionService;
 import org.wella.service.SellerService;
 import org.wella.service.WaOrderService;
@@ -66,6 +67,9 @@ public class SellerServiceImpl implements SellerService {
     @Autowired
     private RegionService regionServiceImpl;
 
+    @Autowired
+    private MessageService messageServicesk;
+
 
     /**
      * 买家确认时的业务逻辑
@@ -105,6 +109,7 @@ public class SellerServiceImpl implements SellerService {
         map.put("orderPrice", map.get("confirmPrice"));
         map.put("orderNumber", map.get("confirmNumber"));
         createOrderLog(order.getOrderId(), map);
+        messageServicesk.handleOrderConfirmMessage(orderId);
     }
 
     @Override

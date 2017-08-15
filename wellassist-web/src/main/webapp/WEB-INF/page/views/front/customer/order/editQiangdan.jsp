@@ -1,7 +1,7 @@
 ﻿<%@ include file="../header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
-
-<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
+${info.toString()}
+<%--<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
 <style>
 	body{
 		background: #f5f5f5;
@@ -100,11 +100,11 @@
 							</div>
 						</div>
 					</c:forEach>
-					<%--<c:if test="${vehicleGrabList== null || fn:length(vehicleGrabList) == 0}">
+					&lt;%&ndash;<c:if test="${vehicleGrabList== null || fn:length(vehicleGrabList) == 0}">
 							  <div id='sjListContent_0' style='border-bottom: solid 1px #E0E0E0; overflow:auto; height:30px;font-size:14px;padding-left:10px; padding-top:5px;'>
 							  	  	没有抢单
 							  </div>	
-				    </c:if>--%>
+				    </c:if>&ndash;%&gt;
 					<c:if test="${empty info}">
 						<div id='sjListContent_0' style='border-bottom: solid 1px #E0E0E0; overflow:auto; height:30px;font-size:14px;padding-left:10px; padding-top:5px;'>
 							没有抢单
@@ -113,7 +113,7 @@
 				</div>
 			    <input type="hidden" name="logisticsInfoId" value="${logisticsInfoId}" />
 				<div style="margin: 40px 0px 40px 80px;">
-					<input type="button" class="bluebutton" style="padding: 8px 16px; font-size:20px; border-radius: 6px; border:none;" value="返回" <%--onclick="goBack();" --%>onclick="javascript:window.history.go(-1);" />
+					<input type="button" class="bluebutton" style="padding: 8px 16px; font-size:20px; border-radius: 6px; border:none;" value="返回" &lt;%&ndash;onclick="goBack();" &ndash;%&gt;onclick="javascript:window.history.go(-1);" />
 					<input type="submit" id="submit" class="bluebutton" style="padding: 8px 16px; font-size:20px; border-radius: 6px; border:none; <c:if test = "${fn:length(info) == 0}">display:none;</c:if>" value="确认"   />
 				</div>
 			</div>
@@ -152,6 +152,6 @@
 	    	}
 	    }
     });
-</script>
+</script>--%>
 
 <%@ include file="../footer.jsp"%>

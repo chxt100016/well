@@ -75,4 +75,14 @@ public class MessageServiceImpl implements MessageService{
     public int queryRecordCount(Map<String, Object> map) {
         return messageDaosk.queryRecordCount(map);
     }
+
+    @Override
+    public int handleOrderConfirmMessage(long orderId) {
+        return 0;
+    }
+
+    @Override
+    public int handleOrderPriceEditMessage(long orderId, long orderLogId) {
+        return 0;
+    }
 }
