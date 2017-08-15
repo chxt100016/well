@@ -52,10 +52,6 @@
 
 <body>
     <div class="mid_box">
-        <form action="./offlinePayCheckSubmit" method="post" id="payCheckForm">
-            <input type="hidden" name="orderTransId" value="$info.orderTransId">
-            <input type="hidden" name="orderId" value="$info.orderId">
-            <input type="hidden" name="passCheck" id="passCheck">
             <div class="row">
                 <div class="col-md-12">
                     <h3>线下支付审核</h3>
@@ -67,18 +63,15 @@
                                     <tr class="active"> <td colspan="4"> <span class="or-color">商品详情</span></td></tr>
                                     <tr>
                                         <th>商品名称</th>
-                                        <th>商品单价</th>
                                         <th>数量</th>
-                                        <th>成交价格</th>
+                                        <th>抢单报价</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th scope="row">$info.prodName</th>
-                                        <td>$info.confirmPrice<span>元/吨</span></td>
-                                        <td>$info.confirmNumber<span>吨</span></td>
-                                        <td>#set($countPrice=$info.confirmPrice*$info.confirmNumber)
-                                            $number.format("#0.00",$countPrice)
+                                        <th scope="row">$!info.prodName</th>
+                                        <td>$!info.num<span>吨</span></td>
+                                        <td>$!info.orderPrice
                                             <span>元</span></td>
                                     </tr>
                                   
@@ -93,10 +86,10 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th scope="row" class="active">卖家：</th>
-                                        <td  style="width:25%">$info.sellerUserName</td>
+                                        <th scope="row" class="active">物流方：</th>
+                                        <td  style="width:25%">$!info.senderUserName</td>
                                         <th class="active">订单号:</th>
-                                        <td style="width:25%">$info.orderNo</td>
+                                        <td style="width:25%">$!info.orderNo</td>
                                         <th class="active"> 审核状态:</th>
                                         <td>
                                             #if($info.transState==-2)
@@ -112,22 +105,12 @@
                                     </tr>
                                     <tr>
                                         <th scope="row" class="active">买家：</th>
-                                        <td >$info.customerUserName</td>
-                                        <th class="active">下单时间:</th>
-                                        <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!info.orderDate)</td>
-                                        <th class="active"> 付款方式:</th>
+                                        <td >$!info.customerUserName</td>
+                                        <th class="active">订单时间:</th>
+                                        <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!info.prodOrderDate)</td>
+                                        <th class="active"> 收货地址:</th>
                                         <td>
-                                            #if($info.zfMethod==1)
-                                            网银付款
-                                            #elseif($info.zfMethod==2)
-                                            余额付款
-                                            #elseif($info.zfMethod==3)
-                                            余额授信组合
-                                            #elseif($info.zfMethod==4)
-                                            授信付款
-                                            #elseif($info.zfMethod==5)
-                                            线下支付
-                                            #end
+                                            $!info.toAddress
                                         </td>
                                     </tr>
                                     <tr>
@@ -147,8 +130,11 @@
                                             平台物流
                                             #end
                                         </td>-->
-                                        <th class="active"> 付款时间:</th>
+                                        <th class="active"> 提交时间:</th>
                                         <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!info.tjDate)</td>
+                                    </tr>
+                                    <th class="active"> 发货地址:</th>
+                                    <td>$!info.fromAddress</td>
                                     </tr>
                                   
                                    
@@ -165,12 +151,7 @@
                                          <img src="$info.content" alt="" height="400px">
                                      </td>
                                      <td style="padding-top:20px;padding-left:30px ">
-                                         <textarea type="text" name="checkComment" value="" class="form-control" placeholder="请输入未通过理由" style="max-width:190px"></textarea>
-        </form>
-                                         <br><br>
-                                           <button type="" id="passPay" onclick="payCheckSubmit(1);" class="btn btn-success">通过</button>
-                                         <br><br>
-                                         <button type="" id="notPassPay" onclick="payCheckSubmit(0);" class="btn btn-danger">不通过</button>
+                                         审核意见：<textarea type="text" name="checkComment" value="" class="form-control"  style="max-width:190px">$!info.checkComment</textarea>
                                          <br><br>
         <button type=""  onclick="javascript:window.history.go(-1);" class="btn btn-primary">返回</button>
                                      </td>
