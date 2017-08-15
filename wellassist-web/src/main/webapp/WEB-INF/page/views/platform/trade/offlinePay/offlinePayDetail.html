@@ -97,11 +97,11 @@
                                         <td>
                                             #if($info.transState==-2)
                                             不通过
-                                            #elseif($info.transState==-1)
-                                            待审核
                                             #elseif($info.transState==0)
-                                            通过
+                                            待审核
                                             #elseif($info.transState==1)
+                                            通过
+                                            #elseif($info.transState==5)
                                             该订单已完成
                                             #end
                                         </td>

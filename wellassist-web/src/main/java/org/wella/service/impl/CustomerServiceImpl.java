@@ -8,6 +8,7 @@ import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
 import org.wella.entity.*;
 import org.wella.service.CustomerService;
+import org.wella.service.RegionService;
 import org.wella.service.WaOrderService;
 import org.wella.utils.CommonUtil;
 
@@ -56,6 +57,8 @@ public class CustomerServiceImpl implements CustomerService {
     private LoanDao loanDao;
     @Autowired
     private RepayDao repayDao;
+    @Autowired
+    private RegionService regionServiceImpl;
 
 
 
@@ -377,13 +380,24 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<Map<String, Object>> grabLogisticsListInfo(long liId) {
+    public Map<String, Object> grabLogisticsListInfo(long liId) {
+        Map<String,Object> info=new HashMap<>();
         Map query = new HashMap();
         query.put("logisticsInfoId", liId);
         query.put("grabState", 0);
-        List<Map<String, Object>> res = vehicleGrabDao.listVehicleGrabAttachUserinfoByConditions(query);
-        ConvertUtil.convertDataBaseMapToJavaMap(res);
-        return res;
+        List<Map<String, Object>> vehicleGrabs = vehicleGrabDao.listVehicleGrabAttachUserinfoByConditions(query);
+        ConvertUtil.convertDataBaseMapToJavaMap(vehicleGrabs);
+        for (Map<String,Object> vehicleGrab:vehicleGrabs){
+            String senderZcAddress=regionServiceImpl.getDetailAddress(Long.parseLong(vehicleGrab.get("zcRegionId").toString()),(String)vehicleGrab.get("zcXxAddress"));
+            vehicleGrab.put("senderZcAddress",senderZcAddress);
+        }
+        info.put("vehicleGrabs",vehicleGrabs);
+        Map<String,Object> logisticsInfoView=logisticsInfoDao.singleLogisticsInfoViewByPrimaryKey(liId);
+        ConvertUtil.convertDataBaseMapToJavaMap(logisticsInfoView);
+        //以后改写买家期望运费
+        logisticsInfoView.put("customerExceptCarriage",0);
+        info.put("logisticsInfoView",logisticsInfoView);
+        return info;
     }
 
     /**

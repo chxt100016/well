@@ -234,7 +234,7 @@ public class CustomerController extends BaseController {
    public String grabLogisticsList(@RequestParam("logisticsInfoId") String logisticsInfoId, HttpServletRequest request, Model model) {
       User user = (User) request.getSession().getAttribute("user");
       long LIId = Long.parseLong(logisticsInfoId);
-      List<Map<String, Object>> info = customerServiceImpl.grabLogisticsListInfo(LIId);
+      Map<String, Object> info = customerServiceImpl.grabLogisticsListInfo(LIId);
       model.addAttribute("info", info);
       model.addAttribute("logisticsInfoId", LIId);
       model.addAttribute("username", user.getUserName());

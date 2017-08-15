@@ -4,6 +4,7 @@ import org.wella.entity.CreditRecord;
 import org.wella.entity.Message;
 import org.wella.entity.Userinfo;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -32,5 +33,15 @@ public interface MessageService {
     int queryTotal(Map<String, Object> map);
 
     int queryRecordCount(Map<String, Object> map);
+
+    /**
+     * 生成订单确认的消息
+     * 消息关键字：订单编号，确认单价，数量
+     * @param orderId
+     * @return 数据库操作记录数
+     */
+    int handleOrderConfirmMessage(long orderId);
+
+    int handleOrderPriceEditMessage(long orderId, long orderLogId);
 
 }

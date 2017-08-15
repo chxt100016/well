@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.wella.dao.MessageDao;
+import org.wella.dao.OrderDao;
 import org.wella.entity.CreditRecord;
 import org.wella.entity.Message;
 import org.wella.entity.Userinfo;
@@ -20,11 +21,14 @@ public class MessageServiceImpl implements MessageService{
 
 
     @Autowired
-    private MessageDao messageDaosk;
+    private MessageDao messageDao;
+
+    @Autowired
+    private OrderDao orderDao;
 
     @Override
     public List<Message> getMessageList(Map<String, Object> map) {
-        return messageDaosk.getMessageList(map);
+        return messageDao.getMessageList(map);
     }
 
     @Override
@@ -47,7 +51,7 @@ public class MessageServiceImpl implements MessageService{
     @Override
     public void addCreditRecord(CreditRecord creditRecord) {
        try {
-           messageDaosk.addCreditRecord(creditRecord);
+           messageDao.addCreditRecord(creditRecord);
        }catch(Exception e){
             e.printStackTrace();
         }
@@ -57,22 +61,35 @@ public class MessageServiceImpl implements MessageService{
 
 
     public List<CreditRecord> getCreditRecordList(Map<String, Object> map) {
-        return messageDaosk.getCreditRecordList(map);
+        return messageDao.getCreditRecordList(map);
     }
 
 
     @Override
     public  Userinfo getCreditRecord(Long id) {
-        return messageDaosk.getCreditRecord(id);
+        return messageDao.getCreditRecord(id);
     }
 
     @Override
     public int queryTotal(Map<String, Object> map) {
-        return messageDaosk.queryTotal(map);
+        return messageDao.queryTotal(map);
     }
 
     @Override
     public int queryRecordCount(Map<String, Object> map) {
-        return messageDaosk.queryRecordCount(map);
+        return messageDao.queryRecordCount(map);
+    }
+
+    @Override
+    public int handleOrderConfirmMessage(long orderId) {
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        Message customermessage=new Message();
+        /*customermessage.se*/
+        return 1;
+    }
+
+    @Override
+    public int handleOrderPriceEditMessage(long orderId, long orderLogId) {
+        return 0;
     }
 }

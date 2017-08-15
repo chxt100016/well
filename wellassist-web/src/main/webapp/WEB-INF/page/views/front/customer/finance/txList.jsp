@@ -56,7 +56,7 @@
 					<td class="field">
 						<select class="ui fluid normal dropdown " style="width:250px" id="bankS"  @change='secBank()' name='account'>
 							<i class="dropdown icon"></i>
-							      <option class="default text" >请选择体现账户</option> 
+							      <option class="default text" >请选择提现账户</option> 
 								 <option  class="item" v-for='(card,index) in Cards' v-bind:value="index" >
 									 <span @click="selected(index,card.bankName,card.bankAccountNew)"> {{card.bankName}} *** </span>
 									  <span class="bkAcc">{{card.bankAccountNew}}</span>

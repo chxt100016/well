@@ -20,4 +20,8 @@ public interface TradeService {
     List orderList(Query query);
 
     int orderListCount(Query query);
+
+    Map<String,Object> findWlOfflinePayInfo(long logisticsTransId);
+
+    int wlOfflinePayCheckSubmit(Map<String, Object> param);
 }

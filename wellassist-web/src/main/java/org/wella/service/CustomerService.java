@@ -147,7 +147,7 @@ public interface CustomerService {
      * @param liId
      * @return
      */
-    List<Map<String,Object>> grabLogisticsListInfo(long liId);
+    Map<String,Object> grabLogisticsListInfo(long liId);
 
     /**
      * 选择物流

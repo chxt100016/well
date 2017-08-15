@@ -50,6 +50,9 @@ public class TradeServiceImpl implements TradeService{
     @Autowired
     private UserMoneyDao userMoneyDao;
 
+    @Autowired
+    private LogisticsTransDao logisticsTransDao;
+
     @Override
     public Map<String, Object> findOfflinePayInfo(long orderTransId) {
         Map<String,Object> res=orderTransDao.singleOrderTransAttachOrderinfoviewByPrimaryKey(orderTransId);
@@ -112,6 +115,49 @@ public class TradeServiceImpl implements TradeService{
         }
         return 1;
     }
+
+    @Override
+    public int wlOfflinePayCheckSubmit(Map<String, Object> param) {
+        /*return tradeDao.prodOfflinePayCheckProcess(param);*/
+        Long logisticsTransId=Long.parseLong((String) param.get("logisticsTransId"));
+        Long orderId=Long.parseLong((String)param.get("orderId"));
+        int passCheck=Integer.parseInt((String)param.get("passCheck"));
+        String checkComment=(String)param.get("checkComment");
+        Map<String,Object> logisticsTrans=logisticsTransDao.singlePoByPrimaryKey(logisticsTransId);
+        long moneyId=(long)logisticsTrans.get("money_id");
+        Map<String,Object> update=new HashMap<>();
+        if (passCheck==1){
+            update.put("orderId",orderId);
+            update.put("logisticsPayState",5);
+            orderDao.updateOrderByID(update);
+            update.clear();
+            update.put("moneyId",moneyId);
+            update.put("jyState",1);
+            userMoneyDao.update(update);
+            update.clear();
+            update.put("logisticsTransId",logisticsTransId);
+            update.put("transState",1);
+            update.put("checkComment",checkComment);
+            logisticsTransDao.update(update);
+            waOrderServiceImpl.checkOrderRepayOff(orderId);
+        }else if (passCheck==0){
+            update.put("orderId",orderId);
+            update.put("logisticsPayState",-2);
+            orderDao.updateOrderByID(update);
+            update.clear();
+            update.put("moneyId",moneyId);
+            update.put("jyState",-1);
+            userMoneyDao.update(update);
+            update.clear();
+            update.put("logisticsTransId",logisticsTransId);
+            update.put("transState",-2);
+            update.put("checkComment",checkComment);
+            logisticsTransDao.update(update);
+        }
+        return 1;
+    }
+
+
 
     @Override
     public Map<String, Object> getOrderDetailPageInfo(long orderId) {
@@ -217,5 +263,12 @@ public class TradeServiceImpl implements TradeService{
     @Override
     public int orderListCount(Query query) {
         return tradeDao.orderListCount(query);
+    }
+
+    @Override
+    public Map<String, Object> findWlOfflinePayInfo(long logisticsTransId) {
+        Map<String,Object> res=logisticsTransDao.singleLogisticsTransAttachLogisticsOrderInfoViewByPrimaryKey(logisticsTransId);
+        ConvertUtil.convertDataBaseMapToJavaMap(res);
+        return res;
     }
 }
