@@ -197,7 +197,7 @@
                                 <td> ${vehicle.vehicleNo}</td>
                                 <td>${vehicle.vehicleHangingNo}</td>
                                 <td>${vehicle.vehicleSize} 吨</td>
-                                <td><a href="" onclick="delVihicle()">删除</a></td>
+                                <td><span href="" onclick="delVihicle(${vehicle.vehicleInfoId})">删除</span></td>
                             </tr>
                         </c:forEach>
 
@@ -262,7 +262,8 @@
          onSuccess:function(e){
               e.preventDefault();
               let allFields= $('.drivers').form('get values');
-              console.log(allFields);
+              console.log( typeof allFields);
+            //   json.stringfy
               $.ajax({
                     type: 'post', 
                     url:url1,
@@ -271,7 +272,8 @@
                     contentType:'application/json',
                     success:function(result){
                         if(result.code == 0){
-                            alert("成功")
+                            alert("成功");
+                            window.location.reload();
                         }
                         else{
                             alert(result.msg)
@@ -280,7 +282,30 @@
 
                     })
          }
-    })
+    });
+        function delVihicle (vehicleInfoId){
+           console.log(vehicleInfoId);
+           let url2="${pageContext.request.contextPath}/userinfo/deleteDriver"
+              $.ajax({
+                    type: 'get', 
+                    url:url2,
+                    data:{'id':vehicleInfoId},
+                    dataType:'json',
+                    // contentType:'application/json',
+                    success:function(result){
+                        if(result.code == 0){
+                            alert("成功");
+                            window.location.reload;
+                        }
+                        else{
+                            alert(result.msg)
+                        }
+                       
+                    }
+
+                    })
+
+        }
     
 </script>
 <%@ include file="../footer.jsp"%>
