@@ -3,9 +3,6 @@
 
 <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
 <style>
-	body{
-		background: #f5f5f5;
-	}
 	div.formDd{
 		width:1000px;
 		text-align: left; 
@@ -46,17 +43,12 @@
     	margin-top:6px;
 	}
 </style>	
-<div style=" width:990px;float:left">
-	<div id="ddXqDiv" align="center"  >
-		<div style="width:1000px;">
-			<div style="border-bottom: solid 1px #e0e0e0; width: 1000px;padding-bottom:12px;margin-top:20px;margin-bottom: 24px;">
-
-				<div style="text-align:center;font-size:24px;">订单详情</div>
-			</div>
-		</div>
+<div class="container1">
+    <div style="margin:40px 0 0 210px;">
+    <div style="width:90%;">
+		<h4 class="ui header">订单详情</h4>
+        <div class="ui divider"></div>
 		<form id="ddxqForm" action="${pageContext.request.contextPath}/seller/processOrder" method="post">
-			<div class="formDd">
-				<div class="headDd">订单详情</div>
 				<div class="rowDd">
 					<div class="labeldd" align="right">企业名称:</div>
 					<div class="contentdd">${orderInfo.userName}</div>
@@ -73,11 +65,11 @@
 				</div>
 				<div class="rowDd">
 					<div class="labeldd" align="right">供应量 :</div>
-					<div class="contentdd">
+					<div class="contentdd ui input" style="margin-top:8px;">
 						<input type="text" name="saleNum" value="${orderInfo.saleNum}" placeholder="请输入供应量" onkeyup="return validateNumber(this,value,0)" />
 					</div>
 					<div class="labeldd" align="right">单价 :</div>
-					<div class="contentdd">
+					<div class="contentdd ui input" style="margin-top:8px;">
 						<input type="text" name="saleDj" value="<c:if test="${orderInfo.saleNum!=null and orderInfo.saleNum>0}">${orderInfo.saleMoney/orderInfo.saleNum}</c:if>" placeholder="请输入单价" onkeyup="return validateNumber(this,value,0)" />
 					</div>
 					<div class="labeldd" align="right">总价 :</div>
@@ -99,10 +91,9 @@
 				<input type="hidden" name="orderId" value="${orderInfo.orderId}" />
 
 				<div style="margin: 40px 0px 40px 80px;">
-						<input type="button" class="bluebutton" style="padding: 8px 16px; font-size:20px; border-radius: 6px; border:none;" value="返回" onclick="window.history.go(-1);" <%--onclick="goBack();"--%> />
-						<input type="submit" id="submit" class="bluebutton" style="padding: 8px 16px; font-size:20px; border-radius: 6px; border:none;" value="确认" />
+						<input type="button" class="ui button" value="返回" onclick="window.history.go(-1);" <%--onclick="goBack();"--%> />
+						<input type="submit" id="submit" class="ui button primary" value="确认" />
 				</div>
-			</div>
 		</form>
 	</div>
 </div>
