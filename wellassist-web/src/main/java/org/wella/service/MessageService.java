@@ -98,4 +98,35 @@ public interface MessageService {
      * @return
      */
     int handleLoanSayNoMessage(long orderId);
+
+    /**
+     * 卖家发货的消息
+     * @param orderId
+     * @param zorderId
+     * @return
+     */
+    int handleSendProdMessage(long orderId, long zorderId);
+
+    /**
+     * 买家收货的消息
+     * @param orderId
+     * @param zorderId
+     */
+    int handleReceiveProdMessage(long orderId, long zorderId);
+
+    /**
+     * 卖家结束发货的消息
+     * @param orderId
+     * @return
+     */
+    int handleSendProdOverMessage(long orderId);
+
+    /**
+     * 管理員修改订单的消息
+     * @param orderId
+     * @return
+     */
+    int handleAdminUpdateOrderMessage(long orderId);
+
+    int handleReceiveProdOverMessage(long orderId);
 }

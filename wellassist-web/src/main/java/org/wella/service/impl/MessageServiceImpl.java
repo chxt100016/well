@@ -35,6 +35,9 @@ public class MessageServiceImpl implements MessageService{
     @Autowired
     private LoanDao loanDao;
 
+    @Autowired
+    private ZorderDao zorderDao;
+
     @Override
     public List<Message> getMessageList(Map<String, Object> map) {
         return messageDao.getMessageList(map);
@@ -203,5 +206,55 @@ public class MessageServiceImpl implements MessageService{
         StringBuilder content=new StringBuilder();
         content.append("您的订单 ").append(order.get("order_no")).append(" 申请授信付款被管理员驳回,订单取消。");
         return createOrderMessage((long)order.get("user_id"),"订单支付",content.toString());
+    }
+
+    @Override
+    public int handleSendProdMessage(long orderId, long zorderId) {
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        Map<String,Object> zorder=zorderDao.singleZorderByPrimaryKey(zorderId);
+        StringBuilder content=new StringBuilder();
+        content.append("您的订单 ").append(order.get("order_no")).append(" 已发送发货批次，发货数量 ").append(zorder.get("zorder_num")).append(" 吨，本批次单价 ").append(zorder.get("zorder_price")).append(" 元/吨。");
+        return createOrderMessage((long)order.get("user_id"),"订单发货",content.toString());
+    }
+
+    @Override
+    public int handleReceiveProdMessage(long orderId, long zorderId) {
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        Map<String,Object> zorder=zorderDao.singleZorderByPrimaryKey(zorderId);
+        StringBuilder content=new StringBuilder();
+        content.append("您的订单 ").append(order.get("order_no")).append(" 买家已收到发货批次，收货数量 ").append(zorder.get("zorder_num")).append(" 吨，本批次单价 ").append(zorder.get("zorder_price")).append(" 元/吨。");
+        return createOrderMessage((long)order.get("supplier_id"),"订单收货",content.toString());
+    }
+
+    @Override
+    public int handleSendProdOverMessage(long orderId) {
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        StringBuilder content=new StringBuilder();
+        content.append("您的订单 ").append(order.get("order_no")).append(" 卖家已结束发货。");
+        return createOrderMessage((long)order.get("user_id"),"订单发货",content.toString());
+    }
+
+    @Override
+    public int handleAdminUpdateOrderMessage(long orderId) {
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        StringBuilder customerContent=new StringBuilder();
+        customerContent.append("您的订单 ").append(order.get("order_no")).append(" 管理员已修改相关数据，如有疑问请联系平台管理员。");
+        StringBuilder sellerContent=new StringBuilder();
+        sellerContent.append("订单 ").append(order.get("order_no")).append(" 管理员已修改相关数据，如有疑问请联系平台管理员。");
+        int res=createOrderMessage((long)order.get("supplier_id"),"订单修改", sellerContent.toString());
+        res+=createOrderMessage((long)order.get("user_id"),"订单修改",customerContent.toString());
+        return res;
+    }
+
+    @Override
+    public int handleReceiveProdOverMessage(long orderId) {
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        StringBuilder customerContent=new StringBuilder();
+        customerContent.append("您的订单 ").append(order.get("order_no")).append(" 已收货完成。");
+        StringBuilder sellerContent=new StringBuilder();
+        sellerContent.append("您的订单 ").append(order.get("order_no")).append(" 买家已完成收货。");
+        int res=createOrderMessage((long)order.get("user_id"),"订单收货",customerContent.toString());
+        res+=createOrderMessage((long)order.get("supplier_id"),"订单收货",sellerContent.toString());
+        return res;
     }
 }

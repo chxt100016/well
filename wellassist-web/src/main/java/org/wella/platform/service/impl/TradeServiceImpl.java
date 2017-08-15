@@ -248,6 +248,8 @@ public class TradeServiceImpl implements TradeService{
         updateorder.put("hasQuestion",0);
         orderDao.updateOrderByID(updateorder);
 
+        messageServicesk.handleAdminUpdateOrderMessage(orderId);
+
     }
 
     @Override
