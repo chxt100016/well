@@ -48,4 +48,5 @@ public interface OrderDao {
 
     List<Map<Object,Object>>  financeDate(Map map);
 
+    String selectOrderNoByOrderId(@Param("orderId") long orderId);
 }

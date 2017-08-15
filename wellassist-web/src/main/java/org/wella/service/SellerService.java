@@ -84,7 +84,7 @@ public interface SellerService {
 
     Map<String,Object> getOrderDetail(Long orderId);
 
-    void createOrderLog(Long orderId, Map map);
+    Long createOrderLog(Long orderId, Map map);
 
     /**
      * 获取订单物流信息

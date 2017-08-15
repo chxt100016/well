@@ -12,4 +12,6 @@ public interface OrderLogDao {
     void createOrderLog(OrderLog orderLog);
 
     Map<String,Object> findNewestOrderLog(@Param("orderId") Long orderId);
+
+    Map<String,Object> singlePoByPrimaryKey(@Param("orderLogId") long orderLogId);
 }

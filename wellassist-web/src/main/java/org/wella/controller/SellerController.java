@@ -27,9 +27,11 @@ import org.wella.front.mapper.FrontBankOrderMapper;
 import org.wella.front.mapper.FrontUserMoneyMapper;
 import org.wella.front.seller.mapper.SellerOrderMapper;
 import org.wella.service.FinanceService;
+import org.wella.service.MessageService;
 import org.wella.service.WaOrderService;
 import org.wella.service.impl.ProductServiceImpl;
 import org.wella.service.impl.SellerServiceImpl;
+import sun.plugin2.message.Message;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -80,6 +82,9 @@ public class SellerController extends BaseController {
 
     @Autowired
     private FinanceService financeServiceImpl;
+
+    @Autowired
+    private MessageService messageServicesk;
 
 
 
@@ -179,7 +184,8 @@ public class SellerController extends BaseController {
             editMap.put("orderPrice",saleDj);
             editMap.put("operationIp",ipAddr);
             editMap.put("userId",userId);
-            sellerServiceImpl.createOrderLog(Long.valueOf(orderId),editMap);
+            long orderLogId=sellerServiceImpl.createOrderLog(Long.valueOf(orderId),editMap);
+            messageServicesk.handleOrderPriceEditMessage(Long.valueOf(orderId),orderLogId);
             ret = "1";
             obj.put("content",ConstantUtil.MSG_SUCCESS);
         } catch (Exception e) {

@@ -9,6 +9,7 @@ import org.wella.dao.LogisticsInfoDao;
 import org.wella.dao.VehicleGrabDao;
 import org.wella.dao.VehicleGrabInfoDao;
 import org.wella.entity.*;
+import org.wella.service.MessageService;
 import org.wella.service.SenderService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +27,8 @@ public class SenderServiceImpl implements SenderService {
     private VehicleGrabDao vehicleGrabDao;
     @Autowired
     private VehicleGrabInfoDao vehicleGrabInfoDao;
-
+    @Autowired
+    private MessageService messageServicesk;
     /**
      * 抢单大厅获取物流订单
      * @param param
@@ -140,6 +142,7 @@ public class SenderServiceImpl implements SenderService {
             vehicleGrabInfo.setVehicleSize(Double.parseDouble((String)vehicle.get("vehicleSize")));
             res+=vehicleGrabInfoDao.createVehicleGrabInfo(vehicleGrabInfo);
         }
+        messageServicesk.handleOrderGrabedMessage((long)logisticsInfo.get("order_id"));
         return res;
     }
 

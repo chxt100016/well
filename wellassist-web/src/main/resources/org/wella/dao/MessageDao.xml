@@ -80,4 +80,13 @@
          #{dataUrl},
         #{memo})
     </insert>
+
+    <insert id="createPo" parameterType="org.wella.entity.Message">
+        insert into wa_message ( user_id, title,
+      type, status, content,
+      date, is_read)
+    values ( #{userId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR},
+      #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{content,jdbcType=VARCHAR},
+      #{date,jdbcType=TIMESTAMP}, #{isRead,jdbcType=TINYINT})
+    </insert>
 </mapper>

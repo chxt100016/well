@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Created by xuqinghuo on 2017/7/25.
  */
-public interface MessageDao extends BaseDao<Message> {
+public interface MessageDao {
 
     List<Message> getMessageList(Map<String, Object> map);
 
@@ -28,5 +28,7 @@ public interface MessageDao extends BaseDao<Message> {
 
     int queryRecordCount(Map<String, Object> map);
     void addCreditRecord(CreditRecord creditRecord);
+
+    int createPo(Message message);
 
 }

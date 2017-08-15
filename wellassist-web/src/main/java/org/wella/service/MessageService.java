@@ -30,7 +30,7 @@ public interface MessageService {
     Userinfo getCreditRecord(Long id);
 
 
-    int queryTotal(Map<String, Object> map);
+    /*int queryTotal(Map<String, Object> map);*/
 
     int queryRecordCount(Map<String, Object> map);
 
@@ -40,8 +40,31 @@ public interface MessageService {
      * @param orderId
      * @return 数据库操作记录数
      */
-    int handleOrderConfirmMessage(long orderId);
+    int handleOrderConfirmMessage(long orderId,long orderLogId);
 
+    /**
+     * 生成订单编辑的消息
+     * 消息关键字：订单编号，确认单价，数量
+     * @param orderId
+     * @param orderLogId
+     * @return
+     */
     int handleOrderPriceEditMessage(long orderId, long orderLogId);
+
+    /**
+     * 生成物流抢单的消息
+     * 消息关键字：订单编号
+     * @param orderId
+     * @return
+     */
+    int handleOrderGrabedMessage(long orderId);
+
+    /**
+     * 生成选择物流抢单的消息
+     * 消息关键字：订单编号
+     * @param logisticsInfoId
+     * @return
+     */
+    int handleChooseGrabMessage(long logisticsInfoId);
 
 }

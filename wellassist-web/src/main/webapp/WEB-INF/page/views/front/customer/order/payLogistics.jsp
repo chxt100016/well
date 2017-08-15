@@ -327,8 +327,9 @@
         // $("#bondc").removeAttr("checked");
         if (x ===3) {
 
-            alert("请申请账户授信");
+
             if(${userSumCredit}==0){
+                alert("请申请账户授信");
                 $.get("${pageContext.request.contextPath}/customer/isCreditApplyAvailable",{},function(r){
                     if(r.code==0){
                         url = "${pageContext.request.contextPath}/customer/creditApply";
@@ -336,12 +337,12 @@
                     }else {
                         alert(r.msg);
                     }
-                },"json");
+                },"json");}
             $('#combox2').hide(1000);
             $('#combox').show(1000);
             $("#bondc").prop("checked", "checked");
             // console.log($("#bondc")); 
-        }}
+        }
         else if(x===4){
             $('#combox').hide(1000);
       $('#combox2').show(1000);
@@ -354,8 +355,9 @@
             $('#combox2').hide(1000);
         }
         if (x===2){
-            alert("请申请账户授信");
+
             if(${userSumCredit}==0){
+                alert("请申请账户授信");
                 $.get("${pageContext.request.contextPath}/customer/isCreditApplyAvailable",{},function(r){
                     if(r.code==0){
                         url = "${pageContext.request.contextPath}/customer/creditApply";

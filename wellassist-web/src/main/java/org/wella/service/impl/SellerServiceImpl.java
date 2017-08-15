@@ -108,8 +108,8 @@ public class SellerServiceImpl implements SellerService {
         }
         map.put("orderPrice", map.get("confirmPrice"));
         map.put("orderNumber", map.get("confirmNumber"));
-        createOrderLog(order.getOrderId(), map);
-        messageServicesk.handleOrderConfirmMessage(orderId);
+        long orderLogId=createOrderLog(order.getOrderId(), map);
+        messageServicesk.handleOrderConfirmMessage(orderId,orderLogId);
     }
 
     @Override
@@ -270,7 +270,7 @@ public class SellerServiceImpl implements SellerService {
      * @param map 其中confirmPrice是指修改后的文件
      */
     @Override
-    public void createOrderLog(Long orderId, Map map) {
+    public Long createOrderLog(Long orderId, Map map) {
         OrderLog orderLog = new OrderLog();
         orderLog.setOperationTime(new Date());
         orderLog.setOrderId(orderId);
@@ -279,6 +279,7 @@ public class SellerServiceImpl implements SellerService {
         orderLog.setUserId(Long.parseLong(map.get("userId").toString()));
         orderLog.setOperationIp(map.get("operationIp").toString());
         orderLogDao.createOrderLog(orderLog);
+        return orderLog.getId();
     }
 
     @Override
