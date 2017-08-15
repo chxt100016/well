@@ -9,6 +9,7 @@ import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
 import org.wella.entity.CreditorAuthenticInfo;
 import org.wella.service.CreditorService;
+import org.wella.service.MessageService;
 import org.wella.service.WaOrderService;
 import org.wella.utils.DateUtils;
 
@@ -54,6 +55,9 @@ public class CreditorServiceImpl implements CreditorService{
 
     @Autowired
     private WaOrderService waOrderServiceImpl;
+
+    @Autowired
+    private MessageService messageServicesk;
 
 
 
@@ -139,7 +143,7 @@ public class CreditorServiceImpl implements CreditorService{
             }
             waOrderServiceImpl.checkOrderRepayOff((long)loanFkView.get("order_id"));
         }
-
+        messageServicesk.handleLoanCreatedMessage(loanId);
         return 1;
     }
 

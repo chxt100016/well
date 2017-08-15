@@ -7,8 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
 import org.wella.entity.CreditInfo;
+import org.wella.entity.Message;
 import org.wella.platform.service.CreditService;
 import org.wella.service.CustomerService;
+import org.wella.service.MessageService;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -39,6 +41,8 @@ public class CreditServiceImpl implements CreditService{
     private LogisticsTransDao logisticsTransDao;
     @Autowired
     private UserMoneyDao userMoneyDao;
+    @Autowired
+    private MessageService messageServicesk;
 
 
     @Override
@@ -249,5 +253,7 @@ public class CreditServiceImpl implements CreditService{
         updateusermoney.put("moneyId",moneyId);
         updateusermoney.put("jyState",-1);
         userMoneyDao.update(updateusermoney);
+
+        messageServicesk.handleLoanSayNoMessage(orderId);
     }
 }

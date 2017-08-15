@@ -67,4 +67,35 @@ public interface MessageService {
      */
     int handleChooseGrabMessage(long logisticsInfoId);
 
+    /**
+     * 生成商品订单线下付款审核的消息
+     * @param orderId
+     * @param passCheck
+     * @param checkComment
+     * @return
+     */
+    int handleProdOfflinePayCheckMessage(Long orderId, int passCheck,String checkComment);
+
+    /**
+     * 生成物流订单线下付款审核的消息
+     * @param orderId
+     * @param passCheck
+     * @param checkComment
+     * @return
+     */
+    int handleLogisticsOfflinePayCheckMessage(Long orderId, int passCheck,String checkComment);
+
+    /**
+     * 生成贷款的消息
+     * @param loanId
+     * @return
+     */
+    int handleLoanCreatedMessage(long loanId);
+
+    /**
+     *授信付款驳回的消息
+     * @param orderId
+     * @return
+     */
+    int handleLoanSayNoMessage(long orderId);
 }
