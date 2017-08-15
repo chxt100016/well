@@ -22,44 +22,44 @@ div.error{
    	display: inline-block;
    	padding-left: 42px;
 }
-        .file {
-            position: relative;
-            display: inline-block;
-            background: #21BA45;
-            border: 1px solid #21BA45;
-            border-radius: 4px;
-            padding: 4px 12px;
-            overflow: hidden;
-            color: #FFF;
-            text-decoration: none;
-            text-indent: 0;
-            line-height: 20px;
-        }
+.file {
+    position: relative;
+    display: inline-block;
+    background: #21BA45;
+    border: 1px solid #21BA45;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #FFF;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+}
 
-        .file input {
-            position: absolute;
-            font-size: 100px;
-            right: 0;
-            top: 0;
-            opacity: 0;
-        }
+.file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
 
-        .file:hover {
-            background: #AADFFD;
-            border-color: #78C3F3;
-            color: #004974;
-            text-decoration: none;
-        }
-        .white-color{color: #fff}
-        .excel-inco{
-                font-size: 25px !important;
-			    width: 45px !important;
-			    background: #fff;
-			    border: none;
-			    color: green;
-			    float: right;
-			    margin-top: -25px !important;
-        }
+.file:hover {
+    background: #AADFFD;
+    border-color: #78C3F3;
+    color: #004974;
+    text-decoration: none;
+}
+.white-color{color: #fff}
+.excel-inco{
+        font-size: 25px !important;
+	    width: 45px !important;
+	    background: #fff;
+	    border: none;
+	    color: green;
+	    float: right;
+	    margin-top: -25px !important;
+}
 </style>
 
 </head>
@@ -93,7 +93,7 @@ div.error{
 								<span style="margin-right:24px;">笔</span>
 							</div>
 							<div class="ui" style="margin-bottom:12px;font-size:16px;">
-                                <a id="upload"  class="ui button primary" style="width:100px;height:40px">更换头像 <input type="file"  style="opacity: 0;"></a>
+                                <a id="upload" class="ui button primary" style="width:100px;height:40px">更换头像 <input type="file" id="fileToUpload" style="opacity: 0;"></a>
                                 <input type="hidden" class="" name="companyImg" value="${userInfo.companyImg}">
 								<!-- <a class="fancybox" rel="group" href="userInfo.companyImg">
 									<img id="icon" src="userInfo.companyImg" width="136px" height="134px" />

@@ -74,7 +74,56 @@
             <if test="transState != null" >
                 trans_state = #{transState,jdbcType=TINYINT},
             </if>
+            <if test="checkComment != null">
+                check_comment=#{checkComment},
+            </if>
         </set>
         where logistics_trans_id = #{logisticsTransId,jdbcType=BIGINT}
     </update>
+
+    <select id="listLogisticsTransAttachOrderinfoviewByConditions" parameterType="map" resultType="map">
+        SELECT a.*,b.order_no,b.`customer_user_name`
+        FROM wa_logistics_trans a LEFT JOIN orderinfoview b
+        ON a.`order_id`=b.`order_id`
+        <where>
+            <if test="zfMethod != null">
+                AND a.zf_method=${zfMethod}
+            </if>
+            <if test="orderNo != null">
+                AND b.order_no LIKE '%${orderNo}%'
+            </if>
+        </where>
+        <if test="orderBy != null">
+            order by ${orderBy}
+        </if>
+        <if test="offset != null and limit != null">
+            LIMIT ${offset}, ${limit}
+        </if>
+    </select>
+
+    <select id="listLogisticsTransAttachOrderinfoviewByConditionsCount" parameterType="map" resultType="int">
+        SELECT count(*)
+        FROM wa_order_trans a LEFT JOIN orderinfoview b
+        ON a.`order_id`=b.`order_id`
+        <where>
+            <if test="zfMethod != null">
+                AND a.zf_method=${zfMethod}
+            </if>
+            <if test="orderNo != null">
+                AND b.order_no LIKE '%${orderNo}%'
+            </if>
+        </where>
+    </select>
+
+    <select id="singleLogisticsTransAttachLogisticsOrderInfoViewByPrimaryKey" parameterType="long" resultType="map">
+        SELECT lt.*,loiv.`prod_name`,loiv.`num`,loiv.`order_price`,loiv.`customer_user_name`,loiv.`sender_user_name`,loiv.order_no,loiv.`from_address`,loiv.to_address,loiv.`is_self_car`,loiv.`prod_order_date`
+        FROM wa_logistics_trans lt LEFT JOIN logisticsOrderInfoView loiv ON lt.`logistics_info_id`=loiv.`logistics_id`
+        WHERE lt.`logistics_trans_id`=#{logisticsTransId}
+    </select>
+
+    <select id="singlePoByPrimaryKey" parameterType="long" resultType="map">
+        SELECT *
+        from wa_logistics_trans
+        where logistics_trans_id=#{logisticsTransId}
+    </select>
 </mapper>

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.wella.common.ctrl.BaseController;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
+import org.wella.dao.LogisticsTransDao;
 import org.wella.dao.OrderTransDao;
 import org.wella.dao.TradeDAO;
 import org.wella.platform.service.TradeService;
@@ -33,6 +34,9 @@ public class TradeController extends BaseController {
 
     @Autowired
     private TradeService tradeServiceImpl;
+
+    @Autowired
+    private LogisticsTransDao logisticsTransDao;
 
     @RequestMapping("tradeList")
     @ResponseBody
@@ -69,6 +73,20 @@ public class TradeController extends BaseController {
         return R.ok().put("page",pageUtils);
     }
 
+    @RequestMapping("wlOfflinePayList")
+    @ResponseBody
+    public R wlOfflinePayList(@RequestParam Map<String,Object> param){
+        param.put("zfMethod",5);
+        param.put("orderNo",param.get("queryStr"));
+        param.put("orderBy","FIELD(a.trans_state,0,1,-2,-1),tj_date desc");
+        Query query=new Query(param);
+        List list=logisticsTransDao.listLogisticsTransAttachOrderinfoviewByConditions(query);
+        ConvertUtil.convertDataBaseMapToJavaMap(list);
+        int totalCount=logisticsTransDao.listLogisticsTransAttachOrderinfoviewByConditionsCount(query);
+        PageUtils pageUtils=new PageUtils(list,totalCount,query.getLimit(),query.getPage());
+        return R.ok().put("page",pageUtils);
+    }
+
     /**
      * 跳转线下付款审核界面
      * @param orderTransId
@@ -82,10 +100,29 @@ public class TradeController extends BaseController {
         return "views/platform/trade/offlinePay/offlinePayCheck.html";
     }
 
+    /**
+     * 跳转wl线下付款审核界面
+     * @param logisticsTransId
+     * @param model
+     * @return
+     */
+    @RequestMapping("wlOfflinePayCheck")
+    public String wlOfflinePayCheck(@RequestParam("logisticsTransId")String logisticsTransId,Model model){
+        Map<String,Object> info=tradeServiceImpl.findWlOfflinePayInfo(Long.parseLong(logisticsTransId));
+        model.addAttribute("info",info);
+        return "views/platform/trade/wlOfflinePay/wlOfflinePayDetail.html";
+    }
+
     @RequestMapping("offlinePayCheckSubmit")
     public String offlinePayCheckSubmit(@RequestParam Map<String,Object> param){
         int res=tradeServiceImpl.offlinePayCheckSubmit(param);
         return "redirect:./offlinePay.html";
+    }
+
+    @RequestMapping("wlOfflinePayCheckSubmit")
+    public String wlOfflinePayCheckSubmit(@RequestParam Map<String,Object> param){
+        int res=tradeServiceImpl.wlOfflinePayCheckSubmit(param);
+        return "redirect:./wlOfflinePay.html";
     }
 
     @RequestMapping("offlinePayDetail")
@@ -93,6 +130,13 @@ public class TradeController extends BaseController {
         Map<String,Object> info=tradeServiceImpl.findOfflinePayInfo(Long.parseLong(orderTransId));
         model.addAttribute("info",info);
         return "views/platform/trade/offlinePay/offlinePayDetail.html";
+    }
+
+    @RequestMapping("wlOfflinePayDetail")
+    public String wlOfflinePayDetail(@RequestParam("logisticsTransId")String logisticsTransId,Model model){
+        Map<String,Object> info=tradeServiceImpl.findWlOfflinePayInfo(Long.parseLong(logisticsTransId));
+        model.addAttribute("info",info);
+        return "views/platform/trade/wlOfflinePay/wlOfflinePayDetail.html";
     }
 
     @RequestMapping("rechargeList")

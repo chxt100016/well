@@ -127,55 +127,55 @@
 			</form>
 
 		    <table class="ui very basic table" style="border:0;text-align:center;">
-		    <thead>
-		        <tr>
-		            <th width="27%">时间</th>
-		            <th width="27%" style="border-bottom: 15px solid #fff;border-left:1px solid #d0d0d0;padding: 0;">金额(元)</th>
-		            <th width="23%" style="border-bottom: 15px solid #fff;border-left:1px solid #d0d0d0;padding: 0;">明细</th>
-		            <th width="23%" style="border-bottom: 15px solid #fff;border-left:1px solid #d0d0d0;padding: 0;">
-		            <div class="ui compact">
-		                <div class="ui simple dropdown item">进度
-		                    <i class="dropdown icon"></i>
-		                        <div class="menu">
-		                          <div class="item" onClick = "setZfState('');">全部</div>
-		                          <div class="item" onClick = "setZfState('0');">申请</div>
-		                          <div class="item" onClick = "setZfState('1');">完成</div>
-		                        </div>
-		                    </div>
-		                </div>
-		            </th>
-		        </tr>
-		    </thead>
-		    <tbody>
-		        <c:forEach var = "item" items = "${list}">
-		        <tr>
-		            <td>[<fmt:formatDate value="${item.zfDate}" pattern="yyyy-MM-dd HH:mm:ss"/>]</td>
-		            <td style="color:#ff0000;">${item.zfMoney}</td>
-		            <td>
-		                <c:if test = "${item.zfType == '0'}">
-		                    线下
-		                </c:if>
-		                <c:if test = "${item.zfType == '1'}">
-		                    银行
-		                </c:if> 
-		            </td>
-		            <td>
-		                <c:if test = "${item.zfState == '0'}">
-		                    申请成功
-		                </c:if>
-		                <c:if test = "${item.zfState == '1'}">
-		                    申请完成
-		                </c:if> 
-		            </td>  
-		        </tr>
-		        </c:forEach>
-		        <c:if test="${list== null || fn:length(list) == 0}">
-		            <tr>
-		                <td colspan="4">没有资料</td>
-		            </tr>  
-		        </c:if> 
-		    </tbody>
-		</table>
+			    <thead>
+			        <tr>
+			            <th width="27%">时间</th>
+			            <th width="27%" style="border-bottom: 15px solid #fff;border-left:1px solid #d0d0d0;padding: 0;">金额(元)</th>
+			            <th width="23%" style="border-bottom: 15px solid #fff;border-left:1px solid #d0d0d0;padding: 0;">明细</th>
+			            <th width="23%" style="border-bottom: 15px solid #fff;border-left:1px solid #d0d0d0;padding: 0;">
+			            <div class="ui compact">
+			                <div class="ui simple dropdown item">进度
+			                    <i class="dropdown icon"></i>
+			                        <div class="menu">
+			                          <div class="item" onClick = "setZfState('');">全部</div>
+			                          <div class="item" onClick = "setZfState('0');">申请</div>
+			                          <div class="item" onClick = "setZfState('1');">完成</div>
+			                        </div>
+			                    </div>
+			                </div>
+			            </th>
+			        </tr>
+			    </thead>
+			    <tbody>
+			        <c:forEach var = "item" items = "${list}">
+			        <tr>
+			            <td>[<fmt:formatDate value="${item.zfDate}" pattern="yyyy-MM-dd HH:mm:ss"/>]</td>
+			            <td style="color:#ff0000;">${item.zfMoney}</td>
+			            <td>
+			                <c:if test = "${item.zfType == '0'}">
+			                    线下
+			                </c:if>
+			                <c:if test = "${item.zfType == '1'}">
+			                    银行
+			                </c:if> 
+			            </td>
+			            <td>
+			                <c:if test = "${item.zfState == '0'}">
+			                    申请成功
+			                </c:if>
+			                <c:if test = "${item.zfState == '1'}">
+			                    申请完成
+			                </c:if> 
+			            </td>  
+			        </tr>
+			        </c:forEach>
+			        <c:if test="${list== null || fn:length(list) == 0}">
+			            <tr>
+			                <td colspan="4">没有资料</td>
+			            </tr>  
+			        </c:if> 
+			    </tbody>
+			</table>
 		    <div class="right-pagination" style="text-align:center;padding-top:15px;">
 				<%@ include file="../../pagination.jsp"%>
 		    </div>	

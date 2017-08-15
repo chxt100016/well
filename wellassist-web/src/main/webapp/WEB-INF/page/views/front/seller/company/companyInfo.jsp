@@ -8,6 +8,7 @@
 
 <script src="<c:url value="/resources/library/js/chosen.jquery.js"/>"></script>
 <script src="<c:url value="/resources/library/js/bootstrap-fileupload.js"/>"></script>
+<script src="${pageContext.request.contextPath}/statics/libs/ajaxupload.js"></script>
 
 <style>
 .container1{min-height: 990px;width: 100%;}
@@ -21,138 +22,320 @@ div.error{
    	display: inline-block;
    	padding-left: 42px;
 }
+.file {
+    position: relative;
+    display: inline-block;
+    background: #21BA45;
+    border: 1px solid #21BA45;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #FFF;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+}
+
+.file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+
+.file:hover {
+    background: #AADFFD;
+    border-color: #78C3F3;
+    color: #004974;
+    text-decoration: none;
+}
+.white-color{color: #fff}
+.excel-inco{
+        font-size: 25px !important;
+	    width: 45px !important;
+	    background: #fff;
+	    border: none;
+	    color: green;
+	    float: right;
+	    margin-top: -25px !important;
+}
 </style>
 
 </head>
-
 <div class="container1">
 	<div style="margin:40px 0 0 210px;">
 		<div id = "content-rect" style="width:90%;">
-			<div style="border:solid 1px #d0d0d0;">
-				<div style="border-bottom:solid 1px #d0d0d0;padding:6px;font-size:18px;color:#0557ab;font-weight: bold;">公司信息</div>
+			<div style="border-bottom:solid 1px #d0d0d0;padding-bottom:10px;font-size:15px;font-weight: 600;">企业信息</div>
 
-				<form action="#" method="post">		
-					<div style="font-size:14px;padding:32px 45px;display: inline-block;width: 90%;">
-						<div>
-							<div style="float:left;margin-right:8px;width:10%;">当前头像: </div>
-							<div id="companyicon" style="float:left;width:12%;height:100px;border:solid 1px #ccc;">
-								<img id="icon" style="margin:8px;" src="${userInfo.companyImg}">
+			<form action="#" method="post">		
+				<div style="font-size:14px;padding:32px 45px;display: inline-block;width: 90%;">
+					<div>
+						<div id="companyicon" style="float:left;width:12%;height:100px;border:solid 1px #ccc;">
+							<img id="icon" style="margin:8px;" src="${userInfo.companyImg}" width="93px;height:93px">							
+						</div>
+						<div style="float:left;margin-left:32px;">
+							<div style="font-size:20px;font-weight:bold;margin-bottom:12px;">${user.userName}</div>
+							<div style="margin-bottom:12px;font-size:16px;">
+								<img src="<c:url value="/resources/wella/front/images/seller/lianxiicon1.png"/>">
+								<span style="margin-left:8px;margin-right:42px;">实名认证</span>
+								<img src="<c:url value="/resources/wella/front/images/seller/lianxiicon2.png"/>">
+								<span style="margin-left:8px;margin-right:42px;">手机认证</span>
+								<img src="<c:url value="/resources/wella/front/images/seller/lianxiicon3.png"/>">
+								<span style="margin-left:8px;margin-right:42px;">营业执照已认证</span>
 							</div>
-							<div style="float:left;margin-left:32px;">
-								<div style="font-size:20px;font-weight:bold;margin-bottom:12px;">${user.userName}</div>
-								<div style="margin-bottom:12px;font-size:16px;">
-									<img src="<c:url value="/resources/wella/front/images/seller/lianxiicon1.png"/>">
-									<span style="margin-left:8px;margin-right:42px;">实名认证</span>
-									<img src="<c:url value="/resources/wella/front/images/seller/lianxiicon2.png"/>">
-									<span style="margin-left:8px;margin-right:42px;">手机认证</span>
-									<img src="<c:url value="/resources/wella/front/images/seller/lianxiicon3.png"/>">
-									<span style="margin-left:8px;margin-right:42px;">营业执照已认证</span>
-								</div>
-								<div style="margin-bottom:12px;font-size:16px;">
-									<span style="margin-right:12px;">近三个月交易:</span>
-									<span style="color:red;">${threeJyCn}</span>
-									<span style="margin-right:24px;">笔</span>
-									<span style="margin-right:12px;">进行中的交易:</span>
-									<span style="color:red;">${ingJyCn}</span>
-									<span style="margin-right:24px;">笔</span>
-								</div>
+							<div style="margin-bottom:12px;font-size:16px;">
+								<span style="margin-right:12px;">近三个月交易:</span>
+								<span style="color:red;">${threeJyCn}</span>
+								<span style="margin-right:24px;">笔</span>
+								<span style="margin-right:12px;">进行中的交易:</span>
+								<span style="color:red;">${ingJyCn}</span>
+								<span style="margin-right:24px;">笔</span>
+							</div>
+							<div class="ui" style="margin-bottom:12px;font-size:16px;">
+                                <a id="upload" class="ui button primary" style="width:100px;height:40px">更换头像 <input type="file" id="fileToUpload" style="opacity: 0;"></a>
+                                <input type="hidden" class="" name="companyImg" value="${userInfo.companyImg}">
+								<!-- <a class="fancybox" rel="group" href="userInfo.companyImg">
+									<img id="icon" src="userInfo.companyImg" width="136px" height="134px" />
+								</a> -->
 							</div>
 						</div>
 					</div>
-					<div style="margin-top:24px;display: inline-block;width: 90%;padding-left:45px;">
-						<span style="display:inline-block;width:10%;font-size:14px;">所在地区</span>
-						<select id="provinceId" name="provinceId" onchange="selRegion(0);">
-		                	<option>--请选择省--</option>
-		                	<c:forEach items="${provinceList}" var="item" varStatus="status">
-		                    	<option value="${item.regionId}" <c:if test="${item.regionId==provinceId}" >selected</c:if> >${item.regionName}</option>
-		                    </c:forEach>
-				        </select>
-			            <select id="cityId" name="cityId" onchange="selRegion(1);">
-		                    <option>--请选择市--</option>
-		                    <c:forEach items="${cityList}" var="item" varStatus="status">
-		                    	<option value="${item.regionId}"  <c:if test="${item.regionId==cityId}" >selected</c:if>  >${item.regionName}</option>
-		                    </c:forEach>
-		                </select>
-		                <select id="regionId" name="regionId" onchange="selRegion(2);">
-		                	<option>--请选择区--</option>
-		                	<c:forEach items="${countyList}" var="item" varStatus="status">
-		                    	<option value="${item.regionId}"  <c:if test="${item.regionId==userInfo.zcRegionId}" >selected</c:if> >${item.regionName}</option>
-		                    </c:forEach>
-		                </select>
+				</div>
+				<div style="margin-top:24px;display: inline-block;width: 90%;padding-left:45px;">
+					<span style="display:inline-block;width:10%;font-size:14px;">所在地区</span>
+					<select class="ui selection dropdown" id="provinceId" name="provinceId" onchange="selRegion(0);">
+						<option>--请选择省--</option>
+						<c:forEach items="${provinceList}" var="item" varStatus="status">
+							<option value="${item.regionId}" <c:if test="${item.regionId==provinceId}" >selected</c:if> >${item.regionName}</option>
+						</c:forEach>
+					</select>
+					<select class="ui selection dropdown" id="cityId" name="cityId" onchange="selRegion(1);">
+						<option>--请选择市--</option>
+						<c:forEach items="${cityList}" var="item" varStatus="status">
+							<option value="${item.regionId}"  <c:if test="${item.regionId==cityId}" >selected</c:if>  >${item.regionName}</option>
+						</c:forEach>
+					</select>
+					<select class="ui selection dropdown" id="regionId" name="regionId" onchange="selRegion(2);">
+						<option>--请选择区--</option>
+						<c:forEach items="${countyList}" var="item" varStatus="status">
+							<option value="${item.regionId}"  <c:if test="${item.regionId==userInfo.zcRegionId}" >selected</c:if> >${item.regionName}</option>
+						</c:forEach>
+                    </select>
+                    <!-- <span>reginid:${userInfo.zcRegionId}</span> -->
+                    <input type="hidden" name="zcRegionId" id="zc_region_id" value="${userInfo.zcRegionId}"/>
+				</div>
+				<div style="margin-top:24px;padding-left:45px;display: inline-block;width: 90%;">
+					<span style="display:inline-block;width:10%;font-size:14px;">详细地址</span>
+					<div class="ui input" style="width:38.7%;">
+						<input type="textarea" name="zcXxAddress" id="zcXxAddress" placeholder="请输入详细地址" style="width:40%;" value="${userInfo.zcXxAddress}">
 					</div>
-					<div style="margin-top:24px;padding-left:45px;display: inline-block;width: 90%;">
-						<span style="display:inline-block;width:10%;font-size:14px;">详细地址</span>
-						<input name="zcXxAddress" id="zcXxAddress" placeholder="请输入详细地址" style="width:40%;height: 30px;" value="${userInfo.zcXxAddress}">
+				</div>
+		
+		
+				<div style="margin-top:24px;padding-left:45px;display: inline-block;width: 90%;">
+					<span style="display:inline-block;width:10%;font-size:14px;">电子邮箱</span>
+					<div class="ui input" style="width:38.7%;">
+						<input type="text" name="userEmail" id="userEmail" placeholder="请输入电子邮箱" style="width:40%;" value="${user.userEmail}">
 					</div>
-			
-			
-					<div style="margin-top:24px;padding-left:45px;display: inline-block;width: 90%;">
-						<span style="display:inline-block;width:10%;font-size:14px;">电子邮箱</span>
-						<input name="userEmail" id="userEmail" placeholder="请输入电子邮箱" style="width:40%;height: 30px;" value="${user.userEmail}">
+				</div>
+				
+				<div style="margin-top:24px;padding-left:45px;display: inline-block;width: 90%;">
+					<span style="display:inline-block;width:10%;font-size:14px;">手机号码</span>
+					<div class="ui input" style="width:38.7%;">
+						<input type="text" name="userPhone" id="userPhone" placeholder="请输入手机号码" style="width:40%;" value="${user.userPhone}">
 					</div>
-					
-					<div style="margin-top:24px;padding-left:45px;display: inline-block;width: 90%;">
-						<span style="display:inline-block;width:10%;font-size:14px;">手机号码</span>
-						<input name="userPhone" id="userPhone" placeholder="请输入手机号码" style="width:40%;height: 30px;" value="${user.userPhone}">
+				</div>
+				
+				
+				
+                
+                <div>
+                    <br>
+				<div style="border-bottom:solid 1px #d0d0d0;padding-bottom:10px;font-size:15px;font-weight: 600;">联系方式</div>
+				
+				
+					<div style="font-size:14px;padding-left:8px;padding-top:32px;">
+						<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">联系人</span>
+						<div class="ui input">
+						  	<input type="text" name="companyLxr" id="companyLxr" placeholder="请输入联系人" value="${userInfo.companyLxr}">
+						</div>
+						
 					</div>
-					
-					
-					<div style="margin-bottom: 32px;margin-top: 32px;margin-left: 11%;">
-						<input type="submit" id="submit" class="bluebutton" style="padding-left: 24px;padding-right: 24px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;border:none;" value="保存">
-					</div>
-					<input type="hidden" name="zc_region_id" id="zc_region_id" value="${userInfo.zcRegionId}" />
-				</form>
-			</div>
-        </div>
-    </div>
-</div>
+					<div style="font-size:14px;padding-left:8px;padding-top:24px;">
+						<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">联系人手机号码</span>
+						<div class="ui input">
+							<input type="text" name="companyLxrPhone" id="companyLxrPhone" placeholder="请输入联系手机号码"  value="${userInfo.companyLxrPhone}">
+						</div>
+                    </div>
+					<br>
+            </div>
+                <br>
+            <div style="border-bottom:solid 1px #d0d0d0;padding-bottom:10px;font-size:15px;font-weight: 600;">资质信息</div>
+			  <div style="margin-top:24px;padding-left:45px;">
+				<span>法人身份证：</span>
+				<div class="ui input" style="width:30%;">
+					<input type="text" name="legalIdCard" id="IDcard" placeholder="请输入法人的身份证号" value="${user.legalIdCard}">
+				</div>
+				
+	                <div class="ui three column grid">
+	                    <div class="row" style="margin-top:30px;">
+                        <div  class=" ui cards">
+                             <div class="card" style=" margin-left: 24px;">
+                                <div class="content">
+                                    <div class="header">
+                                       营业执照
+                                    </div>
+                                    <div class="description">
+                                        请上传jpg、png文件
+                                    </div>
+                                   
+                                 </div>
+                                <div class="extra content field" >
+                                    <div class="meta"  >
+                                    	<img src="${userInfo.companyYyZzImg}"  width="100%" height="200px" id="img1"/>
+                                    </div>
+                                    <a href="javascript:;" class="file" style="margin-top:55px;">
+                                         <span class="white-color">选择文件</span>
+                                          <i class="upload icon white-color" ></i>
+                                         <input type="file"  id="upload1">
+                                        <input type="hidden" id="imgflag1"name="companyYyZzImg" value="${userInfo.companyYyZzImg}">
+                                        <%--<a id="bankBill" download="bankBill.xlsx">download</a>--%>
+                                    </a>                                       
+                                 </div>                                
+                             </div>
+                             <div class="card">
+                                <div class="content">
+                                    <div class="header">
+                                       许可证
+                                    </div>
+                                    <div class="description">
+                                        请上传jpg、png文件
+                                    </div>
+                                   
+                                 </div>
+                                <div class="extra content field" >
+                                    <div class="meta"  >
+                                    	<img src="${userInfo.companyXkzImg}"  width="100%" height="200px" id="img2" />
+                                    </div>
+                                    <a href="javascript:;" class="file"  style="margin-top:55px;">
+                                         <span class="white-color">选择文件</span>
+                                          <i class="upload icon white-color" ></i>
+                                         <input type="file" id="upload2">
+                                        <input type="hidden" name="companyXkzImg" id="imgflag2" value="${userInfo.companyXkzImg}">
+                                    </a>
+                                        
+                                 </div>
+                             </div>
+                            <div class="card">
+                                        <div class="content">
+                                            <div class="header">
+                                            特许经营许可证
+                                            </div>
+                                            <div class="description">
+                                                请上传jpg、png文件
+                                            </div>
+                                        </div>
+                                        <div class="extra content field" >
+                                            <div class="meta"  >
+		                                    	<img src="${userInfo.companyTxkzImg}"   width="100%" height="200px" id="img3"/>
+		                                    </div>
+                                            <a href="javascript:;" class="file" style="margin-top:55px;">
+                                                <span class="white-color">选择文件</span>
+                                                <i class="upload icon white-color" ></i>
+                                                <input type="file" id="upload3">
+                                                <input type="hidden" id="imgflag3" name="companyTxkzImg" value="${userInfo.companyTxkzImg}">
+                                            </a>
+                                                
+                                        </div>
+                                        
+                             </div>
+                        </div>
+                    </div>                
+	                </div><br>
 
+	               <div style="margin-bottom: 32px;margin-top: 32px;">
+					<!-- <span id="submit" class="bluebutton" style="padding-left: 16px;padding-right: 16px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;" align=center>确认下单</span> -->
+					<input type="submit" id="submit" class=" ui primary button" value="保存">
+					
+				</div>    
+            	
+			</div>
+
+			</form>
+
+			
+		</div>
+	</div>
+</div>
 <script type="text/javascript">
 	$("#companyicon").height($("#companyicon").width());
 	$("#icon").height($("#companyicon").innerHeight()-16);
 	$("#icon").width($("#companyicon").innerWidth()-16);
 	
-	$(function() {
-		
-		$("form").validate({
-	        rules: {
-	        	zcXxAddress: "required",
-	        	userPhone: "required",
-	        	userEmail: "required"
-	        },
-	        messages: {
-	        	zcXxAddress: "请输入详细地址！",
-	        	userPhone: "请输入手机号码！",
-	        	userEmail: "请输入电子邮箱！"
-	        },
-		    submitHandler: function(form){
-		    	var region_id = $("#zc_region_id").val();
-		    	if(region_id=="")
-	    		{
-	    			alert("请选择地区信息");
-	    			return false;
-	    		}
-		    	var act_url = "${pageContext.request.contextPath}/front/seller/company/SellerCompanyController-companyInfoUpdate";
-		    	$(form).attr("action", act_url);
-				$.post($(form).attr("action"),$(form).serialize(),function(data){
-		    		data = $.parseJSON(data);
-		    		if(data.state==1){
-		            	alert("保存成功!");
-		            }else{
-		            	alert(data.content);
-		            }
-		      	})
-		      	.error(function(data){
-		      		alert("操作失败！")
-		      	});
-		    	
-		    },
-			errorElement: "div",
-			errorClass: "error"
-		});
+	$("form").validate({
+        rules: {
+        	zcXxAddress: "required",
+        	userPhone: "required",
+        	userEmail: "required",
+            companyYyZzImg:'required',
+            companyXkzImg:'required',
+            companyTxkzImg:'required',
+            legalIdCard:{
+                required:true,
+                maxlength:18
+                },
+             companyLxrPhone:{
+                digits:true,
+                required:true,
+            }
+
+
+        },
+        messages: {
+        	zcXxAddress: "请输入详细地址！",
+        	userPhone: "请输入手机号码！",
+        	userEmail: "请输入电子邮箱！",
+            companyYyZzImg:'请上传许可证',
+            companyXkzImg:'许可证',
+            companyTxkzImg:'特许经营许可证',
+            legalIdCard:{
+              required:  '身份证要填哦',
+              maxlength:'国内身份证是18位哦'
+              },
+
+            companyLxrPhone:{
+                digits:'请输入合法的手机号',
+                required:'请输入合法的手机号',
+            }
+        },
+	    submitHandler: function(form){
+	    	var region_id = $("#zc_region_id").val();
+	    	if(region_id=="")
+    		{
+    			alert("请选择地区信息");
+    			return false;
+    		}
+            console.log($(form).serialize());
+	    	var act_url = "${pageContext.request.contextPath}/userinfo/updateCompanyInfo";
+	    	$(form).attr("action", act_url);
+			$.post($(form).attr("action"),$(form).serialize(),function(data){
+	    		data = $.parseJSON(data);
+	    		if(data.code==0){
+	            	alert("保存成功!");
+	            }else{
+	            	alert(data.msg);
+	            }
+	      	})
+	      	.error(function(data){
+	      		alert("操作失败！")
+	      	});
+	    	
+	    },
+		errorElement: "div",
+		errorClass: "error"
 	});
-	
-	
+
 	function selRegion(type){
 		var regionId = '';
 		
@@ -160,7 +343,7 @@ div.error{
 			regionId = $("#provinceId").val();
 		} else if(type==1){
 			regionId = $("#cityId").val();
-		} else if(type==1){
+		} else if(type==2){
 			regionId = $("#regionId").val();
 		} else return;
 		$("#zc_region_id").val(regionId);
@@ -172,6 +355,7 @@ div.error{
 						region = data.regionList[i];
 						html += "<option value='" + region.regionId + "'>" + region.regionName + "</option>";
 					}
+					
 					if(type==0){
 						$("#cityId").html("<option>--请选择市--</option>" + html);
 						$("#regionId").html("<option>--请选择区--</option>");
@@ -183,4 +367,99 @@ div.error{
 		}
 	}
 </script>
-<%@ include file="../footer.html"%>
+<script>
+            $(function () {
+                new AjaxUpload('#upload', {
+                    action: '${pageContext.request.contextPath}/uploadFile',
+                    name: 'file',
+                    autoSubmit:true,
+                    responseType:"json",
+                    onSubmit:function(file, extension){
+                        if (!(extension && /^(jpg|png)$/.test(extension.toLowerCase()))){
+                            alert('只支持jpg、png格式的文件！');
+                            return false;
+                        }
+                    },
+                    onComplete : function(file, data){
+                        console.log("success!");
+                        if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
+                        $(":input[name='companyImg'][type='hidden']").val(data.path);
+                        /*$("a#bankBill").attr("href",data.path);*/
+                        $("#icon").attr("src",data.path);
+                        return;
+                    }
+                });
+                new AjaxUpload('#upload1', {
+                    action: '${pageContext.request.contextPath}/uploadFile',
+                    name: 'file',
+                    autoSubmit:true,
+                    responseType:"json",
+                    onSubmit:function(file, extension){
+                        if (!(extension && /^(jpg|png)$/.test(extension.toLowerCase()))){
+                            alert('只支持jpg、png格式的文件！');
+                            return false;
+                        }
+                    },
+                    onComplete : function(file, data){
+                        console.log("success!");
+                        if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
+                        $(":input[name='companyYyZzImg'][type='hidden']").val(data.path);
+                        /*$("a#bankBill").attr("href",data.path);*/
+                        $("#img1").attr("src",data.path);
+                        return;
+                    }
+                });
+                new AjaxUpload('#upload2', {
+                    action: '${pageContext.request.contextPath}/uploadFile',
+                    name: 'file',
+                    autoSubmit:true,
+                    responseType:"json",
+                    onSubmit:function(file, extension){
+                        if (!(extension && /^(jpg|png)$/.test(extension.toLowerCase()))){
+                            alert('只支持jpg、png格式的文件！');
+                            return false;
+                        }
+                    },
+                    onComplete : function(file, data){
+                        if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
+                        $(":input[name='companyXkzImg'][type='hidden']").val(data.path);
+                          $("#img2").attr("src",data.path);
+                        return;
+                    }
+                });
+                new AjaxUpload('#upload3', {
+                    action: '${pageContext.request.contextPath}/uploadFile',
+                    name: 'file',
+                    autoSubmit:true,
+                    responseType:"json",
+                    onSubmit:function(file, extension){
+                        if (!(extension && /^(jpg|png)$/.test(extension.toLowerCase()))){
+                            alert('只支持jpg、png格式的文件！');
+                            return false;
+                        }
+                    },
+                    onComplete : function(file, data){
+                        if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
+                        $(":input[name='companyTxkzImg'][type='hidden']").val(data.path);
+                       $("#img3").attr("src",data.path);
+                        return;
+                    }
+                });
+
+
+                function getArea(){
+                    $("#provinceId")
+                }
+               
+            })
+            function handleFiles(files,filename) {
+                var filesShow= files.parentNode.parentNode.firstChild.nextElementSibling;
+                if (!filename) {
+                }
+                else{
+                  filesShow.innerHTML = "<p>"+filename+"</p>"+ '<i class="file archive outline icon excel-inco">'+'</i>';
+                }
+            }
+         
+        </script>
+<%@ include file="../footer.jsp"%>
