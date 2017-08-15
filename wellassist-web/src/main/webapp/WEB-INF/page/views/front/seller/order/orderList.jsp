@@ -1,11 +1,9 @@
 <%@ include file="../header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 
-<div class="container1">
-	<div class="container2">
-		
-	
-<div id = "content-rect">
+<div class="container1" id="app">
+	  <div class="container2">
+		<div id = "content-rect" style="width:90%;">
 	<div style="border:solid 1px #d0d0d0;font-size:18px;font-weight:bold;color:#0557ab;line-height:36px;">&nbsp;&nbsp;订单列表</div>
 
 	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/seller/orderListPage">

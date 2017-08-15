@@ -33,8 +33,7 @@
 		
 	<div>
 		<div class="fl-rg pd-20" style="font-size:14px;font-weight:600;color:#FF4400;" >
-		   <a href="${pageContext.request.contextPath}/front/seller/SellerOrderController-prodPub">+&ensp;产品上新</a>
-				
+		   <a style="color:#FF4400;" href="${pageContext.request.contextPath}/front/seller/SellerOrderController-prodPub">+&ensp;产品上新</a>				
 			</div>
 	</div>
 	<!-- <table style="background-color:#e4ecf3; text-align:center;width:100%;line-height:35px;">
@@ -77,7 +76,7 @@
 		</tr>
 	</table>
 	</c:forEach> -->
-	<table class="ui basic table ft-sz-14" style="text-align:center;">
+	<table class="ui table ft-sz-14" style="text-align:center;">
 		<thead>
 			 <tr class="grey-4">
 			  	<th>产品详情</th>
@@ -91,7 +90,7 @@
 				<c:forEach var="item" items="${waProdList}">
 					 <tr class="">
 						<td class="right-border">
-                           	<img src="${item.prodImg}" alt="" width="100px" height="74px" class="ds-bl fl-lt">
+                           	<img class="bordered" src="${item.prodImg}" alt="" width="100px" height="74px" class="ds-bl fl-lt">
                         	<span class="ds-bl fl-lt pd-lf-20 ft-wt-bd " style="padding-top: 25px;width: 190px;"> ${item.prodName}</span>
 						</td>
 						<td class="right-border tx-ct">
