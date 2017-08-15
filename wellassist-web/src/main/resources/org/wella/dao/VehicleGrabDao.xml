@@ -56,7 +56,7 @@
     </select>
 
     <select id="listVehicleGrabAttachUserinfoByConditions" parameterType="map" resultType="map">
-        SELECT a.*,b.`company_name` sender_user_name,b.`company_lxr`,b.`company_lxr_phone`,b.zc_region_id,b.zc_xx_address
+        SELECT a.*,b.`company_name` sender_user_name,b.`company_lxr`,b.`company_lxr_phone`,b.zc_region_id,b.zc_xx_address,b.company_img
         FROM wa_vehicle_grab a LEFT JOIN wa_userinfo b ON a.`sender_user_id`=b.`user_id`
         <where>
             <if test="logisticsInfoId != null">
