@@ -55,8 +55,11 @@
             display: block;
             float: left
         }
-        .ui .table tr th{
-            background-color:#daf3ff;
+        .bluetable tr th{
+            background-color:#daf3ff !important;
+        }
+        .greytable tr th{
+           background-color: #e6f0f8  !important
         }
     </style>
 </head>
@@ -68,43 +71,7 @@
             <div class="ui container" id="content-rect" style="margin-top:0px;left: 10px;width:100%;" >
                 <h4 class="ui header">物流详情</h4>
                 <div class="ui divider"></div>
-                <!-- <table>
-                    <tr>
-                        <c:if test="${info.isSelfCar==0}">
-                            <td>取货方式：买家自提</td>
-                        </c:if>
-                    </tr>
-                    <tr>
-                        <c:if test="${info.isSelfCar==1}">
-                            <td>物流公司名称：</td>
-                            <td>${info.senderName}</td>
-                        </c:if>
-                    </tr>
-                    <tr>
-                        <td>&emsp;&emsp;发货时间：</td>
-                        <td><fmt:formatDate value="${info.deliverDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
-                    </tr>
-                    <tr>
-                        <td>&emsp;&emsp;收货时间：</td>
-                        <td><fmt:formatDate value="${info.deliverDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
-                    </tr>
-                    <tr>
-                        <td>&emsp;&emsp;发货地址：</td>
-                        <td>${info.fromAddress}</td>
-                    </tr>
-                    <tr>
-                        <td>&emsp;&emsp;收货地址：</td>
-                        <td>${info.toAddress}</td>
-                    </tr>
-                    <tr>
-                        <td>&ensp;&ensp;买家联系人：</td>
-                        <td>${info.customerContacts}</td>
-                    </tr>
-                    <tr>
-                        <td>买家联系电话：</td>
-                        <td>${info.customerConTel}</td>
-                    </tr>
-                </table> -->
+                
                 <div class="column" style="font-size: 14px;font-weight: 600;margin: 20px 0 40px 60px;line-height: 25px;">
                     <c:if test="${info.isSelfCar==0}">
                         <div class="fl-lf ">取货方式：买家自提</div><br>
@@ -141,13 +108,75 @@
                         <div  class="fl-lf "><span class="a-color-base">买家联系电话：</span> </div>
                         <div class="fl-rg "><span>${info.customerConTel}</span> </div>
                     </div><br>
-                    <div class="right item fl-rg" style=" "><span class=""></span>
-
-                    </div>
+                  
                     
                 </div>
+                <!-- <div class="column">
+                    <table class="ui celled padded table bluetable"> 
+                          <thead>
+                            <tr>
+                                <th width='30%'>产品</th>
+                                <th>品类</th>
+                                <th>状态</th>
+                                <th>单价（元/吨)</th>
+                                <th>数量(吨)</th>
+                                <th>总价(元)</th>
+                            </tr>
+                          </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div>
+                                        <img src="http://ww4.sinaimg.cn/bmiddle/7320126fgy1fifux3iuw9j20zk0k075d.jpg" alt="" width="100px" height="75px">
+                                        <div style="float:right;height:75px;padding-top:25px;margin-right:30px" class="middleAlign">
+                                            <span style="">液化天然气</span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                </div> -->
+                 <h4 class="ui header">司机详情 <a href="" onclick="addDrivers()" style="float:right">+添加司机</a> </h4>
+
+                <div class="ui divider"></div>
+                <form class="ui form drivers segment" action="" >
+                     <div class="two fields">
+                        <div class="inline field">
+                            <label>司机姓名：</label>
+                            <input type="text" name="driverName">
+                        </div>
+                         <div class="inline field">
+                            <label>&#8195司机电话：</label>
+                            <input type="text" name="driverPhone">
+                        </div>
+                     </div>
+                    <div class="two fields">
+                        <div class="inline field">
+                            <label>司机车牌：</label>
+                            <input type="text" name="vehicleNo">
+                        </div>
+                         <div class="inline field">
+                            <label>司机车挂号：</label>
+                            <input type="text" name="vehicleHangingNo">
+                        </div>
+                     </div>
+                    <div class="two fields">
+                        <div class="inline field">
+                            <label>&#8195&#8195容量：</label>
+                            <input type="text" name="vehicleSize">
+                            <input type="hidden" name="orderId" value="${info.orderId}">
+                        </div>
+
+                     </div>
+                    <div class="ui button submit" >保存 </div>
+
+                </form>
+                 
                 <c:if test="${!empty info.vehicles}">
-                    <table class="ui celled padded table ">
+                    <table class="ui celled padded table greytable ">
                         <thead>
                             <tr>
                                 <th class="single line ">司机</th>
@@ -155,19 +184,20 @@
                                 <th>车牌号</th>
                                 <th>车挂号</th>
                                 <th>容量</th>
+                                <th>操作 </th>
                             </tr>
                         </thead>
                         <tbody>
                         <c:forEach items="${info.vehicles}" var="vehicle">
                             <tr>
                                 <td>
-                                    <h2 class="ui center aligned header" >${vehicle.driverName}</h2>
+                                    <a class="ui cen" >${vehicle.driverName}</a>
                                 </td>
                                 <td class="single line ">${vehicle.driverPhone}</td>
                                 <td> ${vehicle.vehicleNo}</td>
                                 <td>${vehicle.vehicleHangingNo}</td>
                                 <td>${vehicle.vehicleSize} 吨</td>
-
+                                <td><a href="" onclick="delVihicle()">删除</a></td>
                             </tr>
                         </c:forEach>
 
@@ -181,4 +211,76 @@
 </div>
 
 </body>
+<script>
+    const orderId= ${info.orderId};
+    const url1='${pageContext.request.contextPath}/userinfo/operationDriver';
+    
+    $('.drivers').form({
+        on:'blur',
+        fields:{
+            driverName :{
+                identifier:'driverName',
+                rules:[{
+                    type   : 'empty',
+                    prompt : '朋友别忘记填写哦'
+                }]
+            },
+            driverPhone :{
+                identifier:'driverPhone',
+                rules:[{
+                    type   : 'empty',
+                    prompt : '朋友别忘记填写哦'
+                },{
+                    type:'regExp[/^1(3[0-9]|4[57]|5[0-35-9]|7[01678]|8[0-9])\\d{8}$/]',
+                    prompt:'手机号哦'
+                }
+            ]
+            },
+            vehicleHangingNo :{
+                identifier:'vehicleHangingNo',
+                rules:[{
+                    type   : 'empty',
+                    prompt : '朋友别忘记填写哦'
+                }]
+            },
+            vehicleNo :{
+                identifier:'vehicleNo',
+                rules:[{
+                    type   : 'empty',
+                    prompt : '朋友别忘记填写哦'
+                }]
+            },
+            vehicleSize :{
+                identifier:'vehicleSize',
+                rules:[{
+                    type   : 'empty',
+                    prompt : '朋友别忘记填写哦'
+                }]
+            },
+        },
+         inline : true,
+         onSuccess:function(e){
+              e.preventDefault();
+              let allFields= $('.drivers').form('get values');
+              console.log(allFields);
+              $.ajax({
+                    type: 'post', 
+                    url:url1,
+                    data:allFields,
+                    dataType:'json',
+                    contentType:'application/json',
+                    success:function(result){
+                        if(result.code == 0){
+                            alert("成功")
+                        }
+                        else{
+                            alert(result.msg)
+                        }
+                    }
+
+                    })
+         }
+    })
+    
+</script>
 <%@ include file="../footer.jsp"%>

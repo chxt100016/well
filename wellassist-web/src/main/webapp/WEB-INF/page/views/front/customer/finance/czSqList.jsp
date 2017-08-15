@@ -271,7 +271,7 @@ const url1="${pageContext.request.contextPath}/userinfo/getCards"
 			  var that =this;
                $.get(url1,'',function(data){
 		  if(data.code==0){
-			  console.log(data.Cards);
+			 
 			//   $("#")
 			for (var i = 0; i < data.Cards.length; i++) {
 				var str='' ,str2;
@@ -279,7 +279,7 @@ const url1="${pageContext.request.contextPath}/userinfo/getCards"
 				// str = Number(str);
 				str2 = str.substring(str.length-4);
 				data.Cards[i].bankAccount =str2;
-				console.log(data.Cards[i].bankAccount);
+			
 			}
 			
 			 that.Cards= data.Cards

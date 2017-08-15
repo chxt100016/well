@@ -47,6 +47,9 @@ public class UserinfoServiceImpl implements UserinfoService{
     private VehicleInfoDao  vehicleInfoDao;
 
 
+
+
+
     @Override
     @Transactional
     public void updateCompanyInfo(Map params) {
@@ -151,6 +154,14 @@ public class UserinfoServiceImpl implements UserinfoService{
         switch (userType) {
             case 3:
                 Map param = vehicleGrabDao.selectVgdId(map);
+                if(map.get("deliverDate")!=null||map.get("receiveDate")!=null){
+                     param.put("deliverDate",map.get("deliverDate"));
+                     param.put("receiveDate",map.get("receiveDate"));
+                     int num=vehicleGrabDao.updateByPrimaryKey(param);
+                     if(num<=0){
+                         return 0;
+                     }
+                }
                 VehicleGrabInfo vehicleGrabInfo = new VehicleGrabInfo();
                 vehicleGrabInfo.setVehicleGrabId((Long) param.get("vehicleGrabId"));
                 vehicleGrabInfo.setDriverName((String) map.get("driverName"));
@@ -158,6 +169,7 @@ public class UserinfoServiceImpl implements UserinfoService{
                 vehicleGrabInfo.setVehicleHangingNo((String) map.get("vehicleHangingNo"));
                 vehicleGrabInfo.setVehicleNo((String) map.get("vehicleNo"));
                 vehicleGrabInfo.setVehicleSize((Double) map.get("vehicleSize"));
+
                 result = vehicleGrabInfoDao.createVehicleGrabInfo(vehicleGrabInfo);
                 return result;
             case 0:
