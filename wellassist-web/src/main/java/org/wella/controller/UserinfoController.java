@@ -40,6 +40,7 @@ public class UserinfoController {
     @ResponseBody
     public R updateCompanyInfo(@RequestParam Map params, HttpServletRequest request){
         User user=(User)request.getSession().getAttribute("user");
+        System.out.println("params++++++"+params);
         params.put("userId",user.getUserId());
         try {
             userinfoServiceImpl.updateCompanyInfo(params);
@@ -167,4 +168,61 @@ public class UserinfoController {
             return R.error();
         }
     }
+
+
+    /**
+     * 添加地址
+     *
+     * @param map
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("operationAddress")
+    public R addAddress(@RequestBody Map<String,Object> map){
+        User user=(User) HttpContextUtils.getAttribute("user");
+        long userId=user.getUserId();
+        map.put("userId",userId);
+        Integer result=userinfoServiceImpl.addAddress(map);
+        if(result>0){
+            return R.ok();
+        }
+        return R.error();
+    }
+
+
+    /**
+     *
+     * 查找地址
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("selectAddress")
+    public R selectAddress(){
+        User user=(User) HttpContextUtils.getAttribute("user");
+        long userId=user.getUserId();
+        List<Map<String,Object>> list=userinfoServiceImpl.selectAddress(userId);
+
+        return null;
+    }
+
+
+    /**
+     *
+     * 修改默认
+     * @param Long
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("updateDefault")
+    public R updateDefault(@RequestParam("id") Long id){
+        Integer result=userinfoServiceImpl.updateDefault(id);
+        if(result>0){
+            return R.ok();
+        }
+        return R.error();
+
+    }
+
+
 }

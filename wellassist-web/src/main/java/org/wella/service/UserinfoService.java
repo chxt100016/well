@@ -29,4 +29,14 @@ public interface UserinfoService {
     void updatePayNewPass(long userId, String payNewpass);
 
     void updateLoginNewPass(long userId, String loginNewPass);
+
+    Integer addAddress(Map  map);
+
+    List<Map<String,Object>> selectAddress(Long userId);
+
+    Integer updateDefault(Long id);
+
+
+
+
 }

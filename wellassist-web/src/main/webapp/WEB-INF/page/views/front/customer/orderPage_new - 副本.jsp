@@ -27,216 +27,209 @@
         .clear{
             clear: both
         }
-        .blue33 {
-            background: #f2f7fb !important;
-        }
-        .table-bg{
-            background: #e6f0f8 !important;
-        }
-
-        .grey4 {
-            background: #fafafa!important;
-        }
-        .redtext{
-            color:#FF4400
-        }
      </style>
 </head>
 <body>
     <div class="container1"> 
-        <div class="container2" id="app1">
-            <div class="ui container segment" >
-                <div class="ds-bl column" >
+        <div class="container2">
+           
+           
+    <div class="ui container" id="app1" style=" text-align:left;margin-top:-1px ;left:10px">
+            <div class="ds-bl column" >
                 <img class="fl-rg ds-bl" src="<c:url value="/resources/wella/front/images/zhifu2.png"/>" alt="">
-                </div>
-            <div style="clear:both">
-
             </div>
-        <form  class="ui form"  id="infoForm" action="<c:url value="/customer/order"/>" method="post">
-             <input type="hidden" name="toRegionId" id = "toRegionId">
+        <form id="infoForm" action="<c:url value="/customer/order"/>" method="post">
+            <input type="hidden" name="toRegionId" id = "toRegionId">
             <input type="hidden" name="prodId" value="${prod.prodId}">
             <input type="hidden" name="orderData" id="orderData">
+            <div class="clear">
+            <h4 class="ui header">订单信息</h4>
+            <div class="ui divider"></div>
 
-            <div class="ui items section">
-                <div class="column">
-                    <h4>产品信息</h4>
-                    <div class="ui divider"></div>
+            <div class="column">
+                <div class="ui form">
+                    <div class="field">
+                        <label>产品名称：${prod.prodName}</label>
+
+                    </div>
+                    <div class=" three fields">
+                        <div class="field">
+                            <label>商品类型：
+                            <c:if test="${prod.prodType==0}">气体</c:if>
+                            <c:if test="${prod.prodType==1}">燃油</c:if>
+                            <c:if test="${prod.prodType==2}">管道气</c:if>
+                            </label>
+                        </div>
+                        <div class="field">
+                            <label>联系人：${prod.prodLxr}</label>
+                        </div>
+                        <div class="field">
+                            <label>联系电话：${prod.prodLxrPhone}</label>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="ui three column grid">
-                    <div class="column">
-                        <div class="ui segment blue33 ">
-                            <div class="item middleAlign pd-lf-30" style="height:200px">
-                                <div class="">产品名称： ${prod.prodName}</div>
-                                <br>
-                                <div class=""> 产品类型：
-                                     <c:if test="${prod.prodType==0}">气体</c:if>
-                                    <c:if test="${prod.prodType==1}">燃油</c:if>
-                                    <c:if test="${prod.prodType==2}">管道气</c:if>
-                                </div>
+            </div>
+            <!--订单信息end-->
+            <h2 class="ui header">配送信息</h2>
+            <div class="ui divider"></div>
+            <div class="column">
+                <div class="ui form">
+                    <div class="field">
+                        <label>提货地址：${prod.fromRegionName}&nbsp;${prod.prodRegionAddr}</label>
+
+                    </div>
+                    <div class=" two fields">
+                        <div class="field">
+                            <div class="ui labeled input">
+                                <label class="ui label">发货时间： </label>
+                                        <input type="text" name="deliverDate" value="" style="width:300px" id="deliverDate" onfocus="var receiveDate=$dp.$('receiveDate');WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){receiveDate.focus();},maxDate:'#F{$dp.$D(\'receiveDate\')}'})">
+                                
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui labeled input">
+                            <label class="ui label">收货时间： </label>
+                                <input type="text" name="receiveDate" value="" style="width:300px" id="receiveDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'deliverDate\')}'})">
+                             </div>  
+                        </div>
+
+                    </div>
+
+                    <div class=" two fields">
+                        <div class="field">
+                            <div class="ui labeled input" style="width:80%">
+                                <div class="ui label">联系人 </div>
+                                <input type="text" name="contacts" placeholder="" id="contacts" >
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui labeled input" style="width:80%">
+                                <div class="ui label">联系手机 </div>
+                                <input type="text" placeholder="" name="conTel" id="conTel" maxlength="11" class="number isPhone">
                             </div>
                         </div>
                     </div>
-                    <div class="column">
-                        <div class="ui segment grey4 ">
-                            <div class="item middleAlign pd-lf-30" style="height:200px">
-                                <div class=""> 公司：浙江博臣能源</div>
-                                <br>
-                                <div class=""> 联系人：${prod.prodLxr}</div>
-                                <br>
-                                <div class=""> 联系电话：${prod.prodLxrPhone}</div>
+                </div>
+                <div class="field">
+                     <div class="ui labeled input">
+                    <label  class="ui label">配送地址：</label> <select class="ui dropdown" name="prodRegionId_0">
+                    <option value="">-- 请选择省 --</option>
+                        <c:forEach var="item" items="${shengRegionList}" varStatus="status">
+                            <option value="${item.regionId}">${item.regionName}</option>
+                        </c:forEach>
+                    </select>
+                        <select name="prodRegionId_1" class="ui dropdown" style="display: none">
+                            <option value=''>-- 请选择市 --</option>
+                        </select>
+                        <select name="prodRegionId_2" class="ui dropdown" style="display: none">
+                            <option value=''>-- 请选择区 --</option>
+                        </select>
+                    
+                    </div>
+                </div>
+                <br>
+                <div class="field">
+                    <div class="ui labeled input">
+                        <div class="ui label">详细地址 </div>
+                        <input type="text" placeholder="" id="toRegionAddr" name="toRegionAddr"style="width:360px">
+                    </div>
+
+                </div>
+            </div>
+            <!--配送信息结束-->
+            <h2 class="ui header">下单信息</h2>
+            <div class="ui divider"></div>
+            <div class="column">
+                <div class="ui form">
+
+                    <div class=" three fields">
+                        <div class="field">
+                            <div class="ui labeled input">
+                                <div class="ui label">供应量 </div>
+                                <input type="text" placeholder="" name="saleNum" id="saleNum" onkeyup="return validateNumber(this,value,0)"><a class=" ui tag label ">吨 </a>
                             </div>
                         </div>
-                    </div>
-                    <div class="column">
-                        <div class="ui segment blue33">
-                            <div class="item middleAlign pd-lf-30" style="height:200px">
-                                <div class=""> 数量:
-                                    <div class="ui input">
-                                        <input type="text" placeholder="" style="width:100px" name="saleNum" id="saleNum" onkeyup="return validateNumber(this,value,0)">
-                                    </div>
-                                    吨
-                                </div>
-                                <br>
-                                <div class=""> 单价： ${prod.prodPrice} 元/吨
-                                     <input type="hidden" placeholder=" " id="danjia" name="danjia" value="${prod.prodPrice}" readonly="true" onkeyup="return validateNumber(this,value,0)">
-                                </div>
-                                <br>
-                                <div class=""> 总价：<span id="saleMoneyShow"></span> 元
-                                     <input type="hidden" placeholder=" " name="saleMoney" id="saleMoney" readonly="true">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="column pd-tp-20">
-                    <h4>配送信息</h4>
-                    <div class="ui divider"></div>
-                </div>
-
-                <div class="column pd-lf-30 pd-rg-30">
-                    <div class=" equal width fields">
-                        <div class=" inline field">
-                            <label>选择地区</label>
-                            <select type="text" placeholder="First Name" name="prodRegionId_0"> 
-                                <option value="">请选择省级信息</option>
-                                <c:forEach var="item" items="${shengRegionList}" varStatus="status">
-                                    <option value="${item.regionId}">${item.regionName}</option>
-                                 </c:forEach>
-                            </select>
-                            <select   name="prodRegionId_1" class="ui dropdown" style="display: none"> 
-                                 <option value=''>-- 请选择市 --</option>
-                            </select>
-                            <select name="prodRegionId_2" class="ui dropdown" style="display: none"> 
-                                 <option value=''>-- 请选择区 --</option>
-                            </select>
-
-                        </div>
-                    </div>
-                    <div class="two fields">
-                        <div class=" inline field">
-                            <label>详细地址</label>
-                            <input type="text" style="width:300px" id="toRegionAddr" name="toRegionAddr">
-                        </div>
-                    </div>
-                    <div class="two fields">
-                        <div class="inline field">
-                            <label>提货地址</label>
-                            <span> ${prod.fromRegionName}&nbsp;${prod.prodRegionAddr}</span>
-                        </div>
-                    </div>
-                    <div class="three fields">
-                        <div class="inline field">
-                            <label>提货时间</label>
-                            <input type="text" name="deliverDate" id="deliverDate"  onfocus="var receiveDate=$dp.$('receiveDate');WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){receiveDate.focus();},maxDate:'#F{$dp.$D(\'receiveDate\')}'})">
-                        </div>
-                        <div class="inline field">
-                            <label>预计到货时间</label>
-                            <input type="text" name="receiveDate"  id="receiveDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'deliverDate\')}'})">
-                        </div>
-                    </div>
-                    <div class="three fields">
-                        <div class="inline field">
-                            <label>&#12288联系人</label>
-                            <input type="text" name="contacts" placeholder="请输入联系人姓名" id="contacts" >
-                        </div>
-                        <div class="inline field">
-                            <label>&#12288&#12288联系电话</label>
-                            <input type="text" placeholder="联系人电话" name="conTel" id="conTel" maxlength="11" class="number isPhone">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="column pd-tp-20">
-                    <h4>配送方式</h4>
-                    <div class="ui divider"></div>
-                </div>
-                <div class="column pd-lf-30 pd-rg-30">
-                    <div class=" inline fields ">
                         <div class="field ">
-                            <div class="ui radio checkbox">
-                                <input type="radio" name="isSelfCar" checked="checked" value="0" onclick="checkSelfCar(0)" style="margin-left:0px">
-                                <label>我有车</label></div>
+                            <div class="ui labeled input ">
+                                <div class="ui label ">单价 </div>
+                                <input type="text " placeholder=" " id="danjia" name="danjia" value="${prod.prodPrice}" readonly="true" onkeyup="return validateNumber(this,value,0)"><a class="ui tag label ">元 </a>
+                            </div>
                         </div>
-                        <div class=" ui field ">
-                            <div class="ui radio checkbox">
-                                <input type="radio" name="isSelfCar" value="1" onclick="checkSelfCar(1)" style="margin-left:0px">
-                                <label>需要物流</label></div>
+                        <div class="field ">
+                            <div class="ui labeled input ">
+                                <div class="ui label ">总价 </div>
+                                <input type="text " placeholder=" " name="saleMoney" id="saleMoney" readonly="true"><a class="ui tag label ">元</a>
+                            </div>
                         </div>
                     </div>
 
                 </div>
-
-                <div class="ui active tab " data-tab="owns " id="vehiclepage">
-               
-                    <div>
-                        <span class="redtext pointer" onclick="$('.ui.modal').modal('show');" >&#12288&#12288+添加司机信息</span>
-
+            </div>
+            <!--//下单信息end-->
+            <h2 class="ui header ">配送选择</h2>
+            <div class="ui divider "></div>
+            <div class="ui form">
+                <div class=" inline fields ">
+                    <div class="field ">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="isSelfCar" checked="checked" value="0" onclick="checkSelfCar(0)" style="margin-left:0px">
+                            <label>我有车</label></div>
                     </div>
+                    <div class=" ui field ">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="isSelfCar" value="1" onclick="checkSelfCar(1)" style="margin-left:0px">
+                            <label>需要物流</label></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui active tab " data-tab="owns " id="vehiclepage">
+               
+                <div>
+                    <span class="ui green button" onclick="$('.ui.modal').modal('show');" >添加司机信息</span>
+
+                </div>
 
                 
-                    <table class="ui celled padded table ">
-                        <thead>
-                            <tr class="table-bg">
-                                <th class="table-bg">司机名称</th>
-                                <th class="table-bg">电话</th>
-                                <th class="table-bg">车牌号</th>
-                                <th class="table-bg">车挂号</th>
-                                <th class="table-bg">容量 (吨)</th>
-                                <th class="table-bg">操作</th>
+                <table class="ui celled padded table ">
+                    <thead>
+                        <tr>
+                            <th class="single line ">司机名称</th>
+                            <th>电话</th>
+                            <th>车牌号</th>
+                            <th>车挂号</th>
+                            <th>容量 (吨)</th>
+                            <th>操作</th>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="vehicle in Vehicles ">
-                                <td>
-                                    <span class="ui center aligned  driverName">{{vehicle.dr_name}}</span>
-                                </td>
-                                <td class="single line driverPhone" >{{vehicle.dr_tel}}</td>
-                                <td class="carCode" > {{vehicle.dr_number}}</td>
-                                <%--<td> {{vehicle.hanging_number}} </td>--%>
-                                <td class="vehicleHangingNo"> {{vehicle.hanging_number}} </td>
-                                <td class="vehicleSize">{{vehicle.actual_size}} </td>
-                                <td class="right aligned " style="width:10% "><a class="ui button red " v-on:click="delVehicle(index) " style="width:70px;">删除</a></td>
-                                <%--<td class="right aligned " style="width:10% "><a class="ui button red " v-on:click="delVehicle($index) ">DELETE </a></td>--%>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="vehicle in Vehicles ">
+                            <td>
+                                <h2 class="ui center aligned header driverName">{{vehicle.dr_name}}</h2>
+                            </td>
+                            <td class="single line driverPhone" >{{vehicle.dr_tel}}</td>
+                            <td class="carCode" > {{vehicle.dr_number}}</td>
+                            <%--<td> {{vehicle.hanging_number}} </td>--%>
+                            <td class="vehicleHangingNo"> {{vehicle.hanging_number}} </td>
+                            <td class="vehicleSize">{{vehicle.actual_size}} </td>
+                            <td class="right aligned " style="width:10% "><a class="ui button red " v-on:click="delVehicle(index) " style="width:70px;">删除</a></td>
+                            <%--<td class="right aligned " style="width:10% "><a class="ui button red " v-on:click="delVehicle($index) ">DELETE </a></td>--%>
 
-                            </tr>
-                        </tbody>
-                    </table>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="ui tab " data-tab="needs ">
 
 
             </div>
             <div class="ui divider "></div>
-            <div class="" style="margin:0 auto;width:100px">
-               <button class="ui blue button " type="submit " id="submit ">提交 </button>
-            </div>
+            <button class="ui blue button " type="submit " id="submit ">提交 </button>
 
 
-            </div>
         </form>
-
         <div class="ui small modal" style=" height: 480px">
                      <i class="close icon"></i>
                         <div class="header">
@@ -308,7 +301,6 @@
                 </form>
         </div>
     </div>
-   
     </div>
 </div>
         
@@ -498,11 +490,9 @@
             var saleDj = $("#danjia").val();
             if (saleNum == "" || saleDj == "") {
                 $("#saleMoney").val(0);
-                $("#saleMoneyShow").html(0);
             } else {
                 console.log($("#danjia").length);
                 $("#saleMoney").val(saleNum * saleDj);
-                 $("#saleMoneyShow").html(saleNum * saleDj);
             }
         }
         return false;

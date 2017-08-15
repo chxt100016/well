@@ -40,6 +40,8 @@ public class WaFinanceController {
 
 
 
+
+
     @Autowired
     private FinanceService financeServiceImpl;
 
@@ -72,6 +74,22 @@ public class WaFinanceController {
             return R.error().put("state", 0).put("content", ConstantUtil.MSG_FAILS);
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     //财务信息接口

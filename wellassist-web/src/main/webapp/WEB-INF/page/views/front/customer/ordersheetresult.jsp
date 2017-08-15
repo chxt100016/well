@@ -87,20 +87,21 @@
 		<table style="text-align:center;margin-right:0;">
 			<tr>
 				<td style="border-right:solid 3px #fff;"><img src="${pageContext.request.contextPath}/img/apply1.png" /></td>
-				<td style="border-right:solid 3px #fff;"><img src="${pageContext.request.contextPath}/img/apply1.png" /></td>
 				<td><img src="${pageContext.request.contextPath}/img/apply2.png" /></td>
+				<td style="border-right:solid 3px #fff;"><img src="${pageContext.request.contextPath}/img/apply1.png" /></td>
+				
 			</tr>
 			<tr>
 				<td style="color:#ffd287">1、填写订单</td>
-				<td style="color:#ffd287">2、等待商家确认</td>
-				<td style="color:#f39800">3、确认付款</td>
+				<td style="color:#f39800">2、等待商家确认</td>
+				<td style="color:#ffd287">3、确认付款</td>
 			</tr>
 		</table>
 		<div style="border:1px solid #f2f2f2;margin-top:40px;padding:100px 0 50px;">
 			<table>
 				<tr>
 					<td rowspan="2" style="border-right:20px solid #fff;"><img src="${pageContext.request.contextPath}/img/success.png" /></td>
-					<td style="font-size:24px;font-weight:600;">支付成功!</td>
+					<td style="font-size:24px;font-weight:600;">下单成功!</td>
 				</tr>
 				<tr>
 					<td style="font-size:15px;font-weight:600;">下单时间：<fmt:formatDate value="${orderDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
