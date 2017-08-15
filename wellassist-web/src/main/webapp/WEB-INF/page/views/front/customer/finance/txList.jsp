@@ -242,10 +242,12 @@ const vm = new Vue({
 						data: that.selCards,
 						success:function(result){
 								if(result.code==0){
-									alert("成功")
+									alert("成功");
+									window.location.reload()
 								}
 								else{
-									alert(result.msg)
+									alert(result.msg);
+									window.location.reload()
 								}
 						}
 				  })

@@ -46,6 +46,8 @@
     	margin-top:6px;
 	}
 </style>	
+<div class="container1">
+	<div style="margin:20px 0 0 210px;">
 <div style="margin-left: 0px; margin-top:20px;">
 	<div id="ddXqDiv" align="center" <c:if test="${orderType=='1'}">style="display: none;"</c:if> >
 		<div style="width:1000px;">
