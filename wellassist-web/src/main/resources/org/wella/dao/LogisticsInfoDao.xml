@@ -112,7 +112,8 @@
     </select>
 
     <select id="singleLogisticsInfoByPrimaryKey" parameterType="long" resultType="map">
-        SELECT * FROM wa_logistics_info
+        SELECT *
+        FROM wa_logistics_info
         where logistics_id=#{logisticsId}
     </select>
 
@@ -241,4 +242,16 @@
         from logisticsinfoview
         where logistics_id=#{logisticsInfoId}
     </select>
+
+
+    <select id="selectUserInfo" parameterType="Long" resultType="map">
+       SELECT  wu.company_lxr  AS customerName
+                , wu.company_lxr_phone AS customerPhone
+                , wu1.company_lxr AS sellerName
+                 ,wu1.company_lxr_phone AS sellerPhone
+        FROM wa_logistics_info  AS wl INNER JOIN wa_userinfo  AS  wu ON wl.customer_user_id=wu.user_id,wa_userinfo AS wu1
+        WHERE   wl.seller_user_id=wu1.user_id AND wl.logistics_id=#{logisticsInfoId}
+    </select>
+
+
 </mapper>

@@ -44,4 +44,10 @@ public interface LogisticsInfoDao {
     int senderLogisticsOrderListInfoCount(Map param);
 
     Map<String,Object> singleLogisticsInfoViewByPrimaryKey(@Param("logisticsInfoId") long logisticsInfoId);
+
+
+    Map<String,Object> selectUserInfo(@Param("logisticsInfoId") long logisticsInfoId);
+
+
+
 }

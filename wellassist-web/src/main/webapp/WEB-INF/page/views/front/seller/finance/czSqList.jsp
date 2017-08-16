@@ -23,7 +23,8 @@
 .selected{border: 1px solid rgb(97,123,144)!important;}
 </style>
 
-</head><form id="searchFrm" method="get" action="${pageContext.request.contextPath}/front/seller/SellerFinanceController-czList">
+</head>
+<%--<form id="searchFrm" method="get" action="${pageContext.request.contextPath}/front/seller/SellerFinanceController-czList">--%>
 <div class="container1">
 	<div style="margin:40px 0 0 210px;" id='app'>
 		<div id = "content-rect" style="width:90%;">
@@ -119,6 +120,7 @@
 						<td></td>
 					</tr>
 				</table>
+				</div>
 		</form>
 			<div class = "row-header" style="border-bottom:1px solid #d0d0d0;padding-bottom:10px;"><span class = "header-title">充值记录</span></div>
 			<form id="searchFrm" method="get" action="${pageContext.request.contextPath}/front/seller/SellerFinanceController-czList">
