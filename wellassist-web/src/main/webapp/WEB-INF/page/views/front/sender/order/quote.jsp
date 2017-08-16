@@ -74,7 +74,7 @@
                 <tr>
                     
                     <td colspan="3">报价：
-                        <input type="text"  name="grabMoney" v-model=grabMoney>
+                        <input type="text"  name="grabMoney" v-model=grabMoney id="grabMoney">
                     </td>
                 </tr>
             </tbody>
@@ -260,6 +260,19 @@
             senderUserId:senderUserId,
             grabMoney:'',
         },
+        watch:{
+            //此处是判断数字的
+           grabMoney: function(val){
+               let reg= /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
+
+             if(reg.test(val)){
+                //  console.log(true)
+             }
+             else{
+                 return this.grabMoney=0
+             }
+           }
+        },
         methods: {
             createVehicle: function() {
                if( $('.drivers').form('is valid') ){
@@ -286,7 +299,7 @@
             submitVehicle:function(){
                 var grabV= JSON.stringify(this.grabVehicles);
                 console.log(this.logisticsInfoId);
-                if(this.grabMoney!=''||this.grabMoney!=null){
+                if($('#grabMoney').val()!=''){
                   
                 $.ajax({
                     type:'get', 
@@ -301,7 +314,8 @@
                     // contentType:'application/json',
                     success:function(result){
                             if(result.code == 0){
-                                alert('成功了')
+                                alert('成功了');
+                                  window.location.href = "${pageContext.request.contextPath}/sender/logisticsGrabResult";
                             }
                             else{
                                 alert(result.msg) 
