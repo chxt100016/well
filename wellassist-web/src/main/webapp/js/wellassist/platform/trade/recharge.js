@@ -8,7 +8,6 @@ $(function () {
         colModel: [
             { label: 'id', name: 'orderId', index: "order_id", width: 15, key: true },
             { label: '公司', name: 'userName', width: 75 },
-            { label: '开户行名称', name: 'bankName', width: 100 },
             { label: '充值金额', name: 'zfMoney', width: 100 ,formatter:function (value,option,row) {
                 return value+"元<br>";
             }},

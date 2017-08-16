@@ -31,4 +31,10 @@
         </where>
     </select>
 
+    <select id="singlePoByPrimaryKey" parameterType="long" resultType="map">
+        SELECT *
+        from wa_bank_order
+        where order_id=#{bankOrderId}
+    </select>
+
 </mapper>

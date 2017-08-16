@@ -85,7 +85,6 @@
         .grey{
             color: #8590a6;
         }
-        .Dtab tr td:first-child{text-align: right;}
     </style>
 </head>
 
@@ -95,39 +94,30 @@
     <div class="ui container" id="app1" style="width:90%;left:80px;top:-15px">
         <h4 class="ui header">订单详情</h4>
         <div class="ui divider"></div>
-        <table class="Dtab" style="font-size:14px;font-weight:600;margin:20px 0 40px 60px;border-radius:0;">
-            <!-- <tr>
-                <td>当前订单付款状态：</td>
-                <td>
-                    <c:if test="${fn:startsWith(info.orderState,'-')||fn:startsWith(info.orderState,0)||fn:startsWith(info.orderState,1)}">未付款</c:if>
-                    <c:if test="${!fn:startsWith(info.orderState,'-')&&fn:substring(info.orderState,0,1)>=2}">已付款</c:if>
-                </td>
-                <td colspan="3"></td>
-            </tr> -->
-            <tr>
-                <td>订单号：</td>
-                <td>${info.orderNo}</td>
-            </tr>
-            <tr>
-                <td>下单时间：</td>
-                <td><fmt:formatDate value="${info.orderDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
-            </tr>
-            <tr>
-                <td>发货时间：</td>
-                <td><fmt:formatDate value="${info.deliverDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
-            </tr>
-            <tr>
-                <td>预计收货时间：</td>
-                <td><fmt:formatDate value="${info.receiveDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
-            </tr>
-            <tr>
-                <td>货运方式：</td>
-                <td>
-                    <c:if test="${info.isSelfCar==0}">自提</c:if>
-                    <c:if test="${info.isSelfCar==1}">平台物流</c:if>
-                </td>
-            </tr>
-        </table>
+        <div style="font-size:14px;font-weight: 600;line-height: 30px; margin:20px 0 40px 60px;">
+            <span>当前订单付款状态：</span>
+            <span>
+                <c:if test="${fn:startsWith(info.orderState,'-')||fn:startsWith(info.orderState,0)||fn:startsWith(info.orderState,1)}">未付款</c:if>
+                <c:if test="${!fn:startsWith(info.orderState,'-')&&fn:substring(info.orderState,0,1)>=2}">已付款</c:if>
+            </span><br>
+            <span>订单号：</span>
+            <span>${info.orderNo}</span>
+            <span style="margin-left:9%;">货运方式：</span>
+            <span>
+                <c:if test="${info.isSelfCar==0}">自提</c:if>
+                <c:if test="${info.isSelfCar==1}">平台物流</c:if>
+            </span><br>
+            <span>下单时间：</span>
+            <span><fmt:formatDate value="${info.orderDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span>
+            <span style="margin-left:11.5%;">联系人：</span>
+            <span>${orderVehicle.driverName}</span><br>
+            <span>发货时间：</span>
+            <span><fmt:formatDate value="${info.deliverDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span>
+            <span style="margin-left:11.5%;">联系电话：</span>
+            <span>${orderVehicle.driverPhone}</span><br>
+            <span>预计收货时间：</span>
+            <span><fmt:formatDate value="${info.receiveDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span>
+        </div>
         <table class="ui table" style="border:0;background-color:#DAF3FF;height:45px;line-height:45px;border-radius:0;text-align:center;">
             <tr>
                 <th colspan="2" width="30%">产品</th>
@@ -260,43 +250,47 @@
             <h4 class="ui header">物流信息</h4>
             <div class="ui divider"></div>
             <c:forEach items="${info.zorders}" var="zorder">
-                <div style="margin:20px 0 40px 60px;">
+                <div style="margin:20px auto;background-color:#F5F9FC;width:100%;border:1px solid #C0CAD2;padding:20px 60px;font-weight:600;font-size:14px;line-height:30px;">
                     <span>发货时间：</span><fmt:formatDate value="${zorder.zorderDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate><br>
-                    <span>子订单单价：</span>${zorder.zorderPrice}&emsp;&emsp;&emsp;&emsp;<span>子订单发货量：</span>${zorder.zorderNum}&emsp;&emsp;&emsp;&emsp;<span>子订单成交额：</span>${zorder.zorderMoney}<br>
+                    <span>子订单单价：</span>${zorder.zorderPrice}
+                    <span style="margin-left:15%;">子订单发货量：</span>${zorder.zorderNum}
+                    <span style="margin-left:15%;">子订单成交额：</span>${zorder.zorderMoney}<br>
                     
                     <c:if test="${not empty zorder.sendComment}">
-                        <span>发货备注：</span>${zorder.sendComment}&emsp;&emsp;&emsp;
+                        <span>发货备注：</span>${zorder.sendComment}
                     </c:if>
                     <c:if test="${not empty zorder.receiveComment}">
-                        <span>收货备注：</span>${zorder.receiveComment}
+                        <span style="margin-left:16.5%;">收货备注：</span>${zorder.receiveComment}
                     </c:if>
                 </div>
-                <table class="ui table" style="border:0;background-color:#DAF3FF;height:45px;line-height:45px;border-radius:0;text-align:center;">
-                    <tr>
-                        <th width="20%">司机</th>
-                        <th width="20%">电话</th>
-                        <th width="20%">车牌号</th>
-                        <th width="20%">车挂号</th>
-                        <th width="20%">装载量</th>
-                    </tr>
-                </table>
-                <table class="ui line celled  table" style="margin-top:-8px;text-align:center;border-radius:0;">
+                <table class="ui fixed single line celled table" style="border-radius:0;">
+                    <thead>
+                        <tr>
+                            <th>司机</th>
+                            <th>电话</th>
+                            <th>车牌号</th>
+                            <th>车挂号</th>
+                            <th>装载量</th>
+                            <th>状态</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                     <c:forEach items="${zorder.orderVehicles}" var="orderVehicle">
                         <tr >
-                            <td width="20%">
-                                <h2 class="ui center aligned header " value="${orderVehicle.driverName}">${orderVehicle.driverName}</h2>
+                            <td>${orderVehicle.driverName}</td>
+                            <td>${orderVehicle.driverPhone}</td>
+                            <td>${orderVehicle.vehicleNo}</td>
+                            <td>${orderVehicle.vehicleHangingNo}</td>
+                            <td>${orderVehicle.vehicleActualSize} 吨</td>
+                            <td>
+                                <c:if test="${zorder.zorderState==1}">已发货</c:if>
+                                <c:if test="${zorder.zorderState==2}">已收货</c:if>
                             </td>
-                            <td width="20%" class="single line ">${orderVehicle.driverPhone}</td>
-                            <td width="20%"> ${orderVehicle.vehicleNo}</td>
-                            <td width="20%">${orderVehicle.vehicleHangingNo}</td>
-                            <td width="20%">${orderVehicle.vehicleActualSize} 吨</td>
                         </tr>
                     </c:forEach>
+                    </tbody>
                 </table>
-
-            <c:if test="${zorder.zorderState==1}">已发货</c:if>
-                <c:if test="${zorder.zorderState==2}">已收货</c:if>
-                    <div class="ui divider"></div>
+                <div class="ui divider"></div>
             </c:forEach>
 
         </c:if>

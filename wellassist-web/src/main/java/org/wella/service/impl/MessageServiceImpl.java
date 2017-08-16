@@ -3,13 +3,16 @@ package org.wella.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.wella.common.utils.ConstantUtil;
 import org.wella.dao.*;
 import org.wella.entity.CreditRecord;
 import org.wella.entity.Message;
 import org.wella.entity.Userinfo;
 import org.wella.service.MessageService;
 import org.wella.utils.DateUtils;
+import org.wella.utils.MailUtil;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +40,15 @@ public class MessageServiceImpl implements MessageService{
 
     @Autowired
     private ZorderDao zorderDao;
+
+    @Autowired
+    private WaUserDao waUserDao;
+
+    @Autowired
+    private BankOrderDao bankOrderDao;
+
+    @Autowired
+    private WithdrawDAO withdrawDAO;
 
     @Override
     public List<Message> getMessageList(Map<String, Object> map) {
@@ -122,6 +134,10 @@ public class MessageServiceImpl implements MessageService{
         sellermessageContent.append("您已调整订单 ").append(order.get("order_no")).append(" ，实时单价").append(orderLog.get("order_price")).append(" 元,实时数量 ").append(orderLog.get("order_number")).append(" 吨。");
         res+=createOrderMessage((long)order.get("supplier_id"),"订单调整",sellermessageContent.toString());
         return res;
+    }
+
+    public int createSystemMessage(long userId,String title,String content){
+        return createMessage(userId,title,(byte)0,content);
     }
 
     public int createOrderMessage(long userId,String title,String content){
@@ -256,5 +272,67 @@ public class MessageServiceImpl implements MessageService{
         int res=createOrderMessage((long)order.get("user_id"),"订单收货",customerContent.toString());
         res+=createOrderMessage((long)order.get("supplier_id"),"订单收货",sellerContent.toString());
         return res;
+    }
+
+    @Override
+    public void handleRegisterReviewMessage(String userEmail, String reviewComment, boolean passReview) {
+        if (passReview){
+            String content="<html><head></head><body><h1>您的维助供应链平台账户已通过审核</h1><h1>点击进入<a href='"+ ConstantUtil.SERVER_HOST+"'  target = '_blank'>维助供应链</a></h1></body></html>";
+            new Thread(new MailUtil(userEmail, content)).start();
+        }else if (!passReview){
+            String content="<html><head></head><body><h1>对不起，您的维助供应链平台账户未通过审核</h1><h1>审核意见："+reviewComment+"</h1><h1>点击进入<a href='"+ ConstantUtil.SERVER_HOST+"'  target = '_blank'>维助供应链</a></h1></body></html>";
+            new Thread(new MailUtil(userEmail, content)).start();
+        }
+    }
+
+    @Override
+    public int handleResetPasswordMessage(long userId) {
+        Map<String,Object> user=waUserDao.singleUserByPrimaryKey(userId);
+        StringBuilder content=new StringBuilder();
+        String now=DateUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss");
+        content.append(user.get("user_name")).append(" 您好,您的密码已被重置,重置密码：123456,操作时间： ").append(now).append(",请您及时修改密码。");
+        return createSystemMessage(userId,"个人信息",content.toString());
+    }
+
+    @Override
+    public int handleAdminUpdateUserinfoMessage(long userId) {
+        Map<String,Object> user=waUserDao.singleUserByPrimaryKey(userId);
+        StringBuilder content=new StringBuilder();
+        content.append(user.get("user_name")).append(" 您好，你的个人信息已被管理员修改,请您及时校验。");
+        return createSystemMessage(userId,"个人信息",content.toString());
+    }
+
+    @Override
+    public int handleRechargeApplyMessage(Long userId, BigDecimal rechargeMoney) {
+        StringBuilder content=new StringBuilder();
+        content.append("金额充值 ").append(rechargeMoney).append(" 元正在处理中。");
+        return createFinanceMessage(userId,"资金充值",content.toString());
+    }
+
+    @Override
+    public int handleRechargeHandleMessage(long bankOrderId) {
+        Map<String,Object> bankOrder=bankOrderDao.singlePoByPrimaryKey(bankOrderId);
+        StringBuilder content=new StringBuilder();
+        content.append("金额充值 ").append(bankOrder.get("zf_money")).append(" 元已到账。");
+        return createFinanceMessage((long)(bankOrder.get("user_id")),"资金充值",content.toString());
+    }
+
+    @Override
+    public int handleWithdrawHandleMessage(long withdrawId, int withdrawState) {
+        Map<String,Object> withdraw=withdrawDAO.singlePoByPrimaryKey(withdrawId);
+        StringBuilder content=new StringBuilder();
+        if (withdrawState==2){
+            content.append("金额提现 ").append(withdraw.get("withdraw_money")).append(" 元已到账。");
+        }else if (withdrawState==-2){
+            content.append("金额提现 ").append(withdraw.get("withdraw_money")).append(" 已被拒绝，如有疑问请联系管理员");
+        }
+        return createFinanceMessage((long)withdraw.get("user_id"),"资金提现",content.toString());
+    }
+
+    @Override
+    public int handleWithdrawApplyMessage(Long userId, BigDecimal withdrawMoney) {
+        StringBuilder content=new StringBuilder();
+        content.append("金额提现 ").append(withdrawMoney).append(" 元正在处理中。");
+        return createFinanceMessage(userId,"资金提现",content.toString());
     }
 }

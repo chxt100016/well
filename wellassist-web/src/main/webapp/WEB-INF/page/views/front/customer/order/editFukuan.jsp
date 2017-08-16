@@ -341,21 +341,21 @@
                     }
                 },"json");}
 
-            $('#combox2').hide(1000);
-            $('#combox').show(1000);
+            $('#combox2').hide(500);
+            $('#combox').show(500);
             $("#bondc").prop("checked", "checked");
             // console.log($("#bondc")); 
         }
         else if(x===4){
-            $('#combox').hide(1000);
-			$('#combox2').show(1000);
+            $('#combox').hide(500);
+			$('#combox2').show(500);
 			$("#proflag").prop("checked", "checked");
         }
          else {
             	$("#bondc").removeAttr("checked");
 				$("#proflag").removeAttr("checked");
-				$('#combox').hide(1000);
-				$('#combox2').hide(1000);
+				$('#combox').hide(500);
+				$('#combox2').hide(500);
         }
         if (x===2){
 

@@ -1,5 +1,6 @@
 package org.wella.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.wella.entity.Withdraw;
 
 import java.util.List;
@@ -36,4 +37,6 @@ public interface WithdrawDAO {
      * @return
      */
     int  withdrawApply(Map<String,Object> params);
+
+    Map<String,Object> singlePoByPrimaryKey(@Param("withdrawId") long withdrawId);
 }

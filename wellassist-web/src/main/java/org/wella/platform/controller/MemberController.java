@@ -1,22 +1,16 @@
 package org.wella.platform.controller;
 
-
-import com.qcloud.cos.http.HttpRequest;
 import io.wellassist.controller.AbstractController;
 import io.wellassist.utils.PageUtils;
 import io.wellassist.utils.Query;
 import io.wellassist.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.WaUserDao;
-import org.wella.entity.Prod;
 import org.wella.entity.User;
 import org.wella.platform.service.impl.MemberServiceImpl;
 
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
