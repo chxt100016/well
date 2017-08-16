@@ -373,7 +373,7 @@ public class SellerController extends BaseController {
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "2");
         model.addAttribute("prod",prod);
-        return "views/front/seller/order/prodEdit.jsp";
+        return "views/front/seller/order/prodEdit_new.jsp";
     }
 
     @RequestMapping("updateproduct")
