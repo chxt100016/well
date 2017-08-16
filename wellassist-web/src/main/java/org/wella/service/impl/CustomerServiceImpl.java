@@ -102,6 +102,7 @@ public class CustomerServiceImpl implements CustomerService {
         order.setDjModifyDate(new Date());
         order.setOrderIp((String) map.get("orderIp"));
         order.setIsSelfCar(Byte.parseByte((String) map.get("isSelfCar")));
+        order.setCustomerExceptCarriage(new BigDecimal((String)map.get("customerExceptCarriage")));
 
         order.setOrderType((byte) 0);
         order.setOrderState((byte) 0);

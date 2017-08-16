@@ -30,25 +30,25 @@
         <table class="ui table">
             <thead>
                 <th>
-                    商品名称：
+                    商品名称：${info.prodName}
                 </th>
                 <th>
-                    载货量：
+                    载货量：${info.num}
                 </th>
                 <th>
-                    下单日期：
+                    下单日期 ：${info.orderDate}
                 </th>
             </thead>
             <tbody>
                 <tr class="blue-3">
                     <td>
-                        卖家：
+                        卖家：${info.sellerUserName}
                     </td>
                     <td>
-                        联系人：
+                        联系人：${info.sellerName}
                     </td>
                     <td>
-                        联系电话：
+                        联系电话：${info.sellerPhone}
                     </td>
                 </tr>
                 <tr>
@@ -56,20 +56,20 @@
                 </tr>
                 <tr>
                     <td>
-                        买家：
+                        买家：${info.customerUserName}
                     </td>
                     <td>
-                        联系人：
+                        联系人：${info.customerName}
                     </td>
                     <td>
-                        联系电话：
+                        联系电话：${info.customerPhone}
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3">配送地址: ${info.toAddress}</td>
                 </tr>
                 <tr>
-                    <td colspan="3">客户报价：</td>
+                    <td colspan="3">客户报价：${info.customerExceptCarriage}</td>
                 </tr>
                 <tr>
                     
@@ -143,7 +143,7 @@
 
         </table>
         <div class="column">
-            <div class="ui button">确认 </div>
+            <div class="ui button" @click='submitVehicle'>确认 </div>
             <div class="ui button cancel">取消</div>
 
         </div>
@@ -243,6 +243,7 @@
 </script>
 <script>
        const logisticsInfoId= ${info.logisticsId};
+       const url1='${pageContext.request.contextPath}/sender/grabLogisticsSubmit';
        const senderUserId = ${senderUserId};
         const vm = new Vue({
             el: '#app',
@@ -262,7 +263,7 @@
         methods: {
             createVehicle: function() {
                if( $('.drivers').form('is valid') ){
-                   console.log(this.Vehicles);
+                   console.log(this.grabVehicles);
                   this.grabVehicles.push(this.newVehicle);
                         // 添加完newPerson对象后，重置newPerson对象  
                     this.newVehicle = {
@@ -279,8 +280,40 @@
             delVehicle: function(index) {
                 console.log(index);
                 // 删一个数组元素  
-                this.grabVehicles.splice(this.grabVehicles.indexOf(index), 1);
+                this.grabVehicles.splice(index, 1);
             },
+
+            submitVehicle:function(){
+                var grabV= JSON.stringify(this.grabVehicles);
+                console.log(this.logisticsInfoId);
+                if(this.grabMoney!=''||this.grabMoney!=null){
+                  
+                $.ajax({
+                    type:'get', 
+                    url:url1,
+                    data:{
+                        grabVehicles:grabV,
+                        logisticsInfoId:this.logisticsInfoId,
+                        senderUserId:this.senderUserId,
+                        grabMoney:this.grabMoney
+                    },
+                    dataType:'json',
+                    // contentType:'application/json',
+                    success:function(result){
+                            if(result.code == 0){
+                                alert('成功了')
+                            }
+                            else{
+                                alert(result.msg) 
+                            }
+                          }
+
+                     })
+                }
+                else{
+                    alert("你是不是忘记输入抢单价格了")
+                }
+            }
 
 
         }

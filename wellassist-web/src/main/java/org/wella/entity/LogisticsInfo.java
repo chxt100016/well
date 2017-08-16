@@ -1,5 +1,6 @@
 package org.wella.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class LogisticsInfo {
@@ -38,6 +39,10 @@ public class LogisticsInfo {
     private Long senderUserId;
 
     private Long vehicleGrabId;
+
+    private BigDecimal customerExceptCarriage;
+
+
 
     public Long getLogisticsId() {
         return logisticsId;
@@ -181,5 +186,13 @@ public class LogisticsInfo {
 
     public void setVehicleGrabId(Long vehicleGrabId) {
         this.vehicleGrabId = vehicleGrabId;
+    }
+
+    public BigDecimal getCustomerExceptCarriage() {
+        return customerExceptCarriage;
+    }
+
+    public void setCustomerExceptCarriage(BigDecimal customerExceptCarriage) {
+        this.customerExceptCarriage = customerExceptCarriage;
     }
 }

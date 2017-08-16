@@ -249,7 +249,7 @@ public class SellerServiceImpl implements SellerService {
             logisticsInfo.setSellerUserName(seller.getUserName());
         }
         logisticsInfo.setSellerUserId(order.getSupplierId());
-
+        logisticsInfo.setCustomerExceptCarriage(order.getCustomerExceptCarriage());
         logisticsInfo.setProdId(order.getProdId());
         logisticsInfo.setProdName(order.getProdName());
         logisticsInfo.setNum(order.getConfirmNumber().doubleValue());
