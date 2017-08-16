@@ -35,7 +35,8 @@
             seller_user_name = #{sellerUserName},
             seller_user_id = #{sellerUserId},
             customer_user_name = #{customerUserName},
-            customer_user_id = #{customerUserId}
+            customer_user_id = #{customerUserId},
+           customer_except_carriage=#{customerExceptCarriage}
     </insert>
 
     <select id="undoLogisticsInfosByConditions" parameterType="java.util.Map" resultType="map">
@@ -245,7 +246,9 @@
 
 
     <select id="selectUserInfo" parameterType="Long" resultType="map">
-       SELECT  wu.company_lxr  AS customerName
+       SELECT
+
+                 wu.company_lxr  AS customerName
                 , wu.company_lxr_phone AS customerPhone
                 , wu1.company_lxr AS sellerName
                  ,wu1.company_lxr_phone AS sellerPhone

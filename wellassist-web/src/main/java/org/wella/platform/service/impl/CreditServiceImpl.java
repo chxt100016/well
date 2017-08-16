@@ -62,6 +62,7 @@ public class CreditServiceImpl implements CreditService{
         int flag=(int)params.get("flag");
         long creditUserId=(long)params.get("creditUserId");
         String ip=(String)params.get("ip");
+        String comment=(String)params.get("comment");
         Date now=new Date();
 
         Map<String,Object> credit=creditDao.singleCreditByPrimaryKey(creditId);
@@ -109,6 +110,7 @@ public class CreditServiceImpl implements CreditService{
         } else if (flag == -1){
             //update wa_credit table
             updateCreditMap.put("creditState",-1);
+            updateCreditMap.put("comment",comment);
 
             //insert wa_credit_info table;
             ci.setCreditState((byte)-1);
@@ -117,7 +119,7 @@ public class CreditServiceImpl implements CreditService{
 
         creditDao.updateByPrimaryKey(updateCreditMap);
         creditInfoDao.createCreditInfo(ci);
-
+        messageServicesk.handleCreditCheck(creditId,flag,comment);
     }
 
     /**

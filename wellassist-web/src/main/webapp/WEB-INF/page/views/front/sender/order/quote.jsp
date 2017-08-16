@@ -30,25 +30,25 @@
         <table class="ui table">
             <thead>
                 <th>
-                    商品名称：
+                    商品名称：${info.prodName}
                 </th>
                 <th>
-                    载货量：
+                    载货量：${info.num}
                 </th>
                 <th>
-                    下单日期：
+                    下单日期 ：${info.orderDate}
                 </th>
             </thead>
             <tbody>
                 <tr class="blue-3">
                     <td>
-                        卖家：
+                        卖家：${info.sellerUserName}
                     </td>
                     <td>
-                        联系人：
+                        联系人：${info.sellerName}
                     </td>
                     <td>
-                        联系电话：
+                        联系电话：${info.sellerPhone}
                     </td>
                 </tr>
                 <tr>
@@ -56,20 +56,20 @@
                 </tr>
                 <tr>
                     <td>
-                        买家：
+                        买家：${info.customerUserName}
                     </td>
                     <td>
-                        联系人：
+                        联系人：${info.customerName}
                     </td>
                     <td>
-                        联系电话：
+                        联系电话：${info.customerPhone}
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3">配送地址: ${info.toAddress}</td>
                 </tr>
                 <tr>
-                    <td colspan="3">客户报价：</td>
+                    <td colspan="3">客户报价：${info.customerExceptCarriage}</td>
                 </tr>
                 <tr>
                     
