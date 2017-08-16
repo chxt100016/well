@@ -102,6 +102,7 @@ public class CustomerServiceImpl implements CustomerService {
         order.setDjModifyDate(new Date());
         order.setOrderIp((String) map.get("orderIp"));
         order.setIsSelfCar(Byte.parseByte((String) map.get("isSelfCar")));
+        order.setCustomerExceptCarriage(new BigDecimal((String)map.get("customerExceptCarriage")));
 
         order.setOrderType((byte) 0);
         order.setOrderState((byte) 0);
@@ -674,6 +675,7 @@ public class CustomerServiceImpl implements CustomerService {
         updateuser.put("userMoney", oldUserMoney.subtract(principal.add(interest)));
         waUserDao.updateUserByUserId(updateuser);
 
+        messageServicesk.handleRepayLoanMessage(loanId,repay.getRepayId());
         checkLoanRepayedOff(userId, loanId);
 
         return 1;
@@ -694,6 +696,7 @@ public class CustomerServiceImpl implements CustomerService {
         Map<String, Object> loan = loanDao.singleLoanByPrimaryKey(loanId);
         if (3 == (int) loan.get("loan_state")) {
             updateUserCreditMoney(userId);
+            messageServicesk.handleLoanRepayoffMessage(loanId);
             return true;
         }
         return false;

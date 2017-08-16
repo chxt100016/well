@@ -20,13 +20,25 @@
         .teal-color {
             color: #00B5AD;
         }
+        .ft-sz-17{
+ font-size: 17px;
+ font-weight:bold;
+ }
+ .pd-lf-20{
+     padding-left: 20px
+ }
+ .bluefont{
+     color: #617B90
+ }
     </style>
 </head>
 
 <body>
-<div class="container1">
-    <div style="margin:40px 0 0 210px;">
-    <div class="ui container" id="app1" style="width:90%;">
+    <div class="container1">
+  <div class="container2">
+
+ 
+    <div class="ui container segment" id="app1" >
 
         <form id="searchFrm" method="post" action="${pageContext.request.contextPath}/sender/vehicleGrabHall">
             <input type="hidden" id="page" name="page" value="${param.page}">
@@ -35,46 +47,31 @@
         <h4 class="ui header">抢单大厅</h4>
         <div class="ui divider"></div>
 
-        <div class="ui four cards">
-            <c:forEach items="${info}" var="ii">
-            <div class="card">
-                <div class="content">
-                    <img class="right floated mini ui image" src="${ii.prodImg}">
-                    <div class="header">产品名称：${ii.prodName}</div>
-                    <div class="meta">下单日期： <fmt:formatDate value="${ii.orderDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></div>
-                    <div class="description">卖家名称：${ii.sellerUserName} </div>
-                </div>
-                <div class="content">
-                    <h4 class="ui sub header">详细信息</h4>
-                    <div class="ui small feed">
-                        <div class="event">
-                            <div class="content">
-                                <div class="summary">货物数量： <span class="oliver-color"> ${ii.num}  </span>吨</div>
-                            </div>
-                        </div>
-                        <%--<div class="event">
-                            <div class="content">
-                                <div class="summary">运费报价：<span class="teal-color"> 30  </span>元</div>
-                            </div>
-                        </div>--%>
-                        <div class="event">
-                            <div class="content">
-                                <div class="summary">提货地址:${ii.fromAddress} </div>
-                            </div>
-                        </div>
-                        <div class="event">
-                            <div class="content">
-                                <div class="summary">提货地址:${ii.toAddress} </div>
-                            </div>
-                        </div>
+         <div class="ui three column doubling grid stackable">
+              <c:forEach items="${info}" var="ii">
+            <div class="column">
+                <div class="ui segment items">
+                    <img src="${ii.prodImg}" alt="${ii.prodName}" width="100%" height="210px">
+                    <div class="item pd-lf-20"> 
+                        <div class="extra">
+                            <div class="ui left floated ft-sz-17 pd-lf-20">${ii.prodName}</div>
+                            <div class="ui right floated" > ${ii.num}吨</div>
+                         </div>
                     </div>
-                    <div class="extra">
-                        <button class="ui red button" onclick="grab(${ii.logisticsId})">抢单</button>
+                        <div class="item "> 
+                        <div class="extra">
+                            <div class="ui left floated pd-lf-20">
+                                <div>来自 <span class="bluefont">${ii.fromAddress}</span></div>
+                                 <div>去往 <span class="bluefont">${ii.toAddress}</span></div>
+                            </div>
+                            <div class="ui right floated primary button" onclick="grab(${ii.logisticsId})" >抢单</div>
+                         </div>
                     </div>
                 </div>
             </div>
-            </c:forEach>
+           </c:forEach>
         </div>
+       
         <%--<div class="ui right floated pagination menu">
             <a class="icon item">
                 <i class="left chevron icon"></i>
@@ -87,12 +84,14 @@
                 <i class="right chevron icon"></i>
             </a>
         </div>--%>
+        <br><br>
         <div class="right-pagination">
             <%@ include file="../../pagination.jsp"%>
         </div>
         <br><br>
     </div>
-
+ </div>
+    </div>
 </body>
 <script>
     function grab(logisticsId){

@@ -156,4 +156,57 @@ public interface MessageService {
      * @return
      */
     int handleAdminUpdateUserinfoMessage(long userId);
+
+    /**
+     * 金额充值申请的消息
+     * @param userId
+     * @param rechargeMoney
+     * @return
+     */
+    int handleRechargeApplyMessage(Long userId, BigDecimal rechargeMoney);
+
+    /**
+     * 充值审核的消息
+     * @param bankOrderId
+     * @return
+     */
+    int handleRechargeHandleMessage(long bankOrderId);
+
+    /**
+     * 提现审核的消息
+     * @param
+     * @return
+     */
+    int handleWithdrawHandleMessage(long withdrawId, int withdrawState);
+
+    /**
+     * 提现申请的消息
+     * @param
+     * @return
+     */
+    int handleWithdrawApplyMessage(Long userId, BigDecimal withdrawMoney);
+
+    /**
+     * 处理授信申请的理由
+     * @param creditId
+     * @param flag
+     * @param comment
+     * @return
+     */
+    int handleCreditCheck(long creditId, int flag, String comment);
+
+    /**
+     * 处理还款的消息
+     * @param loanId
+     * @param repayId
+     * @return
+     */
+    int handleRepayLoanMessage(long loanId, Long repayId);
+
+    /**
+     * 处理贷款还清的消息
+     * @param loanId
+     * @return
+     */
+    int handleLoanRepayoffMessage(long loanId);
 }

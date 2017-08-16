@@ -165,7 +165,7 @@
 
 </script>
 <script type="text/javascript">
-	var rechargeType = 0;
+	var rechargeType = 1;
 	// 选择支付方式
 	function selectPayFs(selZfType, obj){
 		$(".fsImg").removeClass("selected");

@@ -121,7 +121,7 @@
                 credit_state = #{creditState,jdbcType=TINYINT},
             </if>
             <if test="comment != null">
-                comment = #{creditState,jdbcType=VARCHAR},
+                comment = #{comment,jdbcType=VARCHAR},
             </if>
         </set>
         where credit_id = #{creditId,jdbcType=BIGINT}

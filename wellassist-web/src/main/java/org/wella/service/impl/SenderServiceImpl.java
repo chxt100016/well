@@ -50,7 +50,9 @@ public class SenderServiceImpl implements SenderService {
     @Override
     public Map<String, Object> grabLogisticsPageInfo(long logisticsId) {
         Map<String, Object> res=logisticsInfoDao.singleLogisticsInfoByPrimaryKey(logisticsId);
+        Map<String,Object> userInfo=logisticsInfoDao.selectUserInfo(logisticsId);
         ConvertUtil.convertDataBaseMapToJavaMap(res);
+        res.putAll(userInfo);
         return res;
     }
 

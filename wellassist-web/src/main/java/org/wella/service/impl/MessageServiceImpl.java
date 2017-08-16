@@ -12,6 +12,7 @@ import org.wella.service.MessageService;
 import org.wella.utils.DateUtils;
 import org.wella.utils.MailUtil;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,18 @@ public class MessageServiceImpl implements MessageService{
 
     @Autowired
     private WaUserDao waUserDao;
+
+    @Autowired
+    private BankOrderDao bankOrderDao;
+
+    @Autowired
+    private WithdrawDAO withdrawDAO;
+
+    @Autowired
+    private CreditDao creditDao;
+
+    @Autowired
+    private RepayDao repayDao;
 
     @Override
     public List<Message> getMessageList(Map<String, Object> map) {
@@ -293,5 +306,79 @@ public class MessageServiceImpl implements MessageService{
         StringBuilder content=new StringBuilder();
         content.append(user.get("user_name")).append(" 您好，你的个人信息已被管理员修改,请您及时校验。");
         return createSystemMessage(userId,"个人信息",content.toString());
+    }
+
+    @Override
+    public int handleRechargeApplyMessage(Long userId, BigDecimal rechargeMoney) {
+        StringBuilder content=new StringBuilder();
+        content.append("金额充值 ").append(rechargeMoney).append(" 元正在处理中。");
+        return createFinanceMessage(userId,"资金充值",content.toString());
+    }
+
+    @Override
+    public int handleRechargeHandleMessage(long bankOrderId) {
+        Map<String,Object> bankOrder=bankOrderDao.singlePoByPrimaryKey(bankOrderId);
+        StringBuilder content=new StringBuilder();
+        content.append("金额充值 ").append(bankOrder.get("zf_money")).append(" 元已到账。");
+        return createFinanceMessage((long)(bankOrder.get("user_id")),"资金充值",content.toString());
+    }
+
+    @Override
+    public int handleWithdrawHandleMessage(long withdrawId, int withdrawState) {
+        Map<String,Object> withdraw=withdrawDAO.singlePoByPrimaryKey(withdrawId);
+        StringBuilder content=new StringBuilder();
+        if (withdrawState==2){
+            content.append("金额提现 ").append(withdraw.get("withdraw_money")).append(" 元已到账。");
+        }else if (withdrawState==-2){
+            content.append("金额提现 ").append(withdraw.get("withdraw_money")).append(" 已被拒绝，如有疑问请联系管理员");
+        }
+        return createFinanceMessage((long)withdraw.get("user_id"),"资金提现",content.toString());
+    }
+
+    @Override
+    public int handleWithdrawApplyMessage(Long userId, BigDecimal withdrawMoney) {
+        StringBuilder content=new StringBuilder();
+        content.append("金额提现 ").append(withdrawMoney).append(" 元正在处理中。");
+        return createFinanceMessage(userId,"资金提现",content.toString());
+    }
+
+    @Override
+    public int handleCreditCheck(long creditId, int flag, String comment) {
+        Map<String,Object> credit=creditDao.singleCreditByPrimaryKey(creditId);
+        StringBuilder content=new StringBuilder();
+        String creditApplyDateStr=DateUtils.format((Date)credit.get("credit_apply_date"),DateUtils.DATE_TIME_PATTERN);
+        if (flag==1){
+            content.append("您 ").append(creditApplyDateStr).append(" 提交的 ").append(credit.get("credit_money")).append(" 元授信申请已通过管理员审核，");
+            content.append("审批额度为 ").append(credit.get("credit_sj_money")).append(" 元，您此前的授信额度已失效，以该额度为准。");
+        }else if (flag==-1){
+            content.append("您 ").append(creditApplyDateStr).append(" 提交的 ").append(credit.get("credit_money")).append(" 元授信申请没有通过审核，");
+            content.append("理由： ").append(comment);
+        }
+        return createFinanceMessage((long)credit.get("user_id"),"授信申请",content.toString());
+    }
+
+    @Override
+    public int handleRepayLoanMessage(long loanId, Long repayId) {
+        Map<String,Object> loan=loanDao.singleLoanByPrimaryKey(loanId);
+        Map<String,Object> repay=repayDao.singleRepayByPrimaryKey(repayId);
+        String repayDateStr=DateUtils.format((Date)repay.get("repay_date"),DateUtils.DATE_TIME_PATTERN);
+        BigDecimal repayMoney=(BigDecimal) repay.get("repay_money");
+        BigDecimal repayInterestMoney=(BigDecimal)repay.get("repay_interest_money");
+        BigDecimal repaytotal=repayMoney.add(repayInterestMoney);
+        BigDecimal remainRepayMoney=(BigDecimal) loan.get("remain_repay_money");
+        StringBuilder content=new StringBuilder();
+        content.append("您在 ").append(repayDateStr).append(" 还款 ").append(repaytotal).append(" 元。其中还款本金 ").append(repayInterestMoney).append(" 元，");
+        content.append("还款利息 ").append(repayInterestMoney).append(" 元。该笔贷款当前剩余尾款").append(remainRepayMoney).append(" 元。");
+        return createFinanceMessage((long)loan.get("user_id"),"授信还款",content.toString());
+    }
+
+    @Override
+    public int handleLoanRepayoffMessage(long loanId) {
+        Map<String,Object> loan=loanDao.singleLoanByPrimaryKey(loanId);
+        String applyDateStr=DateUtils.format((Date)loan.get("apply_date"),DateUtils.DATE_PATTERN);
+        BigDecimal loanMoney=(BigDecimal)loan.get("loanMoney");
+        StringBuilder content=new StringBuilder();
+        content.append("您在 ").append(applyDateStr).append(" 申请的 ").append(loanMoney).append(" 元授信贷款已全部还清。");
+        return createFinanceMessage((long)loan.get("user_id"),"授信还款",content.toString());
     }
 }

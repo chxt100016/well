@@ -691,4 +691,29 @@ public class SendController extends BaseController{
 
 
 
+
+
+
+    @RequestMapping("detail")
+    public String txSq(Model model) {
+       /* HttpSession session=request.getSession();
+        User user=(User)session.getAttribute("user");
+        long userId=user.getUserId();
+        String logisticsId = CommonUtil.GetRequestParam(request, "logisticsId", "0");
+        Map<String,Object> info=senderServiceImpl.grabLogisticsPageInfo(Long.parseLong(logisticsId));
+
+
+        model.addAttribute("info", info);
+        model.addAttribute("senderUserId", userId);
+        model.addAttribute("userName", user.getUserName());*/
+
+        model.addAttribute("parentMenuNo", "5");
+        model.addAttribute("childMenuNo", "1");
+        return "views/front/sender/order/logisticsDetail.jsp";
+    }
+
+
+
+
+
 }
