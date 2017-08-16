@@ -7,9 +7,7 @@
 	href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
 
 <script src="<c:url value="/resources/library/js/chosen.jquery.js"/>"></script>
-<script
-	src="<c:url value="/resources/library/js/bootstrap-fileupload.js"/>">
-</script>
+<script src="<c:url value="/resources/library/js/bootstrap-fileupload.js"/>"></script>
 
 <style>
 	div.error{
@@ -20,56 +18,72 @@
 </style>
 
 </head>
-<div id = "content-rect" style="text-align:left;">
 
-	<div style="border:solid 1px #d0d0d0;padding:6px;font-size:18px;color:#0557ab;font-weight: bold;">修改密码</div>
+<div style="min-height: 990px;width: 100%;">
+	<div style="margin:40px 0 0 210px;">
+		<div id = "content-rect" style="width:90%;">
 
-	<div style="border:solid 1px #d0d0d0;margin-top:16px;">
-		<div style="background:#e5e5e5;border-bottom:solid 1px #d0d0d0;padding:6px;font-size:15px;font-weight:bold;">修改登录密码</div>
-		<form action="" id="frm_pass" method="post">
-			<div style="font-size:14px;padding-left:8px;padding-top:16px;">
-				<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">当前密码</span>
-				<input type="password" name="oldpass" id="oldpass" style="width:40%;">
+			<div style="margin-top:16px;">
+				<div style="font-size:15px;font-weight:600;border-bottom:1px solid #d0d0d0;padding-bottom:10px;">修改登录密码</div>
+				<form action="" id="frm_pass" method="post">
+					<div style="font-size:14px;padding-left:8px;padding-top:16px;">
+						<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">当前密码</span>
+						<div class="ui input">
+							<input type="password" name="oldpass" id="oldpass" style="width:40%;">
+						</div>
+					</div>
+					<div style="font-size:14px;padding-left:8px;padding-top:12px;">
+						<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">设置新密码</span>
+						<div class="ui input">
+							<input type="password" name="loginNewpass"  id="newpass" style="width:40%;">
+						</div>
+					</div>
+					<div style="font-size:14px;padding-left:8px;padding-top:12px;">
+						<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">确认新密码</span>
+						<div class="ui input">
+							<input type="password" name="confirm"  id="confirm" style="width:40%;">
+						</div>
+					</div>
+			
+					<div style="margin-bottom: 32px;margin-top: 32px;margin-left: 11%;">
+						<input type="submit" id="submitloginpass1" class=" ui primary button" value="确定">
+						<input type="reset" id="reset1" class=" ui button" value="重置">
+					</div>
+				</form>
 			</div>
-			<div style="font-size:14px;padding-left:8px;padding-top:12px;">
-				<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">设置新密码</span>
-				<input type="password" name="newpass"  id="newpass" style="width:40%;">
+
+			<div style="margin-top:16px;">
+				<div style="font-size:15px;font-weight:600;border-bottom:1px solid #d0d0d0;padding-bottom:10px;">修改支付密码</div>
+				
+				<form action="" id="frm_pay_pass" method="post">
+					<div style="font-size:14px;padding-left:8px;padding-top:16px;">
+						<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">当前密码</span>
+						<div class="ui input">
+							<input type="password" name="payoldpass" id="payoldpass" style="width:40%;">
+						</div>
+					</div>
+					<div style="font-size:14px;padding-left:8px;padding-top:12px;">
+						<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">设置新密码</span>
+						<div class="ui input">
+							<input type="password" name="payNewpass" id="paynewpass"  style="width:40%;">
+						</div>
+					</div>
+					<div style="font-size:14px;padding-left:8px;padding-top:12px;">
+						<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">确认新密码</span>
+						<div class="ui input">
+							<input type="password" name="payconfirm"  id="payconfirm" style="width:40%;">
+						</div>
+					</div>
+			
+					<div style="margin-bottom: 32px;margin-top: 32px;margin-left: 11%;">
+						<!-- <span id="submit" class="bluebutton" style="padding-left: 16px;padding-right: 16px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;" align=center>确认下单</span> -->
+						<input type="submit" id="submitpaypass2" class=" ui primary button" value="确定">
+						<input type="reset" id="reset2" class=" ui button" value="重置">
+					</div>
+				</form>
 			</div>
-			<div style="font-size:14px;padding-left:8px;padding-top:12px;">
-				<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">确认新密码</span>
-				<input type="password" name="confirm"  id="confirm" style="width:40%;">
-			</div>
-	
-			<div style="margin-bottom: 32px;margin-top: 32px;margin-left: 11%;">
-				<input type="submit" id="submitloginpass" class="bluebutton" style="padding-left: 24px;padding-right: 24px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;border:none;" value="确定">
-			</div>
-		</form>
+		</div>
 	</div>
-
-	<div style="border:solid 1px #d0d0d0;margin-top:16px;">
-		<div style="background:#e5e5e5;border-bottom:solid 1px #d0d0d0;padding:6px;font-size:15px;font-weight:bold;">修改支付密码</div>
-		
-		<form action="" id="frm_pay_pass" method="post">
-			<div style="font-size:14px;padding-left:8px;padding-top:16px;">
-				<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">当前密码</span>
-				<input type="password" name="payoldpass" id="payoldpass" style="width:40%;">
-			</div>
-			<div style="font-size:14px;padding-left:8px;padding-top:12px;">
-				<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">设置新密码</span>
-				<input type="password" name="paynewpass" id="paynewpass"  style="width:40%;">
-			</div>
-			<div style="font-size:14px;padding-left:8px;padding-top:12px;">
-				<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">确认新密码</span>
-				<input type="password" name="payconfirm"  id="payconfirm" style="width:40%;">
-			</div>
-	
-			<div style="margin-bottom: 32px;margin-top: 32px;margin-left: 11%;">
-				<!-- <span id="submit" class="bluebutton" style="padding-left: 16px;padding-right: 16px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;" align=center>确认下单</span> -->
-				<input type="submit" id="submitpaypass" class="bluebutton" style="padding-left: 24px;padding-right: 24px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;border:none;" value="确定">
-			</div>
-		</form>
-	</div>
-
 </div>
 <script type="text/javascript">
 	$("select").height(24);
@@ -77,7 +91,7 @@
 	$("#companyicon").height($("#companyicon").width());
 	$("#icon").height($("#companyicon").innerHeight()-16);
 	$("#icon").width($("#companyicon").innerWidth()-16);
-	$("input[type=password]").css("font-size", "16px");
+	// $("input[type=password]").css("font-size", "16px");
 	
 	
 	$("#frm_pass").validate({
@@ -96,25 +110,32 @@
         },
 	    submitHandler: function(form){
 	    	var oldPass = $("#oldpass").val();
-	    	$.post("${pageContext.request.contextPath}/sender/checkLoginPassword", {oldPass:oldPass},	function(data) {
-				if(data.state == 1) {
-					var act_url = "${pageContext.request.contextPath}/sender/changeLoginPassword";
+	    	$.post("${pageContext.request.contextPath}/userinfo/checkOrgPass", {oldPass:oldPass},	function(data) {
+				if(data.code == 0) {
+					if(data.flag){
+					var act_url = "${pageContext.request.contextPath}/userinfo/updateLoginNewPass";
 			    	$.post(act_url,$(form).serialize(),function(data){
 			    		data = $.parseJSON(data);
-			    		if(data.state==1){
+			    		if(data.code==0){
 			            	alert("保存成功!");
 			            }else{
-			            	alert(data.content);
+			            	alert(data.msg);
 			            }
 			      	})
 			      	.error(function(data){
 			      		alert("保存失败！")
 			      	});
-				}else{
-					alert("原来密码不正确!");
+					 }else{
+						 alert("朋友你的密码是不是输错了")
+					 }
+
+				}
+				else{
+					//原密码有问题
+					alert(data.msg);
 				}
 			}, 'json');
-	    	
+			
 	    },
 		errorElement: "div",
 		errorClass: "error"
@@ -137,22 +158,27 @@
         },
 	    submitHandler: function(form){
 	    	var oldPass = $("#payoldpass").val();
-	    	$.post("${pageContext.request.contextPath}/sender/checkPayPasswor", {oldPass:oldPass},	function(data) {
-				if(data.state == 1) {
-					var act_url = "${pageContext.request.contextPath}/sender/changePayPassword";
+	    	$.post("${pageContext.request.contextPath}/userinfo/checkPayOrgPass", {oldPass:oldPass},	function(data) {
+				if(data.code == 0) {
+					if(data.flag){
+					var act_url = "${pageContext.request.contextPath}/userinfo/updatePayNewPass";
 			    	$.post(act_url,$(form).serialize(),function(data){
 			    		data = $.parseJSON(data);
-			    		if(data.state==1){
+			    		if(data.code==0){
 			            	alert("保存成功!");
 			            }else{
-			            	alert(data.content);
+			            	alert(data.msg);
 			            }
 			      	})
 			      	.error(function(data){
 			      		alert("保存失败！")
 			      	});
-				}else{
-					alert("原来密码不正确!");
+				  }else{
+					  alert("原支付密码输入不正确!");
+				  }
+				}
+				else{
+					alert(data.msg);
 				}
 			}, 'json');
 	    	
