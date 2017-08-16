@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="<c:url value="/resources/library/css/font-awesome.css"/>">
    <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/common.css"/>">
         <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/header.css"/>">
+         <link rel="stylesheet" href="<c:url value="/resources/library/css/datePicker.css"/>">
        
     
     <script src="<c:url value="/resources/library/js/jquery.js"/>"></script>
@@ -21,6 +22,7 @@
     <script src="<c:url value="/resources/common/js/global.js"/>"></script>
     <script src="${pageContext.request.contextPath}/resources/common/js/jquery.validate.js"></script>
     <script src="${pageContext.request.contextPath}/resources/library/js/My97DatePicker/WdatePicker.js"></script>
+     <script src="${pageContext.request.contextPath}/resources/library/js/jquery.date_input.pack.js"></script>
     <script src="${pageContext.request.contextPath}/resources/common/js/common.js"></script>
      <script src="<c:url value="/resources/library/js/vue.min.js"/>"></script>
 
