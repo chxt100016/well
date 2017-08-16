@@ -12,6 +12,7 @@ import org.wella.entity.CreditorAuthenticInfo;
 import org.wella.entity.User;
 import org.wella.platform.service.MemberService;
 import org.wella.service.CreditorService;
+import org.wella.service.MessageService;
 import org.wella.utils.MailUtil;
 
 import java.util.Date;
@@ -39,6 +40,8 @@ public class MemberServiceImpl implements MemberService{
     private CreditorService creditorServiceImpl;
     @Autowired
     private CreditorAuthenticInfoDao creditorAuthenticInfoDao;
+    @Autowired
+    private MessageService messageServicesk;
 
 
     @Override
@@ -69,6 +72,7 @@ public class MemberServiceImpl implements MemberService{
     public int updateUserInfo(Map map) {
         int i=waUserDao.updateUserByUserId(map);
         int j=userinfoDao.updateUserinfoByUserId(map);
+        messageServicesk.handleAdminUpdateUserinfoMessage(Long.parseLong(map.get("userId").toString()));
         return i+j;
     }
 
@@ -93,8 +97,7 @@ public class MemberServiceImpl implements MemberService{
         updateMap.put("comment",comment);
         updateMap.put("userState",1);
         waUserDao.updateUserByUserId(updateMap);
-        String content="<html><head></head><body><h1>您的维助供应链平台账户已通过审核</h1><h1>点击进入<a href='"+ ConstantUtil.SERVER_HOST+"'  target = '_blank'>维助供应链</a></h1></body></html>";
-        new Thread(new MailUtil(email, content)).start();
+        messageServicesk.handleRegisterReviewMessage(email,comment,true);
     }
 
     @Override
@@ -106,8 +109,7 @@ public class MemberServiceImpl implements MemberService{
         updateMap.put("comment",comment);
         updateMap.put("userState",-1);
         waUserDao.updateUserByUserId(updateMap);
-        String content="<html><head></head><body><h1>对不起，您的维助供应链平台账户未通过审核</h1><h1>审核意见："+comment+"</h1><h1>点击进入<a href='"+ConstantUtil.SERVER_HOST+"'  target = '_blank'>维助供应链</a></h1></body></html>";
-        new Thread(new MailUtil(email, content)).start();
+        messageServicesk.handleRegisterReviewMessage(email,comment,false);
     }
 
     /**
@@ -121,6 +123,7 @@ public class MemberServiceImpl implements MemberService{
         map.put("userPass",password);
         map.put("userId",userId);
         waUserDao.resetPassword(map);
+        messageServicesk.handleResetPasswordMessage(userId);
     }
     @Override
     public List<Map<String, Object>> findSellerInfo(Map map) {

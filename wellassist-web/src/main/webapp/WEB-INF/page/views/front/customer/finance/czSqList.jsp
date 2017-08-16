@@ -50,7 +50,7 @@
 				</tr>
 			</table>
 			</form> -->
-			<form id = "infoForm" action="${pageContext.request.contextPath}/customer/rechargeApply" method="post">
+			<form id = "infoForm" action="${pageContext.request.contextPath}/finance/rechargeApply" method="post">
 			<input type = "hidden" id = "rechargeType" name = "rechargeType"/>
 			
 				
@@ -92,7 +92,7 @@
 					
 		</form>
 			<div class = "row-header" style="border-bottom:1px solid #d0d0d0;padding-bottom:10px;"><span class = "header-title">充值记录</span></div>
-			<form id="searchFrm" method="get" action="${pageContext.request.contextPath}/front/customer/FinanceController-czList">
+			<form id="searchFrm" method="get" action="${pageContext.request.contextPath}/customer/rechargeRecord">
 				<input type="hidden" id="page" name="page" value="${param.page}">
 				<input type="hidden" id="zfState" name="zfState" value="${param.zfState}">
 			</form>

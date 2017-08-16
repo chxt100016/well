@@ -128,5 +128,32 @@ public interface MessageService {
      */
     int handleAdminUpdateOrderMessage(long orderId);
 
+    /**
+     * 订单完成收货消息
+     * @param orderId
+     * @return
+     */
     int handleReceiveProdOverMessage(long orderId);
+
+    /**
+     *注册审核通过或不通过向用户邮箱发送消息
+     * @param userEmail
+     * @param reviewComment
+     * @param passReview
+     */
+    void handleRegisterReviewMessage(String userEmail,String reviewComment,boolean passReview);
+
+    /**
+     * 重置密码消息提醒
+     * @param userId
+     * @return
+     */
+    int handleResetPasswordMessage(long userId);
+
+    /**
+     * 管理员更改用户信息的消息
+     * @param userId
+     * @return
+     */
+    int handleAdminUpdateUserinfoMessage(long userId);
 }
