@@ -674,6 +674,7 @@ public class CustomerServiceImpl implements CustomerService {
         updateuser.put("userMoney", oldUserMoney.subtract(principal.add(interest)));
         waUserDao.updateUserByUserId(updateuser);
 
+        messageServicesk.handleRepayLoanMessage(loanId,repay.getRepayId());
         checkLoanRepayedOff(userId, loanId);
 
         return 1;
@@ -694,6 +695,7 @@ public class CustomerServiceImpl implements CustomerService {
         Map<String, Object> loan = loanDao.singleLoanByPrimaryKey(loanId);
         if (3 == (int) loan.get("loan_state")) {
             updateUserCreditMoney(userId);
+            messageServicesk.handleLoanRepayoffMessage(loanId);
             return true;
         }
         return false;

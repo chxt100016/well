@@ -1,5 +1,6 @@
 package org.wella.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import org.wella.entity.Repay;
 
@@ -18,4 +19,6 @@ public interface RepayDao {
     List<Map<String,Object>> listRepayByConditions(Map<String, Object> query);
 
     Map<String,Object> singleRepayByConditions(Map<String, Object> query);
+
+    Map<String,Object> singleRepayByPrimaryKey(@Param("repayId") Long repayId);
 }
