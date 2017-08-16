@@ -202,4 +202,14 @@ public class SenderServiceImpl implements SenderService {
         }
         return 0;
     }
+
+
+    @Override
+    public List<Map<String, Object>> selectDriver(String logisticsId) {
+        List<Map<String,Object>> list=vehicleGrabInfoDao.selectDriver(Long.parseLong(logisticsId));
+        ConvertUtil.convertDataBaseMapToJavaMap(list);
+        return list;
+    }
+
+
 }
