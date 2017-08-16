@@ -352,6 +352,7 @@ public class CustomerServiceImpl implements CustomerService {
         updateLogisticsInfoMap.put("orderId", orderId);
         updateLogisticsInfoMap.put("state", 5);
         res += logisticsInfoDao.updateByConditions(updateLogisticsInfoMap);
+        messageServicesk.handleReceiveProdMessage(orderId,zorderId);
         return res;
     }
 

@@ -67,4 +67,66 @@ public interface MessageService {
      */
     int handleChooseGrabMessage(long logisticsInfoId);
 
+    /**
+     * 生成商品订单线下付款审核的消息
+     * @param orderId
+     * @param passCheck
+     * @param checkComment
+     * @return
+     */
+    int handleProdOfflinePayCheckMessage(Long orderId, int passCheck,String checkComment);
+
+    /**
+     * 生成物流订单线下付款审核的消息
+     * @param orderId
+     * @param passCheck
+     * @param checkComment
+     * @return
+     */
+    int handleLogisticsOfflinePayCheckMessage(Long orderId, int passCheck,String checkComment);
+
+    /**
+     * 生成贷款的消息
+     * @param loanId
+     * @return
+     */
+    int handleLoanCreatedMessage(long loanId);
+
+    /**
+     *授信付款驳回的消息
+     * @param orderId
+     * @return
+     */
+    int handleLoanSayNoMessage(long orderId);
+
+    /**
+     * 卖家发货的消息
+     * @param orderId
+     * @param zorderId
+     * @return
+     */
+    int handleSendProdMessage(long orderId, long zorderId);
+
+    /**
+     * 买家收货的消息
+     * @param orderId
+     * @param zorderId
+     */
+    int handleReceiveProdMessage(long orderId, long zorderId);
+
+    /**
+     * 卖家结束发货的消息
+     * @param orderId
+     * @return
+     */
+    int handleSendProdOverMessage(long orderId);
+
+    /**
+     * 管理員修改订单的消息
+     * @param orderId
+     * @return
+     */
+    int handleAdminUpdateOrderMessage(long orderId);
+
+    int handleReceiveProdOverMessage(long orderId);
 }

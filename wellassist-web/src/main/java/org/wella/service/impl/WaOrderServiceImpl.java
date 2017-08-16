@@ -9,6 +9,7 @@ import org.wella.entity.Order;
 import org.wella.entity.OrderLogisticsInfo;
 import org.wella.entity.OrderVehicle;
 import org.wella.entity.VehicleInfo;
+import org.wella.service.MessageService;
 import org.wella.service.RegionService;
 import org.wella.service.WaOrderService;
 
@@ -52,6 +53,9 @@ public class WaOrderServiceImpl implements WaOrderService {
 
     @Autowired
     private WaUserDao waUserDao;
+
+    @Autowired
+    private MessageService messageServicesk;
 
     @Override
     public Map<String, Object> findNewestOrderLog(long orderId) {
@@ -181,6 +185,7 @@ public class WaOrderServiceImpl implements WaOrderService {
         updateOrder.put("saleSjNum",saleSjNum);
         updateOrder.put("saleSjMoney",saleSjMoney);
         orderDao.updateOrderByID(updateOrder);
+        messageServicesk.handleReceiveProdOverMessage(orderId);
         if ((int)order.get("is_self_car")!=1){
             return true;
         }

@@ -3,14 +3,12 @@ package org.wella.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.wella.dao.LogisticsInfoDao;
-import org.wella.dao.MessageDao;
-import org.wella.dao.OrderDao;
-import org.wella.dao.OrderLogDao;
+import org.wella.dao.*;
 import org.wella.entity.CreditRecord;
 import org.wella.entity.Message;
 import org.wella.entity.Userinfo;
 import org.wella.service.MessageService;
+import org.wella.utils.DateUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -21,7 +19,6 @@ import java.util.Map;
  */
 @Service("messageServicesk")
 public class MessageServiceImpl implements MessageService{
-
 
     @Autowired
     private MessageDao messageDao;
@@ -34,6 +31,12 @@ public class MessageServiceImpl implements MessageService{
 
     @Autowired
     private LogisticsInfoDao logisticsInfoDao;
+
+    @Autowired
+    private LoanDao loanDao;
+
+    @Autowired
+    private ZorderDao zorderDao;
 
     @Override
     public List<Message> getMessageList(Map<String, Object> map) {
@@ -125,6 +128,10 @@ public class MessageServiceImpl implements MessageService{
         return createMessage(userId,title,(byte)2,content);
     }
 
+    public int createFinanceMessage(long userId,String title,String content){
+        return createMessage(userId,title,(byte)1,content);
+    }
+
     public int createMessage(long userId,String title,byte type,String content){
         Message message=new Message();
         message.setUserId(userId);
@@ -152,6 +159,102 @@ public class MessageServiceImpl implements MessageService{
         StringBuilder senderMessageContent=new StringBuilder();
         senderMessageContent.append("买家已选择 订单编号 ").append(logisticsInfoView.get("order_no")).append(" 您的抢单，请等待买家预付款后，及时去提货地址载货。");
         res+=createOrderMessage((long)logisticsInfoView.get("sender_user_id"),"抢单成功",senderMessageContent.toString());
+        return res;
+    }
+
+    @Override
+    public int handleProdOfflinePayCheckMessage(Long orderId, int passCheck,String checkComment) {
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        StringBuilder content=new StringBuilder();
+        if (passCheck==1){
+            content.append("您的订单 ").append(order.get("order_no")).append(" 线下付款已通过管理员审核。");
+        }else if (passCheck==0){
+            content.append("您的订单 ").append(order.get("order_no")).append(" 提交的线下付款申请未通过管理员审核，理由：").append(checkComment).append(" ，请重新支付订单。");
+        }
+        return createOrderMessage((long)order.get("user_id"),"订单支付",content.toString());
+    }
+
+    @Override
+    public int handleLogisticsOfflinePayCheckMessage(Long orderId, int passCheck,String checkComment) {
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        StringBuilder content=new StringBuilder();
+        if (passCheck==1){
+            content.append("您的订单 ").append(order.get("order_no")).append(" 物流订单线下付款已通过管理员审核。");
+        }else if (passCheck==0){
+            content.append("您的订单 ").append(order.get("order_no")).append(" 物流订单提交的线下付款申请未通过管理员审核，理由：").append(checkComment).append(" ，请重新支付订单。");
+        }
+        return createOrderMessage((long)order.get("user_id"),"订单支付",content.toString());
+    }
+
+    @Override
+    public int handleLoanCreatedMessage(long loanId) {
+        Map<String,Object> loanOrderView=loanDao.singleLoanOrderViewByPrimaryKey(loanId);
+        StringBuilder content=new StringBuilder();
+        Date interestFreeDate=(Date)loanOrderView.get("interest_free_date");
+        Date paymentDate=(Date)loanOrderView.get("payment_date");
+        String interestFreeDateStr= DateUtils.format(interestFreeDate,"yyyy 年 MM 月 dd 日");
+        String paymentDateStr=DateUtils.format(paymentDate,"yyyy 年 MM 月 dd 日");
+        content.append("您的订单 ").append(loanOrderView.get("order_no")).append(" 生成 ").append(loanOrderView.get("loan_money")).append(" 元授信贷款,");
+        content.append("账期为 ").append(interestFreeDateStr).append(" ,还款期限为 ").append(paymentDateStr).append(" 。");
+        content.append("在账期内完成还款将不计您的利息，还款期限内按").append(loanOrderView.get("lixi_rate")).append("%%/日计息,逾期将按照").append(loanOrderView.get("lixi_rate")).append("%%/日利滚利的方式计息。");
+        return createFinanceMessage((long)loanOrderView.get("user_id"),"授信出账",content.toString());
+    }
+
+    @Override
+    public int handleLoanSayNoMessage(long orderId) {
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        StringBuilder content=new StringBuilder();
+        content.append("您的订单 ").append(order.get("order_no")).append(" 申请授信付款被管理员驳回,订单取消。");
+        return createOrderMessage((long)order.get("user_id"),"订单支付",content.toString());
+    }
+
+    @Override
+    public int handleSendProdMessage(long orderId, long zorderId) {
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        Map<String,Object> zorder=zorderDao.singleZorderByPrimaryKey(zorderId);
+        StringBuilder content=new StringBuilder();
+        content.append("您的订单 ").append(order.get("order_no")).append(" 已发送发货批次，发货数量 ").append(zorder.get("zorder_num")).append(" 吨，本批次单价 ").append(zorder.get("zorder_price")).append(" 元/吨。");
+        return createOrderMessage((long)order.get("user_id"),"订单发货",content.toString());
+    }
+
+    @Override
+    public int handleReceiveProdMessage(long orderId, long zorderId) {
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        Map<String,Object> zorder=zorderDao.singleZorderByPrimaryKey(zorderId);
+        StringBuilder content=new StringBuilder();
+        content.append("您的订单 ").append(order.get("order_no")).append(" 买家已收到发货批次，收货数量 ").append(zorder.get("zorder_num")).append(" 吨，本批次单价 ").append(zorder.get("zorder_price")).append(" 元/吨。");
+        return createOrderMessage((long)order.get("supplier_id"),"订单收货",content.toString());
+    }
+
+    @Override
+    public int handleSendProdOverMessage(long orderId) {
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        StringBuilder content=new StringBuilder();
+        content.append("您的订单 ").append(order.get("order_no")).append(" 卖家已结束发货。");
+        return createOrderMessage((long)order.get("user_id"),"订单发货",content.toString());
+    }
+
+    @Override
+    public int handleAdminUpdateOrderMessage(long orderId) {
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        StringBuilder customerContent=new StringBuilder();
+        customerContent.append("您的订单 ").append(order.get("order_no")).append(" 管理员已修改相关数据，如有疑问请联系平台管理员。");
+        StringBuilder sellerContent=new StringBuilder();
+        sellerContent.append("订单 ").append(order.get("order_no")).append(" 管理员已修改相关数据，如有疑问请联系平台管理员。");
+        int res=createOrderMessage((long)order.get("supplier_id"),"订单修改", sellerContent.toString());
+        res+=createOrderMessage((long)order.get("user_id"),"订单修改",customerContent.toString());
+        return res;
+    }
+
+    @Override
+    public int handleReceiveProdOverMessage(long orderId) {
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        StringBuilder customerContent=new StringBuilder();
+        customerContent.append("您的订单 ").append(order.get("order_no")).append(" 已收货完成。");
+        StringBuilder sellerContent=new StringBuilder();
+        sellerContent.append("您的订单 ").append(order.get("order_no")).append(" 买家已完成收货。");
+        int res=createOrderMessage((long)order.get("user_id"),"订单收货",customerContent.toString());
+        res+=createOrderMessage((long)order.get("supplier_id"),"订单收货",sellerContent.toString());
         return res;
     }
 }

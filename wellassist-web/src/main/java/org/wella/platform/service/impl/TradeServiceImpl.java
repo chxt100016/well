@@ -11,6 +11,7 @@ import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
 import org.wella.entity.OrderLog;
 import org.wella.platform.service.TradeService;
+import org.wella.service.MessageService;
 import org.wella.service.WaOrderService;
 
 import java.math.BigDecimal;
@@ -42,6 +43,9 @@ public class TradeServiceImpl implements TradeService{
 
     @Autowired
     private OrderVehicleDao orderVehicleDao;
+
+    @Autowired
+    private MessageService messageServicesk;
 
 
     @Autowired
@@ -113,6 +117,7 @@ public class TradeServiceImpl implements TradeService{
             update.put("checkComment",checkComment);
             orderTransDao.update(update);
         }
+        messageServicesk.handleProdOfflinePayCheckMessage(orderId,passCheck,checkComment);
         return 1;
     }
 
@@ -154,6 +159,7 @@ public class TradeServiceImpl implements TradeService{
             update.put("checkComment",checkComment);
             logisticsTransDao.update(update);
         }
+        messageServicesk.handleLogisticsOfflinePayCheckMessage(orderId,passCheck,checkComment);
         return 1;
     }
 
@@ -241,6 +247,8 @@ public class TradeServiceImpl implements TradeService{
         updateorder.put("orderId",orderId);
         updateorder.put("hasQuestion",0);
         orderDao.updateOrderByID(updateorder);
+
+        messageServicesk.handleAdminUpdateOrderMessage(orderId);
 
     }
 

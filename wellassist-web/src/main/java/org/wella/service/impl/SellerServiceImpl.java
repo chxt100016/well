@@ -391,6 +391,8 @@ public class SellerServiceImpl implements SellerService {
             orderVehicleDao.createOrderVehicle(orderVehicle);
         }
 
+        messageServicesk.handleSendProdMessage(Long.parseLong(orderId),zorder.getZorderId());
+
     }
 
     @Override
@@ -399,6 +401,7 @@ public class SellerServiceImpl implements SellerService {
         updateOrderMap.put("orderId", orderId);
         updateOrderMap.put("orderState", 4);
         orderDao.updateOrderByID(updateOrderMap);
+        messageServicesk.handleSendProdOverMessage(orderId);
     }
 
     @Override
