@@ -35,5 +35,13 @@
 
 
 
+    <select id="selectDriver" parameterType="Long" resultType="Map">
+        SELECT
+         *
+        FROM wa_vehicle_grab_info
+        WHERE vehicle_grab_id =(SELECT vehicle_grab_id FROM wa_logistics_info WHERE logistics_id=#{logisticsId})
+    </select>
+
+
 
 </mapper>

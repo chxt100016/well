@@ -47,4 +47,7 @@ public interface SenderService {
     boolean calcelGrab(HttpServletRequest request, long vehicleGrabId);
 
     int reGrabLogistics(long logisticsId);
+
+
+    List<Map<String,Object>> selectDriver(String logisticsId);
 }

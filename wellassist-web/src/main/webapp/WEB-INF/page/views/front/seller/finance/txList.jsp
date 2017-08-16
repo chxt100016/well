@@ -27,7 +27,7 @@
 
 </head>
 <div class="container1" id="app">
-	  <div style="margin:40px 0 0 210px;" >
+	  <div style="margin:40px 0 0 210px;">
 		<div id = "content-rect" style="width:90%;">		
 			<div class = "row-header" style="border-bottom:1px solid #d0d0d0;padding-bottom:10px;"><span class = "header-title">提现</span></div>
 			<!-- <div class = "row1">
@@ -56,7 +56,7 @@
 					<td class="field">
 						<select class="ui fluid normal dropdown " style="width:250px" id="bankS"  @change='secBank()' name='account'>
 							<i class="dropdown icon"></i>
-							      <option class="default text" >请选择提现账户</option> 
+							      <option class="default text" value="">请选择提现账户</option> 
 								 <option  class="item" v-for='(card,index) in Cards' v-bind:value="index" >
 									 <span @click="selected(index,card.bankName,card.bankAccountNew)"> {{card.bankName}} *** </span>
 									  <span class="bkAcc">{{card.bankAccountNew}}</span>
@@ -139,6 +139,7 @@
 	</div>
 </div>
 </div>
+
 
 <script type = "text/javascript">
 	// 功能函数

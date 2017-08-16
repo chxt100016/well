@@ -15,4 +15,7 @@ public interface VehicleGrabInfoDao {
     List<Map<String,Object>> listVehicleGrabInfoByConditions(Map query);
 
     Integer deleteDriver(Long id);
+
+
+    List<Map<String,Object>> selectDriver(Long logisticsId);
 }
