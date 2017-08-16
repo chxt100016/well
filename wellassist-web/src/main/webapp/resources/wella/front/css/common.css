@@ -1,5 +1,5 @@
 body {color:#000; background:#FFF; font-family: Verdana, Arial, sans-serif;    }
-body, ul, ol, li, p, h1, h2, h3, h4, h5, h6, form, fieldset, table, td, img, tr {margin:0 auto; padding:0;}
+body, ul, ol, li, p, h1, h2, h3, h4, h5, h6, form, fieldset, table, td, tr {margin:0 auto; padding:0;}
 input, select {font-size:12px; vertical-align:middle;}
 li {list-style-type:none;}
 img {border:0 none;}

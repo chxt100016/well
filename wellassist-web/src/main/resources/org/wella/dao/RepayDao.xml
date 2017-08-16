@@ -3,7 +3,7 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.wella.dao.RepayDao">
 
-    <insert id="createRepay" parameterType="org.wella.entity.Repay" >
+    <insert id="createRepay" parameterType="org.wella.entity.Repay" useGeneratedKeys="true" keyProperty="repayId">
         insert into wa_repay ( money_id, loan_id,
         credit_id, user_id, repay_money,
         repay_interest_money, repay_date, repay_ip,
@@ -41,5 +41,11 @@
             ORDER by ${orderBy}
         </if>
         limit 1
+    </select>
+
+    <select id="singleRepayByPrimaryKey" parameterType="long" resultType="map">
+        SELECT *
+        from wa_repay
+        WHERE repay_id=#{repayId}
     </select>
 </mapper>

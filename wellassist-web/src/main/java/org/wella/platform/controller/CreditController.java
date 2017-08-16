@@ -68,7 +68,7 @@ public class CreditController {
     @ResponseBody
     public R creditLimitList(@RequestParam Map<String,Object> params){
         Query query=new Query(params);
-        query.put("credit_state","field(credit_state,0,1,2,-2,-1) asc");
+        query.put("orderBy","field(credit_state,0,1,2,-2,-1) asc");
         List list=creditDao.listCreditAttachUserinfoByConditions(query);
         ConvertUtil.convertDataBaseMapToJavaMap(list);
         int totalCount=creditDao.listCreditAttachUserinfoByConditionsCount(query);

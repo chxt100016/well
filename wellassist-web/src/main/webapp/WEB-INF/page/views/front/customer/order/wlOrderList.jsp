@@ -11,22 +11,17 @@
 	<div class="container2">
 <div id = "content-rect" style="width:90%">
 	 <ul class="ds-bl pd-10 ft-sz-15">
-           <%-- <li class="ds-bl fl-lt pd-10  ulSelected" style="padding-left:0px">全部订单</li>
-            <li class="ds-bl fl-lt pd-10">待选择</li>
-            <li class="ds-bl fl-lt pd-10">待付款</li>
-            <li class="ds-bl fl-lt pd-10">已确认</li>--%>
-
-
-
-
-
+            <li class="ds-bl fl-lt pd-10  <c:if test="${empty param.state ||(param.state != '0'&&param.state != '2' && param.state != '4')}" >ulSelected</c:if>" onclick="$('#vehicleState').val('');searchData(1);" style="padding-left:0px">全部订单</li>
+            <li class="ds-bl fl-lt pd-10 <c:if test="${param.state == '0'}">ulSelected</c:if>" onclick="$('#vehicleState').val('0');searchData(1);">待选择</li>
+            <li class="ds-bl fl-lt pd-10 <c:if test="${param.state == '2'}">ulSelected</c:if>" onclick="$('#vehicleState').val('2');searchData(1);">待付款</li>
+            <li class="ds-bl fl-lt pd-10 <c:if test="${param.state == '4'}">ulSelected</c:if>" onclick="$('#vehicleState').val('4');searchData(1);">发货中</li>
 
         </ul>
 		<br>
 		
 	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/customer/logisticsInfoList">
 		<input type="hidden" id="page" name="page" value="${param.page}">
-		<input type="hidden" id="vehicleState" name="state" value="${param.orderState}">
+		<input type="hidden" id="vehicleState" name="state" value="${param.state}">
 	</form>
         <table class="ui basic table ft-sz-14">
             <thead>
@@ -36,7 +31,7 @@
                     <th>数量（吨）</th>
 					<!-- <th>交易状态</th> -->
 					<th>
-							<div class="ui pointing dropdown  item"  id="dropdown2"tabindex="0">
+							<div class="ui pointing dropdown  item"  id="dropdown2" tabindex="0">
 							<span class="text">交易状态</span>
 							<i class="dropdown icon"></i>
 							<div class="menu transition hidden" tabindex="-1">
