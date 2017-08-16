@@ -214,6 +214,64 @@
             }
         });
     });
+    // $('#infoForm')
+    // .form({
+    //     inline : true,
+    //     on: 'blur',
+    //     fields: {
+    //       zorderNum: {
+    //         identifier : 'zorderNum',
+    //         rules: [
+    //           {
+    //             type   : 'empty',
+    //             prompt : '请输入你的发货量'
+    //           }
+    //         ]
+    //       }
+    //     }
+    // });
+    var form = $('#updateform');
+    $(document).ready(function(){
+        form.bootstrapValidator({
+            field:{
+                zorderNum:{
+                    message:'发货量不合法'，
+                    validators:{
+                        notEmpty:{
+                            message:'发货量不能为空'
+                        },
+                    }
+                }
+            }
+        });
+        $("#add").click(function(){
+            var bv = form.data('bootstrapValidator');
+            bv.validata();
+            if (bv.isValid()) {
+                console.log(form.serialize());
+                $.ajax({
+                url: 'validator.json',
+                async: false,//同步，会阻塞操作
+                type: 'GET',//PUT DELETE POST
+                data: form.serialize(),
+                complete: function (msg) {
+                    console.log('完成了');
+                },
+                success: function (result) {
+                    console.log(result);
+                    if (result) {
+                        window.location.reload();
+                    } else {
+                        $("#returnMessage").hide().html('<label class="label label-danger">修改失败!</label>').show(300);
+                    }
+                }, error: function () {
+                    $("#returnMessage").hide().html('<label class="label label-danger">修改失败!</label>').show(300);
+                }
+            })
+            }
+        })
+    })
+    
     // $(function(){
     //     // 检查模块，表单验证
     //     var validator = $("#infoForm").validate({
