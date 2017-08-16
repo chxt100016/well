@@ -6,69 +6,75 @@
 <link rel="stylesheet"	href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
 
 <style>
+	.container1{min-height: 990px;width: 100%;}
 	span.smallbutton{border: solid 1px #d0d0d0;cursor: pointer;padding: 4px 8px;text-align: center;color: #666666;font-size: 13px;border-radius: 4px;}
-	
-	.row1{border:solid 1px #d0d0d0;padding:6px;font-size:20px;margin-top:16px;padding-bottom:16px;}
+	.header-title{font-size: 15px;font-weight: 600;}
+	.row1{padding:6px;font-size:20px;margin-top:16px;padding-bottom:16px;}
 	.row1_1{margin-top:16px; margin-left: 12px;font-size: 16px;text-align: left;color: #747474;}
 	.row1_2{margin-top:16px; margin-left: 24px;font-size: 20px; margin-bottom:16px;text-align:left;}
 	.row1_2 .col1{color:red;font-size:20px;font-weight:bold;}
-	.row1_2 .col2{color:red;font-size:18px;margin-left:-4px;}
+	.row1_2 .col2{font-size:18px;margin-left:-4px;}
 	
-	.row2{text-align:left; margin-top:16px;border:solid 1px #d0d0d0;padding:6px; padding-left: 12px;font-size:15px;font-weight: 600;}
-	
+	.row2{text-align:left; margin-top:16px;font-size:15px;font-weight: 600;padding-bottom: 10px;border-bottom: 1px solid #d0d0d0;}
+	.ui.table thead th {border-bottom: 0;}
+    .ui.table tr td {border-top: 0;}
+    .ui.table tr:nth-child(odd) td {background-color: #f2f2f2;}
+    .ui.celled.table tr td, .ui.celled.table tr th {border-left: 0;}
+    .ui.menu li{list-style: none;}
 </style>
 
 </head>
-<div id = "content-rect">
-
-	<div class = "row-header"><span class = "header-title">账户信息</span></div>
-	<div class = "row1">
-		<div class = "row1_1">账户余额</div>
-		<div class = "row1_2">
-			<span class = "col1">${userMoney}</span>
-			<span class = "col2">&nbsp;&nbsp;元</span>
-			<span id="fillmoney" class="smallbutton" style="margin-left:32px; display:none;" onClick = "toURL('czSq')">充值</span>
-			<span id="getmoney" class="smallbutton" style="margin-left:12px;"  onClick = "toURL('txSq')">提现</span>
+<div class="container1">
+	<div style="margin:40px 0 0 210px;">
+		<div id = "content-rect" style="width:90%;">	
+			<div class = "row-header" style="border-bottom:1px solid #d0d0d0;padding-bottom:10px;"><span class = "header-title">账户余额</span></div>
+			<div class = "row1">
+				<div class = "row1_2">
+					<span class = "col1">${userMoney}</span>
+					<span class = "col2">&nbsp;&nbsp;元</span>
+					<span id="fillmoney" class="smallbutton" style="margin-left:32px;" onClick = "toURL('czSqList')">充值</span>
+					<span id="getmoney" class="smallbutton" style="margin-left:12px;"  onClick = "toURL('txList')">提现</span>
+				</div>
+			</div>
+			<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/front/seller/FinanceController-accountInfo">
+				<input type="hidden" id="page" name="page" value="${param.page}">
+			</form>
+			<div class = "row2">交易记录</div>
+		
+			<table class="ui very basic table" style="text-align:center;">
+			    <thead>
+			        <tr>
+			            <th width="36%">时间</th>
+			            <th width="32%" style="border-bottom: 15px solid #fff;border-left:1px solid #d0d0d0;border-right: 1px solid #d0d0d0;padding: 0;">金额(元)</th>
+			            <th width="32%">明细</th>
+			        </tr>
+			    </thead>
+			    <tbody>
+			        <c:forEach var = "item" items = "${list}">
+			        <tr>
+			            <td>[<fmt:formatDate value="${item.completeDate}" pattern="yyyy-MM-dd HH:mm:ss"/>]</td>
+			            <td>${item.jySjMoney}</td>
+			            <c:if test = "${item.jyState == '2'}">
+			                <c:set value="${ fn:split(item.content, ';') }" var="names" />
+			                <c:forEach items="${ names }" var="name">
+			                    <td>${name}</td>
+			                </c:forEach>    
+			            </c:if>
+			        </tr>
+			        </c:forEach>
+			        <c:if test="${list== null || fn:length(list) == 0}">
+						<tr>
+							<td colspan="3">没有资料</td>
+						</tr> 
+				    </c:if>	
+			    </tbody>
+			</table>
+		    
+		    <div class="right-pagination" style="text-align:center;padding-top:15px;">
+				<%@ include file="../../pagination.jsp"%>
+		    </div>			
 		</div>
 	</div>
-	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/front/customer/FinanceController-accountInfo">
-	<input type="hidden" id="page" name="page" value="${param.page}">
-</form>
-	<div class = "row2">交易记录</div>
-
-	<div style="border-bottom:solid 1px #d0d0d0;padding:6px;font-size:14px;margin-top:16px;height:16px;">
-		<div style="width:30%;text-align:center;float:left; font-weight:600;">时间</div>
-		<div style="width:30%;text-align:center;float:left; font-weight:600;">金额</div>
-		<div style="width:35%;padding-left: 5%;float:left; font-weight:600;">产品详情</div>
-	</div>
-
-	
-	<c:forEach var = "item" items = "${list}">
-		<div style="height:108px; font-size:14px;">
-			<div style="border-bottom:solid 1px #d0d0d0;width:30%;height:100px;float:left;">
-				<div style="text-align:center;padding-top:20px;">[<fmt:formatDate value="${item.completeDate}" pattern="yyyy-MM-dd HH:mm:ss"/>]</div>
-			</div>
-			<div style="border-bottom:solid 1px #d0d0d0;width:30%;height:100px;float:left;">
-				<div style="text-align:center;padding-top:20px;">${item.jySjMoney}元</div>
-			</div>
-			<div style="border-bottom:solid 1px #d0d0d0;padding-left:5%;width:35%;height:100px;float:left;">
-				<c:if test = "${item.jyState == '2'}">
-					<c:set value="${ fn:split(item.content, ';') }" var="names" />
-					<c:forEach items="${ names }" var="name">
-						<div style="padding-top:10px;">${name}</div>
-					</c:forEach>	
-				</c:if>
-				
-			</div>
-		</div>
-	</c:forEach>
-    <c:if test="${list== null || fn:length(list) == 0}">
-		  <div style = "margin-top:10px; margin-left:20px; float:left;">没有资料</div>	 
-    </c:if>	
-    
-    <div class="right-pagination">
-		<%@ include file="../../pagination.jsp"%>
-    </div>			
 </div>
 
 <script type = "text/javascript">

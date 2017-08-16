@@ -2,12 +2,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 
 <div class="container1">
-	<div class="container2">
+	<div style="margin:40px 0 0 210px;">
 
 	
 <div id = "content-rect" style="width:90%">
-	<div style="border:solid 1px #d0d0d0;font-size:18px;font-weight:bold;color:#0557ab;line-height:36px;text-align:left;">&nbsp;&nbsp;订单列表</div>
-
+	<h4 class="ui header">订单列表</h4>
+    <div class="ui divider"></div>
 	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/sender/logisticsOrderList">
 		<input type="hidden" id="page" name="page" value="${param.page}">
 		<input type="hidden" id="vehicleState" name="state" value="${param.state}">
