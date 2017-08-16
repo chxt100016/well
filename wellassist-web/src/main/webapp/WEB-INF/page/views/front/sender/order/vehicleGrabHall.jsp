@@ -24,13 +24,15 @@
 </head>
 
 <body>
-    <div class="ui container segment" id="app1" style="width:990px;left:80px;position:relative">
+<div class="container1">
+    <div style="margin:40px 0 0 210px;">
+    <div class="ui container" id="app1" style="width:90%;">
 
         <form id="searchFrm" method="post" action="${pageContext.request.contextPath}/sender/vehicleGrabHall">
             <input type="hidden" id="page" name="page" value="${param.page}">
         </form>
 
-        <h3 class="ui header">抢单大厅</h3>
+        <h4 class="ui header">抢单大厅</h4>
         <div class="ui divider"></div>
 
         <div class="ui four cards">

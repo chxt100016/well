@@ -2,17 +2,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
  
 <div class="container1">
-	<div class="container2">
+	<div style="margin:40px 0 0 210px;">
 
 
-<div id = "content-rect" >
+<div id = "content-rect" style="width:90%;" >
 	<!-- <div style="border:solid 1px #d0d0d0;font-size:18px;font-weight:bold;color:#0557ab;line-height:36px;text-align:left;">&nbsp;&nbsp;抢单列表</div> -->
 
 	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/sender/logisticsGrabList">
 		<input type="hidden" id="page" name="page" value="${param.page}">
 		<input type="hidden" id="grabState" name="grabState" value="${param.grabState}">
 		<div class="row-header">
-		     <span class="header-title">抢单列表</span>
+		     <h4 class="ui header">订单列表</h4>
+    		<div class="ui divider"></div>
 		     <div class="ui input"style="float:right;">
 
 		     	<input type="text" name="orderNo" style="height:33px; float:left;margin-bottom:0px;" value="${param.orderNo}" placeholder = "订单编号"/>
