@@ -143,7 +143,7 @@
 
         </table>
         <div class="column">
-            <div class="ui button">确认 </div>
+            <div class="ui button" @click='submitVehicle'>确认 </div>
             <div class="ui button cancel">取消</div>
 
         </div>
@@ -243,6 +243,7 @@
 </script>
 <script>
        const logisticsInfoId= ${info.logisticsId};
+       const url1='${pageContext.request.contextPath}/sender/grabLogisticsSubmit';
        const senderUserId = ${senderUserId};
         const vm = new Vue({
             el: '#app',
@@ -279,8 +280,38 @@
             delVehicle: function(index) {
                 console.log(index);
                 // 删一个数组元素  
-                this.grabVehicles.splice(this.grabVehicles.indexOf(index), 1);
+                this.grabVehicles.splice(index, 1);
             },
+
+            submitVehicle:function(){
+                let grabV= JSON.stringify(this.grabVehicles);
+                if(this.grabMoney!=''||this.grabMoney!=null){
+                  
+                $.ajax({
+                    type:'post', 
+                    url:url1,
+                    data:{
+                        'grabVehicles':grabV,
+                        'logisticsInfoId':this.logisticsInfoId,
+                        'senderUserId':this.senderUserId,
+                        'grabMoney':this.grabMoney
+                    },
+                    dataType:'json',
+                    success:function(result){
+                            if(result == 0){
+                                alert('成功了')
+                            }
+                            else{
+                                alert(result.msg) 
+                            }
+                          }
+
+                     })
+                }
+                else{
+                    alert("你是不是忘记输入抢单价格了")
+                }
+            }
 
 
         }
