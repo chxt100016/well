@@ -165,6 +165,13 @@
                             <input type="text" placeholder="联系人电话" name="conTel" id="conTel" maxlength="11" class="number isPhone">
                         </div>
                     </div>
+                    <div class="three fields">
+                        <div class="inline field">
+                            <label>期望运费</label>
+                            <input type="text" name="customerExceptCarriage" placeholder="需要物流时请填写" id="" >
+                        </div>
+                        <
+                    </div>
                 </div>
 
                 <div class="column pd-tp-20">
