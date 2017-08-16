@@ -91,4 +91,10 @@
         #{userId,mode=IN,jdbcType=VARCHAR})
         ;]]>
     </select>
+
+    <select id="singlePoByPrimaryKey" parameterType="long" resultType="map">
+        SELECT *
+        from wa_withdraw
+        WHERE withdraw_id=#{withdrawId}
+    </select>
 </mapper>

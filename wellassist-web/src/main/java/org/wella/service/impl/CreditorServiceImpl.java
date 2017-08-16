@@ -59,9 +59,6 @@ public class CreditorServiceImpl implements CreditorService{
     @Autowired
     private MessageService messageServicesk;
 
-
-
-
     /**
      * 得到已认证的放款方list
      * @return

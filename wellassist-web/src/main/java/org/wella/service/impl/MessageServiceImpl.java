@@ -12,6 +12,7 @@ import org.wella.service.MessageService;
 import org.wella.utils.DateUtils;
 import org.wella.utils.MailUtil;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,12 @@ public class MessageServiceImpl implements MessageService{
 
     @Autowired
     private WaUserDao waUserDao;
+
+    @Autowired
+    private BankOrderDao bankOrderDao;
+
+    @Autowired
+    private WithdrawDAO withdrawDAO;
 
     @Override
     public List<Message> getMessageList(Map<String, Object> map) {
@@ -293,5 +300,39 @@ public class MessageServiceImpl implements MessageService{
         StringBuilder content=new StringBuilder();
         content.append(user.get("user_name")).append(" 您好，你的个人信息已被管理员修改,请您及时校验。");
         return createSystemMessage(userId,"个人信息",content.toString());
+    }
+
+    @Override
+    public int handleRechargeApplyMessage(Long userId, BigDecimal rechargeMoney) {
+        StringBuilder content=new StringBuilder();
+        content.append("金额充值 ").append(rechargeMoney).append(" 元正在处理中。");
+        return createFinanceMessage(userId,"资金充值",content.toString());
+    }
+
+    @Override
+    public int handleRechargeHandleMessage(long bankOrderId) {
+        Map<String,Object> bankOrder=bankOrderDao.singlePoByPrimaryKey(bankOrderId);
+        StringBuilder content=new StringBuilder();
+        content.append("金额充值 ").append(bankOrder.get("zf_money")).append(" 元已到账。");
+        return createFinanceMessage((long)(bankOrder.get("user_id")),"资金充值",content.toString());
+    }
+
+    @Override
+    public int handleWithdrawHandleMessage(long withdrawId, int withdrawState) {
+        Map<String,Object> withdraw=withdrawDAO.singlePoByPrimaryKey(withdrawId);
+        StringBuilder content=new StringBuilder();
+        if (withdrawState==2){
+            content.append("金额提现 ").append(withdraw.get("withdraw_money")).append(" 元已到账。");
+        }else if (withdrawState==-2){
+            content.append("金额提现 ").append(withdraw.get("withdraw_money")).append(" 已被拒绝，如有疑问请联系管理员");
+        }
+        return createFinanceMessage((long)withdraw.get("user_id"),"资金提现",content.toString());
+    }
+
+    @Override
+    public int handleWithdrawApplyMessage(Long userId, BigDecimal withdrawMoney) {
+        StringBuilder content=new StringBuilder();
+        content.append("金额提现 ").append(withdrawMoney).append(" 元正在处理中。");
+        return createFinanceMessage(userId,"资金提现",content.toString());
     }
 }

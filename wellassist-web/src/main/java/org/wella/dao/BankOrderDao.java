@@ -1,5 +1,6 @@
 package org.wella.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import org.wella.entity.Bankcard;
 
@@ -15,4 +16,6 @@ public interface BankOrderDao {
     List<Map<String,Object>> listPoByConditions(Map params);
 
     int listPoByConditionsCount(Map params);
+
+    Map<String,Object> singlePoByPrimaryKey(@Param("bankOrderId") long bankOrderId);
 }

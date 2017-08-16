@@ -12,6 +12,7 @@ import org.wella.dao.LogisticsTransDao;
 import org.wella.dao.OrderTransDao;
 import org.wella.dao.TradeDAO;
 import org.wella.platform.service.TradeService;
+import org.wella.service.MessageService;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +38,9 @@ public class TradeController extends BaseController {
 
     @Autowired
     private LogisticsTransDao logisticsTransDao;
+
+    @Autowired
+    private MessageService messageServicesk;
 
     @RequestMapping("tradeList")
     @ResponseBody
@@ -161,8 +165,10 @@ public class TradeController extends BaseController {
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         parmas.put("orderIp", IPUtils.getIpAddr(request));
         parmas.put("userId",userId);
+        long orderId=Long.parseLong(parmas.get("orderId").toString());
         try {
             tradeDAO.rechargeHandle(parmas);
+            messageServicesk.handleRechargeHandleMessage(orderId);
             return R.ok().put("state",1).put("content",ConstantUtil.MSG_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
@@ -188,6 +194,9 @@ public class TradeController extends BaseController {
         param.put("userId",ShiroUtils.getUserId());
         param.put("withdrawIp",IPUtils.getIpAddr(HttpContextUtils.getHttpServletRequest()));
         int res = tradeDAO.withdrawHandle(param);
+        long withdrawId=Long.parseLong(param.get("withdrawId").toString());
+        int withdrawState=Integer.parseInt(param.get("withdrawState").toString());
+        messageServicesk.handleWithdrawHandleMessage(withdrawId,withdrawState);
         if(res==1){
             return R.ok().put("state",1);
         }else {

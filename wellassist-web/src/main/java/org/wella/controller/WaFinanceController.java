@@ -16,8 +16,10 @@ import org.wella.dao.WithdrawDAO;
 import org.wella.entity.User;
 import org.wella.front.mapper.FrontUserMoneyMapper;
 import org.wella.service.FinanceService;
+import org.wella.service.MessageService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,14 +39,11 @@ public class WaFinanceController {
     @Autowired
     private WithdrawDAO  withdrawDAO;
 
-
-
-
-
+    @Autowired
+    private MessageService messageServicesk;
 
     @Autowired
     private FinanceService financeServiceImpl;
-
 
     @Autowired
     private TradeDAO tradeDao;
@@ -55,8 +54,10 @@ public class WaFinanceController {
         User user = (User) HttpContextUtils.getAttribute("user");
         params.put("userId", user.getUserId());
         params.put("withdrawIp", IPUtils.getIpAddr(HttpContextUtils.getHttpServletRequest()));
+        BigDecimal withdrawMoney=new BigDecimal((String)params.get("withdrawMoney"));
         try {
             int result = withdrawDAO.withdrawApply(params);
+            messageServicesk.handleWithdrawApplyMessage(user.getUserId(),withdrawMoney);
             return R.ok().put("state", 1).put("content", "请求已经受理");
         } catch (Exception e) {
             e.printStackTrace();
