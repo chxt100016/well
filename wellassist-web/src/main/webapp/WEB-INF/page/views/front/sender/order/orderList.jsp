@@ -90,7 +90,7 @@
 						<span class="span_btn" onClick="toURL('jiesuan', '${item.vehicleTrans}')">结算</span>
 					</c:if>	--%>
 				
-						<span class="span_btn" >修改</span>
+						<span class="span_btn" onclick="window.location.href='${pageContext.request.contextPath}/sender/detail';">修改</span>
 				</div>
 			</div>
 			
