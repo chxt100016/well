@@ -263,7 +263,7 @@
         methods: {
             createVehicle: function() {
                if( $('.drivers').form('is valid') ){
-                   console.log(this.Vehicles);
+                   console.log(this.grabVehicles);
                   this.grabVehicles.push(this.newVehicle);
                         // 添加完newPerson对象后，重置newPerson对象  
                     this.newVehicle = {
@@ -284,21 +284,23 @@
             },
 
             submitVehicle:function(){
-                let grabV= JSON.stringify(this.grabVehicles);
+                var grabV= JSON.stringify(this.grabVehicles);
+                console.log(this.logisticsInfoId);
                 if(this.grabMoney!=''||this.grabMoney!=null){
                   
                 $.ajax({
-                    type:'post', 
+                    type:'get', 
                     url:url1,
                     data:{
-                        'grabVehicles':grabV,
-                        'logisticsInfoId':this.logisticsInfoId,
-                        'senderUserId':this.senderUserId,
-                        'grabMoney':this.grabMoney
+                        grabVehicles:grabV,
+                        logisticsInfoId:this.logisticsInfoId,
+                        senderUserId:this.senderUserId,
+                        grabMoney:this.grabMoney
                     },
                     dataType:'json',
+                    // contentType:'application/json',
                     success:function(result){
-                            if(result == 0){
+                            if(result.code == 0){
                                 alert('成功了')
                             }
                             else{
