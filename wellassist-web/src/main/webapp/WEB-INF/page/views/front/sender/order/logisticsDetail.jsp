@@ -163,8 +163,8 @@
     </div>
 </body>
 <script>
-    // const orderId= ${info.orderId};
-    // const url1='${pageContext.request.contextPath}/userinfo/operationDriver';
+     const orderId= ${info.orderId};
+     const url1='${pageContext.request.contextPath}/userinfo/operationDriver';
   $(function(){
 
   
@@ -256,7 +256,7 @@
 </script>
 <script>
       //  const logisticsInfoId= ${info.logisticsId};
-       const url1='${pageContext.request.contextPath}/sender/grabLogisticsSubmit';
+       <%--const url1='${pageContext.request.contextPath}/sender/grabLogisticsSubmit';--%>
       //  const senderUserId = ${senderUserId};
         const vm = new Vue({
             el: '#app',
@@ -303,6 +303,23 @@
 
                 }
                 },
+
+            beforeCreate:function (){
+                var logisticsInfoId=${info.logisticsId};
+                var param = {logisticsId:logisticsInfoId};
+                //var url="${pageContext.request.contextPath}/sender/selectDriver";
+                var url="../../selectDriver"
+                $.get(url,param,function(result){
+                    if(result.code==0){
+                        this.grabVehicles=result.list;
+                        console.log(grabVehicles);
+                    }
+
+                })
+            },
+
+
+
             delVehicle: function(index) {
                 console.log(index);
                 // 删一个数组元素  

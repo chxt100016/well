@@ -16,10 +16,7 @@ import org.wella.service.WaOrderService;
 import org.wella.utils.DateUtils;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Administrator on 2017/7/21.
@@ -153,8 +150,7 @@ public class UserinfoServiceImpl implements UserinfoService{
         Integer result;
         switch (userType) {
             case 3:
-                Map param = vehicleGrabDao.select
-                VgdId(map);
+                Map param = vehicleGrabDao.selectVgdId(map);
                 if(map.get("deliverDate")!=null||map.get("receiveDate")!=null){
                      param.put("deliverDate",map.get("deliverDate"));
                      param.put("receiveDate",map.get("receiveDate"));
@@ -163,15 +159,21 @@ public class UserinfoServiceImpl implements UserinfoService{
                          return 0;
                      }
                 }
-                VehicleGrabInfo vehicleGrabInfo = new VehicleGrabInfo();
-                vehicleGrabInfo.setVehicleGrabId((Long) param.get("vehicleGrabId"));
-                vehicleGrabInfo.setDriverName((String) map.get("driverName"));
-                vehicleGrabInfo.setDriverPhone((String) map.get("driverPhone"));
-                vehicleGrabInfo.setVehicleHangingNo((String) map.get("vehicleHangingNo"));
-                vehicleGrabInfo.setVehicleNo((String) map.get("vehicleNo"));
-                String  size= (String) map.get("vehicleSize");
-                vehicleGrabInfo.setVehicleSize(Double.parseDouble(size));
-                result = vehicleGrabInfoDao.createVehicleGrabInfo(vehicleGrabInfo);
+                List<Map<String,String>> driverList= (List<Map<String, String>>) map.get("list");
+                List<VehicleGrabInfo> list=new ArrayList<VehicleGrabInfo>();
+                for(Map<String,String> map1:driverList){
+                    VehicleGrabInfo vehicleGrabInfo = new VehicleGrabInfo();
+                    vehicleGrabInfo.setVehicleGrabId((Long) param.get("vehicleGrabId"));
+                    vehicleGrabInfo.setDriverName((String) map.get("driverName"));
+                    vehicleGrabInfo.setDriverPhone((String) map.get("driverPhone"));
+                    vehicleGrabInfo.setVehicleHangingNo((String) map.get("vehicleHangingNo"));
+                    vehicleGrabInfo.setVehicleNo((String) map.get("vehicleNo"));
+                    String  size= (String) map.get("vehicleSize");
+                    vehicleGrabInfo.setVehicleSize(Double.parseDouble(size));
+                    list.add(vehicleGrabInfo);
+                }
+                //result = vehicleGrabInfoDao.createVehicleGrabInfo(vehicleGrabInfo);
+                result=vehicleGrabInfoDao.insertVehicleGrabInfo(list);
                 return result;
             case 1:
                 VehicleInfo vehicleInfo = new VehicleInfo();

@@ -52,7 +52,9 @@ public class SenderServiceImpl implements SenderService {
         Map<String, Object> res=logisticsInfoDao.singleLogisticsInfoByPrimaryKey(logisticsId);
         Map<String,Object> userInfo=logisticsInfoDao.selectUserInfo(logisticsId);
         ConvertUtil.convertDataBaseMapToJavaMap(res);
-        res.putAll(userInfo);
+        if(userInfo!=null){
+            res.putAll(userInfo);
+        }
         return res;
     }
 
@@ -205,8 +207,8 @@ public class SenderServiceImpl implements SenderService {
 
 
     @Override
-    public List<Map<String, Object>> selectDriver(String logisticsId) {
-        List<Map<String,Object>> list=vehicleGrabInfoDao.selectDriver(Long.parseLong(logisticsId));
+    public List<Map<String, Object>> selectDriver(Long logisticsId) {
+        List<Map<String,Object>> list=vehicleGrabInfoDao.selectDriver(logisticsId);
         ConvertUtil.convertDataBaseMapToJavaMap(list);
         return list;
     }
