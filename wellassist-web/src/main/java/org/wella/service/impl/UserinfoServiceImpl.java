@@ -148,8 +148,11 @@ public class UserinfoServiceImpl implements UserinfoService{
     @Override
     public Integer  operationDriver(Byte userType,Map map) {
 
+
+
         Integer result;
-        /*switch (userType) {
+        switch (userType) {
+
             case 3:
                 Map param = vehicleGrabDao.selectVgdId(map);
                 if(map.get("deliverDate")!=null||map.get("receiveDate")!=null){
@@ -190,8 +193,8 @@ public class UserinfoServiceImpl implements UserinfoService{
                 return result;
             default:
                 return 0;
-        }*/
-        return 0;
+        }
+
     }
 
 

@@ -22,89 +22,90 @@
 		</div>
 	</form>
 	
-	<div style="border:solid 1px #d0d0d0;padding:6px;font-size:24px;margin-top:16px;    height: 36px;">
-		<div style="width:40%;text-align:center;font-size:16px;float:left;">运输产品</div>
-		<div style="width:20%;text-align:center;font-size:16px;float:left;">运输</div>
-		<div style="width:20%;text-align:center;font-size:16px;float:left;">
-			状态
-			<!-- <span class="dropdown">
-				<a data-toggle="dropdown" class="dropdown" style="color: #444444;">状态&nbsp;<b class="icon-angle-down"></b></a>
-				<div class="dropdown-menu">
-					<div onclick="$('#grabState').val('');searchData(1);">全部</div>
-					<div onclick="$('#grabState').val('-1');searchData(1);">取消</div>
-					<div onclick="$('#grabState').val('0');searchData(1);">未确定</div>
-					<div onclick="$('#grabState').val('1');searchData(1);">确定</div>
-				</div> -->
-			</span>
-		</div>
-		<div style="width:20%;text-align:center;font-size:16px;float:left;">操作</div>
-	</div>
-	<c:forEach var = "item" items = "${list}">
-		<div style="border:solid 1px #d0d0d0;font-size:24px;margin-top:16px; overflow:auto;">
-			<c:forEach var = "item0" items = "${item}" begin = "0" end = "0">
-				<div style="height:60px;background:#e0e0e0;font-size:16px;">
-					<div style = "margin-left:10px;line-height:56px; float:left;">
-						<c:if test = "${item0.companyImg == '' or empty item0.companyImg}">
-							<a class="fancybox" href="${pageContext.request.contextPath}/resources/common/images/icon_user_def.jpg" data-fancybox-group="gallery" title=""><img src="${pageContext.request.contextPath}/resources/common/images/icon_user_def.jpg"  style="width:50px; height:50px;" /></a>
-						</c:if>
-						<c:if test = "${item0.companyImg != '' and not empty item0.companyImg}">
-							<a class="fancybox" href="${item0.companyImg}" data-fancybox-group="gallery" title=""><img src="${item0.companyImg}"  style="width:50px; height:50px;" onerror = "noExitImg(this, '${pageContext.request.contextPath}');"/></a>
-						</c:if>
-					</div>
-					<div style = "margin-left:10px;line-height:56px; color: #807B7B;float:left; font-size:10px;">
-						公司名称:${item0.userName}
-					</div>
-					<div style = "margin-left:10px;line-height:56px; color: #807B7B; float:left; font-size:10px;">
-						联系人:${item0.companyLxr}
-					</div>
-					<div style = "margin-left:10px;line-height:56px; color: #807B7B; float:left; font-size:10px;">
-						联系电话:${item0.companyLxrPhone}
-					</div>
-				</div>
+	<ul class="ds-bl pd-10 ft-sz-15">
+            <li class="ds-bl fl-lt pd-10  ulSelected">全部订单</li>
+            <li class="ds-bl fl-lt pd-10">已选择</li>
+            <li class="ds-bl fl-lt pd-10">未选择</li>
+            <li class="ds-bl fl-lt pd-10">已取消</li>
+        </ul>
+        <br>
+        <table class="ui basic table">
+            <thead>
+                <tr class="grey-4">
+                    <th width="30%">产品详情</th>
+                    <th>卖家</th>
+                    <th>买家</th>
+                    <th>报价（元）</th>
+                    <th>
+							<div class="ui dropdown">
+									<div class="text">状态</div>
+									<i class="dropdown icon"></i>
+									<div class="menu">
+											<div class="item" onclick="$('#grabState').val('');searchData(1);">全部</div>
+											<div class="item" onclick="$('#grabState').val('-1');searchData(1);">取消</div>
+											<div class="item" onclick="$('#grabState').val('0');searchData(1);">未确定</div>
+											<div class="item" onclick="$('#grabState').val('1');searchData(1);">确定</div>
+									</div>
+							</div>
+					</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+					<c:forEach var="item" items="${list}">
+                <tr class="blue-3">
+                    <td colspan="5"><span>${item.orderDate}</span><span>订单号：${item.orderNo}</span></td>
+                    <td> <a href="" ><i class="trash icon"></i></a></td>
+                </tr>
+                <tr>
+                    <td class="right-border">
+                        <img src="${item.prodImg}" alt="" width="100px" height="74px" class="ds-bl fl-lt">
+                        <span class="ds-bl fl-lt pd-lf-20 ft-wt-bd " style="padding-top: 25px;width: 190px;"> ${item.prodName}</span>
+                        <br>
+                        <span class="ds-bl fl-lt  pd-lf-20">32,80元/吨</span>
+                    </td>
+                    <td class="right-border tx-ct" >...</td>
+                    <td class="right-border tx-ct" ><span>${item.num}吨</span>
+                    </td>
+                    <td class="right-border tx-ct" >
+                        <span class="ds-bl fl-lt pd-lf-20 ft-wt-bd " style=""> ${item.orderPrice}元</span>
+                        
+                    </td>
+                    <td class="right-border tx-ct" >
+                         <span class="ds-bl fl-lt pd-lf-20 ft-wt-bd " style=""> 
+								<c:if test="${item.state==0}">无效</c:if>
+								<c:if test="${item.state==2}">待支付</c:if>
+								<c:if test="${item.state==3}">待提货</c:if>
+								<c:if test="${item.state==4}">配送中</c:if>
+								<c:if test="${item.state==5}">已完成</c:if>
+						</span>
+						<c:if test="${item.state=='4' || item.state=='5'}">
+							<br>
+							<span class=" ds-bl fl-lt pd-lf-20">
+									<a style="cursor:pointer;color:black;" onclick="toURL('detailVehicle', '${item.orderId}')">物流信息</a>
+							</span>
+                        </c:if>
+                        
+                    </td>
+                    <td>
+                        	<span class="span_btn pointer" onclick="window.location.href='${pageContext.request.contextPath}/sender/detail';">修改</span>
+                    </td>
+                  
+				</tr>
 			</c:forEach>
-			<c:forEach var = "item2"  items = "${item}"> 
-				<div style = "border-bottom: solid 1px#E0E0E0; overflow:auto;">
-					<div class="graybox" style="width:40%;height:110px;font-size:14px;float:left; border:none; border-right: solid 1px #d0d0d0;">
-						<div style = "margin-left:10px;line-height:106px; float:left;">
-							<a class="fancybox" href="${item2.prodImg}" data-fancybox-group="gallery" title=""><img src="${item2.prodImg}"  style="width:80px; height:80px;" /></a>
+			
+			</tbody>
+			<tfoot>
+				<tr>
+					<td></td>
+					<td></td>
+					<td>
+					<div class="right-pagination">
+							<%@ include file="../../pagination.jsp"%>
 						</div>
-						<div style = "margin-left:10px;line-height:106px; float:left;">
-							${item2.prodName}
-						</div>
-						<div style = "margin-right:10px;line-height:106px; float:right;color:#A1A2A9;">
-							${item2.num}吨
-						</div>	
-					</div>
-					
-					<div class="grayboxwithoutleft" style="width:20%;line-height:106px;height:110px;font-size:14px;float:left;border:none; border-right: solid 1px #d0d0d0;">
-						${item2.grabMoney}元
-					</div>
-					<div class="grayboxwithoutleft" style="width:20%;line-height:106px;height:110px;font-size:14px;float:left;border:none; border-right: solid 1px #d0d0d0;">
-						<c:if test = "${item2.grabState == '-1'}">
-							失败
-						</c:if>
-						<c:if test = "${item2.grabState == '0'}">
-							未选择
-						</c:if>		
-						<c:if test = "${item2.grabState == '1'}">
-							已中标
-						</c:if>		
-					</div>
-					<div class="grayboxwithoutleft" style="height:110px;font-size:16px; float:right; border:none;text-align:center; width:19%; ">
-						<c:if test = "${item2.grabState == '0'}">
-							<%--<span class="span_btn" onClick = "toURL('qdPage', '${item2.grabId}')">详情</span>--%>
-							<span class="span_btn" onClick = "toURL('cancelGrab','${item2.grabId}')">取消</span>
-						</c:if>
-						<c:if test = "${item2.grabState == '-1'}">
-							<%--<span class="span_btn_gray" onClick = "toURL('zaiqiangdan', '${item2.grabId}')">再抢单</span>--%>
-							<span class="span_btn" onClick = "toURL('reGrab','${item2.logisticsInfoId}',this)">再抢单</span>
-						</c:if>
-						<c:if test = "${item2.grabState == '1'}"><%--暂无操作--%></c:if>
-					</div>
-				</div>
-			</c:forEach>
-		</div>
-	</c:forEach>
+					</td>
+			</tfoot>
+        </table>
 	<c:if test="${list== null || fn:length(list) == 0}">
 		     	<div style = "margin-top:10px; margin-left:20px; float:left;">没有资料</div>	 
     </c:if>	

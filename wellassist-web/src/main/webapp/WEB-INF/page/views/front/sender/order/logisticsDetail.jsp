@@ -163,8 +163,9 @@
     </div>
 </body>
 <script>
-     const orderId= ${info.orderId};
+     const orderId= '${info.orderId}';
      const url1='${pageContext.request.contextPath}/userinfo/operationDriver';
+     var logisticsInfoId=${info.logisticsId};
   $(function(){
 
   
@@ -255,7 +256,7 @@
 
 </script>
 <script>
-      //  const logisticsInfoId= ${info.logisticsId};
+       const logisticsId= ${info.logisticsId};
        <%--const url1='${pageContext.request.contextPath}/sender/grabLogisticsSubmit';--%>
       //  const senderUserId = ${senderUserId};
         const vm = new Vue({
@@ -305,8 +306,7 @@
                 },
 
             beforeCreate:function (){
-                var logisticsInfoId=${info.logisticsId};
-                var param = {logisticsId:logisticsInfoId};
+                var param = {"logisticsId":logisticsId};
                 //var url="${pageContext.request.contextPath}/sender/selectDriver";
                 var url="../../selectDriver"
                 $.get(url,param,function(result){
