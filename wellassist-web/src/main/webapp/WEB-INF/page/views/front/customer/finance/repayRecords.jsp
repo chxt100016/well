@@ -40,7 +40,7 @@
             <div class="ui divider"></div>
             <c:if test="${not empty loans}">
                 <c:forEach items="${loans}" var="loan">
-            <div class="ui">
+            <div class="ui segment">
                 <br>
                  <h4 class="ui horizontal divider header"><i class="bar chart icon"></i> 借款信息 </h4>
                 <div class="ui equal width grid">
@@ -88,6 +88,7 @@
                         <td>${repay.repayInterestMoney}元</td>
                         <td>${loan.lixiRate}‱</td>
                     </tr>
+                    
                     </c:forEach>
 
                 </tbody>
@@ -95,7 +96,9 @@
             </table>
                 </c:if>
                 <c:if test="${empty loan.repays}">无还款记录...</c:if>
+                <br>
             </div>
+            
                 </c:forEach>
             </c:if>
             <div class="ui grid">

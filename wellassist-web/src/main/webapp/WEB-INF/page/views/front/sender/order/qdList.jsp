@@ -1,8 +1,13 @@
 <%@ include file="../header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
- 
+ <style>
+ .ulSelected{
+            color: #617B90;
+            border-bottom: 2px solid #617B90;
+        }
+ </style>
 <div class="container1">
-	<div style="margin:40px 0 0 210px;">
+	<div class="container2">
 
 
 <div id = "content-rect" style="width:90%;" >
@@ -12,7 +17,7 @@
 		<input type="hidden" id="page" name="page" value="${param.page}">
 		<input type="hidden" id="grabState" name="grabState" value="${param.grabState}">
 		<div class="row-header">
-		     <h4 class="ui header">订单列表</h4>
+		     <h4 class="ui header">抢单列表</h4>
     		<div class="ui divider"></div>
 		     <div class="ui input"style="float:right;">
 
@@ -54,7 +59,7 @@
             <tbody>
 					<c:forEach var="item" items="${list}">
                 <tr class="blue-3">
-                    <td colspan="5"><span>${item.orderDate}</span><span>订单号：${item.orderNo}</span></td>
+                    <td colspan="5"><span></span>${item.grapDate} <span>订单号：${item.orderNo}</span></td>
                     <td> <a href="" ><i class="trash icon"></i></a></td>
                 </tr>
                 <tr>
@@ -62,33 +67,39 @@
                         <img src="${item.prodImg}" alt="" width="100px" height="74px" class="ds-bl fl-lt">
                         <span class="ds-bl fl-lt pd-lf-20 ft-wt-bd " style="padding-top: 25px;width: 190px;"> ${item.prodName}</span>
                         <br>
-                        <span class="ds-bl fl-lt  pd-lf-20">32,80元/吨</span>
+                        <span class="ds-bl fl-lt  pd-lf-20">${item.num}吨</span>
+                        
                     </td>
-                    <td class="right-border tx-ct" >...</td>
-                    <td class="right-border tx-ct" ><span>${item.num}吨</span>
+                    <td class="right-border tx-ct" >${item.sellerUserName}</td>
+                    <td class="right-border tx-ct" >${item.userName}
                     </td>
                     <td class="right-border tx-ct" >
-                        <span class="ds-bl fl-lt pd-lf-20 ft-wt-bd " style=""> ${item.orderPrice}元</span>
+                        <span class="ds-bl fl-lt pd-lf-20 ft-wt-bd " style="">${item.grabMoney} 元</span>
                         
                     </td>
                     <td class="right-border tx-ct" >
                          <span class="ds-bl fl-lt pd-lf-20 ft-wt-bd " style=""> 
-								<c:if test="${item.state==0}">无效</c:if>
-								<c:if test="${item.state==2}">待支付</c:if>
-								<c:if test="${item.state==3}">待提货</c:if>
-								<c:if test="${item.state==4}">配送中</c:if>
-								<c:if test="${item.state==5}">已完成</c:if>
+								<c:if test = "${item.grabState == '-1'}">
+										失败
+									</c:if>
+									<c:if test = "${item.grabState == '0'}">
+										未选择
+									</c:if>		
+									<c:if test = "${item.grabState == '1'}">
+										已中标
+									</c:if>		
 						</span>
-						<c:if test="${item.state=='4' || item.state=='5'}">
-							<br>
-							<span class=" ds-bl fl-lt pd-lf-20">
-									<a style="cursor:pointer;color:black;" onclick="toURL('detailVehicle', '${item.orderId}')">物流信息</a>
-							</span>
-                        </c:if>
                         
                     </td>
                     <td>
-                        	<span class="span_btn pointer" onclick="window.location.href='${pageContext.request.contextPath}/sender/detail';">修改</span>
+                        	<span class="span_btn pointer" >
+									<c:if test = "${item.grabState == '0'}">
+											<span class="span_btn" onClick = "toURL('cancelGrab','${item.grabId}')">取消</span>
+									</c:if>
+									<c:if test = "${item.grabState == '-1'}">
+											<span class="span_btn" onClick = "toURL('reGrab','${item.logisticsInfoId}',this)">再抢单</span>
+									</c:if>
+							</span>
                     </td>
                   
 				</tr>
@@ -109,9 +120,7 @@
 	<c:if test="${list== null || fn:length(list) == 0}">
 		     	<div style = "margin-top:10px; margin-left:20px; float:left;">没有资料</div>	 
     </c:if>	
-	<div class="right-pagination">
-		<%@ include file="../../pagination.jsp"%>
-    </div>
+	
 </div>
 	</div>
 </div>

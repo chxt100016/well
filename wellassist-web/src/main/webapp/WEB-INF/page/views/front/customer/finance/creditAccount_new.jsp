@@ -126,17 +126,25 @@
                              <td><fmt:formatNumber value="${loan.remainRepayMoney+loan.remainLixiMoney}" pattern="#,###.##" type="number"/></td>
                              <td class="center aligned">
                                  <button class="ui positive button" onclick="toURL('goRepayLoan',${loan.loanId})">还款</button>
+                                 <button class="ui secondary basic button">明细</button>   
                              </td>
                         </tr>
                         </c:forEach>
                     </c:if>
                     <c:if test="${empty loans}">无欠款...</c:if>
+                    <tfoot>
+                        <tr>
+                             <td colspan="4">
+                                    <div class="right-pagination">
+                                     <%@ include file="../../pagination.jsp"%>
+                                     </div>
+                             </td>
+                        </tr>
+                    </tfoot>
                     </tbody>
 
                 </table>
-                <div class="right-pagination">
-                    <%@ include file="../../pagination.jsp"%>
-                </div>
+                
             </div>
         </div>
     </div>

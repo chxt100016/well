@@ -105,7 +105,7 @@
             </div>
             <div class="two fields">
                 <div class="inline field">
-                    <label>&#8195&#8195容量：</label>
+                    <label>&nbsp;容量(吨)：</label>
                     <input type="text" name="vehicleSize" v-model='newVehicle.vehicleSize'>
                     <input type="hidden" name="orderId" value="${info.orderId}" >
                 </div>
@@ -144,7 +144,7 @@
         </table>
         <div class="column">
             <div class="ui button" @click='submitVehicle'>确认 </div>
-            <div class="ui button cancel">取消</div>
+            <div class="ui button cancel" onclick="javascript:window.history.go(-1);">取消</div>
 
         </div>
 

@@ -236,12 +236,13 @@ public class SendController extends BaseController{
         Map param = this.getConditionParam(request);
         param.put("wlUserId", user.getUserId());
         List list=senderServiceImpl.grabLogisticsList(param);
-        ArrayList list0 = ConvertUtil.groupList(list, "userId");
+        ConvertUtil.convertDataBaseMapToJavaMap(list);
+        /*ArrayList list0 = ConvertUtil.groupList(list, "userId");*/
         int totalCount =senderServiceImpl.grabLogisticsListCount(param);
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "2");
         model.addAttribute("userName", user.getUserName());
-        model.addAttribute("list", list0);
+        model.addAttribute("list", list);
         this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
         return "views/front/sender/order/qdList.jsp";
     }

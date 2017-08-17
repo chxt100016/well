@@ -106,12 +106,13 @@ vertical-align: middle;
             <div class="column" style="margin-top:30px">
                 <div class="extable" width="100%"> 
                     <div>
+                        <c:if test="${empty info.vehicleGrabs}"><span class="ft-sz-16">没有抢单...</span></c:if>
 						<c:forEach var="item" items="${info.vehicleGrabs}">
                         <div  style="width:49%;float:left;" class="tablebox pd-bt-40">
                             <div class="pd-lf-40 pd-tp-40 middleAlign" style="height:140px" >
                                 <img src="${item.companyImg}" alt="" width="100px" height="100px" class="ds-bl fl-lf  ">
                                 <div class="fl-lf pd-bt-15 pd-lf-30  ft-sz-18" style="width:350px" >${item.senderUserName}</div>
-                                <div class="fl-lf pd-bt-15 pd-lf-30  " style="width:350px">浙江省杭州市江干区航海路968号</div>
+                                <div class="fl-lf pd-bt-15 pd-lf-30  " style="width:350px">${item.senderZcAddress}</div>
                                 <div class="fl-lf  pd-lf-30  pd-bt-15 " style="width:350px">报价：${item.grabMoney} 元<span>联系人：${item.companyLxr}</span></div>
                                 
                                 <div class="fl-lf" style="width:350px;margin-top:20px" >
@@ -121,7 +122,11 @@ vertical-align: middle;
                                 </div>
                             </div>
 						</div>
-						</c:forEach>
+                        </c:forEach>
+                        <br>
+                        <div  class="column mg-tp-20">
+                            <div  class="ui button primary" onclick="window.history.go(-1)">返回</div>
+                        </div>
                      
                     </div>
                 </div>

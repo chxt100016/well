@@ -1095,9 +1095,12 @@ public class CustomerController extends BaseController {
       return "views/front/customer/finance/repayRecords.jsp";
    }
 
-
-
-
+   @RequestMapping("loanRepayDetailPage")
+   public String loanRepayDetailPage(Model model){
+      model.addAttribute("parentMenuNo", "6");
+      model.addAttribute("childMenuNo", "3");
+      return "views/front/customer/finance/repayRecords.jsp";
+   }
 
 
 

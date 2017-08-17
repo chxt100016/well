@@ -51,26 +51,29 @@
     float: right;
     margin-top: -25px !important;
         }
+        .redtext{
+       color:#db2828
+        }
     </style>
 </head>
 
 <body>
 <div class="container1">
-    <div style="margin:40px 0 0 210px;">
+    <div class="container2">
         <div id = "content-rect" style="width:90%;">
-    <div class="ui container" id="app1" style="width:100%;">
+ 
         <h3>授信额度申请</h3>
         <div class="ui divider"></div>
         <div class="row">
             <table class="ui celled striped  table">
                 <thead>
-                    <th>当前额度(万元)</th>
+                    <th>当前额度(元)</th>
                     <th>授信状态</th>
                     <th>授信期</th>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><c:if test="${not empty info.sjCredit}"><fmt:formatNumber value="${info.sjCredit.creditSjMoney}" pattern="#,###.##" type="number"/> </c:if>
+                        <td><c:if test="${not empty info.sjCredit}"> <span class="redtext ft-sz-16"><fmt:formatNumber value="${info.sjCredit.creditSjMoney}" pattern="#,###.##" type="number"/></span> </c:if>
                             <c:if test="${empty info.sjCredit}">0</c:if></td>
                         <td><c:if test="${not empty info.sjCredit}"><c:if test="${info.sjCredit.creditState==1}">授信中</c:if><c:if test="${info.sjCredit.creditState==-2}">已过期</c:if></c:if>
                             <c:if test="${empty info.sjCredit}">无</c:if></td>
@@ -86,13 +89,16 @@
                 <div class="ui three column grid">
                     <div class="row">
                         <div class="column field" >
-                            <label for="">期望额度:</label>
-                            <input type="text" name="creditMoney">
+                            <label for="">期望额度:(元)</label>
+                            <input type="text" name="creditMoney"> 
                             
                         </div>
                     </div>
+                </div>
+                <div  class="ui four column grid">
                     <h5>资质提交： （请上传贵公司近三年以下资料）</h5>
-                    <div class="row">
+                    <div class="ui divider"></div>
+                    <div class="">
                         <div  class=" ui cards">
                              <div class="card" style=" margin-left: 24px;">
                                 <div class="content">
@@ -194,13 +200,15 @@
                     </div>
                 </div>
                 <br>
+                <div style="text-align:center;" class="mg-tp-20">
                 <button  class="ui primary button">提交申请</button>
+                </div>
             
             </form>
          </div>
          </div>
     </div>
-</div>
+
     </body>
         <script>
             $(function () {
