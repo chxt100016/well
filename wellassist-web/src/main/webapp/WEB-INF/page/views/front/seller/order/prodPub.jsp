@@ -2,7 +2,7 @@
     <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
     <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/seller/publishpage.css"/>">
-
+<script src="${pageContext.request.contextPath}/statics/libs/ajaxupload.js"></script>
 <div class="container1">
     <div style="margin:40px 0 0 210px;">
         <div id="app" style="width:90%;">
@@ -78,8 +78,9 @@
                                 <img id="prodImgpath" class="yingyeimg" style="width:270PX;height:230px" src="" name="prodImg" />
                             </td>
                             <td>
-                                <input type="hidden" name="prodImg" />
-                                <input type="file" id="prodImg" name="prodImg_src" class="fileManage" />
+                                <input type="hidden" name="prodImg" value="${prod.prodImg}"/><br>
+                                <%--<input type="file" id="prodImg" name="prodImg_src" value="${prod.prodImg_src}" class="fileManage" />--%>
+                                <a class="ui button primary" id="upload2">更换图片</a>
                             </td>
                         </tr>
                         <br>
@@ -118,15 +119,15 @@
         </div>
 
         <script>
-            function clearFileName() {
+            /*function clearFileName() {
                 $("input[type='file']").each(function () {
                     $(this).attr("name", "");
                 });
             }
-            /**
+            /!**
              * 上传图片处理方法
              * @param idx
-             */
+             *!/
             function uploadImage() {
                 var options = {
                     url: "${pageContext.request.contextPath}/uploadFile",
@@ -155,6 +156,27 @@
                 clearFileName();
                 $(this).attr("name", "file");
                 uploadImage();
+            });*/
+            $(document).ready(function () {
+                new AjaxUpload('#upload2', {
+                    action: '${pageContext.request.contextPath}/uploadFile',
+                    name: 'file',
+                    autoSubmit:true,
+                    responseType:"json",
+                    onSubmit:function(file, extension){
+                        if (!(extension && /^(jpg|jpeg|png|gif)$/.test(extension.toLowerCase()))){
+                            alert('只支持jpg、png、gif格式的图片！');
+                            return false;
+                        }
+                    },
+                    onComplete : function(file, data){
+                        if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
+                        $("input[name='prodImg']").val(data.path);
+                        $("#prodImgpath").attr("src", data.path);
+                        $("#prodImgpath").show();
+                        return;
+                    }
+                });
             });
 
             function selRegion(type) {

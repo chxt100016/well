@@ -6,7 +6,7 @@
 <div class="container1">
     <div style="margin:40px 0 0 210px;">
         <div id="app" style="width:90%;">
-            <h4 class="ui header" style="font-size:15px;font-weight:600;">添加产品</h4>
+            <h4 class="ui header" style="font-size:15px;font-weight:600;">编辑产品</h4>
             <div class="ui divider"></div>
             <form id="product-publish" method="post" class="ui form">
                 <table>
@@ -17,37 +17,41 @@
                                 <input type="text" placeholder="请填写您的产品名称" class="" name="prodName" value="${prod.prodName}">
                             </td>
                             <input type="hidden" name="prodId" value="${prod.prodId}">
-                            <td></td>
+                            
                             <td class="form_label"><label for="">货源类型：</label></td>
                             <td>
                                 <select class="form-control" name="prodType">
                                     <option>请选择你的货源分类</option>
-                                    <option value="2">管道气</option>
-                                    <option value="1">原油</option>
-                                    <option value="0">天然气</option>
+                                    <option value="2" <c:if test="${prod.prodType==2}" >selected</c:if>>管道气</option>
+                                    <option value="1" <c:if test="${prod.prodType==1}" >selected</c:if>>原油</option>
+                                    <option value="0" <c:if test="${prod.prodType==0}" >selected</c:if>>天然气</option>
                                 </select>
                             </td>
                             <td></td>
                         </tr>
                         <tr>
                             <td class="form_label"><label for="">供应量：</label></td>
-                            <td><input type="text" placeholder="请填写供应量" class="" name="prodNum" value="${prod.prodNum}"> </td>
-                            <td>&emsp;吨</td>
+                            <td>
+                                <span style="display: table-cell;vertical-align: middle;"><input type="text" placeholder="请填写供应量" class="" name="prodNum" value="${prod.prodNum}"></span>
+                                <span style="display: table-cell;vertical-align: middle;">&emsp;吨</span>
+                            </td>
                             <td class="form_label"><label for="" class="form_label">单价：</label></td>
                             <td><input type="text" placeholder="请填写产品单价" class="" name="prodPrice" value="${prod.prodPrice}"> </td>
                             <td>&emsp;元/吨</td>
                         </tr>
                         <tr>
                             <td class="form_label"><label for="" class="form_label">所在地区：</label></td>
-                            <input type="hidden" name="prodRegionId" id="prodRegionId">
-                            <td colspan="3" style="padding: 5px 0px; padding-left:10px">
-                                <select id="provinceId" name="provinceId" onchange="selRegion(0);" style="width:132px;float:left">
+
+                            <input type="hidden" name="prodRegionId" id="prodRegionId" value="${prod.prodRegionId}">
+                            <td colspan="3">
+                                <select id="provinceId" name="provinceId" onchange="selRegion(0);" style="width:132px;float:left;margin-right:3%;">
+
                                     <option>--请选择省--</option>
                                     <c:forEach items="${provinceList}" var="item" varStatus="status">
                                         <option value="${item.regionId}" <c:if test="${item.regionId==provinceId}" >selected</c:if>>${item.regionName}</option>
                                     </c:forEach>
 						        </select>
-                                <select id="cityId" name="cityId" onchange="selRegion(1);"  style="width:132px;float:left">
+                                <select id="cityId" name="cityId" onchange="selRegion(1);"  style="width:132px;float:left;margin-right:3%;">
                                     <option>--请选择市--</option>
                                     <c:forEach items="${cityList}" var="item" varStatus="status">
                                         <option value="${item.regionId}"  <c:if test="${item.regionId==cityId}" >selected</c:if>  >${item.regionName}</option>
@@ -66,14 +70,14 @@
                         <tr>
                             <td><label for="" class="form_label"></label>详细地址：</td>
                             <td colspan="2"><input type="text" placeholder="请填写具体地址" class="" name="prodRegionAddr" value="${prod.prodRegionAddr}"></td>
-                            <td></td>
+                            
                             <td></td>
                             <td></td>
                         </tr>
                         <tr>
                             <td class="form_label"><label for="">联系人：</label></td>
                             <td><input type="text" placeholder="请填写该产品联系人的姓名" class="" name="prodLxr" value="${prod.prodLxr}"> </td>
-                            <td></td>
+                            
                             <td class="form_label"><label for="">联系电话：</label></td>
                             <td><input type="text" placeholder="请填写该联系人电话" class="" name="prodLxrPhone" value="${prod.prodLxrPhone}"> </td>
                             <td></td>
@@ -105,8 +109,8 @@
                             <td></td>
                             <%--<td><button class="ui primary button">提交</button>&emsp;<a class="ui button" href="#" role="button" type="reset">返回</a></td>
                             <td></td>--%>
-                            <td><button class="ui button primary" type="submit">修改</button></td>
-                            <td><a class="ui button" href="${pageContext.request.contextPath}/seller/productList" role="button"  type="reset">返回</a></td>
+                            <td><button class="ui button primary" type="submit">修改</button>&emsp;<a class="ui button" href="${pageContext.request.contextPath}/seller/productList" role="button"  type="reset">返回</a></td>
+                            
                             <td></td>
                             <td></td>
                         </tr>
@@ -216,7 +220,9 @@
                     prodIntro: "请填写产品简介"
                 },
                 submitHandler: function (form) {
-                    $.post("${pageContext.request.contextPath}/seller/updateproduct",$(form).serialize(),function (data) {
+                    var data=$(form).serialize();
+                    data=data+"&prodIntro="+editor.txt.html();
+                    $.post("${pageContext.request.contextPath}/seller/updateproduct",data,function (data) {
                         var obj = JSON.parse(data);
                         var code = obj.code;
                         if(code == 0){

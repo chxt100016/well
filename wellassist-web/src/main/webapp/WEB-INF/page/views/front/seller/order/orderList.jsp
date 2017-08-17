@@ -40,7 +40,6 @@
 								<div onclick="$('#orderState').val('');searchData(1);" class="item">全部</div>  
 								<div onclick="$('#orderState').val('0');searchData(1);" class="item">待确认</div>
 								<div  onclick="$('#orderState').val('1');searchData(1);" class="item">待付款</div>
-								<div onclick="$('#orderState').val('22');searchData(1);" class="item">已付款(线下申请)</div>  
 								<div onclick="$('#orderState').val('2');searchData(1);" class="item">已付款</div>
 								<div onclick="$('#orderState').val('3');searchData(1);" class="item">发货中</div>
 								<div onclick="$('#orderState').val('4');searchData(1);" class="item">已发货</div>  
@@ -106,11 +105,6 @@
                         <span class="ds-bl fl-lt pd-lf-20 ft-wt-bd " style="">
 							<c:if test="${item.orderState=='0'}">待确认</c:if>
 							<c:if test="${item.orderState=='1'}">待付款</c:if>
-							<c:if test="${item.orderState=='11'}">待物流付款</c:if>
-							<c:if test="${item.orderState=='12'}">待付款</c:if>
-							<c:if test="${item.orderState=='13'}">线下付款审核中</c:if>
-							<c:if test="${item.orderState=='14'}">线下付款审核中</c:if>
-							<c:if test="${item.orderState=='15'}">线下付款审核中</c:if>
 							<c:if test="${item.orderState=='2'}">已付款(未发货)</c:if>
 							<c:if test="${item.orderState=='3'}">发送中</c:if>
 							<c:if test="${item.orderState=='4'}">已发货</c:if>

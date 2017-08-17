@@ -18,4 +18,8 @@ public interface VehicleGrabInfoDao {
 
 
     List<Map<String,Object>> selectDriver(Long logisticsId);
+
+
+    Integer insertVehicleGrabInfo(List list);
+
 }

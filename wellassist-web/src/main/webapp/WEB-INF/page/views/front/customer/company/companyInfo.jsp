@@ -93,7 +93,7 @@ div.error{
 								<span style="margin-right:24px;">笔</span>
 							</div>
 							<div class="ui" style="margin-bottom:12px;font-size:16px;">
-                                <a id="upload" class="ui button primary" style="width:100px;height:40px">更换头像 <input type="file" id="fileToUpload" style="opacity: 0;"></a>
+                                <a id="upload" class="ui button primary" style="width:100px;height:40px">更换头像 </a>
                                 <input type="hidden" class="" name="companyImg" value="${userInfo.companyImg}">
 								<!-- <a class="fancybox" rel="group" href="userInfo.companyImg">
 									<img id="icon" src="userInfo.companyImg" width="136px" height="134px" />

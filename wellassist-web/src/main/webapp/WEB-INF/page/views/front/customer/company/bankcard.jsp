@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
 <div class="container1">
-    <div class="container2">
+    <div style="margin:40px 0 0 210px;">
 
         <div class="content-rect" style="width:90%;" id="app1">
             <!-- <div style="border-bottom:solid 1px #d0d0d0;padding-bottom:10px;font-size:15px;font-weight: 600;">我的银行卡</div>

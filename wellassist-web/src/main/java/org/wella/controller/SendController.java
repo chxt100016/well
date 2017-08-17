@@ -695,24 +695,29 @@ public class SendController extends BaseController{
 
 
     @RequestMapping("detail")
-    public String txSq(Model model,HttpServletRequest request) {
+    public String logisticsDetail(Model model,HttpServletRequest request) {
         HttpSession session=request.getSession();
         User user=(User)session.getAttribute("user");
         long userId=user.getUserId();
         String logisticsId = CommonUtil.GetRequestParam(request, "logisticsId", "0");
         Map<String,Object> info=senderServiceImpl.grabLogisticsPageInfo(Long.parseLong(logisticsId));
-        List <Map<String,Object>> driverList=senderServiceImpl.selectDriver(logisticsId);
         model.addAttribute("info", info);
         model.addAttribute("senderUserId", userId);
         model.addAttribute("userName", user.getUserName());
-        model.addAttribute("driverList",driverList);
-
        /* model.addAttribute("parentMenuNo", "5");
         model.addAttribute("childMenuNo", "1");*/
         return "views/front/sender/order/logisticsDetail.jsp";
     }
 
 
+
+    @ResponseBody
+    @RequestMapping("selectDriver")
+    public  R selectDriver(@RequestParam Long logisticsId){
+        List <Map<String,Object>> driverList=senderServiceImpl.selectDriver(logisticsId);
+        System.out.println(driverList);
+        return new R().put("list",driverList);
+    }
 
 
 
