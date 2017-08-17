@@ -87,7 +87,7 @@
                         
                     </td>
                     <td>
-                        	<span class="span_btn pointer" onclick="window.location.href='${pageContext.request.contextPath}/sender/detail';">修改</span>
+                        	<span class="span_btn pointer" onclick="window.location.href='${pageContext.request.contextPath}/sender/detail?logisticsId=${item.logisticsId}';">修改</span>
                     </td>
                   
 				</tr>

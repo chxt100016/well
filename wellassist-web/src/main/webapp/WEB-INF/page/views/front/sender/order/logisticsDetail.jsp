@@ -256,7 +256,7 @@
 
 </script>
 <script>
-      //  const logisticsInfoId= ${info.logisticsId};
+       const logisticsId= ${info.logisticsId};
        <%--const url1='${pageContext.request.contextPath}/sender/grabLogisticsSubmit';--%>
       //  const senderUserId = ${senderUserId};
         const vm = new Vue({
@@ -306,8 +306,7 @@
                 },
 
             beforeCreate:function (){
-               
-                var param = {logisticsId:logisticsInfoId};
+                var param = {"logisticsId":logisticsId};
                 //var url="${pageContext.request.contextPath}/sender/selectDriver";
                 var url="../../selectDriver"
                 $.get(url,param,function(result){
