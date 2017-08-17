@@ -73,8 +73,8 @@ vertical-align: middle;
 	
 
 <div class="container1">
-	<div class="container2">
-		 <div class="ui  container">
+	<div style="margin:40px 0 0 210px;">
+		 <div class="ui  container" style="width:90%;">
         <div class=" ui items ">
             <div class="column">
                 <h4>物流选择</h4>

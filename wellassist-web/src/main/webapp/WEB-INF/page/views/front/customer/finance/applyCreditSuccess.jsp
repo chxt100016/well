@@ -22,7 +22,9 @@
 </head>
 
 <body>
-    <div class="ui container segment" id="app1">
+<div class="container1">
+    <div style="margin:40px 0 0 210px;">
+    <div class="ui container segment" id="app1" style="width:90%;">
         <div id="parent">
             <div id="child">
                 <p class="ui center aligned header"> <i class="check square icon"></i>资料已提交</p>

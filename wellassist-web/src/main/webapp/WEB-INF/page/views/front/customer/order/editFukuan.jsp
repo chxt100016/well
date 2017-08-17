@@ -52,11 +52,9 @@
         }
 </style>	
 <body>
-    <div class="container1">
-        <div class="container2">
-
-        
-    <div class="ui container segment">
+<div class="container1">
+    <div style="margin:40px 0 0 210px;">
+    <div class="ui container" id="app1" style="width:90%;">
         <div class=" ui items column">
             <div class="item" style="display:block">
                 <div class="ui right floated">
