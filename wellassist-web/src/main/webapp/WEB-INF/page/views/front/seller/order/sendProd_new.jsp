@@ -235,7 +235,7 @@
         form.bootstrapValidator({
             field:{
                 zorderNum:{
-                    message:'发货量不合法'，
+                    message:'发货量不合法',
                     validators:{
                         notEmpty:{
                             message:'发货量不能为空'
@@ -368,7 +368,6 @@
 </script>
 <script>    
 function add(){
-    vm.qwer();
     $('.modal').modal('show');
 }
 

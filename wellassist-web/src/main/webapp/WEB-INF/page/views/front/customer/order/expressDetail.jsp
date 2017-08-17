@@ -186,7 +186,9 @@
                                 <th>车牌号</th>
                                 <th>车挂号</th>
                                 <th>容量</th>
+                    <c:if test="${info.isSelfCar==0}">
                                 <th>操作 </th>
+                    </c:if>
                             </tr>
                         </thead>
                         <tbody>
@@ -199,7 +201,9 @@
                                 <td> ${vehicle.vehicleNo}</td>
                                 <td>${vehicle.vehicleHangingNo}</td>
                                 <td>${vehicle.vehicleSize} 吨</td>
+                                <c:if test="${info.isSelfCar==0}">
                                 <td><span href="" onclick="delVihicle(${vehicle.vehicleInfoId})">删除</span></td>
+                                </c:if>
                             </tr>
                         </c:forEach>
 
