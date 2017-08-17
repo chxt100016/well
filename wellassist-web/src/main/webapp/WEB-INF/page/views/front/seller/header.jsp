@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="<c:url value="/resources/library/css/semantic.min.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/library/css/font-awesome.css"/>">
-    <link rel="stylesheet" href="<c:url value="/resources/library/css/datePicker.css"/>">
+   
    <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/common.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/header.css"/>">
        

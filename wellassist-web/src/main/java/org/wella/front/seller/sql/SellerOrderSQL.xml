@@ -7,10 +7,11 @@
 	<select id="getWaProdList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT *
 			FROM wa_prod as a
-			WHERE a.user_id = #{userId}
+			WHERE a.user_id = #{userId} and a.prod_state !=-3
 			<if test="prodState!=null and prodState!=''">
 				AND a.prod_state = #{prodState} 
 			</if>
+
 			ORDER BY a.prod_id DESC
 			LIMIT ${start} , ${size}
 	</select>
@@ -18,7 +19,7 @@
 	<select id="getWaProdListCount" parameterType="java.util.Map" resultType="int">
 		SELECT count(*)
 		FROM wa_prod as a
-		WHERE a.user_id = #{userId}
+		WHERE a.user_id = #{userId} and a.prod_state !=-3
 		<if test="prodState!=null and prodState!=''">
 			AND a.prod_state = #{prodState}
 		</if>

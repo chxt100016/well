@@ -198,7 +198,7 @@ div.error{
                                     <a href="javascript:;" class="file" style="margin-top:55px;">
                                          <span class="white-color">选择文件</span>
                                           <i class="upload icon white-color" ></i>
-                                         <input type="file"  id="upload1">
+                                         <div type="file"  id="upload1"></div>
                                         <input type="hidden" id="imgflag1"name="companyYyZzImg" value="${userInfo.companyYyZzImg}">
                                         <%--<a id="bankBill" download="bankBill.xlsx">download</a>--%>
                                     </a>                                       
