@@ -168,7 +168,7 @@
                     <div class="three fields">
                         <div class="inline field">
                             <label>期望运费</label>
-                            <input type="text" name="customerExceptCarriage" placeholder="需要物流时请填写" id="" >
+                            <input type="text" name="customerExceptCarriage" placeholder="需要物流时请填写" id="" > 元
                         </div>
                         
                     </div>
