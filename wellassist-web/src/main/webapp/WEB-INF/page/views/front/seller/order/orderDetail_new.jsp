@@ -101,11 +101,13 @@
             <span>下单时间：</span>
             <span><fmt:formatDate value="${info.orderDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span>
             <span style="margin-left:11.5%;">联系人：</span>
-            <span>${orderInfo.contacts}</span><br>
+
+            <span>${orderInfo.Contacts}</span><br>
             <span>发货时间：</span>
             <span><fmt:formatDate value="${info.deliverDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span>
             <span style="margin-left:11.5%;">联系电话：</span>
-            <span>${orderInfo.conTel}</span><br>
+            <span>${orderInfo.ConTel}</span><br>
+
             <span>预计收货时间：</span>
             <span><fmt:formatDate value="${info.receiveDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span>
         </div>

@@ -61,7 +61,7 @@
                         <img src="${item.prodImg}" alt="" width="100px" height="74px" class="ds-bl fl-lt">
                         <span class="ds-bl fl-lt pd-lf-20 ft-wt-bd " style="padding-top: 25px;width: 190px;"> ${item.prodName}</span>
                         <br>
-                        <span class="ds-bl fl-lt  pd-lf-20">32,80元/吨</span>
+                        <!-- <span class="ds-bl fl-lt  pd-lf-20">32,80元/吨</span> -->
                     </td>
                     <td class="right-border tx-ct" >...</td>
                     <td class="right-border tx-ct" ><span>${item.num}吨</span>
@@ -87,7 +87,7 @@
                         
                     </td>
                     <td>
-                        	<span class="span_btn pointer" onclick="window.location.href='${pageContext.request.contextPath}/sender/detail';">修改</span>
+                        	<span class="span_btn pointer" onclick="window.location.href='${pageContext.request.contextPath}/sender/detail?logisticsId=${item.logisticsId}';">修改</span>
                     </td>
                   
 				</tr>
