@@ -106,7 +106,7 @@ vertical-align: middle;
             <div class="column" style="margin-top:30px">
                 <div class="extable" width="100%"> 
                     <div>
-                        <c:if test="${empty info.vehicleGrabs}">没有抢单</c:if>
+                        <c:if test="${empty info.vehicleGrabs}"><span class="ft-sz-16">没有抢单...</span></c:if>
 						<c:forEach var="item" items="${info.vehicleGrabs}">
                         <div  style="width:49%;float:left;" class="tablebox pd-bt-40">
                             <div class="pd-lf-40 pd-tp-40 middleAlign" style="height:140px" >
@@ -122,7 +122,11 @@ vertical-align: middle;
                                 </div>
                             </div>
 						</div>
-						</c:forEach>
+                        </c:forEach>
+                        <br>
+                        <div  class="column mg-tp-20">
+                            <div  class="ui button primary" onclick="window.history.go(-1)">返回</div>
+                        </div>
                      
                     </div>
                 </div>
