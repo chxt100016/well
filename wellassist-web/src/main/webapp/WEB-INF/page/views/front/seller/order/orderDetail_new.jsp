@@ -13,15 +13,6 @@
     <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script>-->
     <style>
-        .mid_box {
-            width: 1100px;
-            margin: 0px auto;
-            border: 1px solid rgba(34, 36, 38, .15);
-            box-shadow: 0 2px 4px 0 rgba(34, 36, 38, .12), 0 2px 10px 0 rgba(34, 36, 38, .15);
-            padding: 1em;
-            font-size: 14px;
-            position: absolute;
-        }
         
         ul {
             padding: 0;
@@ -110,11 +101,13 @@
             <span>下单时间：</span>
             <span><fmt:formatDate value="${info.orderDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span>
             <span style="margin-left:11.5%;">联系人：</span>
-            <span>${orderVehicle.driverName}</span><br>
+
+            <span>${orderInfo.Contacts}</span><br>
             <span>发货时间：</span>
             <span><fmt:formatDate value="${info.deliverDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span>
             <span style="margin-left:11.5%;">联系电话：</span>
-            <span>${orderVehicle.driverPhone}</span><br>
+            <span>${orderInfo.ConTel}</span><br>
+
             <span>预计收货时间：</span>
             <span><fmt:formatDate value="${info.receiveDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span>
         </div>
