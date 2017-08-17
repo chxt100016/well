@@ -2,7 +2,7 @@
     <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
     <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/seller/publishpage.css"/>">
-
+<script src="${pageContext.request.contextPath}/statics/libs/ajaxupload.js"></script>
 <div class="container1">
     <div style="margin:40px 0 0 210px;">
         <div id="app" style="width:90%;">
@@ -14,8 +14,9 @@
                         <tr>
                             <td class="form_label"><label for="">产品名称：</label></td>
                             <td>
-                                <input type="text" placeholder="请填写您的产品名称" class="" name="prodName">
+                                <input type="text" placeholder="请填写您的产品名称" class="" name="prodName" value="${prod.prodName}">
                             </td>
+                            <input type="hidden" name="prodId" value="${prod.prodId}">
                             <td></td>
                             <td class="form_label"><label for="">货源类型：</label></td>
                             <td>
@@ -30,10 +31,10 @@
                         </tr>
                         <tr>
                             <td class="form_label"><label for="">供应量：</label></td>
-                            <td><input type="text" placeholder="请填写供应量" class="" name="prodNum"> </td>
+                            <td><input type="text" placeholder="请填写供应量" class="" name="prodNum" value="${prod.prodNum}"> </td>
                             <td>&emsp;吨</td>
                             <td class="form_label"><label for="" class="form_label">单价：</label></td>
-                            <td><input type="text" placeholder="请填写产品单价" class="" name="prodPrice"> </td>
+                            <td><input type="text" placeholder="请填写产品单价" class="" name="prodPrice" value="${prod.prodPrice}"> </td>
                             <td>&emsp;元/吨</td>
                         </tr>
                         <tr>
@@ -43,14 +44,20 @@
                                 <select id="provinceId" name="provinceId" onchange="selRegion(0);" style="width:132px;float:left">
                                     <option>--请选择省--</option>
                                     <c:forEach items="${provinceList}" var="item" varStatus="status">
-                                        <option value="${item.regionId}">${item.regionName}</option>
+                                        <option value="${item.regionId}" <c:if test="${item.regionId==provinceId}" >selected</c:if>>${item.regionName}</option>
                                     </c:forEach>
 						        </select>
                                 <select id="cityId" name="cityId" onchange="selRegion(1);"  style="width:132px;float:left">
                                     <option>--请选择市--</option>
+                                    <c:forEach items="${cityList}" var="item" varStatus="status">
+                                        <option value="${item.regionId}"  <c:if test="${item.regionId==cityId}" >selected</c:if>  >${item.regionName}</option>
+                                    </c:forEach>
                                 </select>
                                 <select id="regionId" name="regionId" onchange="selRegion(2);"  style="width:132px;float:left">
                                     <option>--请选择区--</option>
+                                    <c:forEach items="${countyList}" var="item" varStatus="status">
+                                        <option value="${item.regionId}"  <c:if test="${item.regionId==prod.get('prodRegionId')}" >selected</c:if> >${item.regionName}</option>
+                                    </c:forEach>
                                 </select>
                             </td>
                             <td></td>
@@ -58,28 +65,29 @@
                         </tr>
                         <tr>
                             <td><label for="" class="form_label"></label>详细地址：</td>
-                            <td colspan="2"><input type="text" placeholder="请填写具体地址" class="" name="prodRegionAddr"></td>
+                            <td colspan="2"><input type="text" placeholder="请填写具体地址" class="" name="prodRegionAddr" value="${prod.prodRegionAddr}"></td>
                             <td></td>
                             <td></td>
                             <td></td>
                         </tr>
                         <tr>
                             <td class="form_label"><label for="">联系人：</label></td>
-                            <td><input type="text" placeholder="请填写该产品联系人的姓名" class="" name="prodLxr"> </td>
+                            <td><input type="text" placeholder="请填写该产品联系人的姓名" class="" name="prodLxr" value="${prod.prodLxr}"> </td>
                             <td></td>
                             <td class="form_label"><label for="">联系电话：</label></td>
-                            <td><input type="text" placeholder="请填写该联系人电话" class="" name="prodLxrPhone"> </td>
+                            <td><input type="text" placeholder="请填写该联系人电话" class="" name="prodLxrPhone" value="${prod.prodLxrPhone}"> </td>
                             <td></td>
                         </tr>
                         <tr>
                             <td class="form_label"><label for="">产品图片：</label></td>
                             <td>
 
-                                <img id="prodImgpath" class="yingyeimg" style="width:270PX;height:230px" src="" name="prodImg" />
+                                <img id="prodImgpath" class="yingyeimg" style="width:270PX;height:230px" src="${prod.prodImg}" name="prodImg" />
                             </td>
                             <td>
-                                <input type="hidden" name="prodImg" />
-                                <input type="file" id="prodImg" name="prodImg_src" class="fileManage" />
+                                <input type="hidden" name="prodImg" value="${prod.prodImg}"/><br>
+                                <%--<input type="file" id="prodImg" name="prodImg_src" value="${prod.prodImg_src}" class="fileManage" />--%>
+                                <button class="ui button primary" id="upload2">更换图片</button>
                             </td>
                         </tr>
                         <br>
@@ -89,15 +97,16 @@
                             </td>
                             <td  colspan="3">
                                 <div id="editor">
-                                    <p>此处可编辑产品详情</p>
+                                    <p>${prod.prodIntro}</p>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td></td>
-                            <td><input type="reset" name="reset" style="display: none;" /></td>
-                            <td><button class="ui primary button">提交</button>&emsp;<a class="ui button" href="#" role="button" type="reset">返回</a></td>
-                            <td></td>
+                            <%--<td><button class="ui primary button">提交</button>&emsp;<a class="ui button" href="#" role="button" type="reset">返回</a></td>
+                            <td></td>--%>
+                            <td><button class="ui button primary" type="submit">修改</button></td>
+                            <td><a class="ui button" href="${pageContext.request.contextPath}/seller/productList" role="button"  type="reset">返回</a></td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -118,43 +127,26 @@
         </div>
 
         <script>
-            function clearFileName() {
-                $("input[type='file']").each(function () {
-                    $(this).attr("name", "");
-                });
-            }
-            /**
-             * 上传图片处理方法
-             * @param idx
-             */
-            function uploadImage() {
-                var options = {
-                    url: "${pageContext.request.contextPath}/uploadFile",
-                    type: "POST",
-                    dataType: "json",
-                    data: {},
-                    success: function (data) {
-                        if (data.result == "-10") {
-                            ShowWindowAlert("提示", data.msg, "", "确 定", "");
-                            return;
+            $(document).ready(function () {
+                new AjaxUpload('#upload2', {
+                    action: '${pageContext.request.contextPath}/uploadFile',
+                    name: 'file',
+                    autoSubmit:true,
+                    responseType:"json",
+                    onSubmit:function(file, extension){
+                        if (!(extension && /^(jpg|jpeg|png|gif)$/.test(extension.toLowerCase()))){
+                            alert('只支持jpg、png、gif格式的图片！');
+                            return false;
                         }
+                    },
+                    onComplete : function(file, data){
+                        if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
                         $("input[name='prodImg']").val(data.path);
                         $("#prodImgpath").attr("src", data.path);
                         $("#prodImgpath").show();
-                        console.log(data.path);
                         return;
-                    },
-                    error: function (data) {
-                        //alert(data);
                     }
-                }
-                $("#product-publish").ajaxSubmit(options);
-            }
-
-            $("#prodImg").change(function () {
-                clearFileName();
-                $(this).attr("name", "file");
-                uploadImage();
+                });
             });
 
             function selRegion(type) {
@@ -224,18 +216,16 @@
                     prodIntro: "请填写产品简介"
                 },
                 submitHandler: function (form) {
-                    var data=$(form).serialize();
-                    data=data+"&prodIntro="+editor.txt.html();
-                    $.post("${pageContext.request.contextPath}/seller/publish", data, function (data) {
+                    $.post("${pageContext.request.contextPath}/seller/updateproduct",$(form).serialize(),function (data) {
                         var obj = JSON.parse(data);
                         var code = obj.code;
-                        if (code == 0) {
-                            alert("添加成功");
-                            window.location.href="${pageContext.request.contextPath}/seller/productList";
-                        } else {
-                            alert("添加失败");
+                        if(code == 0){
+                            alert("修改成功");
+                            window.location.href = "${pageContext.request.contextPath}/seller/productList";
+                        }else {
+                            alert("修改失败");
                         }
-                    })
+                    });
                 }
             });
 
@@ -246,8 +236,7 @@
         var E = window.wangEditor;
         var editor = new E('#editor');
         // 或者 var editor = new E( document.getElementById('#editor') )
-        editor.create();
-        editor.txt.html('')
+        editor.create()
     </script>
 
         <%@ include file="../footer.html"%>

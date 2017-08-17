@@ -10,7 +10,7 @@
 	 <br>
    <h4>产品列表</h4>
    <div class="ui divider"></div>
-	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/seller/publishPage">
+	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/seller/productList">
 		<input type="hidden" id="page" name="page" value="${param.page}">
 		<input type="hidden" id="prodState" name="prodState" value="${param.prodState}">
 		<%--
@@ -31,7 +31,7 @@
         </ul> -->
 		
 	<div class="fl-rg pd-20" style="font-size:14px;font-weight:600;color:#FF4400;" >
-		<a style="color:#FF4400;" href="${pageContext.request.contextPath}/front/seller/SellerOrderController-prodPub">+&ensp;产品上新</a>				
+		<a style="color:#FF4400;" href="${pageContext.request.contextPath}/seller/publishPage">+&ensp;产品上新</a>
 	</div>
 	<table class="ui table" style="text-align:center;border:0;border-bottom: 0;background-color:#e4ecf3;border-radius:0;margin-bottom:0;">
 		<thead>
@@ -86,10 +86,10 @@
 					</td>
 					<td width="14%" style="color:#617B90;">
 						<c:if test="${item.prodState!='1'}">
-							<span class="span_btn" onClick = "editProduct('${item.prodId}')">编辑</span>
+							<span class="span_btn" onclick="toURL('editProd', '${item.prodId}')">编辑</span>
 						</c:if>
 						<c:if test="${item.prodState=='-2' or item.prodState=='-1' or item.prodState=='0'}">
-							<span class="span_btn_gray" onClick = "editProduct('${item.prodId}')">&ensp;|&ensp;删除</span>
+							<span class="span_btn_gray" onclick="toURL('deleteProd', '${item.prodId}')">&ensp;|&ensp;删除</span>
 						</c:if>
 					</td>
 				</tr>
@@ -122,7 +122,8 @@
 	function toURL(action, prodId){
 		if(prodId!=''){
 			if(action=='editProd'){
-				window.location.href = "${pageContext.request.contextPath}/seller/editPage?prodId=" + prodId;
+				/*window.location.href = "${pageContext.request.contextPath}/seller/editPage?prodId=" + prodId;*/
+                window.location.href = "${pageContext.request.contextPath}/seller/productEditPage?prodId=" + prodId;
 			} else if(action=='deleteProd'){
 				if(confirm("你要确定删除操作吗？")){
 					$.post("${pageContext.request.contextPath}/front/seller/SellerOrderController-deleteProd",{prodId:prodId},function(data){

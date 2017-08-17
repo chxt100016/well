@@ -153,7 +153,8 @@ public class UserinfoServiceImpl implements UserinfoService{
         Integer result;
         switch (userType) {
             case 3:
-                Map param = vehicleGrabDao.selectVgdId(map);
+                Map param = vehicleGrabDao.select
+                VgdId(map);
                 if(map.get("deliverDate")!=null||map.get("receiveDate")!=null){
                      param.put("deliverDate",map.get("deliverDate"));
                      param.put("receiveDate",map.get("receiveDate"));
