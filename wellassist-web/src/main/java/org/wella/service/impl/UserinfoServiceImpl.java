@@ -150,7 +150,7 @@ public class UserinfoServiceImpl implements UserinfoService{
 
     @Override
     public Integer  operationDriver(Byte userType,Map map) {
-        Integer result;
+        /*Integer result;
         switch (userType) {
             case 3:
                 Map param = vehicleGrabDao.select
@@ -187,8 +187,8 @@ public class UserinfoServiceImpl implements UserinfoService{
                 return result;
             default:
                 return 0;
-        }
-
+        }*/
+        return 0;
     }
 
 
