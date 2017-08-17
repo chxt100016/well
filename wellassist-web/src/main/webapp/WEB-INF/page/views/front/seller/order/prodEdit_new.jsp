@@ -6,7 +6,7 @@
 <div class="container1">
     <div style="margin:40px 0 0 210px;">
         <div id="app" style="width:90%;">
-            <h4 class="ui header" style="font-size:15px;font-weight:600;">添加产品</h4>
+            <h4 class="ui header" style="font-size:15px;font-weight:600;">编辑产品</h4>
             <div class="ui divider"></div>
             <form id="product-publish" method="post" class="ui form">
                 <table>
@@ -22,9 +22,9 @@
                             <td>
                                 <select class="form-control" name="prodType">
                                     <option>请选择你的货源分类</option>
-                                    <option value="2">管道气</option>
-                                    <option value="1">原油</option>
-                                    <option value="0">天然气</option>
+                                    <option value="2" <c:if test="${prod.prodType==2}" >selected</c:if>>管道气</option>
+                                    <option value="1" <c:if test="${prod.prodType==1}" >selected</c:if>>原油</option>
+                                    <option value="0" <c:if test="${prod.prodType==0}" >selected</c:if>>天然气</option>
                                 </select>
                             </td>
                             <td></td>
@@ -41,9 +41,11 @@
                         </tr>
                         <tr>
                             <td class="form_label"><label for="" class="form_label">所在地区：</label></td>
-                            <input type="hidden" name="prodRegionId" id="prodRegionId">
+
+                            <input type="hidden" name="prodRegionId" id="prodRegionId" value="${prod.prodRegionId}">
                             <td colspan="3">
                                 <select id="provinceId" name="provinceId" onchange="selRegion(0);" style="width:132px;float:left;margin-right:3%;">
+
                                     <option>--请选择省--</option>
                                     <c:forEach items="${provinceList}" var="item" varStatus="status">
                                         <option value="${item.regionId}" <c:if test="${item.regionId==provinceId}" >selected</c:if>>${item.regionName}</option>
@@ -218,7 +220,9 @@
                     prodIntro: "请填写产品简介"
                 },
                 submitHandler: function (form) {
-                    $.post("${pageContext.request.contextPath}/seller/updateproduct",$(form).serialize(),function (data) {
+                    var data=$(form).serialize();
+                    data=data+"&prodIntro="+editor.txt.html();
+                    $.post("${pageContext.request.contextPath}/seller/updateproduct",data,function (data) {
                         var obj = JSON.parse(data);
                         var code = obj.code;
                         if(code == 0){

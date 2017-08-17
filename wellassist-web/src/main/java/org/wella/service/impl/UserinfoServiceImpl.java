@@ -150,6 +150,7 @@ public class UserinfoServiceImpl implements UserinfoService{
 
     @Override
     public Integer  operationDriver(Byte userType,Map map) {
+
         Integer result;
         /*switch (userType) {
             case 3:
