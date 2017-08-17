@@ -105,7 +105,7 @@
             </div>
             <div class="two fields">
                 <div class="inline field">
-                    <label>&#8195&#8195容量：</label>
+                    <label>&#8195&#8195容量(吨)：</label>
                     <input type="text" name="vehicleSize" v-model='newVehicle.vehicleSize'>
                     <input type="hidden" name="orderId" value="${info.orderId}" >
                 </div>

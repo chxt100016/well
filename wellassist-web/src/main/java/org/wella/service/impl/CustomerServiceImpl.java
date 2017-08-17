@@ -398,8 +398,6 @@ public class CustomerServiceImpl implements CustomerService {
         info.put("vehicleGrabs",vehicleGrabs);
         Map<String,Object> logisticsInfoView=logisticsInfoDao.singleLogisticsInfoViewByPrimaryKey(liId);
         ConvertUtil.convertDataBaseMapToJavaMap(logisticsInfoView);
-        //以后改写买家期望运费
-        logisticsInfoView.put("customerExceptCarriage",0);
         info.put("logisticsInfoView",logisticsInfoView);
         return info;
     }
