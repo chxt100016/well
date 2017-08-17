@@ -49,5 +49,5 @@ public interface SenderService {
     int reGrabLogistics(long logisticsId);
 
 
-    List<Map<String,Object>> selectDriver(String logisticsId);
+    List<Map<String,Object>> selectDriver(Long  logisticsId);
 }

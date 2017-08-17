@@ -55,7 +55,7 @@
 			
 				
 				<div style="width:100% ;">
-					 <div class="column" style="padding-left:50px ;height:50px;padding-top:10px">
+					 <div class="column" style="height:50px;margin:40px 0 0 60px;">
 						<div class="caption middleAlign" style="font-size:14px;font-weight:600; width:90px">充值金额:</div>
 						<div class="middleAlign">
 							<div class = "one-fld ui input" >
@@ -63,9 +63,9 @@
 
 							</div>
 						</div>
-					 <div class="caption middleAlign" style="font-size:14px;font-weight:600; width:90px">元</div> 
+					 <div class="caption middleAlign" style="font-size:14px;font-weight:600; width:90px">&emsp;元</div> 
 					</div>
-					 <div class="column" style="padding-left:50px ;height:50px;padding-top:10px"  >
+					 <div class="column" style="height:50px;margin-left:60px;">
 						<div class="caption middleAlign" style="font-size:14px;font-weight:600; width:90px">充值方式:</div>
 						<div class="middleAlign">
 							<div class="ui floating labeled icon dropdown button">

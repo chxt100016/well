@@ -43,5 +43,16 @@
     </select>
 
 
+    <insert id="insertVehicleGrabInfo" parameterType="java.util.List" >
+      insert into wa_vehicle_grab_info ( vehicle_grab_id, driver_name,
+         driver_phone, vehicle_no, vehicle_hanging_no,
+         vehicle_size)
+        values
+        <foreach collection="list" item="item" separator="," index="index">
+        (#{item.vehicleGrabId,jdbcType=BIGINT}, #{item.driverName,jdbcType=VARCHAR},
+          #{item.driverPhone,jdbcType=VARCHAR}, #{item.vehicleNo,jdbcType=VARCHAR}, #{item.vehicleHangingNo,jdbcType=VARCHAR},
+          #{item.vehicleSize,jdbcType=DOUBLE})
+        </foreach>
+    </insert>
 
 </mapper>

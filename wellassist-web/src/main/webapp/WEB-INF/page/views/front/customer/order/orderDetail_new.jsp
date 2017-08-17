@@ -95,8 +95,10 @@
 </head>
 
 <body>
-    <div class="ui container segment" id="app1" style="width:900px;left:40px;top:-15px">
-        <h3 class="ui header">订单详情</h3>
+<div class="container1">
+    <div style="margin:40px 0 0 210px;">
+    <div class="ui container" id="app1" style="width:90%;">
+        <h4 class="ui header">订单详情</h4>
         <div class="ui divider"></div>
         <div class="column " style="width:100%;height:40px">
             <div class="fl-lf " style="width: 40%;text-align:left"> 订单号：${info.orderNo}</div>
