@@ -248,7 +248,8 @@
         var E = window.wangEditor;
         var editor = new E('#editor');
         // 或者 var editor = new E( document.getElementById('#editor') )
-        editor.create()
+        editor.create();
+        editor.txt.html('')
     </script>
 
         <%@ include file="../footer.html"%>
