@@ -78,11 +78,11 @@
           <div class=" inline fields">
               <div class="  inline  input field " style="width:380px; float:left">
                   <label for=" " style="padding-top:5px">发货时间:</label>
-                  <input type="text"id="deliverDate" v-model=deliverDate  onfocus="var receiveDate=$dp.$('receiveDate');WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){receiveDate.focus();},maxDate:'#F{$dp.$D(\'receiveDate\')}'})" >
+                  <input type="text"id="deliverDate" v-model="model.deliverDate"  onfocus="var receiveDate=$dp.$('receiveDate');WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){receiveDate.focus();},maxDate:'#F{$dp.$D(\'receiveDate\')}'})" >
               </div>
                 <div class="  inline input field"  style="width:380px; float:left">
                   <label for="" style="padding-top:5px">收货时间:</label>
-                  <input type="text" id='receiveDate' onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'deliverDate\')}'})">
+                  <input type="text" id='receiveDate'   v-model="model.receiveDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'deliverDate\')}'})">
               </div>
                 <div style="clear:both"></div>
             </div>
@@ -134,8 +134,7 @@
                 <th>操作</th>
             </thead>
             <tbody>
-
-                <tr v-for="(vehicle,index) in grabVehicles " v-cloak>
+                <tr v-for="vehicle in grabVehicles " v-cloak>
                     <td>
                         {{vehicle.driverName}}
                     </td>
@@ -143,11 +142,18 @@
                     <td> {{vehicle.vehicleNo}}</td>
                     <td>{{vehicle.vehicleHangingNo}}</td>
                     <td>{{vehicle.vehicleSize}} 吨</td>
-
-                    <td width="15%"><a class="negative ui button " v-on:click="delVehicle(index) " style="height:35px">删除 </a></td>
-
+                    <td width="15%"><a class="negative ui button " v-on:click="delVihicle(vehicle.vehicleGrabInfoId) " style="height:35px">删除 </a></td>
                 </tr>
-
+                <tr v-for="(vehicle,index) in newVehicles " v-cloak>
+                    <td>
+                        {{vehicle.driverName}}
+                    </td>
+                    <td class="single line ">{{vehicle.driverPhone}}</td>
+                    <td> {{vehicle.vehicleNo}}</td>
+                    <td>{{vehicle.vehicleHangingNo}}</td>
+                    <td>{{vehicle.vehicleSize}} 吨</td>
+                    <td width="15%"><a class="negative ui button " v-on:click="delVehicle(index) " style="height:35px">删除 </a></td>
+                </tr>
             </tbody>
 
         </table>
@@ -254,11 +260,23 @@
 
     }
 
+
+
+
+
+
+
+
+
+
 </script>
 <script>
        const logisticsId= ${info.logisticsId};
        <%--const url1='${pageContext.request.contextPath}/sender/grabLogisticsSubmit';--%>
       //  const senderUserId = ${senderUserId};
+
+
+
         const vm = new Vue({
             el: '#app',
             data: {
@@ -269,10 +287,17 @@
                 vehicleHangingNo: '',
                 vehicleSize: '',
             },
+            newVehicles:[],
             grabVehicles: [],
             logisticsInfoId: '',
             senderUserId:'',
             grabMoney:'',
+            model:{orderId:orderId,
+                   deliverDate:deliverDate,
+                   receiveDate:receiveDate,
+                   list:[],
+            }
+
         },
         watch:{
             //此处是判断数字的
@@ -287,11 +312,26 @@
              }
            }
         },
+            created:function (){
+                var param = {"logisticsId":logisticsId};
+                //var url="${pageContext.request.contextPath}/sender/selectDriver";
+                var url="${pageContext.request.contextPath}/sender/selectDriver"
+                $.get(url,param,function(result){
+                    if(result.code==0){
+                        vm.grabVehicles=result.list;
+                        console.log(vm.grabVehicles);
+                    }
+
+                },"json");
+            },
         methods: {
             createVehicle: function() {
                if( $('.drivers').form('is valid') ){
                    console.log(this.grabVehicles);
-                  this.grabVehicles.push(this.newVehicle);
+                  //this.grabVehicles.push(this.newVehicle);
+                  this.newVehicles.push(this.newVehicle);
+
+                  this.model.list.push(this.newVehicle);
                         // 添加完newPerson对象后，重置newPerson对象  
                     this.newVehicle = {
                         driverName: '',
@@ -305,34 +345,27 @@
                 }
                 },
 
-            beforeCreate:function (){
-                var param = {"logisticsId":logisticsId};
-                //var url="${pageContext.request.contextPath}/sender/selectDriver";
-                var url="../../selectDriver"
-                $.get(url,param,function(result){
-                    if(result.code==0){
-                        this.grabVehicles=result.list;
-                        console.log(grabVehicles);
-                    }
-
-                })
-            },
-
-
 
             delVehicle: function(index) {
                 console.log(index);
                 // 删一个数组元素  
-                this.grabVehicles.splice(index, 1);
+                /*this.grabVehicles.splice(index, 1);*/
+                //this.grabVehicles.splice(index)
+               // delete this.grabVehicles(index);
+                delete this.grabVehicles[index];
+                 window.location.reload();
             },
 
-            submitVehicle:function(){
+
+
+
+          /*  submitVehicle:function(){
                 var grabV= JSON.stringify(this.grabVehicles);
                 console.log(this.logisticsInfoId);
                 if($('#grabMoney').val()!=''){
-                  
+
                 $.ajax({
-                    type:'get', 
+                    type:'get',
                     url:url1,
                     data:{
                         grabVehicles:grabV,
@@ -348,7 +381,7 @@
                                   window.location.href = "${pageContext.request.contextPath}/sender/logisticsGrabResult";
                             }
                             else{
-                                alert(result.msg) 
+                                alert(result.msg)
                             }
                           }
 
@@ -357,6 +390,23 @@
                 else{
                     alert("你是不是忘记输入抢单价格了")
                 }
+            }*/
+
+            submitVehicle:function () {
+                $.ajax({
+                   type:'post',
+                    url:'${pageContext.request.contextPath}/userinfo/operationDriver',
+                    data:JSON.stringify(vm.model),
+                    dataType:'json',
+                    contentType:'application/json',
+                    success:function(result) {
+                        if(result.code==0){
+                            alert("修改成功");
+                        }
+
+                    }
+
+                });
             }
 
 

@@ -99,10 +99,10 @@
             <if test="grabMoney != null" >
                 grab_money = #{grabMoney,jdbcType=DECIMAL},
             </if>
-            <if test="deliverDate != null" >
+            <if test="deliverDate != null and deliverDate!='' " >
                 deliver_date = #{deliverDate,jdbcType=TIMESTAMP},
             </if>
-            <if test="receiveDate != null" >
+            <if test="receiveDate != null and receiveDate!='' " >
                 receive_date = #{receiveDate,jdbcType=TIMESTAMP},
             </if>
             <if test="driverName != null" >

@@ -237,6 +237,7 @@ public class UserinfoController {
     public R operationDriver(@RequestBody Map map){
         User user=(User) HttpContextUtils.getAttribute("user");
         Byte userType=user.getUserType();
+        System.out.println("map+++++++++++"+map);
         Long userId=user.getUserId();
         map.put("userId",userId);
         Integer  result=userinfoServiceImpl.operationDriver(userType,map);

@@ -147,32 +147,30 @@ public class UserinfoServiceImpl implements UserinfoService{
 
     @Override
     public Integer  operationDriver(Byte userType,Map map) {
-
-
-
         Integer result;
         switch (userType) {
-
             case 3:
                 Map param = vehicleGrabDao.selectVgdId(map);
-                if(map.get("deliverDate")!=null||map.get("receiveDate")!=null){
+                if((map.get("deliverDate")!=null && !"".equals(map.get("deliverDate")))||(map.get("receiveDate")!=null&& !"".equals(map.get("receiveDate")))){
                      param.put("deliverDate",map.get("deliverDate"));
                      param.put("receiveDate",map.get("receiveDate"));
+                     param.put("vehicleGrabId",param.get("vehicleGrabId"));
                      int num=vehicleGrabDao.updateByPrimaryKey(param);
                      if(num<=0){
                          return 0;
                      }
                 }
                 List<Map<String,String>> driverList= (List<Map<String, String>>) map.get("list");
+                System.out.print("driverList++++"+driverList);
                 List<VehicleGrabInfo> list=new ArrayList<VehicleGrabInfo>();
                 for(Map<String,String> map1:driverList){
                     VehicleGrabInfo vehicleGrabInfo = new VehicleGrabInfo();
                     vehicleGrabInfo.setVehicleGrabId((Long) param.get("vehicleGrabId"));
-                    vehicleGrabInfo.setDriverName((String) map.get("driverName"));
-                    vehicleGrabInfo.setDriverPhone((String) map.get("driverPhone"));
-                    vehicleGrabInfo.setVehicleHangingNo((String) map.get("vehicleHangingNo"));
-                    vehicleGrabInfo.setVehicleNo((String) map.get("vehicleNo"));
-                    String  size= (String) map.get("vehicleSize");
+                    vehicleGrabInfo.setDriverName((String) map1.get("driverName"));
+                    vehicleGrabInfo.setDriverPhone((String) map1.get("driverPhone"));
+                    vehicleGrabInfo.setVehicleHangingNo((String) map1.get("vehicleHangingNo"));
+                    vehicleGrabInfo.setVehicleNo((String) map1.get("vehicleNo"));
+                    String  size= (String) map1.get("vehicleSize");
                     vehicleGrabInfo.setVehicleSize(Double.parseDouble(size));
                     list.add(vehicleGrabInfo);
                 }
