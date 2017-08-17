@@ -8,12 +8,7 @@
     <%--<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">--%>
     <!--<link href="css/style.css" rel="stylesheet">-->
-    <%--<link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
-    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script>--%>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
-    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+
     <style>
         .mid_box {
             width: 1100px;
@@ -97,8 +92,11 @@
 </head>
 
 <body>
-    <div class="ui container segment" id="app1" style="width:900px;left:110px">
-        <h3 class="ui header">订单详情</h3>
+    <div class="container1">
+        <div class="container2">
+      
+    <div class="ui container segment" id="app1" >
+        <h4 class="ui header">订单详情</h4>
         <div class="ui divider"></div>
         <div class="column " style="width:100%;height:40px">
             <div class="fl-lf " style="width: 40%;text-align:left"> 订单号：${info.orderNo}</div>
@@ -186,9 +184,9 @@
             </thead>
             <tbody>
             <c:forEach items="${zorder.orderVehicles}" var="orderVehicle">
-                <tr v-for="vehicle in Vehicles " v-cloak>
+                <tr  >
                     <td>
-                        <h3 class="ui center aligned header xs " id="x" onclick="x()" value="${orderVehicle.driverName}">${orderVehicle.driverName}</h3>
+                        <span class="ui center aligned pointer" id="x" title='${orderVehicle.driverName}' value="${orderVehicle.driverName}">${orderVehicle.driverName}</span>
                     </td>
                     <td class="single line ">${orderVehicle.driverPhone}</td>
                     <td> ${orderVehicle.vehicleNo}</td>
@@ -217,9 +215,11 @@
         </c:forEach>
          
             </c:if>
-        <button onclick="javascript:window.history.go(-1);">返回</button>
+        <button class="ui button primary" onclick="javascript:window.history.go(-1);">返回</button>
             </div>
     </div>
+</div>
+</div>
 </body>
 <script>
     function confirmReceive(zorderId){
