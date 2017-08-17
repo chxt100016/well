@@ -76,22 +76,12 @@ public class WaFinanceController {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @RequestMapping("loanRepayDetail")
+    @ResponseBody
+    public R loanRepayDetailPage(@RequestParam("loanId")String loanId){
+        Map<String,Object> loan=financeServiceImpl.getLoanRepayInfo(Long.parseLong(loanId));
+        return R.ok().put("loan",loan);
+    }
 
     //财务信息接口
     /*@RequestMapping("accountInfo")

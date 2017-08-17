@@ -32,4 +32,5 @@ public interface FinanceService {
     Map<String,Object> getLoanOrderInfo(long loanId);
 
 
+    Map<String,Object> getLoanRepayInfo(long loanId);
 }

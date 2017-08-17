@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.LoanDao;
+import org.wella.dao.RepayDao;
 import org.wella.dao.TradeDAO;
 import org.wella.entity.User;
 import org.wella.service.FinanceService;
@@ -13,6 +14,8 @@ import org.wella.service.MessageService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,6 +31,9 @@ public class FinanceServiceImpl implements FinanceService {
 
     @Autowired
     private MessageService messageServicesk;
+
+    @Autowired
+    private RepayDao repayDao;
 
     @Override
     public int recharge(Map<String, Object> map) {
@@ -53,5 +59,14 @@ public class FinanceServiceImpl implements FinanceService {
         return res;
     }
 
-
+    @Override
+    public Map<String, Object> getLoanRepayInfo(long loanId) {
+        Map<String,Object> loan=loanDao.singleLoanOrderViewByPrimaryKey(loanId);
+        Map<String, Object> query = new HashMap<>();
+        query.put("loanId", loan.get("loanId"));
+        List<Map<String, Object>> repays = repayDao.listRepayByConditions(query);
+        ConvertUtil.convertDataBaseMapToJavaMap(repays);
+        loan.put("repays", repays);
+        return loan;
+    }
 }

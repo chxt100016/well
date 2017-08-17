@@ -17,7 +17,7 @@
 		<input type="hidden" id="page" name="page" value="${param.page}">
 		<input type="hidden" id="grabState" name="grabState" value="${param.grabState}">
 		<div class="row-header">
-		     <h4 class="ui header">订单列表</h4>
+		     <h4 class="ui header">抢单列表</h4>
     		<div class="ui divider"></div>
 		     <div class="ui input"style="float:right;">
 
@@ -74,7 +74,7 @@
                     <td class="right-border tx-ct" >${item.userName}
                     </td>
                     <td class="right-border tx-ct" >
-                        <span class="ds-bl fl-lt pd-lf-20 ft-wt-bd " style="">${item.prodPrice} 元</span>
+                        <span class="ds-bl fl-lt pd-lf-20 ft-wt-bd " style="">${item.grabMoney} 元</span>
                         
                     </td>
                     <td class="right-border tx-ct" >
@@ -94,10 +94,10 @@
                     <td>
                         	<span class="span_btn pointer" >
 									<c:if test = "${item.grabState == '0'}">
-											<span class="span_btn" onClick = "toURL('cancelGrab','${item2.grabId}')">取消</span>
+											<span class="span_btn" onClick = "toURL('cancelGrab','${item.grabId}')">取消</span>
 									</c:if>
 									<c:if test = "${item.grabState == '-1'}">
-											<span class="span_btn" onClick = "toURL('reGrab','${item2.logisticsInfoId}',this)">再抢单</span>
+											<span class="span_btn" onClick = "toURL('reGrab','${item.logisticsInfoId}',this)">再抢单</span>
 									</c:if>
 							</span>
                     </td>
