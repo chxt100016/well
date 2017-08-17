@@ -27,7 +27,7 @@
 
 </head>
 <div class="container1" id="app">
-	  <div class="container2">
+	  <div style="margin:40px 0 0 210px;">
 		<div id = "content-rect" style="width:90%;">		
 			<div class = "row-header" style="border-bottom:1px solid #d0d0d0;padding-bottom:10px;"><span class = "header-title">提现</span></div>
 			<!-- <div class = "row1">

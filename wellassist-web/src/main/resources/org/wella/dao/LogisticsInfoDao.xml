@@ -103,8 +103,8 @@
             <if test = "orderId != null" >
                 AND order_id = #{orderId}
             </if>
-            <if test = "userName != null">
-                AND (customer_user_name LIKE '%${userName}%' OR seller_user_name LIKE '%${userName}%')
+            <if test="senderUserId != null">
+                AND logistics_id NOT IN (SELECT logistics_info_id FROM wa_vehicle_grab WHERE sender_user_id=#{senderUserId} AND grab_state!=-1)
             </if>
             <if test="state != null">
                 AND state=#{state}

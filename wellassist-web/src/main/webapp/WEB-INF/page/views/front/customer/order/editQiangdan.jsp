@@ -73,8 +73,8 @@ vertical-align: middle;
 	
 
 <div class="container1">
-	<div class="container2">
-		 <div class="ui  container">
+	<div style="margin:40px 0 0 210px;">
+		 <div class="ui  container" style="width:90%;">
         <div class=" ui items ">
             <div class="column">
                 <h4>物流选择</h4>
@@ -90,7 +90,7 @@ vertical-align: middle;
                             <td class="middleAlign" style="height:99px">
                                 <img src="${info.logisticsInfoView.prodImg}" alt="" width="70px" height="70px" class="ds-bl mg-lf-30 fl-lf ">
                                 <span class="middleAlign pd-tp-20 pd-lf-10">${info.logisticsInfoView.prodName}</span>
-                                <span class="fl-lf pd-lf-10">  报价：${info.logisticsInfoView.customerExceptCarriage}</span>
+                                <span class="fl-lf pd-lf-10">  期望运费：${info.logisticsInfoView.customerExceptCarriage} 元</span>
                             </td>
                             <td  class="middleAlign">
                                 <span>提货地址：${info.logisticsInfoView.toAddress}</span>
@@ -112,7 +112,7 @@ vertical-align: middle;
                                 <img src="${item.companyImg}" alt="" width="100px" height="100px" class="ds-bl fl-lf  ">
                                 <div class="fl-lf pd-bt-15 pd-lf-30  ft-sz-18" style="width:350px" >${item.senderUserName}</div>
                                 <div class="fl-lf pd-bt-15 pd-lf-30  " style="width:350px">浙江省杭州市江干区航海路968号</div>
-                                <div class="fl-lf  pd-lf-30  pd-bt-15 " style="width:350px">报价：${item.grabMoney}<span>联系人：${item.companyLxr}</span></div>
+                                <div class="fl-lf  pd-lf-30  pd-bt-15 " style="width:350px">报价：${item.grabMoney} 元<span>联系人：${item.companyLxr}</span></div>
                                 
                                 <div class="fl-lf" style="width:350px;margin-top:20px" >
 									<div class="ui button fl-lf " style="width:100px;"  onclick="choseExp('${item.vehicleGrabId}')">选择</div>

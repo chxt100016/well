@@ -33,10 +33,10 @@
                     商品名称：${info.prodName}
                 </th>
                 <th>
-                    载货量：${info.num}
+                    载货量：${info.num} 吨
                 </th>
                 <th>
-                    下单日期 ：${info.orderDate}
+                    下单日期 ：<fmt:formatDate value="${info.orderDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate>
                 </th>
             </thead>
             <tbody>
@@ -69,12 +69,12 @@
                     <td colspan="3">配送地址: ${info.toAddress}</td>
                 </tr>
                 <tr>
-                    <td colspan="3">客户报价：${info.customerExceptCarriage}</td>
+                    <td colspan="3">客户报价：${info.customerExceptCarriage} 元</td>
                 </tr>
                 <tr>
                     
                     <td colspan="3">报价：
-                        <input type="text"  name="grabMoney" v-model=grabMoney id="grabMoney">
+                        <input type="text"  name="grabMoney" v-model=grabMoney id="grabMoney"> 元
                     </td>
                 </tr>
             </tbody>

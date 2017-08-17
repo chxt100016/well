@@ -85,12 +85,12 @@
 
                     <div class="fl-lf "> 
                         <div  class="fl-lf "><span class="a-color-base">发货时间：</span> </div>
-                        <div class="fl-rg "> <span ><fmt:formatDate value="${info.deliverDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate> </span></div>
+                        <div class="fl-rg "> <span ><c:if test="${empty info.deliverDate}">暂无</c:if><c:if test="${not empty info.deliverDate}"><fmt:formatDate value="${info.deliverDate}" pattern="yyyy-MM-dd"></fmt:formatDate></c:if> </span></div>
                     </div><br>
 
                     <div class="fl-lf ">
                         <div  class="fl-lf "><span class="a-color-base">收货时间：</span> </div>
-                        <div class="fl-rg "> <span ><fmt:formatDate value="${info.receiveDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span> </div>
+                        <div class="fl-rg "> <span ><c:if test="${empty info.receiveDate}">暂无</c:if><c:if test="${not empty info.receiveDate}"><fmt:formatDate value="${info.receiveDate}" pattern="yyyy-MM-dd"></fmt:formatDate></c:if></span> </div>
                      </div><br>
                     <div class="fl-lf ">
                         <div  class="fl-lf "><span class="a-color-base">发货地址：</span> </div>
