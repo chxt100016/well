@@ -86,12 +86,12 @@
                             <td class="form_label"><label for="">产品图片：</label></td>
                             <td>
 
-                                <img id="prodImgpath" class="yingyeimg" style="width:270PX;height:230px" src="${prod.prodImg}" name="prodImg" />
+                                <img id="upload2" class="yingyeimg" style="width:270PX;height:230px;border:1px solid #adadad" src="${prod.prodImg}" name="prodImg" />
                             </td>
                             <td>
                                 <input type="hidden" name="prodImg" value="${prod.prodImg}"/><br>
                                 <%--<input type="file" id="prodImg" name="prodImg_src" value="${prod.prodImg_src}" class="fileManage" />--%>
-                                <button class="ui button primary" id="upload2">更换图片</button>
+                                <div  >（点击图片更换）</div>
                             </td>
                         </tr>
                         <br>
@@ -146,7 +146,7 @@
                     onComplete : function(file, data){
                         if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
                         $("input[name='prodImg']").val(data.path);
-                        $("#prodImgpath").attr("src", data.path);
+                        $("#upload2").prop("src", data.path);
                         $("#prodImgpath").show();
                         return;
                     }
