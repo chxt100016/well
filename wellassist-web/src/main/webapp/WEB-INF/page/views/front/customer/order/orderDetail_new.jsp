@@ -13,15 +13,6 @@
     <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script>--%>
     <style>
-        .mid_box {
-            width: 1100px;
-            margin: 0px auto;
-            border: 1px solid rgba(34, 36, 38, .15);
-            box-shadow: 0 2px 4px 0 rgba(34, 36, 38, .12), 0 2px 10px 0 rgba(34, 36, 38, .15);
-            padding: 1em;
-            font-size: 14px;
-            position: absolute;
-        }
         
         ul {
             padding: 0;
@@ -100,9 +91,89 @@
     <div class="ui container" id="app1" style="width:90%;">
         <h4 class="ui header">订单详情</h4>
         <div class="ui divider"></div>
-        <div class="column " style="width:100%;height:40px">
-            <div class="fl-lf " style="width: 40%;text-align:left"> 订单号：${info.orderNo}</div>
-            <div class="right item fl-rg" style="width: 46%; text-align:left"><span class="ui inverted tx-rg ">下单时间:<fmt:formatDate value="${info.orderDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate> </span>
+
+        <div style="font-size:14px;font-weight: 600;line-height: 30px; margin:20px 0 40px 60px;">
+                <span>当前订单付款状态：</span>
+                <span>
+                    <c:if test="${fn:startsWith(info.orderState,'-')||fn:startsWith(info.orderState,0)||fn:startsWith(info.orderState,1)}">未付款</c:if>
+                    <c:if test="${!fn:startsWith(info.orderState,'-')&&fn:substring(info.orderState,0,1)>=2}">已付款</c:if>
+                </span><br>
+                
+                <span>企业名称：</span>
+                <span>${info.userName}</span><br>
+
+                <span>订单号：</span>
+                <span>${info.orderNo}</span>
+                <span style="margin-left:9%;">货运方式：</span>
+                <span>
+                    <c:if test="${info.isSelfCar==0}">自提</c:if>
+                    <c:if test="${info.isSelfCar==1}">平台物流</c:if>
+                </span><br>
+
+                <span>下单时间：</span>
+                <span><fmt:formatDate value="${info.Date}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span>
+                <span style="margin-left:11.5%;">联系人：</span>
+                <span>${info.contacts}</span><br>
+
+                <span>预计发货时间：</span>
+                <span><fmt:formatDate value="${info.deliverDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span>
+                <span style="margin-left:11.5%;">联系电话：</span>
+                <span>${info.conTel}</span><br>
+
+                <span>预计收货时间：</span>
+                <span><fmt:formatDate value="${info.receiveDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span>
+                
+            </div>
+
+                <table class="ui table" style="border:0;background-color:#DAF3FF;height:45px;line-height:45px;border-radius:0;text-align:center;">
+                    <tr>
+                        <th colspan="2" width="30%">产品</th>
+                        <th width="13%">品类</th>
+                        <th width="15%">单价(元/吨)</th>
+                        <th width="14%">数量(吨)</th>
+                        <th width="15%">总价(元)</th>
+                        <th width="13%">已收吨数</th>
+                    </tr>
+                </table>
+                <table class="ui line celled  table" style="margin-top:-8px;text-align:center;border-radius:0;">
+                    <tr>
+                        <td width="10%">
+                            <img src="${info.prodImg}" width="100" height="75">
+                        </td>
+                        <td width="20%" style="text-align:left;border-left:0;">${info.prodName}</td>
+                        <td width="13%">
+                            <c:if test="${info.prodType==0}">天然气</c:if>
+                            <c:if test="${info.prodType==1}">原油</c:if>
+                            <c:if test="${info.prodType==2}">管道气</c:if>
+                        </td>
+                        <td width="14%">
+                            <c:if test="${empty info.orderNumber && empty info.confirmNumber}">${info.saleMoney/info.saleNum}</c:if>
+                            <%--<c:if test="${empty info.orderNumber && !empty info.confirmNumber}">${info.comfirmPrice}</c:if>--%>
+                            <c:if test="${!empty info.orderNumber  }">${info.orderPrice}</c:if> 元</div>
+                            <c:if test="${not empty info.orderNumber and (info.orderPrice-(info.saleMoney/info.saleNum)>0.0000000001 or info.orderPrice-(info.saleMoney/info.saleNum)<-0.0000000001)}"><s>${info.saleMoney/info.saleNum}</s></c:if>
+                        </td>
+                        <td width="14%">
+                            <c:if test="${empty info.orderNumber && empty info.confirmNumber}">${info.saleNum}</c:if>
+                            <c:if test="${!empty info.orderNumber}">${info.orderNumber}</c:if> 吨
+                            <c:if test="${not empty info.orderNumber and (info.orderNumber-info.saleNum>0.0000000001 or info.orderNumber-info.saleNum<-0.0000000001)}"><s>${info.saleNum}</s></c:if>
+                        </td>
+                        <td width="15%">  
+                            <c:if test="${empty info.orderNumber && empty info.confirmNumber}">${info.saleMoney}</c:if>
+                            <c:if test="${!empty info.orderNumber }">${info.orderNumber*info.orderPrice}</c:if> 元
+                            <c:if test="${not empty info.orderNumber and (info.orderNumber*info.orderPrice-info.saleMoney>0.0000000001 or info.orderNumber*info.orderPrice-info.saleMoney<-0.0000000001)}"><s>${info.saleMoney}</s></c:if>
+                        </td>
+                        <td width="13%">
+                            <c:if test="${fn:startsWith(info.orderState,'-')||fn:substring(info.orderState,0,1)<=2}">未发货</c:if>
+                            <c:if test="${!fn:startsWith(info.orderState,'-')&&fn:substring(info.orderState,0,1)>=3}">${info.sumNum}</c:if>
+                        </td>
+                    </tr>
+                </table>
+
+                
+
+<!--         <div class="column " style="width:100%;height:40px">
+            <div class="fl-lf " style="width: 40%;text-align:left"> 订单号：${info.No}</div>
+            <div class="right item fl-rg" style="width: 46%; text-align:left"><span class="ui inverted tx-rg ">下单时间:<fmt:formatDate value="${info.Date}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate> </span>
             </div>
             
         </div>
@@ -183,7 +254,7 @@
                 <div class="fl-lf">${info.receiveDate}</div>
             </li>
         </ul>
-        <br><br>
+        <br><br> -->
 
         <c:if test="${!empty info.zorders}">
             <h4 class="ui header">物流信息</h4>

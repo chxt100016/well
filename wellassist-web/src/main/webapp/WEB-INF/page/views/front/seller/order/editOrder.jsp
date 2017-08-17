@@ -49,21 +49,89 @@
 		<h4 class="ui header">订单详情</h4>
         <div class="ui divider"></div>
 		<form id="ddxqForm" action="${pageContext.request.contextPath}/seller/editOrderSubmit" method="post">
-				<div class="rowDd">
-					<div class="labeldd" align="right">企业名称:</div>
-					<div class="contentdd">${orderInfo.userName}</div>
-				</div>
-				<div class="rowDd">
-					<div class="labeldd" align="right">产品名称 :</div>
-					<div class="contentdd">${orderInfo.prodName}</div>
-				</div>
-				<div class="rowDd">
-					<div class="labeldd" align="right">联系人 :</div>
-					<div class="contentdd">${orderInfo.contacts}</div>
-					<div class="labeldd" align="right">联系电话 :</div>
-					<div class="contentdd">${orderInfo.conTel}</div>
-				</div>
-				<div class="rowDd">
+			<div style="font-size:14px;font-weight: 600;line-height: 30px; margin:20px 0 40px 60px;">
+				<span>当前订单付款状态：</span>
+	            <span>
+	                <c:if test="${orderInfo.orderState=='0'}">待确认</c:if>
+					<c:if test="${orderInfo.orderState=='1'}">待付款</c:if>
+					<c:if test="${orderInfo.orderState=='2'}">已付款</c:if>
+					<c:if test="${orderInfo.orderState=='3'}">未发货</c:if>
+					<c:if test="${orderInfo.orderState=='4'}">已发货</c:if>
+					<c:if test="${orderInfo.orderState=='5'}">待评价</c:if>
+					<c:if test="${orderInfo.orderState=='6'}">已完成</c:if>
+	            </span><br>
+				
+				<span>企业名称：</span>
+				<span>${orderInfo.userName}</span><br>
+
+            	<span>订单号：</span>
+            	<span>${orderInfo.orderNo}</span>
+            	<span style="margin-left:9%;">货运方式：</span>
+	            <span>
+	                <c:if test="${orderInfo.isSelfCar==0}">自提</c:if>
+	                <c:if test="${orderInfo.isSelfCar==1}">平台物流</c:if>
+	            </span><br>
+
+	            <span>下单时间：</span>
+	            <span><fmt:formatDate value="${orderInfo.orderDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span>
+	            <span style="margin-left:11.5%;">联系人：</span>
+	            <span>${orderInfo.contacts}</span><br>
+
+	            <span>发货时间：</span>
+	            <span><fmt:formatDate value="${orderInfo.deliverDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span>
+	            <span style="margin-left:11.5%;">联系电话：</span>
+	            <span>${orderInfo.conTel}</span><br>
+
+	            <span>预计收货时间：</span>
+	            <span><fmt:formatDate value="${orderInfo.receiveDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span>
+				
+			</div>
+
+				<table class="ui table" style="border:0;background-color:#DAF3FF;height:45px;line-height:45px;border-radius:0;text-align:center;">
+		            <tr>
+		                <th colspan="2" width="30%">产品</th>
+		                <th width="13%">品类</th>
+		                <th width="15%">单价(元/吨)</th>
+		                <th width="14%">数量(吨)</th>
+		                <th width="15%">总价(元)</th>
+		                <th width="13%">状态</th>
+		            </tr>
+		        </table>
+		        <table class="ui line celled  table" style="margin-top:-8px;text-align:center;border-radius:0;">
+		            <tr>
+		                <td width="10%">
+		                    <img src="${orderInfo.prodImg}" width="100" height="75">
+		                </td>
+		                <td width="20%" style="text-align:left;border-left:0;">${orderInfo.prodName}</td>
+		                <td width="13%">
+		                    <c:if test="${orderInfo.prodType==0}">天然气</c:if>
+		                    <c:if test="${orderInfo.prodType==1}">原油</c:if>
+		                    <c:if test="${orderInfo.prodType==2}">管道气</c:if>
+		                </td>
+		                <td width="14%">
+		                    <c:if test="${empty orderInfo.orderNumber && empty orderInfo.confirmNumber}">${orderInfo.saleMoney/orderInfo.saleNum}</c:if>
+		                    <c:if test="${!empty orderInfo.orderNumber  }">${orderInfo.orderPrice}</c:if>元</div>
+		                    <c:if test="${not empty orderInfo.orderNumber and (orderInfo.orderPrice-(orderInfo.saleMoney/orderInfo.saleNum)>0.0000000001 or orderInfo.orderPrice-(orderInfo.saleMoney/orderInfo.saleNum)<-0.0000000001)}"><s>${orderInfo.saleMoney/orderInfo.saleNum}</s></c:if>
+		                </td>
+		                <td width="14%">
+		                    <c:if test="${empty orderInfo.orderNumber && empty orderInfo.confirmNumber}">${orderInfo.saleNum}</c:if>
+		                    <c:if test="${!empty orderInfo.orderNumber}">${orderInfo.orderNumber}</c:if>吨
+		                    <c:if test="${not empty orderInfo.orderNumber and (orderInfo.orderNumber-orderInfo.saleNum>0.0000000001 or orderInfo.orderNumber-orderInfo.saleNum<-0.0000000001)}"><s>${orderInfo.saleNum}</s></c:if>
+		                </td>
+		                <td width="15%">  
+		                    <c:if test="${empty orderInfo.orderNumber && empty orderInfo.confirmNumber}">${orderInfo.saleMoney}</c:if>
+		                    <c:if test="${!empty orderInfo.orderNumber }">${orderInfo.orderNumber*orderInfo.orderPrice}</c:if>元</div>
+		                    <c:if test="${not empty orderInfo.orderNumber and (orderInfo.orderNumber*orderInfo.orderPrice-orderInfo.saleMoney>0.0000000001 or orderInfo.orderNumber*orderInfo.orderPrice-orderInfo.saleMoney<-0.0000000001)}"><s>${orderInfo.saleMoney}</s></c:if>
+		                </td>
+		                <td width="13%">
+		                    <c:if test="${fn:startsWith(orderInfo.orderState,'-')||fn:startsWith(orderInfo.orderState,0)||fn:startsWith(orderInfo.orderState,1)}">未付款</c:if>
+		                    <c:if test="${!fn:startsWith(orderInfo.orderState,'-')&&fn:substring(orderInfo.orderState,0,1)>=2}">已付款</c:if>
+		                </td>
+		            </tr>
+		        </table>
+				<h4 class="ui header">修改订单</h4>
+        		<div class="ui divider"></div>
+        		<div class="rowDd">
 					<div class="labeldd" align="right">供应量 :</div>
 					<div class="contentdd ui input" style="margin-top:8px;">
 						<input type="text" name="saleNum" value="${orderInfo.orderNumber}" placeholder="请输入供应量" onkeyup="return validateNumber(this,value,0)" />
@@ -75,19 +143,6 @@
 					<div class="labeldd" align="right">总价 :</div>
 					<div class="contentdd"><span id="saleMoney">${orderInfo.orderPrice * orderInfo.orderNumber}</span>元</div>
 				</div>
-				<div class="rowDd">
-					<div class="labeldd" align="right">状态 :</div>
-					<div class="contentdd">
-						<c:if test="${orderInfo.orderState=='0'}">待确认</c:if>
-						<c:if test="${orderInfo.orderState=='1'}">待付款</c:if>
-						<c:if test="${orderInfo.orderState=='2'}">已付款</c:if>
-						<c:if test="${orderInfo.orderState=='3'}">未发货</c:if>
-						<c:if test="${orderInfo.orderState=='4'}">已发货</c:if>
-						<c:if test="${orderInfo.orderState=='5'}">待评价</c:if>
-						<c:if test="${orderInfo.orderState=='6'}">已完成</c:if>
-					</div>
-				</div>
-				
 				<input type="hidden" name="orderId" value="${orderInfo.orderId}" />
 
 				<div style="margin: 40px 0px 40px 80px;">
