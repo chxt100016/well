@@ -166,12 +166,13 @@ public class UserinfoServiceImpl implements UserinfoService{
                      if(num<=0){
                          return 0;
                      }
-                     if((List<Map<String, String>>) map.get("list")==null){
-                         return 1;
-                     }
+
                 }
                 List<Map<String,String>> driverList= (List<Map<String, String>>) map.get("list");
-                System.out.print("driverList++++"+driverList);
+                if(driverList.size()==0){
+                    return 1;
+                }
+
                 List<VehicleGrabInfo> list=new ArrayList<VehicleGrabInfo>();
                 for(Map<String,String> map1:driverList){
                     VehicleGrabInfo vehicleGrabInfo = new VehicleGrabInfo();
