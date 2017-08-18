@@ -16,7 +16,7 @@
 	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/sender/logisticsGrabList">
 		<input type="hidden" id="page" name="page" value="${param.page}">
 		<input type="hidden" id="grabState" name="grabState" value="${param.grabState}">
-		<div class="row-header">
+		<%--<div class="row-header">
 		     <h4 class="ui header">抢单列表</h4>
     		<div class="ui divider"></div>
 		     <div class="ui input"style="float:right;">
@@ -24,14 +24,14 @@
 		     	<input type="text" name="orderNo" style="height:33px; float:left;margin-bottom:0px;" value="${param.orderNo}" placeholder = "订单编号"/>
 		     	<span class="ui button small blue" style="margin-bottom:0px;" onclick="searchData(1);">搜索</span>
 		     </div>
-		</div>
+		</div>--%>
 	</form>
 	
 	<ul class="ds-bl pd-10 ft-sz-15">
-            <li class="ds-bl fl-lt pd-10  ulSelected">全部订单</li>
-            <li class="ds-bl fl-lt pd-10">已选择</li>
-            <li class="ds-bl fl-lt pd-10">未选择</li>
-            <li class="ds-bl fl-lt pd-10">已取消</li>
+            <li class="ds-bl fl-lt pd-10  <c:if test="${empty param.grabState}" >ulSelected</c:if>" onclick="$('#grabState').val('');searchData(1);">全部订单</li>
+            <li class="ds-bl fl-lt pd-10 <c:if test="${param.grabState==1}" >ulSelected</c:if>" onclick="$('#grabState').val('1');searchData(1);">已选择</li>
+            <li class="ds-bl fl-lt pd-10 <c:if test="${not empty param.grabState and param.grabState==0}" >ulSelected</c:if>" onclick="$('#grabState').val('0');searchData(1);">未选择</li>
+            <li class="ds-bl fl-lt pd-10 <c:if test="${param.grabState==-1}" >ulSelected</c:if>" onclick="$('#grabState').val('-1');searchData(1);">已取消</li>
         </ul>
         <br>
         <table class="ui basic table">
@@ -130,7 +130,9 @@
 <script type = "text/javascript">
 	// 初始化函数
 	$(function(){
-		$('.fancybox').fancybox();
+//		$('.fancybox').fancybox();
+		$('.ui.dropdown')
+			.dropdown();
 		var url = $("#searchFrm").attr("action")+"?"+$("#searchFrm").serialize();
  		setPageUrl(url);
 	});

@@ -1099,7 +1099,7 @@ public class CustomerController extends BaseController {
    public String loanRepayDetailPage(Model model){
       model.addAttribute("parentMenuNo", "6");
       model.addAttribute("childMenuNo", "3");
-      return "views/front/customer/finance/repayRecords.jsp";
+      return "views/front/customer/finance/loanRepayDetail.jsp";
    }
 
 

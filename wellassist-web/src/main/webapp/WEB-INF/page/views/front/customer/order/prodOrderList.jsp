@@ -129,8 +129,6 @@
 								 <c:if test="${item.prodPayState==5}">待物流付款</c:if>
 							 </c:if>
 								<c:if test="${item.orderState=='2'}">已付款</c:if>
-								<c:if test="${item.orderState=='22'}">已付款(线下支付申请)</c:if>
-								<c:if test="${item.orderState=='21'}">已付款(中信支付申请)</c:if>
 								<c:if test="${item.orderState=='3'}">发货中</c:if>
 								<c:if test="${item.orderState=='4'}">已发货</c:if>
 								<c:if test="${item.orderState=='5'}"><%--发送发票--%>已收货</c:if>
@@ -201,9 +199,7 @@
  		setPageUrl(url);
 
 		 console.log("${page}");
-		 $('.ui.dropdown')
-  .dropdown()
-;
+		 $('.ui.dropdown').dropdown();
 	});
 	
 	function toURL(action, orderId){

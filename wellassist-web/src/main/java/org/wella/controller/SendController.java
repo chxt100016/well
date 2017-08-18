@@ -73,6 +73,9 @@ public class SendController extends BaseController{
     @Autowired
     private TradeDAO tradeDao;
 
+    @Autowired
+    private VehicleGrabDao vehicleGrabDao;
+
 
     @Autowired
     private UserinfoDao userinfoDao;
@@ -246,6 +249,8 @@ public class SendController extends BaseController{
         this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
         return "views/front/sender/order/qdList.jsp";
     }
+
+
     @RequestMapping("logisticsOrderList")
     public String logisticsOrderListPage(HttpServletRequest request,Model model){
         HttpSession session=request.getSession();
@@ -716,8 +721,12 @@ public class SendController extends BaseController{
     @RequestMapping("selectDriver")
     public  R selectDriver(@RequestParam Long logisticsId){
         List <Map<String,Object>> driverList=senderServiceImpl.selectDriver(logisticsId);
+        Map<String,Object> vehicleGrab=vehicleGrabDao.selectLogisticsDateByLogisticsInfoId(logisticsId);
+        ConvertUtil.convertDataBaseMapToJavaMap(vehicleGrab);
         System.out.println(driverList);
-        return new R().put("list",driverList);
+        R r=new R().ok().put("list",driverList);
+        r.putAll(vehicleGrab);
+        return r;
     }
 
 

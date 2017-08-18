@@ -126,20 +126,20 @@
                              <td><fmt:formatNumber value="${loan.remainRepayMoney+loan.remainLixiMoney}" pattern="#,###.##" type="number"/></td>
                              <td class="center aligned">
                                  <button class="ui positive button" onclick="toURL('goRepayLoan',${loan.loanId})">还款</button>
-                                 <button class="ui secondary basic button">明细</button>   
+                                 <button class="ui secondary basic button" onclick="toURL('goRepayDetail',${loan.loanId})">明细</button>   
                              </td>
                         </tr>
                         </c:forEach>
                     </c:if>
                     <c:if test="${empty loans}">无欠款...</c:if>
                     <tfoot>
-                        <tr>
-                             <td colspan="4">
+                        
+                             <th colspan="6">
                                     <div class="right-pagination">
                                      <%@ include file="../../pagination.jsp"%>
                                      </div>
-                             </td>
-                        </tr>
+                             </th>
+                       
                     </tfoot>
                     </tbody>
 
@@ -165,6 +165,9 @@
             },"json");
         }else if (action == 'goRepayLoan'){
             window.location.href="${pageContext.request.contextPath}/customer/goRepayLoan?loanId="+loanId;
+        }
+        else if (action == 'goRepayDetail'){
+            window.location.href="${pageContext.request.contextPath}/customer/loanRepayDetailPage?loanId="+loanId;
         }
     }
 </script>

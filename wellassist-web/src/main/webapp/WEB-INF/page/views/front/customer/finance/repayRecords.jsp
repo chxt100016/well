@@ -22,6 +22,13 @@
                 background-color: #00B5AD!important;
                 color: #FFF!important;
             }
+            .greenxx{
+                color: #009a61;
+                font-size: 16px
+            }
+            .redxx{
+                color:#FF4351
+            }
         </style>
 
     </head>
@@ -45,16 +52,19 @@
                  <h4 class="ui horizontal divider header"><i class="bar chart icon"></i> 借款信息 </h4>
                 <div class="ui equal width grid">
                     <div class="column">订单编号：${loan.orderNo}</div>
-                    <div class="column">还款状态:<c:if test="${loan.loanState==2}">待还款</c:if><c:if test="${loan.loanState==3}">已还清</c:if></div>
+                    <div class="column">还款状态:
+                        <c:if test="${loan.loanState==2}"> <i class="hourglass start icon redxx"></i>待还款 </c:if>
+                        <c:if test="${loan.loanState==3}"> <i class="check circle outline icon greenxx" style="font-size:16px"></i> 已还清 </c:if>
+                    </div>
                     <div class="column">借款时间：<fmt:formatDate value="${loan.applyDate}" pattern="yyyy-MM-dd"/> </div>
                 </div>
                 <div class="ui equal width grid">
-                    <div class="column">借款金额：${loan.loanMoney} 元</div>
+                    <div class="column">借款金额：<span class="ft-wt-bd ft-sz-16">${loan.loanMoney} </span>元</div>
                     <div class="column">产生利息：${loan.lixiMoney} 元</div>
                     <div class="column">还款期限：<fmt:formatDate value="${loan.paymentDate}" pattern="yyyy-MM-dd"/></div>
                 </div>
                  <div class="ui equal width grid">
-                    <div class="column">已还本金：${loan.repayMoney} 元</div>
+                    <div class="column">已还本金：<span class="ft-wt-bd ft-sz-16">${loan.repayMoney}</span> 元</div>
                     <div class="column">已还利息：${loan.repayLixi} 元</div>
                     <div class="column">尾款：${loan.remainRepayMoney+loan.remainLixiMoney} 元</div>
                 </div>

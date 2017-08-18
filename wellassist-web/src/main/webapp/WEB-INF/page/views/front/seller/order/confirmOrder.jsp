@@ -173,14 +173,14 @@
         		<div class="rowDd">
 					<div class="labeldd" align="right">供应量 :</div>
 					<div class="contentdd ui input" style="margin-top:8px;">
-						<input type="text" name="saleNum" value="${orderInfo.orderNumber}" placeholder="请输入供应量" onkeyup="return validateNumber(this,value,0)" />
+						<input type="text" name="saleNum" value="${orderInfo.saleNum}" placeholder="请输入供应量" onkeyup="return validateNumber(this,value,0)" />
 					</div>
 					<div class="labeldd" align="right">单价 :</div>
 					<div class="contentdd ui input" style="margin-top:8px;">
-						<input type="text" name="saleDj" value="${orderInfo.orderPrice}" placeholder="请输入单价" onkeyup="return validateNumber(this,value,0)" />
+						<input type="text" name="saleDj" value="${orderInfo.saleMoney/orderInfo.saleNum}" placeholder="请输入单价" onkeyup="return validateNumber(this,value,0)" />
 					</div>
 					<div class="labeldd" align="right">总价 :</div>
-					<div class="contentdd"><span id="saleMoney">${orderInfo.orderPrice * orderInfo.orderNumber}</span>元</div>
+					<div class="contentdd"><span id="saleMoney">${orderInfo.saleMoney}</span>元</div>
 				</div>
 				<input type="hidden" name="orderId" value="${orderInfo.orderId}" />
 
