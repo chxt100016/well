@@ -8,6 +8,7 @@ import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
 import org.wella.entity.CreditorAuthenticInfo;
+import org.wella.entity.Prod;
 import org.wella.entity.VehicleGrabInfo;
 import org.wella.entity.VehicleInfo;
 import org.wella.service.CreditorService;
@@ -42,6 +43,12 @@ public class UserinfoServiceImpl implements UserinfoService{
 
     @Autowired
     private VehicleInfoDao  vehicleInfoDao;
+
+    @Autowired
+    private RegionServiceImpl regionServiceImpl;
+
+    @Autowired
+    private ProdDao prodDao;
 
 
 
@@ -159,6 +166,9 @@ public class UserinfoServiceImpl implements UserinfoService{
                      if(num<=0){
                          return 0;
                      }
+                     if((List<Map<String, String>>) map.get("list")==null){
+                         return 1;
+                     }
                 }
                 List<Map<String,String>> driverList= (List<Map<String, String>>) map.get("list");
                 System.out.print("driverList++++"+driverList);
@@ -197,13 +207,6 @@ public class UserinfoServiceImpl implements UserinfoService{
 
 
 
-
-
-
-
-
-
-
     @Override
     public Integer deleteDriver(Byte userType, Long id) {
         Integer result;
@@ -214,4 +217,19 @@ public class UserinfoServiceImpl implements UserinfoService{
         }
         return result;
     }
+
+
+    @Override
+    public Prod selectProduct(Long prodId) {
+        Prod prod = prodDao.getOrderProdByProdid(prodId);
+        String Address=regionServiceImpl.getDetailAddress(prod.getProdRegionId(),prod.getProdRegionAddr());
+        prod.setProdRegionAddr(Address);
+        return prod;
+    }
 }
+
+
+
+
+
+

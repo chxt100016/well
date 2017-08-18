@@ -2,6 +2,7 @@ package org.wella.service;
 
 import io.wellassist.utils.Query;
 import org.wella.entity.CreditorAuthenticInfo;
+import org.wella.entity.Prod;
 
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,9 @@ public interface UserinfoService {
 
 
     Integer deleteDriver(Byte userType,Long id);
+
+
+    Prod selectProduct(Long prodId);
 
 
 
