@@ -123,7 +123,7 @@
                     </div>
                     <div class="actions">
                         <div class="ui button ">取消</div>
-                        <div class="ui button" @click="Postloans">确认</div>
+                        <div class="ui button positive " @click="Postloans">确认</div>
                     </div>
                 </div>
 
@@ -138,11 +138,12 @@
                         <div class="description">
                             <div>贷款公司名称：{{loanInfo.customerUserName}}</div>
                             <div>贷款金额：{{loanInfo.loanMoney}}元</div>
+                            <br>
                             <form class="ui reply form">
                                 <div class="field">
-                                    <textarea placeholder="请输入此次拒绝放款的原因或者备注"></textarea>
+                                    <textarea placeholder="请输入此次拒绝放款的原因或者备注" v-model='reason'></textarea>
                                 </div>
-                                <div class="ui blue labeled submit icon button"><i class="icon edit"></i> 提交 </div>
+                                <!-- <div class="ui blue labeled submit icon button"><i class="icon edit"></i> 提交 </div> -->
                             </form>
                             <div>
                                 <span>注：取消后，将无法撤回”</span>
@@ -152,8 +153,8 @@
 
                     </div>
                     <div class="actions">
-                        <div class="ui button ">取消</div>
-                        <div class="ui button" @click="Disapprove">确认</div>
+                        <div class="ui button " @click='cancel'>取消</div>
+                        <div class="ui button negative " @click="Disapprove">确认</div>
                     </div>
                 </div>
 
@@ -188,6 +189,7 @@
                     paymentDays: '30',
                     loanid: ''
                 },
+                reason:'',
                 selectedUsers: [], // 保存选中的 users 数组
                 selectedUser: {}, // 选中 user
                 fKey: '', // 过滤 name 的关键字
@@ -283,6 +285,10 @@
                     .modal('show')
                     ;
             },
+            cancel:function(){
+                $('#disagree').modal('hide')
+                    ;
+            },
             disgree:function (index, customerUserName, loanId, loanMoney) {
                 console.log(index + customerUserName + loanId);
                 vm.loanInfo.customerUserName = customerUserName;
@@ -321,7 +327,7 @@
             },
             Disapprove: function (loanId) {
                 console.log(vm.loanInfo.paymentDays + "+" + vm.loanInfo.loanid);
-                vm.loanInfo.loanid = loanId;
+                // loanId = vm.loanInfo.loanid ;
                 $.ajax({
                     type: "get",  //提交方式  
                     url: url3,//路径
@@ -329,6 +335,7 @@
                     // contentType: 'text/html;charset=UTF-8',
                     data: {
                         loanId: vm.loanInfo.loanid,
+                        comment:vm.reason,
                         // paymentDays: vm.loanInfo.paymentDays
                     },//数据，这里使用的是Json格式进行传输  
                     success: function (result) {//返回数据根据结果进行相应的处理  

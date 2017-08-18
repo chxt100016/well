@@ -11,6 +11,7 @@
        
     
     <script src="${rc.contextPath}/resources/library/js/jquery.js"/>"></script>
+    <script src="${rc.contextPath}/resources/library/js/jquery.validate.js"/>"></script>
     <script src="${rc.contextPath}/resources/library/js/semantic.min.js"/>"></script>
     <script src="${rc.contextPath}/resources/common/js/global.js"/>"></script>
     <!-- <script src="${pageContext.request.contextPath}/resources/common/js/jquery.validate.js"></script> -->
@@ -98,13 +99,14 @@
         <div class="item">
             <a class="title #if($parentMenuNo == '3')active #end">
             <i class="dropdown icon"></i>
-            消息中心
+            <span>消息中心 <span class="ui teal circular  label">2</span> </span>
             </a>
           <div class="content #if($parentMenuNo == '3')active #end">
                 <div class="accordion transition visible" style="display: block !important;margin-top:0px">
 
                     <div onclick="window.location.href='#'"  class="content pd-10 pointer  font-grey #if($parentMenuNo==3&&$childMenuNo==1)font-white #end> ">
-                       <span > 消息列表</span>
+                       <span > 消息列表
+                       </span>
                     </div>     
                                      
                 </div>
