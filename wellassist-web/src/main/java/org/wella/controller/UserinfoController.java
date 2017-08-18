@@ -269,4 +269,16 @@ public class UserinfoController {
 
 
 
+    @ResponseBody
+    @RequestMapping("selectProduct")
+    public R selectProduct(Long prodId){
+        Prod prod=userinfoServiceImpl.selectProduct(prodId);
+        return new R().put("prod",prod);
+
+    }
+
+
+
+
+
 }

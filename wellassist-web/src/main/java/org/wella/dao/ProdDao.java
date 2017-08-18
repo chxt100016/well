@@ -48,5 +48,9 @@ public interface ProdDao {
     Map<String,Object> selectSalenum(Long orderId);
 
 
+
+
+
+
     //void updateKucun(Map map);
 }

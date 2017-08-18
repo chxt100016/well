@@ -14,7 +14,7 @@
 		<result column="user_id" property="userId" jdbcType="BIGINT" />
 		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
 		<result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
-		<result column="prod_money" property="prodMoney" jdbcType="DECIMAL" />
+		<result column="prod_price" property="prodPrice" jdbcType="DECIMAL" />
 		<result column="vehicle_sq_money_type" property="vehicleSqMoneyType" jdbcType="TINYINT" />
 		<result column="vehicle_sq_money" property="vehicleSqMoney" jdbcType="TINYINT" />
 		<result column="prod_state" property="prodState" jdbcType="TINYINT" />
@@ -272,6 +272,8 @@
 	<update id="updateKucun" parameterType="java.util.Map" >
 		update wa_prod   set sale_num=#{saleNum} where prod_id=#{prodId}
 	</update>
+
+
 
 
 </mapper>
