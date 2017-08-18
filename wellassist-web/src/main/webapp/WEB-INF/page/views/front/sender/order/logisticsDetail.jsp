@@ -66,7 +66,7 @@
               
                 <tr >
                     
-                    <td colspan="3">报价：
+                    <td colspan="3">报价：${info.customerExceptCarriage}
                         
                     </td>
                 </tr>
