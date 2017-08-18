@@ -27,4 +27,5 @@ public interface VehicleGrabDao {
 
     Map<String,Object> selectVgdId(Map map);
 
+    Map<String,Object> selectLogisticsDateByLogisticsInfoId(@Param("logisticsId") Long logisticsId);
 }

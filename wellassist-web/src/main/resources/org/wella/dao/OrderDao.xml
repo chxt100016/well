@@ -165,9 +165,10 @@
     </select>
 
     <select id="singleOrderAttachUserAttachOrderLogisticsInfo" parameterType="long" resultType="map">
-        SELECT b.`user_id`,b.`user_name`,a.order_id,a.is_self_car,a.`order_no`,a.`prod_name`,a.`order_date`,a.`sale_num`,a.`sale_money`,a.`from_region_id`,a.`from_region_addr`,a.`to_region_id`,a.`to_region_addr`,a.`order_state`,c.`contacts`,c.`con_tel`,c.deliver_date,c.receive_date
+        SELECT b.`user_id`,b.`user_name`,a.order_id,a.is_self_car,a.`order_no`,a.`prod_name`,a.`order_date`,a.`sale_num`,a.`sale_money`,a.`from_region_id`,a.`from_region_addr`,a.`to_region_id`,a.`to_region_addr`,a.`order_state`,c.`contacts`,c.`con_tel`,c.deliver_date,c.receive_date,d.`prod_id`,d.`prod_img`,d.`prod_type`
         FROM wa_order a LEFT JOIN wa_user b ON a.`user_id`=b.`user_id`
         LEFT JOIN wa_order_logistics_info c ON a.`order_id`=c.`order_id`
+        LEFT JOIN wa_prod d ON a.`prod_id`=d.`prod_id`
         WHERE a.`order_id`=#{orderId}
     </select>
 

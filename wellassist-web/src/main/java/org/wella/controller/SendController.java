@@ -73,6 +73,9 @@ public class SendController extends BaseController{
     @Autowired
     private TradeDAO tradeDao;
 
+    @Autowired
+    private VehicleGrabDao vehicleGrabDao;
+
 
     @Autowired
     private UserinfoDao userinfoDao;
@@ -718,8 +721,12 @@ public class SendController extends BaseController{
     @RequestMapping("selectDriver")
     public  R selectDriver(@RequestParam Long logisticsId){
         List <Map<String,Object>> driverList=senderServiceImpl.selectDriver(logisticsId);
+        Map<String,Object> vehicleGrab=vehicleGrabDao.selectLogisticsDateByLogisticsInfoId(logisticsId);
+        ConvertUtil.convertDataBaseMapToJavaMap(vehicleGrab);
         System.out.println(driverList);
-        return new R().put("list",driverList);
+        R r=new R().ok().put("list",driverList);
+        r.putAll(vehicleGrab);
+        return r;
     }
 
 

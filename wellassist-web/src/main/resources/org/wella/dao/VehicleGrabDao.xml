@@ -139,7 +139,11 @@
          and sender_user_id=#{userId}
     </select>
 
-
+    <select id="selectLogisticsDateByLogisticsInfoId" parameterType="long" resultType="map">
+        select deliver_date,receive_date
+        from wa_vehicle_grab
+        WHERE vehicle_grab_id=(SELECT vehicle_grab_id FROM wa_logistics_info WHERE logistics_id=#{logisticsId})
+    </select>
 
 
 </mapper>
