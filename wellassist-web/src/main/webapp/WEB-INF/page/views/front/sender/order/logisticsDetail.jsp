@@ -78,11 +78,18 @@
           <div class=" inline fields">
               <div class="  inline  input field " style="width:380px; float:left">
                   <label for=" " style="padding-top:5px">发货时间:</label>
-                  <input type="text"id="deliverDate" v-model="model.deliverDate"  onfocus="var receiveDate=$dp.$('receiveDate');WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){receiveDate.focus();},maxDate:'#F{$dp.$D(\'receiveDate\')}'})" >
-              </div>
+                  <!-- <input type="text"id="deliverDate" v-model="model.deliverDate"  onfocus="var receiveDate=$dp.$('receiveDate');WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){receiveDate.focus();},maxDate:'#F{$dp.$D(\'receiveDate\')}'})" > -->
+                  <span v-if="!DateEdit">{{deliverDate}}</span>
+                  <input  v-if="DateEdit" type="text"id="deliverDate" v-model="model.deliverDate"  v-on:focus='date' >
+                </div>
                 <div class="  inline input field"  style="width:380px; float:left">
                   <label for="" style="padding-top:5px">收货时间:</label>
-                  <input type="text" id='receiveDate'   v-model="model.receiveDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'deliverDate\')}'})">
+                  <span v-if="!DateEdit">{{receiveDate}}</span>
+                  <input type="text" v-if="DateEdit" id='receiveDate'   v-model="model.receiveDate" v-on:focus="data2">
+              </div>
+              <div> 
+                  <div v-if="!DateEdit" class="ui button " v-on:click='editDate'>编辑</div>
+                  <div v-if="DateEdit" class="ui button " v-on:click='cancelEditDate'>取消</div>
               </div>
                 <div style="clear:both"></div>
             </div>
@@ -134,7 +141,7 @@
                 <th>操作</th>
             </thead>
             <tbody>
-                <tr v-for="vehicle in grabVehicles " v-cloak>
+                <tr v-for="(vehicle,index) in grabVehicles " v-cloak>
                     <td>
                         {{vehicle.driverName}}
                     </td>
@@ -142,7 +149,7 @@
                     <td> {{vehicle.vehicleNo}}</td>
                     <td>{{vehicle.vehicleHangingNo}}</td>
                     <td>{{vehicle.vehicleSize}} 吨</td>
-                    <td width="15%"><a class="negative ui button " v-on:click="delVihicle(vehicle.vehicleGrabInfoId) " style="height:35px">删除 </a></td>
+                    <td width="15%"><a class="negative ui button " v-on:click="delOldVihicle(vehicle.vehicleGrabInfoId,index) " style="height:35px">删除 </a></td>
                 </tr>
                 <tr v-for="(vehicle,index) in newVehicles " v-cloak>
                     <td>
@@ -158,7 +165,7 @@
 
         </table>
         <div class="column">
-            <div class="ui button" @click='submitVehicle'>确认 </div>
+            <div class="ui button primary" @click='submitVehicle'>保存 </div>
             <div class="ui button cancel">取消</div>
             
 
@@ -236,38 +243,9 @@
             animation: 'scale',
         });
     }
-    function delVihicle(vehicleInfoId) {
-        console.log(vehicleInfoId);
-        let url2 = "${pageContext.request.contextPath}/userinfo/deleteDriver"
-        $.ajax({
-            type: 'get',
-            url: url2,
-            data: { 'id': vehicleInfoId },
-            dataType: 'json',
-            // contentType:'application/json',
-            success: function (result) {
-                if (result.code == 0) {
-                    alert("成功");
-                    window.location.reload();
-                }
-                else {
-                    alert(result.msg)
-                }
-
-            }
-
-        })
-
+    function delVihicle() {
+       
     }
-
-
-
-
-
-
-
-
-
 
 </script>
 <script>
@@ -292,11 +270,14 @@
             logisticsInfoId: '',
             senderUserId:'',
             grabMoney:'',
+            deliverDate:'',
+            receiveDate:'',
             model:{orderId:orderId,
-                   deliverDate:deliverDate,
-                   receiveDate:receiveDate,
+                   deliverDate:'',
+                   receiveDate:'',
                    list:[],
-            }
+            },
+            DateEdit:false,
 
         },
         watch:{
@@ -318,7 +299,11 @@
                 var url="${pageContext.request.contextPath}/sender/selectDriver"
                 $.get(url,param,function(result){
                     if(result.code==0){
+                        console.log(result);
+                        // vm.model.
                         vm.grabVehicles=result.list;
+                        vm.deliverDate=result.deliverDate;
+                        vm.receiveDate=result.receiveDate;
                         console.log(vm.grabVehicles);
                     }
 
@@ -349,52 +334,65 @@
             delVehicle: function(index) {
                 console.log(index);
                 // 删一个数组元素  
-                /*this.grabVehicles.splice(index, 1);*/
+                this.newVehicles.splice(index, 1);
                 //this.grabVehicles.splice(index)
                // delete this.grabVehicles(index);
-                delete this.grabVehicles[index];
-                 window.location.reload();
+       
+                //  window.location.reload();
             },
-
-
-
-
-          /*  submitVehicle:function(){
-                var grabV= JSON.stringify(this.grabVehicles);
-                console.log(this.logisticsInfoId);
-                if($('#grabMoney').val()!=''){
-
+            delOldVihicle:function(vehicleInfoId,index){
+                console.log(vehicleInfoId);
+                let url2 = "${pageContext.request.contextPath}/userinfo/deleteDriver"
                 $.ajax({
-                    type:'get',
-                    url:url1,
-                    data:{
-                        grabVehicles:grabV,
-                        logisticsInfoId:this.logisticsInfoId,
-                        senderUserId:this.senderUserId,
-                        grabMoney:this.grabMoney
-                    },
-                    dataType:'json',
+                    type: 'get',
+                    url: url2,
+                    data: { 'id': vehicleInfoId },
+                    dataType: 'json',
                     // contentType:'application/json',
-                    success:function(result){
-                            if(result.code == 0){
-                                alert('成功了');
-                                  window.location.href = "${pageContext.request.contextPath}/sender/logisticsGrabResult";
-                            }
-                            else{
-                                alert(result.msg)
-                            }
-                          }
+                    success: function (result) {
+                        if (result.code == 0) {
+                            alert("成功");
+                            vm.grabVehicles.splice(index, 1);
+                            vm.$forceUpdate();
+                            // window.location.reload();
+                        }
+                        else {
+                            alert(result.msg)
+                        }
 
-                     })
-                }
-                else{
-                    alert("你是不是忘记输入抢单价格了")
-                }
-            }*/
+                    }
+
+                })
+            },
+            editDate:function(){
+            this.DateEdit=true;
+            },
+            cancelEditDate:function(){
+            this.DateEdit=false;
+            },
+            
+
+          date:function(){
+              let that= this;
+        //   var receiveDate=$dp.$('receiveDate');
+          WdatePicker({
+              dateFmt:'yyyy-MM-dd HH:mm:ss',
+              onpicked:function(){receiveDate.focus();}
+              ,maxDate:'#F{$dp.$D(\'receiveDate\')}'
+              });
+            //   $('#deliverDate').val();
+              that.model.deliverDate= $('#deliverDate').val();
+          },
+          data2:function(){
+            let that= this;
+            WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'deliverDate\')}'})
+            that.model.receiveDate= $('#receiveDate').val();
+          },
 
             submitVehicle:function () {
+                console.log(JSON.stringify(vm.model));
                 $.ajax({
-                   type:'post',
+                    type:'post',
                     url:'${pageContext.request.contextPath}/userinfo/operationDriver',
                     data:JSON.stringify(vm.model),
                     dataType:'json',
@@ -402,6 +400,7 @@
                     success:function(result) {
                         if(result.code==0){
                             alert("修改成功");
+                            console.log(result.msg)
                         }
 
                     }
