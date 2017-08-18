@@ -5,15 +5,9 @@
 
 <head>
     <title>订单详情</title>
-    <%--<meta charset="UTF-8">
-    <meta name="viewport" content=e-width, initial-scale=1">--%>
-    <!--<link href="css/style.css" rel="stylesheet">-->
-    <%--<link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
-    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script>--%>
+    <meta charset="UTF-8">
+    
     <style>
-        
         ul {
             padding: 0;
         }
@@ -49,6 +43,10 @@
         .pd-bt-10 {
             padding-bottom: 10px;
         }
+        .pd-lf-60{
+    padding-left: 60px
+}
+
         
         table {
             margin: 10px;
@@ -81,6 +79,9 @@
         }
         .blue-c{
             color:#2185D0;
+        }
+        .grey6{
+         background: #daf3ff !important;
         }
     </style>
 </head>
@@ -119,7 +120,7 @@
 
                 <span>预计收货时间：</span>
                 <span><fmt:formatDate value="${info.receiveDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span>
-            <span style="margin-left:11.5%;">已收吨数：</span>
+            <span style="margin-left:9.6%;">已收吨数：</span>
             <span><c:if test="${fn:startsWith(info.orderState,'-')||fn:substring(info.orderState,0,1)<=2}">未收货</c:if>
                     <c:if test="${!fn:startsWith(info.orderState,'-')&&fn:substring(info.orderState,0,1)>=3}">${info.sumNum}</c:if></span><br>
             </div>
@@ -135,12 +136,12 @@
                 </table> -->
                 <table class="ui line celled  table" style="margin-top:-8px;text-align:center;">
                     <thead>
-                        <tr>
-                            <th colspan="2">产品</th>
-                            <th>品类</th>
-                            <th>单价(元/吨)</th>
-                            <th>数量(吨)</th>
-                            <th>总价(元)</th>
+                        <tr style='background-color:#daf3ff'>
+                            <th colspan="2" class="grey6">产品</th>
+                            <th class="grey6">品类</th>
+                            <th class="grey6">单价(元/吨)</th>
+                            <th class="grey6">数量(吨)</th>
+                            <th class="grey6">总价(元)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -183,22 +184,23 @@
                     </tfoot>--%>
                 </table>
 
+
         <c:if test="${!empty info.zorders}">
             <h4 class="ui header">物流信息</h4>
           <div class="ui divider"></div>
         <c:forEach items="${info.zorders}" var="zorder">
-        <div class="ui ignored positive message">
-       <div class="col-line tx-lf"> 本次发货时间：<fmt:formatDate value="${zorder.zorderDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></div>
-
-        <div class="col-line tx-lf">子订单单价: ${zorder.zorderPrice} 元</div>
-        <div class="col-line tx-lf">子订单发货量：${zorder.zorderNum} 吨</div>
-        <div class="col-line tx-lf">子订单成交额：${zorder.zorderMoney} 元</div>
-            <c:if test="${not empty zorder.sendComment}">
-            <div class="col-line tx-lf">发货备注：${zorder.sendComment}</div>
-            </c:if>
-            <c:if test="${not empty zorder.receiveComment}">
-            <div class="col-line tx-lf">收货备注：${zorder.receiveComment}</div>
-            </c:if>
+        <div class="ui message" style="background-color:#f5f9fc;border-color:#617b90" >
+                    <div class="col-line tx-lf fl-lt pd-lf-60" style="width:50%"> 本次发货时间：<fmt:formatDate value="${zorder.zorderDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></div>
+                    <div class="col-line tx-lf fl-lt"  style="width:50%">子订单单价: ${zorder.zorderPrice} 元</div>
+                    <div class="col-line tx-lf fl-lt  pd-lf-60"  style="width:50%">子订单发货量：${zorder.zorderNum} 吨</div>
+                    <div class="col-line tx-lf fl-lt"  style="width:50%">子订单成交额：${zorder.zorderMoney} 元</div>
+                    <c:if test="${not empty zorder.sendComment}">
+                    <div class="col-line tx-lf fl-lt  pd-lf-60"  style="width:50%">发货备注：${zorder.sendComment}</div>
+                    </c:if>
+                    <c:if test="${not empty zorder.receiveComment}">
+                    <div class="col-line tx-lf fl-lt pd-lf-60"  style="width:50%">收货备注：${zorder.receiveComment}</div>
+                    </c:if>
+                    <div   style="clear:both"></div>
         </div>
         <table class="ui celled padded table " >
             <thead>
@@ -214,7 +216,7 @@
             <c:forEach items="${zorder.orderVehicles}" var="orderVehicle">
                 <tr>
                     <td>
-                        <h3 class="ui center aligned header xs " id="x" onclick="x()" value="${orderVehicle.driverName}">${orderVehicle.driverName}</h3>
+                        <span class="ui center aligned  " id="x" onclick="x()" value="${orderVehicle.driverName}">${orderVehicle.driverName}</span>
                     </td>
                     <td class="single line ">${orderVehicle.driverPhone}</td>
                     <td> ${orderVehicle.vehicleNo}</td>
@@ -229,16 +231,16 @@
                     <th> 状态：</th>
                     <th colspan="4">
                         <c:if test="${zorder.zorderState==1}">
-                            <div style="width: 500px;height:100px">
-                                 <span>备注信息:</span>
-                                <textarea name="receiveComment"   style=" width: 444px;height:80px" ></textarea>
+                            <div style="width: 100%;height:100px" class="fl-lf middleAlign">
+                                <span ></span>
+                                <textarea name="receiveComment"   style=" width: 444px;height:80px"  placeholder="可输入备注消息"></textarea>
                             </div>
-                            <div class="ui right floated small primary icon button" onclick="confirmReceive(${zorder.zorderId},this)"> 已收货，确认 </div>
-                             <div class="ui right floated small  icon red button" onclick="doubtReceive(${info.orderId},${zorder.zorderId},this)"> 已收货，存疑 </div>
+                            <div class="ui right floated small primary icon button mg-tp-30 " onclick="confirmReceive(${zorder.zorderId},this)"> 已收货，确认 </div>
+                            <div class="ui right floated small  icon red button mg-tp-30 " onclick="doubtReceive(${info.orderId},${zorder.zorderId},this)"> 已收货，存疑 </div>
 
                         </c:if>
                          <c:if test="${zorder.zorderState==2}"><div class="ui  ">已收货,确认 </div></c:if>
-                        <c:if test="${zorder.zorderState==11}"><div class="ui  ">已收货,存疑 </div></c:if>
+                        <c:if test="${zorder.zorderState==11}"><div class="ui   ">已收货,存疑 </div></c:if>
 
                     </th>
                 </tr>
