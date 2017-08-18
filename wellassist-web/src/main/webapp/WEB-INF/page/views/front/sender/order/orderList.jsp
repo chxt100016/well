@@ -20,10 +20,10 @@
 	</form>
 	
 	<ul class="ds-bl pd-10 ft-sz-15">
-            <li class="ds-bl fl-lt pd-10  ulSelected">全部订单</li>
-            <li class="ds-bl fl-lt pd-10">待付款</li>
-            <li class="ds-bl fl-lt pd-10">待发货</li>
-            <li class="ds-bl fl-lt pd-10">待收货</li>
+            <li class="ds-bl fl-lt pd-10  <c:if test="${empty param.state ||(param.state != '2'&&param.state != '3' && param.state != '4')}" >ulSelected</c:if>" onclick="$('#vehicleState').val('');searchData(1);">全部订单</li>
+            <li class="ds-bl fl-lt pd-10 <c:if test="${param.state == '2'}">ulSelected</c:if>" onclick="$('#vehicleState').val('2');searchData(1);">待付款</li>
+            <li class="ds-bl fl-lt pd-10 <c:if test="${param.state == '3'}">ulSelected</c:if>" onclick="$('#vehicleState').val('3');searchData(1);">待发货</li>
+            <li class="ds-bl fl-lt pd-10 <c:if test="${param.state == '4'}">ulSelected</c:if>" onclick="$('#vehicleState').val('4');searchData(1);">待收货</li>
         </ul>
         <br>
         <table class="ui basic table">
@@ -87,7 +87,7 @@
                         
                     </td>
                     <td>
-                        	<span class="span_btn pointer" onclick="window.location.href='${pageContext.request.contextPath}/sender/detail?logisticsId=${item.logisticsId}';">修改</span>
+						<c:if test="${item.state==2||item.state==3||item.state==4}"><span class="span_btn pointer" onclick="window.location.href='${pageContext.request.contextPath}/sender/detail?logisticsId=${item.logisticsId}';">修改</span></c:if>
                     </td>
                   
 				</tr>

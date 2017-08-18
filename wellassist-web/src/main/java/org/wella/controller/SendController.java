@@ -246,6 +246,8 @@ public class SendController extends BaseController{
         this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
         return "views/front/sender/order/qdList.jsp";
     }
+
+
     @RequestMapping("logisticsOrderList")
     public String logisticsOrderListPage(HttpServletRequest request,Model model){
         HttpSession session=request.getSession();
