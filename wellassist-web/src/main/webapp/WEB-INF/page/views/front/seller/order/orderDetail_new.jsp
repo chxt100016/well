@@ -110,6 +110,9 @@
 
             <span>预计收货时间：</span>
             <span><fmt:formatDate value="${info.receiveDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span>
+            <span style="margin-left:11.5%;">已发吨数：</span>
+            <span><c:if test="${fn:startsWith(info.orderState,'-')||fn:substring(info.orderState,0,1)<=2}">未发货</c:if>
+                    <c:if test="${!fn:startsWith(info.orderState,'-')&&fn:substring(info.orderState,0,1)>=3}">${info.sumNum}</c:if></span><br>
         </div>
         <table class="ui table" style="border:0;background-color:#DAF3FF;height:45px;line-height:45px;border-radius:0;text-align:center;">
             <tr>
@@ -118,7 +121,7 @@
                 <th width="15%">单价(元/吨)</th>
                 <th width="14%">数量(吨)</th>
                 <th width="15%">总价(元)</th>
-                <th width="13%">状态</th>
+                <th width="13%">付款状态</th>
             </tr>
         </table>
         <table class="ui line celled  table" style="margin-top:-8px;text-align:center;border-radius:0;">

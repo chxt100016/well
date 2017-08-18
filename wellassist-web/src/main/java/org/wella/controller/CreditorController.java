@@ -1,9 +1,6 @@
 package org.wella.controller;
 
-import io.wellassist.utils.IPUtils;
-import io.wellassist.utils.PageUtils;
-import io.wellassist.utils.Query;
-import io.wellassist.utils.R;
+import io.wellassist.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +8,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.wella.common.ctrl.BaseController;
+import org.wella.common.utils.CommonUtil;
+import org.wella.common.utils.ConvertUtil;
+import org.wella.dao.UserinfoDao;
+import org.wella.dao.WaUserDao;
 import org.wella.entity.CreditorAuthenticInfo;
 import org.wella.entity.User;
+import org.wella.entity.Userinfo;
 import org.wella.service.CreditorService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,10 +30,16 @@ import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/creditor/")
-public class CreditorController {
+public class CreditorController extends BaseController{
 
     @Autowired
     private CreditorService creditorServiceImpl;
+
+    @Autowired
+    private WaUserDao waUserDao;
+
+    @Autowired
+    private UserinfoDao userinfoDao;
 
     @RequestMapping("creditors")
     @ResponseBody
@@ -120,12 +129,12 @@ public class CreditorController {
      */
     @RequestMapping("refuseLoan")
     @ResponseBody
-    public R refuseLoan(@RequestParam("loanId") long loanId, HttpServletRequest request) {
+    public R refuseLoan(@RequestParam("loanId") long loanId,@RequestParam("comment")String comment, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         long userId = user.getUserId();
         String ip = IPUtils.getIpAddr(request);
         try {
-            creditorServiceImpl.refuseLoan(loanId, userId, ip);
+            creditorServiceImpl.refuseLoan(loanId, userId, comment,ip);
         } catch (Exception e) {
             e.printStackTrace();
             return R.error();
@@ -250,10 +259,7 @@ public class CreditorController {
         model.addAttribute("childMenuNo", 2);
         model.addAttribute("sideNavShow", 1);
         return "views/front/creditors/order/reportCenterPage.html";
-
     }
-
-
 //    @RequestMapping("repayingList")
 //    @ResponseBody
 //    public R repayingList(@RequestParam Map<String,Object> params,HttpServletRequest request){
@@ -268,7 +274,36 @@ public class CreditorController {
 //        return R.ok().put("page",pageUtils);
 //    }
 //
-
+    /**
+     * 进入个人中心，查看企业信息
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("companyInfo")
+    public String companyInfo(Model model) {
+        HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
+        Map user = waUserDao.singleUserByPrimaryKey(((User) httpSession.getAttribute("user")).getUserId());
+        ConvertUtil.convertDataBaseMapToJavaMap(user);
+        Map userinfo = userinfoDao.singleUserinfoByPrimaryKey(((Userinfo) httpSession.getAttribute("userInfo")).getUserId());
+        ConvertUtil.convertDataBaseMapToJavaMap(userinfo);
+        model.addAttribute("user", user);
+        model.addAttribute("userInfo", userinfo);
+        model.addAttribute("parentMenuNo", 4);
+        model.addAttribute("childMenuNo", 1);
+        String pParam = userinfo.get("zcRegionId").toString().substring(0, 2) + "0000";
+        String cParam = userinfo.get("zcRegionId").toString().substring(0, 4) + "00";
+        //省列表
+        model.addAttribute("provinceList", this.getChildRegionList(0));
+        model.addAttribute("provinceId", pParam);
+        //市列表
+        model.addAttribute("cityList", this.getChildRegionList(CommonUtil.getIntFromString(pParam)));
+        model.addAttribute("cityId", cParam);
+        //区列表
+        model.addAttribute("countyList", this.getChildRegionList(CommonUtil.getIntFromString(cParam)));
+        model.addAttribute("userName", user.get("userName"));
+        return "views/front/creditor/company/companyInfo.html";
+    }
 
 
 
