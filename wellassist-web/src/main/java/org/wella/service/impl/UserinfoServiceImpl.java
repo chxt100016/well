@@ -223,6 +223,7 @@ public class UserinfoServiceImpl implements UserinfoService{
     @Override
     public Prod selectProduct(Long prodId) {
         Prod prod = prodDao.getOrderProdByProdid(prodId);
+        prod.setProdMoney(prod.getProdPrice());
         String Address=regionServiceImpl.getDetailAddress(prod.getProdRegionId(),prod.getProdRegionAddr());
         prod.setProdRegionAddr(Address);
         return prod;

@@ -25,6 +25,8 @@ public class Prod {
     private String prodLxrPhone;
     private long prodRegionId;
     private String prodRegionAddr;
+    private BigDecimal prodPrice;
+
 
     public long getProdId() {
         return prodId;
@@ -170,4 +172,11 @@ public class Prod {
         this.prodRegionAddr = prodRegionAddr;
     }
 
+    public BigDecimal getProdPrice() {
+        return prodPrice;
+    }
+
+    public void setProdPrice(BigDecimal prodPrice) {
+        this.prodPrice = prodPrice;
+    }
 }
