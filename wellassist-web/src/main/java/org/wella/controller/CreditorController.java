@@ -120,12 +120,12 @@ public class CreditorController {
      */
     @RequestMapping("refuseLoan")
     @ResponseBody
-    public R refuseLoan(@RequestParam("loanId") long loanId, HttpServletRequest request) {
+    public R refuseLoan(@RequestParam("loanId") long loanId,@RequestParam("comment")String comment, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         long userId = user.getUserId();
         String ip = IPUtils.getIpAddr(request);
         try {
-            creditorServiceImpl.refuseLoan(loanId, userId, ip);
+            creditorServiceImpl.refuseLoan(loanId, userId, comment,ip);
         } catch (Exception e) {
             e.printStackTrace();
             return R.error();
@@ -252,8 +252,6 @@ public class CreditorController {
         return "views/front/creditors/order/reportCenterPage.html";
 
     }
-
-
 //    @RequestMapping("repayingList")
 //    @ResponseBody
 //    public R repayingList(@RequestParam Map<String,Object> params,HttpServletRequest request){
@@ -269,7 +267,7 @@ public class CreditorController {
 //    }
 //
 
-
+    
 
 
 

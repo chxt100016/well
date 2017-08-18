@@ -69,7 +69,7 @@ public interface CreditorService {
     /**
      *放款方拒绝放款指派
      */
-    void refuseLoan(long loanId, long creditorUserId, String ip);
+    void refuseLoan(long loanId, long creditorUserId,String comment, String ip);
 
     /**
      * 放款方展示各种列表

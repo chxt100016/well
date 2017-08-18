@@ -199,7 +199,7 @@ public class CreditorServiceImpl implements CreditorService{
 
     @Override
     @Transactional
-    public void refuseLoan(long loanId, long creditorUserId, String ip) {
+    public void refuseLoan(long loanId, long creditorUserId, String comment,String ip) {
         Map<String,Object> updateloan=new HashMap<>();
         updateloan.put("loanId",loanId);
         updateloan.put("creditUserId",0);
@@ -210,6 +210,7 @@ public class CreditorServiceImpl implements CreditorService{
         Map<String,Object> updateLoanAssignInfo=new HashMap<>();
         updateLoanAssignInfo.put("loanAssignInfoId",loanAssignInfo.get("loanAssignInfoId"));
         updateLoanAssignInfo.put("state",-1);
+        updateLoanAssignInfo.put("comment",comment);
         updateLoanAssignInfo.put("operateDate",new Date());
         updateLoanAssignInfo.put("operateIp",ip);
         loanAssignInfoDao.updateByPrimaryKey(updateLoanAssignInfo);
