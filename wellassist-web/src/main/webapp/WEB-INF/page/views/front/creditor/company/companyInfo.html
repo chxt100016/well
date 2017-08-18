@@ -76,11 +76,11 @@
                         <div style="float:left;margin-left:32px;">
                             <div style="font-size:20px;font-weight:bold;margin-bottom:12px;">${user.userName}</div>
                             <div style="margin-bottom:12px;font-size:16px;">
-                                <img src="${rc.contextPath}/resources/wella/front/images/seller/lianxiicon1.png" >
+                                <img src="${rc.contextPath}/resources/wella/front/images/seller/lianxiicon1.png"  alt="实名认证" title="实名认证">
                                 <span style="margin-left:8px;margin-right:42px;">实名认证</span>
-                                <img src="${rc.contextPath}/resources/wella/front/images/seller/lianxiicon2.png" >
+                                <img src="${rc.contextPath}/resources/wella/front/images/seller/lianxiicon2.png" alt='手机认证'  title="手机认证">
                                 <span style="margin-left:8px;margin-right:42px;">手机认证</span>
-                                <img src="${rc.contextPath}/resources/wella/front/images/seller/lianxiicon3.png" >
+                                <img src="${rc.contextPath}/resources/wella/front/images/seller/lianxiicon3.png" alt="营业执照"  title="营业执照">
                                 <span style="margin-left:8px;margin-right:42px;">营业执照已认证</span>
                             </div>
                             <div style="margin-bottom:12px;font-size:16px;">
@@ -190,12 +190,11 @@
                                         <div class="meta"  >
                                             <img src="${userInfo.companyYyZzImg}"  width="100%" height="200px" id="img1"/>
                                         </div>
-                                        <a href="javascript:;" class="file" style="margin-top:55px;">
+                                        <a href="javascript:;" class="file" style="margin-top:55px;"  id="upload1">
                                             <span class="white-color">选择文件</span>
                                             <i class="upload icon white-color" ></i>
-                                            <input type="file"  id="upload1">
-                                            <input type="hidden" id="imgflag1"name="companyYyZzImg" value="${userInfo.companyYyZzImg}">
                                         </a>
+                                        <input type="hidden" id="imgflag1"name="companyYyZzImg" value="${userInfo.companyYyZzImg}">
                                     </div>
                                 </div>
                                 <div class="card">
@@ -212,12 +211,11 @@
                                         <div class="meta"  >
                                             <img src="${userInfo.companyXkzImg}"  width="100%" height="200px" id="img2" />
                                         </div>
-                                        <a href="javascript:;" class="file"  style="margin-top:55px;">
+                                        <a href="javascript:;" class="file"  style="margin-top:55px;"  id="upload2">
                                             <span class="white-color">选择文件</span>
                                             <i class="upload icon white-color" ></i>
-                                            <input type="file" id="upload2">
-                                            <input type="hidden" name="companyXkzImg" id="imgflag2" value="${userInfo.companyXkzImg}">
                                         </a>
+                                        <input type="hidden" name="companyXkzImg" id="imgflag2" value="${userInfo.companyXkzImg}">
 
                                     </div>
                                 </div>
@@ -234,12 +232,11 @@
                                         <div class="meta"  >
                                             <img src="${userInfo.companyTxkzImg}"   width="100%" height="200px" id="img3"/>
                                         </div>
-                                        <a href="javascript:;" class="file" style="margin-top:55px;">
+                                        <a href="javascript:;" class="file" style="margin-top:55px;" id="upload3">
                                             <span class="white-color">选择文件</span>
                                             <i class="upload icon white-color" ></i>
-                                            <input type="file" id="upload3">
-                                            <input type="hidden" id="imgflag3" name="companyTxkzImg" value="${userInfo.companyTxkzImg}">
                                         </a>
+                                        <input type="hidden" id="imgflag3" name="companyTxkzImg" value="${userInfo.companyTxkzImg}">
 
                                     </div>
 
