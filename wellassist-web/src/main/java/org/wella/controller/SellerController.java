@@ -270,6 +270,7 @@ public class SellerController extends BaseController {
         model.addAttribute("childMenuNo", "3");
         return "views/front/seller/order/orderDetail_new.jsp";
     }
+
     /**
      * 跳转物流详情页面
      * @param model
@@ -283,6 +284,7 @@ public class SellerController extends BaseController {
         model.addAttribute("childMenuNo", "3");
         return "views/front/seller/order/expressDetail.jsp";
     }
+
     /**
      * 产品发布页面
      * @param model
