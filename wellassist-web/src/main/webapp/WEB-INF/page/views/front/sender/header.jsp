@@ -65,17 +65,17 @@
             <i class="dropdown icon"></i>
             订单中心
             </a>
-          <div class="content <c:if test = "${parentMenuNo == '5' }"> active</c:if>">
+          <div class="content <c:if test = "${parentMenuNo == '1' }"> active</c:if>">
                 <div class="accordion transition visible" style="display: block !important;margin-top:0px">
 
                     <div onclick="window.location.href='${pageContext.request.contextPath}/sender/logisticsOrderList'" class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '1'&&childMenuNo  == '1' }"> font-white</c:if> ">
                        <span >订单列表</span>
 					</div>
-					<div onclick="window.location.href='${pageContext.request.contextPath}/sender/logisticsGrabList'" class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '1'&&childMenuNo  == '1' }"> font-white</c:if> ">
+					<div onclick="window.location.href='${pageContext.request.contextPath}/sender/logisticsGrabList'" class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '1'&&childMenuNo  == '2' }"> font-white</c:if> ">
                        <span >抢单列表</span>
 					</div>
 					  
-					<div onclick="window.location.href='${pageContext.request.contextPath}/sender/vehicleGrabHall'" class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '1'&&childMenuNo  == '1' }"> font-white</c:if> ">
+					<div onclick="window.location.href='${pageContext.request.contextPath}/sender/vehicleGrabHall'" class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '1'&&childMenuNo  == '3' }"> font-white</c:if> ">
                        <span >抢单大厅</span>
 					</div>
 					  

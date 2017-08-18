@@ -575,6 +575,7 @@ public class CustomerController extends BaseController {
    public String prodList(@RequestParam Map<String, Object> map, Model model) {
       User user = (User) HttpContextUtils.getAttribute("user");
       map.put("userId", user.getSupplyId());
+      map.put("prodState",2);
       List<Prod> prodList = prodDao.findProdByUserId(map);
       model.addAttribute("spList", prodList);
       model.addAttribute("userName", user.getUserName());
