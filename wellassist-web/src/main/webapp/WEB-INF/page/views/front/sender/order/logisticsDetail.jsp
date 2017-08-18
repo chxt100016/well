@@ -399,16 +399,14 @@
                     contentType:'application/json',
                     success:function(result) {
                         if(result.code==0){
-                            alert("修改成功");
-                            console.log(result.msg)
+                            alert("保存成功");
+                            window.location.reload();
+                        }else{
+                            alert(result.msg);
                         }
-
                     }
-
                 });
             }
-
-
         }
 
         })
