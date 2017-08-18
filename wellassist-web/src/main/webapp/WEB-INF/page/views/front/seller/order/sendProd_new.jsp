@@ -53,6 +53,8 @@
     <div style="margin:40px 0 0 210px;">
     <div class="ui container" id="app1" style="width:90%;">
         <form id="infoForm" action="${pageContext.request.contextPath}/seller/sendProdSubmit" method="post">
+        <input type="hidden" name="orderVehicles" id="orderVehicles">
+        <input type="hidden" name="orderId" value="${info.orderId}">
             <h4 class="ui header">发货详情</h4>
             <div class="ui divider"></div>
 
@@ -67,8 +69,9 @@
                         </div> 
                         <div class="field">
                             <div class="ui segment">
-                                <span>总量：${info.orderNumber}</span><span style="margin-left:5%;">已发货：${info.deliverNumCount}</span><br>
-                                <span>当前库存：${info.restNum}</span>
+                                <span>总量：${info.orderNumber}&emsp;吨</span>
+                                <span style="margin-left:5%;">已发货：<span style="color:#FF4400;font-size:17px;">${info.deliverNumCount}</span>&emsp;吨</span><br>
+                                <span>当前库存：${info.restNum}&emsp;吨</span>
                             </div>
                         </div>
                     </div>
@@ -102,42 +105,112 @@
                 </div>
             </div>
 
-            <h4 class="ui header">司机信息</h4>
-            <div class="ui divider"></div>
-            
-            <div class="ui segment" style="padding: 40px 60px;">
-                <div class="column">
-                    <div class="ui form">
-                        <div class="two fields">
-                            <div class="field">
-                                <div class="ui input">
-                                    司机姓名：<input type="text" name="" placeholder="">
-                                </div>
-                            </div>
-                            <div class="field">
-                                <div class="ui input">
-                                    电话：<input type="text" name="" placeholder="">
-                                </div>
-                            </div>
+            <div class="colunm" style="margin-top:40px;">
+                <div class="ui form">
+                    <div class="two fields">
+                        <div class="field">
+                            <h4 class="ui header">司机信息</h4>
+                        </div>
+                        <div class="field" style="text-align:right;">
+                            <span style="color:#FF4400;" id="add" onclick="add()">+选择司机</span>
                         </div>
                     </div>
-                    <div class="ui form">
-                        <div class="two fields">
-                            <div class="field">
-                                <div class="ui input">
-                                    司机姓名：<input type="text" name="" placeholder="">
-                                </div>
+                </div>
+            </div>
+            <div class="ui divider"></div>
+
+            <table class="ui celled padded table ">
+                <thead>
+                    <tr>
+                        <th>司机</th>
+                        <th>电话</th>
+                        <th>车牌号</th>
+                        <th>车挂号</th>
+                        <th>容量(吨)</th>
+                        <th>装载量(吨)</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(vehicle,index) in SelectedVehicles" v-cloak>
+                        <td>
+                            <span class="ui center aligned" id="x" onclick="x()" >{{vehicle.driverName}}</span>
+                        </td>
+                        <td class="single line ">{{vehicle.driverPhone}}</td>
+                        <td> {{vehicle.vehicleNo}}</td>
+                        <td>{{vehicle.vehicleHangingNo}}</td>
+                        <td>{{vehicle.vehicleSize}}</td>
+                        <td><span class="VhicleLoads">{{vehicle.vehicleActualSize}}</span></td>
+                        <td class="right aligned " style="width:10% "><a class="ui button red " v-on:click="delVehicle(vehicle) " style="width:70px">删除 </a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--添加新司机弹框-->
+
+            <div class="ui modal "  id="vehiclepage">
+                <i class="close icon"></i>
+                <div class="header">添加新的司机信息</div>
+                <table class="ui  celled  table">
+                    <thead class="full-width">
+                        <th>司机名称</th>
+                        <th>电话</th>
+                        <th>车牌</th>
+                        <th>车挂号</th>
+                        <th>装载量</th>
+                        <th>操作</th>
+                    </thead>
+                    <tbody >
+                        <tr v-for="(vehicle,index) in Vehicles" v-cloak>
+                            <td>{{vehicle.driverName}}</td>
+                            <td>{{vehicle.driverPhone}}</td>
+                            <td>{{vehicle.vehicleNo}}</td>
+                            <td>{{vehicle.vehicleHangingNo}} </td>
+                            <td>
+                                <input  class="vh" placeholder=" "  id="vehicleSize"  v-model="vehicle.vehicleActualSize" type="number" onchange="validedTex(this)"><span> 容量：<span >{{vehicle.vehicleSize}}</span> 顿</span></td>
+                            <td>
+                                <div class="ui checkbox">
+                                    <input type="checkbox" name="example" v-bind:value="index" class="example" style="margin-left:0px" v-model="Selected">
+                                    <label>选择</label>
+                                </div> 
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="actions">
+                    <div class="ui black deny button">取消</div>
+                    <div class="ui positive right labeled icon button" @click="qwer()">确认<i class="checkmark icon"></i></div>
+                </div>
+            </div>
+            <!--添加新司机弹框end-->
+
+            <h4 class="ui header" style="margin-top:40px;">凭证与备注</h4>
+            <div class="ui divider"></div>
+            <div class="column">
+                <div class="ui form">
+                    <div class="two fields">
+                        <div class="field" id="zorderdiv" style="visibility:visible;height:150px;">
+                            <label>上传凭证：</label>
+                            <img class="ui medium rounded image" id="zorderBillImg" src="">
+                            <input type="hidden" name="zorderBill" id="zorderBill">
+                            <div class="ui labeled input" style="margin-top:10px;">
+                                  <button class="ui button blue" id="upload">上传凭证</button><br>
+                                  <span>请上传小于5M、清晰、发货信息照片</span>
                             </div>
-                            <div class="field">
-                                <div class="ui input">
-                                    电话：<input type="text" name="" placeholder="">
-                                </div>
+                        </div>       
+                        <div class="field">
+                            <div class="field" id="zorderdiv">
+                                <label>备注信息：</label>
+                                <textarea name="sendComment" style="width:549px;height:150px; max-width:550px;max-height:155px"></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <input type="hidden" name="orderId" value="${info.orderId}">
+        <  
+            <div><a class="ui button green"  id="add" @click="sendProdSubmit" style="display: block; width: 133px; margin: 0px auto; ">确认</a></div>
+
+            <!-- <input type="hidden" name="orderId" value="${info.orderId}">
             <input type="hidden" name="orderVehicles" id="orderVehicles">
             <h4 class="ui header">买家：${info.userName}</h4>
             <div class="ui divider"></div>
@@ -199,11 +272,11 @@
                         </tr>
                     </tbody>
                 </table>
-                <div><a class="ui button blue"  id="add" onclick="add()" style="display: block; width: 133px; margin: 0px auto; ">选择司机</a></div>
+                <div><a class="ui button blue"  id="add" onclick="add()" style="display: block; width: 133px; margin: 0px auto; ">选择司机</a></div> -->
 
                 <!--添加新司机弹框-->
 
-                 <div class="ui modal "  id="vehiclepage">
+                <!-- <div class="ui modal "  id="vehiclepage">
                      <i class="close icon"></i>
                 <div class="header">添加新的司机信息</div>
                    <table class="ui  celled  table">
@@ -242,9 +315,9 @@
                         </div>
                     </div>
                  </div>
-                 <!--添加新司机弹框end-->
+                 添加新司机弹框end
 
-            <div class="ui form" style="width: 550px;height:200px">
+           <div class="ui form" style="width: 550px;height:200px">
                   <div class="field">
                 <label>备注信息：</label>
                 <textarea name="sendComment" style="width:549px;height:150px; max-width:550px;max-height:155px"></textarea>
@@ -275,12 +348,12 @@
             <br>
              <div class=" ui column"> <label>收货地址：</label>${info.toAddress}</div>
         </form>
-        <div><a class="ui button green"  id="add" @click="sendProdSubmit" style="display: block; width: 133px; margin: 0px auto; ">确认</a></div>
+        <div><a class="ui button green"  id="add" @click="sendProdSubmit" style="display: block; width: 133px; margin: 0px auto; ">确认</a></div> -->
         
     </div>
 
 </body>
-<!--<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>-->
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
 <script>
     $(document).ready(function () {
         new AjaxUpload('#upload', {
