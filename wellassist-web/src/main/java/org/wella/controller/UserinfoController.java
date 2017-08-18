@@ -210,7 +210,6 @@ public class UserinfoController {
     /**
      *
      * 修改默认
-     * @param Long
      * @return
      */
     @ResponseBody
@@ -277,7 +276,10 @@ public class UserinfoController {
 
     }
 
-
+    @RequestMapping("prodDetail")
+    public String prodDetail(){
+        return "views/front/seller/order/prodDetail_new.jsp";
+    }
 
 
 
