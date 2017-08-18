@@ -283,6 +283,12 @@ public class CustomerServiceImpl implements CustomerService {
         //得到订单基本信息
         Map<String, Object> res = orderDao.singleOrderAttachProdAttachOrderLogisticsInfo(orderId);
         ConvertUtil.convertDataBaseMapToJavaMap(res);
+        //add info 订单联系人，联系人电话
+        Map queryOLI=new HashMap();
+        queryOLI.put("orderId",orderId);
+        Map<String,Object> oli=orderLogisticsInfoDao.singleOLIByConditions(queryOLI);
+        res.put("customerContacts",oli.get("contacts"));
+        res.put("customerConTel",oli.get("con_tel"));
         int orderState = (int) res.get("orderState");
         if (orderState == 0) {
             return res;

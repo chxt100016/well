@@ -98,9 +98,6 @@
                     <c:if test="${fn:startsWith(info.orderState,'-')||fn:startsWith(info.orderState,0)||fn:startsWith(info.orderState,1)}">未付款</c:if>
                     <c:if test="${!fn:startsWith(info.orderState,'-')&&fn:substring(info.orderState,0,1)>=2}">已付款</c:if>
                 </span><br>
-                
-                <span>企业名称：</span>
-                <span>${info.userName}</span><br>
 
                 <span>订单号：</span>
                 <span>${info.orderNo}</span>
@@ -113,16 +110,18 @@
                 <span>下单时间：</span>
                 <span><fmt:formatDate value="${info.orderDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span>
                 <span style="margin-left:11.5%;">联系人：</span>
-                <span>${info.Contacts}</span><br>
+                <span>${info.customerContacts}</span><br>
 
                 <span>预计发货时间：</span>
                 <span><fmt:formatDate value="${info.deliverDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span>
                 <span style="margin-left:9.6%;">联系电话：</span>
-                <span>${info.ConTel}</span><br>
+                <span>${info.customerConTel}</span><br>
 
                 <span>预计收货时间：</span>
                 <span><fmt:formatDate value="${info.receiveDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span>
-                
+            <span style="margin-left:11.5%;">已收吨数：</span>
+            <span><c:if test="${fn:startsWith(info.orderState,'-')||fn:substring(info.orderState,0,1)<=2}">未收货</c:if>
+                    <c:if test="${!fn:startsWith(info.orderState,'-')&&fn:substring(info.orderState,0,1)>=3}">${info.sumNum}</c:if></span><br>
             </div>
 
                 <!-- <table class="ui table" style="border:0;background-color:#DAF3FF;height:45px;line-height:45px;border-radius:0;text-align:center;">
@@ -172,7 +171,7 @@
                                 <c:if test="${not empty info.orderNumber and (info.orderNumber*info.orderPrice-info.saleMoney>0.0000000001 or info.orderNumber*info.orderPrice-info.saleMoney<-0.0000000001)}"><s>${info.saleMoney}</s></c:if>
                             </td>
                         </tr>
-                    </tbody>
+                    </tbody><%--
                     <tfoot class="full-width">
                         <tr>
                             <th> 状态：</th>
@@ -181,7 +180,7 @@
                                 <c:if test="${!fn:startsWith(info.orderState,'-')&&fn:substring(info.orderState,0,1)>=3}">${info.sumNum}</c:if>
                             </th>
                         </tr>
-                    </tfoot>
+                    </tfoot>--%>
                 </table>
 
         <c:if test="${!empty info.zorders}">
