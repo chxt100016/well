@@ -40,20 +40,109 @@
             width: 30%;
             float: left
         }
+        .ui .segment{
+            line-height:40px;
+            background-color: #f5f9fc;
+            font-size:15px;
+        }
     </style>
 </head>
 
 <body>
 <div class="container1">
     <div style="margin:40px 0 0 210px;">
-    <div class="ui container" id="app1" style="width:90%;left:60px;top:-13px">
+    <div class="ui container" id="app1" style="width:90%;">
         <form id="infoForm" action="${pageContext.request.contextPath}/seller/sendProdSubmit" method="post">
+            <h4 class="ui header">发货详情</h4>
+            <div class="ui divider"></div>
+
+            <div class="colunm">
+                <div class="ui form">
+                    <div class="two fields">
+                        <div class="field">
+                            <div class="ui segment">
+                                <span class="ui header" style="color:#617b90;">买家：${info.userName}</span><span style="color:#999;margin-left:5%;">${info.prodName}</span><br>
+                                <span>收货地址：${info.toAddress}</span>
+                            </div>
+                        </div> 
+                        <div class="field">
+                            <div class="ui segment">
+                                <span>总量：${info.orderNumber}</span><span style="margin-left:5%;">已发货：${info.deliverNumCount}</span><br>
+                                <span>当前库存：${info.restNum}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="colunm ">
+                <div class="ui form">
+                    <div class="three fields">
+                        <div class="field">
+                            <div class="ui labeled input">
+                                <div class="ui label">发货量: </div>
+                                <input type="text" name="zorderNum" placeholder="" id="zorderNum" onkeyup="change()">
+                                <div class="ui basic label">吨</div>
+                            </div>
+                        </div> 
+                        <div class="field">
+                            <div class="ui labeled input">
+                                <div class="ui label">单价：</div>
+                                <input type="text" name="zorderPrice" placeholder="${info.orderPrice}" value="${info.orderPrice}"  class="number isPhone">
+                                <div class="ui basic label">元</div>
+                            </div> 
+                        </div>
+                        <div class="field">
+                            <div class="ui labeled input">
+                                <div class="ui label">提货时间：</div>
+                                <input type="text" name="zorderDate" placeholder="" value=""  class="" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',})">                                
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="ui header">司机信息</h4>
+            <div class="ui divider"></div>
+            
+            <div class="ui segment" style="padding: 40px 60px;">
+                <div class="column">
+                    <div class="ui form">
+                        <div class="two fields">
+                            <div class="field">
+                                <div class="ui input">
+                                    司机姓名：<input type="text" name="" placeholder="">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui input">
+                                    电话：<input type="text" name="" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui form">
+                        <div class="two fields">
+                            <div class="field">
+                                <div class="ui input">
+                                    司机姓名：<input type="text" name="" placeholder="">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui input">
+                                    电话：<input type="text" name="" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <input type="hidden" name="orderId" value="${info.orderId}">
             <input type="hidden" name="orderVehicles" id="orderVehicles">
             <h4 class="ui header">买家：${info.userName}</h4>
             <div class="ui divider"></div>
             <div class="column ">
-                <div class="fl-lf " style="width:50%"> ${info.prodName}</div>
+                <div class="fl-lf " style="width:50%"> </div>
                 <div class="right item fl-rg" style="width:40%">
                     <span class="ui inverted ">总量:${info.orderNumber}</span>
                     <span class="ui inverted ">已发货:${info.deliverNumCount}</span>

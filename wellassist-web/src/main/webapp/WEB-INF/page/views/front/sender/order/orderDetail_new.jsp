@@ -10,15 +10,6 @@
     <!--<link href="css/style.css" rel="stylesheet">-->
 
     <style>
-        .mid_box {
-            width: 1100px;
-            margin: 0px auto;
-            border: 1px solid rgba(34, 36, 38, .15);
-            box-shadow: 0 2px 4px 0 rgba(34, 36, 38, .12), 0 2px 10px 0 rgba(34, 36, 38, .15);
-            padding: 1em;
-            font-size: 14px;
-            position: absolute;
-        }
         
         ul {
             padding: 0;
@@ -93,9 +84,9 @@
 
 <body>
     <div class="container1">
-        <div class="container2">
+        <div style="margin:40px 0 0 210px;">
       
-    <div class="ui container segment" id="app1" >
+    <div class="ui container" id="app1" style="width:90%;">
         <h4 class="ui header">订单详情</h4>
         <div class="ui divider"></div>
         <div class="column " style="width:100%;height:40px">
