@@ -100,7 +100,7 @@
                 </span><br>
                 
                 <span>企业名称：</span>
-                <span>${info.userName}</span><br>
+                <span>${orderinfo.userName}</span><br>
 
                 <span>订单号：</span>
                 <span>${info.orderNo}</span>

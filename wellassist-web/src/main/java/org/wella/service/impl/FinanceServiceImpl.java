@@ -63,7 +63,7 @@ public class FinanceServiceImpl implements FinanceService {
     public Map<String, Object> getLoanRepayInfo(long loanId) {
         Map<String,Object> loan=loanDao.singleLoanOrderViewByPrimaryKey(loanId);
         Map<String, Object> query = new HashMap<>();
-        query.put("loanId", loan.get("loanId"));
+        query.put("loanId", loanId);
         List<Map<String, Object>> repays = repayDao.listRepayByConditions(query);
         ConvertUtil.convertDataBaseMapToJavaMap(repays);
         loan.put("repays", repays);
