@@ -1,5 +1,5 @@
 <%@ include file="header.jsp"%>
-    <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 
         <html lang="en">
 
@@ -142,8 +142,7 @@
 </footer>
 <div id="mask"></div>
 <div class="hidebox">
-    <i class="remove icon" id="cancel" style="float: right;
-    margin: -35px 5px 50px 0;cursor:pointer;"></i>
+    <i class="remove icon" id="cancel" style="float: right;margin: -35px 5px 50px 0;cursor:pointer;"></i>
     <form class="ui form" method="post" id="loginForm" name="loginForm">
         <div class="field" style="text-align:center;">
             <img src="${pageContext.request.contextPath}/img/logo.png" width="100" height="50" alt="logo"/>
@@ -162,7 +161,7 @@
 $('.menu .item').tab();
     $('.hidebox').hide();
     $('#loginbox').click(function(){
-        $('.hidebox').show();
+        $('.hidebox').show(500);
         $("#mask").css("height",$(document).height());     
         $("#mask").css("width",$(document).width());     
         $("#mask").show(); 
