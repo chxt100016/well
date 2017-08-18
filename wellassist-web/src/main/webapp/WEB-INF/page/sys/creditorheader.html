@@ -124,10 +124,10 @@
                     <div onclick="window.location.href='${rc.contextPath}/creditor/companyInfo'"  class="content pd-10 pointer  font-grey  #if($parentMenuNo==4&&$childMenuNo==1)font-white #end">
                        <span > 公司信息</span>
                     </div>
-                    <div onclick="window.location.href='#'"  class="content pd-10 pointer font-grey  #if($parentMenuNo==4&&$childMenuNo==2)font-white #end">
+                    <div onclick="window.location.href='${rc.contextPath}/creditor/password'"  class="content pd-10 pointer font-grey  #if($parentMenuNo==4&&$childMenuNo==2)font-white #end">
                        <span > 修改密码</span>
                     </div> 
-                    <div onclick="window.location.href='#'"  class="content pd-10 pointer  font-grey  #if($parentMenuNo==4&&$childMenuNo==3)font-white #end">
+                    <div onclick="window.location.href='${rc.contextPath}/creditor/bankcardPage'"  class="content pd-10 pointer  font-grey  #if($parentMenuNo==4&&$childMenuNo==3)font-white #end">
                        <span > 银行卡管理</span>
                     </div>  
                           
@@ -149,7 +149,7 @@
             <div class="right menu">
                 <div class="ui dropdown item">$user.userName&nbsp;您好 <i class="dropdown icon"></i>
                     <div class="menu">
-                        <a class="item" href="${rc.contextPath}/front/fkf/FkfLoginCtrl-logout">离开</a>
+                        <a class="item" href="${rc.contextPath}/login/out">离开</a>
 
                     </div>
                 </div>

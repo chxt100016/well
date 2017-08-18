@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.wella.common.ctrl.BaseController;
 import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConvertUtil;
+import org.wella.dao.BankcardDao;
 import org.wella.dao.UserinfoDao;
 import org.wella.dao.WaUserDao;
+import org.wella.entity.Bankcard;
 import org.wella.entity.CreditorAuthenticInfo;
 import org.wella.entity.User;
 import org.wella.entity.Userinfo;
@@ -40,6 +42,9 @@ public class CreditorController extends BaseController{
 
     @Autowired
     private UserinfoDao userinfoDao;
+
+    @Autowired
+    private BankcardDao bankcardDao;
 
     @RequestMapping("creditors")
     @ResponseBody
@@ -305,7 +310,36 @@ public class CreditorController extends BaseController{
         return "views/front/creditor/company/companyInfo.html";
     }
 
+    @RequestMapping("password")
+    public String changePassword(Model model) {
+        HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
+        User user = (User) httpSession.getAttribute("user");
+        model.addAttribute("parentMenuNo", 4);
+        model.addAttribute("childMenuNo", 2);
+        model.addAttribute("userName", user.getUserName());
+        return "views/front/creditor/company/changePass.html";
+    }
 
+    /**
+     *
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("bankcardPage")
+    public String bankcardPage(Model model) {
+        HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
+        User user = (User) httpSession.getAttribute("user");
+        Userinfo userinfo = (Userinfo) httpSession.getAttribute("userInfo");
+        List<Bankcard> bankcardList = bankcardDao.getCardListByUserId(user.getUserId());
+        model.addAttribute("user", user);
+        model.addAttribute("userInfo", userinfo);
+        model.addAttribute("parentMenuNo", 4);
+        model.addAttribute("childMenuNo", 3);
+        model.addAttribute("Cards", bankcardList);
+        model.addAttribute("userName", user.getUserName());
+        return "views/front/creditor/company/bankcard.html";
+    }
 
 
 
