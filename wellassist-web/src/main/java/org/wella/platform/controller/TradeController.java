@@ -114,7 +114,7 @@ public class TradeController extends BaseController {
     public String wlOfflinePayCheck(@RequestParam("logisticsTransId")String logisticsTransId,Model model){
         Map<String,Object> info=tradeServiceImpl.findWlOfflinePayInfo(Long.parseLong(logisticsTransId));
         model.addAttribute("info",info);
-        return "views/platform/trade/wlOfflinePay/wlOfflinePayDetail.html";
+        return "views/platform/trade/wlOfflinePay/wlOfflinePayCheck.html";
     }
 
     @RequestMapping("offlinePayCheckSubmit")

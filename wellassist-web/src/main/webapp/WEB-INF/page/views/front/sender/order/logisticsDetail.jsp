@@ -166,7 +166,7 @@
         </table>
         <div class="column">
             <div class="ui button primary" @click='submitVehicle'>保存 </div>
-            <div class="ui button cancel">取消</div>
+            <div class="ui button cancel" onclick="javascript:window.history.go(-1);">取消</div>
             
 
         </div>
