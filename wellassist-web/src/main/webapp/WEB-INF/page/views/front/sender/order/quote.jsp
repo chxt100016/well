@@ -315,7 +315,7 @@
                     success:function(result){
                             if(result.code == 0){
                                 alert('成功了');
-                                  window.location.href = "${pageContext.request.contextPath}/sender/logisticsGrabResult";
+                                  window.location.href = "${pageContext.request.contextPath}/sender/logisticsGrabList";
                             }
                             else{
                                 alert(result.msg) 
