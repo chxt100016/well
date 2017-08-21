@@ -41,10 +41,10 @@
             <div class="column">
 				<div class="ui form">
 					<div class="two fields">
-						<div class="field">
-							<img v-bind:alt="prod.prodName" v-bind:src="prod.prodImg" width="660" height="440">
+						<div class="field" style="width:50%;">
+							<img v-bind:alt="prod.prodName" v-bind:src="prod.prodImg" width="90%" height="440">
 						</div>
-						<div class="field">
+						<div class="field" style="width:50%;">
 							<div class="bdrb lh95">
 								<span class="ui header">{{prod.prodName}}</span>
 								<a href="${pageContext.request.contextPath}/customer/makeOrder?prodId=${param.prodId}">
