@@ -236,11 +236,12 @@ public class MessageController {
     }
 
     @RequestMapping("messageDetailPage")
-    public String messageDetailPage(Model model){
+    public String messageDetailPage(Model model,@RequestParam long id){
         User user=(User)HttpContextUtils.getAttribute("user");
         int userType=user.getUserType();
         model.addAttribute("parentMenuNo",3);
         if (userType==2){
+            model.addAttribute("id",id);
             return "views/front/creditor/news/messageDetail.html";
         }else {
             return "views/front/customer/news/messageDetail.jsp";

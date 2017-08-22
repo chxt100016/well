@@ -9,12 +9,9 @@
     <%@ include file="/WEB-INF/page/views/front/sender/header.jsp"%>
 </c:if>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情
-消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情
-消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情
-消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情
-消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情
-消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情
-消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情
-消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情
-消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情    消息详情
+${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}
+${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}
+${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}
+${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}
+${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}
+${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}    ${param.id}
