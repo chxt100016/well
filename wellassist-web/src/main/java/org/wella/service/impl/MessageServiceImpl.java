@@ -457,4 +457,12 @@ public class MessageServiceImpl implements MessageService{
         map.put("deleteTime",new Date());
         messageDao.updateByConditions(map);
     }
+
+    @Override
+    public void readMsg(long id) {
+        Map update=new HashMap();
+        update.put("id",id);
+        update.put("isRead",(byte)1);
+        messageDao.update(update);
+    }
 }

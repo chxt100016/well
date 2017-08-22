@@ -253,4 +253,10 @@ public interface MessageService {
      * @param ids
      */
     void deleteMsgBatch(String ids);
+
+    /**
+     * 将未读置为已读
+     * @param id
+     */
+    void readMsg(long id);
 }

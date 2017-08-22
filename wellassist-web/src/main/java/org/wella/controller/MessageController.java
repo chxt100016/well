@@ -236,9 +236,12 @@ public class MessageController {
     }
 
     @RequestMapping("messageDetailPage")
-    public String messageDetailPage(Model model,@RequestParam long id){
+    public String messageDetailPage(Model model,@RequestParam long id,@RequestParam int isRead){
         User user=(User)HttpContextUtils.getAttribute("user");
         int userType=user.getUserType();
+        if (isRead==0){
+            messageServicesk.readMsg(id);
+        }
         model.addAttribute("parentMenuNo",3);
         if (userType==2){
             model.addAttribute("id",id);
