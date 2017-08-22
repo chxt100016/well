@@ -2,6 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.wella.dao.MessageDao">
+
+    <resultMap id="MessageMap" type="org.wella.entity.Message" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="user_id" property="userId" jdbcType="BIGINT" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="TINYINT" />
+        <result column="status" property="status" jdbcType="TINYINT" />
+        <result column="content" property="content" jdbcType="VARCHAR" />
+        <result column="date" property="date" jdbcType="TIMESTAMP" />
+        <result column="is_read" property="isRead" jdbcType="TINYINT" />
+        <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+        <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
     <!-- 获取消息列表 -->
     <select id="getMessageList" parameterType="String" resultType="org.wella.entity.Message">
         SELECT
@@ -84,9 +98,114 @@
     <insert id="createPo" parameterType="org.wella.entity.Message">
         insert into wa_message ( user_id, title,
       type, status, content,
-      date, is_read)
+      date)
     values ( #{userId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR},
       #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{content,jdbcType=VARCHAR},
-      #{date,jdbcType=TIMESTAMP}, #{isRead,jdbcType=TINYINT})
+      #{date,jdbcType=TIMESTAMP)
     </insert>
+
+    <select id="unreadMsgCount" parameterType="long" resultType="int">
+        SELECT COUNT(*)
+        FROM wa_message
+        WHERE user_id=#{userId}
+        AND is_read=0
+    </select>
+
+    <select id="listPoByConditions" parameterType="map" resultMap="MessageMap">
+        SELECT *
+        from wa_message
+        <where>
+            <if test="userId != null">
+                and user_id=#{userId}
+            </if>
+            <if test="isRead != null">
+                and is_read=#{isRead}
+            </if>
+            <if test="isDelete != null">
+                and is_delete=#{isDelete}
+            </if>
+            <if test="inType != null">
+                and type in ${inType}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+        </where>
+        <if test='orderBy != null and orderBy.trim() != ""'>
+            ORDER BY ${orderBy}
+        </if>
+        <if test="offset != null and limit != null">
+            LIMIT ${offset}, ${limit}
+        </if>
+    </select>
+
+    <select id="listPoByConditionsCount" parameterType="map" resultType="int">
+        SELECT count(*)
+        from wa_message
+        <where>
+            <if test="userId != null">
+                and user_id=#{userId}
+            </if>
+            <if test="isRead != null">
+                and is_read=#{isRead}
+            </if>
+            <if test="isDelete != null">
+                and is_delete=#{isDelete}
+            </if>
+            <if test="inType != null">
+                and type in ${inType}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+        </where>
+    </select>
+
+    <select id="singlePoByPk" parameterType="long" resultMap="MessageMap">
+        SELECT *
+        from wa_message
+        where id=#{id}
+    </select>
+
+    <update id="update" parameterType="map">
+        update wa_message
+        <set >
+            <if test="status != null" >
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="isRead != null" >
+                is_read = #{isRead,jdbcType=TINYINT},
+            </if>
+            <if test="isDelete != null" >
+                is_delete = #{isDelete,jdbcType=TINYINT},
+            </if>
+            <if test="deleteTime != null" >
+                delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByConditions" parameterType="map">
+        update wa_message
+        <set >
+            <if test="status != null" >
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="isRead != null" >
+                is_read = #{isRead,jdbcType=TINYINT},
+            </if>
+            <if test="isDelete != null" >
+                is_delete = #{isDelete,jdbcType=TINYINT},
+            </if>
+            <if test="deleteTime != null" >
+                delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <if test="ids != null">
+                AND id IN ${ids}
+            </if>
+        </where>
+    </update>
 </mapper>

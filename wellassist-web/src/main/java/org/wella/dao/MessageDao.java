@@ -1,6 +1,7 @@
 package org.wella.dao;
 
 import io.wellassist.dao.BaseDao;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import org.wella.entity.CreditRecord;
 import org.wella.entity.Message;
@@ -27,8 +28,20 @@ public interface MessageDao {
     Userinfo getCreditRecord(Long id);
 
     int queryRecordCount(Map<String, Object> map);
+
     void addCreditRecord(CreditRecord creditRecord);
 
     int createPo(Message message);
 
+    int unreadMsgCount(@Param("userId") long userId);
+
+    List<Message> listPoByConditions(Map<String,Object> param);
+
+    int listPoByConditionsCount(Map<String,Object> param);
+
+    Message singlePoByPk(long id);
+
+    void update(Map map);
+
+    void updateByConditions(Map map);
 }

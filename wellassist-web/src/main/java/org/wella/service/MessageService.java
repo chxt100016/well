@@ -1,5 +1,6 @@
 package org.wella.service;
 
+import io.wellassist.utils.PageUtils;
 import org.wella.entity.CreditRecord;
 import org.wella.entity.Message;
 import org.wella.entity.Userinfo;
@@ -14,7 +15,6 @@ import java.util.Map;
 
 public interface MessageService {
 
-
     List<Message> getMessageList(Map<String, Object> map);
 
     List<Message> getMessage(int id);
@@ -28,9 +28,6 @@ public interface MessageService {
     List<CreditRecord> getCreditRecordList(Map<String, Object> map);
 
     Userinfo getCreditRecord(Long id);
-
-
-    /*int queryTotal(Map<String, Object> map);*/
 
     int queryRecordCount(Map<String, Object> map);
 
@@ -209,4 +206,51 @@ public interface MessageService {
      * @return
      */
     int handleLoanRepayoffMessage(long loanId);
+
+    /**
+     * 未读消息数
+     * @param userId
+     * @return
+     */
+    int unreadMsgCount(long userId);
+
+    /**
+     * 系统消息page对象
+     * @param param
+     * @return
+     */
+    PageUtils systemicMesList(Map param);
+
+    /**
+     * 财务消息page对象
+     * @param param
+     * @return
+     */
+    PageUtils financeMesList(Map param);
+
+    /**
+     * 垃圾箱page对象
+     * @param param
+     * @return
+     */
+    PageUtils shitMesList(Map param);
+
+    /**
+     * 消息详情
+     * @param id
+     * @return
+     */
+    Message singleMessageByPk(long id);
+
+    /**
+     * 删除一条消息
+     * @param id
+     */
+    void delete1Msg(long id);
+
+    /**
+     * 批量删除
+     * @param ids
+     */
+    void deleteMsgBatch(String ids);
 }

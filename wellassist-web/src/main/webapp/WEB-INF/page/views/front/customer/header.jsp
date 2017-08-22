@@ -164,9 +164,15 @@
           <div class="content <c:if test = "${parentMenuNo == '3'}"> active</c:if>">
                 <div class="accordion transition visible" style="display: block !important;margin-top:0px">
 
-                    <div onclick="window.location.href='#'"  class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '3'&&childMenuNo  == '1' }"> font-white</c:if> ">
-                       <span > 消息列表</span>
-                    </div>     
+                    <div onclick="window.location.href='${pageContext.request.contextPath}/mes/systemicMesPage'"  class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '3'&&childMenuNo  == '1' }"> font-white</c:if> ">
+                        <span > 系统消息</span>
+                    </div>
+                    <div onclick="window.location.href='${pageContext.request.contextPath}/mes/financeMesPage'"  class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '3'&&childMenuNo  == '2' }"> font-white</c:if> ">
+                        <span > 财务消息</span>
+                    </div>
+                    <div onclick="window.location.href='${pageContext.request.contextPath}/mes/shitMes'"  class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '3'&&childMenuNo  == '3' }"> font-white</c:if> ">
+                        <span > 垃圾箱</span>
+                    </div>
                                      
                 </div>
             </div>
