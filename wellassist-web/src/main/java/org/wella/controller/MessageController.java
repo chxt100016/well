@@ -200,11 +200,11 @@ public class MessageController {
     public String systemicMesList(Model model){
         User user=(User)HttpContextUtils.getAttribute("user");
         int userType=user.getUserType();
+        model.addAttribute("parentMenuNo",3);
+        model.addAttribute("childMenuNo",1);
         if (userType==2){
-            return "views/front/customer/news/systemicMes.jsp";
+            return "views/front/creditor/news/systemicMes.html";
         }else {
-            model.addAttribute("parentMenuNo",3);
-            model.addAttribute("childMenuNo",1);
             return "views/front/customer/news/systemicMes.jsp";
         }
     }
@@ -213,11 +213,11 @@ public class MessageController {
     public String financeMesPage(Model model){
         User user=(User)HttpContextUtils.getAttribute("user");
         int userType=user.getUserType();
+        model.addAttribute("parentMenuNo",3);
+        model.addAttribute("childMenuNo",2);
         if (userType==2){
-            return "views/front/customer/news/systemicMes.jsp";
+            return "views/front/creditor/news/financeMes.html";
         }else {
-            model.addAttribute("parentMenuNo",3);
-            model.addAttribute("childMenuNo",2);
             return "views/front/customer/news/financeMes.jsp";
         }
     }
@@ -226,11 +226,11 @@ public class MessageController {
     public String shitMes(Model model){
         User user=(User)HttpContextUtils.getAttribute("user");
         int userType=user.getUserType();
+        model.addAttribute("parentMenuNo",3);
+        model.addAttribute("childMenuNo",3);
         if (userType==2){
-            return "views/front/customer/news/systemicMes.jsp";
+            return "views/front/creditor/news/shitMes.html";
         }else {
-            model.addAttribute("parentMenuNo",3);
-            model.addAttribute("childMenuNo",3);
             return "views/front/customer/news/shitMes.jsp";
         }
     }
@@ -239,10 +239,10 @@ public class MessageController {
     public String messageDetailPage(Model model){
         User user=(User)HttpContextUtils.getAttribute("user");
         int userType=user.getUserType();
+        model.addAttribute("parentMenuNo",3);
         if (userType==2){
-            return "views/front/customer/news/systemicMes.jsp";
+            return "views/front/creditor/news/messageDetail.html";
         }else {
-            model.addAttribute("parentMenuNo",3);
             return "views/front/customer/news/messageDetail.jsp";
         }
     }

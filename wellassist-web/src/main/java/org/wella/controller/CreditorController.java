@@ -215,7 +215,6 @@ public class CreditorController extends BaseController{
     @RequestMapping("qualityApplySuccess")
     public String qualityApplySuccess(Model model) {
         model.addAttribute("parentMenuNo", 1);
-        model.addAttribute("sideNavShow", 0);
         return "views/front/creditor/order/qualityApplySuccess.html";
     }
 
@@ -229,7 +228,6 @@ public class CreditorController extends BaseController{
     public String loanCheck(Model model) {
         model.addAttribute("parentMenuNo", 1);
         model.addAttribute("childMenuNo", 2);
-        model.addAttribute("sideNavShow", 1);
         return "views/front/creditor/order/loanCheck.html";
     }
 
@@ -237,7 +235,6 @@ public class CreditorController extends BaseController{
     public String interestListPage(Model model) {
         model.addAttribute("parentMenuNo", 2);
         model.addAttribute("childMenuNo", 1);
-        model.addAttribute("sideNavShow", 1);
         return "views/front/creditor/order/interestListPage.html";
     }
 
@@ -245,7 +242,6 @@ public class CreditorController extends BaseController{
     public String repayOffListPage(Model model) {
         model.addAttribute("parentMenuNo", 2);
         model.addAttribute("childMenuNo", 2);
-        model.addAttribute("sideNavShow", 1);
         return "views/front/creditor/order/repayOffListPage.html";
     }
 
@@ -253,7 +249,6 @@ public class CreditorController extends BaseController{
     public String repayingListPage(Model model) {
         model.addAttribute("parentMenuNo", 2);
         model.addAttribute("childMenuNo", 3);
-        model.addAttribute("sideNavShow", 1);
         return "views/front/creditor/order/repayingListPage.html";
     }
 
@@ -262,7 +257,6 @@ public class CreditorController extends BaseController{
     public String reportCenter(Model model) {
         model.addAttribute("parentMenuNo", 5);
         model.addAttribute("childMenuNo", 2);
-        model.addAttribute("sideNavShow", 1);
         return "views/front/creditors/order/reportCenterPage.html";
     }
 //    @RequestMapping("repayingList")
