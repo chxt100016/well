@@ -60,9 +60,7 @@
 
        
     <div class="ui container segment" id='app'>
-        <h4>垃圾箱 
-            <!-- <span style="float:right" class="grey7 pointer" @click='deleteItem'>删除</span> -->
-        </h4>
+        <h4>财务消息 <span style="float:right" class="grey7 pointer" @click='deleteItem'>删除</span></h4>
         <div class="ui divider"></div>
         <div class="pd-30">
             <table class="ms-table">
@@ -75,12 +73,13 @@
                             </div>
                         </td>
                     </tr>
-                    <tr width='100% ' v-for='item in list' >
+                    <tr width='100% ' v-for='item in list' v-bind:class="{unread:item.isRead==0}">
                         <td width='25%'>
                             <div class="ui checkbox">
                                 <input type="checkbox" name="example" v-model='checkedModel' :value='item.id'>
                                 <label>
-                            
+                                        <i  v-if='item.isRead==0'class="mail icon isreadgold"></i> 
+                                        <i  v-if='item.isRead==1'class="mail outline icon isreadgrey"></i> 
                                         {{item.title}}
                                 </label>
                             </div>
@@ -108,16 +107,13 @@
 
 
             </table>
-            <div class="fl-lf" v-if='list.length==0'>
-                    暂无消息...
-                </div>
         </div>
     </div>
 </div>
 </div>
 </body>
 <script>
-    const url = '${pageContext.request.contextPath}/mes/shitMesList';
+    const url = '${pageContext.request.contextPath}/mes/financeMesList';
     const url1 = '${pageContext.request.contextPath}/mes/deleteMsgBatch';
     const vm = new Vue({
         el: '#app',
@@ -282,7 +278,7 @@
             },
             deleteItem: function () {
                 let ids = this.checkedModel.join(',');
-                console.log(ids)
+                // console.log(ids)
                 let r = confirm('确定要删除？');
                 if (r == true) {
                     $.ajax({

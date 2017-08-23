@@ -96,10 +96,10 @@
 
         
          <!-- parentMenu==3-->
-        <div class="item">
+        <div class="item" id='mes'>
             <a class="title #if($parentMenuNo == '3')active #end">
             <i class="dropdown icon"></i>
-            <span>消息中心 <span class="ui teal circular  label">2</span> </span>
+            <span>消息中心 <span  v-if='count!=0'class="ui teal circular label pointer" v-cloak v-on:dbclick='gotoMes'>{{count}}</span> </span>
             </a>
           <div class="content #if($parentMenuNo == '3')active #end">
                 <div class="accordion transition visible" style="display: block !important;margin-top:0px">
@@ -211,5 +211,38 @@ var screenH = document.body.scrollHeight;
 	}*#
 
 </script>
+<script>
+        const url0 ='${rc.contextPath}/mes/unreadCount';
+        const mes=new Vue({
+            el:'#mes',
+            data:{
+               count:''
+            },
+            created:function(){
+                let that= this;
+                $.ajax({
+                    type:'get' , 
+                    url:url0,
+                    data:'',
+                    dataType:'json',
+                    success: function(result){
+                    if(result.code==0){
+                    that.count= result.count;
+                    // console.log(that.count);
+                    }else{
+                        console.log(result.msg)
+                    }
+                    }
+    
+                    })
+            },
+            methods:{
+                gotoMes:function(){
+                    window.location.href='${pageContext.request.contextPath}/mes/systemicMesPage'
+                }
+            }
+        })
+    </script>
+
 
 

@@ -107,6 +107,9 @@
 
 
             </table>
+            <div class="fl-lf" v-if='list.length==0'>
+                    暂无消息...
+           </div>
         </div>
     </div>
 </div>
@@ -139,7 +142,7 @@
                         that.totalPage = result.page.totalPage;
                         that.limit = 10;
                         that.currentPage = result.page.currPage - 1;
-                        console.log(result.page);
+                        // console.log(result.page);
 
                     } else {
                         console.log(result.msg)
@@ -212,7 +215,7 @@
                     this.currentPage = data - 1;
 
                 }
-                console.log(data);
+                // console.log(data);
                 that.currentPage = data;
 
                 this.getList();
@@ -244,7 +247,7 @@
                             that.list = result.page.list;
                             that.totalPage = result.page.totalPage;
                             that.currentPage = result.page.currPage - 1;
-                            console.log(result.page);
+                            // console.log(result.page);
 
                         } else {
                             console.log(result.msg)
@@ -256,7 +259,7 @@
             },
             getList: function () {
                 let that = this, page = that.currentPage, limit = that.limit;
-                console.log('当前页' + page)
+                // console.log('当前页' + page)
                 $.ajax({
                     type: 'get',
                     url: url,
@@ -267,7 +270,7 @@
                             that.list = result.page.list;
                             that.totalPage = result.page.totalPage;
                             that.currentPage = result.page.currPage - 1;
-                            console.log(result.page);
+                            // console.log(result.page);
 
                         } else {
                             console.log(result.msg)
@@ -289,7 +292,7 @@
                         success: function (result) {
                             if (result.code == 0) {
                                 alert('删除成功');
-                                console.log(result.msg);
+                                // console.log(result.msg);
                                 window.location.reload();
 
                             } else {

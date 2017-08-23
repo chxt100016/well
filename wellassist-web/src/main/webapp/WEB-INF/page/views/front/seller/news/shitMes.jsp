@@ -108,9 +108,6 @@
 
 
             </table>
-            <div class="fl-lf" v-if='list.length==0'>
-                    暂无消息...
-                </div>
         </div>
     </div>
 </div>
@@ -260,7 +257,7 @@
             },
             getList: function () {
                 let that = this, page = that.currentPage, limit = that.limit;
-                console.log('当前页' + page)
+                // console.log('当前页' + page)
                 $.ajax({
                     type: 'get',
                     url: url,
@@ -293,7 +290,7 @@
                         success: function (result) {
                             if (result.code == 0) {
                                 alert('删除成功');
-                                // console.log(result.msg);
+                                console.log(result.msg);
                                 window.location.reload();
 
                             } else {
