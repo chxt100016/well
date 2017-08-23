@@ -1,5 +1,8 @@
 package org.wella.service.impl;
 
+import io.wellassist.utils.HttpContextUtils;
+import io.wellassist.utils.PageUtils;
+import io.wellassist.utils.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,6 +10,7 @@ import org.wella.common.utils.ConstantUtil;
 import org.wella.dao.*;
 import org.wella.entity.CreditRecord;
 import org.wella.entity.Message;
+import org.wella.entity.User;
 import org.wella.entity.Userinfo;
 import org.wella.service.MessageService;
 import org.wella.utils.DateUtils;
@@ -14,6 +18,7 @@ import org.wella.utils.MailUtil;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -380,5 +385,84 @@ public class MessageServiceImpl implements MessageService{
         StringBuilder content=new StringBuilder();
         content.append("您在 ").append(applyDateStr).append(" 申请的 ").append(loanMoney).append(" 元授信贷款已全部还清。");
         return createFinanceMessage((long)loan.get("user_id"),"授信还款",content.toString());
+    }
+
+    @Override
+    public int unreadMsgCount(long userId) {
+        return messageDao.unreadMsgCount(userId);
+    }
+
+    @Override
+    public PageUtils systemicMesList(Map param) {
+        Query query=new Query(param);
+        User user=(User) HttpContextUtils.getAttribute("user");
+        query.put("userId",user.getUserId());
+        query.put("isDelete",0);
+        query.put("orderBy","Field(is_read,0,1),id desc");
+        query.put("inType","(0,2)");
+        List list=messageDao.listPoByConditions(query);
+        int totalCount=messageDao.listPoByConditionsCount(query);
+        PageUtils page=new PageUtils(list, totalCount, query.getLimit(), query.getPage());
+        return page;
+    }
+
+    @Override
+    public PageUtils financeMesList(Map param) {
+        Query query=new Query(param);
+        User user=(User) HttpContextUtils.getAttribute("user");
+        query.put("userId",user.getUserId());
+        query.put("isDelete",0);
+        query.put("orderBy","Field(is_read,0,1),id desc");
+        query.put("type",1);
+        List list=messageDao.listPoByConditions(query);
+        int totalCount=messageDao.listPoByConditionsCount(query);
+        PageUtils page=new PageUtils(list, totalCount, query.getLimit(), query.getPage());
+        return page;
+    }
+
+    @Override
+    public PageUtils shitMesList(Map param) {
+        Query query=new Query(param);
+        User user=(User) HttpContextUtils.getAttribute("user");
+        query.put("userId",user.getUserId());
+        query.put("isDelete",1);
+        query.put("orderBy","id desc");
+        List list=messageDao.listPoByConditions(query);
+        int totalCount=messageDao.listPoByConditionsCount(query);
+        PageUtils page=new PageUtils(list, totalCount, query.getLimit(), query.getPage());
+        return page;
+    }
+
+    @Override
+    public Message singleMessageByPk(long id) {
+        Message message=messageDao.singlePoByPk(id);
+        return message;
+    }
+
+    @Override
+    public void delete1Msg(long id) {
+        Map map=new HashMap();
+        map.put("id",id);
+        map.put("isDelete",(byte)1);
+        messageDao.update(map);
+    }
+
+    @Override
+    public void deleteMsgBatch(String ids) {
+        Map map=new HashMap();
+        StringBuilder idA=new StringBuilder();
+        idA.append("(").append(ids).append(")");
+        map.put("ids",idA.toString());
+        map.put("isDelete",(byte)1);
+        map.put("deleteTime",new Date());
+        messageDao.updateByConditions(map);
+    }
+
+    @Override
+    public void readMsg(long id) {
+        Map update=new HashMap();
+        update.put("id",id);
+        update.put("isRead",(byte)1);
+        messageDao.update(update);
     }
 }

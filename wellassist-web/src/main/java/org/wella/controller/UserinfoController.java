@@ -273,7 +273,6 @@ public class UserinfoController {
     public R selectProduct(Long prodId){
         Prod prod=userinfoServiceImpl.selectProduct(prodId);
         return new R().put("prod",prod);
-
     }
 
     @RequestMapping("prodDetail")

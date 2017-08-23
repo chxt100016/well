@@ -70,7 +70,6 @@
         },
         mounted:function(){
             let that =this;
-            console.log('ddd');
             $.ajax({
                 type:'get', 
                 url:url1,

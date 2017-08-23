@@ -121,4 +121,134 @@ public class MessageController {
         messageServicesk.addCreditRecord(creditRecord);
         return R.ok();
     }
+
+    @RequestMapping("unreadCount")
+    @ResponseBody
+    public R unreadCount(){
+        User user=(User)HttpContextUtils.getAttribute("user");
+        int count;
+        try {
+            count=messageServicesk.unreadMsgCount(user.getUserId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error();
+        }
+        return R.ok().put("count",count);
+    }
+
+    @RequestMapping("systemicMesList")
+    @ResponseBody
+    public R systemicMesList(@RequestParam Map param){
+        PageUtils page;
+        try {
+            page=messageServicesk.systemicMesList(param);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error();
+        }
+        return R.ok().put("page",page);
+    }
+
+    @RequestMapping("financeMesList")
+    @ResponseBody
+    public R financeMesList(@RequestParam Map param){
+        PageUtils page;
+        try {
+            page=messageServicesk.financeMesList(param);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error();
+        }
+        return R.ok().put("page",page);
+    }
+
+    @RequestMapping("shitMesList")
+    @ResponseBody
+    public R shitMesList(@RequestParam Map param){
+        PageUtils page;
+        try {
+            page=messageServicesk.shitMesList(param);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error();
+        }
+        return R.ok().put("page",page);
+    }
+
+    @RequestMapping("messageDetail")
+    @ResponseBody
+    public R messageDetail(@RequestParam long id){
+        Message message=messageServicesk.singleMessageByPk(id);
+        return R.ok().put("message",message);
+    }
+
+    @RequestMapping("delete1Msg")
+    @ResponseBody
+    public R delete1Msg(@RequestParam long id){
+        messageServicesk.delete1Msg(id);
+        return R.ok();
+    }
+
+    @RequestMapping("deleteMsgBatch")
+    @ResponseBody
+    public R deleteMsgBatch(@RequestParam String ids){
+        messageServicesk.deleteMsgBatch(ids);
+        return R.ok();
+    }
+
+    @RequestMapping("systemicMesPage")
+    public String systemicMesList(Model model){
+        User user=(User)HttpContextUtils.getAttribute("user");
+        int userType=user.getUserType();
+        model.addAttribute("parentMenuNo",3);
+        model.addAttribute("childMenuNo",1);
+        if (userType==2){
+            return "views/front/creditor/news/systemicMes.html";
+        }else {
+            return "views/front/customer/news/systemicMes.jsp";
+        }
+    }
+
+    @RequestMapping("financeMesPage")
+    public String financeMesPage(Model model){
+        User user=(User)HttpContextUtils.getAttribute("user");
+        int userType=user.getUserType();
+        model.addAttribute("parentMenuNo",3);
+        model.addAttribute("childMenuNo",2);
+        if (userType==2){
+            return "views/front/creditor/news/financeMes.html";
+        }else {
+            return "views/front/customer/news/financeMes.jsp";
+        }
+    }
+
+    @RequestMapping("shitMes")
+    public String shitMes(Model model){
+        User user=(User)HttpContextUtils.getAttribute("user");
+        int userType=user.getUserType();
+        model.addAttribute("parentMenuNo",3);
+        model.addAttribute("childMenuNo",3);
+        if (userType==2){
+            return "views/front/creditor/news/shitMes.html";
+        }else {
+            return "views/front/customer/news/shitMes.jsp";
+        }
+    }
+
+    @RequestMapping("messageDetailPage")
+    public String messageDetailPage(Model model,@RequestParam long id,@RequestParam int isRead){
+        User user=(User)HttpContextUtils.getAttribute("user");
+        int userType=user.getUserType();
+        if (isRead==0){
+            messageServicesk.readMsg(id);
+        }
+        model.addAttribute("parentMenuNo",3);
+        if (userType==2){
+            model.addAttribute("id",id);
+            return "views/front/creditor/news/messageDetail.html";
+        }else {
+            return "views/front/customer/news/messageDetail.jsp";
+        }
+    }
+
 }

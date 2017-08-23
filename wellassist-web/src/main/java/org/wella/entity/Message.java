@@ -19,6 +19,10 @@ public class Message {
 
     private Byte isRead;
 
+    private Byte isDelete;
+
+    private Date deleteTime;
+
     public Long getId() {
         return id;
     }
@@ -81,5 +85,21 @@ public class Message {
 
     public void setIsRead(Byte isRead) {
         this.isRead = isRead;
+    }
+
+    public Byte getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Byte isDelete) {
+        this.isDelete = isDelete;
+    }
+
+    public Date getDeleteTime() {
+        return deleteTime;
+    }
+
+    public void setDeleteTime(Date deleteTime) {
+        this.deleteTime = deleteTime;
     }
 }
