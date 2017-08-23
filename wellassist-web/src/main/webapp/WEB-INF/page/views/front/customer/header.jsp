@@ -156,10 +156,10 @@
         </div> -->
         
          <!-- parentMenu==3-->
-        <div class="item">
+        <div class="item" id='mes' >
             <a class="title <c:if test = "${parentMenuNo == '3'}"> active</c:if>">
             <i class="dropdown icon"></i>
-            消息中心
+            消息中心  <span  v-if='count!=0'class="ui teal circular label pointer" v-cloak v-on:dbclick='gotoMes'>{{count}}</span>
             </a>
           <div class="content <c:if test = "${parentMenuNo == '3'}"> active</c:if>">
                 <div class="accordion transition visible" style="display: block !important;margin-top:0px">
@@ -243,6 +243,38 @@
         .accordion()
         ;
 
+</script>
+<script>
+    const url0 ='${pageContext.request.contextPath}/mes/unreadCount';
+    const mes=new Vue({
+        el:'#mes',
+        data:{
+           count:''
+        },
+        created:function(){
+            let that= this;
+            $.ajax({
+                type:'get' , 
+                url:url0,
+                data:'',
+                dataType:'json',
+                success: function(result){
+                if(result.code==0){
+                that.count= result.count;
+                console.log(that.count);
+                }else{
+                    console.log(result.msg)
+                }
+                }
+
+                })
+        },
+        methods:{
+            gotoMes:function(){
+                window.location.href='${pageContext.request.contextPath}/mes/systemicMesPage'
+            }
+        }
+    })
 </script>
 
 </html>

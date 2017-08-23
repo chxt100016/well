@@ -101,14 +101,14 @@
       date)
     values ( #{userId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR},
       #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{content,jdbcType=VARCHAR},
-      #{date,jdbcType=TIMESTAMP)
+      #{date})
     </insert>
 
     <select id="unreadMsgCount" parameterType="long" resultType="int">
         SELECT COUNT(*)
         FROM wa_message
         WHERE user_id=#{userId}
-        AND is_read=0
+        AND is_read=0 and is_delete=0
     </select>
 
     <select id="listPoByConditions" parameterType="map" resultMap="MessageMap">
