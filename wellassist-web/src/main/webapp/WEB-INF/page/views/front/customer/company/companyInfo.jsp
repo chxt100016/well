@@ -296,8 +296,6 @@ div.error{
                 digits:true,
                 required:true,
             }
-
-
         },
         messages: {
         	zcXxAddress: "请输入详细地址！",

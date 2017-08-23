@@ -106,11 +106,11 @@
                                     <div class="ui labeled input ">
                                         <div class="ui label">用户类型：</div>
                                         <select class="ui dropdown" name="user_type" id="user_type" onchange="getUserType();">
-                                                <option value="">请选择</option>
-                                                <option value="3">物流方</option>
-                                                <option value="1">买家方</option>
-                                                <option value="0">卖家方</option>
-                                                <option value="2">放款方</option>
+                                            <option value="">请选择</option>
+                                            <option value="0">卖家方</option>
+                                            <option value="1">买家方</option>
+                                            <option value="2">放款方</option>
+                                            <option value="3">物流方</option>
                                        </select>
                                     </div>
                                 </div>
@@ -124,8 +124,6 @@
                                                         <option value="${item.userId}">${item.userName}</option>
                                                     </c:forEach>
                                                 </select>
-                                                
-                    
                                         </div>
                                       </div>
                                 </div>
@@ -133,12 +131,12 @@
                                     <div class="ui labeled input ">
                                         <div class="ui label">买家绑定：</div>
                                         <select class="ui dropdown" name="user_type">
-                                    <option value="">请选择</option>
-                                    <option value="1">物流方</option>
-                                     <option value="2">买家方</option>
-                                     <option value="3">卖家方</option>
-                                     <option value="4">放款方</option>
-                                </select>
+                                            <option value="">请选择</option>
+                                            <option value="1">物流方</option>
+                                            <option value="2">买家方</option>
+                                            <option value="3">卖家方</option>
+                                            <option value="4">放款方</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -455,7 +453,7 @@
             $(this).attr("name", "");
         });
     }
-    /**
+    /*
      * 上传图片处理方法
      * @param idx
      */
