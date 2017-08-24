@@ -51,4 +51,43 @@
         from wa_user_money
         where money_id=#{moneyId}
     </select>
+
+
+    <select id="turnover" parameterType="java.util.Map" resultType="map">
+          SELECT
+           MONTH(jy_date) AS time,
+           SUM(jy_money) AS number
+          FROM wa_user_money
+        WHERE
+            user_id=#{userId} AND
+          YEAR(jy_date)=#{year} AND (jy_type=1 OR jy_type=3) AND jy_state=1
+           GROUP BY MONTH (jy_date)
+    </select>
+
+
+
+    <select id="fundFlowOut" parameterType="java.util.Map" resultType="map">
+        SELECT MONTH(jy_date) AS time,
+            SUM(jy_money) AS number
+            FROM wa_user_money
+           WHERE
+           user_id=#{userId} AND
+           YEAR(jy_date)=#{year} AND (jy_type=2 OR jy_type=3 OR jy_type=1) AND jy_state=1
+          GROUP BY MONTH (jy_date)
+    </select>
+
+
+
+    <select id="fundFlowIn" parameterType="java.util.Map" resultType="map">
+        SELECT MONTH(jy_date) AS  time,
+         SUM(jy_money) AS number
+         FROM wa_user_money
+       WHERE
+       user_id=#{userId} AND
+       YEAR(jy_date)=#{year} AND jy_type=0 AND jy_state=2
+       GROUP BY MONTH (jy_date)
+    </select>
+
+
+
 </mapper>

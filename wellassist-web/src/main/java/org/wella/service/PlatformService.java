@@ -3,6 +3,7 @@ package org.wella.service;
 import org.wella.entity.Order;
 import org.wella.entity.Prod;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -37,5 +38,17 @@ public interface PlatformService {
     boolean insertCustomer(Map map);
 
 
+    List<BigDecimal> tradingVolume(Map map);
+
+
+    List<BigDecimal> loanAmount(Map map);
+
+
+    List<BigDecimal> turnover(Map map);
+
+    List<BigDecimal> interest(Map map);
+
+
+    Map<String,List> fundFlow(Map map);
 
 }

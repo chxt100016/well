@@ -304,7 +304,7 @@ public class SellerController extends BaseController {
     public void orderList(HttpServletRequest request, HttpServletResponse response){
         int ret = -1;
         JSONObject obj = new JSONObject();
-        User user= (User) request.getSession().getAttribute("user");
+        User user= (User) request.getSession().getAttribute("use r");
         Long userId=user.getUserId();
         Map param=getConditionParam(request);
         param.put("supplierId",userId);

@@ -60,10 +60,14 @@
 
        
     <div class="ui container segment" id='app'>
-        <h4>垃圾箱 
-            <!-- <span style="float:right" class="grey7 pointer" @click='deleteItem'>删除</span> -->
-        </h4>
+        <h4>系统消息 <span style="float:right" class="grey7 pointer" @click='deleteItem()'>删除</span></h4>
         <div class="ui divider"></div>
+        <div class="ui success message hidden ">
+                <i class="close icon"></i>
+                <div class="header">
+                  删除成功！
+                </div>
+         </div>
         <div class="pd-30">
             <table class="ms-table">
                 <tbody>
@@ -75,17 +79,18 @@
                             </div>
                         </td>
                     </tr>
-                    <tr width='100% ' v-for='item in list' >
+                    <tr width='100% ' v-for='(item,index) in list' v-bind:class="{unread:item.isRead==0}" >
                         <td width='25%'>
                             <div class="ui checkbox">
-                                <input type="checkbox" name="example" v-model='checkedModel' :value='item.id'>
+                                <input type="checkbox" name="example" v-model='checkedModel' :value='item.id' >
                                 <label>
-                            
+                                        <i  v-if='item.isRead==0'class="mail icon isreadgold"></i> 
+                                        <i  v-if='item.isRead==1'class="mail outline icon isreadgrey"></i> 
                                         {{item.title}}
                                 </label>
                             </div>
                         </td>
-                        <td width='50%' class="ellip max-wid-600 min-wid-500 pointer"  @click='detailPage(item.id,item.isRead)'>{{item.content}}</td>
+                        <td width='50%' class="ellip max-wid-600 min-wid-500 pointer" @click='detailPage(item.id,item.isRead)'>{{item.content}}</td>
                         <td width='25%' class=" tx-al-rg">{{item.date}}</td>
                     </tr>
                 </tbody>
@@ -108,26 +113,25 @@
 
 
             </table>
-            <div class="fl-lf" v-if='list.length==0'>
-                    暂无消息...
-                </div>
         </div>
     </div>
 </div>
 </div>
 </body>
 <script>
-    const url = '${pageContext.request.contextPath}/mes/shitMesList';
+    const url = '${pageContext.request.contextPath}/mes/systemicMesList';
     const url1 = '${pageContext.request.contextPath}/mes/deleteMsgBatch';
     const vm = new Vue({
         el: '#app',
         data: {
             list: [],
             checkedModel: [],
+            checkedIndex:[],
             checkedAll: false,
             limit: '', // 每页显示行数
             totalPage: '', // 总页数
             currentPage: '', // 当前页
+
 
         },
         created: function () {
@@ -200,7 +204,8 @@
                 this.checkedModel = []
                 if (this.checkedAll == true) {
                     this.list.forEach((value, index) => {
-                        this.checkedModel.push(value.id)
+                        this.checkedModel.push(value.id);
+                  
                     });
                 }
             },
@@ -259,8 +264,8 @@
 
             },
             getList: function () {
-                let that = this, page = that.currentPage, limit = that.limit;
-                console.log('当前页' + page)
+                let that = this, page = vm.currentPage, limit = vm.limit;
+                // console.log('当前页' + page)
                 $.ajax({
                     type: 'get',
                     url: url,
@@ -282,7 +287,8 @@
             },
             deleteItem: function () {
                 let ids = this.checkedModel.join(',');
-                console.log(ids)
+                console.log(ids);
+                // console.log('序号'+index);
                 let r = confirm('确定要删除？');
                 if (r == true) {
                     $.ajax({
@@ -292,17 +298,20 @@
                         dataType: 'json',
                         success: function (result) {
                             if (result.code == 0) {
-                                alert('删除成功');
-                                // console.log(result.msg);
+                                $('.ui .success').transition('scale');
+                                console.log(result.msg);
                                 window.location.reload();
+                              
+                        
 
                             } else {
-                                console.log(result.msg)
+                                console.log(result.msg);
+                                alert(result.msg)
                             }
                         },
 
                     })
-
+                    this.getList();
                 }else{
                     alert('好的不删')
                 }
