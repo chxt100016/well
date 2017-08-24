@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.CompanyPropertyDao">
+    <resultMap id="CompanyPropertyMap" type="org.wella.entity.CompanyProperty" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="asset_liability_ratio" property="assetLiabilityRatio" jdbcType="DECIMAL" />
+        <result column="liquidity_ratio" property="liquidityRatio" jdbcType="DECIMAL" />
+        <result column="quick_ratio" property="quickRatio" jdbcType="DECIMAL" />
+        <result column="interest_cover_ratio" property="interestCoverRatio" jdbcType="DECIMAL" />
+        <result column="cash_flow" property="cashFlow" jdbcType="DECIMAL" />
+        <result column="sales_revenue" property="salesRevenue" jdbcType="DECIMAL" />
+        <result column="total_assets" property="totalAssets" jdbcType="DECIMAL" />
+        <result column="total_liabilities" property="totalLiabilities" jdbcType="DECIMAL" />
+        <result column="load_ratio" property="loadRatio" jdbcType="DECIMAL" />
+        <result column="external_guarantees" property="externalGuarantees" jdbcType="DECIMAL" />
+        <result column="credit_code" property="creditCode" jdbcType="CHAR" />
+        <result column="period" property="period" jdbcType="DATE" />
+    </resultMap>
+
+    <select id="list" parameterType="map" resultMap="CompanyPropertyMap">
+        select *
+        from wa_company_property
+        <where>
+            <if test='queryStr != null and queryStr.trim() != "" '>
+                AND (credit_code LIKE concat('%',#{queryStr},'%'))
+            </if>
+        </where>
+        <if test='orderBy != null and orderBy.trim() != "" '>
+            order by ${orderBy}
+        </if>
+        <if test="offset != null and limit != null">
+            limit #{offset},#{limit}
+        </if>
+    </select>
+    
+    <select id="listCount" parameterType="map" resultType="int">
+        SELECT count(*) from wa_company_property
+        <where>
+            <if test='queryStr != null and queryStr.trim() != "" '>
+                AND (NAME LIKE concat('%',#{queryStr},'%') OR credit_code LIKE concat('%',#{queryStr},'%'))
+            </if>
+        </where>
+    </select>
+
+</mapper>
