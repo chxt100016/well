@@ -240,5 +240,19 @@
         select order_no
         from wa_order
         where order_id=#{orderId}
+
     </select>
+
+
+
+    <select id="tradingVolume" parameterType="java.util.Map" resultType="map">
+        select
+        month(order_date) as time,
+        IFNULL(sum(sale_sj_num),0) as number
+        from wa_order
+        where user_id=#{userId}
+        and year(order_date)=#{year}
+        group by month(order_date)
+    </select>
+
 </mapper>

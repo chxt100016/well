@@ -60,7 +60,7 @@
 
        
     <div class="ui container segment" id='app'>
-        <h4>系统消息 <span style="float:right" class="grey7 pointer" @click='deleteItem'>删除</span></h4>
+        <h4>系统消息 <span style="float:right" class="grey7 pointer" @click='deleteItem()'>删除</span></h4>
         <div class="ui divider"></div>
         <div class="ui success message hidden ">
                 <i class="close icon"></i>
@@ -79,10 +79,10 @@
                             </div>
                         </td>
                     </tr>
-                    <tr width='100% ' v-for='item in list' v-bind:class="{unread:item.isRead==0}" >
+                    <tr width='100% ' v-for='(item,index) in list' v-bind:class="{unread:item.isRead==0}" >
                         <td width='25%'>
                             <div class="ui checkbox">
-                                <input type="checkbox" name="example" v-model='checkedModel' :value='item.id'>
+                                <input type="checkbox" name="example" v-model='checkedModel' :value='item.id' >
                                 <label>
                                         <i  v-if='item.isRead==0'class="mail icon isreadgold"></i> 
                                         <i  v-if='item.isRead==1'class="mail outline icon isreadgrey"></i> 
@@ -113,6 +113,10 @@
 
 
             </table>
+            <div class="fl-lf" v-if='list.length==0'>
+                    暂无消息...
+                </div>
+
         </div>
     </div>
 </div>
@@ -126,10 +130,12 @@
         data: {
             list: [],
             checkedModel: [],
+            checkedIndex:[],
             checkedAll: false,
             limit: '', // 每页显示行数
             totalPage: '', // 总页数
             currentPage: '', // 当前页
+
 
         },
         created: function () {
@@ -145,7 +151,7 @@
                         that.totalPage = result.page.totalPage;
                         that.limit = 10;
                         that.currentPage = result.page.currPage - 1;
-                        console.log(result.page);
+                        // console.log(result.page);
 
                     } else {
                         console.log(result.msg)
@@ -202,7 +208,8 @@
                 this.checkedModel = []
                 if (this.checkedAll == true) {
                     this.list.forEach((value, index) => {
-                        this.checkedModel.push(value.id)
+                        this.checkedModel.push(value.id);
+                  
                     });
                 }
             },
@@ -218,7 +225,7 @@
                     this.currentPage = data - 1;
 
                 }
-                console.log(data);
+                // console.log(data);
                 that.currentPage = data;
 
                 this.getList();
@@ -250,7 +257,7 @@
                             that.list = result.page.list;
                             that.totalPage = result.page.totalPage;
                             that.currentPage = result.page.currPage - 1;
-                            console.log(result.page);
+                            // console.log(result.page);
 
                         } else {
                             console.log(result.msg)
@@ -261,8 +268,8 @@
 
             },
             getList: function () {
-                let that = this, page = this.currentPage, limit = this.limit;
-                console.log('当前页' + page)
+                let that = this, page = vm.currentPage, limit = vm.limit;
+                // console.log('当前页' + page)
                 $.ajax({
                     type: 'get',
                     url: url,
@@ -273,7 +280,7 @@
                             that.list = result.page.list;
                             that.totalPage = result.page.totalPage;
                             that.currentPage = result.page.currPage - 1;
-                            console.log(result.page);
+                            // console.log(result.page);
 
                         } else {
                             console.log(result.msg)
@@ -284,7 +291,8 @@
             },
             deleteItem: function () {
                 let ids = this.checkedModel.join(',');
-                console.log(ids)
+                console.log(ids);
+                // console.log('序号'+index);
                 let r = confirm('确定要删除？');
                 if (r == true) {
                     $.ajax({
@@ -295,13 +303,14 @@
                         success: function (result) {
                             if (result.code == 0) {
                                 $('.ui .success').transition('scale');
-                                console.log(result.msg);
-                                // window.location.reload();
-                                vm.$forceUpdate();
-                               
+                                // console.log(result.msg);
+                                window.location.reload();
+                              
+                        
 
                             } else {
-                                console.log(result.msg)
+                                console.log(result.msg);
+                                alert(result.msg)
                             }
                         },
 

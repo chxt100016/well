@@ -16,4 +16,12 @@ public interface UserMoneyDao {
     void update(Map map);
 
     Map<String,Object> singlePoByPrimaryKey(@Param("moneyId") long moneyId);
+
+    List<Map<Integer,Object>> turnover(Map map);
+
+    List<Map<Integer,Object>> fundFlowOut(Map map);
+
+
+    List<Map<Integer,Object>> fundFlowIn(Map map);
+
 }

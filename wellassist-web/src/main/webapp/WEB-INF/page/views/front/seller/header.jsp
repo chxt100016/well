@@ -138,28 +138,28 @@
         </div> -->
         
          <!-- parentMenu==3-->
-        <div class="item">
-            <a class="title <c:if test = "${parentMenuNo == '3'}"> active</c:if>">
-            <i class="dropdown icon"></i>
-            消息中心
-            </a>
-          <div class="content <c:if test = "${parentMenuNo == '3'}"> active</c:if>">
-                <div class="accordion transition visible" style="display: block !important;margin-top:0px">
-
-                    <div onclick="window.location.href='${pageContext.request.contextPath}/mes/systemicMesPage'"  class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '3'&&childMenuNo  == '1' }"> font-white</c:if> ">
-                       <span > 系统消息</span>
+         <div class="item" id='mes' >
+                <a class="title <c:if test = "${parentMenuNo == '3'}"> active</c:if>">
+                <i class="dropdown icon"></i>
+                消息中心  <span  v-if='count!=0'class="ui teal circular label pointer" v-cloak v-on:dbclick='gotoMes'>{{count}}</span>
+                </a>
+              <div class="content <c:if test = "${parentMenuNo == '3'}"> active</c:if>">
+                    <div class="accordion transition visible" style="display: block !important;margin-top:0px">
+    
+                        <div onclick="window.location.href='${pageContext.request.contextPath}/mes/systemicMesPage'"  class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '3'&&childMenuNo  == '1' }"> font-white</c:if> ">
+                            <span > 系统消息</span>
+                        </div>
+                        <div onclick="window.location.href='${pageContext.request.contextPath}/mes/financeMesPage'"  class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '3'&&childMenuNo  == '2' }"> font-white</c:if> ">
+                            <span > 财务消息</span>
+                        </div>
+                        <div onclick="window.location.href='${pageContext.request.contextPath}/mes/shitMes'"  class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '3'&&childMenuNo  == '3' }"> font-white</c:if> ">
+                            <span > 垃圾箱</span>
+                        </div>
+                                         
                     </div>
-                    <div onclick="window.location.href='${pageContext.request.contextPath}/mes/financeMesPage'"  class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '3'&&childMenuNo  == '2' }"> font-white</c:if> ">
-                        <span > 财务消息</span>
-                    </div>
-                    <div onclick="window.location.href='${pageContext.request.contextPath}/mes/shitMes'"  class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '3'&&childMenuNo  == '3' }"> font-white</c:if> ">
-                        <span > 垃圾箱</span>
-                    </div>
-                                     
                 </div>
-            </div>
-            
-        </div> 
+                
+            </div> 
 
           <!-- parentMenu==4-->
         <div class="item">
@@ -225,6 +225,38 @@
         .accordion()
         ;
 
+</script>
+<script>
+    const url0 ='${pageContext.request.contextPath}/mes/unreadCount';
+    const mes=new Vue({
+        el:'#mes',
+        data:{
+           count:''
+        },
+        created:function(){
+            let that= this;
+            $.ajax({
+                type:'get' , 
+                url:url0,
+                data:'',
+                dataType:'json',
+                success: function(result){
+                if(result.code==0){
+                that.count= result.count;
+                console.log(that.count);
+                }else{
+                    console.log(result.msg)
+                }
+                }
+
+                })
+        },
+        methods:{
+            gotoMes:function(){
+                window.location.href='${pageContext.request.contextPath}/mes/systemicMesPage'
+            }
+        }
+    })
 </script>
 
 </html>

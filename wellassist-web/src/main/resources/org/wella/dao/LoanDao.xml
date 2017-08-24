@@ -191,4 +191,31 @@
         WHERE loan_id=#{loanId}
     </select>
 
+
+
+
+    <select id="loanAmount" parameterType="java.util.Map" resultType="map">
+        SELECT MONTH(loan_date) AS time,
+        IFNULL(SUM(loan_money),0) AS number
+        FROM wa_loan
+        WHERE
+        user_id=#{userId} and
+        YEAR(loan_date)=#{year}
+        and loan_state=3
+        GROUP BY MONTH(loan_date)
+    </select>
+
+
+
+    <select id="interest" parameterType="java.util.Map" resultType="map">
+        select MONTH (loan_date) as time,
+        IFNULL(SUM(lixi_money),0) AS number
+        FROM wa_loan
+        where
+        user_id=#{userId} AND
+        YEAR(loan_date)=#{year}
+        and loan_state=3
+        GROUP BY MONTH(loan_date)
+    </select>
+
 </mapper>
