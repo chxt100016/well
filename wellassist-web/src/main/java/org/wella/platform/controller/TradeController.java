@@ -50,7 +50,7 @@ public class TradeController extends BaseController {
         ConvertUtil.convertDataBaseMapToJavaMap(list);
         int totalCount = tradeDAO.tradeCount(params);
         PageUtils pageUtils = new PageUtils(list,totalCount,query.getLimit(),query.getPage());
-         return R.ok().put("page",pageUtils);
+        return R.ok().put("page",pageUtils);
     }
 
     @RequestMapping("tradeDetail/{moneyId}")

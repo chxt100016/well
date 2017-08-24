@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.RiskScoreDao">
+	<!-- 以下与实体类的中字段一致 -->
+	<resultMap id="riskScore" type="org.wella.entity.RiskScore">
+		<id property="id" column="id"/>
+		<result property="riskCode" column="factor_code"/>
+		<result property="riskItem" column="factor_item"/>
+		<result property="score" column="score"/>
+	</resultMap>
+
+	<!--根据风险因子进行分组查询，为后续将风险分值表中的数据进一步抽象为HashMap<factorCode,HashMap<factorItem,score>>提供数据-->
+	<select id="getFactorScoreMap" resultType="java.util.HashMap" >
+		SELECT factor_code as factorCode, group_concat(factor_item) as factorItem ,group_concat(score) as factorScore
+		FROM wa_risk_score
+		GROUP BY factor_code
+	</select>
+
+	<!--查询指定指定风险编码的所项-->
+	<select id="getRiskScoreByCategorys" resultMap="riskScore" parameterType="list">
+		SELECT *
+		FROM wa_risk_score
+		WHERE 1=1
+		<if test="factorCodeList!=null">
+			AND factor_code IN
+			<foreach collection="factorCodeList" item="item" index="index" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+	</select>
+
+	<delete id="deleteByFactorCode" parameterType="string">
+		DELETE
+		FROM  risk_score
+		WHERE factor_code =#{factorCode}
+	</delete>
+
+	<select id="selectByID" parameterType="int" resultMap="riskScore">
+		SELECT *
+		FROM  risk_score
+		WHERE id = #{id}
+	</select>
+
+	<delete id="deleteByID" parameterType="int">
+		DELETE
+		FROM risk_score
+		WHERE id=#{id}
+	</delete>
+
+	<update id="updateByID" parameterType="org.wella.entity.RiskFactor">
+		UPDATE risk_score SET
+		factor_item = #{riskItem},
+		score = #{score}
+		WHERE id =#{id}
+	</update>
+
+</mapper>

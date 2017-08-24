@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.RiskFactorDao">
+    <resultMap id="riskFactor" type="org.wella.entity.RiskFactor">
+        <id property="id" column="id"/>
+        <result property="factorName" column="factor_name"/>
+        <result property="factorType" column="factor_type"/>
+        <result property="resourceTable" column="resource_table"/>
+        <result property="calculate" column="is_calculate"/>
+        <result property="resourceColumn" column="resource_column"/>
+        <result property="factorDesc" column="factor_desc"/>
+        <result property="factorCode" column="factor_code"/>
+    </resultMap>
+    <select id="getAllIsCalculate" resultType="org.wella.entity.RiskFactor">
+        <![CDATA[
+			SELECT *
+			FROM risk_factor
+			WHERE is_calculate = TRUE
+
+		]]>
+    </select>
+
+    <!--获取每张表中所对应的风险因子，并到对应的表中取取值-->
+    <select id="getGroupByResourceTable" resultType="map">
+        <![CDATA[
+			SELECT group_concat(factor_name) as factorNames,group_concat(factor_code) as factorCodes, resource_table as resourceTable
+			FROM wa_risk_factor
+			WHERE is_calculate = TRUE
+			GROUP BY resource_table
+		]]>
+    </select>
+
+    <!--根据风险因子及其对应的表获取相关的值-->
+    <select id="getFactValue" resultType="map" parameterType="map">
+        SELECT ${field}
+        FROM ${tableName}
+        WHERE credit_code = #{creditCode}
+        <if test="tableName == manager_info">
+            AND position = '法人'
+        </if>
+        <if test="tableName == company_baseinfo">
+        </if>
+        <!--<if test="tableName!=manager_info || tableName!=company_baseInfo">-->
+        <!--ORDER BY period-->
+        <!--</if>-->
+        limit 0,1
+
+    </select>
+
+    <!--根据指定的条件进行精确查询-->
+    <select id="getRiskFactor" resultMap="riskFactor" parameterType="map">
+        SELECT *
+        FROM wa_risk_factor
+        WHERE 1=1
+        <if test="id != null">
+            AND id = #{id}
+        </if>
+        <if test="factorName != null">
+            AND factor_name = #{factorName}
+        </if>
+        <if test="factorCode != null">
+            AND factor_code = #{factorCode}
+        </if>
+        <if test="resourceTable!= null">
+            AND resource_table = #{resourceTable}
+        </if>
+        <if test="isCalculate != null">
+            AND is_calculate = #{isCalculate}
+        </if>
+    </select>
+
+    <select id="getRiskFactorByCatagory" resultMap="riskFactor" parameterType="string">
+        SELECT *
+        FROM wa_risk_factor
+        WHERE  resource_table = #{resourceTable}
+    </select>
+
+    <select id="getRiskFactorById" resultMap="riskFactor" parameterType="int">
+        SELECT *
+        FROM wa_risk_factor
+        WHERE id =#{id}
+    </select>
+
+    <select id="getRiskFactorByFactorcode" resultMap="riskFactor" parameterType="string">
+        SELECT *
+        FROM  wa_risk_factor
+        WHERE factor_code =#{factorCode}
+    </select>
+
+    <delete id="deleteByID" parameterType="int">
+        DELETE
+        FROM  wa_risk_factor
+        WHERE id =#{id}
+    </delete>
+
+    <update id="updateByID" parameterType="org.wella.entity.RiskFactor">
+        UPDATE wa_risk_factor SET
+        is_calculate = #{calculate}
+        WHERE id =#{id}
+    </update>
+</mapper>

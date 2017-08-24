@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.ManagerInfoDao">
+
+    <resultMap id="ManagerInfoMap" type="org.wella.entity.ManagerInfo" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="credit_code" property="creditCode" jdbcType="CHAR" />
+        <result column="age" property="age" jdbcType="DECIMAL" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="education" property="education" jdbcType="VARCHAR" />
+        <result column="position" property="position" jdbcType="VARCHAR" />
+        <result column="domicile" property="domicile" jdbcType="VARCHAR" />
+        <result column="marriage" property="marriage" jdbcType="VARCHAR" />
+        <result column="health" property="health" jdbcType="VARCHAR" />
+        <result column="expirence_age" property="expirenceAge" jdbcType="DECIMAL" />
+        <result column="negative_effects_count" property="negativeEffectsCount" jdbcType="DECIMAL" />
+        <result column="renege_count" property="renegeCount" jdbcType="DECIMAL" />
+        <result column="debt_ratio" property="debtRatio" jdbcType="DECIMAL" />
+        <result column="residence_estate" property="residenceEstate" jdbcType="DECIMAL" />
+        <result column="property" property="property" jdbcType="DECIMAL" />
+        <result column="political_status" property="politicalStatus" jdbcType="VARCHAR" />
+        <result column="loan" property="loan" jdbcType="DECIMAL" />
+        <result column="guarantee" property="guarantee" jdbcType="DECIMAL" />
+        <result column="consumption_type" property="consumptionType" jdbcType="VARCHAR" />
+        <result column="honor_level" property="honorLevel" jdbcType="VARCHAR" />
+        <result column="identity_card" property="identityCard" jdbcType="CHAR" />
+    </resultMap>
+
+    <select id="list" parameterType="map" resultMap="ManagerInfoMap">
+        SELECT *
+        from wa_manager_info
+        <where>
+            <if test='queryStr != null and queryStr.trim() != ""'>
+                AND (name like concat('%',#{queryStr},'%') OR identity_card like concat('%',#{queryStr},'%'))
+            </if>
+        </where>
+        <if test='orderBy != null and orderBy.trim() != ""'>
+            ORDER BY ${orderBy}
+        </if>
+        <if test="offset != null and limit != null">
+            limit #{offset},#{limit}
+        </if>
+    </select>
+
+    <select id="listCount" parameterType="map" resultType="int">
+        SELECT count(*)
+        from wa_manager_info
+        <where>
+            <if test='queryStr != null and queryStr.trim() != ""'>
+                AND (name like concat('%',#{queryStr},'%') OR identity_card like concat('%',#{queryStr},'%'))
+            </if>
+        </where>
+    </select>
+
+    <select id="getLegalmanByCreditcode" parameterType="string" resultMap="ManagerInfoMap">
+        SELECT * from wa_manager_info
+		WHERE credit_code=#{creditCode} AND POSITION ='法人'
+    </select>
+
+    <select id="getManagersExceptLegalmanByCreditcode" parameterType="string" resultMap="ManagerInfoMap">
+        SELECT * from wa_manager_info
+		WHERE credit_code=#{creditCode} AND POSITION !='法人'
+    </select>
+</mapper>
