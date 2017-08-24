@@ -59,6 +59,15 @@ public class PageController extends BaseController {
      * @param model
      * @return
      */
+
+
+
+    @RequestMapping("user/customer/reportForm/{userId}")
+    public String reportForm(@PathVariable("userId")String userId,Model model){
+        model.addAttribute("userId",userId);
+        return "views/platform/user/customer/reportForm.html";
+    }
+
     @RequestMapping("user/customer/customerInfo/{userId}")
     public String customerInfoPage(@PathVariable("userId")String userId,Model model){
         model.addAttribute("userId",userId);
