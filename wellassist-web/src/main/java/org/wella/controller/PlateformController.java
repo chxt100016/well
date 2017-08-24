@@ -61,7 +61,7 @@ public class PlateformController {
     @RequestMapping("tradingVolume")
     public R tradingVolume(@RequestBody Map<String,Object> map){
         List<BigDecimal> list=platformService.tradingVolume(map);
-        return R.ok().put("data",list);
+        return R.ok().put("data",list).put("unit","1");
     }
 
 

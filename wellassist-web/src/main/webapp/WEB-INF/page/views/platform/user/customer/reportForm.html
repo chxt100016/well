@@ -134,6 +134,7 @@
         // $ajax 获取类型
         var resourceData = [];
         var resourceData1 = [];
+        var unit="";
         $.ajax({
             type: 'post',
             url:'${rc.contextPath}/platform/' + url,
@@ -150,6 +151,12 @@
                     resourceData1 = result.data1;
                     console.log(resourceData);
                     console.log(resourceData1);
+                    if(result.unit==1){
+                        unit="吨";
+                    }else{
+                        unit="元";
+                    }
+
                     var myChart = echarts.init(document.getElementById('main'));//基于准备好的demo，初始化echarts实例
                     // var resourceData = [10, 52, 200, 334, 390, 330, 220, 170, 270, 330, 550, -300]; // 通过ajax获取
 
@@ -190,7 +197,7 @@
                         yAxis : [
                             {
                                 type : 'value',
-                                name: '元'
+                                name: unit
                             }
                         ],
                         series : [
