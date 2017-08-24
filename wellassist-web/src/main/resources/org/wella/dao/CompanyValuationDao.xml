@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.CompanyValuationDao">
+    <resultMap id="CompanyValuationMap" type="org.wella.entity.CompanyValuation" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="loan_type" property="loanType" jdbcType="VARCHAR" />
+        <result column="loan_payments_info" property="loanPaymentsInfo" jdbcType="VARCHAR" />
+        <result column="growth_potential" property="growthPotential" jdbcType="VARCHAR" />
+        <result column="earning" property="earning" jdbcType="VARCHAR" />
+        <result column="social_effect" property="socialEffect" jdbcType="VARCHAR" />
+        <result column="business_strategy" property="businessStrategy" jdbcType="VARCHAR" />
+        <result column="period" property="period" jdbcType="DATE" />
+        <result column="credit_code" property="creditCode" jdbcType="CHAR" />
+    </resultMap>
+
+    <select id="list" parameterType="map" resultMap="CompanyValuationMap">
+        select *
+        from wa_company_valuation
+        <where>
+            <if test='queryStr != null and queryStr.trim() != "" '>
+                AND (credit_code LIKE concat('%',#{queryStr},'%'))
+            </if>
+        </where>
+        <if test='orderBy != null and orderBy.trim() != "" '>
+            order by ${orderBy}
+        </if>
+        <if test="offset != null and limit != null">
+            limit #{offset},#{limit}
+        </if>
+    </select>
+    
+    <select id="listCount" parameterType="map" resultType="int">
+        SELECT count(*) from wa_company_valuation
+        <where>
+            <if test='queryStr != null and queryStr.trim() != "" '>
+                AND (NAME LIKE concat('%',#{queryStr},'%') OR credit_code LIKE concat('%',#{queryStr},'%'))
+            </if>
+        </where>
+    </select>
+
+</mapper>

@@ -144,11 +144,16 @@ public class PlatformServiceImpl implements PlatformService {
 
     @Override
     public Map<String,List> fundFlow(Map map) {
-
         List<Map<Integer,Object>> outlist=userMoneyDao.fundFlowOut(map);
         List<Map<Integer,Object>> inlist=userMoneyDao.fundFlowIn(map);
         Map<String,List> maplist = new HashMap<String,List>();
-        maplist.put("out",this.Transformation(outlist));
+        List<BigDecimal> list=this.Transformation(outlist);
+        List<BigDecimal> fuList=new ArrayList<BigDecimal>();
+        for(BigDecimal num:list) {
+            BigDecimal number=num.multiply(new BigDecimal(-1));
+            fuList.add(number);
+        }
+        maplist.put("out",fuList);
         maplist.put("in",this.Transformation(inlist));
         return maplist;
     }
