@@ -4,12 +4,13 @@ import io.wellassist.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.wella.dao.*;
-import org.wella.entity.CompanyBaseinfo;
-import org.wella.entity.ManagerInfo;
+import org.wella.entity.*;
+import org.wella.platform.service.RiskService;
 import org.wella.service.RiskScoreService;
 
 import java.util.ArrayList;
@@ -33,6 +34,8 @@ public class RiskController {
     private CompanyValuationDao companyValuationDao;
     @Autowired
     private RiskScoreService riskScoreServiceImpl;
+    @Autowired
+    private RiskService riskServiceImpl;
 
     @RequestMapping("companyList")
     @ResponseBody
@@ -82,6 +85,12 @@ public class RiskController {
         int totalCount=companyValuationDao.listCount(query);
         PageUtils pageUtils = new PageUtils(list,totalCount,query.getLimit(),query.getPage());
         return R.ok().put("page",pageUtils);
+    }
+
+    @RequestMapping("risk")
+    public String risk(@RequestParam(value = "creditCode",required = true)String creditCode,Model model){
+        model.addAttribute("creditCode",creditCode);
+        return "views/platform/risk/risk.html";
     }
 
     @RequestMapping("getCompanyInfo")
@@ -183,6 +192,7 @@ public class RiskController {
         model.addAttribute("isSaveAll",isSaveAll);
         return "views/platform/risk/save/saveManagerinfo.html";
     }
+
     @RequestMapping("savePropertyPage")
     public String saveProperty(@RequestParam(value = "isSaveAll",required = false,defaultValue = "0") int isSaveAll,Model model){
         model.addAttribute("isSaveAll",isSaveAll);
@@ -193,5 +203,40 @@ public class RiskController {
     public String savePage(@RequestParam(value = "isSaveAll",required = false,defaultValue = "0") int isSaveAll,Model model){
         model.addAttribute("isSaveAll",isSaveAll);
         return "views/platform/risk/save/saveValuation.html";
+    }
+
+    @RequestMapping("saveBasicinfo")
+    @ResponseBody
+    public R saveBasicinfo(@RequestBody CompanyBaseinfo companyBaseinfo){
+        riskServiceImpl.saveCompanyBaseinfo(companyBaseinfo);
+        return R.ok();
+    }
+
+    @RequestMapping("saveManagementinfo")
+    @ResponseBody
+    public R saveManagementinfo(@RequestBody CompanyManagementinfo companyManagementinfo){
+        riskServiceImpl.saveCompanyManagementinfo(companyManagementinfo);
+        return R.ok();
+    }
+
+    @RequestMapping("saveManagerinfo")
+    @ResponseBody
+    public R saveManagerinfo(@RequestBody ManagerInfo managerInfo){
+        riskServiceImpl.saveManagerInfo(managerInfo);
+        return R.ok();
+    }
+
+    @RequestMapping("saveProperty")
+    @ResponseBody
+    public R saveProperty(@RequestBody CompanyProperty companyProperty){
+        riskServiceImpl.saveCompanyProperty(companyProperty);
+        return R.ok();
+    }
+
+    @RequestMapping("saveValuation")
+    @ResponseBody
+    public R saveValuation(@RequestBody CompanyValuation companyValuation){
+        riskServiceImpl.saveCompanyValuation(companyValuation);
+        return R.ok();
     }
 }

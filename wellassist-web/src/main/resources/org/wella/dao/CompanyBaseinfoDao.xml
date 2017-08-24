@@ -48,4 +48,68 @@
         SELECT * from wa_company_baseinfo
         WHERE credit_code=#{creditCode}
     </select>
+
+    <insert id="save" parameterType="org.wella.entity.CompanyBaseinfo">
+    insert into wa_company_baseinfo (legal_person_id, name,
+      type, registered_captital, reg_date,
+      business_start, business_end, reg_office,
+      check_date, location, business_scope,
+      related_data, credit_code)
+    values (#{legalPersonId,jdbcType=CHAR}, #{name,jdbcType=VARCHAR},
+      #{type,jdbcType=TINYINT}, #{registeredCaptital,jdbcType=DECIMAL}, #{regDate,jdbcType=DATE},
+      #{businessStart,jdbcType=DATE}, #{businessEnd,jdbcType=DATE}, #{regOffice,jdbcType=VARCHAR},
+      #{checkDate,jdbcType=DATE}, #{location,jdbcType=VARCHAR}, #{businessScope,jdbcType=VARCHAR},
+      #{relatedData,jdbcType=VARCHAR}, #{creditCode,jdbcType=CHAR})
+    </insert>
+
+    <select id="query" parameterType="long" resultMap="CompanyBaseinfoMap">
+        select * from wa_company_baseinfo
+        where id=#{id}
+    </select>
+
+    <update id="update" parameterType="org.wella.entity.CompanyBaseinfo">
+        update wa_company_baseinfo
+        <set >
+            <if test="legalPersonId != null" >
+                legal_person_id = #{legalPersonId,jdbcType=CHAR},
+            </if>
+            <if test="name != null" >
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null" >
+                type = #{type,jdbcType=TINYINT},
+            </if>
+            <if test="registeredCaptital != null" >
+                registered_captital = #{registeredCaptital,jdbcType=DECIMAL},
+            </if>
+            <if test="regDate != null" >
+                reg_date = #{regDate,jdbcType=DATE},
+            </if>
+            <if test="businessStart != null" >
+                business_start = #{businessStart,jdbcType=DATE},
+            </if>
+            <if test="businessEnd != null" >
+                business_end = #{businessEnd,jdbcType=DATE},
+            </if>
+            <if test="regOffice != null" >
+                reg_office = #{regOffice,jdbcType=VARCHAR},
+            </if>
+            <if test="checkDate != null" >
+                check_date = #{checkDate,jdbcType=DATE},
+            </if>
+            <if test="location != null" >
+                location = #{location,jdbcType=VARCHAR},
+            </if>
+            <if test="businessScope != null" >
+                business_scope = #{businessScope,jdbcType=VARCHAR},
+            </if>
+            <if test="relatedData != null" >
+                related_data = #{relatedData,jdbcType=VARCHAR},
+            </if>
+            <if test="creditCode != null" >
+                credit_code = #{creditCode,jdbcType=CHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
 </mapper>

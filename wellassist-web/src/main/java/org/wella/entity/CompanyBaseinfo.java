@@ -143,4 +143,7 @@ public class CompanyBaseinfo {
     public void setCreditCode(String creditCode) {
         this.creditCode = creditCode == null ? null : creditCode.trim();
     }
+
+    public void update(CompanyBaseinfo companyBaseinfo) {
+    }
 }
