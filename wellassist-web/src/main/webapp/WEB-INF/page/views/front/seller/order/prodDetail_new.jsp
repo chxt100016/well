@@ -117,7 +117,7 @@ var vm = new Vue({
 					console.log(result);
 				}
 				else{
-					alert('无法获取')
+					alert(result.msg)
 				}
 			}
 		});

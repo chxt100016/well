@@ -1,10 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/echarts/3.6.2/echarts.common.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+    <style>
+        .ui .breadcrumb a,.ui .breadcrumb i{
+            color: #777;
+            vertical-align: middle;
+        }
+        .ui.menu{font-size: 1em;}
+        .ui.form label{font-size: 1.3em;}
+        .ui.text.menu,.ui.form {padding: 0 45px;}
+    </style>
 </head>
 <body>
-  <p>dbhfs bv</p>
+<div class="container1">
+    <div class="ui container" style="width:100%;">
+        <div class="col-md-12">
+            <!--<h3>详细信息</h3>-->
+            <form class="bs-example" data-example-id="btn-tags">
+                <a class="btn btn-info active" href="#">公司详情</a>.
+                <a class="btn btn-default " href="../accountDetail/$userId">账户情况</a>
+                <a class="btn btn-default " href="../customerBill/$userId">欠款情况</a>
+                <a class="btn btn-default " href="../credit/$userId">授信记录</a>
+                <a class="btn btn-default"  href="../reportForm/$userId">财务报表</a>
+                <input type="hidden" name="userId" id="userId" value="$userId">
+            </form>
+            <br><br>
+        </div>
+        <div class="ui text menu">
+            <div class="header item">年份</div>
+            <a class="active item" onclick="javascript: changeYear(2017);">2017</a>
+            <a class="item" onclick="javascript: changeYear(2016);">2016</a>
+            <a class="item" onclick="javascript: changeYear(2015);">2015</a>
+            <a class="item">
+                <div class="ui selection dropdown">
+                    <input name="gender" type="hidden">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">年份</div>
+                    <div class="menu">
+                        <div class="item" onclick="javascript: changeYear(2017);">2017</div>
+                        <div class="item" onclick="javascript: changeYear(2016);">2016</div>
+                        <div class="item" onclick="javascript: changeYear(2015);">2015</div>
+                        <div class="item" onclick="javascript: changeYear(2014);">2014</div>
+                        <div class="item" onclick="javascript: changeYear(2013);">2013</div>
+                        <div class="item" onclick="javascript: changeYear(2012);">2012</div>
+                        <div class="item" onclick="javascript: changeYear(2011);">2011</div>
+                        <div class="item" onclick="javascript: changeYear(2010);">2010</div>
+                    </div>
+                </div>
+            </a>
+            <input type="hidden" id="year" value="2017" />
+        </div>
+        <div class="ui form">
+            <div class="inline fields">
+                <div class="field" onclick="javascript: changeType('交易量', 'tradingVolume');">
+                    <div class="ui radio checkbox">
+                        <input name="type" checked="" tabindex="0" class="hidden" type="radio" />
+                        <label>交易量</label>
+                    </div>
+                </div>
+                <div class="field" onclick="javascript: changeType('贷款量', 'loanAmount');">
+                    <div class="ui radio checkbox">
+                        <input name="type" tabindex="0" class="hidden" type="radio">
+                        <label>贷款量</label>
+                    </div>
+                </div>
+                <div class="field" onclick="javascript: changeType('成交额', 'turnover');">
+                    <div class="ui radio checkbox">
+                        <input name="type" tabindex="0" class="hidden" type="radio">
+                        <label>成交额</label>
+                    </div>
+                </div>
+                <div class="field" onclick="javascript: changeType('利息', 'interest');">
+                    <div class="ui radio checkbox">
+                        <input name="type" tabindex="0" class="hidden" type="radio">
+                        <label>利息</label>
+                    </div>
+                </div>
+                <div class="field" onclick="javascript: changeType('资金流量', 'fundFlow');">
+                    <div class="ui radio checkbox">
+                        <input name="type" tabindex="0" class="hidden" type="radio">
+                        <label>资金流量</label>
+                    </div>
+                </div>
+                <input type="hidden" id="dataType" value="交易量" />
+                <input type="hidden" id="url" value="tradingVolume" />
+            </div>
+        </div>
+        <div style="width:60%;min-height: 500px;">
+            <div id="main" style="width: 100%;min-height:500px;"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $('.ui.dropdown').dropdown();
+    $('.ui.radio.checkbox').checkbox();
+    $(document).ready(function() {
+        getData();
+    });
+
+    function changeYear(year) {
+
+        $("#year").val(year);
+        getData();
+    }
+
+    function changeType(type, url) {
+
+        $("#dataType").val(type);
+        $("#url").val(url);
+        getData();
+    }
+
+    function getData() {
+
+        var dataType = $("#dataType").val();
+        var year = $("#year").val();
+        var url = $("#url").val();
+
+        var userId=$("#userId").val();
+
+
+
+        // $ajax 获取类型
+        var resourceData = [];
+        var resourceData1 = [];
+        $.ajax({
+            type: 'post',
+            url:'${rc.contextPath}/platform/' + url,
+            contentType:'application/json',
+            data: JSON.stringify({
+                year: year,
+                userId: userId
+            }),
+            dataType: 'json',
+            "success": function (result) {
+
+                if (result.code == 0) {
+                    resourceData = result.data;
+                    resourceData1 = result.data1;
+                    console.log(resourceData);
+                    console.log(resourceData1);
+                    var myChart = echarts.init(document.getElementById('main'));//基于准备好的demo，初始化echarts实例
+                    // var resourceData = [10, 52, 200, 334, 390, 330, 220, 170, 270, 330, 550, -300]; // 通过ajax获取
+
+                    var option = {
+                        tooltip : {
+                            trigger: 'axis',
+                            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                            }
+                        },
+                        toolbox: {
+                            show : true,
+                            feature : {
+                                dataView : {show: true, readOnly: false},
+                                magicType : {show: true, type: ['line', 'bar']},
+                                restore : {show: true},
+                                saveAsImage : {show: true}
+                            }
+                        },
+                        legend: {
+
+                        },
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: '3%',
+                            containLabel: true
+                        },
+                        xAxis : [
+                            {
+                                type : 'category',
+                                axisTick: {
+                                    alignWithLabel: true
+                                },
+                                data : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                            }
+                        ],
+                        yAxis : [
+                            {
+                                type : 'value',
+                                name: '元'
+                            }
+                        ],
+                        series : [
+                            {
+                                name:dataType,
+                                type:'bar',
+                                stack: '总量',
+                                label: {
+                                    normal: {
+                                        show: true
+                                    }
+                                },
+                                data:resourceData
+                            },
+                            {
+                                name:'',
+                                type:'bar',
+                                stack: '总量',
+                                label: {
+                                    normal: {
+                                        show: true,
+                                    }
+                                },
+                                data:resourceData1
+                            }
+                        ]
+                    };
+
+                    myChart.setOption(option);
+                }
+            },
+            "error": function (data) {
+
+                console.log("系统异常");
+            }
+        });
+    }
+
+</script>
 </body>
 </html>

@@ -99,7 +99,7 @@ public class PlateformController {
     @RequestMapping("fundFlow")
     public R fundFlow(@RequestBody Map<String,Object> map){
         Map<String,List> maplist=platformService.fundFlow(map);
-        return R.ok().put("data1",maplist.get("out")).put("data2",maplist.get("in"));
+        return R.ok().put("data",maplist.get("in")).put("data1",maplist.get("out"));
     }
 
 
