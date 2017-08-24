@@ -104,6 +104,10 @@
 
     $('.ui.dropdown').dropdown();
     $('.ui.radio.checkbox').checkbox();
+    $('.ui.text.menu a').click(function(){
+        $('.ui.text.menu a').removeClass("active");
+        $(this).addClass("active");
+    })
     $(document).ready(function() {
         getData();
     });
@@ -149,8 +153,10 @@
                 if (result.code == 0) {
                     resourceData = result.data;
                     resourceData1 = result.data1;
-                    console.log(resourceData);
-                    console.log(resourceData1);
+
+//                    console.log(resourceData);
+//                    console.log(resourceData1);
+
                     if(result.unit==1){
                         unit="吨";
                     }else{
