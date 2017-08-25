@@ -183,7 +183,7 @@
         <div class="item">
             <a class="title <c:if test = "${parentMenuNo == '4'}"> active</c:if>">
             <i class="dropdown icon"></i>
-            账户设置
+            公司管理
             </a>
           <div class="content <c:if test = "${parentMenuNo == '4'}"> active</c:if>">
                 <div class="accordion transition visible" style="display: block !important;margin-top:0px">
@@ -199,7 +199,10 @@
                     </div> 
                     <div onclick="window.location.href='${pageContext.request.contextPath}/customer/bankcardPage'"  class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '4'&&childMenuNo  == '4' }"> font-white</c:if> ">
                        <span > 银行卡管理</span>
-                    </div>  
+                    </div>
+                    <div onclick="window.location.href='${pageContext.request.contextPath}/customer/reportManagement'"  class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '4'&&childMenuNo  == '5' }"> font-white</c:if> ">
+                        <span > 报表管理</span>
+                    </div>
                           
                          
                                      

@@ -1105,4 +1105,14 @@ public class CustomerController extends BaseController {
 
 
 
+
+   @RequestMapping("reportManagement")
+   public String reportManagement(Model model){
+      model.addAttribute("parentMenuNo","4");
+      model.addAttribute("childMenuNo","5");
+      return "views/front/customer/company/reportFrom.jsp";
+   }
+
+
+
 }
