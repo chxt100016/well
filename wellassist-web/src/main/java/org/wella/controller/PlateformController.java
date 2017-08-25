@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.wella.entity.User;
 import org.wella.service.impl.PlatformServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,7 +60,11 @@ public class PlateformController {
      */
     @ResponseBody
     @RequestMapping("tradingVolume")
-    public R tradingVolume(@RequestBody Map<String,Object> map){
+    public R tradingVolume(@RequestBody Map<String,Object> map,HttpServletRequest request){
+        if(map.get("userId").equals("")){
+            User user=(User)request.getSession().getAttribute("user");
+            map.put("userId",user.getUserId());
+        }
         List<BigDecimal> list=platformService.tradingVolume(map);
         return R.ok().put("data",list).put("unit","1");
     }
@@ -72,7 +77,11 @@ public class PlateformController {
      */
     @ResponseBody
     @RequestMapping("loanAmount")
-    public R  loanAmount(@RequestBody Map<String,Object> map){
+    public R  loanAmount(@RequestBody Map<String,Object> map,HttpServletRequest request){
+        if(map.get("userId").equals("")){
+            User user=(User)request.getSession().getAttribute("user");
+            map.put("userId",user.getUserId());
+        }
         List<BigDecimal> list=platformService.loanAmount(map);
         return R.ok().put("data",list);
     }
@@ -80,7 +89,11 @@ public class PlateformController {
 
     @ResponseBody
     @RequestMapping("turnover")
-    public R turnover(@RequestBody Map<String,Object> map){
+    public R turnover(@RequestBody Map<String,Object> map,HttpServletRequest request){
+        if(map.get("userId").equals("")){
+            User user=(User)request.getSession().getAttribute("user");
+            map.put("userId",user.getUserId());
+        }
         List<BigDecimal> list=platformService.turnover(map);
         return R.ok().put("data",list);
     }
@@ -89,7 +102,11 @@ public class PlateformController {
 
     @ResponseBody
     @RequestMapping("interest")
-    public R interest(@RequestBody Map<String,Object> map){
+    public R interest(@RequestBody Map<String,Object> map,HttpServletRequest request){
+        if(map.get("userId").equals("")){
+            User user=(User)request.getSession().getAttribute("user");
+            map.put("userId",user.getUserId());
+        }
         List<BigDecimal> list=platformService.interest(map);
         return R.ok().put("data",list);
     }
@@ -97,7 +114,11 @@ public class PlateformController {
 
     @ResponseBody
     @RequestMapping("fundFlow")
-    public R fundFlow(@RequestBody Map<String,Object> map){
+    public R fundFlow(@RequestBody Map<String,Object> map,HttpServletRequest request){
+        if(map.get("userId").equals("")){
+            User user=(User)request.getSession().getAttribute("user");
+            map.put("userId",user.getUserId());
+        }
         Map<String,List> maplist=platformService.fundFlow(map);
         return R.ok().put("data",maplist.get("in")).put("data1",maplist.get("out"));
     }

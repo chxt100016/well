@@ -124,7 +124,7 @@
         }
         var year = $("#year").val();
         var url = $("#url").val();
-        var userId=$("#userId").val();
+       /* var userId=$("#userId").val();*/
 
 
 
@@ -138,7 +138,7 @@
             contentType:'application/json',
             data: JSON.stringify({
                 year: year,
-                userId: userId
+                userId: "",
             }),
             dataType: 'json',
             "success": function (result) {
