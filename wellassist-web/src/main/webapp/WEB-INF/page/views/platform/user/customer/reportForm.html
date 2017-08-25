@@ -124,6 +124,11 @@
     function getData() {
 
         var dataType = $("#dataType").val();
+        var dataType1="";
+        if(dataType=="资金流量"){
+             dataType="收入";
+             dataType1="支出";
+        }
         var year = $("#year").val();
         var url = $("#url").val();
 
@@ -188,6 +193,7 @@
                         xAxis : [
                             {
                                 type : 'category',
+
                                 axisTick: {
                                     alignWithLabel: true
                                 },
@@ -213,7 +219,7 @@
                                 data:resourceData
                             },
                             {
-                                name:'',
+                                name:dataType1,
                                 type:'bar',
                                 stack: '总量',
                                 label: {
