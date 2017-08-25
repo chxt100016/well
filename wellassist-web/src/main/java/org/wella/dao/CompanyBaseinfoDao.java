@@ -19,4 +19,8 @@ public interface CompanyBaseinfoDao {
     int listCount(Map params);
 
     CompanyBaseinfo getByCreditCode(@Param("creditCode") String creditCode);
+
+    void save(CompanyBaseinfo companyBaseinfo);
+
+    CompanyBaseinfo query(@Param("id") long id);
 }

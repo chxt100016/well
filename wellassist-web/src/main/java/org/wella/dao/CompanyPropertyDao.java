@@ -1,5 +1,6 @@
 package org.wella.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import org.wella.entity.CompanyBaseinfo;
 import org.wella.entity.CompanyProperty;
@@ -17,4 +18,9 @@ public interface CompanyPropertyDao {
 
     int listCount(Map params);
 
+    void save(CompanyProperty companyProperty);
+
+    CompanyProperty query(@Param("id") long id);
+
+    void update(CompanyProperty companyProperty);
 }

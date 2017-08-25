@@ -21,4 +21,10 @@ public interface ManagerInfoDao {
     ManagerInfo getLegalmanByCreditcode(@Param("creditCode") String creditCode);
 
     List<ManagerInfo> getManagersExceptLegalmanByCreditcode(@Param("creditCode")String creditCode);
+
+    void save(ManagerInfo managerInfo);
+
+    ManagerInfo query(@Param("id") long id);
+
+    void update(ManagerInfo managerInfo);
 }

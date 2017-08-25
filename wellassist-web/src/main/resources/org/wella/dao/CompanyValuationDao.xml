@@ -39,4 +39,50 @@
         </where>
     </select>
 
+    <insert id="save" parameterType="org.wella.entity.CompanyValuation">
+    insert into wa_company_valuation (loan_type, loan_payments_info,
+      growth_potential, earning, social_effect,
+      business_strategy, period, credit_code
+      )
+    values (#{loanType,jdbcType=VARCHAR}, #{loanPaymentsInfo,jdbcType=VARCHAR},
+      #{growthPotential,jdbcType=VARCHAR}, #{earning,jdbcType=VARCHAR}, #{socialEffect,jdbcType=VARCHAR},
+      #{businessStrategy,jdbcType=VARCHAR}, #{period,jdbcType=DATE}, #{creditCode,jdbcType=CHAR}
+      )
+    </insert>
+
+    <select id="query" resultMap="CompanyValuationMap" parameterType="long">
+      select * from wa_company_valuation
+      where id=#{id}
+    </select>
+
+    <update id="update" parameterType="org.wella.entity.CompanyValuation">
+        update wa_company_valuation
+        <set >
+            <if test="loanType != null" >
+                loan_type = #{loanType,jdbcType=VARCHAR},
+            </if>
+            <if test="loanPaymentsInfo != null" >
+                loan_payments_info = #{loanPaymentsInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="growthPotential != null" >
+                growth_potential = #{growthPotential,jdbcType=VARCHAR},
+            </if>
+            <if test="earning != null" >
+                earning = #{earning,jdbcType=VARCHAR},
+            </if>
+            <if test="socialEffect != null" >
+                social_effect = #{socialEffect,jdbcType=VARCHAR},
+            </if>
+            <if test="businessStrategy != null" >
+                business_strategy = #{businessStrategy,jdbcType=VARCHAR},
+            </if>
+            <if test="period != null" >
+                period = #{period,jdbcType=DATE},
+            </if>
+            <if test="creditCode != null" >
+                credit_code = #{creditCode,jdbcType=CHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
 </mapper>

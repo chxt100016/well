@@ -40,4 +40,53 @@
         </where>
     </select>
 
+    <insert id="save" parameterType="org.wella.entity.CompanyManagementinfo">
+    insert into wa_company_managementinfo (sales_growth_ration, total_profit,
+      profit_rate_of_asset, inventory_turnover, effective_ne_worth,
+      tangible_plant_assets, revenues, credit_code,
+      period)
+    values (#{salesGrowthRation,jdbcType=DECIMAL}, #{totalProfit,jdbcType=DECIMAL},
+      #{profitRateOfAsset,jdbcType=DECIMAL}, #{inventoryTurnover,jdbcType=DECIMAL}, #{effectiveNeWorth,jdbcType=DECIMAL},
+      #{tangiblePlantAssets,jdbcType=DECIMAL}, #{revenues,jdbcType=DECIMAL}, #{creditCode,jdbcType=CHAR},
+      #{period,jdbcType=DATE})
+    </insert>
+
+    <select id="query" parameterType="long" resultMap="CompanyManagementinfoMap">
+        select * from wa_company_managementinfo
+        where id=#{id}
+    </select>
+
+    <update id="update" parameterType="org.wella.entity.CompanyManagementinfo">
+        update wa_company_managementinfo
+        <set >
+            <if test="salesGrowthRation != null" >
+                sales_growth_ration = #{salesGrowthRation,jdbcType=DECIMAL},
+            </if>
+            <if test="totalProfit != null" >
+                total_profit = #{totalProfit,jdbcType=DECIMAL},
+            </if>
+            <if test="profitRateOfAsset != null" >
+                profit_rate_of_asset = #{profitRateOfAsset,jdbcType=DECIMAL},
+            </if>
+            <if test="inventoryTurnover != null" >
+                inventory_turnover = #{inventoryTurnover,jdbcType=DECIMAL},
+            </if>
+            <if test="effectiveNeWorth != null" >
+                effective_ne_worth = #{effectiveNeWorth,jdbcType=DECIMAL},
+            </if>
+            <if test="tangiblePlantAssets != null" >
+                tangible_plant_assets = #{tangiblePlantAssets,jdbcType=DECIMAL},
+            </if>
+            <if test="revenues != null" >
+                revenues = #{revenues,jdbcType=DECIMAL},
+            </if>
+            <if test="creditCode != null" >
+                credit_code = #{creditCode,jdbcType=CHAR},
+            </if>
+            <if test="period != null" >
+                period = #{period,jdbcType=DATE},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
 </mapper>

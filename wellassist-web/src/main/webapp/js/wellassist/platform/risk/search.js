@@ -73,66 +73,13 @@
                 page:1 
             }).trigger("reloadGrid");
             },
-            add: function() {
-               window.location.href="./customerInsert.html";
-            },
-            update: function(userId) {
-
-                if (userId == null) {
-                    return;
+            riskDetail:function(){
+                var row=getSelectedRowData();
+                if (typeof row == undefined ){
+                    return ;
                 }
-
-                vm.showList = false;
-                vm.title = "修改";
-                console.log(vm.user.userId);
-                vm.getUser(userId);
-
-            },
-            del: function() {
-                var userIds = getSelectedRows();
-                if (userIds == null) {
-                    return;
-                }
-
-                confirm('确定要删除选中的记录？', function() {
-                    $.ajax({
-                        type: "POST",
-                        url: "../sys/user/delete",
-                        data: JSON.stringify(userIds),
-                        success: function(r) {
-                            if (r.code == 0) {
-                                alert('操作成功', function(index) {
-                                    vm.reload();
-                                });
-                            } else {
-                                alert(r.msg);
-                            }
-                        }
-                    });
-                });
-            },
-            saveOrUpdate: function(event) {
-                var url = vm.user.userId == null ? "../sys/user/save" : "../sys/user/update";
-              
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: JSON.stringify(vm.user),
-                    success: function(r) {
-                        if (r.code === 0) {
-                            alert('操作成功', function(index) {
-                                vm.reload();
-                            });
-                        } else {
-                            alert(r.msg);
-                        }
-                    }
-                });
-            },
-            getUser: function(userId) {
-                $.get("../user/userinfo/" + userId, function(r) {
-                    vm.user = r.user;
-                });
+                var creditCode=row.creditCode;
+                window.location.href=baseUrl+"platform/risk/risk?creditCode="+creditCode;
             },
             reload: function(event) {
                 vm.showList = true;
@@ -147,10 +94,19 @@
         }
     });
 
+ //选择一条记录
+ function getSelectedRowData() {
+     var grid = $("#jqGrid");
+     var rowKey = grid.getGridParam("selrow");
+     if(!rowKey){
+         alert("请选择一条记录");
+         return ;
+     }
 
-
-function  insert() {
-    console.log("dshbfh");
-    console.log("dshbfh");
-    window.location.herf="customer/customerInsert.html";
-}
+     var selectedIDs = grid.getGridParam("selarrrow");
+     if(selectedIDs.length > 1){
+         alert("只能选择一条记录");
+         return ;
+     }
+     return grid.jqGrid('getRowData',selectedIDs[0]);
+ }

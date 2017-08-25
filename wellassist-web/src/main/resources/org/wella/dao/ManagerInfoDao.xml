@@ -62,4 +62,95 @@
         SELECT * from wa_manager_info
 		WHERE credit_code=#{creditCode} AND POSITION !='法人'
     </select>
+
+    <insert id="save" parameterType="org.wella.entity.ManagerInfo">
+    insert into wa_manager_info (credit_code, age,
+      name, education, position,
+      domicile, marriage, health,
+      expirence_age, negative_effects_count, renege_count,
+      debt_ratio, residence_estate, property,
+      political_status, loan, guarantee,
+      consumption_type, honor_level, identity_card
+      )
+    values ( #{creditCode,jdbcType=CHAR}, #{age,jdbcType=DECIMAL},
+      #{name,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR},
+      #{domicile,jdbcType=VARCHAR}, #{marriage,jdbcType=VARCHAR}, #{health,jdbcType=VARCHAR},
+      #{expirenceAge,jdbcType=DECIMAL}, #{negativeEffectsCount,jdbcType=DECIMAL}, #{renegeCount,jdbcType=DECIMAL},
+      #{debtRatio,jdbcType=DECIMAL}, #{residenceEstate,jdbcType=DECIMAL}, #{property,jdbcType=DECIMAL},
+      #{politicalStatus,jdbcType=VARCHAR}, #{loan,jdbcType=DECIMAL}, #{guarantee,jdbcType=DECIMAL},
+      #{consumptionType,jdbcType=VARCHAR}, #{honorLevel,jdbcType=VARCHAR}, #{identityCard,jdbcType=CHAR}
+      )
+    </insert>
+
+    <select id="query" parameterType="long" resultMap="ManagerInfoMap">
+        select * from wa_manager_info
+        where id=#{id}
+    </select>
+
+    <update id="update" parameterType="org.wella.entity.ManagerInfo">
+        update wa_manager_info
+        <set >
+            <if test="creditCode != null" >
+                credit_code = #{creditCode,jdbcType=CHAR},
+            </if>
+            <if test="age != null" >
+                age = #{age,jdbcType=DECIMAL},
+            </if>
+            <if test="name != null" >
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="education != null" >
+                education = #{education,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null" >
+                position = #{position,jdbcType=VARCHAR},
+            </if>
+            <if test="domicile != null" >
+                domicile = #{domicile,jdbcType=VARCHAR},
+            </if>
+            <if test="marriage != null" >
+                marriage = #{marriage,jdbcType=VARCHAR},
+            </if>
+            <if test="health != null" >
+                health = #{health,jdbcType=VARCHAR},
+            </if>
+            <if test="expirenceAge != null" >
+                expirence_age = #{expirenceAge,jdbcType=DECIMAL},
+            </if>
+            <if test="negativeEffectsCount != null" >
+                negative_effects_count = #{negativeEffectsCount,jdbcType=DECIMAL},
+            </if>
+            <if test="renegeCount != null" >
+                renege_count = #{renegeCount,jdbcType=DECIMAL},
+            </if>
+            <if test="debtRatio != null" >
+                debt_ratio = #{debtRatio,jdbcType=DECIMAL},
+            </if>
+            <if test="residenceEstate != null" >
+                residence_estate = #{residenceEstate,jdbcType=DECIMAL},
+            </if>
+            <if test="property != null" >
+                property = #{property,jdbcType=DECIMAL},
+            </if>
+            <if test="politicalStatus != null" >
+                political_status = #{politicalStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="loan != null" >
+                loan = #{loan,jdbcType=DECIMAL},
+            </if>
+            <if test="guarantee != null" >
+                guarantee = #{guarantee,jdbcType=DECIMAL},
+            </if>
+            <if test="consumptionType != null" >
+                consumption_type = #{consumptionType,jdbcType=VARCHAR},
+            </if>
+            <if test="honorLevel != null" >
+                honor_level = #{honorLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="identityCard != null" >
+                identity_card = #{identityCard,jdbcType=CHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
 </mapper>

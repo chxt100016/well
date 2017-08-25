@@ -43,4 +43,64 @@
         </where>
     </select>
 
+    <insert id="save" parameterType="org.wella.entity.CompanyProperty">
+        insert into wa_company_property (asset_liability_ratio, liquidity_ratio,
+      quick_ratio, interest_cover_ratio, cash_flow,
+      sales_revenue, total_assets, total_liabilities,
+      load_ratio, external_guarantees, credit_code,
+      period)
+    values (#{assetLiabilityRatio,jdbcType=DECIMAL}, #{liquidityRatio,jdbcType=DECIMAL},
+      #{quickRatio,jdbcType=DECIMAL}, #{interestCoverRatio,jdbcType=DECIMAL}, #{cashFlow,jdbcType=DECIMAL},
+      #{salesRevenue,jdbcType=DECIMAL}, #{totalAssets,jdbcType=DECIMAL}, #{totalLiabilities,jdbcType=DECIMAL},
+      #{loadRatio,jdbcType=DECIMAL}, #{externalGuarantees,jdbcType=DECIMAL}, #{creditCode,jdbcType=CHAR},
+      #{period,jdbcType=DATE})
+    </insert>
+
+    <select id="query" parameterType="long" resultMap="CompanyPropertyMap">
+        select * from wa_company_property
+        where id=#{id}
+    </select>
+
+    <update id="update" parameterType="org.wella.entity.CompanyProperty">
+        update wa_company_property
+        <set >
+            <if test="assetLiabilityRatio != null" >
+                asset_liability_ratio = #{assetLiabilityRatio,jdbcType=DECIMAL},
+            </if>
+            <if test="liquidityRatio != null" >
+                liquidity_ratio = #{liquidityRatio,jdbcType=DECIMAL},
+            </if>
+            <if test="quickRatio != null" >
+                quick_ratio = #{quickRatio,jdbcType=DECIMAL},
+            </if>
+            <if test="interestCoverRatio != null" >
+                interest_cover_ratio = #{interestCoverRatio,jdbcType=DECIMAL},
+            </if>
+            <if test="cashFlow != null" >
+                cash_flow = #{cashFlow,jdbcType=DECIMAL},
+            </if>
+            <if test="salesRevenue != null" >
+                sales_revenue = #{salesRevenue,jdbcType=DECIMAL},
+            </if>
+            <if test="totalAssets != null" >
+                total_assets = #{totalAssets,jdbcType=DECIMAL},
+            </if>
+            <if test="totalLiabilities != null" >
+                total_liabilities = #{totalLiabilities,jdbcType=DECIMAL},
+            </if>
+            <if test="loadRatio != null" >
+                load_ratio = #{loadRatio,jdbcType=DECIMAL},
+            </if>
+            <if test="externalGuarantees != null" >
+                external_guarantees = #{externalGuarantees,jdbcType=DECIMAL},
+            </if>
+            <if test="creditCode != null" >
+                credit_code = #{creditCode,jdbcType=CHAR},
+            </if>
+            <if test="period != null" >
+                period = #{period,jdbcType=DATE},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
 </mapper>
