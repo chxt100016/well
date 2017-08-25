@@ -5,12 +5,247 @@
     <title>Title</title>
     <!--valocity模板解析-->
     #parse("sys/header.html")
-    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode
-    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode
-    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode
-    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode
-    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode
-    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode
-    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode
-    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode    $creditCode
-    <button onclick="window.history.go(-1)">返回</button>
+    <link rel="stylesheet" href="${rc.contextPath}/statics/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="${rc.contextPath}/statics/css/basicform.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script>
+    <script src="${rc.contextPath}/js/wellassist/platform/risk_depends/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="${rc.contextPath}/js/wellassist/platform/risk_depends/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+
+   
+    <body>
+        <div class="container" id='app1'>
+            <section class="simplesection">
+                <h3 class="">浙江物产国际有限公司</h3>
+                <div class="row mg-tp-30">
+                    <div class="col-md-6 pd-lf-30">
+                        <font class="ft-bd">统一社会信用代码：</font>
+                        <span class="greytext">121</span>
+                    </div>
+                    <div class="col-md-6">
+                        <font class="ft-bd">法定代表人:</font>
+                    </div>
+                </div>
+                <div class="row mg-tp-20">
+                    <div class="col-md-6 pd-lf-30">
+                        <font class="ft-bd">登记机关:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                    <div class="col-md-6">
+                        <font class="ft-bd">成立日期:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                </div>
+            </section>
+            <section class="simplesection mg-tp-30">
+                <h4 class="">营业执照信息</h4>
+                <div class="row mg-tp-20">
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">统一社会信用代码:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">企业名称:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">类型:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                </div>
+                <div class="row mg-tp-20">
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">法定代表人:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">注册资本:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">成立日期:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                </div>
+                <div class="row mg-tp-20">
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">营业期限自:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">营业期限至:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">登记机关:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                </div>
+                <div class="row mg-tp-20">
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">核准日期:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">住所:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">经营范围:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                </div>
+            </section>
+    
+            <section class="simplesection mg-tp-30">
+                <h4 class="">主要人员信息</h4>
+                <div class="row mg-tp-20">
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">姓名:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">职位:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">年龄:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                </div>
+                <div class="row mg-tp-20">
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">学历:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">户籍:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">婚姻状况:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                </div>
+                <div class="row mg-tp-20">
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">健康状况:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">从业年限:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">违约次数:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                </div>
+                <div class="row mg-tp-20">
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">负债率:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">房产（万元）:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">资产（万元）:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                </div>
+                <div class="row mg-tp-20">
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">政治面貌:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">消费类型:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">荣誉级别:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                </div>
+                <div class="row mg-tp-20">
+                    <div class="col-xs-6 col-md-4">
+                        <font class="ft-bd">身份证:</font>
+                        <span class="greytext">121</span>
+                    </div>
+                </div>
+                <hr>
+            </section>
+            <section class="mg-tp-20 simplesection ">
+                   <h3 class="text-center"> 风控总分28.82分/ <span class="greytext">39分</span></h3>
+                    <table class="table">
+                            <caption>
+                                评分细节-<span class="ft-sz-17">公司经营状况</span> 4.51分/7分
+                            </caption>
+                            <thead>
+                              <tr>
+                                <th>#</th>
+                                <th>风险因子</th>
+                                <th>值</th>
+                                <th>模块</th>
+                                <th>评分</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>@mdo</td>
+                                <td>@mdo</td>
+                              </tr>
+                              
+                            </tbody>
+                          </table>
+            </section>
+    
+        </div>
+    
+        <button onclick="window.history.go(-1)">返回</button>
+    </body>
+       <script>
+           const creditCode= $creditCode;
+        //    const baseUrl="${rc.contextPath}";
+           const url1='${rc.contextPath}/platform/risk/getCompanyInfo';
+           const info=new Vue({
+               el:'#app1',
+               data:{
+                   companyInfo:{
+                    legalman:"",
+                    companyBaseinfo:'',
+                    otherManagers:[],
+                   }
+               },
+               created:function(){
+                   let that= this;
+                $.ajax({
+                    type:'get', 
+                    url:url1,
+                    data:{'creditCode':creditCode},
+                    dataType:'json',
+                    success:function(result){
+                        if(result.code==0){
+                            console.log(result);
+                           that.companyInfo.legalman=result.legalman;
+                           that.companyInfo.companyBaseinfo=result.companyBaseinfo;
+                           that.companyInfo.otherManagers=result.otherManagers;
+                        }else{
+                            console.log(result.msg)
+                        }
+                    }
+
+                    })
+               }
+
+           })
+
+       
+       </script>
+    
+    
+    
