@@ -261,7 +261,7 @@
                 success: function(result){
                 if(result.code==0){
                 that.count= result.count;
-                console.log(that.count);
+                // console.log(that.count);
                 }else{
                     console.log(result.msg)
                 }
