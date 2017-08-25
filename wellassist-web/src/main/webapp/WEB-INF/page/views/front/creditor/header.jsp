@@ -155,6 +155,7 @@
 						<li class="leftmenuleaf <c:if test ="${childMenuNo == '1' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/fkf/FkfCompanyController-companyInfo">公司信息</a></li>
 						<li class="leftmenuleaf <c:if test ="${childMenuNo == '2' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/fkf/FkfCompanyController-contactMode">联系方式</a></li>
 						<li class="leftmenuleaf <c:if test ="${childMenuNo == '3' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/fkf/FkfCompanyController-changePass">修改密码</a></li>
+						<li class="leftmenuleaf <c:if test ="${childMenuNo == '4' }">selected</c:if>"><a href = "${pageContext.request.contextPath}/front/fkf/FkfCompanyController-reportManagement">报表管理</a></li>
 					</ul>
 				</ul>
 			</c:if>

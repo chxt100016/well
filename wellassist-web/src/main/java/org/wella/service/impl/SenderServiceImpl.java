@@ -209,10 +209,15 @@ public class SenderServiceImpl implements SenderService {
     @Override
     public List<Map<String, Object>> selectDriver(Long logisticsId) {
         List<Map<String,Object>> list=vehicleGrabInfoDao.selectDriver(logisticsId);
-
         ConvertUtil.convertDataBaseMapToJavaMap(list);
         return list;
     }
 
 
+    @Override
+    public List<BigDecimal> profit(Map<String, Object> map) {
+        List<Map<Integer,Object>> list=logisticsInfoDao.profit(map);
+        PlatformServiceImpl.Transformation(list);
+        return PlatformServiceImpl.Transformation(list);
+    }
 }

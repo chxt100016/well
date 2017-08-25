@@ -3,6 +3,7 @@ package org.wella.service;
 import org.wella.entity.Order;
 import org.wella.entity.Prod;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -109,6 +110,12 @@ public interface SellerService {
     void sendProdStop(long orderId);
 
     Map<String,Object> getOrderDetailInfo(long orderId);
+
+
+
+    List<BigDecimal> salesVolume(Map<String,Object> map);
+
+    List<BigDecimal> profit(Map<String,Object> map);
 
 
 

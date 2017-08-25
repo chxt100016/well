@@ -173,8 +173,10 @@
                     </div> 
                     <div onclick="window.location.href='${pageContext.request.contextPath}/sender/bankcardPage'"  class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '4'&&childMenuNo  == '4' }"> font-white</c:if> ">
                        <span > 银行卡管理</span>
-                    </div>  
-                          
+                    </div>
+                    <div onclick="window.location.href='${pageContext.request.contextPath}/sender/reportManagement'"  class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == '4'&&childMenuNo  == '5' }"> font-white</c:if> ">
+                        <span > 报表管理</span>
+                    </div>
                          
                                      
                 </div>

@@ -11,6 +11,7 @@ import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,6 +37,7 @@ import sun.plugin2.message.Message;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -754,6 +756,46 @@ public class SellerController extends BaseController {
         }
     }
 
+
+    /**
+     * 销售量
+     * @param map
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("saleVolume")
+    public R salesVolume(@RequestBody Map<String,Object> map,HttpServletRequest request){
+        User user=(User)request.getSession().getAttribute("user");
+        map.put("userId",user.getUserId());
+        map.put("userId",91);
+        List<BigDecimal> list=sellerServiceImpl.salesVolume(map);
+        return R.ok().put("data",list);
+    }
+
+
+    /**
+     * 获得利益
+     * @param map
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("profit")
+    public R profit(@RequestBody Map<String,Object> map,HttpServletRequest request){
+        User user=(User)request.getSession().getAttribute("user");
+        map.put("userId",user.getUserId());
+        List<BigDecimal> list=sellerServiceImpl.profit(map);
+        return R.ok().put("data",list);
+    }
+
+
+    @RequestMapping("reportManagement")
+    public String reportManagement(Model model){
+        model.addAttribute("parentMenuNo","4");
+        model.addAttribute("childMenuNo","5");
+        return "views/front/seller/company/reportFrom.jsp";
+    }
 
 
 }

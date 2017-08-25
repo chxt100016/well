@@ -434,4 +434,18 @@ public class SellerServiceImpl implements SellerService {
     }
 
 
+    @Override
+    public List<BigDecimal> salesVolume(Map<String, Object> map) {
+        List<Map<Integer,Object>> list=orderDao.salesVolume(map);
+        List<BigDecimal> list1=PlatformServiceImpl.Transformation(list);
+        return list1;
+    }
+
+
+    @Override
+    public List<BigDecimal> profit(Map<String, Object> map) {
+        List<Map<Integer,Object>> list=orderDao.profit(map);
+        List<BigDecimal> list1=PlatformServiceImpl.Transformation(list);
+        return list1;
+    }
 }

@@ -59,6 +59,8 @@ public class CreditorServiceImpl implements CreditorService{
     @Autowired
     private MessageService messageServicesk;
 
+
+
     /**
      * 得到已认证的放款方list
      * @return
@@ -253,8 +255,17 @@ public class CreditorServiceImpl implements CreditorService{
     }
 
 
+    @Override
+    public List<BigDecimal> lendingAmount(Map<String, Object> map) {
+        List<Map<Integer,Object>> list=loanDao.lendingAmount(map);
+        List<BigDecimal> list1=PlatformServiceImpl.Transformation(list);
+        return list1;
+    }
 
 
-
-
+    @Override
+    public List<BigDecimal> interest(Map<String, Object> map) {
+        List<Map<Integer,Object>> list=loanDao.creditorInterest(map);
+        return PlatformServiceImpl.Transformation(list);
+    }
 }

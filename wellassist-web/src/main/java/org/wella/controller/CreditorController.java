@@ -22,6 +22,7 @@ import org.wella.service.CreditorService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -333,6 +334,38 @@ public class CreditorController extends BaseController{
         model.addAttribute("Cards", bankcardList);
         model.addAttribute("userName", user.getUserName());
         return "views/front/creditor/company/bankcard.html";
+    }
+
+
+
+
+    @ResponseBody
+    @RequestMapping("lendingAmount")
+    public R lendingAmount(@RequestBody Map map,HttpServletRequest request){
+        User user=(User)request.getSession().getAttribute("user");
+        map.put("userId",user.getUserId());
+        List<BigDecimal> list=creditorServiceImpl.lendingAmount(map);
+        return R.ok().put("data",list);
+    }
+
+
+
+    @ResponseBody
+    @RequestMapping("interest")
+    public R interest(@RequestBody Map map,HttpServletRequest request){
+        User user=(User)request.getSession().getAttribute("user");
+        map.put("userId",user.getUserId());
+        List<BigDecimal> list=creditorServiceImpl.interest(map);
+        return R.ok().put("data",list);
+
+    }
+
+
+    @RequestMapping("reportManagement")
+    public String reportManagement(Model model){
+        model.addAttribute("parentMenuNo","4");
+        model.addAttribute("childMenuNo","4");
+        return "views/front/creditor/company/reportFrom.html";
     }
 
 

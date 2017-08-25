@@ -38,4 +38,10 @@ public interface LoanDao {
 
     List<Map<Integer,Object>> interest(Map map);
 
+
+    List<Map<Integer,Object>> lendingAmount(Map<String,Object> map);
+
+
+    List<Map<Integer,Object>> creditorInterest(Map<String,Object> map);
+
 }

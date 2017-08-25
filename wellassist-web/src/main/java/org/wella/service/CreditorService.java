@@ -3,6 +3,7 @@ package org.wella.service;
 import io.wellassist.utils.Query;
 import org.wella.entity.CreditorAuthenticInfo;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -99,6 +100,12 @@ public interface CreditorService {
      */
     List<Map<String,Object>> repayOffList(Query query);
 
+
+
+    List<BigDecimal> lendingAmount(Map<String,Object> map);
+
+
+    List<BigDecimal> interest(Map<String,Object> map);
 
 
 

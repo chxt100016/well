@@ -53,5 +53,9 @@ public interface OrderDao {
 
     List<Map<Integer,Object>> tradingVolume(Map map);
 
+    List<Map<Integer,Object>>  salesVolume(Map<String,Object> map);
+
+    List<Map<Integer,Object>> profit(Map<String,Object> map);
+
 
 }

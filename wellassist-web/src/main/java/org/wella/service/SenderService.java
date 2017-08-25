@@ -3,6 +3,7 @@ package org.wella.service;
 import org.wella.entity.LogisticsInfo;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -50,4 +51,7 @@ public interface SenderService {
 
 
     List<Map<String,Object>> selectDriver(Long  logisticsId);
+
+
+    List<BigDecimal> profit(Map<String,Object> map);
 }

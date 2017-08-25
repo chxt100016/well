@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="org.wella.dao.LoanDao">
+
 
     <select id="listLoanOrderViewByConditions" parameterType="map" resultType="map">
         SELECT *
@@ -217,5 +219,31 @@
         and loan_state=3
         GROUP BY MONTH(loan_date)
     </select>
+
+
+
+    <select id="lendingAmount" parameterType="java.util.Map" resultType="map">
+        select MONTH (loan_date) as time,
+        IFNULL(SUM(loan_money),0) AS number
+        FROM wa_loan
+        where
+        credit_user_id=#{userId} AND
+        YEAR(loan_date)=#{year}
+        and loan_state=3
+        GROUP BY MONTH(loan_date)
+    </select>
+
+
+    <select id="creditorInterest" parameterType="java.util.Map" resultType="map">
+        select MONTH (loan_date) as time,
+        IFNULL(SUM(lixi_money_fkf),0) AS number
+        FROM wa_loan
+        where
+        credit_user_id=#{userId} AND
+        YEAR(loan_date)=#{year}
+        and loan_state=3
+        GROUP BY MONTH(loan_date)
+    </select>
+
 
 </mapper>

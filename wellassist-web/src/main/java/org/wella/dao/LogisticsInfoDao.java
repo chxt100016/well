@@ -49,5 +49,6 @@ public interface LogisticsInfoDao {
     Map<String,Object> selectUserInfo(@Param("logisticsInfoId") long logisticsInfoId);
 
 
+    List<Map<Integer,Object>> profit(Map<String,Object> map);
 
 }

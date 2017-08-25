@@ -257,4 +257,17 @@
     </select>
 
 
+
+
+    <select id="profit" parameterType="java.util.Map" resultType="map">
+        SELECT  MONTH(order_date) AS time,
+        SUM(pre_payment) AS number
+        FROM wa_logistics_info
+        WHERE
+        sender_user_id=#{userId} AND
+        state=5 AND YEAR(order_date)=#{year}
+        GROUP BY MONTH(order_date)
+    </select>
+
+
 </mapper>

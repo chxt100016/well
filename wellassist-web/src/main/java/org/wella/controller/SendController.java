@@ -33,6 +33,7 @@ import org.wella.service.SenderService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -729,6 +730,25 @@ public class SendController extends BaseController{
         return r;
     }
 
+
+
+    @ResponseBody
+    @RequestMapping("profit")
+    public R profit(@RequestBody Map<String,Object> map,HttpServletRequest request){
+       User user=(User)request.getSession().getAttribute("user");
+        map.put("userId",user.getUserId());
+        List<BigDecimal> list=senderServiceImpl.profit(map);
+        return R.ok().put("data",list);
+
+    }
+
+
+    @RequestMapping("reportManagement")
+    public String reportManagement(Model model){
+        model.addAttribute("parentMenuNo","4");
+        model.addAttribute("childMenuNo","5");
+        return "views/front/sender/company/reportFrom.jsp";
+    }
 
 
 }
