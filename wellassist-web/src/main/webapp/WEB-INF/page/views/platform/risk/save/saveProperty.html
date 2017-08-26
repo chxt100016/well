@@ -5,12 +5,246 @@
     <title>Title</title>
     <!--valocity模板解析-->
     #parse("sys/header.html")
-    Property            Property    Property    Property    Property    Property    Property    Property    Property    Property    Property    Property    Property
-    Property            Property    Property    Property    Property    Property    Property    Property    Property    Property    Property    Property    Property
-    Property            Property    Property    Property    Property    Property    Property    Property    Property    Property    Property    Property    Property
-    Property            Property    Property    Property    Property    Property    Property    Property    Property    Property    Property    Property    Property
-    Property            Property    Property    Property    Property    Property    Property    Property    Property    Property    Property    Property    Property
-    Property            Property    Property    Property    Property    Property    Property    Property    Property    Property    Property    Property    Property
-    Property            Property    Property    Property    Property    Property    Property    Property    Property    Property    Property    Property    Property
-    Property            Property    Property    Property    Property    Property    Property    Property    Property    Property    Property    Property    Property
-    #if($isSaveAll==1)<button onclick="window.location.href=baseUrl+'platform/risk/saveValuationPage?isSaveAll=1'">下一步</button>#elseif($isSaveAll==0)<button>保存</button><button onclick="javascript:window.history.go(-1);">返回</button>#end
+    <link rel="stylesheet" href="${rc.contextPath}/statics/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="${rc.contextPath}/statics/css/basicform.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script>
+    <script src="${rc.contextPath}/js/wellassist/platform/risk_depends/bootstrap-datetimepicker.min.js"></script>
+    <script src="${rc.contextPath}/js/common.js"></script>
+    <script type="text/javascript" src="${rc.contextPath}/js/wellassist/platform/risk_depends/bootstrap-datetimepicker.zh-CN.js"
+        charset="UTF-8"></script>
+</head>
+<body>
+        <div class="container" id='app'>
+            <div class="cbox">
+                    <h4>资产状况信息录入</h4>
+                <div>
+                </div>
+                <form id='basicform'>
+                <table class="table table-striped table-bordered ">
+                    <thead>
+                        <th width=30%>Category</th>
+                        <th width=30%>Content</th>
+                        <th>Action</th>
+                        <th>备注</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>资产负债率:</td>
+                            <td>
+                                <input type="number" class="bt-text" name="assetLiabilityRatio" id="" v-model='asset_liability_ratio'>
+                            </td>
+                            <td>
+                                <div class="btn btn-danger" @click="asset_liability_ratio=''"> 重置</div>
+                            </td>
+                            <td> 资产负债率＝负债总额/资产总额（生产企业在40%-50%之间分值最高，流通企业在40%-60%之间分值最高），小数</td>
+                        </tr>
+                        <tr>
+                            <td>流动比率</td>
+                            <td>
+                                <input type="number" class="bt-text" name="liquidityRatio" id="" v-model='liquidity_ratio'>
+                            </td>
+                            <td>
+                                <div class="btn btn-danger" @click="liquidity_ratio=''"> 重置</div>
+                            </td>
+                            <td>流动比率＝流动资产/资产负债（小数）</td>
+                        </tr>
+                        <tr>
+                            <td>速动比率</td>
+                            <td>
+                                    <input type="number" class="bt-text" name="quickRatio" id="" v-model='quick_ratio'>
+                            </td>
+                            <td>
+                                <div class="btn btn-danger" @click="quick_ratio=''"> 重置</div>
+                            </td>
+                            <td>
+                                    速动比率＝速动资产/流动负债（小数）
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>利息保障倍数</td>
+                            <td>
+                                <input type="number" name="interestCoverRatio" class="bt-text" id="" v-model='interest_cover_ratio'>
+                            </td>
+                            <td>
+                                <div class="btn btn-danger" @click="interest_cover_ratio=''"> 重置</div>
+                            </td>
+                            <td>利息保障倍数＝（利润总额+利息费用）/利息费用（小数）</td>
+                        </tr>
+                        <tr>
+                            <td>净现金流量（万元）</td>
+                            <td>
+                                <input type="number" name="cashFlow" class="bt-text "  v-model='cash_flow' > 
+                            </td>
+                            <td>
+                                <div class="btn btn-danger" @click="cash_flow=''"> 重置</div>
+                            </td>
+                            <td>净现金流量＝经营性净现金流量+投资性净现金流量+筹资性净现金流量</td>
+                        </tr>
+                        <tr>
+                            <td>销售收入（万元）</td>
+                            <td>
+                                <input type="number" name="salesRevenue" class="bt-text " id="" v-model='sales_revenue' >
+                            </td>
+                            <td>
+                                <div class="btn btn-danger" @click="sales_revenue=''"> 重置</div>
+                            </td>
+                            <td> </td>
+                        </tr>
+                        <tr>
+                            <td>企业总资产（万元）</td>
+                            <td>
+                                <input type="number" name="totalAssets" class="bt-text " id="" v-model='total_assets'>
+                            </td>
+                            <td>
+                                <div class="btn btn-danger" @click="total_assets=''"> 重置</div>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>企业总负债（万元）</td>
+                            <td>
+                                <input type="text" name="totalLiabilities" class="bt-text" id="" v-model='total_liabilities'>
+                            </td>
+                            <td>
+                                <div class="btn btn-danger" @click="total_liabilities=''"> 重置</div>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>贷款比率</td>
+                            <td>
+                                <input type="text" name="loadRatio" class="bt-text " id="" v-model='load_ratio'>
+                            </td>
+                            <td>
+                                <div class="btn btn-danger" @click="load_ratio=''"> 重置</div>
+                            </td>
+                            <td>贷款比率＝企业在本行贷款月均余额/企业全部贷款月均余额（小数）</td>
+                        </tr>
+                        <tr>
+                                <td>经济担保率</td>
+                                <td>
+                                    <input type="text" name="externalGuarantees" class="bt-text " id="" v-model='external_guarantees'>
+                                </td>
+                                <td>
+                                    <div class="btn btn-danger" @click="external_guarantees=''"> 重置</div>
+                                </td>
+                                <td>经济担保率＝企业对外担保金额/企业净资产总额 （小数）</td>
+                            </tr>
+                            <tr>
+                                    <td>企业社会信用代码</td>
+                                    <td>
+                                        <input type="text" name="creditCode" class="bt-text" id="" v-model='credit_code'>
+                                    </td>
+                                    <td>
+                                        <div class="btn btn-danger" @click="credit_code=''"> 重置</div>
+                                    </td>
+                                    <td>贷款比率＝企业在本行贷款月均余额/企业全部贷款月均余额（小数）</td>
+                                </tr>
+                                <tr>
+                                        <td>核准日期</td>
+                                        <td>
+                                            <input type="text" name="period" class="bt-text form_date" id="">
+                                        </td>
+                                        <td>
+                                            <div class="btn btn-danger" @click="period=''"> 重置</div>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                  
+    
+                    </tbody>
+                </table>
+                     <input class='btn btn-info'type="submit"  @click='submit'>
+                     <div class='btn btn-default' onclick="javascript:window.history.go(-1);">返回</div>
+                     <div class='btn btn-default' onclick="window.location.href=baseUrl+'platform/risk/saveValuationPage?isSaveAll=1';">跳过</div>
+                </form>
+            </div>
+        </div>
+    </body>
+    <script>
+         const num= /^\d*\.?\d+$/;
+         const urlbase = '${rc.contextPath}/platform/risk/saveProperty'
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                asset_liability_ratio:'',
+                liquidity_ratio:'',
+                quick_ratio:'',
+                interest_cover_ratio:'',
+                cash_flow:'',
+                sales_revenue:'',
+                total_assets:'',
+                total_liabilities:'',
+                load_ratio:'',
+                external_guarantees:'',
+                credit_code:'',
+                period:'',
+                
+            },
+            watch:{
+                
+                effective_ne_worth:function(val){
+               
+             
+                },
+           },
+           methods: {
+            submit: function (e) {
+                event.preventDefault();
+                var y = $('#basicform').serializeObject();
+                var y = JSON.stringify(y);
+                console.log(y)
+                $.ajax({
+                    type: 'post',
+                    url: urlbase,
+                    data: y,
+                    // dataType:'json',
+                    contentType: 'application/json',
+                    success: function (result) {
+                        if (result.code == 0) {
+                            alert('提交成功！');
+                            window.location.href='${rc.contextPath}/platform/risk/saveValuationPage?isSaveAll=1';
+                        } else {
+                            console.log(result.msg)
+                        }
+                    }
+
+                })
+            }
+
+        },
+        mounted: function () {
+            $('.form_date').datetimepicker({
+                language: 'zh-CN',
+                format: 'yyyy-mm-dd',
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                pickDate: true,
+                // forceParse: 0
+            });
+            $.fn.serializeObject = function () {
+                var o = {};
+                var a = this.serializeArray();
+                $.each(a, function () {
+                    if (o[this.name] !== undefined) {
+                        if (!o[this.name].push) {
+                            o[this.name] = [o[this.name]];
+                        }
+                        o[this.name].push(this.value || '');
+                    } else {
+                        o[this.name] = this.value || '';
+                    }
+                });
+                return o;
+            };
+        }
+    
+        })
+    
+    </script>
+    
+    

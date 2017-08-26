@@ -9,243 +9,388 @@
     <link rel="stylesheet" href="${rc.contextPath}/statics/css/basicform.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script>
     <script src="${rc.contextPath}/js/wellassist/platform/risk_depends/bootstrap-datetimepicker.min.js"></script>
-    <script type="text/javascript" src="${rc.contextPath}/js/wellassist/platform/risk_depends/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="${rc.contextPath}/js/wellassist/platform/risk_depends/bootstrap-datetimepicker.zh-CN.js"
+        charset="UTF-8"></script>
+</head>
 
-   
     <body>
         <div class="container" id='app1'>
             <section class="simplesection">
-                <h3 class="">浙江物产国际有限公司</h3>
+                <h3 class="">{{companyInfo.companyBaseinfo.name}}</h3>
                 <div class="row mg-tp-30">
                     <div class="col-md-6 pd-lf-30">
-                        <font class="ft-bd">统一社会信用代码：</font>
-                        <span class="greytext">121</span>
+                        <span class="ft-bd">统一社会信用代码：</span>
+                        <span class="greytext">{{companyInfo.companyBaseinfo.creditCode}}</span>
                     </div>
                     <div class="col-md-6">
-                        <font class="ft-bd">法定代表人:</font>
+                        <span class="ft-bd">法定代表人:</span>
+                        <span class="greytext">{{companyInfo.legalman.name}}</span>
                     </div>
                 </div>
                 <div class="row mg-tp-20">
                     <div class="col-md-6 pd-lf-30">
-                        <font class="ft-bd">登记机关:</font>
-                        <span class="greytext">121</span>
+                        <span class="ft-bd">登记机关:</span>
+                        <span class="greytext">{{companyInfo.companyBaseinfo.regOffice}}</span>
                     </div>
                     <div class="col-md-6">
-                        <font class="ft-bd">成立日期:</font>
-                        <span class="greytext">121</span>
+                        <span class="ft-bd">成立日期:</span>
+                        <span class="greytext">{{companyInfo.companyBaseinfo.regDate}}</span>
                     </div>
                 </div>
             </section>
             <section class="simplesection mg-tp-30">
-                <h4 class="">营业执照信息</h4>
+                <h4 class="darkred">营业执照信息</h4>
                 <div class="row mg-tp-20">
                     <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">统一社会信用代码:</font>
-                        <span class="greytext">121</span>
+                        <span class="ft-bd">统一社会信用代码:</span>
+                        <span class="greytext">{{companyInfo.companyBaseinfo.creditCode}}</span>
                     </div>
                     <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">企业名称:</font>
-                        <span class="greytext">121</span>
+                        <span class="ft-bd">企业名称:</span>
+                        <span class="greytext">{{companyInfo.companyBaseinfo.name}}</span>
                     </div>
                     <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">类型:</font>
-                        <span class="greytext">121</span>
+                        <span class="ft-bd">类型:</span>
+                        <span class="greytext">{{companyInfo.companyBaseinfo.type}}</span>
                     </div>
                 </div>
                 <div class="row mg-tp-20">
                     <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">法定代表人:</font>
-                        <span class="greytext">121</span>
+                        <span class="ft-bd">法定代表人:</span>
+                        <span class="greytext">{{companyInfo.legalman.name}}</span>
                     </div>
                     <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">注册资本:</font>
-                        <span class="greytext">121</span>
+                        <span class="ft-bd">注册资本:</span>
+                        <span class="greytext">{{companyInfo.companyBaseinfo.registeredCaptital}}</span>
                     </div>
                     <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">成立日期:</font>
-                        <span class="greytext">121</span>
-                    </div>
-                </div>
-                <div class="row mg-tp-20">
-                    <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">营业期限自:</font>
-                        <span class="greytext">121</span>
-                    </div>
-                    <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">营业期限至:</font>
-                        <span class="greytext">121</span>
-                    </div>
-                    <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">登记机关:</font>
-                        <span class="greytext">121</span>
+                        <span class="ft-bd">成立日期:</span>
+                        <span class="greytext">{{companyInfo.companyBaseinfo.regDate}}</span>
                     </div>
                 </div>
                 <div class="row mg-tp-20">
                     <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">核准日期:</font>
-                        <span class="greytext">121</span>
+                        <span class="ft-bd">营业期限自:</span>
+                        <span class="greytext">{{companyInfo.companyBaseinfo.businessStart}}</span>
                     </div>
                     <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">住所:</font>
-                        <span class="greytext">121</span>
+                        <span class="ft-bd">营业期限至:</span>
+                        <span class="greytext">{{companyInfo.companyBaseinfo.businessEnd}}</span>
                     </div>
                     <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">经营范围:</font>
-                        <span class="greytext">121</span>
+                        <span class="ft-bd">登记机关:</span>
+                        <span class="greytext">{{companyInfo.companyBaseinfo.regOffice}}</span>
+                    </div>
+                </div>
+                <div class="row mg-tp-20">
+                    <div class="col-xs-6 col-md-4">
+                        <span class="ft-bd">核准日期:</span>
+                        <span class="greytext">{{companyInfo.companyBaseinfo.checkDate}}</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <span class="ft-bd">住所:</span>
+                        <span class="greytext">{{companyInfo.companyBaseinfo.location}}</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <span class="ft-bd">经营范围:</span>
+                        <span class="greytext">{{companyInfo.companyBaseinfo.businessScope}}</span>
                     </div>
                 </div>
             </section>
-    
+
             <section class="simplesection mg-tp-30">
-                <h4 class="">主要人员信息</h4>
+                <h4 class="darkred">主要人员信息</h4>
                 <div class="row mg-tp-20">
                     <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">姓名:</font>
-                        <span class="greytext">121</span>
+                        <span class="ft-bd">姓名:</span>
+                        <span class="greytext">{{companyInfo.legalman.name}}</span>
                     </div>
                     <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">职位:</font>
-                        <span class="greytext">121</span>
+                        <span class="ft-bd">职位:</span>
+                        <span class="greytext">{{companyInfo.legalman.position}}</span>
                     </div>
                     <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">年龄:</font>
-                        <span class="greytext">121</span>
+                        <span class="ft-bd">年龄:</span>
+                        <span class="greytext">{{companyInfo.legalman.age}}</span>
                     </div>
                 </div>
                 <div class="row mg-tp-20">
                     <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">学历:</font>
-                        <span class="greytext">121</span>
+                        <span class="ft-bd">学历:</span>
+                        <span class="greytext">{{companyInfo.legalman.education}}</span>
                     </div>
                     <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">户籍:</font>
-                        <span class="greytext">121</span>
+                        <span class="ft-bd">户籍:</span>
+                        <span class="greytext">{{companyInfo.legalman.domicile}}</span>
                     </div>
                     <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">婚姻状况:</font>
-                        <span class="greytext">121</span>
-                    </div>
-                </div>
-                <div class="row mg-tp-20">
-                    <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">健康状况:</font>
-                        <span class="greytext">121</span>
-                    </div>
-                    <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">从业年限:</font>
-                        <span class="greytext">121</span>
-                    </div>
-                    <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">违约次数:</font>
-                        <span class="greytext">121</span>
+                        <span class="ft-bd">婚姻状况:</span>
+                        <span class="greytext">{{companyInfo.legalman.marriage}}</span>
                     </div>
                 </div>
                 <div class="row mg-tp-20">
                     <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">负债率:</font>
-                        <span class="greytext">121</span>
+                        <span class="ft-bd">健康状况:</span>
+                        <span class="greytext">{{companyInfo.legalman.health}}</span>
                     </div>
                     <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">房产（万元）:</font>
-                        <span class="greytext">121</span>
+                        <span class="ft-bd">从业年限:</span>
+                        <span class="greytext">{{companyInfo.legalman.expirenceAge}}</span>
                     </div>
                     <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">资产（万元）:</font>
-                        <span class="greytext">121</span>
-                    </div>
-                </div>
-                <div class="row mg-tp-20">
-                    <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">政治面貌:</font>
-                        <span class="greytext">121</span>
-                    </div>
-                    <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">消费类型:</font>
-                        <span class="greytext">121</span>
-                    </div>
-                    <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">荣誉级别:</font>
-                        <span class="greytext">121</span>
+                        <span class="ft-bd">违约次数:</span>
+                        <span class="greytext">{{companyInfo.legalman.renegeCount}}</span>
                     </div>
                 </div>
                 <div class="row mg-tp-20">
                     <div class="col-xs-6 col-md-4">
-                        <font class="ft-bd">身份证:</font>
-                        <span class="greytext">121</span>
+                        <span class="ft-bd">负债率:</span>
+                        <span class="greytext">{{companyInfo.legalman.loan}}%</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <span class="ft-bd">房产:</span>
+                        <span class="greytext">{{companyInfo.legalman.residenceEstate}}</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <span class="ft-bd">资产:</span>
+                        <span class="greytext">{{companyInfo.legalman.property}}</span>
+                    </div>
+                </div>
+                <div class="row mg-tp-20">
+                    <div class="col-xs-6 col-md-4">
+                        <span class="ft-bd">政治面貌:</span>
+                        <span class="greytext">{{companyInfo.legalman.politicalStatus}}</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <span class="ft-bd">消费类型:</span>
+                        <span class="greytext">{{companyInfo.legalman.consumptionType}}</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <span class="ft-bd">荣誉级别:</span>
+                        <span class="greytext">{{companyInfo.legalman.honorLevel}}</span>
+                    </div>
+                </div>
+                <div class="row mg-tp-20">
+                    <div class="col-xs-6 col-md-4">
+                        <span class="ft-bd">身份证:</span>
+                        <span class="greytext">{{companyInfo.legalman.identityCard}}</span>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <a class="greytext" @click='moreStuff'>更多</a>
                     </div>
                 </div>
                 <hr>
+                <div class="hidden" id='moreStuff'>
+                    <div v-for='stuff in companyInfo.otherManagers'>
+                        <h4 class="darkred">人员信息</h4>
+                        <div class="row mg-tp-20">
+                            <div class="col-xs-6 col-md-4">
+                                <span class="ft-bd">姓名:</span>
+                                <span class="greytext">{{stuff.name}}</span>
+                            </div>
+                            <div class="col-xs-6 col-md-4">
+                                <span class="ft-bd">职位:</span>
+                                <span class="greytext">{{stuff.position}}</span>
+                            </div>
+                            <div class="col-xs-6 col-md-4">
+                                <span class="ft-bd">年龄:</span>
+                                <span class="greytext">{{stuff.position}}</span>
+                            </div>
+                        </div>
+                        <div class="row mg-tp-20">
+                            <div class="col-xs-6 col-md-4">
+                                <span class="ft-bd">学历:</span>
+                                <span class="greytext">{{stuff.education}}</span>
+                            </div>
+                            <div class="col-xs-6 col-md-4">
+                                <span class="ft-bd">户籍:</span>
+                                <span class="greytext">{{stuff.domicile}}</span>
+                            </div>
+                            <div class="col-xs-6 col-md-4">
+                                <span class="ft-bd">婚姻状况:</span>
+                                <span class="greytext">{{stuff.marriage}}</span>
+                            </div>
+                        </div>
+                        <div class="row mg-tp-20">
+                            <div class="col-xs-6 col-md-4">
+                                <span class="ft-bd">健康状况:</span>
+                                <span class="greytext">{{stuff.health}}</span>
+                            </div>
+                            <div class="col-xs-6 col-md-4">
+                                <span class="ft-bd">从业年限:</span>
+                                <span class="greytext">{{stuff.expirenceAge}}</span>
+                            </div>
+                            <div class="col-xs-6 col-md-4">
+                                <span class="ft-bd">违约次数:</span>
+                                <span class="greytext">{{stuff.renegeCount}}</span>
+                            </div>
+                        </div>
+                        <div class="row mg-tp-20">
+                            <div class="col-xs-6 col-md-4">
+                                <span class="ft-bd">负债率:</span>
+                                <span class="greytext">{{stuff.loan}}%</span>
+                            </div>
+                            <div class="col-xs-6 col-md-4">
+                                <span class="ft-bd">房产（万元）:</span>
+                                <span class="greytext">{{stuff.residenceEstate}}</span>
+                            </div>
+                            <div class="col-xs-6 col-md-4">
+                                <span class="ft-bd">资产（万元）:</span>
+                                <span class="greytext">{{stuff.property}}</span>
+                            </div>
+                        </div>
+                        <div class="row mg-tp-20">
+                            <div class="col-xs-6 col-md-4">
+                                <span class="ft-bd">政治面貌:</span>
+                                <span class="greytext">{{stuff.politicalStatus}}</span>
+                            </div>
+                            <div class="col-xs-6 col-md-4">
+                                <span class="ft-bd">消费类型:</span>
+                                <span class="greytext">{{stuff.consumptionType}}</span>
+                            </div>
+                            <div class="col-xs-6 col-md-4">
+                                <span class="ft-bd">荣誉级别:</span>
+                                <span class="greytext">{{stuff.honorLevel}}</span>
+                            </div>
+                        </div>
+                        <div class="row mg-tp-20">
+                            <div class="col-xs-6 col-md-4">
+                                <span class="ft-bd">身份证:</span>
+                                <span class="greytext">{{stuff.identityCard}}</span>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
             </section>
             <section class="mg-tp-20 simplesection ">
-                   <h3 class="text-center"> 风控总分28.82分/ <span class="greytext">39分</span></h3>
+
+                <h3 class="text-center"> 风控总分:{{scoreData.totalScore}}分/ <span class="greytext">{{scoreData.factorsNum}}分</span></h3>
+                <div v-for='(module,key) in score'>
                     <table class="table">
-                            <caption>
-                                评分细节-<span class="ft-sz-17">公司经营状况</span> 4.51分/7分
-                            </caption>
-                            <thead>
-                              <tr>
+                        <caption>
+                            评分细节-
+                            <span class="ft-sz-17" v-if="key=='companyManagementinfo'">公司经营状况</span>
+                            <span class="ft-sz-17" v-if="key=='companyProperty'">公司偿债能力</span>
+                            <span class="ft-sz-17" v-if="key=='companyValuation'">公司评估</span>
+                            <span class="ft-sz-17" v-if="key=='managerInfo'">法人代表评估</span> 
+                            <span class="ft-bd">:  {{module.totalScore}}分</span>/{{module.factorsNum}}分
+                        </caption>
+                        <thead>
+                            <tr>
                                 <th>#</th>
                                 <th>风险因子</th>
                                 <th>值</th>
                                 <th>模块</th>
                                 <th>评分</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                              </tr>
-                              
-                            </tbody>
-                          </table>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item,index) in module.list">
+                                <th scope="row">{{index+1}}</th>
+                                <td width=20%>{{item.factorDesc}}</td>
+                                <td>{{item.factorItem}}</td>
+                                <td>
+                                    <span v-if="item.resourceTable=='wa_company_managementinfo'">公司经营状况</span>
+                                    <span v-if="item.resourceTable=='wa_company_property'">公司偿债能力</span>
+                                    <span v-if="item.resourceTable=='wa_company_valuation'">公司偿债能力</span>
+                                    <span v-if="item.resourceTable=='wa_manager_info'">法人代表评估</span>
+                                </td>
+                                <td>{{item.score}}</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <hr>
+                </div>
             </section>
-    
+            <button class="btn btn-info"onclick="window.history.go(-1)">返回</button>
         </div>
-    
-        <button onclick="window.history.go(-1)">返回</button>
+
+       
     </body>
-       <script>
-           const creditCode= $creditCode;
+    <script>
+           const creditCode= '$creditCode';
+        // const creditCode = '123456789123456789';
         //    const baseUrl="${rc.contextPath}";
-           const url1='${rc.contextPath}/platform/risk/getCompanyInfo';
-           const info=new Vue({
-               el:'#app1',
-               data:{
-                   companyInfo:{
-                    legalman:"",
-                    companyBaseinfo:'',
-                    otherManagers:[],
-                   }
-               },
-               created:function(){
-                   let that= this;
+        const url1 = '${rc.contextPath}/platform/risk/getCompanyInfo';
+        const url2 = '${rc.contextPath}/platform/risk/getScoreDetail';
+        const info = new Vue({
+            el: '#app1',
+            data: {
+                companyInfo: {
+                    legalman: "",
+                    companyBaseinfo: '',
+                    otherManagers: [],
+                },
+                score: {
+                    companyManagementinfo: {
+
+                    },
+                    companyProperty: '',
+                    companyValuation: '',
+                    managerInfo: '',
+
+                },
+                scoreData: {
+                    factorsNum: '',
+                    totalScore: '',
+                }
+            },
+            created: function () {
+                let that = this;
                 $.ajax({
-                    type:'get', 
-                    url:url1,
-                    data:{'creditCode':creditCode},
-                    dataType:'json',
-                    success:function(result){
-                        if(result.code==0){
-                            console.log(result);
-                           that.companyInfo.legalman=result.legalman;
-                           that.companyInfo.companyBaseinfo=result.companyBaseinfo;
-                           that.companyInfo.otherManagers=result.otherManagers;
-                        }else{
+                    type: 'get',
+                    url: url1,
+                    data: { 'creditCode': creditCode },
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result.code == 0) {
+                            // console.log(result);
+                            that.companyInfo.legalman = result.legalman;
+                            that.companyInfo.companyBaseinfo = result.companyBaseinfo;
+                            that.companyInfo.otherManagers = result.otherManagers;
+                        } else {
                             console.log(result.msg)
                         }
                     }
 
-                    })
-               }
+                });
+                $.ajax({
+                    type: 'get',
+                    url: url2,
+                    data: { 'creditCode': creditCode },
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result.code == 0) {
+                            // console.log(result);
+                            that.score.companyManagementinfo = result.companyManagementinfo;
+                            that.score.companyProperty = result.companyProperty;
+                            that.score.companyValuation = result.companyValuation;
+                            that.score.managerInfo = result.managerInfo;
+                            that.scoreData.factorsNum = result.factorsNum;
+                            that.scoreData.totalScore = result.totalScore;
 
-           })
+                            // console.log(that.score);
+                        } else {
+                            console.log(result.msg)
+                        }
+                    }
 
-       
-       </script>
-    
-    
-    
+                });
+
+            },
+            methods: {
+                moreStuff: function () {
+                    console.log('show');
+                    $('#moreStuff').removeClass("hidden");
+                }
+            }
+
+        })
+    </script>

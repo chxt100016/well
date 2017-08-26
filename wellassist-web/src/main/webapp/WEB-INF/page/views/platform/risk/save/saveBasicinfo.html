@@ -5,11 +5,254 @@
     <title>Title</title>
     <!--valocity模板解析-->
     #parse("sys/header.html")
-     Basicinfo          Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo
-     Basicinfo          Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo
-     Basicinfo          Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo
-     Basicinfo          Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo
-     Basicinfo          Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo
-     Basicinfo          Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo
-     Basicinfo          Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo     Basicinfo
-    #if($isSaveAll==1)<button onclick="javascript:window.location.href=baseUrl+'platform/risk/saveManagerinfoPage?isSaveAll=1'">下一步</button>#elseif($isSaveAll==0)<button>保存</button><button onclick="javascript:window.history.go(-1);">返回</button>#end
+    <link rel="stylesheet" href="${rc.contextPath}/statics/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="${rc.contextPath}/statics/css/basicform.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script>
+    <script src="${rc.contextPath}/js/wellassist/platform/risk_depends/bootstrap-datetimepicker.min.js"></script>
+    <script src="${rc.contextPath}/js/common.js"></script>
+    <script type="text/javascript" src="${rc.contextPath}/js/wellassist/platform/risk_depends/bootstrap-datetimepicker.zh-CN.js"
+        charset="UTF-8"></script>
+</head>
+
+<body>
+    <div class="container" id='appa'>
+        <div class="cbox">
+            <h4>基本信息录入</h4>
+            <div>
+            </div>
+            <form id='basicform'>
+                <table class="table table-striped table-bordered ">
+                    <thead>
+                        <th width=30%>Category</th>
+                        <th width=30%>Content</th>
+                        <th>Action</th>
+                        <th>备注</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>企业法人身份证:</td>
+                            <td>
+                                <input type="text " class="bt-text" name="legalPersonId" id="" v-model='legal_person_id'>
+                            </td>
+                            <td>
+                                <div class="btn btn-danger" @click="legal_person_id=''"> 重置</div>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>企业名称</td>
+                            <td>
+                                <input type="text" class="bt-text" name="name" id="" v-model='name'>
+                            </td>
+                            <td>
+                                <div class="btn btn-danger" @click="name=''"> 重置</div>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>企业类型（生产企业1，流通企业2）</td>
+                            <td>
+                                <input type="radio" name="type" id="" v-model='type' :value='1'> <label for="">生产企业</label>
+                                <input type="radio" name="type" id="" v-model='type' :value='2'> <label for="">流通企业</label>
+                            </td>
+                            <td>
+                                <div class="btn btn-danger" @click="type=''"> 重置</div>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>注册资金（万元）</td>
+                            <td>
+                                <input type="number" name="registeredCaptical" class="bt-text" id="" v-model='registered_captital'>
+                            </td>
+                            <td>
+                                <div class="btn btn-danger" @click="registered_captital=''"> 重置</div>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>注册日期</td>
+                            <td>
+                                <input type="text" name="regDate" class="bt-text  form_date" id="datepicker" data-date-format="dd MM yyyy" data-link-format="yyyy-mm-dd">
+                            </td>
+                            <td>
+                                <div class="btn btn-danger" @click="reg_date=''"> 重置</div>
+                            </td>
+                            <td>格式：2017-04-04</td>
+                        </tr>
+                        <tr>
+                            <td>营业期限自</td>
+                            <td>
+                                <input type="text" name="businessStart" class="bt-text form_date" id="">
+                            </td>
+                            <td>
+                                <div class="btn btn-danger" @click="business_start=''"> 重置</div>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>营业期限至</td>
+                            <td>
+                                <input type="text" name="businessEnd" class="bt-text form_date" id="">
+                            </td>
+                            <td>
+                                <div class="btn btn-danger" @click="business_end=''"> 重置</div>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>登记机关</td>
+                            <td>
+                                <input type="text" name="regOffice" class="bt-text" id="" v-model='reg_office'>
+                            </td>
+                            <td>
+                                <div class="btn btn-danger" @click="reg_office=''"> 重置</div>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>核准日期</td>
+                            <td>
+                                <input type="text" name="checkDate" class="bt-text form_date" id="">
+                            </td>
+                            <td>
+                                <div class="btn btn-danger" @click="check_date=''"> 重置</div>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>住所</td>
+                            <td>
+                                <input type="text" name="Location" class="bt-text" id="" v-model='location'>
+                            </td>
+                            <td>
+                                <div class="btn btn-danger" @click="location=''"> 重置</div>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>经营范围</td>
+                            <td>
+                                <input type="text" name="businessScope" class="bt-text" id="" v-model='business_scope'>
+                            </td>
+                            <td>
+                                <div class="btn btn-danger" @click="business_scope=''"> 重置</div>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>相关资料</td>
+                            <td>
+                                <input type="text" name="relatedDate" class="bt-text" id="" v-model='related_data'>
+                            </td>
+                            <td>
+                                <div class="btn btn-danger" @click="related_data=''"> 重置</div>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>统一社会信用代码</td>
+                            <td>
+                                <input type="text" name="CreditCode" class="bt-text" id="" v-model='credit_code'>
+                            </td>
+                            <td>
+                                <div class="btn btn-danger" @click="credit_code=''"> 重置</div>
+                            </td>
+                            <td></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <input class='btn btn-info' type="submit" @click='submit'>
+                <div class='btn btn-default' onclick="javascript:window.history.go(-1);">返回</div>
+                <div class='btn btn-default' onclick="window.location.href=baseUrl+'platform/risk/saveManagerinfoPage?isSaveAll=1';">跳过</div>
+            </form>
+            
+        </div>
+    </div>
+</body>
+<script>
+    $.fn.serializeObject = function () {
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function () {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
+   
+</script>
+<script>
+    const urlbase = '${rc.contextPath}/platform/risk/saveBasicinfo'
+    const vm = new Vue({
+        el: '#appa',
+        data: {
+
+            legal_person_id: '',
+            name: '',
+            type: '1',
+            registered_captital: '',
+            reg_date: '',
+            business_start: '',
+            business_end: '',
+            reg_office: '',
+            check_date: '',
+            location: '',
+            business_scope: '',
+            related_data: '',
+            credit_code: '',
+
+
+        },
+        watch: {
+        },
+        methods: {
+            submit: function (e) {
+                event.preventDefault();
+                var y = $('#basicform').serializeObject();
+                var y = JSON.stringify(y);
+                console.log(y)
+                $.ajax({
+                    type: 'post',
+                    url: urlbase,
+                    data: y,
+                    // dataType:'json',
+                    contentType: 'application/json',
+                    success: function (result) {
+                        if (result.code == 0) {
+                            alert('提交成功！');
+                            window.location.href='${rc.contextPath}/platform/risk/saveManagerinfoPage?isSaveAll=1';
+                        } else {
+                            console.log(result.msg)
+                        }
+                    }
+
+                })
+            }
+
+        },
+        mounted: function () {
+            $('.form_date').datetimepicker({
+                language: 'zh-CN',
+                format: 'yyyy-mm-dd',
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                pickDate: true,
+                // forceParse: 0
+            });
+        }
+
+    })
+</script>
+
