@@ -9,8 +9,9 @@
     <link rel="stylesheet" href="${rc.contextPath}/statics/css/basicform.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script>
     <script src="${rc.contextPath}/js/wellassist/platform/risk_depends/bootstrap-datetimepicker.min.js"></script>
-    <script type="text/javascript" src="${rc.contextPath}/js/wellassist/platform/risk_depends/bootstrap-datetimepicker.zh-CN.js"
-        charset="UTF-8"></script>
+    <script type="text/javascript" src="${rc.contextPath}/js/wellassist/platform/risk_depends/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script src="${rc.contextPath}/js/wellassist/platform/risk_depends/moment.min.js"></script> 
+     <script src="${rc.contextPath}/js/wellassist/platform/risk_depends/zh-cn.js"></script>
 </head>
 
     <body>
@@ -22,9 +23,9 @@
                         <span class="ft-bd">统一社会信用代码：</span>
                         <span class="greytext">{{companyInfo.companyBaseinfo.creditCode}}</span>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" >
                         <span class="ft-bd">法定代表人:</span>
-                        <span class="greytext">{{companyInfo.legalman.name}}</span>
+                        <span class="greytext" v-if='companyInfo.legalman!=null'>{{companyInfo.legalman.name}}</span>
                     </div>
                 </div>
                 <div class="row mg-tp-20">
@@ -55,9 +56,10 @@
                     </div>
                 </div>
                 <div class="row mg-tp-20">
-                    <div class="col-xs-6 col-md-4">
+                    <div class="col-md-6">
+                        <div class="col-xs-6 col-md-4" >
                         <span class="ft-bd">法定代表人:</span>
-                        <span class="greytext">{{companyInfo.legalman.name}}</span>
+                        <span class="greytext"  v-if='companyInfo.legalman!=null'>{{companyInfo.legalman.name}}</span>
                     </div>
                     <div class="col-xs-6 col-md-4">
                         <span class="ft-bd">注册资本:</span>
@@ -98,7 +100,7 @@
                 </div>
             </section>
 
-            <section class="simplesection mg-tp-30">
+            <section class="simplesection mg-tp-30" v-if='companyInfo.legalman!=null'>
                 <h4 class="darkred">主要人员信息</h4>
                 <div class="row mg-tp-20">
                     <div class="col-xs-6 col-md-4">
@@ -350,9 +352,16 @@
                     dataType: 'json',
                     success: function (result) {
                         if (result.code == 0) {
-                            // console.log(result);
+                            console.log(result);
                             that.companyInfo.legalman = result.legalman;
+                            //时间操作
+                            result.companyBaseinfo.businessEnd=moment(result.companyBaseinfo.businessEnd).format('LL');
+                            result.companyBaseinfo.businessStart=moment(result.companyBaseinfo.businessStart).format('LL');
+                            result.companyBaseinfo.checkDate=moment(result.companyBaseinfo.checkDate).format('LL');
+                            result.companyBaseinfo.regDate=moment(result.companyBaseinfo.regDate).format('LL');
+
                             that.companyInfo.companyBaseinfo = result.companyBaseinfo;
+                             
                             that.companyInfo.otherManagers = result.otherManagers;
                         } else {
                             console.log(result.msg)
@@ -368,7 +377,7 @@
                     dataType: 'json',
                     success: function (result) {
                         if (result.code == 0) {
-                            // console.log(result);
+                            console.log(result);
                             that.score.companyManagementinfo = result.companyManagementinfo;
                             that.score.companyProperty = result.companyProperty;
                             that.score.companyValuation = result.companyValuation;

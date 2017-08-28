@@ -34,7 +34,7 @@ public class RiskScoreServiceImpl implements RiskScoreService {
         HashMap<String,HashMap<String,Double>> factorScoreMap = this.riskFactorServiceImpl.getFactorScoreMap();
 
         //获取所有参与计算的风险因子
-        HashMap<String,Object> paramMap = new HashMap<String,Object>();
+         HashMap<String,Object> paramMap = new HashMap<String,Object>();
         paramMap.put("isCalculate",true);
         List<RiskFactor> riskFactor = riskFactorServiceImpl.getRiskFactor(paramMap);
 
