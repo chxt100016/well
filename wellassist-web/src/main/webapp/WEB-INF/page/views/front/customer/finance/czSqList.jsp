@@ -172,30 +172,31 @@
 		$(obj).addClass("selected");
 		rechargeType = selZfType;
 	}
-	// $('#infoForm').form({	    
-	//     inline : true,
-	//     on     : 'blur',
-	//     fields : {
-	//     	rechargeMoney:{
-	//     		identifier: 'rechargeMoney',
-	//     		rules: [
-	// 	          {
-	// 	            type: 'empty',
-	// 	            prompt: '请输入充值金额！'
-	// 	          },
-	// 	          {
-	// 	            type: 'integer',
-	// 	            prompt: '请输入只数字形式！'
-	// 	          },
-	// 	          {
-	// 	          	type:'/^\+?[1-9]\d*$/',
-	// 	          	prompt:'充值金额不正确！'
-	// 	          },
-	// 	        ]
-	// 	    }	    	
-	//     }
-	//   })
-	// ;
+
+	// $('#infoForm')
+	// 	.form({	    	    
+	//     	fields : {
+	//     		rechargeMoney:{
+	//     			identifier: 'rechargeMoney',
+	//     			rules: [
+	// 		          {
+	// 		            type: 'empty',
+	// 		            prompt: '请输入充值金额！'
+	// 		          },
+	// 		          {
+	// 		            type: 'number',
+	// 		            prompt: '请输入只数字形式！'
+	// 		          },
+	// 		          {
+	// 		          	type:'/^\+?[1-9]\d*$/',
+	// 		          	prompt:'充值金额不正确！'
+	// 		          },
+	// 	        	]
+	// 	    	}
+	// 		},
+	// 	    inline : true,
+	// 	    on     : 'blur',
+	//   	})
 	// 初始化函数
 	$(function(){
 		// validation检查	
@@ -229,13 +230,13 @@
     	    }
     	});	
 		
-     $('.ui.dropdown')
-  .dropdown()
-;
+//      $('.ui.dropdown')
+//   .dropdown()
+// ;
   
 	
 
-	});
+// 	});
 
 	// $("td").attr("valign", "top");
 	// $(".caption").css("padding-top", "10px");

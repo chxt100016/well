@@ -398,8 +398,33 @@
     </div>
 </body>
 <script>
+    $(document).ready(function(){
+      $('input:text:first').focus();
+      $('input:text').bind("keydown",function(e){
+        if (e.which == 13) {
+          e.preventDefault();
+          var nextinput = $('input:text')[$('input:text').index(this)+1];
+          if(nextinput != undefined) {
+            nextinput.focus();
+          }
+          else {
+            alert('没有下一个输入框！');
+          }
+        }
+      })
+    })
 
-
+    // $(document).ready(function(){
+    //   $('input:text:first').focus();
+    //   var $inp = $('input,select');
+    //   $inp.bind("keydown",function(e){
+    //     if (e.which == 13) {
+    //       e.preventDefault();
+    //       var nxtIdx = $inp.index(this)+1;
+    //       $(':input:eq('+nxtIdx+')').focus();
+    //     }
+    //   })
+    // })
     function next() {
       $('body,html').animate({scrollTop:1300},1000);
 

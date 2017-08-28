@@ -156,11 +156,11 @@ $('.txform')
 				rules: [
 				{
 					type   : 'empty',
-					prompt : '朋友你得提多少钱'
+					prompt : '请输入金额'
 				},
 				{
 				 type: 'number',
-				 prompt:'数字啊兄弟'	
+				 prompt:'请输入数字'	
 				}
 			]
 		  },
@@ -169,7 +169,7 @@ $('.txform')
 				rules: [
 				{
 					type   : 'empty',
-					prompt : '朋友你的账户要选好'
+					prompt : '请选择提现账户'
 				}
 			]
 		  }
