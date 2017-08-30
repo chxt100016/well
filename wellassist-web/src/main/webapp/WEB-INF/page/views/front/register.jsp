@@ -71,13 +71,13 @@
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">企业名称：</div>
-                                <input type="text" name="companyname" placeholder="请输入企业名称" id="companyname" class="max_text" onkeypress="if(event.keyCode==13) focusNextInput(this);">
+                                <input type="text" name="companyname" placeholder="请输入企业名称" id="companyname" class="max_text focus" onkeypress="if(event.keyCode==13) focusNextInput(this);">
                             </div>
                         </div>
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">企业执照号：</div>
-                                <input type="text" name="companyaccount" placeholder="请输入企业执照号" id="companyaccount" class="" onkeypress="if(event.keyCode==13) focusNextInput(this);">
+                                <input type="text" name="companyaccount" placeholder="请输入企业执照号" id="companyaccount" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this);">
                             </div>
                         </div>
 
@@ -170,7 +170,7 @@
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">具体地址：</div>
-                                <input type="text" name="address" placeholder="请输入具体地址" id="address" class="" onkeypress="if(event.keyCode==13) focusNextInput(this);">
+                                <input type="text" name="address" placeholder="请输入具体地址" id="address" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this);">
                             </div>
                         </div>
                     </div>
@@ -185,13 +185,13 @@
                             <div class="field">
                                 <div class="ui labeled input ">
                                     <div class="ui label">登录账户：</div>
-                                    <input type="text" name="user_name" placeholder="请输入登录账户" id="" class="max_text" onkeypress="if(event.keyCode==13) focusNextInput(this);">
+                                    <input type="text" name="user_name" placeholder="请输入登录账户" id="" class="max_text focus" onkeypress="if(event.keyCode==13) focusNextInput(this);">
                                 </div>
                             </div>
                             <div class="field">
                                 <div class="ui labeled input ">
                                     <div class="ui label">登录密码：</div>
-                                    <input type="password" name="password" placeholder="请输入登录密码" id="" class="max_text" onkeypress="if(event.keyCode==13) focusNextInput(this);">
+                                    <input type="password" name="password" placeholder="请输入登录密码" id="" class="max_text focus" onkeypress="if(event.keyCode==13) focusNextInput(this);">
                                 </div>
                             </div>
                         </div>
@@ -199,7 +199,7 @@
                             <div class="field">
                                 <div class="ui labeled input ">
                                     <div class="ui label">确认密码：</div>
-                                    <input type="password" name="Confirm_password" placeholder="请确认登录密码" id="" class="max_text" onkeypress="if(event.keyCode==13) focusNextInput(this);">
+                                    <input type="password" name="Confirm_password" placeholder="请确认登录密码" id="" class="max_text focus" onkeypress="if(event.keyCode==13) focusNextInput(this);">
                                 </div>
                             </div>
 
@@ -238,13 +238,13 @@
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">联系人：</div>
-                                <input type="text" name="contact" placeholder="" id="" class="max_text" onkeyup="progress(50)" onkeypress="if(event.keyCode==13) focusNextInput(this);">
+                                <input type="text" name="contact" placeholder="" id="" class="max_text focus" onkeyup="progress(50)" onkeypress="if(event.keyCode==13) focusNextInput(this);">
                             </div>
                         </div>
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">联系邮箱：</div>
-                                <input type="email" name="contactemail" placeholder="" id="" class="" onkeypress="if(event.keyCode==13) focusNextInput(this);">
+                                <input type="email" name="contactemail" placeholder="" id="" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this);">
                             </div>
                         </div>
 
@@ -253,13 +253,13 @@
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">手机号码：</div>
-                                <input type="text" name="contactphone" placeholder="" id="contactphone" class="max_text" onkeypress="if(event.keyCode==13) focusNextInput(this);">
+                                <input type="text" name="contactphone" placeholder="" id="contactphone" class="max_text focus" onkeypress="if(event.keyCode==13) focusNextInput(this);">
                             </div>
                         </div>
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">座机号码：</div>
-                                <input type="text" name="contactseat" placeholder="" id="" class="" onkeypress="if(event.keyCode==13) focusNextInput(this);">
+                                <input type="text" name="contactseat" placeholder="" id="" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this);">
                             </div>
                         </div>
 
@@ -271,7 +271,7 @@
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">企业法人身份证号：</div>
-                                <input type="text" name="legalIdCard" placeholder="" id="" class="max_text" onkeyup="progress(80)" onkeypress="if(event.keyCode==13) focusNextInput(this);">
+                                <input type="text" name="legalIdCard" placeholder="" id="" class="max_text focus" onkeyup="progress(80)" onkeypress="if(event.keyCode==13) focusNextInput(this);">
                             </div>
                         </div>
                     </div>
@@ -399,7 +399,7 @@
 </body>
 <script>
     function focusNextInput(thisInput){
-        var inputs = document.getElementsByTagName("input");
+        var inputs = document.getElementsByClassName("focus");
         for(var i = 0;i<inputs.length;i++){
             // 如果是最后一个，则焦点回到第一个
             if(i==(inputs.length-1)){
