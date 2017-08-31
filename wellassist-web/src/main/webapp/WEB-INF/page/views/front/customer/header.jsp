@@ -48,12 +48,12 @@
     <div class="ui vertical inverted sticky  accordion  menu fixed top grey3" style="height: 800px !important;width:210px ;margin-right:-210px;" id="leftMenu">
         <div class="item leftheader grey2">
             <a class="ui logo icon image" href="/">
-                <h2>管理员</h2>
+                <h2><img src="../img/wellassist.png" /></h2>
             </a>
             <a href="/"></a>
 
         </div>
-        <a class="item grey3  ">  <i class="user icon"></i> 我的工作台 </a>
+        <!-- <a class="item grey3  ">  <i class="user icon"></i> 我的工作台 </a> -->
 
     <!-- parentMenu==5 -->
         <div class="item ">
@@ -218,7 +218,6 @@
 
     <div class="topheader">
         <div class="ui mini menu grey1">
-
             <div class="right menu">
                 <div class="ui dropdown item">${user.userName}&nbsp;您好 <i class="dropdown icon"></i>
                     <div class="menu">

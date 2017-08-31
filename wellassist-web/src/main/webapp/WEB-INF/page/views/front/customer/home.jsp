@@ -1,9 +1,10 @@
-<%@ include file="../header.jsp"%>
+<%@ include file="header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <html lang="en">
 <head>
 
 	<link rel="stylesheet" href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
+	<link rel="stylesheet" href="<c:url value="/resources/library/css/semantic.min.css"/>">
 	<title>买家网站</title>
 
 	<style>
@@ -18,15 +19,20 @@
 		.cd-rect{width: 1000px; margin: auto;overflow: auto;}
 		.row-fld{width:230px; background: white;box-shadow: 3px 3px 3px #c0c0c0;padding:0px;overflow: auto; float: left; margin-top:10px; margin-right:20px;}
 		.sp_img{width:230px; height:169px;}
-		
+		.container1{
+			background: url(../img/watermark.png) repeat;
+			background-color: #f2f2f2;
+		}
+		.extra {background-color: #E8EFF5;color: #617B90;}
 	</style>
 
 </head>
-<body style="margin:0; padding:0; background:#f5f5f5;">
-	<div class="main-wrapper" style="margin-left: 0px;">
+<body>
+	<div class="container1">
+    	<div style="margin:40px 0 0 210px;">
 
 		<!-- navigation bar -->
-		<div class="abovenavbar">
+		<!-- <div class="abovenavbar">
 			<div align=center>
 				<div style="width:1000px;">
 					<span class="dropdown" style="float:left;">
@@ -38,12 +44,45 @@
 					<span style="float: right;"><a href="<c:url value="/login/customerMain"/>">管理员</a></span>
 				</div>
 			</div>
-		</div>
-		
-		<div align=center style="padding-top:12px;">
-			<div align=left style="width:1000px;height:100%;">
-				<img src="<c:url value="/resources/wella/front/images/customer/banner.png"/>" style="width:1000px;">
-				<div class="start_heading2">${user.userName}</div>
+		</div> -->
+			<div style="width:90%;">
+				<img src="<c:url value="/resources/wella/front/images/customer/banner.png"/>" style="width:100%;">
+
+				<div class="ui cards" style="margin-top:10px;">
+					<div class="card" style="width:69%;">
+						<div class="extra content" style="background-color: #E8EFF5;font-size:18px;">
+							<span class="left floated" style="color: #617B90;font-weight:700;"><i class="selected radio icon"></i> 公告栏 </span>
+							<span class="right floated"> More <i class="angle double right icon"></i></span>
+						</div>
+						<div class="content">
+
+						</div>						
+					</div>
+					<div class="card" style="width:29%;">
+						<div class="extra content" style="background-color: #E8EFF5;font-size:18px;">
+							<span class="left floated" style="color: #617B90;font-weight:700;"><i class="selected radio icon"></i> 联系方式 </span>
+							<span class="right floated"> More <i class="angle double right icon"></i></span>
+						</div>
+						<div class="content">
+							<span>&emsp;联系人：李生
+								<img src="<c:url value="/resources/wella/front/images/customer/lianxiicon1.png"/>">
+								<img src="<c:url value="/resources/wella/front/images/customer/lianxiicon2.png"/>">
+								<img src="<c:url value="/resources/wella/front/images/customer/lianxiicon3.png"/>"></span><br>
+							<span>联系电话：${userInfo.companyLxrPhone}</span><br>
+							<span>联系地址：${address}</span><br>
+						</div>						
+					</div>
+				</div>
+				<div class="ui card" style="width:100%;margin-top:20px;">
+					<div class="extra content" style="background-color: #E8EFF5;font-size:18px;">
+						<span class="left floated" style="color: #617B90;font-weight:700;"><i class="selected radio icon"></i> 企业信息 </span>
+						<span class="right floated"> More <i class="angle double right icon"></i></span>
+					</div>
+					<div class="content">
+						<p>&emsp;&emsp;中石油昆仑能源有限公司（简称昆仑能源公司）市委实现天然气业务上中下游一体化，更好地履行责任，服务社会， 经中国石油天然气集团公司批准、国家工商管理总局核准于2008年8月6日，由中石油天然气管道燃气投资有限公司、中国华油集团燃气事业部、中油然气有限责任公司、重组整合成立， 是中国石油城市燃气运菅的专业化公司。公司注册资本金60.6亿元</p>
+					</div>
+				</div>
+				<!-- <div class="start_heading2">${user.userName}</div>
 				<div style="display:block; overflow:auto">
 					<div style="float:left;width:200px;height:200px;background:white;border:solid 1px #c0c0c0;">
 						<table style="width:100%;height:100%;"><tr><td><p align=center><img src="<c:url value="${userInfo.companyImg}"/>"></p></td></tr></table>
@@ -113,11 +152,18 @@
 								</div>
 							</div>
 				 	</c:forEach> 
-				</div>
+				</div> -->
 			</div>
+			<!-- <div style="width:98%;margin:0 auto;"> -->
+				<div style="width:100%;background-color:#4F657C;color:#fff;position:fixed;bottom:0;">
+					<marquee direction="left" behavior="scroll" scrollamount="10" scrolldelay="0" loop="-1" hspace="10" vspace="10">
+						<i class="announcement icon"></i>实时消息：您已选择 智速货运公司 为订单 2017081715494008107464 提供物流服务，请支付物流订单后，物流公司将前往卖方地址为您载货。请注意查收！
+					</marquee>
+				</div>
+			<!-- </div> -->
 		</div>
-
-</div>
+		
+	</div>
 </body>
 <script type="text/javascript">
 	<%--/*function show_companies() {--%>

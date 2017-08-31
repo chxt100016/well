@@ -7,7 +7,13 @@
     <title>银行卡管理</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+    <style>
+        .container1{
+            background: url(../img/watermark.png) repeat;
+        }
+    </style>
+</head>
+<body>   
 <div class="container1">
     <div style="margin:40px 0 0 210px;">
 
@@ -127,7 +133,7 @@
         
     </div>
 </div>
-
+</body>
 <script>
 // $('.ui.form').form({
 //     inline : true,
