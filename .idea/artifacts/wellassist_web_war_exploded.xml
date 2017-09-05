@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="wellassist-web:war exploded">
-    <output-path>$PROJECT_DIR$/wellassist-web/target/renren-security</output-path>
+    <output-path>$PROJECT_DIR$/wellassist-web/target/wellassist</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -16,7 +16,6 @@
           <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.6.2" />
           <element id="library" level="project" name="Maven: com.qiniu:happy-dns-java:0.1.4" />
           <element id="library" level="project" name="Maven: com.aliyun.oss:aliyun-sdk-oss:2.5.0" />
-          <element id="library" level="project" name="Maven: org.jdom:jdom:1.1" />
           <element id="library" level="project" name="Maven: net.sf.json-lib:json-lib:jdk15:2.4" />
           <element id="library" level="project" name="Maven: net.sf.ezmorph:ezmorph:1.0.6" />
           <element id="library" level="project" name="Maven: com.qcloud:cos_api:4.4" />
@@ -35,6 +34,14 @@
           <element id="archive" name="wellassist-api-2.0.0.jar">
             <element id="module-output" name="wellassist-api" />
           </element>
+          <element id="archive" name="wellassist-CNCB-2.0.0.jar">
+            <element id="module-output" name="wellassist-CNCB" />
+          </element>
+          <element id="library" level="project" name="Maven: com.thoughtworks.xstream:xstream:1.4.10" />
+          <element id="library" level="project" name="Maven: xmlpull:xmlpull:1.1.3.1" />
+          <element id="library" level="project" name="Maven: xpp3:xpp3_min:1.1.4c" />
+          <element id="library" level="project" name="Maven: org.jdom:jdom:1.1" />
+          <element id="library" level="project" name="Maven: jaxen:jaxen:1.1.6" />
           <element id="library" level="project" name="Maven: javax.mail:mail:1.4.7" />
           <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />
           <element id="library" level="project" name="Maven: dom4j:dom4j:1.6" />
@@ -101,7 +108,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/wellassist-web/target/renren-security/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/wellassist-web/target/wellassist/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="wellassist-web/web/Web" />
     </root>

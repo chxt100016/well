@@ -1,5 +1,7 @@
 package org.wella.service.impl;
 
+import com.wellapay.cncb.model.output.BalanceQueryOutput;
+import com.wellapay.cncb.service.CNCBPayConnectService;
 import io.wellassist.utils.HttpContextUtils;
 import io.wellassist.utils.IPUtils;;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +10,9 @@ import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.LoanDao;
 import org.wella.dao.RepayDao;
 import org.wella.dao.TradeDAO;
+import org.wella.dao.UserSubAccountDao;
 import org.wella.entity.User;
+import org.wella.entity.UserSubAccount;
 import org.wella.service.FinanceService;
 import org.wella.service.MessageService;
 
@@ -34,6 +38,12 @@ public class FinanceServiceImpl implements FinanceService {
 
     @Autowired
     private RepayDao repayDao;
+
+    @Autowired
+    private CNCBPayConnectService cncbPayConnectServiceImpl;
+
+    @Autowired
+    private UserSubAccountDao userSubAccountDao;
 
     @Override
     public int recharge(Map<String, Object> map) {
@@ -68,5 +78,19 @@ public class FinanceServiceImpl implements FinanceService {
         ConvertUtil.convertDataBaseMapToJavaMap(repays);
         loan.put("repays", repays);
         return loan;
+    }
+
+    @Override
+    public BigDecimal getBalance(long userId) {
+        Map<String,Object> query=new HashMap<>();
+        query.put("userId",userId);
+        UserSubAccount userSubAccount=userSubAccountDao.singleQuery(query);
+        BalanceQueryOutput balanceQueryOutput=null;
+        try {
+            balanceQueryOutput=cncbPayConnectServiceImpl.balanceQuery(userSubAccount.getSubAccNo());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return balanceQueryOutput.getList().getList().get(0).getKYAMT();
     }
 }

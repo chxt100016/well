@@ -1,5 +1,8 @@
 package org.wella.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.wellapay.cncb.model.ForceTransferBasicInfo;
+import com.wellapay.cncb.service.CNCBPayConnectService;
 import io.wellassist.utils.Query;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
+import org.wella.entity.CncbTrans;
 import org.wella.entity.CreditorAuthenticInfo;
+import org.wella.entity.UserSubAccount;
 import org.wella.service.CreditorService;
 import org.wella.service.MessageService;
 import org.wella.service.WaOrderService;
@@ -59,6 +64,15 @@ public class CreditorServiceImpl implements CreditorService{
     @Autowired
     private MessageService messageServicesk;
 
+    @Autowired
+    private UserSubAccountDao userSubAccountDao;
+
+    @Autowired
+    private CNCBPayConnectService cncbPayConnectServiceImpl;
+
+    @Autowired
+    private CncbTransDao cncbTransDao;
+
 
 
     /**
@@ -74,6 +88,39 @@ public class CreditorServiceImpl implements CreditorService{
         List<Map<String,Object>> creditors=waUserDao.listUserAttachUserinfoByConditions(param);
         ConvertUtil.convertDataBaseMapToJavaMap(creditors);
         return creditors;
+    }
+
+    @Override
+    public int payLoan(long loanId, long creditorUserId, int paymentDays, String operateIp) {
+        Map<String,Object> loan=loanDao.singleLoanByPrimaryKey(loanId);
+        BigDecimal loanMoney=(BigDecimal)loan.get("loan_money");
+
+        Map<String,Object> query=new HashMap<>();
+        query.put("userId",creditorUserId);
+        UserSubAccount userSubAccount=userSubAccountDao.singleQuery(query);
+        ForceTransferBasicInfo forceTransferBasicInfo= null;
+        try {
+            forceTransferBasicInfo = cncbPayConnectServiceImpl.forceTransfer2TransferAccNo(userSubAccount.getSubAccNo(),loanMoney);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        CncbTrans cncbTrans=new CncbTrans();
+        cncbTrans.setXml(forceTransferBasicInfo.getXml());
+        cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
+        cncbTrans.setTime(new Date());
+        cncbTrans.setType((byte)2);
+        JSONObject operationParamsObj=new JSONObject();
+        operationParamsObj.put("loanId",loanId);
+        operationParamsObj.put("creditorUserId",creditorUserId);
+        operationParamsObj.put("paymentDays",paymentDays);
+        operationParamsObj.put("operateIp",operateIp);
+        cncbTrans.setOperationParams(operationParamsObj.toJSONString());
+        cncbTransDao.create(cncbTrans);
+        query.clear();
+        query.put("loanId",loanId);
+        query.put("loanState",11);
+        loanDao.updateLoanByPrimaryKey(query);
+        return 1;
     }
 
     @Override

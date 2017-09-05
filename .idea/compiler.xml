@@ -13,6 +13,7 @@
         <module name="renren-shiro" />
         <module name="renren-web" />
         <module name="wellassist-api" />
+        <module name="wellassist-CNCB" />
         <module name="wellassist-common" />
         <module name="wellassist-gen" />
         <module name="wellassist-pay" />
@@ -24,9 +25,10 @@
     <bytecodeTargetLevel>
       <module name="wellassist" target="1.7" />
       <module name="wellassist-api" target="1.7" />
+      <module name="wellassist-CNCB" target="1.7" />
       <module name="wellassist-common" target="1.7" />
       <module name="wellassist-gen" target="1.7" />
-      <module name="wellassist-pay" target="1.5" />
+      <module name="wellassist-pay" target="1.7" />
       <module name="wellassist-schedule" target="1.7" />
       <module name="wellassist-shiro" target="1.7" />
       <module name="wellassist-web" target="1.7" />

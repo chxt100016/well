@@ -13,6 +13,7 @@ import org.wella.entity.*;
 import org.wella.platform.service.RiskService;
 import org.wella.service.RiskScoreService;
 
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -238,5 +239,11 @@ public class RiskController {
     public R saveValuation(@RequestBody CompanyValuation companyValuation){
         riskServiceImpl.saveCompanyValuation(companyValuation);
         return R.ok();
+    }
+
+    @RequestMapping("test")
+    @ResponseBody
+    public String test(@RequestParam("time") Date time){
+        return "fuck";
     }
 }

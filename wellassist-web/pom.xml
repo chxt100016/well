@@ -37,6 +37,11 @@
             <artifactId>wellassist-api</artifactId>
             <version>${wellassist-version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.wellassist</groupId>
+            <artifactId>wellassist-CNCB</artifactId>
+            <version>2.0.0</version>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
         <dependency>
@@ -63,7 +68,7 @@
 
     </dependencies>
 	<build>
-		<finalName>renren-security</finalName>
+		<finalName>wellassist</finalName>
 	</build>
 	
 </project>

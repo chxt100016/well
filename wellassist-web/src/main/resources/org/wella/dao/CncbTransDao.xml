@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.CncbTransDao">
+    <resultMap id="CncbTransMapper" type="org.wella.entity.CncbTrans">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="client_id" jdbcType="VARCHAR" property="clientId" />
+        <result column="state" jdbcType="TINYINT" property="state" />
+        <result column="time" jdbcType="TIMESTAMP" property="time" />
+        <result column="status_text" jdbcType="VARCHAR" property="statusText" />
+        <result column="check_state" jdbcType="TINYINT" property="checkState" />
+        <result column="operation_params" jdbcType="VARCHAR" property="operationParams" />
+        <result column="type" jdbcType="TINYINT" property="type" />
+        <result column="status" jdbcType="CHAR" property="status" />
+    </resultMap>
+
+    <insert id="create" parameterType="org.wella.entity.CncbTrans">
+        insert into wa_cncb_trans (client_id,
+      time,
+      operation_params, type,
+      xml)
+    values (#{clientId,jdbcType=VARCHAR},
+      #{time,jdbcType=TIMESTAMP},
+      #{operationParams,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT},
+      #{xml,jdbcType=LONGVARCHAR})
+    </insert>
+
+    <select id="queryList" parameterType="map" resultMap="CncbTransMapper">
+        SELECT *
+        from wa_cncb_trans
+        <where>
+            <if test="state != null">
+                AND state=#{state}
+            </if>
+        </where>
+    </select>
+
+    <update id="update" parameterType="map">
+        update wa_cncb_trans
+        <set>
+            <if test="state != null">
+                state = #{state,jdbcType=TINYINT},
+            </if>
+            <if test="statusText != null">
+                status_text = #{statusText,jdbcType=VARCHAR},
+            </if>
+            <if test="checkState != null">
+                check_state = #{checkState,jdbcType=TINYINT},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=CHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

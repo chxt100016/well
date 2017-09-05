@@ -357,10 +357,10 @@ require.register("dropzone/index.js", function(exports, require, module){
 /**
  * Exposing dropzone
  */
-module.exports = require("./lib/dropzone.js");
+module.exports = require("./util/dropzone.js");
 
 });
-require.register("dropzone/lib/dropzone.js", function(exports, require, module){
+require.register("dropzone/util/dropzone.js", function(exports, require, module){
 /*
 #
 # More info at [www.dropzonejs.com](http://www.dropzonejs.com)

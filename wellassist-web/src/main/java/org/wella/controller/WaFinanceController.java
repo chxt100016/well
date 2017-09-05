@@ -1,5 +1,6 @@
 package org.wella.controller;
 
+import com.wellapay.cncb.service.CNCBPayConnectService;
 import io.wellassist.utils.HttpContextUtils;
 import io.wellassist.utils.IPUtils;
 import io.wellassist.utils.R;
@@ -47,6 +48,7 @@ public class WaFinanceController {
 
     @Autowired
     private TradeDAO tradeDao;
+
 
     @RequestMapping("withdrawProcess")
     @ResponseBody
@@ -135,7 +137,11 @@ public class WaFinanceController {
         return null;
     }*/
 
-
-
+    @RequestMapping("balance")
+    @ResponseBody
+    public R test(HttpServletRequest request){
+        long userId=((User)request.getSession().getAttribute("user")).getUserId();
+        return R.ok().put("balance",financeServiceImpl.getBalance(userId));
+    }
 
 }

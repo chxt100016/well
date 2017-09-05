@@ -27,6 +27,7 @@ public class CommonUtil {
 
         return sb.toString();
     }
+
     /**
      * 字符串转Date
      * @param dateStr

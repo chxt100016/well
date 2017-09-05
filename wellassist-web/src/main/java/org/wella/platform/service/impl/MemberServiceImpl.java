@@ -1,5 +1,10 @@
 package org.wella.platform.service.impl;
 
+import com.wellapay.cncb.model.input.Register;
+import com.wellapay.cncb.model.input.RegisterList;
+import com.wellapay.cncb.model.input.VilcstDataList;
+import com.wellapay.cncb.model.output.RegisterOutput;
+import com.wellapay.cncb.service.CNCBPayConnectService;
 import io.wellassist.utils.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,18 +12,18 @@ import org.springframework.transaction.annotation.Transactional;
 import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
+import org.wella.common.utils.MapUtil;
 import org.wella.dao.*;
 import org.wella.entity.CreditorAuthenticInfo;
 import org.wella.entity.User;
+import org.wella.entity.UserSubAccount;
 import org.wella.platform.service.MemberService;
 import org.wella.service.CreditorService;
 import org.wella.service.MessageService;
+import org.wella.service.RegionService;
 import org.wella.utils.MailUtil;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by liuwen on 2017/5/18.
@@ -29,19 +34,25 @@ public class MemberServiceImpl implements MemberService{
     @Autowired
     private WaUserDao waUserDao;
     @Autowired
-    private UserinfoDao userinfoDao;
-    @Autowired
     private ProdDao prodDao;
     @Autowired
     private ProdUserDao prodUserDao;
     @Autowired
     private RegionDao regionDao;
     @Autowired
+    private RegionService regionServiceImpl;
+    @Autowired
     private CreditorService creditorServiceImpl;
     @Autowired
     private CreditorAuthenticInfoDao creditorAuthenticInfoDao;
     @Autowired
     private MessageService messageServicesk;
+    @Autowired
+    private CNCBPayConnectService cncbPayConnectServiceImpl;
+    @Autowired
+    private UserinfoDao userinfoDao;
+    @Autowired
+    private UserSubAccountDao userSubAccountDao;
 
 
     @Override
@@ -89,13 +100,44 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
+    @Transactional
     public void approve(Map map) {
         String comment=(String)map.get("comment");
         String email=(String)map.get("userEmail");
         Map updateMap=new HashMap();
-        updateMap.put("userId",map.get("userId"));
+        long userId=Long.parseLong(map.get("userId").toString());
+        updateMap.put("userId",userId);
         updateMap.put("comment",comment);
         updateMap.put("userState",1);
+
+        //在注册成功后给每个用户注册虚拟附属账户
+        Map<String,Object> query=new HashMap<>();
+        query.put("userId",userId);
+        UserSubAccount usa=userSubAccountDao.singleQuery(query);
+        if (null==usa){
+            Map<String,Object> user=waUserDao.singleUserByPrimaryKey(userId);
+            Map<String,Object> userinfo=userinfoDao.singleUserinfoByPrimaryKey(userId);
+            List<VilcstDataList> list=new ArrayList<>();
+            RegisterList registerList=new RegisterList();
+            registerList.setName("VilcstDataList");
+            VilcstDataList vilcstDataList=new VilcstDataList(userinfo.get("company_lxr").toString(),userinfo.get("company_lxr_phone").toString(),MapUtil.getStringfromMap(userinfo,"company_lxr_email"));
+            list.add(vilcstDataList);
+            registerList.setList(list);
+            Register register=new Register(user.get("user_name").toString(),user.get("user_name").toString(), MapUtil.getStringfromMap(userinfo,"company_lp_name"),"0",user.get("legal_id_card").toString(),regionServiceImpl.getDetailAddress(Long.parseLong(userinfo.get("zc_region_id").toString()),userinfo.get("zc_xx_address").toString()),registerList);
+            RegisterOutput registerOutput=null;
+            try {
+                registerOutput=cncbPayConnectServiceImpl.register(register);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            UserSubAccount userSubAccount=new UserSubAccount();
+            userSubAccount.setSubAccNo(registerOutput.getSubAccNo());
+            userSubAccount.setSubAccNm(registerOutput.getSubAccNm());
+            userSubAccount.setCreateTime(new Date());
+            userSubAccount.setUserId(userId);
+            userSubAccountDao.create(userSubAccount);
+        }
+
         waUserDao.updateUserByUserId(updateMap);
         messageServicesk.handleRegisterReviewMessage(email,comment,true);
     }

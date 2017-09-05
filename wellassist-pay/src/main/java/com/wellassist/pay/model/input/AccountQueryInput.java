@@ -1,5 +1,6 @@
 package com.wellassist.pay.model.input;
 
+import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 @XStreamAlias("stream")
@@ -40,4 +41,16 @@ public class AccountQueryInput {
     private String userName;//</userName><!--登录名 varchar(30)-->
     private String accountNo;//</accountNo><!--主体账号varchar(19)-->
     private String subAccNo;//</subAccNo><!--附属账号varchar(19)-->
+
+    public static void main(String [] args){
+        AccountQueryInput aqi=new AccountQueryInput();
+        XStream xStream=new XStream();
+        xStream.alias("xml",AccountQueryInput.class);
+        aqi.setAccountNo("123456");
+        aqi.setAction("sssss");
+        aqi.setSubAccNo("cdcdcd");
+        aqi.setUserName("fuck");
+        String xml=xStream.toXML(aqi);
+        System.out.println(xml);
+    }
 }

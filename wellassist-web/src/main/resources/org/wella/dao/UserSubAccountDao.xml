@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.UserSubAccountDao">
+    <resultMap id="UserSubAccountMap" type="org.wella.entity.UserSubAccount" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="user_id" property="userId" jdbcType="BIGINT" />
+        <result column="sub_acc_no" property="subAccNo" jdbcType="CHAR" />
+        <result column="sub_acc_nm" property="subAccNm" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="status" property="status" jdbcType="TINYINT" />
+    </resultMap>
+
+    <insert id="create" parameterType="org.wella.entity.UserSubAccount">
+        insert into wa_user_sub_account ( user_id, sub_acc_no,
+      sub_acc_nm, create_time
+      )
+    values (#{userId,jdbcType=BIGINT}, #{subAccNo,jdbcType=CHAR},
+      #{subAccNm,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+    </insert>
+
+    <select id="singleQuery" parameterType="map" resultMap="UserSubAccountMap">
+        SELECT *
+        from wa_user_sub_account
+        <where>
+            <if test="userId != null">
+                and user_id=#{userId}
+            </if>
+        </where>
+        limit 1
+    </select>
+
+</mapper>

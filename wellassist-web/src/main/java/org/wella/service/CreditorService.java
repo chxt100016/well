@@ -18,6 +18,16 @@ public interface CreditorService {
     List<Map<String,Object>> findCreditorList();
 
     /**
+     * 放款方通过余额放款
+     * @param loanId
+     * @param creditorUserId
+     * @param paymentDays
+     * @param operateIp
+     * @return
+     */
+    int payLoan(long loanId,long creditorUserId,int paymentDays,String operateIp);
+
+    /**
      *放款方接受放款指派
      * test:暂定还款期为30天，免息期为7天，放款方利率=平台利率*0.9
      * @param paymentDays 还款期限

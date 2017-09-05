@@ -1,5 +1,6 @@
 package org.wella.service;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -33,4 +34,6 @@ public interface FinanceService {
 
 
     Map<String,Object> getLoanRepayInfo(long loanId);
+
+    BigDecimal getBalance(long userId);
 }

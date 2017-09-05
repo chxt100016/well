@@ -1,6 +1,8 @@
 package org.wella.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wellapay.cncb.model.ForceTransferBasicInfo;
+import com.wellapay.cncb.service.CNCBPayConnectService;
 import io.wellassist.utils.HttpContextUtils;
 import io.wellassist.utils.IPUtils;
 import io.wellassist.utils.R;
@@ -90,6 +92,15 @@ public class CustomerController extends BaseController {
 
    @Autowired
    private BankOrderDao bankOrderDao;
+
+   @Autowired
+   private UserSubAccountDao userSubAccountDao;
+
+   @Autowired
+   private CNCBPayConnectService cncbPayConnectServiceImpl;
+
+   @Autowired
+   private CncbTransDao cncbTransDao;
 
    /**
     * 买家下订单
@@ -330,18 +341,47 @@ public class CustomerController extends BaseController {
          }
          if (user != null && CommonUtil.getIntFromString(orderId) > 0) {
             Map orderObj = this.getMyOneSingBO("wa_order", "order_id", Long.parseLong(orderId));
-            if (orderObj != null && orderObj.get("userId") != null && (long) orderObj.get("userId") == (user.getUserId()) && orderObj.get("orderState") != null && ((int) orderObj.get("orderState") == 1 || (int) orderObj.get("orderState") == 12)) {
-               String sql = "";
-               sql = " CALL khFukuanProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + saleMoney + "\',\'" + zfMethod + "\',\'" + balance + "\',\'" + loan + "\',\'" + certificateImg + "\',\'" + ip + "\')";
-               HashMap queryParam = new HashMap();
-               queryParam.put("strsql", sql);
-               this.commonMapper.simpleSelectReturnList(queryParam);
-               waOrderServiceImpl.checkOrderRepayOff(Long.parseLong(orderId));
-               ret = "1";
-               obj.put("content", ConstantUtil.MSG_SUCCESS);
+            if (orderObj != null && orderObj.get("userId") != null && (long) orderObj.get("userId") == (user.getUserId()) && orderObj.get("orderState") != null && ((int) orderObj.get("orderState") == 1)) {
+
+               int zfMethodi=Integer.parseInt(zfMethod);
+               if (zfMethodi==2||zfMethodi==4){
+                  BigDecimal Bbalance=new BigDecimal(balance);
+                  if (zfMethodi==2){
+                     Bbalance=new BigDecimal(saleMoney);
+                  }
+                  Map<String,Object> query=new HashMap<>();
+                  query.put("userId",user.getUserId());
+                  UserSubAccount userSubAccount=userSubAccountDao.singleQuery(query);
+                  ForceTransferBasicInfo forceTransferBasicInfo=cncbPayConnectServiceImpl.forceTransfer2TransferAccNo(userSubAccount.getSubAccNo(),Bbalance);
+                  CncbTrans cncbTrans=new CncbTrans();
+                  cncbTrans.setXml(forceTransferBasicInfo.getXml());
+                  cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
+                  cncbTrans.setTime(new Date());
+                  cncbTrans.setType((byte)1);
+                  JSONObject operationParamsObj=new JSONObject();
+                  operationParamsObj.put("sql"," CALL khFukuanProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + saleMoney + "\',\'" + zfMethod + "\',\'" + balance + "\',\'" + loan + "\',\'" + certificateImg + "\',\'" + ip + "\')");
+                  operationParamsObj.put("orderId",orderId);
+                  cncbTrans.setOperationParams(operationParamsObj.toJSONString());
+                  cncbTransDao.create(cncbTrans);
+                  query.clear();
+                  query.put("orderId",Long.parseLong(orderId));
+                  query.put("prodPayState",3);
+                  orderDao.updateOrderByID(query);
+                  ret="1";
+                  obj.put("content","处理中...");
+               }else {
+                  String sql = "";
+                  sql = " CALL khFukuanProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + saleMoney + "\',\'" + zfMethod + "\',\'" + balance + "\',\'" + loan + "\',\'" + certificateImg + "\',\'" + ip + "\')";
+                  HashMap queryParam = new HashMap();
+                  queryParam.put("strsql", sql);
+                  this.commonMapper.simpleSelectReturnList(queryParam);
+                  waOrderServiceImpl.checkOrderRepayOff(Long.parseLong(orderId));
+                  ret = "1";
+                  obj.put("content", ConstantUtil.MSG_SUCCESS);
+               }
             }
          }
-      } catch (Exception var22) {
+      }catch (Exception var22) {
          ret = "-2";
          obj.put("content", ConstantUtil.MSG_FAILS);
       }

@@ -118,7 +118,7 @@ public class CreditorController extends BaseController{
         long userId = user.getUserId();
         String ip = IPUtils.getIpAddr(request);
         try {
-            creditorServiceImpl.acceptLoan(loanId, userId, paymentDays, ip);
+            creditorServiceImpl.payLoan(loanId, userId, paymentDays, ip);
         } catch (Exception e) {
             e.printStackTrace();
             return R.error();
@@ -128,7 +128,6 @@ public class CreditorController extends BaseController{
 
     /**
      * 放款方拒绝
-     *
      * @param loanId
      * @param request
      * @return
