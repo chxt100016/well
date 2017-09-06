@@ -14,13 +14,13 @@
                         <tr>
                             <td class="form_label"><label for="">产品名称：</label></td>
                             <td>
-                                <input type="text" placeholder="请填写您的产品名称" class="" name="prodName" value="${prod.prodName}">
+                                <input type="text" placeholder="请填写您的产品名称" class="" name="prodName" value="${prod.prodName}"  disabled="disabled">
                             </td>
                             <input type="hidden" name="prodId" value="${prod.prodId}">
                             
                             <td class="form_label"><label for="">货源类型：</label></td>
                             <td>
-                                <select class="form-control" name="prodType">
+                                <select class="form-control" name="prodType"  disabled="disabled">
                                     <option>请选择你的货源分类</option>
                                     <option value="2" <c:if test="${prod.prodType==2}" >selected</c:if>>管道气</option>
                                     <option value="1" <c:if test="${prod.prodType==1}" >selected</c:if>>原油</option>
@@ -44,20 +44,20 @@
 
                             <input type="hidden" name="prodRegionId" id="prodRegionId" value="${prod.prodRegionId}">
                             <td colspan="3">
-                                <select id="provinceId" name="provinceId" onchange="selRegion(0);" style="width:132px;float:left;margin-right:3%;">
+                                <select id="provinceId" name="provinceId" onchange="selRegion(0);" style="width:132px;float:left;margin-right:3%;"  disabled="disabled">
 
                                     <option>--请选择省--</option>
                                     <c:forEach items="${provinceList}" var="item" varStatus="status">
                                         <option value="${item.regionId}" <c:if test="${item.regionId==provinceId}" >selected</c:if>>${item.regionName}</option>
                                     </c:forEach>
 						        </select>
-                                <select id="cityId" name="cityId" onchange="selRegion(1);"  style="width:132px;float:left;margin-right:3%;">
+                                <select id="cityId" name="cityId" onchange="selRegion(1);"  style="width:132px;float:left;margin-right:3%;"  disabled="disabled">
                                     <option>--请选择市--</option>
                                     <c:forEach items="${cityList}" var="item" varStatus="status">
                                         <option value="${item.regionId}"  <c:if test="${item.regionId==cityId}" >selected</c:if>  >${item.regionName}</option>
                                     </c:forEach>
                                 </select>
-                                <select id="regionId" name="regionId" onchange="selRegion(2);"  style="width:132px;float:left">
+                                <select id="regionId" name="regionId" onchange="selRegion(2);"  style="width:132px;float:left" >
                                     <option>--请选择区--</option>
                                     <c:forEach items="${countyList}" var="item" varStatus="status">
                                         <option value="${item.regionId}"  <c:if test="${item.regionId==prod.get('prodRegionId')}" >selected</c:if> >${item.regionName}</option>

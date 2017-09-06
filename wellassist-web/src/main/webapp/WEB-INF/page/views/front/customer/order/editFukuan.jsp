@@ -76,8 +76,8 @@
                     </tr>
 
                     <tr>
-                        <td>账户余额 ${orderInfo.userMoney}元</td>
-                        <td>授信余额  <c:if test="${userSumCredit!=0}">${orderInfo.userCreditMoney}元</c:if>
+                        <td>账户余额: <span id='balance'> </span>元</td>
+                        <td>授信余额 <c:if test="${userSumCredit!=0}">${orderInfo.userCreditMoney}元</c:if>
                             <c:if test="${userSumCredit==0}">&nbsp;&nbsp;未授信</c:if>
                         </td>
 					</tr>
@@ -438,8 +438,30 @@
 //         console.log(files.value)
 //     }
 
+	  //获取账户余额
+      const urrr = '${pageContext.request.contextPath}/finance/balance';
+			
+				$.ajax({
+					type: 'get',
+					url: urrr,
+					data: '',
+					dataType: 'json',
+					success:
+					function (result) {
+						if (result.code == 0) {
+							let bal= result.balance;
+							console.log(result.msg);
+                             $('#balance').html(bal)
+						}
+						else {
+							console.log(result.msg)
+						}
+					}
 
-    });
+
+				})
+
+       })
 </script>
 </html>
 
