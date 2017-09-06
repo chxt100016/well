@@ -35,5 +35,5 @@ public interface FinanceService {
 
     Map<String,Object> getLoanRepayInfo(long loanId);
 
-    BigDecimal getBalance(long userId);
+    BigDecimal getBalance(long userId) throws Exception;
 }

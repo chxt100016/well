@@ -1,17 +1,14 @@
 package org.wella.controller;
 
-import com.wellapay.cncb.service.CNCBPayConnectService;
 import io.wellassist.utils.HttpContextUtils;
 import io.wellassist.utils.IPUtils;
 import io.wellassist.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.wella.common.utils.ConstantUtil;
-import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.TradeDAO;
 import org.wella.dao.WithdrawDAO;
 import org.wella.entity.User;
@@ -21,8 +18,6 @@ import org.wella.service.MessageService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -139,7 +134,7 @@ public class WaFinanceController {
 
     @RequestMapping("balance")
     @ResponseBody
-    public R test(HttpServletRequest request){
+    public R test(HttpServletRequest request) throws Exception {
         long userId=((User)request.getSession().getAttribute("user")).getUserId();
         return R.ok().put("balance",financeServiceImpl.getBalance(userId));
     }

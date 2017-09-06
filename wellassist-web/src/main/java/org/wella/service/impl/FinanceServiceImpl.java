@@ -1,9 +1,14 @@
 package org.wella.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.wellapay.cncb.model.output.BalanceQueryOutput;
 import com.wellapay.cncb.service.CNCBPayConnectService;
+import com.wellapay.cncb.util.CNCBConstants;
+import com.wellapay.cncb.util.HttpConnectionUtil;
 import io.wellassist.utils.HttpContextUtils;
 import io.wellassist.utils.IPUtils;;
+import io.wellassist.utils.R;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.wella.common.utils.ConvertUtil;
@@ -15,6 +20,7 @@ import org.wella.entity.User;
 import org.wella.entity.UserSubAccount;
 import org.wella.service.FinanceService;
 import org.wella.service.MessageService;
+import org.wella.utils.WellaConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -80,7 +86,7 @@ public class FinanceServiceImpl implements FinanceService {
         return loan;
     }
 
-    @Override
+    /*@Override
     public BigDecimal getBalance(long userId) {
         Map<String,Object> query=new HashMap<>();
         query.put("userId",userId);
@@ -91,6 +97,22 @@ public class FinanceServiceImpl implements FinanceService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return balanceQueryOutput.getList().getList().get(0).getKYAMT();
+    }*/
+
+    @Override
+    public BigDecimal getBalance(long userId) throws Exception{
+        Map<String,Object> query=new HashMap<>();
+        query.put("userId",userId);
+        UserSubAccount userSubAccount=userSubAccountDao.singleQuery(query);
+        HttpConnectionUtil http=new HttpConnectionUtil(WellaConstants.CNCB_SERVER_BASEURL+"balanceQuery");
+        http.init();
+        Map<String,String> params=new HashMap();
+        params.put("subAccNo",userSubAccount.getSubAccNo().toString());
+        byte[] bys = http.postParams(params, true);
+        String result = new String(bys,"GB2312");
+        R r = JSON.parseObject(result,R.class);
+        BalanceQueryOutput balanceQueryOutput=JSON.parseObject(r.get("balanceQueryOutput").toString(),BalanceQueryOutput.class);
         return balanceQueryOutput.getList().getList().get(0).getKYAMT();
     }
 }
