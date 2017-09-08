@@ -80,7 +80,7 @@ public class HttpConnectionUtil {
     		outBuf
     			.append(entry.getKey())
     			.append('=')
-    			.append(URLEncoder.encode(entry.getValue(), "GBK"));
+    			.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
     	}
     	System.out.println("参数:"+outBuf.toString());
     	return postParams(outBuf.toString(),readreturn);
@@ -88,7 +88,7 @@ public class HttpConnectionUtil {
     
     public byte[] postParams(String message,boolean readreturn) throws IOException {
     	DataOutputStream out = new DataOutputStream(conn.getOutputStream());
-    	out.write(message.getBytes("GBK"));
+    	out.write(message.getBytes("UTF-8"));
     	out.close();
     	if(readreturn){
     		return readBytesFromStream(conn.getInputStream());
@@ -96,6 +96,18 @@ public class HttpConnectionUtil {
     		return null;
     	}
     }
+
+	public byte[] postParams(String message,boolean readreturn,String contentType) throws IOException {
+		conn.setRequestProperty("Content-Type", contentType);
+		DataOutputStream out = new DataOutputStream(conn.getOutputStream());
+		out.write(message.getBytes("UTF-8"));
+		out.close();
+		if(readreturn){
+			return readBytesFromStream(conn.getInputStream());
+		}else{
+			return null;
+		}
+	}
     
     public byte[] postParams(byte[] message,boolean readreturn) throws IOException {
     	DataOutputStream out = new DataOutputStream(conn.getOutputStream());

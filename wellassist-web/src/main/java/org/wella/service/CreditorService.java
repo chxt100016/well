@@ -25,7 +25,7 @@ public interface CreditorService {
      * @param operateIp
      * @return
      */
-    int payLoan(long loanId,long creditorUserId,int paymentDays,String operateIp);
+    int payLoan(long loanId,long creditorUserId,int paymentDays,String operateIp) throws Exception;
 
     /**
      *放款方接受放款指派

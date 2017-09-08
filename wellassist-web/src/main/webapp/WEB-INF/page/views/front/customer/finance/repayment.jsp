@@ -162,7 +162,7 @@
             repaySubmit:function(){
                 $.post('${pageContext.request.contextPath}/customer/repayLoan',{loanId:this.repaymentInfo.loanId,repayMoney:$('#repaymentAmount').val(),interest:this.repaymentInfo.Interest},function(data){
                     if(data.code==0){
-                        alert("还款成功");
+                        alert("还款处理中...");
                         window.history.go(-1);
                     }else{
                         alert(data.msg);

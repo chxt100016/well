@@ -1,5 +1,7 @@
 package org.wella.common.utils;
 
+import org.wella.utils.HttpConnectionUtil;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -218,5 +220,21 @@ public class CommonUtil {
         }
 
         return flag;
+    }
+
+    public static String connectCNCBLocalServer(String url,Map<String,String> params) throws Exception {
+        HttpConnectionUtil http=new HttpConnectionUtil(url);
+        http.init();
+        byte[] bys = http.postParams(params, true);
+        String result = new String(bys,"UTF-8");
+        return result;
+    }
+
+    public static String connectCNCBLocalServer(String url,String params,String contentType) throws Exception {
+        HttpConnectionUtil http=new HttpConnectionUtil(url);
+        http.init();
+        byte[] bys = http.postParams(params, true,contentType);
+        String result = new String(bys,"UTF-8");
+        return result;
     }
 }

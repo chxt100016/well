@@ -1,10 +1,15 @@
 package org.wella.utils;
 
 
+import com.wellapay.cncb.util.*;
+
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Random;
+import java.util.Map;
 
 public class CommonUtil {
     public CommonUtil() {
@@ -57,4 +62,14 @@ public class CommonUtil {
             return false;
         }
     }
+
+    public static String connectCNCBLocalServer(String url,Map<String,String> params) throws Exception {
+        HttpConnectionUtil http=new HttpConnectionUtil(url);
+        http.init();
+        byte[] bys = http.postParams(params, true);
+        String result = new String(bys,"UTF-8");
+        return result;
+    }
+
+
 }

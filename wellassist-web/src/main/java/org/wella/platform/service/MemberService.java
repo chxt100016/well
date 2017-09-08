@@ -54,7 +54,7 @@ public interface MemberService {
      * 通过时：更新用户状态，并项用户邮箱中发送相关信息
      * @param map
      */
-    void approve(Map map);
+    void approve(Map map) throws Exception;
 
     /**
      *注册申请通过时的业务处理

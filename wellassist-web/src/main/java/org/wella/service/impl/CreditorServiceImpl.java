@@ -1,12 +1,16 @@
 package org.wella.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.wellapay.cncb.model.ForceTransferBasicInfo;
 import com.wellapay.cncb.service.CNCBPayConnectService;
 import io.wellassist.utils.Query;
+import io.wellassist.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.wella.common.utils.CommonUtil;
+import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
 import org.wella.entity.CncbTrans;
@@ -90,19 +94,19 @@ public class CreditorServiceImpl implements CreditorService{
     }
 
     @Override
-    public int payLoan(long loanId, long creditorUserId, int paymentDays, String operateIp) {
+    public int payLoan(long loanId, long creditorUserId, int paymentDays, String operateIp) throws Exception {
         Map<String,Object> loan=loanDao.singleLoanByPrimaryKey(loanId);
         BigDecimal loanMoney=(BigDecimal)loan.get("loan_money");
 
         Map<String,Object> query=new HashMap<>();
         query.put("userId",creditorUserId);
         UserSubAccount userSubAccount=userSubAccountDao.singleQuery(query);
-        ForceTransferBasicInfo forceTransferBasicInfo= null;
-        try {
-            forceTransferBasicInfo = cncbPayConnectServiceImpl.forceTransfer2TransferAccNo(userSubAccount.getSubAccNo(),loanMoney);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Map<String,String> paramss=new HashMap<>();
+        paramss.put("payAccNo",userSubAccount.getSubAccNo().toString());
+        paramss.put("tranAmt",loanMoney.toString());
+        String result= CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer2TransferAccNo",paramss);
+        R r= JSON.parseObject(result,R.class);
+        ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
         CncbTrans cncbTrans=new CncbTrans();
         cncbTrans.setXml(forceTransferBasicInfo.getXml());
         cncbTrans.setClientId(forceTransferBasicInfo.getClientID());

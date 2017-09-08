@@ -154,7 +154,7 @@ public class MemberController extends AbstractController{
      * @return
      */
     @RequestMapping("approve")
-    public R approve (@RequestBody Map params) {
+    public R approve (@RequestBody Map params) throws Exception {
         memberServiceImpl.approve(params);
         return R.ok();
     }

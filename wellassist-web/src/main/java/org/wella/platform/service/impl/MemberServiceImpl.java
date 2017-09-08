@@ -1,11 +1,14 @@
 package org.wella.platform.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.qiniu.util.Json;
 import com.wellapay.cncb.model.input.Register;
 import com.wellapay.cncb.model.input.RegisterList;
 import com.wellapay.cncb.model.input.VilcstDataList;
 import com.wellapay.cncb.model.output.RegisterOutput;
 import com.wellapay.cncb.service.CNCBPayConnectService;
 import io.wellassist.utils.Query;
+import io.wellassist.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -101,7 +104,7 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     @Transactional
-    public void approve(Map map) {
+    public void approve(Map map) throws Exception {
         String comment=(String)map.get("comment");
         String email=(String)map.get("userEmail");
         Map updateMap=new HashMap();
@@ -124,12 +127,16 @@ public class MemberServiceImpl implements MemberService{
             list.add(vilcstDataList);
             registerList.setList(list);
             Register register=new Register(user.get("user_name").toString(),user.get("user_name").toString(), MapUtil.getStringfromMap(userinfo,"company_lp_name"),"0",user.get("legal_id_card").toString(),regionServiceImpl.getDetailAddress(Long.parseLong(userinfo.get("zc_region_id").toString()),userinfo.get("zc_xx_address").toString()),registerList);
-            RegisterOutput registerOutput=null;
+            /*RegisterOutput registerOutput=null;
             try {
                 registerOutput=cncbPayConnectServiceImpl.register(register);
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+            }*/
+            String params= JSON.toJSONString(register);
+            String result=CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"register",params,"application/json");
+            R r=JSON.parseObject(result,R.class);
+            RegisterOutput registerOutput= JSON.parseObject(r.get("registerOutput").toString(),RegisterOutput.class);
             UserSubAccount userSubAccount=new UserSubAccount();
             userSubAccount.setSubAccNo(registerOutput.getSubAccNo());
             userSubAccount.setSubAccNm(registerOutput.getSubAccNm());

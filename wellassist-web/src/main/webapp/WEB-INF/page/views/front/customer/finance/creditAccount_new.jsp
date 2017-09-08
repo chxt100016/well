@@ -120,7 +120,7 @@
                         <c:forEach items="${loans}" var="loan">
                         <tr>
                             <td><fmt:formatDate value="${loan.applyDate}" pattern="yyyy-MM-dd"/></td>
-                             <td >待还款</td>
+                            <td ><c:if test="${loan.loanState==2}">待还款</c:if><c:if test="${loan.loanState==21}">还款处理中</c:if></td>
                              <td><fmt:formatNumber value="${loan.loanMoney}" pattern="#,###.##" type="number"/></td>
                              <td>${loan.lixiRate}</td>
                              <td><fmt:formatNumber value="${loan.remainRepayMoney+loan.remainLixiMoney}" pattern="#,###.##" type="number"/></td>

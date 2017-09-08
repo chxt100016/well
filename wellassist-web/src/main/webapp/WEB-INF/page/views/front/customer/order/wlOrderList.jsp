@@ -84,6 +84,7 @@
                                 <c:if test="${item.logisticsPayState==0}">待付款</c:if>
                                 <c:if test="${item.logisticsPayState==1}">授信付款等待到账</c:if>
                                 <c:if test="${item.logisticsPayState==2}">线下付款审核中</c:if>
+                                <c:if test="${item.logisticsPayState==3}">付款处理中...</c:if>
                                 <c:if test="${item.logisticsPayState==5}">待商品订单付款</c:if>
                             </c:if>
                             </c:if>

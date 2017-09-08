@@ -1,9 +1,14 @@
 package org.wella.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.wellapay.cncb.model.ForceTransferBasicInfo;
+import io.wellassist.utils.R;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
 import org.wella.entity.*;
@@ -61,6 +66,10 @@ public class CustomerServiceImpl implements CustomerService {
     private RegionService regionServiceImpl;
     @Autowired
     private MessageServiceImpl messageServicesk;
+    @Autowired
+    private UserSubAccountDao userSubAccountDao;
+    @Autowired
+    private CncbTransDao cncbTransDao;
 
 
 
@@ -643,13 +652,46 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    public int repayLoanByBalance(long userId, long loanId, BigDecimal principal, BigDecimal interest, String ip) {
+    public int beforeRepayLoanByBalance(long userId, long loanId, BigDecimal principal, BigDecimal interest, String ip) throws Exception {
         Map<String, Object> user = waUserDao.singleUserByPrimaryKey(userId);
         BigDecimal oldUserMoney = (BigDecimal) user.get("user_money");
         if (oldUserMoney.compareTo(principal.add(interest)) < 0) {
             return 0;
         }
+        Map<String,Object> query=new HashMap<>();
+        query.put("userId",userId);
+        UserSubAccount userSubAccount=userSubAccountDao.singleQuery(query);
+        Map<String,String> paramss=new HashMap<>();
+        paramss.put("payAccNo",userSubAccount.getSubAccNo().toString());
+        paramss.put("tranAmt",principal.add(interest).toString());
+        String result= CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer2TransferAccNo",paramss);
+        R r= JSON.parseObject(result,R.class);
+        ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
+        CncbTrans cncbTrans=new CncbTrans();
+        cncbTrans.setXml(forceTransferBasicInfo.getXml());
+        cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
+        cncbTrans.setTime(new Date());
+        cncbTrans.setType((byte)4);
+        JSONObject operationParamsObj=new JSONObject();
+        operationParamsObj.put("userId",userId);
+        operationParamsObj.put("loanId",loanId);
+        operationParamsObj.put("principal",principal);
+        operationParamsObj.put("interest",interest);
+        operationParamsObj.put("ip",ip);
+        cncbTrans.setOperationParams(operationParamsObj.toJSONString());
+        cncbTransDao.create(cncbTrans);
+        query.clear();
+        query.put("loanId",loanId);
+        query.put("loanState",21);
+        loanDao.updateLoanByPrimaryKey(query);
+        return 1;
+    }
 
+    @Override
+    @Transactional
+    public int repayLoanByBalance(long userId, long loanId, BigDecimal principal, BigDecimal interest, String ip) {
+        Map<String, Object> user = waUserDao.singleUserByPrimaryKey(userId);
+        BigDecimal oldUserMoney = (BigDecimal) user.get("user_money");
         Map<String, Object> loan = loanDao.singleLoanByPrimaryKey(loanId);
         //update table wa_loan
         Map<String, Object> updateLoan = new HashMap<>();
@@ -661,6 +703,8 @@ public class CustomerServiceImpl implements CustomerService {
         updateLoan.put("remainLixiMoney", new BigDecimal(0));
         if (new BigDecimal(0).compareTo(remainRepayMoney) == 0) {
             updateLoan.put("loanState", 3);
+        }else {
+            updateLoan.put("loanState", 2);
         }
         loanDao.updateLoanByPrimaryKey(updateLoan);
 
@@ -708,7 +752,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<Map<String, Object>> getLoansIndebt(Map params) {
-        params.put("loanState", 2);
+        params.put("inLoanState", "(2,21)");
         List<Map<String, Object>> res = loanDao.listLoanByConditions(params);
         ConvertUtil.convertDataBaseMapToJavaMap(res);
         return res;

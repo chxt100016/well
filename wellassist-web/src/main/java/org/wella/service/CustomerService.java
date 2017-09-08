@@ -223,6 +223,16 @@ public interface CustomerService {
     BigDecimal getLoansSum(Long userId);
 
     /**
+     * 通过余额还款，提交银行订单
+     * @param userId
+     * @param loanId
+     * @param principal
+     * @param interest
+     * @param ip
+     */
+    int beforeRepayLoanByBalance(long userId,long loanId,BigDecimal principal,BigDecimal interest,String ip) throws Exception;
+
+    /**
      * 通过余额还款
      * @param userId
      * @param loanId

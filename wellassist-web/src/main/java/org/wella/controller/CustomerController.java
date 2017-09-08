@@ -1,5 +1,6 @@
 package org.wella.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.wellapay.cncb.model.ForceTransferBasicInfo;
 import com.wellapay.cncb.service.CNCBPayConnectService;
@@ -352,7 +353,13 @@ public class CustomerController extends BaseController {
                   Map<String,Object> query=new HashMap<>();
                   query.put("userId",user.getUserId());
                   UserSubAccount userSubAccount=userSubAccountDao.singleQuery(query);
-                  ForceTransferBasicInfo forceTransferBasicInfo=cncbPayConnectServiceImpl.forceTransfer2TransferAccNo(userSubAccount.getSubAccNo(),Bbalance);
+                  Map<String,String> paramss=new HashMap<>();
+                  paramss.put("payAccNo",userSubAccount.getSubAccNo().toString());
+                  paramss.put("tranAmt",Bbalance.toString());
+                  String result=CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer2TransferAccNo",paramss);
+                  R r= JSON.parseObject(result,R.class);
+                  ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
+                  //ForceTransferBasicInfo forceTransferBasicInfo=cncbPayConnectServiceImpl.forceTransfer2TransferAccNo(userSubAccount.getSubAccNo(),Bbalance);
                   CncbTrans cncbTrans=new CncbTrans();
                   cncbTrans.setXml(forceTransferBasicInfo.getXml());
                   cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
@@ -392,7 +399,7 @@ public class CustomerController extends BaseController {
    @RequestMapping(value = {"payLogistics"},
            method = {RequestMethod.POST})
    @ResponseBody
-   public JSONObject payLogistics(@RequestParam Map<String,Object> params, HttpServletRequest request, HttpServletResponse response) {
+   public JSONObject payLogistics(@RequestParam Map<String,Object> params, HttpServletRequest request, HttpServletResponse response) throws Exception {
       JSONObject obj = new JSONObject();
       String orderId = CommonUtil.GetRequestParam(request, "orderId", "0");
       String logisticsInfoId = CommonUtil.GetRequestParam(request, "logisticsInfoId", "0");
@@ -420,16 +427,51 @@ public class CustomerController extends BaseController {
       if (user != null && CommonUtil.getIntFromString(orderId) > 0) {
          Map orderObj = this.getMyOneSingBO("wa_order", "order_id", Long.parseLong(orderId));
          if (orderObj != null && orderObj.get("userId") != null && (long) orderObj.get("userId") == (user.getUserId()) && orderObj.get("orderState") != null && ((int) orderObj.get("orderState") == 1 || (int) orderObj.get("orderState") == 11) || (int) orderObj.get("orderState") == 13) {
-            String sql = "";
-            sql = " CALL logisticsPayProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + logisticsInfoId + "\',\'" + grabMoney + "\',\'" + zfMethod + "\',\'" + balance + "\',\'" + loan + "\',\'" + rate + "\',\'" + certificateImg + "\',\'" + ip + "\')";
-            HashMap queryParam = new HashMap();
-            queryParam.put("strsql", sql);
-            ArrayList<Map<String, Object>> result = this.commonMapper.simpleSelectReturnList(queryParam);
-            if ((int) result.get(0).get("result") == 1) {
-               waOrderServiceImpl.checkOrderRepayOff(Long.parseLong(orderId));
-               obj.put("content", ConstantUtil.MSG_SUCCESS);
+
+            int zfMethodi=Integer.parseInt(zfMethod);
+            if (zfMethodi==2||zfMethodi==4) {
+               BigDecimal Bbalance = new BigDecimal(balance);
+               if (zfMethodi == 2) {
+                  Bbalance = new BigDecimal(grabMoney);
+               }
+               Map<String,Object> query=new HashMap<>();
+               query.put("userId",user.getUserId());
+               UserSubAccount userSubAccount=userSubAccountDao.singleQuery(query);
+               Map<String,String> paramss=new HashMap<>();
+               paramss.put("payAccNo",userSubAccount.getSubAccNo().toString());
+               paramss.put("tranAmt",Bbalance.toString());
+               String result=CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer2TransferAccNo",paramss);
+               R r= JSON.parseObject(result,R.class);
+               ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
+               CncbTrans cncbTrans=new CncbTrans();
+               cncbTrans.setXml(forceTransferBasicInfo.getXml());
+               cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
+               cncbTrans.setTime(new Date());
+               cncbTrans.setType((byte)3);
+               JSONObject operationParamsObj=new JSONObject();
+               operationParamsObj.put("sql"," CALL logisticsPayProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + logisticsInfoId + "\',\'" + grabMoney + "\',\'" + zfMethod + "\',\'" + balance + "\',\'" + loan + "\',\'" + rate + "\',\'" + certificateImg + "\',\'" + ip + "\')");
+               operationParamsObj.put("orderId",orderId);
+               cncbTrans.setOperationParams(operationParamsObj.toJSONString());
+               cncbTransDao.create(cncbTrans);
+               query.clear();
+               query.put("orderId",Long.parseLong(orderId));
+               query.put("logisticsPayState",3);
+               orderDao.updateOrderByID(query);
                obj.put("status", "1");
+               obj.put("content","处理中...");
                return obj;
+            }else{
+               String sql = "";
+               sql = " CALL logisticsPayProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + logisticsInfoId + "\',\'" + grabMoney + "\',\'" + zfMethod + "\',\'" + balance + "\',\'" + loan + "\',\'" + rate + "\',\'" + certificateImg + "\',\'" + ip + "\')";
+               HashMap queryParam = new HashMap();
+               queryParam.put("strsql", sql);
+               ArrayList<Map<String, Object>> result = this.commonMapper.simpleSelectReturnList(queryParam);
+               if ((int) result.get(0).get("result") == 1) {
+                  waOrderServiceImpl.checkOrderRepayOff(Long.parseLong(orderId));
+                  obj.put("content", ConstantUtil.MSG_SUCCESS);
+                  obj.put("status", "1");
+                  return obj;
+               }
             }
          }
       }
@@ -1010,6 +1052,8 @@ public class CustomerController extends BaseController {
       //未还款授信
       Map param = this.getConditionParam(request);
       param.put("userId", userId);
+
+      //loanlist
       List<Map<String, Object>> loans = customerServiceImpl.getLoansIndebt(param);
       int totalCount = customerServiceImpl.getLoansIndebtCount(param);
       this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
@@ -1096,7 +1140,7 @@ public class CustomerController extends BaseController {
       BigDecimal bInterest = new BigDecimal(interest);
       BigDecimal principal = new BigDecimal(repayMoney).subtract(bInterest);
       try {
-         int res = customerServiceImpl.repayLoanByBalance(userId, Long.parseLong(loanId), principal, bInterest, ip);
+         int res = customerServiceImpl.beforeRepayLoanByBalance(userId, Long.parseLong(loanId), principal, bInterest, ip);
          if (res == 0) {
             return R.error("账户余额不足");
          }
