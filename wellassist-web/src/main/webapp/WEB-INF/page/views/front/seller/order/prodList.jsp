@@ -86,10 +86,10 @@
 					</td>
 					<td width="14%" style="color:#617B90;">
 						<c:if test="${item.prodState!='1'}">
-							<span class="span_btn" onclick="toURL('editProd', '${item.prodId}')">编辑</span>
+							<span class="span_btn pointer" onclick="toURL('editProd', '${item.prodId}')">编辑</span>
 						</c:if>
 						<c:if test="${item.prodState=='-2' or item.prodState=='-1' or item.prodState=='0'}">
-							<span class="span_btn_gray" onclick="toURL('deleteProd', '${item.prodId}')">&ensp;|&ensp;删除</span>
+							<span class="span_btn_gray pointer" onclick="toURL('deleteProd', '${item.prodId}')">&ensp;|&ensp;删除</span>
 						</c:if>
 					</td>
 				</tr>
