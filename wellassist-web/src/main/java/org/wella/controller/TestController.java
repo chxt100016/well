@@ -1,5 +1,6 @@
 package org.wella.controller;
 
+import com.alibaba.fastjson.JSON;
 import io.wellassist.utils.PageUtils;
 import io.wellassist.utils.Query;
 import io.wellassist.utils.R;
@@ -9,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.wella.common.utils.ConvertUtil;
+import org.wella.dao.CompanyBaseinfoDao;
 import org.wella.dao.LoanDao;
+import org.wella.entity.CompanyBaseinfo;
 import org.wella.platform.service.impl.MemberServiceImpl;
 import org.wella.dao.OrderDao;
 import org.wella.service.SellerService;
@@ -23,6 +26,10 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "/test/")
 public class TestController {
+
+    @Autowired
+    private CompanyBaseinfoDao companyBaseinfoDao;
+
     @Autowired
     private SellerService sellerServiceImpl;
     @Autowired
@@ -31,6 +38,8 @@ public class TestController {
     private LoanDao loanDao;
     @Autowired
     private OrderDao orderDao;
+
+
 
     @RequestMapping("test1")
     @ResponseBody
@@ -48,5 +57,16 @@ public class TestController {
         int totalCount=orderDao.listOrderCount(query);
         PageUtils pageUtils=new PageUtils(list,totalCount,query.getLimit(),query.getPage());
         return R.ok().put("page",pageUtils);
+    }
+
+    @RequestMapping("test")
+    @ResponseBody
+    public R test(){
+        CompanyBaseinfo companyBaseinfo= companyBaseinfoDao.query(5);
+
+        String companyBaseinfoStr=JSON.toJSONString(companyBaseinfo);
+        CompanyBaseinfo companyBaseinfo1=JSON.parseObject(companyBaseinfoStr,CompanyBaseinfo.class);
+
+        return R.ok().put("companyBaseinfo",companyBaseinfo);
     }
 }
