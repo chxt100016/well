@@ -1,5 +1,7 @@
 package test;
 
+import io.wellassist.api.ApiLoginController;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -16,6 +18,5 @@ public class Test {
         ReadableByteChannel rbc = Channels.newChannel(website.openStream());
         FileOutputStream fos = new FileOutputStream("D://xxx.xlsx");//例如：test.txt
         fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-
-    }
+     }
 }

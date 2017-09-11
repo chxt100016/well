@@ -63,7 +63,7 @@
         </div>
         <!--基本信息页-->
         <div class="ui container segment" id="first_rgpage">
-            <form class="ui form segment" id="register_form" style="border:none" enctype="multipart/form-data">
+            <form class="ui form segment" id="register_form" name="form1" style="border:none" enctype="multipart/form-data">
                 <h3 class="ui header">企业信息</h3>
                 <div class="ui divider"></div>
                 <div class="ui form">
@@ -71,13 +71,13 @@
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">企业名称：</div>
-                                <input type="text" name="companyname" placeholder="请输入企业名称" id="companyname" class="max_text focus" onkeypress="if(event.keyCode==13) focusNextInput(this);">
+                                <input type="text" name="companyname" placeholder="请输入企业名称" id="companyname" class="max_text focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                             </div>
                         </div>
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">企业执照号：</div>
-                                <input type="text" name="companyaccount" placeholder="请输入企业执照号" id="companyaccount" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this);">
+                                <input type="text" name="companyaccount" placeholder="请输入企业执照号" id="companyaccount" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                             </div>
                         </div>
 
@@ -87,7 +87,7 @@
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">企业类型：</div>
-                                <select class="ui dropdown" name="compkind">
+                                <select class="ui dropdown focus" name="compkind" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                                     <option value="">请选择</option>
                                     <option value="0">央企</option>
                                     <option value="1">国企</option>
@@ -105,7 +105,7 @@
                                 <div class="field">
                                     <div class="ui labeled input ">
                                         <div class="ui label">用户类型：</div>
-                                        <select class="ui dropdown" name="user_type" id="user_type" onchange="getUserType();">
+                                        <select class="ui dropdown focus" name="user_type" id="user_type" onchange="getUserType();" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                                             <option value="">请选择</option>
                                             <option value="0">卖家方</option>
                                             <option value="1">买家方</option>
@@ -118,7 +118,7 @@
                                       <div id ="sellerList" hidden="hidden">
                                       <div class="ui labeled input ">
                                             <div class=" ui label">联系卖家:</div>
-                                                <select name="supply_id"  id="supply_id" class="ui dropdown">
+                                                <select name="supply_id"  id="supply_id" class="ui dropdown focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                                                     <option value="0">--请选择卖家--</option>
                                                     <c:forEach items="${customerList}" var="item" varStatus="status">
                                                         <option value="${item.userId}">${item.userName}</option>
@@ -127,10 +127,10 @@
                                         </div>
                                       </div>
                                 </div>
-                                <div class="field" id="seller_binding" style="display:none">
+                                <!-- <div class="field" id="seller_binding" style="display:none">
                                     <div class="ui labeled input ">
                                         <div class="ui label">买家绑定：</div>
-                                        <select class="ui dropdown" name="user_type">
+                                        <select class="ui dropdown focus" name="user_type" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                                             <option value="">请选择</option>
                                             <option value="1">物流方</option>
                                             <option value="2">买家方</option>
@@ -138,8 +138,8 @@
                                             <option value="4">放款方</option>
                                         </select>
                                     </div>
-                                </div>
-                            </div>
+                                </div> -->
+                                                            </div>
                             <!--//买家绑定-->
                         </div>
 
@@ -150,16 +150,16 @@
                             <div class="ui labeled input ">
                                 <div class="ui label">地址:</div>
                                 <input type="hidden" name="zc_region_id" id="zc_region_id" />
-                                <select class="ui dropdown" name="provinceId" id="provinceId" onchange="selRegion(0);">
+                                <select class="ui dropdown focus" name="provinceId" id="provinceId" onchange="selRegion(0);"  onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                                     <option value="">--请选择省--</option>
                                     <c:forEach items="${provinceList}" var="item" varStatus="status">
                                         <option value="${item.regionId}">${item.regionName}</option>
                                     </c:forEach>
                                 </select>
-                                <select id="cityId" name="cityId" onchange="selRegion(1);">
+                                <select class="focus" id="cityId" name="cityId" onchange="selRegion(1);" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                                     <option>--请选择市--</option>
                                 </select>
-                                <select id="regionId" name="regionId" onchange="selRegion(2);">
+                                <select class="focus" id="regionId" name="regionId" onchange="selRegion(2);" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                                     <option>--请选择区--</option>
                                 </select>
 
@@ -170,7 +170,7 @@
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">具体地址：</div>
-                                <input type="text" name="address" placeholder="请输入具体地址" id="address" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this);">
+                                <input type="text" name="address" placeholder="请输入具体地址" id="address" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                             </div>
                         </div>
                     </div>
@@ -185,13 +185,13 @@
                             <div class="field">
                                 <div class="ui labeled input ">
                                     <div class="ui label">登录账户：</div>
-                                    <input type="text" name="user_name" placeholder="请输入登录账户" id="" class="max_text focus" onkeypress="if(event.keyCode==13) focusNextInput(this);">
+                                    <input type="text" name="user_name" placeholder="请输入登录账户" id="" class="max_text focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                                 </div>
                             </div>
                             <div class="field">
                                 <div class="ui labeled input ">
                                     <div class="ui label">登录密码：</div>
-                                    <input type="password" name="password" placeholder="请输入登录密码" id="" class="max_text focus" onkeypress="if(event.keyCode==13) focusNextInput(this);">
+                                    <input type="password" name="password" placeholder="请输入登录密码" id="" class="max_text focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                                 </div>
                             </div>
                         </div>
@@ -199,7 +199,7 @@
                             <div class="field">
                                 <div class="ui labeled input ">
                                     <div class="ui label">确认密码：</div>
-                                    <input type="password" name="Confirm_password" placeholder="请确认登录密码" id="" class="max_text focus" onkeypress="if(event.keyCode==13) focusNextInput(this);">
+                                    <input type="password" name="Confirm_password" placeholder="请确认登录密码" id="" class="max_text focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                                 </div>
                             </div>
 
@@ -238,13 +238,13 @@
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">联系人：</div>
-                                <input type="text" name="contact" placeholder="" id="" class="max_text focus" onkeyup="progress(50)" onkeypress="if(event.keyCode==13) focusNextInput(this);">
+                                <input type="text" name="contact" placeholder="" id="" class="max_text focus" onkeyup="progress(50)" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                             </div>
                         </div>
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">联系邮箱：</div>
-                                <input type="email" name="contactemail" placeholder="" id="" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this);">
+                                <input type="email" name="contactemail" placeholder="" id="" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                             </div>
                         </div>
 
@@ -253,13 +253,13 @@
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">手机号码：</div>
-                                <input type="text" name="contactphone" placeholder="" id="contactphone" class="max_text focus" onkeypress="if(event.keyCode==13) focusNextInput(this);">
+                                <input type="text" name="contactphone" placeholder="" id="contactphone" class="max_text focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                             </div>
                         </div>
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">座机号码：</div>
-                                <input type="text" name="contactseat" placeholder="" id="" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this);">
+                                <input type="text" name="contactseat" placeholder="" id="" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                             </div>
                         </div>
 
@@ -271,7 +271,7 @@
                         <div class="field">
                             <div class="ui labeled input ">
                                 <div class="ui label">企业法人身份证号：</div>
-                                <input type="text" name="legalIdCard" placeholder="" id="" class="max_text focus" onkeyup="progress(80)" onkeypress="if(event.keyCode==13) focusNextInput(this);">
+                                <input type="text" name="legalIdCard" placeholder="" id="" class="max_text focus" onkeyup="progress(80)" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                             </div>
                         </div>
                     </div>
@@ -344,7 +344,7 @@
                                 <div class="zizhititle">企业图片</div>
                                 <div>格式: JPG, PNG, GIF</div>
                                 <div>大小: 小于 5M</div>
-                                <input type="file" id="yingye_img4" name="yingye_img4_src" class="fileManage ui labeled input"  />
+                                <input type="file" id="yingye_img4" name="yingye_img4_src" class="fileManage ui labeled input focus imgInput" onkeypress="if(event.keyCode==13) focusNextInput(this,event);" />
                                 <input type="hidden" name="yingye_img4" />
                                 <img id="yingye_imgpath4" class="yingyeimg" style="width:100%;height:230px" src=""  />
                                 </div>
@@ -354,7 +354,7 @@
                                 <div class="zizhititle">营业执照</div>
                                 <div>格式: JPG, PNG, GIF</div>
                                 <div>大小: 小于 5M</div>
-                                <input type="file" id="yingye_img1" name="yingye_img1_src"  class="fileManage"  />
+                                <input type="file" id="yingye_img1" name="yingye_img1_src"  class="fileManage focus imgInput"  onkeypress="if(event.keyCode==13) focusNextInput(this,event);" />
                                 <input type="hidden" name="yingye_img1" />
                                 <img id="yingye_imgpath1" class="yingyeimg" style="width:100%; height:230px" src="" />
                                  </div>
@@ -365,7 +365,7 @@
                                 <div>格式: JPG, PNG, GIF</div>
                                 <div>大小: 小于 5M</div>
                                 <input type="hidden" name="yingye_img2"  class="fileManage"  />
-                                <input type="file" id="yingye_img2" name="yingye_img2_src"  class="fileManage" />
+                                <input type="file" id="yingye_img2" name="yingye_img2_src"  class="fileManage focus imgInput"  onkeypress="if(event.keyCode==13) focusNextInput(this,event);"/>
                                 <img id="yingye_imgpath2" class="yingyeimg" style="width:100%; height:230px" src="" />
                                 </div>
                             </div>
@@ -375,7 +375,7 @@
                                 <div>格式: JPG, PNG, GIF</div>
                                 <div>大小: 小于 5M</div>
                                 <input type="hidden" name="yingye_img3" />
-                                <input type="file" id="yingye_img3" name="yingye_img3_src" class="fileManage"  />
+                                <input type="file" id="yingye_img3" name="yingye_img3_src" class="fileManage focus imgInput"  onkeypress="if(event.keyCode==13) focusNextInput(this,event);" />
                                 <img id="yingye_imgpath3" class="yingyeimg" style="width:100%;height:230px" src="" />
                                 </div>
                             </div>
@@ -390,7 +390,7 @@
                 </div>
             <br><br>
 
-             <div style="align:center"> <button id="submit" class="ui primary button" style="width:100px;margin:0 auto;display:block;">提交</button> </div>
+             <div style="align:center"> <button id="submit" class="ui primary button focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);" style="width:100px;margin:0 auto;display:block;">提交</button> </div>
             </form>
 
         </div>
@@ -398,16 +398,30 @@
     </div>
 </body>
 <script>
-    function focusNextInput(thisInput){
+    function focusNextInput(thisInput,e){
+        if (!$(thisInput).hasClass("imgInput")) {
+            e.preventDefault();
+        }
+        
         var inputs = document.getElementsByClassName("focus");
         for(var i = 0;i<inputs.length;i++){
-            // 如果是最后一个，则焦点回到第一个
             if(i==(inputs.length-1)){
-              inputs[0].focus();
-              break;
+              if (confirm("是否提交?")) // 用户确认  
+                $("form[name='form1']").submit(); // 提交表单 
             }else if(thisInput == inputs[i]){
-              inputs[i+1].focus();
-              break;
+                if (i==3) {
+                    var userType = $("#user_type").val();
+                    if (userType == 1) {
+                        inputs[i+1].focus()||inputs[i+1].select();
+                    }
+                    else{
+                        inputs[i+2].focus()||inputs[i+2].select();
+                    }
+                }
+                else{
+                    inputs[i+1].focus()||inputs[i+1].select();
+                }
+                break;
             }
         }
     }  
@@ -772,6 +786,7 @@
             },
             inline: true,
             on: 'blur',
+            keyboardShortcuts: false,
             onSuccess: function(e) {
                 //阻止表单的提交
                 //console.log("onSuccess");
