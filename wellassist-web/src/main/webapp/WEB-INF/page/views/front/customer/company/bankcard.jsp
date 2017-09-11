@@ -7,11 +7,7 @@
     <title>银行卡管理</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        .container1{
-            background: url(../img/watermark.png) repeat;
-        }
-    </style>
+    
 </head>
 <body>   
 <div class="container1">

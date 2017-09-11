@@ -2,7 +2,7 @@
     <parent>
 		<groupId>io.wellassist</groupId>
 		<artifactId>wellassist-security</artifactId>
-		<version>${wellassist-version}</version>
+		<version>2.0.0</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>wellassist-web</artifactId>
@@ -64,6 +64,16 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.4</version>
+        </dependency>
+        <dependency>
+            <groupId>io.wellassist</groupId>
+            <artifactId>wellassist-CNCB</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.wellassist</groupId>
+            <artifactId>wellassist-CNCB</artifactId>
+            <version>2.0.0</version>
         </dependency>
 
     </dependencies>

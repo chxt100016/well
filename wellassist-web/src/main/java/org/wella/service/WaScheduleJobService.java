@@ -8,7 +8,6 @@ import com.wellapay.cncb.model.output.TransQueryOutputListEntity;
 import com.wellapay.cncb.service.CNCBPayConnectService;
 import com.wellapay.cncb.util.CNCBConstants;
 import io.wellassist.utils.R;
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
