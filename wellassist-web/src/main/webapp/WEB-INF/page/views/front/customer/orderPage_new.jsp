@@ -119,15 +119,15 @@
                         <div class=" inline field">
                             <label>选择地区</label>
                             <select type="text" placeholder="First Name" name="prodRegionId_0"> 
-                                <option value="">请选择省级信息</option>
+                                <option value="">-- 请选择省 --</option>
                                 <c:forEach var="item" items="${shengRegionList}" varStatus="status">
                                     <option value="${item.regionId}">${item.regionName}</option>
                                  </c:forEach>
                             </select>
-                            <select   name="prodRegionId_1" class="ui dropdown" style="display: none"> 
+                            <select   name="prodRegionId_1" class="ui dropdown"> 
                                  <option value=''>-- 请选择市 --</option>
                             </select>
-                            <select name="prodRegionId_2" class="ui dropdown" style="display: none"> 
+                            <select name="prodRegionId_2" class="ui dropdown"> 
                                  <option value=''>-- 请选择区 --</option>
                             </select>
 

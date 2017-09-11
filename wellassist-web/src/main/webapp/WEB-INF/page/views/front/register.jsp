@@ -405,8 +405,9 @@
         
         var inputs = document.getElementsByClassName("focus");
         for(var i = 0;i<inputs.length;i++){
+            //如果是最后一个，则需判断验证错误个数
             if(i==(inputs.length-1)){
-              if (confirm("是否提交?")) // 用户确认  
+              // if (confirm("是否提交?")) // 用户确认  
                 $("form[name='form1']").submit(); // 提交表单 
             }else if(thisInput == inputs[i]){
                 if (i==3) {
