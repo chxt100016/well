@@ -59,7 +59,7 @@ public class WaScheduleJobService {
 
 
 
-    @Scheduled(fixedRate = 300000)
+    @Scheduled(fixedRate = 60000)
     public void checkCncbTrans(){
         Map<String,Object> query=new HashMap();
         query.put("state",0);
