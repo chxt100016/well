@@ -152,9 +152,6 @@
 							<c:if test="${item.isSelfCar==0&&(item.prodPayState==0||item.prodPayState==-2)}"><span class="span_btn pointer" onClick="toURL('cancelOrder', '${item.orderId}')">取消订单</span></c:if>
 							<c:if test="${item.isSelfCar==1&&(item.prodPayState==0||item.prodPayState==-2)&&(item.logisticsPayState==0||item.logisticsPayState==-2)}"><span class="span_btn pointer" onClick="toURL('cancelOrder', '${item.orderId}')">取消订单</span></c:if>
 						</c:if>
-					<%--<c:if test="${item.orderState==1||item.orderState==12}">
-						<span class="span_btn pointer ft-wt-bd" onClick="toURL('editFukuan', '${item.orderId}')">付款</span>
-					</c:if>--%>
 						<c:if test="${item.orderState==1}">
 							<c:if test="${item.prodPayState==-2}"><span class="span_btn pointer ft-wt-bd" onClick="toURL('editFukuan', '${item.orderId}')">付款</span></c:if>
 							<c:if test="${item.prodPayState==0}"><span class="span_btn pointer ft-wt-bd" onClick="toURL('editFukuan', '${item.orderId}')">付款</span></c:if>
@@ -162,6 +159,9 @@
 					<c:if test="${item.orderState==3 ||item.orderState==4}">
 							<span class="span_btn" onClick="toURL('orderDetail', '${item.orderId}')">发货详情</span>
 					</c:if>
+						<c:if test="${item.orderState==5}">
+							<span class="span_btn pointer ft-wt-bd" onClick="toURL('secondPay', '${item.orderId}')">结算</span></c:if>
+						</c:if>
 							
 					<c:if test="${item.orderState==6}">
 						<span class="span_btn" onClick="toURL('editPingjia', '${item.orderId}')">评价</span>
@@ -215,43 +215,25 @@
 			else if(action=='detailVehicle'){
 				window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-detailOrder?orderType=1&orderId=" + orderId;
 			} else if(action=='editFukuan'){
-				/*window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-editFukuan?orderId=" + orderId;*/
-                /*alert("跳过付款过程");
-                $.post("${pageContext.request.contextPath}/customer/testPayOrder",{orderId:orderId},function(data){
-                    if(data.code==0){
-                        window.location.reload();
-                    }
-                },"json")
-                    .error(function(){
-                        alert("未知错误，请联系管理员");
-                    });*/
                 window.location.href = "${pageContext.request.contextPath}/customer/goPayOrder?orderId=" + orderId;
 			} else if(action=='editPingjia'){
 				window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-editPingjia?orderId=" + orderId;
 			} else if(action=='cancelOrder'){
 				if(confirm("你要确定取消操作吗？")){
-					/*$.post("${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-cancelOrder",{orderId:orderId},function(data){
-			    		data = $.parseJSON(data);
-			    		alert(data.content);
-			            if(data.status=="1"){
-			            	window.location.reload();
-			            }
-			      	})
-			      	.error(function(data){
-			      		alert("操作失败！");
-			      	});*/
 					$.post("${pageContext.request.contextPath}/customer/cancelOrder",{orderId:orderId},function(data){
                         data = $.parseJSON(data);
                         if(data.status==1){
                             window.location.reload();
                         }else{
-							alert("操作失败")
+							alert("操作失败");
 						}
                     })
 				}
 			} else if(action=='editFahuo'){
 				window.location.href = "${pageContext.request.contextPath}/front/customer/CustomerBackOrderCtrl-editFahuo?orderId=" + orderId;
-			}
+			}else if (action=='secondPay'){
+				window.location.href='${pageContext.request.contextPath}/customer/goSecondPayOrder?orderId='+orderId;
+            }
 		}
 	}
 </script>

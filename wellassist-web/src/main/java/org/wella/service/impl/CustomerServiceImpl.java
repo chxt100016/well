@@ -13,6 +13,7 @@ import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
 import org.wella.entity.*;
 import org.wella.service.CustomerService;
+import org.wella.service.FinanceService;
 import org.wella.service.RegionService;
 import org.wella.service.WaOrderService;
 import org.wella.utils.CommonUtil;
@@ -70,6 +71,12 @@ public class CustomerServiceImpl implements CustomerService {
     private UserSubAccountDao userSubAccountDao;
     @Autowired
     private CncbTransDao cncbTransDao;
+    @Autowired
+    private OrderTransDao orderTransDao;
+    @Autowired
+    private FinanceService financeServiceImpl;
+    @Autowired
+    private UserMoneyDao userMoneyDao;
 
 
 
@@ -803,5 +810,79 @@ public class CustomerServiceImpl implements CustomerService {
         return res;
     }
 
+    @Override
+    @Transactional
+    public void handle2ndPayProd(long orderId, BigDecimal secondPayMoney, int zfMethod, BigDecimal balance, BigDecimal loan, String certificateImg) throws Exception {
+        Map<String,Object> params=new HashMap<>();
+        params.put("orderId",orderId);
+        params.put("prod2ndpayState",5);
+        orderDao.updateOrderByID(params);
+        params.clear();
+        params.put("orderId",orderId);
+        params.put("transState",1);
+        Map<String,Object> orderTrans=orderTransDao.singlePoByConditions(params);
+        long orderTransId=(long)orderTrans.get("order_trans_id");
+        long moneyId=(long)orderTrans.get("money_id");
+        BigDecimal zfSjMoney=((BigDecimal)orderTrans.get("zf_money")).add(secondPayMoney);
+        BigDecimal zero=new BigDecimal(0);
+        params.clear();
+        params.put("orderTransId",orderTrans.get("order_trans_id"));
+        params.put("zfSjMoney",zfSjMoney);
+        if (secondPayMoney.compareTo(zero)>0){
+            params.put("zfMethod2",zfMethod);
+            params.put("balanceZfMoney2",balance);
+            params.put("loanZfMoney2",loan);
+        }
+        params.put("transState",3);
+        orderTransDao.update(params);
 
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        long supplierId=(long)order.get("supplier_id");
+        UserSubAccount seller=financeServiceImpl.getUserSubAccountByUserId(supplierId);
+        Map<String,String> paramss=new HashMap<>();
+        paramss.put("recvAccNo",seller.getSubAccNo());
+        paramss.put("recvAccNm",seller.getSubAccNm());
+        paramss.put("tranAmt",zfSjMoney.toString());
+        String result= org.wella.common.utils.CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransferFromTransferAccNo",paramss);
+        R r= JSON.parseObject(result,R.class);
+        ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
+        CncbTrans cncbTrans=new CncbTrans();
+        cncbTrans.setXml(forceTransferBasicInfo.getXml());
+        cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
+        cncbTrans.setTime(new Date());
+        cncbTrans.setType((byte)6);
+        JSONObject operationParamsObj=new JSONObject();
+        operationParamsObj.put("orderId",orderId);
+        operationParamsObj.put("zfSjMoney",zfSjMoney);
+        operationParamsObj.put("orderTransId",orderTransId);
+        operationParamsObj.put("moneyId",moneyId);
+        cncbTrans.setOperationParams(operationParamsObj.toJSONString());
+        cncbTransDao.create(cncbTrans);
+
+        params.clear();
+        params.put("orderId",orderId);
+        params.put("prod2ndpayState",6);
+        orderDao.updateOrderByID(params);
+    }
+
+    @Override
+    @Transactional
+    public void handlePay2Seller(long orderId, long orderTransId, long moneyId, BigDecimal zfSjMoney) {
+        Map<String,Object> params=new HashMap<>();
+        params.put("orderId",orderId);
+        params.put("prod2ndpayState",7);
+        orderDao.updateOrderByID(params);
+
+        params.clear();
+        params.put("orderTransId",orderTransId);
+        params.put("transState",5);
+        orderTransDao.update(params);
+
+        params.clear();
+        params.put("moneyId",moneyId);
+        params.put("jySjMoney",zfSjMoney);
+        params.put("completeDate",new Date());
+        params.put("jyState",2);
+        userMoneyDao.update(params);
+    }
 }

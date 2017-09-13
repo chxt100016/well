@@ -87,6 +87,12 @@ public class WaScheduleJobService {
                         case 4:
                             handleType4(cncbTrans,entity);
                             break;
+                        case 5:
+                            handleType5(cncbTrans,entity);
+                            break;
+                        case 6:
+                            handleType6(cncbTrans,entity);
+                            break;
                     }
                 }catch (CNCBException e){
                     e.printStackTrace();
@@ -101,6 +107,36 @@ public class WaScheduleJobService {
 
     }
 
+    private void handleType6(CncbTrans cncbTrans, TransQueryOutputListEntity entity) {
+    }
+
+    private void handleType5(CncbTrans cncbTrans, TransQueryOutputListEntity entity) throws Exception {
+        String operationParams=cncbTrans.getOperationParams();
+        Map params=JSON.parseObject(operationParams,Map.class);
+        long orderId=(long)(int)params.get("orderId");
+        BigDecimal secondPayMoney=(BigDecimal)params.get("secondPayMoney");
+        int zfMethod=(int)params.get("zfMethod");
+        BigDecimal balance=(BigDecimal)params.get("balance");
+        BigDecimal loan=(BigDecimal)params.get("loan");
+        String certificateImg=(String)params.get("certificateImg");
+        Map update=new HashMap();
+        update.put("id",cncbTrans.getId());
+        update.put("status",entity.getStatus());
+        update.put("statusText",entity.getStatusText());
+        if(CNCBConstants.CNCB_STATUS_SUCCESS.equals(entity.getStatus())){
+            update.put("state",1);
+            customerServiceImpl.handle2ndPayProd(orderId,secondPayMoney,zfMethod,balance,loan,certificateImg);
+        }else if(entity.getStatus().startsWith("AAAAAA")){
+
+        }else {
+            update.put("state",-1);
+            Map order=new HashMap();
+            order.put("orderId",orderId);
+            order.put("prod2ndpayState",0);
+            orderDao.updateOrderByID(order);
+        }
+        cncbTransDao.update(update);
+    }
 
 
     private void handleType3(CncbTrans cncbTrans, TransQueryOutputListEntity entity) {

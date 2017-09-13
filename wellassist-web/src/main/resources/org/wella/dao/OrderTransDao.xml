@@ -52,6 +52,9 @@
             <if test="inTransState != null">
                 AND trans_state in ${inTransState}
             </if>
+            <if test="transState != null">
+                AND trans_state=#{transState}
+            </if>
         </where>
         limit 1
     </select>
@@ -85,6 +88,15 @@
             </if>
             <if test="zfMethod != null" >
                 zf_method = #{zfMethod,jdbcType=TINYINT},
+            </if>
+            <if test="balanceZfMoney2 != null" >
+                balance_zf_money2 = #{balanceZfMoney2,jdbcType=DECIMAL},
+            </if>
+            <if test="loanZfMoney2 != null" >
+                loan_zf_money2 = #{loanZfMoney2,jdbcType=DECIMAL},
+            </if>
+            <if test="zfMethod2 != null" >
+                zf_method2 = #{zfMethod2,jdbcType=TINYINT},
             </if>
             <if test="zfId != null" >
                 zf_id = #{zfId,jdbcType=BIGINT},

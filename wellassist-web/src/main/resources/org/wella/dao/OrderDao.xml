@@ -89,6 +89,8 @@
             <if test="hasQuestion != null">has_question = #{hasQuestion}</if>
             <if test="prodPayState != null">prod_pay_state = #{prodPayState}</if>
             <if test="logisticsPayState != null">logistics_pay_state = #{logisticsPayState}</if>
+            <if test="prod2ndpayState!=null">prod_2ndpay_state=#{prod2ndpayState}</if>
+            <if test="logistics2ndpayState!=null">logistics_2ndpay_state=#{logistics2ndpayState}</if>
         </trim>
         where order_id = #{orderId}
     </update>

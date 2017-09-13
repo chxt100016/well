@@ -109,4 +109,12 @@ public class FinanceServiceImpl implements FinanceService {
         BalanceQueryOutput balanceQueryOutput=JSON.parseObject(r.get("balanceQueryOutput").toString(),BalanceQueryOutput.class);
         return balanceQueryOutput.getList().getList().get(0).getKYAMT();
     }
+
+    @Override
+    public UserSubAccount getUserSubAccountByUserId(long userId) {
+        Map<String,Object> query=new HashMap<>();
+        query.put("userId",userId);
+        UserSubAccount userSubAccount=userSubAccountDao.singleQuery(query);
+        return userSubAccount;
+    }
 }

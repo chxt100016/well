@@ -297,9 +297,23 @@ public interface CustomerService {
      */
     int getCreditListCount(Map params);
 
+    /**
+     * 买家多退少补
+     * @param orderId
+     * @param secondPayMoney
+     * @param zfMethod
+     * @param balance
+     * @param loan
+     * @param certificateImg
+     */
+    void handle2ndPayProd(long orderId, BigDecimal secondPayMoney, int zfMethod, BigDecimal balance, BigDecimal loan, String certificateImg) throws Exception;
 
-
-
-
-
+    /**
+     * 支付给卖家成功后数据入库
+     * @param orderId
+     * @param orderTransId
+     * @param moneyId
+     * @param zfSjMoney
+     */
+    void handlePay2Seller(long orderId,long orderTransId,long moneyId,BigDecimal zfSjMoney);
 }

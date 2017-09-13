@@ -1,5 +1,7 @@
 package org.wella.service;
 
+import org.wella.entity.UserSubAccount;
+
 import java.math.BigDecimal;
 import java.util.Map;
 
@@ -36,4 +38,11 @@ public interface FinanceService {
     Map<String,Object> getLoanRepayInfo(long loanId);
 
     BigDecimal getBalance(long userId) throws Exception;
+
+    /**
+     * 得到用户的附属账户信息
+     * @param userId
+     * @return
+     */
+    UserSubAccount getUserSubAccountByUserId(long userId);
 }
