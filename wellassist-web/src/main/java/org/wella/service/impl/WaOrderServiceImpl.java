@@ -237,4 +237,10 @@ public class WaOrderServiceImpl implements WaOrderService {
         }
         return false;
     }
+
+    @Override
+    public Map<String, Object> orderinfo(long orderId) {
+        Map<String,Object> orderinfo=orderDao.singleOrderinfoByPrimaryKey(orderId);
+        return orderinfo;
+    }
 }

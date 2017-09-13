@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by 丁建文 on 2017/5/10.
- */
 public interface OrderDao {
 
     void createOrder(Order order);
