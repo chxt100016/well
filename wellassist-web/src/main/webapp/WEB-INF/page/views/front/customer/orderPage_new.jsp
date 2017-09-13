@@ -52,7 +52,7 @@
             <div style="clear:both">
 
             </div>
-        <form  class="ui form"  id="infoForm" action="<c:url value="/customer/order"/>" method="post">
+        <form  class="ui form" name="form1" id="infoForm" action="<c:url value="/customer/order"/>" method="post">
              <input type="hidden" name="toRegionId" id = "toRegionId">
             <input type="hidden" name="prodId" value="${prod.prodId}">
             <input type="hidden" name="orderData" id="orderData">
@@ -92,7 +92,7 @@
                             <div class="item middleAlign pd-lf-30" style="height:200px">
                                 <div class=""> 数量:
                                     <div class="ui input">
-                                        <input type="text" placeholder="" style="width:100px" name="saleNum" id="saleNum" onkeyup="return validateNumber(this,value,0)">
+                                        <input type="text" placeholder="" style="width:100px" name="saleNum" id="saleNum" class="focus" onkeyup="return validateNumber(this,value,0)" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                                     </div>
                                     吨
                                 </div>
@@ -118,16 +118,16 @@
                     <div class=" equal width fields">
                         <div class=" inline field">
                             <label>选择地区</label>
-                            <select type="text" placeholder="First Name" name="prodRegionId_0"> 
+                            <select type="text" placeholder="First Name" name="prodRegionId_0" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);"> 
                                 <option value="">-- 请选择省 --</option>
                                 <c:forEach var="item" items="${shengRegionList}" varStatus="status">
                                     <option value="${item.regionId}">${item.regionName}</option>
                                  </c:forEach>
                             </select>
-                            <select   name="prodRegionId_1" class="ui dropdown"> 
+                            <select name="prodRegionId_1" class="ui dropdown focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);" style="display:none;"> 
                                  <option value=''>-- 请选择市 --</option>
                             </select>
-                            <select name="prodRegionId_2" class="ui dropdown"> 
+                            <select name="prodRegionId_2" class="ui dropdown" onkeypress="if(event.keyCode==13) focusNextInput(this,event);" style="display:none;"> 
                                  <option value=''>-- 请选择区 --</option>
                             </select>
 
@@ -136,7 +136,7 @@
                     <div class="two fields">
                         <div class=" inline field">
                             <label>详细地址</label>
-                            <input type="text" style="width:300px" id="toRegionAddr" name="toRegionAddr">
+                            <input type="text" style="width:300px" id="toRegionAddr" name="toRegionAddr" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                         </div>
                     </div>
                     <div class="two fields">
@@ -148,27 +148,27 @@
                     <div class="three fields">
                         <div class="inline field">
                             <label>提货时间</label>
-                            <input type="text" name="deliverDate" id="deliverDate"  onfocus="var receiveDate=$dp.$('receiveDate');WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){receiveDate.focus();},maxDate:'#F{$dp.$D(\'receiveDate\')}'})">
+                            <input type="text" name="deliverDate" id="deliverDate" class="focus"  onfocus="var receiveDate=$dp.$('receiveDate');WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){receiveDate.focus();},maxDate:'#F{$dp.$D(\'receiveDate\')}'})" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                         </div>
                         <div class="inline field">
                             <label>预计到货时间</label>
-                            <input type="text" name="receiveDate"  id="receiveDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'deliverDate\')}'})">
+                            <input type="text" name="receiveDate"  id="receiveDate" class="focus" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'deliverDate\')}'})" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                         </div>
                     </div>
                     <div class="three fields">
                         <div class="inline field">
                             <label>&#12288联系人</label>
-                            <input type="text" name="contacts" placeholder="请输入联系人姓名" id="contacts" >
+                            <input type="text" name="contacts" placeholder="请输入联系人姓名" id="contacts" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                         </div>
                         <div class="inline field">
                             <label>&#12288&#12288联系电话</label>
-                            <input type="text" placeholder="联系人电话" name="conTel" id="conTel" maxlength="11" class="number isPhone">
+                            <input type="text" placeholder="联系人电话" name="conTel" id="conTel" maxlength="11" class="number isPhone focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                         </div>
                     </div>
                     <div class="three fields">
                         <div class="inline field">
                             <label>期望运费</label>
-                            <input type="text" name="customerExceptCarriage" placeholder="需要物流时请填写" id="" > 元
+                            <input type="text" name="customerExceptCarriage" placeholder="需要物流时请填写" id="" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">&emsp;元
                         </div>
                         
                     </div>
@@ -182,12 +182,12 @@
                     <div class=" inline fields ">
                         <div class="field ">
                             <div class="ui radio checkbox">
-                                <input type="radio" name="isSelfCar" checked="checked" value="0" onclick="checkSelfCar(0)" style="margin-left:0px">
+                                <input type="radio" name="isSelfCar" checked="checked" value="0" onclick="checkSelfCar(0)" class="focus rad" style="margin-left:0px" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                                 <label>我有车</label></div>
                         </div>
                         <div class=" ui field ">
                             <div class="ui radio checkbox">
-                                <input type="radio" name="isSelfCar" value="1" onclick="checkSelfCar(1)" style="margin-left:0px">
+                                <input type="radio" name="isSelfCar" value="1" onclick="checkSelfCar(1)" class="focus rad" style="margin-left:0px" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                                 <label>需要物流</label></div>
                         </div>
                     </div>
@@ -197,7 +197,7 @@
                 <div class="ui active tab " data-tab="owns " id="vehiclepage">
                
                     <div>
-                        <span class="redtext pointer" onclick="$('.ui.modal').modal('show');" >&#12288&#12288+添加司机信息</span>
+                        <span class="redtext pointer rad" onclick="$('.ui.modal').modal('show');">&#12288&#12288+添加司机信息</span>
 
                     </div>
 
@@ -237,7 +237,7 @@
             </div>
             <div class="ui divider "></div>
             <div class="" style="margin:0 auto;width:100px">
-               <button class="ui blue button " type="submit " id="submit ">提交 </button>
+               <button class="ui blue button focus" type="submit " id="submit " onkeypress="if(event.keyCode==13) focusNextInput(this,event);">提交 </button>
             </div>
 
 
@@ -256,13 +256,13 @@
                         <div class="field ">
                             <div class="ui labeled input  ">
                                 <div class="ui label ">司机名称 </div>
-                                <input type="text " class="vh" placeholder=" " v-model="newVehicle.dr_name " id="dr_name" name="dr_name">
+                                <input type="text " class="vh act" placeholder=" " v-model="newVehicle.dr_name " id="dr_name" name="dr_name" @keypress="focusNextIn($event);">
                             </div>
                         </div>
                         <div class="field ">
                             <div class="ui labeled input vh">
                                 <div class="ui label ">电话 </div>
-                                <input type="text " class="vh number isPhone" placeholder=" " v-model="newVehicle.dr_tel " id="dr_tel" name="dr_tel">
+                                <input type="text " class="vh number isPhone act" placeholder=" " v-model="newVehicle.dr_tel " id="dr_tel" name="dr_tel" @keypress="focusNextIn($event);">
                             </div>
                         </div>
                      
@@ -273,13 +273,13 @@
                            <div class="field ">
                             <div class="ui labeled input ">
                                 <div class="ui label ">车牌 </div>
-                                <input type="text " class="vh" placeholder=" " v-model="newVehicle.dr_number " id="dr_number" name="dr_number">
+                                <input type="text " class="vh act" placeholder=" " v-model="newVehicle.dr_number " id="dr_number" name="dr_number" @keypress="focusNextIn($event);">
                             </div>
                         </div>
                          <div class="field ">
                             <div class="ui labeled input ">
                                 <div class="ui label ">车挂号 </div>
-                                <input type="text " class="vh" placeholder=" " v-model="newVehicle.hanging_number " id="dr_number" name="dr_number">
+                                <input type="text " class="vh act" placeholder=" " v-model="newVehicle.hanging_number " id="hanging_number" name="hanging_number" @keypress="focusNextIn($event);">
                             </div>
                         </div>
                     </div>
@@ -287,7 +287,7 @@
                            <div class="field ">
                             <div class="ui labeled input ">
                                 <div class="ui label ">容量 </div>
-                                <input type="text " class="vh" placeholder=" " v-model="newVehicle.actual_size" id="actual_size" name="actual_size">
+                                <input type="text " class="vh act" placeholder=" " v-model="newVehicle.actual_size" id="actual_size" name="actual_size"  @keypress="focusNextIn($event);">
                             </div>
                         </div>
                          
@@ -310,7 +310,7 @@
                 </div>
                 <div class="actions">
                     <div class="ui button cancel">取消</div>
-                    <div class="ui button green"  @click="createVehicle">保存</div>
+                    <div class="ui button green act" id="for1"  @click="createVehicle" @keypress="focusNextIn($event);">保存</div>
                 </div>
                 </form>
         </div>
@@ -324,6 +324,53 @@
     // $(function() {
     //     $('.tabular.menu .item').tab();
     // })
+    // function focusNextIn(thisInput){
+        
+    //     var acts = document.getElementsByClassName("act");
+    //     for(var i = 0;i<acts.length;i++){
+    //         //如果是最后一个，则需判断验证错误个数
+    //         if(i==(acts.length-1)){
+              
+    //             createVehicle(); 
+    //         }
+    //         else if(thisInput == acts[i])
+    //         {                
+    //             acts[i+1].focus(); 
+    //             break;
+    //         }
+    //     }
+    // }
+    function focusNextInput(thisInput,e){
+        e.preventDefault();
+        
+        var inputs = document.getElementsByClassName("focus");
+        for(var i = 0;i<inputs.length;i++){
+            //如果是最后一个，则需判断验证错误个数
+            if(i==(inputs.length-1)){
+              // if (confirm("是否提交?")) // 用户确认  
+                $("form[name='form1']").submit(); // 提交表单 
+            }
+            else if(thisInput == inputs[i])
+            {
+                var rads = document.getElementsByClassName("rad");
+                if (thisInput == rads[0]) {
+                    if (rads[0].checked) {
+                        rads[2].click();
+                    }
+                }
+                else if (thisInput == rads[1]) {
+                    if (rads[1].checked) {
+                        $("form[name='form1']").submit(); // 提交表单 
+                    }
+                }
+                else{
+                   inputs[i+1].focus(); 
+                }
+                
+                break;
+            }
+        }
+    } 
 </script>
 <script>
     var telRE = /^1(3|4|5|7|8)\d{9}$/;
@@ -380,7 +427,33 @@
             delVehicle: function(index) {
                 // 删一个数组元素  
                 this.Vehicles.splice(this.Vehicles.indexOf(index), 1);
+            },
+            focusNextIn:function(ev){
+
+                if (ev.keyCode == 13) {
+
+                    var el = ev.target;
+                    
+                    var acts = document.getElementsByClassName("act");
+                    for(var i = 0, len = acts.length - 1; i < len; ++i){
+
+                        console.log(i);
+                        if(i == len - 1){
+                            console.log("onSuccess");
+                            // acts[len].onclick();
+                            vm.createVehicle(); 
+                        }
+                        else if(el.id == acts[i].id)
+                        {                
+                             acts[i+1].focus(); 
+                             return;
+                             
+                        }
+
+                    }
+                }
             }
+
         }
     })
 </script>
@@ -553,7 +626,7 @@
 
                 $("select[name='prodRegionId_" + level + "']").html(str);
                 if(regionList.length != 0){
-                    $("select[name='prodRegionId_" + level + "']").show();
+                    $("select[name='prodRegionId_" + level + "']").addClass("focus").show();
                     $("#toRegionId").val("");
                 }else{
                     $("#toRegionId").val(pid);
