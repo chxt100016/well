@@ -120,5 +120,5 @@
 
 		  })
 	  })
-  </script>
+  </script> 
 <%@ include file="../footer.jsp"%>
