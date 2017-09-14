@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.dao.TradeDAO;
+import org.wella.dao.WaUserDao;
 import org.wella.dao.WithdrawDAO;
 import org.wella.entity.User;
 import org.wella.front.mapper.FrontUserMoneyMapper;
@@ -43,6 +44,9 @@ public class WaFinanceController {
 
     @Autowired
     private TradeDAO tradeDao;
+
+    @Autowired
+    private WaUserDao waUserDao;
 
 
     @RequestMapping("withdrawProcess")
@@ -134,9 +138,19 @@ public class WaFinanceController {
 
     @RequestMapping("balance")
     @ResponseBody
-    public R test(HttpServletRequest request) throws Exception {
+    public R balance(HttpServletRequest request) throws Exception {
         long userId=((User)request.getSession().getAttribute("user")).getUserId();
         return R.ok().put("balance",financeServiceImpl.getBalance(userId));
     }
+
+    @RequestMapping("creditBalance")
+    @ResponseBody
+    public R creditBalance(HttpServletRequest request){
+        long userId=((User)request.getSession().getAttribute("user")).getUserId();
+        Map<String,Object> user=waUserDao.singleUserByPrimaryKey(userId);
+        Object userCreditMoney=user.get("user_credit_money");
+        return R.ok().put("userCreditMoney",userCreditMoney);
+    }
+
 
 }

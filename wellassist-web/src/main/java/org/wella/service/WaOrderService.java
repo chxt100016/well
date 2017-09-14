@@ -66,4 +66,6 @@ public interface WaOrderService {
      */
     boolean checkOrderRepayOff(long orderId);
 
+    Map<String,Object> orderinfo(long orderId);
+
 }
