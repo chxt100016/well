@@ -43,7 +43,6 @@
 								<div onclick="$('#vehicleState').val('4');searchData(1);" class="item">已发货</div>
 								<div onclick="$('#vehicleState').val('5');searchData(1);" class="item">已完成</div>
 							</div>
-									
 							</div>
 					</th>
                     <th>交易操作</th>
@@ -59,8 +58,6 @@
                     <td class="right-border">
                         <img src="${item.prodImg}" alt="" width="100px" height="74px" class="ds-bl fl-lt">
                         <span class="ds-bl fl-lt pd-lf-20 ft-wt-bd " style="padding-top: 25px;width: 190px;"> ${item.prodName}</span>
-                        
-                        
                     </td>
                     <td class="right-border tx-ct" >
                         ${item.num}吨
@@ -76,7 +73,6 @@
                             <c:if test="${item.orderState==-2}">管理员取消订单</c:if>
                            	<c:if test="${item.state==-1}">无效</c:if>
 								<c:if test="${item.state==0}">待确认</c:if>
-								<%--<c:if test="${item.state==2}">待支付</c:if>--%>
                             <c:if test="${item.state==2}">
                             <c:if test="${item.orderState==1}">
                                 <c:if test="${item.logisticsPayState==-2}">线下付款审核不通过</c:if>
@@ -88,12 +84,13 @@
                                 <c:if test="${item.logisticsPayState==5}">待商品订单付款</c:if>
                             </c:if>
                             </c:if>
-								<%--<c:if test="${item.state==3}">待提货</c:if>
-								<c:if test="${item.state==4}">已发货</c:if>
-								<c:if test="${item.state==5}">已完成</c:if>--%>
                             <c:if test="${item.orderState==2}">待提货</c:if>
                             <c:if test="${item.state==4}">已发货</c:if>
-								<c:if test="${item.state==5}">已完成</c:if>
+								<c:if test="${item.state==5}">
+                                    <c:if test="${item.logistics2ndpayState==0}">已完成</c:if>
+                                    <c:if test="${item.logistics2ndpayState==6}">结算中</c:if>
+                                    </c:if>
+                            <c:if test="${item.state==6}">已结算</c:if>
                         </span>
                         <br>
                         <span class="ds-bl fl-lt  pd-lf-20">
@@ -108,15 +105,15 @@
                            <c:if test="${item.state==0}">
 						<span class="span_btn" onClick="toURL('qiangdan', '${item.logisticsId}')">抢单详情</span>
 					</c:if>
-					<%--<c:if test="${item.state==2}">
-						<span class="span_btn" onClick="toURL('payLogistics', '${item.logisticsId}')">付款</span>
-					</c:if>--%>
                              <c:if test="${item.state==2}">
                              <c:if test="${item.orderState==1}">
                                  <c:if test="${item.logisticsPayState==-2}"><span class="span_btn" onClick="toURL('payLogistics', '${item.logisticsId}')">付款</span></c:if>
                                  <c:if test="${item.logisticsPayState==0}"><span class="span_btn" onClick="toURL('payLogistics', '${item.logisticsId}')">付款</span></c:if>
                              </c:if>
                          </c:if>
+                            <c:if test="${item.state==5}">
+                                <c:if test="${item.logistics2ndpayState==0}"><span class="span_btn" onClick="settleLogistics(${item.logisticsId})">结算</span></c:if>
+                            </c:if>
                          </span>
                        
                     </td>
@@ -162,17 +159,6 @@
 			if(action=='qiangdan'){
 				window.location.href = "${pageContext.request.contextPath}/customer/grabLogisticsList?logisticsInfoId=" + vehicleTrans;
 			}else if(action=="payLogistics"){
-			    /*window.location.href="${pageContext.request.contextPath}/customer/payLogistics?logisticsInfoId="+vehicleTrans;*/
-				/*alert("跳过付款过程");
-                $.post("${pageContext.request.contextPath}/customer/testPayLogistics",{logisticsInfoId:vehicleTrans},function(data){
-                    data = $.parseJSON(data);
-                    if(data.code==0){
-                        window.location.reload();
-                    }
-                })
-                    .error(function(data){
-                        alert("未知错误，请联系管理员");
-                    });*/
 				window.location.href="${pageContext.request.contextPath}/customer/goPayLogistics?logisticsInfoId="+vehicleTrans;
             }
 			else if(action=='shouhuo'){
@@ -209,6 +195,12 @@
 			}
 		}
 	}
+
+	function settleLogistics(logisticsId){
+	    $.post("${pageContext.request.contextPath}/customer/secondPayLogisticsSub",{logisticsId:logisticsId},function(r){
+            window.location.reload();
+        },"json");
+    }
 </script>
 
 <%@ include file="../footer.jsp"%>

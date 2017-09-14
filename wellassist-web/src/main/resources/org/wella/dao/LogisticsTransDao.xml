@@ -13,6 +13,9 @@
             <if test="inTransState != null">
                 AND trans_state in ${inTransState}
             </if>
+            <if test="transState != null">
+                AND trans_state=#{transState}
+            </if>
         </where>
         limit 1
     </select>
@@ -20,17 +23,8 @@
     <update id="update" parameterType="map" >
         update wa_logistics_trans
         <set >
-            <if test="logisticsInfoId != null" >
-                logistics_info_id = #{logisticsInfoId,jdbcType=BIGINT},
-            </if>
-            <if test="orderId != null" >
-                order_id = #{orderId,jdbcType=BIGINT},
-            </if>
             <if test="loanId != null" >
                 loan_id = #{loanId,jdbcType=BIGINT},
-            </if>
-            <if test="moneyId != null" >
-                money_id = #{moneyId,jdbcType=BIGINT},
             </if>
             <if test="zfMoney != null" >
                 zf_money = #{zfMoney,jdbcType=DECIMAL},

@@ -104,6 +104,9 @@ public class CustomerController extends BaseController {
    @Autowired
    private CncbTransDao cncbTransDao;
 
+   @Autowired
+   private LogisticsInfoDao logisticsInfoDao;
+
    /**
     * 买家下订单
     *
@@ -1215,6 +1218,7 @@ public class CustomerController extends BaseController {
       UserSubAccount userSubAccount=financeServiceImpl.getUserSubAccountByUserId(user.getUserId());
       String subAccNo=userSubAccount.getSubAccNo();
       String subAccNm=userSubAccount.getSubAccNm();
+      Map<String,Object> param=new HashMap<>();
       Map<String,String> paramss=new HashMap<>();
       //多退
       if (secondPayMoney.compareTo(zero)<0){
@@ -1239,6 +1243,9 @@ public class CustomerController extends BaseController {
          operationParamsObj.put("certificateImg",certificateImg);
          cncbTrans.setOperationParams(operationParamsObj.toJSONString());
          cncbTransDao.create(cncbTrans);
+         param.put("orderId",orderId);
+         param.put("prod2ndpayState",3);
+         orderDao.updateOrderByID(param);
          return R.ok().put("msg","结算中...");
       }else if (secondPayMoney.compareTo(zero)==0){
          customerServiceImpl.handle2ndPayProd(orderId,secondPayMoney,zfMethod,balance,loan,certificateImg);
@@ -1265,6 +1272,9 @@ public class CustomerController extends BaseController {
             operationParamsObj.put("certificateImg",certificateImg);
             cncbTrans.setOperationParams(operationParamsObj.toJSONString());
             cncbTransDao.create(cncbTrans);
+            param.put("orderId",orderId);
+            param.put("prod2ndpayState",3);
+            orderDao.updateOrderByID(param);
             return R.ok().put("msg","结算中...");
          }else {
             return R.error().put("msg","暂不支持余额外的支付方式");
@@ -1273,6 +1283,40 @@ public class CustomerController extends BaseController {
       return R.ok();
    }
 
-
+   @RequestMapping(value = "secondPayLogisticsSub",method = RequestMethod.POST)
+   @ResponseBody
+   @Transactional
+   public R secondPayLogisticsSub(@RequestParam("logisticsId")long logisticsId) throws Exception {
+      Map<String,Object> logisticsInfo=logisticsInfoDao.singleLogisticsInfoByPrimaryKey(logisticsId);
+      BigDecimal prePayment=(BigDecimal)logisticsInfo.get("pre_payment");
+      long senderUserId=(long)logisticsInfo.get("sender_user_id");
+      long orderId=(long)logisticsInfo.get("order_id");
+      UserSubAccount senderSubAccount=financeServiceImpl.getUserSubAccountByUserId(senderUserId);
+      String subAccNo=senderSubAccount.getSubAccNo();
+      String subAccNm=senderSubAccount.getSubAccNm();
+      Map<String,String> paramss=new HashMap<>();
+      paramss.put("recvAccNo",subAccNo);
+      paramss.put("recvAccNm",subAccNm);
+      paramss.put("tranAmt",prePayment.toString());
+      String result=CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransferFromTransferAccNo",paramss);
+      R r= JSON.parseObject(result,R.class);
+      ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
+      CncbTrans cncbTrans=new CncbTrans();
+      cncbTrans.setXml(forceTransferBasicInfo.getXml());
+      cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
+      cncbTrans.setTime(new Date());
+      cncbTrans.setType((byte)7);
+      JSONObject operationParamsObj=new JSONObject();
+      operationParamsObj.put("logisticsId",logisticsId);
+      operationParamsObj.put("orderId",orderId);
+      operationParamsObj.put("zfSjMoney",prePayment);
+      cncbTrans.setOperationParams(operationParamsObj.toJSONString());
+      cncbTransDao.create(cncbTrans);
+      Map<String,Object> params=new HashMap<>();
+      params.put("orderId",orderId);
+      params.put("logistics2ndpayState",6);
+      orderDao.updateOrderByID(params);
+      return R.ok().put("mag","结算中...");
+   }
 
 }
