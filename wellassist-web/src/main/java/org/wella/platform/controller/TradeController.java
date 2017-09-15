@@ -1,21 +1,28 @@
 package org.wella.platform.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.wellapay.cncb.model.ForceTransferBasicInfo;
 import io.wellassist.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.wella.common.ctrl.BaseController;
+import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.LogisticsTransDao;
 import org.wella.dao.OrderTransDao;
 import org.wella.dao.TradeDAO;
+import org.wella.dao.WithdrawDAO;
+import org.wella.entity.UserSubAccount;
 import org.wella.platform.service.TradeService;
+import org.wella.service.FinanceService;
 import org.wella.service.MessageService;
 
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +48,12 @@ public class TradeController extends BaseController {
 
     @Autowired
     private MessageService messageServicesk;
+
+    @Autowired
+    private WithdrawDAO withdrawDAO;
+
+    @Autowired
+    private FinanceService financeServiceImpl;
 
     @RequestMapping("tradeList")
     @ResponseBody
@@ -189,19 +202,43 @@ public class TradeController extends BaseController {
 
     @RequestMapping("withdrawHandle")
     @ResponseBody
-    public R withdrawHandle(@RequestParam Map<String,Object> param) {
-        Query query = new Query(param);
+    public R withdrawHandle(@RequestParam Map<String,Object> param) throws Exception {
+        int withdrawState=Integer.parseInt((String) param.get("withdrawState"));
+        long withdrawId=Long.parseLong(param.get("withdrawId").toString());
         param.put("userId",ShiroUtils.getUserId());
         param.put("withdrawIp",IPUtils.getIpAddr(HttpContextUtils.getHttpServletRequest()));
-        int res = tradeDAO.withdrawHandle(param);
-        long withdrawId=Long.parseLong(param.get("withdrawId").toString());
-        int withdrawState=Integer.parseInt(param.get("withdrawState").toString());
-        messageServicesk.handleWithdrawHandleMessage(withdrawId,withdrawState);
-        if(res==1){
-            return R.ok().put("state",1);
-        }else {
-            return R.error().put("state",0);
+        if (withdrawState==1){
+            int res = tradeDAO.withdrawHandle(param);
+            messageServicesk.handleWithdrawHandleMessage(withdrawId,withdrawState);
+            if(res==1){
+                return R.ok().put("state",1);
+            }else {
+                return R.error().put("state",0);
+            }
+        }else if (withdrawState==2){
+            Map<String,Object> withdraw=withdrawDAO.singlePoByPrimaryKey(withdrawId);
+            long userId=(long)withdraw.get("user_id");
+            String account=withdraw.get("account").toString();
+            BigDecimal withdrawMoney=(BigDecimal) withdraw.get("withdraw_money");
+            UserSubAccount userSubAccount=financeServiceImpl.getUserSubAccountByUserId(userId);
+            Map<String,String> paramss=new HashMap<>();
+            paramss.put("accountNo",userSubAccount.getSubAccNo());
+            paramss.put("recvAccNo",account);
+            paramss.put("recvAccNm","潘晓燕");
+            paramss.put("tranAmt",withdrawMoney.toString());
+            paramss.put("payType","2B");
+            String result= CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"SamebankNotprePlatformOutGold",paramss);
+            R r= JSON.parseObject(result,R.class);
+            ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
+            if (!forceTransferBasicInfo.getStatus().startsWith("AAAAAA")){
+                Map<String,Object> update=new HashMap<>();
+                update.put("withdrawId",withdrawId);
+                update.put("withdrawState",-2);
+                update.put("content",forceTransferBasicInfo.getStatusText());
+                withdrawDAO.update(update);
+            }
         }
+        return R.ok().put("state",1);
     }
 //    @RequestMapping("logisticsList")
 //    @ResponseBody

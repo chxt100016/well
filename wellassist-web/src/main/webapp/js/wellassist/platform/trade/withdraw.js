@@ -8,27 +8,30 @@ $(function () {
         colModel: [
             // { label: 'id', name: 'withdrawId', index: "withdraw_id", width: 45, key: true },
             { label: '公司', name: 'userName', width: 75 },
-            { label: '提现金额', name: 'withdrawMoney', width: 100 ,formatter:function (value,option,row) {
+            { label: '提现金额', name: 'withdrawMoney', width: 50 ,formatter:function (value,option,row) {
                 return value+"元";
             }},
             { label: '开户行', name: 'withdrawBank', width: 100 ,formatter:function (value,option,row) {
-                return value+"元<br>";
+                return value+"<br>";
             }},
             { label: '户主', name: 'withdrawName', width: 100
             },
             { label: '提现时间', name: 'withdrawDate', width: 100
             },
-            { label: '状态', name: 'withdrawState', width: 100, formatter:function (value,option,row) {
+            { label: '状态', name: 'withdrawState', width: 50, formatter:function (value,option,row) {
                 if(value==0){
                     return "申请";
                 }else if(value ==-1){
                     return "不通过";
+                }else if(value ==-2){
+                    return "提现失败";
                 }else  if(value==1){
                     return "待付款";
                 }else {
                     return "已付款";
                 }
-            }},
+            }},{ label: '内容', name: 'content', width: 100
+            },
             { label: '操作', name: 'withdrawState', width: 100, formatter:function (value,option,row) {
                 var withdrawId = row.withdrawId;
                 if(value==0){

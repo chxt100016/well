@@ -804,8 +804,6 @@ public class CustomerController extends BaseController {
    }
 
    /**
-    *
-    *
     * @param model
     * @return
     */
@@ -826,7 +824,6 @@ public class CustomerController extends BaseController {
 
    /**
     * 进入联系方式的修改页面
-    *
     * @param model
     * @return
     */
