@@ -321,25 +321,7 @@
         
 </body>
 <script>
-    // $(function() {
-    //     $('.tabular.menu .item').tab();
-    // })
-    // function focusNextIn(thisInput){
-        
-    //     var acts = document.getElementsByClassName("act");
-    //     for(var i = 0;i<acts.length;i++){
-    //         //如果是最后一个，则需判断验证错误个数
-    //         if(i==(acts.length-1)){
-              
-    //             createVehicle(); 
-    //         }
-    //         else if(thisInput == acts[i])
-    //         {                
-    //             acts[i+1].focus(); 
-    //             break;
-    //         }
-    //     }
-    // }
+    
     function focusNextInput(thisInput,e){
         e.preventDefault();
         

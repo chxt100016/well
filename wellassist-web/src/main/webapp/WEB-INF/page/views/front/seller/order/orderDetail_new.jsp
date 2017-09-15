@@ -100,7 +100,7 @@
             </span><br>
             <span>下单时间：</span>
             <span><fmt:formatDate value="${info.orderDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span>
-            <span style="margin-left:11.5%;">联系人：</span>
+            <span style="margin-left:12.5%;">联系人：</span>
 
             <span>${info.customerContacts}</span><br>
             <span>发货时间：</span>

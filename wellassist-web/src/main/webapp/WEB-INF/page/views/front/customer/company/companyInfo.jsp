@@ -93,7 +93,7 @@ div.error{
 								<span style="margin-right:24px;">笔</span>
 							</div>
 							<div class="ui" style="margin-bottom:12px;font-size:16px;">
-                                <a id="upload" class="ui button primary" style="width:100px;height:40px">更换头像 </a>
+                                <a id="upload" class="ui button primary focus" style="width:100px;height:40px" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">更换头像 </a>
                                 <input type="hidden" class="" name="companyImg" value="${userInfo.companyImg}">
 								<!-- <a class="fancybox" rel="group" href="userInfo.companyImg">
 									<img id="icon" src="userInfo.companyImg" width="136px" height="134px" />
@@ -104,19 +104,19 @@ div.error{
 				</div>
 				<div style="margin-top:24px;display: inline-block;width: 90%;padding-left:45px;">
 					<span style="display:inline-block;width:10%;font-size:14px;">所在地区</span>
-					<select class="ui selection dropdown" id="provinceId" name="provinceId" onchange="selRegion(0);">
+					<select class="ui selection dropdown focus" id="provinceId" name="provinceId" onchange="selRegion(0);" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
 						<option>--请选择省--</option>
 						<c:forEach items="${provinceList}" var="item" varStatus="status">
 							<option value="${item.regionId}" <c:if test="${item.regionId==provinceId}" >selected</c:if> >${item.regionName}</option>
 						</c:forEach>
 					</select>
-					<select class="ui selection dropdown" id="cityId" name="cityId" onchange="selRegion(1);">
+					<select class="ui selection dropdown focus" id="cityId" name="cityId" onchange="selRegion(1);" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
 						<option>--请选择市--</option>
 						<c:forEach items="${cityList}" var="item" varStatus="status">
 							<option value="${item.regionId}"  <c:if test="${item.regionId==cityId}" >selected</c:if>  >${item.regionName}</option>
 						</c:forEach>
 					</select>
-					<select class="ui selection dropdown" id="regionId" name="regionId" onchange="selRegion(2);">
+					<select class="ui selection dropdown focus" id="regionId" name="regionId" onchange="selRegion(2);" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
 						<option>--请选择区--</option>
 						<c:forEach items="${countyList}" var="item" varStatus="status">
 							<option value="${item.regionId}"  <c:if test="${item.regionId==userInfo.zcRegionId}" >selected</c:if> >${item.regionName}</option>
@@ -128,7 +128,7 @@ div.error{
 				<div style="margin-top:24px;padding-left:45px;display: inline-block;width: 90%;">
 					<span style="display:inline-block;width:10%;font-size:14px;">详细地址</span>
 					<div class="ui input" style="width:38.7%;">
-						<input type="textarea" name="zcXxAddress" id="zcXxAddress" placeholder="请输入详细地址" style="width:40%;" value="${userInfo.zcXxAddress}">
+						<input type="textarea" name="zcXxAddress" id="zcXxAddress" placeholder="请输入详细地址" style="width:40%;" value="${userInfo.zcXxAddress}" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
 					</div>
 				</div>
 		
@@ -136,14 +136,14 @@ div.error{
 				<div style="margin-top:24px;padding-left:45px;display: inline-block;width: 90%;">
 					<span style="display:inline-block;width:10%;font-size:14px;">电子邮箱</span>
 					<div class="ui input" style="width:38.7%;">
-						<input type="text" name="userEmail" id="userEmail" placeholder="请输入电子邮箱" style="width:40%;" value="${user.userEmail}">
+						<input type="text" name="userEmail" id="userEmail" placeholder="请输入电子邮箱" style="width:40%;" value="${user.userEmail}" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
 					</div>
 				</div>
 				
 				<div style="margin-top:24px;padding-left:45px;display: inline-block;width: 90%;">
 					<span style="display:inline-block;width:10%;font-size:14px;">手机号码</span>
 					<div class="ui input" style="width:38.7%;">
-						<input type="text" name="userPhone" id="userPhone" placeholder="请输入手机号码" style="width:40%;" value="${user.userPhone}">
+						<input type="text" name="userPhone" id="userPhone" placeholder="请输入手机号码" style="width:40%;" value="${user.userPhone}" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
 					</div>
 				</div>
 				
@@ -158,14 +158,14 @@ div.error{
 					<div style="font-size:14px;padding-left:8px;padding-top:32px;">
 						<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">联系人</span>
 						<div class="ui input">
-						  	<input type="text" name="companyLxr" id="companyLxr" placeholder="请输入联系人" value="${userInfo.companyLxr}">
+						  	<input type="text" name="companyLxr" id="companyLxr" placeholder="请输入联系人" value="${userInfo.companyLxr}" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
 						</div>
 						
 					</div>
 					<div style="font-size:14px;padding-left:8px;padding-top:24px;">
 						<span style="display:inline-block;width:10%;text-align:right;margin-right:16px;">联系人手机号码</span>
 						<div class="ui input">
-							<input type="text" name="companyLxrPhone" id="companyLxrPhone" placeholder="请输入联系手机号码"  value="${userInfo.companyLxrPhone}">
+							<input type="text" name="companyLxrPhone" id="companyLxrPhone" placeholder="请输入联系手机号码"  value="${userInfo.companyLxrPhone}" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
 						</div>
                     </div>
                     <!-- <div style="font-size:14px;padding-left:8px;padding-top:24px;">
@@ -181,7 +181,7 @@ div.error{
 			  <div style="margin-top:24px;padding-left:45px;">
 				<span>法人身份证：</span>
 				<div class="ui input" style="width:30%;">
-					<input type="text" name="legalIdCard" id="IDcard" placeholder="请输入法人的身份证号" value="${user.legalIdCard}">
+					<input type="text" name="legalIdCard" id="IDcard" placeholder="请输入法人的身份证号" value="${user.legalIdCard}" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
 				</div>
 				
 	                <div class="ui three column grid">
@@ -204,8 +204,8 @@ div.error{
                                     <a href="javascript:;" class="file" style="margin-top:55px;">
                                          <span class="white-color">选择文件</span>
                                           <i class="upload icon white-color" ></i>
-                                         <input type="file"  id="upload1">
-                                        <input type="hidden" id="imgflag1"name="companyYyZzImg" value="${userInfo.companyYyZzImg}">
+                                         <input type="file" id="upload1" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
+                                        <input type="hidden" id="imgflag1" name="companyYyZzImg" value="${userInfo.companyYyZzImg}">
                                         <%--<a id="bankBill" download="bankBill.xlsx">download</a>--%>
                                     </a>                                       
                                  </div>                                
@@ -227,33 +227,33 @@ div.error{
                                     <a href="javascript:;" class="file"  style="margin-top:55px;">
                                          <span class="white-color">选择文件</span>
                                           <i class="upload icon white-color" ></i>
-                                         <input type="file" id="upload2">
+                                         <input type="file" id="upload2" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                                         <input type="hidden" name="companyXkzImg" id="imgflag2" value="${userInfo.companyXkzImg}">
                                     </a>
                                         
                                  </div>
                              </div>
                             <div class="card">
-                                        <div class="content">
-                                            <div class="header">
-                                            特许经营许可证
-                                            </div>
-                                            <div class="description">
-                                                请上传jpg、png文件
-                                            </div>
-                                        </div>
-                                        <div class="extra content field" >
-                                            <div class="meta"  >
-		                                    	<img src="${userInfo.companyTxkzImg}"   width="100%" height="200px" id="img3"/>
-		                                    </div>
-                                            <a href="javascript:;" class="file" style="margin-top:55px;">
-                                                <span class="white-color">选择文件</span>
-                                                <i class="upload icon white-color" ></i>
-                                                <input type="file" id="upload3">
-                                                <input type="hidden" id="imgflag3" name="companyTxkzImg" value="${userInfo.companyTxkzImg}">
-                                            </a>
-                                                
-                                        </div>
+                                <div class="content">
+                                    <div class="header">
+                                    特许经营许可证
+                                    </div>
+                                    <div class="description">
+                                        请上传jpg、png文件
+                                    </div>
+                                </div>
+                                <div class="extra content field" >
+                                    <div class="meta"  >
+                                    	<img src="${userInfo.companyTxkzImg}"   width="100%" height="200px" id="img3"/>
+                                    </div>
+                                    <a href="javascript:;" class="file" style="margin-top:55px;">
+                                        <span class="white-color">选择文件</span>
+                                        <i class="upload icon white-color" ></i>
+                                        <input type="file" id="upload3" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
+                                        <input type="hidden" id="imgflag3" name="companyTxkzImg" value="${userInfo.companyTxkzImg}">
+                                    </a>
+                                        
+                                </div>
                                         
                              </div>
                         </div>
@@ -263,7 +263,7 @@ div.error{
 	               <div style="margin-bottom: 32px;margin-top: 32px;">
                        <br>
 					<!-- <span id="submit" class="bluebutton" style="padding-left: 16px;padding-right: 16px;padding-top: 8px;padding-bottom: 8px;font-size:20px;border-radius: 6px;" align=center>确认下单</span> -->
-					<input type="submit" id="submit" class=" ui primary button" value="保存">
+					<input type="submit" id="submit" class="ui primary button focus" value="保存" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
 					
 				</div>    
             	
@@ -276,6 +276,27 @@ div.error{
 	</div>
 </div>
 <script type="text/javascript">
+	//enter键跳转
+	function focusNextInput(thisInput,e){
+        if (!$(thisInput).hasClass("imgInput")) {
+            e.preventDefault();
+        }
+        
+        var inputs = document.getElementsByClassName("focus");
+        for(var i = 0;i<inputs.length;i++){
+            if(i==(inputs.length-1))
+            { 
+                $("form").submit(); // 提交表单 
+                break;
+            }
+            else if(thisInput == inputs[i])
+            {
+                inputs[i+1].focus()||inputs[i+1].select();
+                break;
+            }
+        }
+    }
+
 	$("#companyicon").height($("#companyicon").width());
 	$("#icon").height($("#companyicon").innerHeight()-16);
 	$("#icon").width($("#companyicon").innerWidth()-16);

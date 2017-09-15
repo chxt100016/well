@@ -100,7 +100,9 @@
 					<div class="row1">
 						<div class="row1_2">
 							<!-- <span class="col1">${userMoney}</span> -->
-							<span class="col1" id='balance'></span>
+							<span class="col1" id='balance'>
+								<div class="ui active inline loader" id='loader'></div>
+							</span>
 							<span class="col2">&nbsp;&nbsp;元</span>
 							<span id="fillmoney" class="smallbutton" style="margin-left:32px;" onClick="toURL('czSqList')">充值</span>
 							<span id="getmoney" class="smallbutton" style="margin-left:12px;" onClick="toURL('txList')">提现</span>
@@ -183,6 +185,7 @@
 							let bal= result.balance;
 							console.log(result.msg);
                              $('#balance').html(bal)
+							 $('#loader').hide();
 						}
 						else {
 							console.log(result.msg)

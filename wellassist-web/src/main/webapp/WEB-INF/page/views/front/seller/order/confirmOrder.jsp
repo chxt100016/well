@@ -1,4 +1,4 @@
-﻿<%@ include file="../header.jsp"%>
+<%@ include file="../header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 
 <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/pagetempl.css"/>">
@@ -180,7 +180,7 @@
 						<input type="text" name="saleDj" value="${orderInfo.saleMoney/orderInfo.saleNum}" placeholder="请输入单价" onkeyup="return validateNumber(this,value,0)" />
 					</div>
 					<div class="labeldd" align="right">总价 :</div>
-					<div class="contentdd"><span id="saleMoney">${orderInfo.saleMoney}</span>元</div>
+					<div class="contentdd"><span id="saleMoney"></span>元</div>
 				</div>
 				<input type="hidden" name="orderId" value="${orderInfo.orderId}" />
 
@@ -193,6 +193,10 @@
 </div>
 
 <script type="text/javascript">
+
+	var saleNum = $("input[name='saleNum']").val();
+	var saleDj  = $("input[name='saleDj']").val();
+	$("#saleMoney").html(saleNum*saleDj);
 
 	var orderState = '${orderInfo.orderState}';
 
@@ -365,6 +369,7 @@
 		}
 	}
 	
+			
 	function validateNumber(e, pnumber, type){
 		var len = 0;
 		if (!/^\d+$/.test(pnumber)){
@@ -376,7 +381,7 @@
 		if(type==0){
 			var saleNum = $("input[name='saleNum']").val();
 			var saleDj  = $("input[name='saleDj']").val();
-			
+
 			if(saleNum=="" || saleDj==""){
 				$("#saleMoney").html("0");
 			} else {

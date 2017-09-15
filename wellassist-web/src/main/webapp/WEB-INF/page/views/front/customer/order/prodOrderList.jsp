@@ -161,7 +161,6 @@
 					</c:if>
 						<c:if test="${item.orderState==5}">
 							<span class="span_btn pointer ft-wt-bd" onClick="toURL('secondPay', '${item.orderId}')">结算</span></c:if>
-
 							
 					<c:if test="${item.orderState==6}">
 						<span class="span_btn" onClick="toURL('editPingjia', '${item.orderId}')">评价</span>

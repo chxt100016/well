@@ -1,4 +1,4 @@
-﻿<%@ include file="../header.jsp"%>
+<%@ include file="../header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/seller/publishpage.css"/>">
@@ -9,7 +9,7 @@
         <div id="app" style="width:90%;">
             <h4 class="ui header" style="font-size:15px;font-weight:600;">添加产品</h4>
             <div class="ui divider"></div>
-            <form id="product-publish form1" method="post" class="ui form">
+            <form id="product-publish" method="post" class="ui form">
                 <table>
                     <tbody>
                         <tr>
@@ -74,7 +74,9 @@
                         <tr>
                             <td class="form_label"><label for="">产品图片：</label></td>
                             <td>
-                                <img id="upload2" class="yingyeimg focus" style="width:270PX;height:230px ;border:1px solid #adadad" src="../img/upload.png" name="prodImg" onkeypress="if(event.keyCode==13) focusNextInput(this,event);" />
+
+                                <img class="yingyeimg focus" id="upload2" style="width:270px;height:230px ;border:1px solid #adadad" src="../img/upload.png" name="prodImg" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
+                               <!--  <input class="yingyeimg focus" id="upload2" style="width:270px;height:230px ;background-image:url(../img/upload.png);background-repeat:no-repeat;" name="prodImg" onkeypress="if(event.keyCode==13) focusNextInput(this,event);"> -->
                             </td>
                             <td>
                                 <input type="hidden" name="prodImg" value="${prod.prodImg}" /><br>
@@ -117,24 +119,27 @@
 
 <script>
     //表单验证
-    // 回车键跳转
+
+    //回车键跳转
     function focusNextInput(thisInput,e){
-        if (!$(thisInput).hasClass("yingyeimg")) {
             e.preventDefault();
-        }
+       
              
         var inputs = document.getElementsByClassName("focus");
         for(var i = 0;i<inputs.length;i++){
             //如果是最后一个，则需判断验证错误个数
             if(i==(inputs.length-1)){
               // if (confirm("是否提交?")) // 用户确认  
-                $("form[name='form1']").submit(); // 提交表单 
-            }else if(thisInput == inputs[i]){ 
-                
-                
-                   inputs[i+1].focus();  
-                              
-                               
+                $("form[name='product-publish']").submit(); // 提交表单 
+                break;
+            }
+            else if(i == 9){
+                inputs[i+1].click();
+                break;
+            }
+            else if(thisInput == inputs[i]){ 
+                inputs[i+1].focus(); 
+                break;                               
             }
         }
     }
@@ -191,9 +196,10 @@
                 }
             },
             onComplete : function(file, data){
-                if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
+                if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确定",""); return; }
                 $("input[name='prodImg']").val(data.path);
                 $("#upload2").prop("src", data.path);
+                // $("#upload2").css("background-image",url(data.path));
                 $("#prodImgpath").show();
                 return;
             }
