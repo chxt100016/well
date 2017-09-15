@@ -93,6 +93,8 @@ public class WaScheduleJobService {
                         case 6:
                             handleType6(cncbTrans,entity);
                             break;
+                        case 7:
+                            handleType7(cncbTrans,entity);
                     }
                 }catch (CNCBException e){
                     e.printStackTrace();
@@ -105,6 +107,32 @@ public class WaScheduleJobService {
             }
         }
 
+    }
+
+    private void handleType7(CncbTrans cncbTrans, TransQueryOutputListEntity entity) {
+        String operationParams=cncbTrans.getOperationParams();
+        Map params=JSON.parseObject(operationParams,Map.class);
+        long logisticsId=(long)(int)params.get("logisticsId");
+        long orderId=(long)(int)params.get("orderId");
+        BigDecimal zfSjMoney=(BigDecimal)params.get("zfSjMoney");
+
+        Map update=new HashMap();
+        update.put("id",cncbTrans.getId());
+        update.put("status",entity.getStatus());
+        update.put("statusText",entity.getStatusText());
+        if(CNCBConstants.CNCB_STATUS_SUCCESS.equals(entity.getStatus())){
+            update.put("state",1);
+            customerServiceImpl.handleSettleLogistics(logisticsId,orderId,zfSjMoney);
+        }else if(entity.getStatus().startsWith("AAAAAA")){
+
+        }else {
+            update.put("state",-1);
+            Map order=new HashMap();
+            order.put("orderId",orderId);
+            order.put("logistics2ndpayState",5);
+            orderDao.updateOrderByID(order);
+        }
+        cncbTransDao.update(update);
     }
 
     private void handleType6(CncbTrans cncbTrans, TransQueryOutputListEntity entity) {

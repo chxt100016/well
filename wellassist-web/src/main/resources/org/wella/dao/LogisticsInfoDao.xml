@@ -197,7 +197,7 @@
     </select>
 
     <select id="customerLogisticsInfoListInfo" parameterType="map" resultType="map">
-        SELECT a.*,b.`order_no`,b.order_state,b.prod_pay_state,b.logistics_pay_state,c.`prod_img`
+        SELECT a.*,b.`order_no`,b.order_state,b.prod_pay_state,b.logistics_pay_state,b.logistics_2ndpay_state,c.`prod_img`
         FROM wa_logistics_info a LEFT JOIN wa_order b ON a.`order_id`=b.`order_id`
         LEFT JOIN wa_prod c ON a.`prod_id`=c.`prod_id`
         WHERE customer_user_id=#{userId}

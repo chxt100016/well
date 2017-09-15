@@ -77,6 +77,8 @@ public class CustomerServiceImpl implements CustomerService {
     private FinanceService financeServiceImpl;
     @Autowired
     private UserMoneyDao userMoneyDao;
+    @Autowired
+    private LogisticsTransDao logisticsTransDao;
 
 
 
@@ -814,10 +816,13 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     public void handle2ndPayProd(long orderId, BigDecimal secondPayMoney, int zfMethod, BigDecimal balance, BigDecimal loan, String certificateImg) throws Exception {
         Map<String,Object> params=new HashMap<>();
+        //update order prod2ndpayState字段
         params.put("orderId",orderId);
         params.put("prod2ndpayState",5);
         orderDao.updateOrderByID(params);
         params.clear();
+
+        //update orderTrans
         params.put("orderId",orderId);
         params.put("transState",1);
         Map<String,Object> orderTrans=orderTransDao.singlePoByConditions(params);
@@ -868,21 +873,63 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public void handlePay2Seller(long orderId, long orderTransId, long moneyId, BigDecimal zfSjMoney) {
+        //update wa_order prod2ndpayState
         Map<String,Object> params=new HashMap<>();
         params.put("orderId",orderId);
         params.put("prod2ndpayState",7);
         orderDao.updateOrderByID(params);
-
+        //update wa_order_trans
         params.clear();
         params.put("orderTransId",orderTransId);
         params.put("transState",5);
         orderTransDao.update(params);
-
+        //update wa_user_money
         params.clear();
         params.put("moneyId",moneyId);
         params.put("jySjMoney",zfSjMoney);
         params.put("completeDate",new Date());
         params.put("jyState",2);
         userMoneyDao.update(params);
+    }
+
+    @Override
+    @Transactional
+    public void handleSettleLogistics(long logisticsId,long orderId,BigDecimal zfSjMoney) {
+        //update wa_order logistics2ndpayState
+        Map<String,Object> params=new HashMap<>();
+        params.put("orderId",orderId);
+        params.put("logistics2ndpayState",7);
+        orderDao.updateOrderByID(params);
+
+        params.clear();
+        params.put("logisticsInfoId",logisticsId);
+        params.put("transState",1);
+        Map<String,Object> logisticsTrans=logisticsTransDao.singlePoByConditions(params);
+        long logisticsTransId=(long)logisticsTrans.get("logistics_trans_id");
+        long moneyId=(long)logisticsTrans.get("money_id");
+
+        Date now=new Date();
+
+        //update wa_logistics_trans
+        params.clear();
+        params.put("logisticsTransId",logisticsTransId);
+        params.put("zfSjMoney",zfSjMoney);
+        params.put("completeDate",now);
+        params.put("transState",5);
+        logisticsTransDao.update(params);
+
+        //update wa_user_money
+        params.clear();
+        params.put("moneyId",moneyId);
+        params.put("jySjMoney",zfSjMoney);
+        params.put("completeDate",now);
+        params.put("jyState",5);
+        userMoneyDao.update(params);
+
+        //update wa_logistics_info
+        params.clear();
+        params.put("logisticsId",logisticsId);
+        params.put("state",6);
+        logisticsInfoDao.updateByPrimaryKey(params);
     }
 }

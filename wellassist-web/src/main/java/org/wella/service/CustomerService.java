@@ -309,11 +309,19 @@ public interface CustomerService {
     void handle2ndPayProd(long orderId, BigDecimal secondPayMoney, int zfMethod, BigDecimal balance, BigDecimal loan, String certificateImg) throws Exception;
 
     /**
-     * 支付给卖家成功后数据入库
+     * 结算给卖家成功后数据入库
      * @param orderId
      * @param orderTransId
      * @param moneyId
      * @param zfSjMoney
      */
     void handlePay2Seller(long orderId,long orderTransId,long moneyId,BigDecimal zfSjMoney);
+
+    /**
+     * 结算给物流成功后数据入库
+     * @param logisticsId
+     * @param orderId
+     * @param zfSjMoney
+     */
+    void handleSettleLogistics(long logisticsId,long orderId,BigDecimal zfSjMoney);
 }
