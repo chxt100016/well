@@ -319,13 +319,117 @@ public class CustomerController extends BaseController {
       String ret = "-1";
       JSONObject obj = new JSONObject();
       obj.put("content", ConstantUtil.MSG_PARAM_ERR);
-      String orderId = CommonUtil.GetRequestParam(request, "orderId", "0");
-      String saleMoney = CommonUtil.GetRequestParam(request, "saleMoney", "0.00");
-      String loan = CommonUtil.GetRequestParam(request, "loan", "0");
-      String balance = CommonUtil.GetRequestParam(request, "balance", "0");
-      String zfMethod = CommonUtil.GetRequestParam(request, "zfMethod", "2");
+      final String orderId = CommonUtil.GetRequestParam(request, "orderId", "0");
+      final String saleMoney = CommonUtil.GetRequestParam(request, "saleMoney", "0.00");
+      final String loan = CommonUtil.GetRequestParam(request, "loan", "0");
+      final String balance = CommonUtil.GetRequestParam(request, "balance", "0");
+      final String zfMethod = CommonUtil.GetRequestParam(request, "zfMethod", "2");
       String certificateImg = "";
-      String ip = IPUtils.getIpAddr(request);
+      final String ip = IPUtils.getIpAddr(request);
+      try {
+         //资金不能从session里面拿！！！
+         final User user = (User) request.getSession().getAttribute("user");
+         if (!customerServiceImpl.isBalanceEnough(user.getUserId(), new BigDecimal(saleMoney), Integer.parseInt(zfMethod), new BigDecimal(balance), new BigDecimal(loan))) {
+            obj.put("content", ConstantUtil.MSG_MONEY_ERR);
+            obj.put("status", "-1");
+            this.echo(response, obj);
+            return;
+         }
+         if (zfMethod.equals("5")) {
+            certificateImg = CommonUtil.GetRequestParam(request, "certificateImg", "");
+            if ("".equals(certificateImg)) {
+               obj.put("content", ConstantUtil.MSG_PARAM_ERR);
+               obj.put("status", "-1");
+               this.echo(response, obj);
+               return;
+            }
+         }
+         if (user != null && CommonUtil.getIntFromString(orderId) > 0) {
+            Map orderObj = this.getMyOneSingBO("wa_order", "order_id", Long.parseLong(orderId));
+            if (orderObj != null && orderObj.get("userId") != null && (long) orderObj.get("userId") == (user.getUserId()) && orderObj.get("orderState") != null && ((int) orderObj.get("orderState") == 1)) {
+
+               int zfMethodi=Integer.parseInt(zfMethod);
+               if (zfMethodi==2||zfMethodi==4){
+                  BigDecimal Bbalance=new BigDecimal(balance);
+                  if (zfMethodi==2){
+                     Bbalance=new BigDecimal(saleMoney);
+                  }
+                  final BigDecimal finalBbalance = Bbalance;
+                  final String finalCertificateImg = certificateImg;
+                  new Thread(new Runnable() {
+                     @Override
+                     public void run() {
+                        UserSubAccount userSubAccount=financeServiceImpl.getUserSubAccountByUserId(user.getUserId());
+                        Map<String,String> paramss=new HashMap<>();
+                        paramss.put("payAccNo",userSubAccount.getSubAccNo().toString());
+                        paramss.put("tranAmt", finalBbalance.toString());
+                        String result= null;
+                        try {
+                           result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer2TransferAccNo",paramss);
+                        } catch (Exception e) {
+                           e.printStackTrace();
+                        }
+                        R r= JSON.parseObject(result,R.class);
+                        ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
+                        CncbTrans cncbTrans=new CncbTrans();
+                        cncbTrans.setXml(forceTransferBasicInfo.getXml());
+                        cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
+                        cncbTrans.setTime(new Date());
+                        cncbTrans.setType((byte)1);
+                        JSONObject operationParamsObj=new JSONObject();
+                        operationParamsObj.put("sql"," CALL khFukuanProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + saleMoney + "\',\'" + zfMethod + "\',\'" + balance + "\',\'" + loan + "\',\'" + finalCertificateImg + "\',\'" + ip + "\')");
+                        operationParamsObj.put("orderId",orderId);
+                        cncbTrans.setOperationParams(operationParamsObj.toJSONString());
+                        cncbTransDao.create(cncbTrans);
+                     }
+                  }).start();
+                  Map<String,Object> query=new HashMap<>();
+                  query.put("orderId",Long.parseLong(orderId));
+                  query.put("prodPayState",3);
+                  orderDao.updateOrderByID(query);
+                  ret="1";
+                  obj.put("content","处理中...");
+               }else {
+                  String sql = "";
+                  sql = " CALL khFukuanProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + saleMoney + "\',\'" + zfMethod + "\',\'" + balance + "\',\'" + loan + "\',\'" + certificateImg + "\',\'" + ip + "\')";
+                  HashMap queryParam = new HashMap();
+                  queryParam.put("strsql", sql);
+                  this.commonMapper.simpleSelectReturnList(queryParam);
+                  waOrderServiceImpl.checkOrderRepayOff(Long.parseLong(orderId));
+                  ret = "1";
+                  obj.put("content", ConstantUtil.MSG_SUCCESS);
+               }
+            }
+         }
+      }catch (Exception var22) {
+         ret = "-2";
+         obj.put("content", ConstantUtil.MSG_FAILS);
+      }
+      obj.put("status", ret);
+      this.echoJSON(response, obj);
+   }
+
+   /**
+    * 买家支付订单的处理方法
+    *
+    * @param request
+    * @param response
+    */
+   /*@RequestMapping(
+           value = {"payOrder"},
+           method = {RequestMethod.POST}
+   )
+   public void payOrder(HttpServletRequest request, HttpServletResponse response) {
+      String ret = "-1";
+      JSONObject obj = new JSONObject();
+      obj.put("content", ConstantUtil.MSG_PARAM_ERR);
+      final String orderId = CommonUtil.GetRequestParam(request, "orderId", "0");
+      final String saleMoney = CommonUtil.GetRequestParam(request, "saleMoney", "0.00");
+      final String loan = CommonUtil.GetRequestParam(request, "loan", "0");
+      final String balance = CommonUtil.GetRequestParam(request, "balance", "0");
+      final String zfMethod = CommonUtil.GetRequestParam(request, "zfMethod", "2");
+      String certificateImg = "";
+      final String ip = IPUtils.getIpAddr(request);
       try {
          //资金不能从session里面拿！！！
          User user = (User) request.getSession().getAttribute("user");
@@ -354,7 +458,29 @@ public class CustomerController extends BaseController {
                   if (zfMethodi==2){
                      Bbalance=new BigDecimal(saleMoney);
                   }
-                  UserSubAccount userSubAccount=financeServiceImpl.getUserSubAccountByUserId(user.getUserId());
+                  new Thread(new Runnable() {
+                     @Override
+                     public void run() {
+                        UserSubAccount userSubAccount=financeServiceImpl.getUserSubAccountByUserId(user.getUserId());
+                        Map<String,String> paramss=new HashMap<>();
+                        paramss.put("payAccNo",userSubAccount.getSubAccNo().toString());
+                        paramss.put("tranAmt",Bbalance.toString());
+                        String result=CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer2TransferAccNo",paramss);
+                        R r= JSON.parseObject(result,R.class);
+                        ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
+                        CncbTrans cncbTrans=new CncbTrans();
+                        cncbTrans.setXml(forceTransferBasicInfo.getXml());
+                        cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
+                        cncbTrans.setTime(new Date());
+                        cncbTrans.setType((byte)1);
+                        JSONObject operationParamsObj=new JSONObject();
+                        operationParamsObj.put("sql"," CALL khFukuanProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + saleMoney + "\',\'" + zfMethod + "\',\'" + balance + "\',\'" + loan + "\',\'" + certificateImg + "\',\'" + ip + "\')");
+                        operationParamsObj.put("orderId",orderId);
+                        cncbTrans.setOperationParams(operationParamsObj.toJSONString());
+                        cncbTransDao.create(cncbTrans);
+                     }
+                  }).start();
+                  *//*UserSubAccount userSubAccount=financeServiceImpl.getUserSubAccountByUserId(user.getUserId());
                   Map<String,String> paramss=new HashMap<>();
                   paramss.put("payAccNo",userSubAccount.getSubAccNo().toString());
                   paramss.put("tranAmt",Bbalance.toString());
@@ -370,7 +496,7 @@ public class CustomerController extends BaseController {
                   operationParamsObj.put("sql"," CALL khFukuanProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + saleMoney + "\',\'" + zfMethod + "\',\'" + balance + "\',\'" + loan + "\',\'" + certificateImg + "\',\'" + ip + "\')");
                   operationParamsObj.put("orderId",orderId);
                   cncbTrans.setOperationParams(operationParamsObj.toJSONString());
-                  cncbTransDao.create(cncbTrans);
+                  cncbTransDao.create(cncbTrans);*//*
                   Map<String,Object> query=new HashMap<>();
                   query.put("orderId",Long.parseLong(orderId));
                   query.put("prodPayState",3);
@@ -395,23 +521,23 @@ public class CustomerController extends BaseController {
       }
       obj.put("status", ret);
       this.echoJSON(response, obj);
-   }
+   }*/
 
    @RequestMapping(value = {"payLogistics"},
            method = {RequestMethod.POST})
    @ResponseBody
    public JSONObject payLogistics(@RequestParam Map<String,Object> params, HttpServletRequest request, HttpServletResponse response) throws Exception {
-      JSONObject obj = new JSONObject();
-      String orderId = CommonUtil.GetRequestParam(request, "orderId", "0");
-      String logisticsInfoId = CommonUtil.GetRequestParam(request, "logisticsInfoId", "0");
-      String grabMoney = CommonUtil.GetRequestParam(request, "grabMoney", "0");
-      String rate = CommonUtil.GetRequestParam(request, "rate", "0");
-      String balance = CommonUtil.GetRequestParam(request, "balance", "0");
-      String loan = CommonUtil.GetRequestParam(request, "loan", "0");
-      String zfMethod = CommonUtil.GetRequestParam(request, "zfMethod", "2");
+      final JSONObject obj = new JSONObject();
+      final String orderId = CommonUtil.GetRequestParam(request, "orderId", "0");
+      final String logisticsInfoId = CommonUtil.GetRequestParam(request, "logisticsInfoId", "0");
+      final String grabMoney = CommonUtil.GetRequestParam(request, "grabMoney", "0");
+      final String rate = CommonUtil.GetRequestParam(request, "rate", "0");
+      final String balance = CommonUtil.GetRequestParam(request, "balance", "0");
+      final String loan = CommonUtil.GetRequestParam(request, "loan", "0");
+      final String zfMethod = CommonUtil.GetRequestParam(request, "zfMethod", "2");
       String certificateImg = "";
-      String ip = IPUtils.getIpAddr(request);
-      User user = (User) request.getSession().getAttribute("user");
+      final String ip = IPUtils.getIpAddr(request);
+      final User user = (User) request.getSession().getAttribute("user");
       /*if (!customerServiceImpl.isBalanceEnough(user.getUserId(), new BigDecimal(grabMoney), Integer.parseInt(zfMethod), new BigDecimal(balance), new BigDecimal(loan))) {
          obj.put("content", ConstantUtil.MSG_MONEY_ERR);
          obj.put("status", "-1");
@@ -428,36 +554,47 @@ public class CustomerController extends BaseController {
       if (user != null && CommonUtil.getIntFromString(orderId) > 0) {
          Map orderObj = this.getMyOneSingBO("wa_order", "order_id", Long.parseLong(orderId));
          if (orderObj != null && orderObj.get("userId") != null && (long) orderObj.get("userId") == (user.getUserId()) && orderObj.get("orderState") != null && ((int) orderObj.get("orderState") == 1 || (int) orderObj.get("orderState") == 11) || (int) orderObj.get("orderState") == 13) {
-
-            int zfMethodi=Integer.parseInt(zfMethod);
-            if (zfMethodi==2||zfMethodi==4) {
-               BigDecimal Bbalance = new BigDecimal(balance);
-               if (zfMethodi == 2) {
-                  Bbalance = new BigDecimal(grabMoney);
+            final String finalCertificateImg = certificateImg;
+            new Thread(new Runnable() {
+               @Override
+               public void run() {
+                  int zfMethodi=Integer.parseInt(zfMethod);
+                  if (zfMethodi==2||zfMethodi==4) {
+                     BigDecimal Bbalance = new BigDecimal(balance);
+                     if (zfMethodi == 2) {
+                        Bbalance = new BigDecimal(grabMoney);
+                     }
+                     Map<String,Object> query=new HashMap<>();
+                     query.put("userId",user.getUserId());
+                     UserSubAccount userSubAccount=userSubAccountDao.singleQuery(query);
+                     Map<String,String> paramss=new HashMap<>();
+                     paramss.put("payAccNo",userSubAccount.getSubAccNo().toString());
+                     paramss.put("tranAmt",Bbalance.toString());
+                     String result= null;
+                     try {
+                        result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer2TransferAccNo",paramss);
+                     } catch (Exception e) {
+                        e.printStackTrace();
+                     }
+                     R r= JSON.parseObject(result,R.class);
+                     ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
+                     CncbTrans cncbTrans=new CncbTrans();
+                     cncbTrans.setXml(forceTransferBasicInfo.getXml());
+                     cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
+                     cncbTrans.setTime(new Date());
+                     cncbTrans.setType((byte)3);
+                     JSONObject operationParamsObj=new JSONObject();
+                     operationParamsObj.put("sql"," CALL logisticsPayProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + logisticsInfoId + "\',\'" + grabMoney + "\',\'" + zfMethod + "\',\'" + balance + "\',\'" + loan + "\',\'" + rate + "\',\'" + finalCertificateImg + "\',\'" + ip + "\')");
+                     operationParamsObj.put("orderId",orderId);
+                     cncbTrans.setOperationParams(operationParamsObj.toJSONString());
+                     cncbTransDao.create(cncbTrans);
                }
-               Map<String,Object> query=new HashMap<>();
-               query.put("userId",user.getUserId());
-               UserSubAccount userSubAccount=userSubAccountDao.singleQuery(query);
-               Map<String,String> paramss=new HashMap<>();
-               paramss.put("payAccNo",userSubAccount.getSubAccNo().toString());
-               paramss.put("tranAmt",Bbalance.toString());
-               String result=CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer2TransferAccNo",paramss);
-               R r= JSON.parseObject(result,R.class);
-               ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
-               CncbTrans cncbTrans=new CncbTrans();
-               cncbTrans.setXml(forceTransferBasicInfo.getXml());
-               cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
-               cncbTrans.setTime(new Date());
-               cncbTrans.setType((byte)3);
-               JSONObject operationParamsObj=new JSONObject();
-               operationParamsObj.put("sql"," CALL logisticsPayProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + logisticsInfoId + "\',\'" + grabMoney + "\',\'" + zfMethod + "\',\'" + balance + "\',\'" + loan + "\',\'" + rate + "\',\'" + certificateImg + "\',\'" + ip + "\')");
-               operationParamsObj.put("orderId",orderId);
-               cncbTrans.setOperationParams(operationParamsObj.toJSONString());
-               cncbTransDao.create(cncbTrans);
-               query.clear();
-               query.put("orderId",Long.parseLong(orderId));
-               query.put("logisticsPayState",3);
-               orderDao.updateOrderByID(query);
+            }}).start();
+
+               Map<String,Object> query1=new HashMap();
+               query1.put("orderId",Long.parseLong(orderId));
+               query1.put("logisticsPayState",3);
+               orderDao.updateOrderByID(query1);
                obj.put("status", "1");
                obj.put("content","处理中...");
                return obj;
@@ -474,7 +611,7 @@ public class CustomerController extends BaseController {
                   return obj;
                }
             }
-         }
+
       }
       obj.put("content", ConstantUtil.MSG_FAILS);
       obj.put("status", "-1");
@@ -1202,41 +1339,51 @@ public class CustomerController extends BaseController {
    @RequestMapping(value = "secondPayOrderSub",method = RequestMethod.POST)
    @ResponseBody
    @Transactional
-   public R secondPayOrderSub(@RequestParam("orderId")long orderId,@RequestParam("secondPayMoney")BigDecimal secondPayMoney,
-                              @RequestParam(value = "zfMethod",required = false,defaultValue = "2")int zfMethod,@RequestParam(value = "balance",required = false,defaultValue = "0")BigDecimal balance,
-                              @RequestParam(value = "loan",required = false,defaultValue = "0")BigDecimal loan,@RequestParam(value = "certificateImg",required = false,defaultValue = "")String certificateImg,
+   public R secondPayOrderSub(@RequestParam("orderId") final long orderId, @RequestParam("secondPayMoney") final BigDecimal secondPayMoney,
+                              @RequestParam(value = "zfMethod",required = false,defaultValue = "2") final int zfMethod, @RequestParam(value = "balance",required = false,defaultValue = "0") final BigDecimal balance,
+                              @RequestParam(value = "loan",required = false,defaultValue = "0") final BigDecimal loan, @RequestParam(value = "certificateImg",required = false,defaultValue = "") final String certificateImg,
                               HttpServletRequest request
                      ) throws Exception {
       BigDecimal zero=new BigDecimal(0);
       User user=(User)request.getSession().getAttribute("user");
       UserSubAccount userSubAccount=financeServiceImpl.getUserSubAccountByUserId(user.getUserId());
-      String subAccNo=userSubAccount.getSubAccNo();
-      String subAccNm=userSubAccount.getSubAccNm();
+      final String subAccNo=userSubAccount.getSubAccNo();
+      final String subAccNm=userSubAccount.getSubAccNm();
       Map<String,Object> param=new HashMap<>();
-      Map<String,String> paramss=new HashMap<>();
+
       //多退
       if (secondPayMoney.compareTo(zero)<0){
-         paramss.clear();
-         paramss.put("recvAccNo",subAccNo);
-         paramss.put("recvAccNm",subAccNm);
-         paramss.put("tranAmt",secondPayMoney.abs().toString());
-         String result=CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransferFromTransferAccNo",paramss);
-         R r= JSON.parseObject(result,R.class);
-         ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
-         CncbTrans cncbTrans=new CncbTrans();
-         cncbTrans.setXml(forceTransferBasicInfo.getXml());
-         cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
-         cncbTrans.setTime(new Date());
-         cncbTrans.setType((byte)5);
-         JSONObject operationParamsObj=new JSONObject();
-         operationParamsObj.put("orderId",orderId);
-         operationParamsObj.put("secondPayMoney",secondPayMoney);
-         operationParamsObj.put("zfMethod",zfMethod);
-         operationParamsObj.put("balance",balance);
-         operationParamsObj.put("loan",loan);
-         operationParamsObj.put("certificateImg",certificateImg);
-         cncbTrans.setOperationParams(operationParamsObj.toJSONString());
-         cncbTransDao.create(cncbTrans);
+         new Thread(new Runnable() {
+            @Override
+            public void run() {
+               Map<String,String> paramss=new HashMap<>();
+               paramss.put("recvAccNo",subAccNo);
+               paramss.put("recvAccNm",subAccNm);
+               paramss.put("tranAmt",secondPayMoney.abs().toString());
+               String result= null;
+               try {
+                  result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransferFromTransferAccNo",paramss);
+               } catch (Exception e) {
+                  e.printStackTrace();
+               }
+               R r= JSON.parseObject(result,R.class);
+               ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
+               CncbTrans cncbTrans=new CncbTrans();
+               cncbTrans.setXml(forceTransferBasicInfo.getXml());
+               cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
+               cncbTrans.setTime(new Date());
+               cncbTrans.setType((byte)5);
+               JSONObject operationParamsObj=new JSONObject();
+               operationParamsObj.put("orderId",orderId);
+               operationParamsObj.put("secondPayMoney",secondPayMoney);
+               operationParamsObj.put("zfMethod",zfMethod);
+               operationParamsObj.put("balance",balance);
+               operationParamsObj.put("loan",loan);
+               operationParamsObj.put("certificateImg",certificateImg);
+               cncbTrans.setOperationParams(operationParamsObj.toJSONString());
+               cncbTransDao.create(cncbTrans);
+            }
+         }).start();
          param.put("orderId",orderId);
          param.put("prod2ndpayState",3);
          orderDao.updateOrderByID(param);
@@ -1246,26 +1393,37 @@ public class CustomerController extends BaseController {
          return R.ok().put("msg","结算中...");
       }else if(secondPayMoney.compareTo(zero)>0){
          if(zfMethod==2){
-            paramss.clear();
-            paramss.put("payAccNo",subAccNo);
-            paramss.put("tranAmt",secondPayMoney.toString());
-            String result=CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer2TransferAccNo",paramss);
-            R r= JSON.parseObject(result,R.class);
-            ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
-            CncbTrans cncbTrans=new CncbTrans();
-            cncbTrans.setXml(forceTransferBasicInfo.getXml());
-            cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
-            cncbTrans.setTime(new Date());
-            cncbTrans.setType((byte)5);
-            JSONObject operationParamsObj=new JSONObject();
-            operationParamsObj.put("orderId",orderId);
-            operationParamsObj.put("secondPayMoney",secondPayMoney);
-            operationParamsObj.put("zfMethod",zfMethod);
-            operationParamsObj.put("balance",balance);
-            operationParamsObj.put("loan",loan);
-            operationParamsObj.put("certificateImg",certificateImg);
-            cncbTrans.setOperationParams(operationParamsObj.toJSONString());
-            cncbTransDao.create(cncbTrans);
+            new Thread(new Runnable() {
+               @Override
+               public void run() {
+                  Map<String,String> paramss=new HashMap<>();
+                  paramss.put("payAccNo",subAccNo);
+                  paramss.put("tranAmt",secondPayMoney.toString());
+                  String result= null;
+                  try {
+                     result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer2TransferAccNo",paramss);
+                  } catch (Exception e) {
+                     e.printStackTrace();
+                  }
+                  R r= JSON.parseObject(result,R.class);
+                  ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
+                  CncbTrans cncbTrans=new CncbTrans();
+                  cncbTrans.setXml(forceTransferBasicInfo.getXml());
+                  cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
+                  cncbTrans.setTime(new Date());
+                  cncbTrans.setType((byte)5);
+                  JSONObject operationParamsObj=new JSONObject();
+                  operationParamsObj.put("orderId",orderId);
+                  operationParamsObj.put("secondPayMoney",secondPayMoney);
+                  operationParamsObj.put("zfMethod",zfMethod);
+                  operationParamsObj.put("balance",balance);
+                  operationParamsObj.put("loan",loan);
+                  operationParamsObj.put("certificateImg",certificateImg);
+                  cncbTrans.setOperationParams(operationParamsObj.toJSONString());
+                  cncbTransDao.create(cncbTrans);
+               }
+            }).start();
+
             param.put("orderId",orderId);
             param.put("prod2ndpayState",3);
             orderDao.updateOrderByID(param);
@@ -1280,32 +1438,43 @@ public class CustomerController extends BaseController {
    @RequestMapping(value = "secondPayLogisticsSub",method = RequestMethod.POST)
    @ResponseBody
    @Transactional
-   public R secondPayLogisticsSub(@RequestParam("logisticsId")long logisticsId) throws Exception {
+   public R secondPayLogisticsSub(@RequestParam("logisticsId") final long logisticsId) throws Exception {
       Map<String,Object> logisticsInfo=logisticsInfoDao.singleLogisticsInfoByPrimaryKey(logisticsId);
-      BigDecimal prePayment=(BigDecimal)logisticsInfo.get("pre_payment");
-      long senderUserId=(long)logisticsInfo.get("sender_user_id");
-      long orderId=(long)logisticsInfo.get("order_id");
-      UserSubAccount senderSubAccount=financeServiceImpl.getUserSubAccountByUserId(senderUserId);
-      String subAccNo=senderSubAccount.getSubAccNo();
-      String subAccNm=senderSubAccount.getSubAccNm();
-      Map<String,String> paramss=new HashMap<>();
-      paramss.put("recvAccNo",subAccNo);
-      paramss.put("recvAccNm",subAccNm);
-      paramss.put("tranAmt",prePayment.toString());
-      String result=CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransferFromTransferAccNo",paramss);
-      R r= JSON.parseObject(result,R.class);
-      ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
-      CncbTrans cncbTrans=new CncbTrans();
-      cncbTrans.setXml(forceTransferBasicInfo.getXml());
-      cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
-      cncbTrans.setTime(new Date());
-      cncbTrans.setType((byte)7);
-      JSONObject operationParamsObj=new JSONObject();
-      operationParamsObj.put("logisticsId",logisticsId);
-      operationParamsObj.put("orderId",orderId);
-      operationParamsObj.put("zfSjMoney",prePayment);
-      cncbTrans.setOperationParams(operationParamsObj.toJSONString());
-      cncbTransDao.create(cncbTrans);
+      final BigDecimal prePayment=(BigDecimal)logisticsInfo.get("pre_payment");
+      final long senderUserId=(long)logisticsInfo.get("sender_user_id");
+      final long orderId=(long)logisticsInfo.get("order_id");
+      new Thread(new Runnable() {
+         @Override
+         public void run() {
+            UserSubAccount senderSubAccount=financeServiceImpl.getUserSubAccountByUserId(senderUserId);
+            String subAccNo=senderSubAccount.getSubAccNo();
+            String subAccNm=senderSubAccount.getSubAccNm();
+            Map<String,String> paramss=new HashMap<>();
+            paramss.put("recvAccNo",subAccNo);
+            paramss.put("recvAccNm",subAccNm);
+            paramss.put("tranAmt",prePayment.toString());
+            String result= null;
+            try {
+               result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransferFromTransferAccNo",paramss);
+            } catch (Exception e) {
+               e.printStackTrace();
+            }
+            R r= JSON.parseObject(result,R.class);
+            ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
+            CncbTrans cncbTrans=new CncbTrans();
+            cncbTrans.setXml(forceTransferBasicInfo.getXml());
+            cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
+            cncbTrans.setTime(new Date());
+            cncbTrans.setType((byte)7);
+            JSONObject operationParamsObj=new JSONObject();
+            operationParamsObj.put("logisticsId",logisticsId);
+            operationParamsObj.put("orderId",orderId);
+            operationParamsObj.put("zfSjMoney",prePayment);
+            cncbTrans.setOperationParams(operationParamsObj.toJSONString());
+            cncbTransDao.create(cncbTrans);
+         }
+      }).start();
+
       Map<String,Object> params=new HashMap<>();
       params.put("orderId",orderId);
       params.put("logistics2ndpayState",6);

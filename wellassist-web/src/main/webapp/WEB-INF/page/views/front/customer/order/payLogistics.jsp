@@ -354,7 +354,6 @@
                 },"json");
             }
         }
-        // console.log(x)
     }
 
     function moneyCheck(_this){
