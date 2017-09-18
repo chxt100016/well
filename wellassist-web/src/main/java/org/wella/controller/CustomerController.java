@@ -1185,9 +1185,6 @@ public class CustomerController extends BaseController {
       return "views/front/customer/finance/loanRepayDetail.jsp";
    }
 
-
-
-
    @RequestMapping("reportManagement")
    public String reportManagement(Model model){
       model.addAttribute("parentMenuNo","4");
@@ -1233,7 +1230,7 @@ public class CustomerController extends BaseController {
          cncbTrans.setType((byte)5);
          JSONObject operationParamsObj=new JSONObject();
          operationParamsObj.put("orderId",orderId);
-         operationParamsObj.put("secondPayMoney",secondPayMoney.abs());
+         operationParamsObj.put("secondPayMoney",secondPayMoney);
          operationParamsObj.put("zfMethod",zfMethod);
          operationParamsObj.put("balance",balance);
          operationParamsObj.put("loan",loan);
