@@ -201,13 +201,13 @@ div.error{
                                     <div class="meta"  >
                                     	<img src="${userInfo.companyYyZzImg}"  width="100%" height="200px" id="img1"/>
                                     </div>
-                                    <a href="javascript:;" class="file" style="margin-top:55px;">
-                                         <span class="white-color">选择文件</span>
-                                          <i class="upload icon white-color" ></i>
-                                         <input type="file" id="upload1" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
+                                    <!-- <a href="javascript:;" class="file" style="margin-top:55px;">
+                                        <span class="white-color">选择文件</span>
+                                        <i class="upload icon white-color" ></i> -->
+                                        <input type="file" id="upload1" class="focus imgInput" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                                         <input type="hidden" id="imgflag1" name="companyYyZzImg" value="${userInfo.companyYyZzImg}">
                                         <%--<a id="bankBill" download="bankBill.xlsx">download</a>--%>
-                                    </a>                                       
+                                    <!-- </a>  -->                                      
                                  </div>                                
                              </div>
                              <div class="card">
@@ -224,10 +224,10 @@ div.error{
                                     <div class="meta"  >
                                     	<img src="${userInfo.companyXkzImg}"  width="100%" height="200px" id="img2" />
                                     </div>
-                                    <a href="javascript:;" class="file"  style="margin-top:55px;">
-                                         <span class="white-color">选择文件</span>
-                                          <i class="upload icon white-color" ></i>
-                                         <input type="file" id="upload2" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
+                                    <!-- <a href="javascript:;" class="file" style="margin-top:55px;">
+                                        <span class="white-color">选择文件</span>
+                                        <i class="upload icon white-color" ></i> -->
+                                        <input type="file" id="upload2" class="focus imgInput" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                                         <input type="hidden" name="companyXkzImg" id="imgflag2" value="${userInfo.companyXkzImg}">
                                     </a>
                                         
@@ -246,12 +246,12 @@ div.error{
                                     <div class="meta"  >
                                     	<img src="${userInfo.companyTxkzImg}"   width="100%" height="200px" id="img3"/>
                                     </div>
-                                    <a href="javascript:;" class="file" style="margin-top:55px;">
+                                    <!-- <a href="javascript:;" class="file" style="margin-top:55px;">
                                         <span class="white-color">选择文件</span>
-                                        <i class="upload icon white-color" ></i>
-                                        <input type="file" id="upload3" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
+                                        <i class="upload icon white-color" ></i> -->
+                                        <input type="file" id="upload3" class="focus imgInput" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                                         <input type="hidden" id="imgflag3" name="companyTxkzImg" value="${userInfo.companyTxkzImg}">
-                                    </a>
+                                    <!-- </a> -->
                                         
                                 </div>
                                         
@@ -291,7 +291,7 @@ div.error{
             }
             else if(thisInput == inputs[i])
             {
-                inputs[i+1].focus()||inputs[i+1].select();
+                inputs[i+1].focus();
                 break;
             }
         }
