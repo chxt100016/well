@@ -95,6 +95,7 @@ public class WaScheduleJobService {
                             break;
                         case 7:
                             handleType7(cncbTrans,entity);
+                            break;
                     }
                 }catch (CNCBException e){
                     e.printStackTrace();
@@ -109,6 +110,7 @@ public class WaScheduleJobService {
 
     }
 
+    @Transactional
     private void handleType7(CncbTrans cncbTrans, TransQueryOutputListEntity entity) {
         String operationParams=cncbTrans.getOperationParams();
         Map params=JSON.parseObject(operationParams,Map.class);
@@ -135,6 +137,7 @@ public class WaScheduleJobService {
         cncbTransDao.update(update);
     }
 
+    @Transactional
     private void handleType6(CncbTrans cncbTrans, TransQueryOutputListEntity entity) {
         String operationParams=cncbTrans.getOperationParams();
         Map params=JSON.parseObject(operationParams,Map.class);
