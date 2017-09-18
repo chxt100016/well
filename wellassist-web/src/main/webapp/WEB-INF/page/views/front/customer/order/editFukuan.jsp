@@ -404,6 +404,7 @@
 </script>
 <script>
        $(document).ready(function(){
+           $("#paySub").addClass("disabled");
         new AjaxUpload('#profile', {
             action: '${pageContext.request.contextPath}/uploadFile',
             name: 'file',
@@ -425,19 +426,6 @@
                 return;
             }
         });
-//       function handleFiles(files,filename) {
-//         var filesShow = files.parentNode.parentNode.firstChild.nextElementSibling;
-
-//         if (!filename) {
-//   console.log('null')
-//         }
-//         else {
-//             filesShow.innerHTML = "<p>" + filename + "</p>" + '<i class="file outline icon excel-inco ">' + '</i>';
-
-//         }
-//         console.log(filesShow)
-//         console.log(files.value)
-//     }
 
 	  //获取账户余额
       const urrr = '${pageContext.request.contextPath}/finance/balance';
@@ -461,6 +449,7 @@
 
 
 				})
+           $("#paySub").removeClass("disabled");
 
        })
 </script>
