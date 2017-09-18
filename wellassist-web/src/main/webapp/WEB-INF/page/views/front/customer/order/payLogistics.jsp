@@ -165,7 +165,7 @@
                     <span>支付密码：</span> <input type="password" style="width:250px" name="pass" placeholder="别忘记输入密码哦" autocomplete = 'new-password'>
                     </div>
                 </div>
-                <div class=" ui button primary submit">确定支付</div> <div class="ui button " onclick=" window.location.href ='${pageContext.request.contextPath}/customer/logisticsInfoList'">返回</div>
+                <div class=" ui button primary submit" id="paySub">确定支付</div> <div class="ui button " onclick=" window.location.href ='${pageContext.request.contextPath}/customer/logisticsInfoList'">返回</div>
                  
 
             </form>
@@ -244,6 +244,7 @@
 
             },
             onSuccess: function(e) {
+                $("#paySub").addClass("disabled");
                 //阻止表单的提交
                 console.log("onSuccess");
                 var allFields = payform.form('get values');
@@ -279,35 +280,20 @@
                          if(result.code==0){
                              console.log("ok");
                              //密码无误
-                             
-                            //  $.ajax({
-                            //     type: "Post",
-                            //     url: url2,
-                            //     data:JSON.stringify(GetJsonData()),
-                            //     dataType: "json",
-                            //       contentType:'application/json',
-                            //     success:function(result){
-                            //       if(result.status==1){
-                            //           alert(result.content)
-                            //       }else{
-                            //           alert(result.content)
-                            //       }
-
-                            //     }
-                            //  })
                        $.post(url2,GetJsonData(),function(result){
                             if(result.status==1){
                                       alert(result.content);
                                        window.location.href = "${pageContext.request.contextPath}/customer/logisticsInfoList";
                                   }else{
                                       alert(result.content);
-                                    
                                   }
+                           $("#paySub").removeClass("disabled");
                          },'json');
                          }
                          else if(result.code==500){
                              alert("朋友你的密码好像有点问题");
-                              console.log("error pass")
+                              console.log("error pass");
+                             $("#paySub").removeClass("disabled");
                          }
                          else{
                              console.log("fail!")

@@ -412,11 +412,11 @@ public class CustomerController extends BaseController {
       String certificateImg = "";
       String ip = IPUtils.getIpAddr(request);
       User user = (User) request.getSession().getAttribute("user");
-      if (!customerServiceImpl.isBalanceEnough(user.getUserId(), new BigDecimal(grabMoney), Integer.parseInt(zfMethod), new BigDecimal(balance), new BigDecimal(loan))) {
+      /*if (!customerServiceImpl.isBalanceEnough(user.getUserId(), new BigDecimal(grabMoney), Integer.parseInt(zfMethod), new BigDecimal(balance), new BigDecimal(loan))) {
          obj.put("content", ConstantUtil.MSG_MONEY_ERR);
          obj.put("status", "-1");
          return obj;
-      }
+      }*/
       if (zfMethod.equals("5")) {
          certificateImg = CommonUtil.GetRequestParam(request, "certificateImg", "");
          if ("".equals(certificateImg)) {

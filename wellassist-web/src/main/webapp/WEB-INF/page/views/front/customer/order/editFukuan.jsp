@@ -164,7 +164,7 @@
                     <span>支付密码：</span> <input type="password" style="width:250px" name="pass" placeholder="别忘记输入密码哦" autocomplete = 'new-password'>
                     </div>
                 </div>
-                <div class=" ui button primary submit">确定支付</div> <div class="ui button " onclick=" window.location.href ='${pageContext.request.contextPath}/customer/orderList'">返回</div>
+                <div class=" ui button primary submit" id="paySub">确定支付</div> <div class="ui button " onclick=" window.location.href ='${pageContext.request.contextPath}/customer/orderList'">返回</div>
                  
 
             </form>
@@ -243,6 +243,7 @@
 
             },
             onSuccess: function(e) {
+                $("#paySub").addClass("disabled");
                 //阻止表单的提交
                 // console.log("onSuccess");
                 var allFields = payform.form('get values');
@@ -299,22 +300,22 @@
                                        window.location.href = "${pageContext.request.contextPath}/customer/orderList";
                                   }else{
                                       alert(result.content);
-                                    
                                   }
+                           $("#paySub").removeClass("disabled");
                          },'json');
                          }
                          else if(result.code==500){
                              alert("朋友你的密码好像有点问题");
-                              console.log("error pass")
+                              console.log("error pass");
+                             $("#paySub").removeClass("disabled");
                          }
                          else{
                              console.log("fail!");
 							 
                          }
                      }
-                })
+                });
 
-               
             }
 
         });

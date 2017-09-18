@@ -127,7 +127,7 @@
                     </div>
                         <br>
                         <div class="column">
-                            <div class="ui button primary " @click='finish'> 结算</div>
+                            <div class="ui button primary " @click='finish' id="paySub"> 结算</div>
 
                         </div>
                     </div>
@@ -436,6 +436,7 @@
                },
                methods:{
                    finish:function(){
+                       $("#paySub").addClass("disabled");
                        let that = this;
                     $.ajax({
                         type:'post',
@@ -457,6 +458,8 @@
                                         else{
                                                     console.log(result.msg)
                                             }
+                                    $("#paySub").removeClass("disabled");
+                                        window.history.go(-1);
                                                 }
 
 
