@@ -53,7 +53,7 @@
                         <br>
                         <div class="column">
                             <div class="ui button primary " @click='finish' id="paySub"> 结算</div>
-                            <div class="ui button yellow" @click='paypay' id='paypay'>去支付</div>
+                            <div class="ui button yellow" @click='paypay' id='paypay' v-if='payState==1'>去支付</div>
 
                         </div>
                     </div>
@@ -92,7 +92,7 @@
                                                         <div class="field" >
                                                             <label style="display:block;float:left">授信金额:</lebel>
                                                                 <input type="text" style="display:none">
-                                                            <input type="text" name="loans" style="display:block;float:left" placeholder="输入授信金额"  onchange="moneyCheck(this)">
+                                                            <input type="text" name="loans" id='loanId' style="display:block;float:left" placeholder="输入授信金额"  onchange="moneyCheck(this)">
                                                             <input type="checkbox" name="cb" id="bondc"  style=" visibility:hidden;">
                                                         </div>
                                                         <div class="">
@@ -320,7 +320,7 @@
             $('#combox2').hide(1000);
         }
         if (x===2){
-
+            $('#loanId').val($('#payMoney').val());
             if(loanLeft==0){
                 alert("请申请账户授信");
                 $.get("${pageContext.request.contextPath}/customer/isCreditApplyAvailable",{},function(r){
@@ -446,7 +446,7 @@
                },
                methods:{
                    finish:function(){
-                       $("#paySub").addClass("disabled");
+                       $("#paySub").addClass("disabled loading");
                        let that = this;
                     $.ajax({
                         type:'post',
@@ -468,7 +468,7 @@
                                         else{
                                                     console.log(result.msg)
                                             }
-                                    $("#paySub").removeClass("disabled");
+                                    $("#paySub").removeClass("disabled loading");
                                         window.history.go(-1);
                                                 }
 
