@@ -183,7 +183,7 @@
         <div class="item">
             <a class="title <c:if test = "${parentMenuNo == '4'}"> active</c:if>">
             <i class="dropdown icon"></i>
-            公司管理
+            账户设置
             </a>
           <div class="content <c:if test = "${parentMenuNo == '4'}"> active</c:if>">
                 <div class="accordion transition visible" style="display: block !important;margin-top:0px">
