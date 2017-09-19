@@ -239,6 +239,36 @@ public class WaOrderServiceImpl implements WaOrderService {
     }
 
     @Override
+    public boolean checkOrder2ndpayOff(long orderId) {
+        Map<String,Object> query=new HashMap<>();
+        query.put("orderId",orderId);
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        int isSelfCar=(int)order.get("is_self_car");
+        if (order.get("prod_2ndpay_state")==null){
+            order.put("prod_2ndpay_state",0);
+        }
+        if (order.get("logistics_2ndpay_state")==null){
+            order.put("logistics_2ndpay_state",0);
+        }
+        int prod2ndpayState=(int)order.get("prod_2ndpay_state");
+        int logistics2ndpayState=(int)order.get("logistics_2ndpay_state");
+        if (isSelfCar==0){
+            if (prod2ndpayState==7){
+                query.put("orderState",(byte)6);
+                orderDao.updateOrderByID(query);
+                return true;
+            }
+        }else if (isSelfCar==1){
+            if (prod2ndpayState==7 && logistics2ndpayState==7){
+                query.put("orderState",(byte)6);
+                orderDao.updateOrderByID(query);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public Map<String, Object> orderinfo(long orderId) {
         Map<String,Object> orderinfo=orderDao.singleOrderinfoByPrimaryKey(orderId);
         return orderinfo;

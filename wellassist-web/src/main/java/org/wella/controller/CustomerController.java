@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.RequestContextHolder;
 import org.wella.common.ctrl.BaseController;
 import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
@@ -26,18 +25,11 @@ import org.wella.dao.*;
 import org.wella.entity.*;
 import org.wella.front.customer.mapper.CustomerBackOrderMapper;
 import org.wella.front.mapper.FrontBankOrderMapper;
-import org.wella.front.mapper.FrontTixianMapper;
 import org.wella.front.mapper.FrontUserMoneyMapper;
 import org.wella.front.mapper.NewsMapper;
-import org.wella.service.CustomerService;
 import org.wella.service.FinanceService;
 import org.wella.service.WaOrderService;
 import org.wella.service.impl.CustomerServiceImpl;
-import org.wella.service.impl.FinanceServiceImpl;
-import org.wella.service.impl.SellerServiceImpl;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -109,10 +101,10 @@ public class CustomerController extends BaseController {
 
    /**
     * 买家下订单
-    *
-    * @param map      prodId，saleNum，danjia，saleMoney，isSelfCar，contacts，conTel，toRegionId
-    *                 toRegionAddr，orderData，deliverDate，receiveDate，customerExceptCarriage
-    * @param response
+    * @param map 订单详情 (prodId，saleNum，danjia，saleMoney，isSelfCar，contacts，conTel，toRegionId
+    *                 toRegionAddr，orderData，deliverDate，receiveDate，customerExceptCarriage)
+    * @param response response
+    * @return 成功：code：0；失败：code：500，msg：原因
     */
    @RequestMapping(value = "order", method = RequestMethod.POST)
    @ResponseBody
@@ -133,6 +125,13 @@ public class CustomerController extends BaseController {
       return R.ok().put("orderId",orderId);
    }
 
+   /**
+    * 跳转下单页面
+    * @param request request
+    * @param response response
+    * @param model model
+    * @return view
+    */
    @RequestMapping("makeOrder")
    public String makeOrder(HttpServletRequest request, HttpServletResponse response, Model model) {
       String prodId = CommonUtil.GetRequestParam(request, "prodId", "0");
@@ -154,6 +153,13 @@ public class CustomerController extends BaseController {
       return "views/front/customer/orderPage_new.jsp";
    }
 
+   /**
+    * 跳转下单成功页面
+    * @param orderId 订单id
+    * @param request request
+    * @param model model
+    * @return view
+    */
    @RequestMapping({"orderSuccess"})
    public String orderSuccess(@RequestParam("orderId")long orderId, HttpServletRequest request, Model model) {
       User user = (User) request.getSession().getAttribute("user");
@@ -168,9 +174,10 @@ public class CustomerController extends BaseController {
 
    /**
     * 跳转订单详情页面
-    *
-    * @param model
-    * @return
+    * @param orderId 订单id
+    * @param request request
+    * @param model model
+    * @return view
     */
    @RequestMapping("orderDetail")
    public String orderDetail(@RequestParam("orderId") String orderId, HttpServletRequest request, Model model) {
@@ -183,6 +190,12 @@ public class CustomerController extends BaseController {
       return "views/front/customer/order/orderDetail_new.jsp";
    }
 
+   /**
+    *分批发货确认收货
+    * @param zorderId wa_zorder表主键
+    * @param receiveComment 收货备注
+    * @return 成功：code：0；失败：code：500，msg：原因
+    */
    @RequestMapping(value = "zorderConfirmReceive", method = RequestMethod.GET)
    @ResponseBody
    public R zorderConfirmReceive(@RequestParam("zorderId") String zorderId, @RequestParam("receiveComment") String receiveComment) {
@@ -193,6 +206,13 @@ public class CustomerController extends BaseController {
       return R.error();
    }
 
+   /**
+    * 子订单收货存疑
+    * @param orderId wa_order表主键
+    * @param zorderId wa_zorder表主键
+    * @param receiveComment 收货意见
+    * @return 成功：code：0；失败：code：500，msg：原因
+    */
    @RequestMapping(value = "zorderDoubtReceive", method = RequestMethod.GET)
    @ResponseBody
    public R zorderDoubtReceive(@RequestParam("orderId")String orderId,@RequestParam("zorderId") String zorderId, @RequestParam("receiveComment") String receiveComment) {
@@ -208,9 +228,9 @@ public class CustomerController extends BaseController {
 
    /**
     * 跳转物流详情页面
-    *
-    * @param model
-    * @return
+    * @param orderId wa_order表主键
+    * @param model model
+    * @return view
     */
    @RequestMapping("logisticsDetail")
    public String logisticsDetail(HttpServletRequest request, @RequestParam("orderId") String orderId, Model model) {
@@ -226,6 +246,9 @@ public class CustomerController extends BaseController {
 
    /**
     * 跳转买家物流订单界面
+    * @param request requset
+    * @param model model
+    * @return view
     */
    @RequestMapping("logisticsInfoList")
    public String logisticsInfoList(HttpServletRequest request, Model model) {
@@ -245,6 +268,10 @@ public class CustomerController extends BaseController {
 
    /**
     * 跳转抢单信息页面
+    * @param logisticsInfoId wa_logistics_info 表主键
+    * @param request request
+    * @param model model
+    * @return view
     */
    @RequestMapping("grabLogisticsList")
    public String grabLogisticsList(@RequestParam("logisticsInfoId") String logisticsInfoId, HttpServletRequest request, Model model) {
@@ -260,11 +287,9 @@ public class CustomerController extends BaseController {
    }
 
    /**
-    * 买家选择物流抢单
-    *
-    * @param
-    * @param
-    * @param
+    *买家选择物流抢单
+    * @param param logisticsInfoId:wa_logistics_info表主键，vehicleGrabId：wa_vehicle_grab表主键
+    * @return 成功：code：0；失败：code：500，msg：原因
     */
    @RequestMapping("chooseGrab")
    @ResponseBody
@@ -278,38 +303,11 @@ public class CustomerController extends BaseController {
       return R.ok();
    }
 
-   @RequestMapping("testPayLogistics")
-   @ResponseBody
-   public R testPayLogistics(@RequestParam("logisticsInfoId") String logisticsInfoId) {
-      try {
-         customerServiceImpl.testPayLogistics(Long.parseLong(logisticsInfoId));
-      } catch (NumberFormatException e) {
-         e.printStackTrace();
-         return R.error();
-      }
-      return R.ok();
-   }
-
-   @RequestMapping("testPayOrder")
-   @ResponseBody
-   public R testPayOrder(@RequestParam("orderId") String orderId) {
-      try {
-         int res = customerServiceImpl.testPayOrder(Long.parseLong(orderId));
-         if (res > 0) {
-            return R.ok();
-         }
-      } catch (Exception e) {
-         e.printStackTrace();
-         return R.error();
-      }
-      return R.error();
-   }
-
    /**
     * 买家支付订单的处理方法
-    *
-    * @param request
-    * @param response
+    * @param request orderId:wa_order表主键，saleMoney:预付款价格，zfMethod：1、网银付款 2 余额付款 3。授信付款组合付款 4组合付款、, 5-线下支付
+    *                balance：余额支付部分，loan：贷款支付部分，certificateImg：线下支付凭证（图片上传后回调的url）
+    * @param response response:{status:1成功，-1失败，content:“操作成功”/“操作失败”}
     */
    @RequestMapping(
            value = {"payOrder"},
@@ -410,119 +408,14 @@ public class CustomerController extends BaseController {
    }
 
    /**
-    * 买家支付订单的处理方法
-    *
-    * @param request
-    * @param response
+    * 物流预付款处理
+    * @param params orderId：wa_order主键，logisticsInfoId：wa_logistics_info主键，grabMoney：抢单报价，zfMethod：1、网银付款 2 余额付款 3。授信付款组合付款 4组合付款、, 5-线下支付
+    *               balance：余额支付部分，loan：贷款支付部分，certificateImg：线下支付凭证（图片上传后回调的url）
+    * @param request request
+    * @param response response
+    * @return response:{status:1成功，-1失败，content:“操作成功”/“操作失败”}
+    * @throws Exception
     */
-   /*@RequestMapping(
-           value = {"payOrder"},
-           method = {RequestMethod.POST}
-   )
-   public void payOrder(HttpServletRequest request, HttpServletResponse response) {
-      String ret = "-1";
-      JSONObject obj = new JSONObject();
-      obj.put("content", ConstantUtil.MSG_PARAM_ERR);
-      final String orderId = CommonUtil.GetRequestParam(request, "orderId", "0");
-      final String saleMoney = CommonUtil.GetRequestParam(request, "saleMoney", "0.00");
-      final String loan = CommonUtil.GetRequestParam(request, "loan", "0");
-      final String balance = CommonUtil.GetRequestParam(request, "balance", "0");
-      final String zfMethod = CommonUtil.GetRequestParam(request, "zfMethod", "2");
-      String certificateImg = "";
-      final String ip = IPUtils.getIpAddr(request);
-      try {
-         //资金不能从session里面拿！！！
-         User user = (User) request.getSession().getAttribute("user");
-         if (!customerServiceImpl.isBalanceEnough(user.getUserId(), new BigDecimal(saleMoney), Integer.parseInt(zfMethod), new BigDecimal(balance), new BigDecimal(loan))) {
-            obj.put("content", ConstantUtil.MSG_MONEY_ERR);
-            obj.put("status", "-1");
-            this.echo(response, obj);
-            return;
-         }
-         if (zfMethod.equals("5")) {
-            certificateImg = CommonUtil.GetRequestParam(request, "certificateImg", "");
-            if ("".equals(certificateImg)) {
-               obj.put("content", ConstantUtil.MSG_PARAM_ERR);
-               obj.put("status", "-1");
-               this.echo(response, obj);
-               return;
-            }
-         }
-         if (user != null && CommonUtil.getIntFromString(orderId) > 0) {
-            Map orderObj = this.getMyOneSingBO("wa_order", "order_id", Long.parseLong(orderId));
-            if (orderObj != null && orderObj.get("userId") != null && (long) orderObj.get("userId") == (user.getUserId()) && orderObj.get("orderState") != null && ((int) orderObj.get("orderState") == 1)) {
-
-               int zfMethodi=Integer.parseInt(zfMethod);
-               if (zfMethodi==2||zfMethodi==4){
-                  BigDecimal Bbalance=new BigDecimal(balance);
-                  if (zfMethodi==2){
-                     Bbalance=new BigDecimal(saleMoney);
-                  }
-                  new Thread(new Runnable() {
-                     @Override
-                     public void run() {
-                        UserSubAccount userSubAccount=financeServiceImpl.getUserSubAccountByUserId(user.getUserId());
-                        Map<String,String> paramss=new HashMap<>();
-                        paramss.put("payAccNo",userSubAccount.getSubAccNo().toString());
-                        paramss.put("tranAmt",Bbalance.toString());
-                        String result=CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer2TransferAccNo",paramss);
-                        R r= JSON.parseObject(result,R.class);
-                        ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
-                        CncbTrans cncbTrans=new CncbTrans();
-                        cncbTrans.setXml(forceTransferBasicInfo.getXml());
-                        cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
-                        cncbTrans.setTime(new Date());
-                        cncbTrans.setType((byte)1);
-                        JSONObject operationParamsObj=new JSONObject();
-                        operationParamsObj.put("sql"," CALL khFukuanProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + saleMoney + "\',\'" + zfMethod + "\',\'" + balance + "\',\'" + loan + "\',\'" + certificateImg + "\',\'" + ip + "\')");
-                        operationParamsObj.put("orderId",orderId);
-                        cncbTrans.setOperationParams(operationParamsObj.toJSONString());
-                        cncbTransDao.create(cncbTrans);
-                     }
-                  }).start();
-                  *//*UserSubAccount userSubAccount=financeServiceImpl.getUserSubAccountByUserId(user.getUserId());
-                  Map<String,String> paramss=new HashMap<>();
-                  paramss.put("payAccNo",userSubAccount.getSubAccNo().toString());
-                  paramss.put("tranAmt",Bbalance.toString());
-                  String result=CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer2TransferAccNo",paramss);
-                  R r= JSON.parseObject(result,R.class);
-                  ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
-                  CncbTrans cncbTrans=new CncbTrans();
-                  cncbTrans.setXml(forceTransferBasicInfo.getXml());
-                  cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
-                  cncbTrans.setTime(new Date());
-                  cncbTrans.setType((byte)1);
-                  JSONObject operationParamsObj=new JSONObject();
-                  operationParamsObj.put("sql"," CALL khFukuanProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + saleMoney + "\',\'" + zfMethod + "\',\'" + balance + "\',\'" + loan + "\',\'" + certificateImg + "\',\'" + ip + "\')");
-                  operationParamsObj.put("orderId",orderId);
-                  cncbTrans.setOperationParams(operationParamsObj.toJSONString());
-                  cncbTransDao.create(cncbTrans);*//*
-                  Map<String,Object> query=new HashMap<>();
-                  query.put("orderId",Long.parseLong(orderId));
-                  query.put("prodPayState",3);
-                  orderDao.updateOrderByID(query);
-                  ret="1";
-                  obj.put("content","处理中...");
-               }else {
-                  String sql = "";
-                  sql = " CALL khFukuanProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + saleMoney + "\',\'" + zfMethod + "\',\'" + balance + "\',\'" + loan + "\',\'" + certificateImg + "\',\'" + ip + "\')";
-                  HashMap queryParam = new HashMap();
-                  queryParam.put("strsql", sql);
-                  this.commonMapper.simpleSelectReturnList(queryParam);
-                  waOrderServiceImpl.checkOrderRepayOff(Long.parseLong(orderId));
-                  ret = "1";
-                  obj.put("content", ConstantUtil.MSG_SUCCESS);
-               }
-            }
-         }
-      }catch (Exception var22) {
-         ret = "-2";
-         obj.put("content", ConstantUtil.MSG_FAILS);
-      }
-      obj.put("status", ret);
-      this.echoJSON(response, obj);
-   }*/
-
    @RequestMapping(value = {"payLogistics"},
            method = {RequestMethod.POST})
    @ResponseBody
@@ -620,11 +513,10 @@ public class CustomerController extends BaseController {
 
    /**
     * 跳转订单付款页面
-    *
-    * @param orderId
-    * @param request
-    * @param model
-    * @return
+    * @param orderId wa_order表主键
+    * @param request request
+    * @param model model
+    * @return view
     */
    @RequestMapping("goPayOrder")
    public String goPayOrder(@RequestParam("orderId") String orderId, HttpServletRequest request, Model model) {
@@ -637,6 +529,13 @@ public class CustomerController extends BaseController {
       return "views/front/customer/order/editFukuan.jsp";
    }
 
+   /**
+    * 跳转物流订单付款
+    * @param logisticsInfoId wa_logistics_info表主键
+    * @param request requuest
+    * @param model model
+    * @return view
+    */
    @RequestMapping("goPayLogistics")
    public String goPayLogistics(@RequestParam("logisticsInfoId") String logisticsInfoId, HttpServletRequest request, Model model) {
       User user = (User) request.getSession().getAttribute("user");
@@ -648,6 +547,12 @@ public class CustomerController extends BaseController {
       return "views/front/customer/order/payLogistics.jsp";
    }
 
+   /**
+    * 得到子区域列表
+    * @param request pid 父区域id
+    * @param response response
+    * @param model model
+    */
    @RequestMapping(
            value = {"getRegionList"},
            method = {RequestMethod.POST}
@@ -662,6 +567,11 @@ public class CustomerController extends BaseController {
       this.echoJSON(response, obj);
    }
 
+   /**
+    * 跳转修改密码页面
+    * @param model model
+    * @return view
+    */
    @RequestMapping("password")
    public String changePassword(Model model) {
       HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
@@ -674,8 +584,8 @@ public class CustomerController extends BaseController {
 
    /**
     * 修改支付密码
-    *
-    * @param map
+    * @param map paynewpass新支付密码
+    * @return 成功：code：0；失败：code：500，msg：原因
     */
    @RequestMapping("changePayPassword")
    @ResponseBody
@@ -701,8 +611,8 @@ public class CustomerController extends BaseController {
    /**
     * 检验支付密码
     * 修改支付密码前要输入原有的支付密码，原有的支付密码从session中获取
-    *
-    * @param map
+    * @param map payoldpass 旧支付密码
+    * @return 成功：code：0；失败：code：500，msg：原因
     */
    @RequestMapping("checkPayPassword")
    @ResponseBody
@@ -722,8 +632,8 @@ public class CustomerController extends BaseController {
    /**
     * 修改登录密码
     * 1.修改session中的操作密码，2.修改数据库中session密码
-    *
-    * @param map
+    * @param map newpass新登录密码
+    * @return 成功：code：0；失败：code：500，msg：原因
     */
    @RequestMapping("changeLoginPassword")
    @ResponseBody
@@ -749,8 +659,8 @@ public class CustomerController extends BaseController {
    /**
     * 检验登录密码
     * 修改登录密码前要输入原有的登录密码，原有的登录密码可以从session中获取
-    *
-    * @param map
+    * @param map payoldpass旧登录密码
+    * @return 成功：code：0；失败：code：500，msg：原因
     */
    @RequestMapping("checkLoginPassword")
    @ResponseBody
@@ -767,6 +677,11 @@ public class CustomerController extends BaseController {
       }
    }
 
+   /**
+    * 检验支付密码
+    * @param oldPass 旧支付密码
+    * @return 成功：code：0；失败：code：500，msg：原因
+    */
    @RequestMapping("checkCzPassword")
    @ResponseBody
    public R checkWithdrawPassword(@RequestParam("pass") String oldPass, HttpServletResponse response) {
@@ -781,16 +696,26 @@ public class CustomerController extends BaseController {
       }
    }
 
+   /**
+    * 商品详情页跳转
+    * @param prodId wa_prod表主键
+    * @param model model
+    * @return view
+    */
    @RequestMapping("prodDetail")
    public String prodDetail(@RequestParam("prodId") String prodId, Model model) {
       User user = (User) HttpContextUtils.getAttribute("user");
-
-
       model.addAttribute("userName", user.getUserName());
       model.addAttribute("parentMenuNo", "5");
       return "views/front/customer/order/prodDetail.jsp";
    }
 
+   /**
+    * 买家绑定卖家提供的商品列表
+    * @param map 分页参数
+    * @param model model
+    * @return view
+    */
    @RequestMapping("prodList")
    public String prodList(@RequestParam Map<String, Object> map, Model model) {
       User user = (User) HttpContextUtils.getAttribute("user");
@@ -807,17 +732,16 @@ public class CustomerController extends BaseController {
 
    /**
     * 买方订单列表
-    *
-    * @param request
-    * @param model
-    * @return
+    * @param request request
+    * @param model model
+    * @return view
     */
    @RequestMapping("orderList")
    public String orderList(HttpServletRequest request, Model model) {
       User user = (User) HttpContextUtils.getAttribute("user");
       Map param = this.getConditionParam(request);
       param.put("userId", user.getUserId());
-      ArrayList<Map<String, Object>> waOrderList = this.customerBackOrderMapper.getWaOrderList(param);
+      ArrayList<Map<String, Object>> waOrderList = this.orderDao.getWaOrderList(param);
       ConvertUtil.convertDataBaseMapToJavaMap(waOrderList);
       for (Map<String, Object> waOrder : waOrderList) {
          Map<String, Object> orderlog = waOrderServiceImpl.findNewestOrderLog(Long.parseLong(waOrder.get("orderId").toString()));
@@ -826,7 +750,7 @@ public class CustomerController extends BaseController {
          }
       }
       model.addAttribute("waOrderList", waOrderList);
-      int totalCount = this.customerBackOrderMapper.getWaOrderListCount(param);
+      int totalCount = this.orderDao.getWaOrderListCount(param);
       this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
       model.addAttribute("userName", user.getUserName());
       model.addAttribute("parentMenuNo", "1");
@@ -837,7 +761,6 @@ public class CustomerController extends BaseController {
    /**
     * 重复，要删
     * 下订单界面
-    *
     * @param
     * @param model
     * @return
@@ -1474,7 +1397,6 @@ public class CustomerController extends BaseController {
             cncbTransDao.create(cncbTrans);
          }
       }).start();
-
       Map<String,Object> params=new HashMap<>();
       params.put("orderId",orderId);
       params.put("logistics2ndpayState",6);

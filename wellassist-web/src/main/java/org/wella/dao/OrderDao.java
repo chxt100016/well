@@ -54,5 +54,9 @@ public interface OrderDao {
 
     List<Map<Integer,Object>> profit(Map<String,Object> map);
 
+    ArrayList<Map<String, Object>> getWaOrderList(Map<String, Object> paramMap);
+
+    int getWaOrderListCount(Map<String, Object> paramMap);
+
 
 }

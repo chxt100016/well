@@ -284,7 +284,26 @@
     </select>
 
 
+    <!-- 获取订单列表 -->
+    <select id="getWaOrderList" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT a.*, b.prod_name, b.prod_img
+        FROM wa_order as a INNER JOIN wa_prod as b ON a.prod_id = b.prod_id
+        WHERE a.user_id = #{userId}
+        <if test="orderState!=null and orderState!=''">
+            AND a.order_state = #{orderState}
+        </if>
+        ORDER BY a.order_id DESC
+        LIMIT ${start} , ${size}
+    </select>
 
+    <select id="getWaOrderListCount" parameterType="java.util.Map" resultType="int">
+        SELECT count(*)
+        FROM wa_order as a INNER JOIN wa_prod as b ON a.prod_id = b.prod_id
+        WHERE a.user_id = #{userId}
+        <if test="orderState!=null and orderState!=''">
+            AND a.order_state = #{orderState}
+        </if>
+    </select>
 
 
 </mapper>

@@ -296,6 +296,7 @@ public class CustomerServiceImpl implements CustomerService {
         return regionDao.getRegionDetailName(paramMap) + " " + userinfo.getZcXxAddress();
     }
 
+
     @Override
     public Map<String, Object> getOrderDetailInfo(long orderId) {
         //得到订单基本信息
@@ -327,9 +328,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * 判断有没有发货完成order_state:4？在判断其他子订单有没有确认收货zorder_state:2?都通过则order_state->5
-     *
-     * @param zorderId
-     * @return
+     * @param zorderId wa_zorder表主键
+     * @param receiveComment 收货意见
+     * @return 数据库内update行数
      */
     @Override
     public int zorderConfirmReceive(long zorderId, String receiveComment) {
@@ -428,9 +429,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * 选择物流 update wa_vehicle_grab 表 state，update wa_logistics_info 表 state 及其他
-     *
-     * @param param
-     * @return
      */
     @Override
     @Transactional
@@ -871,12 +869,24 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    @Transactional
     public void handlePay2Seller(long orderId, long orderTransId, long moneyId, BigDecimal zfSjMoney) {
         //update wa_order prod2ndpayState
         Map<String,Object> params=new HashMap<>();
         params.put("orderId",orderId);
-        params.put("prod2ndpayState",7);
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        int isSelfCar=(int)order.get("is_self_car");
+        int prod2ndpayState=7;
+        int logistics2ndpayState=(int)order.get("logistics_2ndpay_state");
+        if (isSelfCar==0){
+            params.put("orderState",(byte)6);
+        }else if (isSelfCar==1){
+            if (logistics2ndpayState==7){
+                params.put("orderState",(byte)6);
+            }
+        }
+        params.put("orderId",orderId);
+        params.put("prod2ndpayState",prod2ndpayState);
+
         orderDao.updateOrderByID(params);
         //update wa_order_trans
         params.clear();
@@ -890,15 +900,27 @@ public class CustomerServiceImpl implements CustomerService {
         params.put("completeDate",new Date());
         params.put("jyState",2);
         userMoneyDao.update(params);
+
+        /*waOrderServiceImpl.checkOrder2ndpayOff(orderId);*/
     }
 
     @Override
-    @Transactional
     public void handleSettleLogistics(long logisticsId,long orderId,BigDecimal zfSjMoney) {
-        //update wa_order logistics2ndpayState
+        //update wa_order logistics2ndpayState && orderState
         Map<String,Object> params=new HashMap<>();
         params.put("orderId",orderId);
-        params.put("logistics2ndpayState",7);
+        Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        int isSelfCar=(int)order.get("is_self_car");
+        int prod2ndpayState=(int)order.get("prod_2ndpay_state");
+        int logistics2ndpayState=7;
+        params.clear();
+        params.put("orderId",orderId);
+        params.put("logistics2ndpayState",logistics2ndpayState);
+        if (isSelfCar==1){
+            if (prod2ndpayState==7){
+                params.put("orderState",(byte)6);
+            }
+        }
         orderDao.updateOrderByID(params);
 
         params.clear();

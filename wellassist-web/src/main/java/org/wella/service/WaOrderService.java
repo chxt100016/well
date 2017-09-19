@@ -29,14 +29,15 @@ public interface WaOrderService {
 
     /**
      * 得到分批发货的详细信息
-     * @param orderId
+     * @param orderId wa_order表主键
      * @return
      */
     List<Map<String,Object>> findZorders(long orderId);
+
     /**
      * 得到订单物流详情
-     * @param orderId
-     * @return
+     * @param orderId wa_order表主键
+     * @return 自提或第三方物流信息和车辆信息
      */
     Map<String,Object> findOrderLogisticsInfo(long orderId);
 
@@ -60,12 +61,13 @@ public interface WaOrderService {
 
     /**
      * 检查商品订单和物流订单是否都已预付款付款完成，是则将order_state 置为2
-     * 以后改为数据库触发器写法
-     * @param orderId
-     * @return
+     * @param orderId wa_order表主键
+     * @return true：已付款完成，false：未付款完成
      */
     boolean checkOrderRepayOff(long orderId);
 
     Map<String,Object> orderinfo(long orderId);
+
+    boolean checkOrder2ndpayOff(long orderId);
 
 }

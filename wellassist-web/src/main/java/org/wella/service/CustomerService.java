@@ -128,31 +128,54 @@ public interface CustomerService {
      */
     String findZcAddress(Userinfo userinfo);
 
+    /**
+     * 订单详情页面信息
+     * @param orderId 订单主键
+     * @return 订单基本信息，订单实时价格，已收货收货量和成交额
+     */
     Map<String,Object> getOrderDetailInfo(long orderId);
 
+    /**
+     * 判断有没有发货完成order_state:4？在判断其他子订单有没有确认收货zorder_state:2?都通过则order_state->5
+     * @param zorderId wa_zorder表主键
+     * @param receiveComment 收货意见
+     * @return 数据库内update行数
+     */
     int zorderConfirmReceive(long zorderId,String receiveComment);
 
+    /**
+     * 分批发货收货存疑
+     * @param orderId wa_order表主键
+     * @param zorderId wa_zorder表主键
+     * @param receiveComment 收货意见
+     */
     void zorderDoubtReceive(long orderId,long zorderId, String receiveComment);
+
     /**
      * 物流订单列表数据
-     * @param param
-     * @return
+     * @param param 分页参数
+     * @return 物流订单列表
      */
     List<Map<String, Object>> logisticsInfoListInfo(Map param);
 
+    /**
+     * 物流订单列表总条
+     * @param param 分页参数
+     * @return 物流订单列表总条数
+     */
     int logisticsInfoListInfoCount(Map param);
 
     /**
      * 物流抢单列表数据
-     * @param liId
-     * @return
+     * @param liId wa_logistics_info 主键
+     * @return 物流抢单列表
      */
     Map<String,Object> grabLogisticsListInfo(long liId);
 
     /**
      * 选择物流
-     * @param param
-     * @return
+     * @param param logisticsInfoId:wa_logistics_info表主键，vehicleGrabId：wa_vehicle_grab表主键
+     * @return 数据库内update行数
      */
     int chooseGrab(Map param);
 

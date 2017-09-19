@@ -41,8 +41,8 @@ public interface FinanceService {
 
     /**
      * 得到用户的附属账户信息
-     * @param userId
-     * @return
+     * @param userId wa_user表主键
+     * @return wa_user_sub_account表记录
      */
     UserSubAccount getUserSubAccountByUserId(long userId);
 }

@@ -137,7 +137,7 @@
 									<c:if test="${item.prod2ndpayState!=0 and item.prod2ndpayState!=7}">结算中</c:if>
 									<c:if test="${item.prod2ndpayState==7}">已结算</c:if>
 									</c:if>
-								<c:if test="${item.orderState=='6'}">待评价</c:if>
+								<c:if test="${item.orderState=='6'}">发送发票</c:if>
 								<c:if test="${item.orderState=='7'}">已完成</c:if>
 								<c:if test="${item.orderState=='-1'}">已取消</c:if>
                          </span>
@@ -168,7 +168,7 @@
 							<c:if test="${item.prod2ndpayState==0}"><span class="span_btn pointer ft-wt-bd" onClick="toURL('secondPay', '${item.orderId}')">结算</span></c:if>
 
 						</c:if>
-					<c:if test="${item.orderState==6}">
+					<c:if test="${item.orderState==7}">
 						<span class="span_btn" onClick="toURL('editPingjia', '${item.orderId}')">评价</span>
 					</c:if>
                     </td>

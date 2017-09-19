@@ -13,6 +13,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.wella.common.mapper.CommonMapper;
 import org.wella.common.utils.CommonUtil;
@@ -56,8 +57,6 @@ public class WaScheduleJobService {
 
     @Autowired
     private CustomerService customerServiceImpl;
-
-
 
     @Scheduled(fixedRate = 60000)
     public void checkCncbTrans(){
@@ -107,10 +106,9 @@ public class WaScheduleJobService {
                 }
             }
         }
-
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     private void handleType7(CncbTrans cncbTrans, TransQueryOutputListEntity entity) {
         String operationParams=cncbTrans.getOperationParams();
         Map params=JSON.parseObject(operationParams,Map.class);
@@ -137,7 +135,7 @@ public class WaScheduleJobService {
         cncbTransDao.update(update);
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     private void handleType6(CncbTrans cncbTrans, TransQueryOutputListEntity entity) {
         String operationParams=cncbTrans.getOperationParams();
         Map params=JSON.parseObject(operationParams,Map.class);
