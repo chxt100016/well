@@ -97,4 +97,50 @@
         from wa_withdraw
         WHERE withdraw_id=#{withdrawId}
     </select>
+
+    <update id="update" parameterType="map">
+        update wa_withdraw
+        <set >
+            <if test="moneyId != null" >
+                money_id = #{moneyId,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null" >
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="withdrawMoney != null" >
+                withdraw_money = #{withdrawMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="withdrawName != null" >
+                withdraw_name = #{withdrawName,jdbcType=VARCHAR},
+            </if>
+            <if test="withdrawBank != null" >
+                withdraw_bank = #{withdrawBank,jdbcType=VARCHAR},
+            </if>
+            <if test="account != null" >
+                account = #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="withdrawState != null" >
+                withdraw_state = #{withdrawState,jdbcType=TINYINT},
+            </if>
+            <if test="withdrawDate != null" >
+                withdraw_date = #{withdrawDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="withdrawIp != null" >
+                withdraw_ip = #{withdrawIp,jdbcType=VARCHAR},
+            </if>
+            <if test="mgrUserId != null" >
+                mgr_user_id = #{mgrUserId,jdbcType=BIGINT},
+            </if>
+            <if test="mgrDate != null" >
+                mgr_date = #{mgrDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="content != null" >
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="mgrIp != null" >
+                mgr_ip = #{mgrIp,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where withdraw_id = #{withdrawId,jdbcType=BIGINT}
+    </update>
 </mapper>

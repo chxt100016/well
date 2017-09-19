@@ -4,3 +4,4 @@ workspace.xml
 *.war
 */target/*
 *.iml
+.idea/*

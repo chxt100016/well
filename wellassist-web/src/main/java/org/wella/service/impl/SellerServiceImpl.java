@@ -265,7 +265,6 @@ public class SellerServiceImpl implements SellerService {
 
     /**
      * 生成对订单操作的日志文件
-     *
      * @param
      * @param map 其中confirmPrice是指修改后的文件
      */

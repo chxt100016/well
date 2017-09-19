@@ -25,7 +25,6 @@ public interface WithdrawDAO {
     int total(Map<String,Object> params);
 
     /**
-     *
      * @param parms
      * @return
      */
@@ -38,5 +37,8 @@ public interface WithdrawDAO {
      */
     int  withdrawApply(Map<String,Object> params);
 
+
     Map<String,Object> singlePoByPrimaryKey(@Param("withdrawId") long withdrawId);
+
+    void update(Map<String, Object> update);
 }

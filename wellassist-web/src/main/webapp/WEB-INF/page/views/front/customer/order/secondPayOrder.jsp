@@ -127,7 +127,7 @@
                     </div>
                         <br>
                         <div class="column">
-                            <div class="ui button primary " @click='finish'> 结算</div>
+                            <div class="ui button primary " @click='finish' id="paySub"> 结算</div>
 
                         </div>
                     </div>
@@ -405,8 +405,8 @@
                         success:function(result){
                                 if(result.code==0){
                                       console.log(result.orderinfo);
-                                      that.sum= result.orderinfo.confirm_number*result.orderinfo.confirm_price;
-                                      that.paidAmount=result.orderinfo.sale_sj_money;
+                                      that.paidAmount= result.orderinfo.confirm_number*result.orderinfo.confirm_price;
+                                      that.sum=result.orderinfo.sale_sj_money;
                                       that.payMoney=that.sum- that.paidAmount;
                                       if(that.sum== that.paidAmount){
                                            that.payState=0;
@@ -436,9 +436,10 @@
                },
                methods:{
                    finish:function(){
+                       $("#paySub").addClass("disabled");
                        let that = this;
                     $.ajax({
-                        type:'get', 
+                        type:'post',
                         url:paymentUrl,
                         data:{
                         orderId:orderId,
@@ -457,6 +458,8 @@
                                         else{
                                                     console.log(result.msg)
                                             }
+                                    $("#paySub").removeClass("disabled");
+                                        window.history.go(-1);
                                                 }
 
 

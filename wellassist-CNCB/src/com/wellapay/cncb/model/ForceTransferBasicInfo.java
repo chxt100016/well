@@ -1,9 +1,11 @@
 package com.wellapay.cncb.model;
 
+import com.wellapay.cncb.model.output.CommonOutput;
+
 /**
  * Created by Administrator on 2017/9/4.
  */
-public class ForceTransferBasicInfo {
+public class ForceTransferBasicInfo extends CommonOutput{
     private String xml;
     private String clientID;
 

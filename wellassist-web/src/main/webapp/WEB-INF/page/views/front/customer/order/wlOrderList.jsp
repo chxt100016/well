@@ -89,6 +89,7 @@
 								<c:if test="${item.state==5}">
                                     <c:if test="${item.logistics2ndpayState==0}">已完成</c:if>
                                     <c:if test="${item.logistics2ndpayState==6}">结算中</c:if>
+                                    <c:if test="${item.logistics2ndpayState==7}">已结算</c:if>
                                     </c:if>
                             <c:if test="${item.state==6}">已结算</c:if>
                         </span>
@@ -112,7 +113,7 @@
                              </c:if>
                          </c:if>
                             <c:if test="${item.state==5}">
-                                <c:if test="${item.logistics2ndpayState==0}"><span class="span_btn" onClick="settleLogistics(${item.logisticsId})">结算</span></c:if>
+                                <c:if test="${item.logistics2ndpayState==0}"><span class="span_btn" onClick="settleLogistics(${item.logisticsId})" id="settleLogistics">结算</span></c:if>
                             </c:if>
                          </span>
                        
@@ -197,8 +198,10 @@
 	}
 
 	function settleLogistics(logisticsId){
+        $("#settleLogistics").addClass("disabled");
 	    $.post("${pageContext.request.contextPath}/customer/secondPayLogisticsSub",{logisticsId:logisticsId},function(r){
             window.location.reload();
+            $("#settleLogistics").removeClass("disabled");
         },"json");
     }
 </script>

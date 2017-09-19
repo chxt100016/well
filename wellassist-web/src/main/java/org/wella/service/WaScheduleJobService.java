@@ -95,6 +95,7 @@ public class WaScheduleJobService {
                             break;
                         case 7:
                             handleType7(cncbTrans,entity);
+                            break;
                     }
                 }catch (CNCBException e){
                     e.printStackTrace();
@@ -109,6 +110,7 @@ public class WaScheduleJobService {
 
     }
 
+    @Transactional
     private void handleType7(CncbTrans cncbTrans, TransQueryOutputListEntity entity) {
         String operationParams=cncbTrans.getOperationParams();
         Map params=JSON.parseObject(operationParams,Map.class);
@@ -135,6 +137,7 @@ public class WaScheduleJobService {
         cncbTransDao.update(update);
     }
 
+    @Transactional
     private void handleType6(CncbTrans cncbTrans, TransQueryOutputListEntity entity) {
         String operationParams=cncbTrans.getOperationParams();
         Map params=JSON.parseObject(operationParams,Map.class);
@@ -166,10 +169,10 @@ public class WaScheduleJobService {
         String operationParams=cncbTrans.getOperationParams();
         Map params=JSON.parseObject(operationParams,Map.class);
         long orderId=(long)(int)params.get("orderId");
-        BigDecimal secondPayMoney=(BigDecimal)params.get("secondPayMoney");
+        BigDecimal secondPayMoney=new BigDecimal(params.get("secondPayMoney").toString());
         int zfMethod=(int)params.get("zfMethod");
-        BigDecimal balance=(BigDecimal)params.get("balance");
-        BigDecimal loan=(BigDecimal)params.get("loan");
+        BigDecimal balance=new BigDecimal(params.get("balance").toString());
+        BigDecimal loan=new BigDecimal(params.get("loan").toString());
         String certificateImg=(String)params.get("certificateImg");
         Map update=new HashMap();
         update.put("id",cncbTrans.getId());

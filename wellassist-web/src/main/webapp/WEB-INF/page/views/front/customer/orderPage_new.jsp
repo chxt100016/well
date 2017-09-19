@@ -495,6 +495,7 @@
                 toRegionAddr: "请输入完整收货地址！",
             },
             submitHandler: function(form) {
+                $("#submit").addClass("disabled");
                 var isSelfCar=$("input[type='radio'][name='isSelfCar']:checked").val();
                 console.log(isSelfCar);
                 if (isSelfCar == 0){
@@ -538,6 +539,7 @@
                         }else{
                             alert(data.msg);
                         }
+                        $("#submit").removeClass("disabled");
                     }, "json");
                 }
             }
