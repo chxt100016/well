@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.sun.javafx.collections.MappingChange;
 import com.wellapay.cncb.Exception.CNCBException;
 import com.wellapay.cncb.model.output.TransQueryOutputListEntity;
-import com.wellapay.cncb.service.CNCBPayConnectService;
 import com.wellapay.cncb.util.CNCBConstants;
 import io.wellassist.utils.R;
 import org.apache.commons.logging.Log;
@@ -37,8 +36,6 @@ public class WaScheduleJobService {
     @Autowired
     private CncbTransDao cncbTransDao;
 
-    @Autowired
-    private CNCBPayConnectService cncbPayConnectServiceImpl;
 
     @Autowired
     private CommonMapper commonMapper;

@@ -15,7 +15,7 @@
 
 	<context:component-scan base-package="io.wellassist" />
 	<context:component-scan base-package="org.wella"/>
-	<context:component-scan base-package="com.wellapay.cncb.service"/>
+	<context:component-scan base-package="com.wellapay.cncb"/>
 	<context:annotation-config />
 	<task:annotation-driven/>
 	<mvc:default-servlet-handler />

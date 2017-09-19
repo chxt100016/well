@@ -3,7 +3,6 @@ package org.wella.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.wellapay.cncb.model.ForceTransferBasicInfo;
-import com.wellapay.cncb.service.CNCBPayConnectService;
 import io.wellassist.utils.Query;
 import io.wellassist.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,8 +69,6 @@ public class CreditorServiceImpl implements CreditorService{
     @Autowired
     private UserSubAccountDao userSubAccountDao;
 
-    @Autowired
-    private CNCBPayConnectService cncbPayConnectServiceImpl;
 
     @Autowired
     private CncbTransDao cncbTransDao;

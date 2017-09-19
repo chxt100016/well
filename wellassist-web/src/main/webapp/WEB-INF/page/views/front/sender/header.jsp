@@ -86,6 +86,26 @@
             
         </div>
 
+        <!-- parentMenu==7 -->
+
+        <div class="item">
+            <a class="title <c:if test = "${parentMenuNo == 7 }"> active</c:if>">
+                <i class="dropdown icon"></i>
+                发票中心
+            </a>
+            <div class="content <c:if test = "${parentMenuNo == 7 }"> active</c:if>">
+                <div class="accordion transition visible" style="display: block !important;margin-top:0px">
+
+                    <div onclick="window.location.href='${pageContext.request.contextPath}/sender/goBillApply'" class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == 7&&childMenuNo ==1 }"> font-white</c:if> ">
+                        <span >发票申请</span>
+                    </div>
+                    <div onclick="window.location.href='${pageContext.request.contextPath}/sender/goBillManage'" class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == 7&&childMenuNo == 2 }"> font-white</c:if> ">
+                        <span >发票管理</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
          <!-- parentMenu==2 -->
         <div class="item">
             <a class="title <c:if test = "${parentMenuNo == '2' }"> active</c:if>">

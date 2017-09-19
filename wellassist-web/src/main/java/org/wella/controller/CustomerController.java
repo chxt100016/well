@@ -3,7 +3,6 @@ package org.wella.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.wellapay.cncb.model.ForceTransferBasicInfo;
-import com.wellapay.cncb.service.CNCBPayConnectService;
 import io.wellassist.utils.HttpContextUtils;
 import io.wellassist.utils.IPUtils;
 import io.wellassist.utils.R;
@@ -89,9 +88,6 @@ public class CustomerController extends BaseController {
 
    @Autowired
    private UserSubAccountDao userSubAccountDao;
-
-   @Autowired
-   private CNCBPayConnectService cncbPayConnectServiceImpl;
 
    @Autowired
    private CncbTransDao cncbTransDao;
@@ -1404,4 +1400,27 @@ public class CustomerController extends BaseController {
       return R.ok().put("mag","结算中...");
    }
 
+   /**
+    * 跳转发票申请页面
+    * @param model model
+    * @return view
+    */
+   @RequestMapping(value = "goBillApply",method = RequestMethod.GET)
+   public String goBillApply(Model model){
+      model.addAttribute("parentMenuNo",7);
+      model.addAttribute("childMenuNo",1);
+      return "views/front/customer/bill/goBillApply.jsp";
+   }
+
+   /**
+    * 跳转发票管理页面
+    * @param model model
+    * @return view
+    */
+   @RequestMapping(value = "goBillManage",method = RequestMethod.GET)
+   public String goBillManage(Model model){
+      model.addAttribute("parentMenuNo",7);
+      model.addAttribute("childMenuNo",2);
+      return "views/front/customer/bill/goBillManage.jsp";
+   }
 }

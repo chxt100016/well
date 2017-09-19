@@ -2,7 +2,6 @@ package org.wella.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.wellapay.cncb.model.output.BalanceQueryOutput;
-import com.wellapay.cncb.service.CNCBPayConnectService;
 import io.wellassist.utils.HttpContextUtils;
 import io.wellassist.utils.IPUtils;;
 import io.wellassist.utils.R;
@@ -41,9 +40,6 @@ public class FinanceServiceImpl implements FinanceService {
 
     @Autowired
     private RepayDao repayDao;
-
-    @Autowired
-    private CNCBPayConnectService cncbPayConnectServiceImpl;
 
     @Autowired
     private UserSubAccountDao userSubAccountDao;

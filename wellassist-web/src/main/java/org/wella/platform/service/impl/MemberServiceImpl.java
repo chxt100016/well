@@ -1,13 +1,10 @@
 package org.wella.platform.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.qiniu.util.Json;
 import com.wellapay.cncb.model.input.Register;
 import com.wellapay.cncb.model.input.RegisterList;
 import com.wellapay.cncb.model.input.VilcstDataList;
 import com.wellapay.cncb.model.output.RegisterOutput;
-import com.wellapay.cncb.service.CNCBPayConnectService;
-import io.wellassist.utils.Query;
 import io.wellassist.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +21,6 @@ import org.wella.platform.service.MemberService;
 import org.wella.service.CreditorService;
 import org.wella.service.MessageService;
 import org.wella.service.RegionService;
-import org.wella.utils.MailUtil;
 
 import java.util.*;
 
@@ -50,8 +46,6 @@ public class MemberServiceImpl implements MemberService{
     private CreditorAuthenticInfoDao creditorAuthenticInfoDao;
     @Autowired
     private MessageService messageServicesk;
-    @Autowired
-    private CNCBPayConnectService cncbPayConnectServiceImpl;
     @Autowired
     private UserinfoDao userinfoDao;
     @Autowired
