@@ -536,13 +536,8 @@ public class CustomerController extends BaseController {
       final String loan = CommonUtil.GetRequestParam(request, "loan", "0");
       final String zfMethod = CommonUtil.GetRequestParam(request, "zfMethod", "2");
       String certificateImg = "";
-<<<<<<< HEAD
-      String ip = IPUtils.getIpAddr(request);
-      User user = (User) request.getSession().getAttribute("user");
-=======
       final String ip = IPUtils.getIpAddr(request);
       final User user = (User) request.getSession().getAttribute("user");
->>>>>>> 8529cf451ec0664ea18e7b52ea2f55db92d5568a
       /*if (!customerServiceImpl.isBalanceEnough(user.getUserId(), new BigDecimal(grabMoney), Integer.parseInt(zfMethod), new BigDecimal(balance), new BigDecimal(loan))) {
          obj.put("content", ConstantUtil.MSG_MONEY_ERR);
          obj.put("status", "-1");
