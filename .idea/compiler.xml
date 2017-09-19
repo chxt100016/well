@@ -30,6 +30,7 @@
       <module name="wellassist-gen" target="1.7" />
       <module name="wellassist-pay" target="1.7" />
       <module name="wellassist-schedule" target="1.7" />
+      <module name="wellassist-security" target="1.7" />
       <module name="wellassist-shiro" target="1.7" />
       <module name="wellassist-web" target="1.7" />
     </bytecodeTargetLevel>
