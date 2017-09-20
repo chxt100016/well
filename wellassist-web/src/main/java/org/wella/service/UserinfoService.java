@@ -46,7 +46,12 @@ public interface UserinfoService {
 
     Prod selectProduct(Long prodId);
 
-
+    /**
+     * 用户的注册地址
+     * @param userId wa_user表主键
+     * @return 用户的注册地址
+     */
+    String getZcDetailAddress(long userId);
 
 
 }

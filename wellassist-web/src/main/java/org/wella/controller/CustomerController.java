@@ -1397,7 +1397,7 @@ public class CustomerController extends BaseController {
    }
 
    /**
-    * 跳转发票申请页面
+    * 跳转可开发票申请页面
     * @param model model
     * @return view
     */
@@ -1420,6 +1420,12 @@ public class CustomerController extends BaseController {
       return "views/front/customer/bill/goBillManage.jsp";
    }
 
+   /**
+    * 可开发票订单列表
+    * @param params 分页参数
+    * @param request request
+    * @return 可开发票订单列表
+    */
    @RequestMapping(value = "billAvaliableOrderList",method = RequestMethod.GET)
    @ResponseBody
    public R billAvaliableOrderList(@RequestParam Map params,HttpServletRequest request){
@@ -1433,6 +1439,12 @@ public class CustomerController extends BaseController {
       return R.ok().put("page",pageUtils);
    }
 
+   /**
+    * 可开发票物流订单列表
+    * @param params 分页参数
+    * @param request request
+    * @return 可开发票物流订单列表
+    */
    @RequestMapping(value ="billAvaliableLogisticsList",method = RequestMethod.GET)
    @ResponseBody
    public R billAvaliableLogisticsList(@RequestParam Map params,HttpServletRequest request){
@@ -1444,5 +1456,53 @@ public class CustomerController extends BaseController {
       int totalCount=customerServiceImpl.billAvaliableLogisticsListCount(query);
       PageUtils pageUtils=new PageUtils(list, totalCount, query.getLimit(), query.getPage());
       return R.ok().put("page",pageUtils);
+   }
+
+   /**
+    * 跳转订单发票申请
+    * @param model model
+    * @return view
+    */
+   @RequestMapping(value = "goOrderBillRequest",method = RequestMethod.GET)
+   public String goBillRequest(Model model){
+      model.addAttribute("parentMenuNo",7);
+      model.addAttribute("childMenuNo",1);
+      return "views/front/customer/bill/goOrderBillRequest.jsp";
+   }
+
+   /**
+    * 跳转物流订单发票申请
+    * @param model model
+    * @return view
+    */
+   @RequestMapping(value = "goLogisticsBillRequest",method = RequestMethod.GET)
+   public String goLogisticsRequest(Model model){
+      model.addAttribute("parentMenuNo",7);
+      model.addAttribute("childMenuNo",1);
+      return "views/front/customer/bill/goLogisticsBillRequest.jsp";
+   }
+
+   /**
+    * 申请发票的订单信息
+    * @param ids 订单id拼接的字符串
+    * @return 申请发票的订单信息
+    */
+   @RequestMapping(value = "billOrders",method = RequestMethod.GET)
+   @ResponseBody
+   public R billOrders(@RequestParam("ids") String ids){
+      List<Map<String,Object>> orders=customerServiceImpl.billOrders(ids);
+      return R.ok().put("items",orders);
+   }
+
+   /**
+    * 申请发票的订单信息
+    * @param ids 物流订单id拼接的字符串
+    * @return 申请发票的订单信息
+    */
+   @RequestMapping(value = "billLogisticss",method = RequestMethod.GET)
+   @ResponseBody
+   public R billLogisticss(@RequestParam("ids")String ids){
+      List<Map<String,Object>> logisticss=customerServiceImpl.billLogisticss(ids);
+      return R.ok().put("items",logisticss);
    }
 }

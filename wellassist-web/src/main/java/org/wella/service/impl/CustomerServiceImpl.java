@@ -2,6 +2,7 @@ package org.wella.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.sun.javafx.collections.MappingChange;
 import com.wellapay.cncb.model.ForceTransferBasicInfo;
 import io.wellassist.utils.R;
 import org.apache.commons.collections.map.HashedMap;
@@ -12,10 +13,7 @@ import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
 import org.wella.entity.*;
-import org.wella.service.CustomerService;
-import org.wella.service.FinanceService;
-import org.wella.service.RegionService;
-import org.wella.service.WaOrderService;
+import org.wella.service.*;
 import org.wella.utils.CommonUtil;
 
 import java.math.BigDecimal;
@@ -79,6 +77,8 @@ public class CustomerServiceImpl implements CustomerService {
     private UserMoneyDao userMoneyDao;
     @Autowired
     private LogisticsTransDao logisticsTransDao;
+    @Autowired
+    private UserinfoService userinfoServiceImpl;
 
 
 
@@ -997,5 +997,43 @@ public class CustomerServiceImpl implements CustomerService {
         params.put("kpState",0);
         int res=logisticsInfoDao.CountLogitticsInfoByConditions(params);
         return res;
+    }
+
+    @Override
+    public List<Map<String, Object>> billOrders(String ids) {
+        Map<String,Object> query=new HashMap<>();
+        StringBuilder sb=new StringBuilder();
+        sb.append("(").append(ids).append(")");
+        query.put("orderIds",sb.toString());
+        List<Map<String,Object>> orders=orderDao.listOrderinfoviewByConditions(query);
+        for (Map<String,Object> order:orders){
+            long orderId=(long)order.get("order_id");
+            Date completeDate=waOrderServiceImpl.getOrderCompleteDate(orderId);
+            order.put("complete_date",completeDate);
+            long supplierId=(long)order.get("supplier_id");
+            String sellerZcAddress=userinfoServiceImpl.getZcDetailAddress(supplierId);
+            order.put("bill_from_address",sellerZcAddress);
+        }
+        ConvertUtil.convertDataBaseMapToJavaMap(orders);
+        return orders;
+    }
+
+    @Override
+    public List<Map<String, Object>> billLogisticss(String ids) {
+        Map<String,Object> query=new HashMap<>();
+        StringBuilder sb=new StringBuilder();
+        sb.append("(").append(ids).append(")");
+        query.put("logisticsIds",sb.toString());
+        List<Map<String,Object>> logisticss=logisticsInfoDao.listLogisticsOrderInfoViewByConditions(query);
+        for (Map<String,Object> logistics:logisticss){
+            long orderId=(long)logistics.get("order_id");
+            Date completeDate=waOrderServiceImpl.getOrderCompleteDate(orderId);
+            logistics.put("complete_date",completeDate);
+            long senderUserId=(long)logistics.get("sender_user_id");
+            String billFromAddress=userinfoServiceImpl.getZcDetailAddress(senderUserId);
+            logistics.put("bill_from_address",billFromAddress);
+        }
+        ConvertUtil.convertDataBaseMapToJavaMap(logisticss);
+        return logisticss;
     }
 }

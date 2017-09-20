@@ -279,6 +279,9 @@
         SELECT *
         from logisticsOrderInfoView
         <where>
+            <if test="logisticsIds != null">
+                AND logistics_id in ${logisticsIds}
+            </if>
             <if test="customerUserId != null">
                 AND customer_user_id=#{customerUserId}
             </if>

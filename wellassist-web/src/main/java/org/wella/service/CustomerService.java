@@ -375,4 +375,19 @@ public interface CustomerService {
      * @return 可开发票物流订单列表总数
      */
     int billAvaliableLogisticsListCount(Map params);
+
+    /**
+     * 申请发票的订单信息
+     * @param ids 订单id拼接的字符串
+     * @return 申请发票的订单信息
+     */
+    List<Map<String,Object>> billOrders(String ids);
+
+
+    /**
+     * 申请发票的订单信息
+     * @param ids 物流订单id拼接的字符串
+     * @return 申请发票的订单信息
+     */
+    List<Map<String,Object>> billLogisticss(String ids);
 }

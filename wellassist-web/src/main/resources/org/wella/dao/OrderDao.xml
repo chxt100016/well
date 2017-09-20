@@ -247,6 +247,9 @@
           <if test="kpState != null">
               AND kp_state=#{kpState}
           </if>
+          <if test="orderIds != null">
+              AND order_id in ${orderIds}
+          </if>
       </where>
         <if test="orderBy != null">
             order by ${orderBy}

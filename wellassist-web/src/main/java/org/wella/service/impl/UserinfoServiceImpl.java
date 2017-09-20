@@ -54,6 +54,7 @@ public class UserinfoServiceImpl implements UserinfoService{
 
 
 
+
     @Override
     @Transactional
     public void updateCompanyInfo(Map params) {
@@ -227,6 +228,15 @@ public class UserinfoServiceImpl implements UserinfoService{
         String Address=regionServiceImpl.getDetailAddress(prod.getProdRegionId(),prod.getProdRegionAddr());
         prod.setProdRegionAddr(Address);
         return prod;
+    }
+
+    @Override
+    public String getZcDetailAddress(long userId) {
+        Map<String,Object> userinfo=userinfoDao.singleUserinfoByPrimaryKey(userId);
+        long zcRegionId=Long.parseLong((String)userinfo.get("zc_region_id"));
+        String zcXxAddress=(String)userinfo.get("zc_xx_address");
+        String res=regionServiceImpl.getDetailAddress(zcRegionId,zcXxAddress);
+        return res;
     }
 }
 

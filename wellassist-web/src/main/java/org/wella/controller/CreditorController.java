@@ -194,7 +194,6 @@ public class CreditorController extends BaseController{
 
     /**
      * 跳转放款资质申请页面
-     *
      * @param model
      * @return
      */
@@ -208,7 +207,6 @@ public class CreditorController extends BaseController{
 
     /**
      * 跳转放款资质申请提交成功页面
-     *
      * @param model
      * @return
      */
