@@ -109,6 +109,12 @@
             <if test="state != null">
                 AND state=#{state}
             </if>
+            <if test="kpState != null">
+                and kp_state=#{kpState}
+            </if>
+            <if test="customerUserId != null">
+                AND customer_user_id=#{customerUserId}
+            </if>
         </where>
     </select>
 
@@ -269,5 +275,26 @@
         GROUP BY MONTH(order_date)
     </select>
 
+    <select id="listLogisticsOrderInfoViewByConditions" parameterType="map" resultType="map">
+        SELECT *
+        from logisticsOrderInfoView
+        <where>
+            <if test="customerUserId != null">
+                AND customer_user_id=#{customerUserId}
+            </if>
+            <if test="state != null">
+                AND state=#{state}
+            </if>
+            <if test="kpState != null">
+                AND kp_state=#{kpState}
+            </if>
+        </where>
+        <if test="orderBy != null">
+            order by ${orderBy}
+        </if>
+        <if test="offset != null and limit != null">
+            limit #{offset},#{limit}
+        </if>
+    </select>
 
 </mapper>

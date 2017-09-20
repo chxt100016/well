@@ -51,4 +51,5 @@ public interface LogisticsInfoDao {
 
     List<Map<Integer,Object>> profit(Map<String,Object> map);
 
+    List<Map<String,Object>> listLogisticsOrderInfoViewByConditions(Map params);
 }

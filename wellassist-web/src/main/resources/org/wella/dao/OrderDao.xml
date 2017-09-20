@@ -161,7 +161,13 @@
                 AND `supplier_id`=${supplierId}
             </if>
             <if test="orderState != null">
-                AND a.order_state=${orderState}
+                AND order_state=${orderState}
+            </if>
+            <if test="userId != null">
+                AND user_id = #{userId}
+            </if>
+            <if test="kpState != null">
+                AND kp_state=#{kpState}
             </if>
         </where>
     </select>
@@ -226,6 +232,28 @@
         SELECT *
         FROM orderinfoview
         WHERE order_id=#{orderId}
+    </select>
+
+    <select id="listOrderinfoviewByConditions" parameterType="map" resultType="map">
+      select *
+      from orderinfoview
+      <where>
+          <if test="userId != null">
+              AND user_id=#{userId}
+          </if>
+          <if test="orderState != null">
+              AND order_state=#{orderState}
+          </if>
+          <if test="kpState != null">
+              AND kp_state=#{kpState}
+          </if>
+      </where>
+        <if test="orderBy != null">
+            order by ${orderBy}
+        </if>
+        <if test="offset != null and limit != null">
+            limit #{offset},#{limit}
+        </if>
     </select>
 
 

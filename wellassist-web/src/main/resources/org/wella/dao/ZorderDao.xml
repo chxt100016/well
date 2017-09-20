@@ -98,4 +98,21 @@
         from wa_zorder
         WHERE zorder_id=#{zorderId}
     </select>
+
+    <select id="singleZorderByConditions" parameterType="map" resultType="map">
+        SELECT *
+        from wa_zorder
+        <where>
+            <if test="zorderId != null">
+                AND zorder_id=#{zorderId}
+            </if>
+            <if test="orderId != null">
+                and order_id=#{orderId}
+            </if>
+        </where>
+        <if test="orderBy != null">
+            order by ${orderBy}
+        </if>
+        limit 1
+    </select>
 </mapper>

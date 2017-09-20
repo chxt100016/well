@@ -954,4 +954,48 @@ public class CustomerServiceImpl implements CustomerService {
         params.put("state",6);
         logisticsInfoDao.updateByPrimaryKey(params);
     }
+
+    @Override
+    public List<Map<String, Object>> billAvaliableOrderList(Map params) {
+        params.put("orderState",6);
+        params.put("kpState",0);
+        List<Map<String,Object>> orders=orderDao.listOrderinfoviewByConditions(params);
+        for (Map<String,Object> order:orders){
+            long orderId=(long)order.get("order_id");
+            Date completeDate=waOrderServiceImpl.getOrderCompleteDate(orderId);
+            order.put("complete_date",completeDate);
+        }
+        ConvertUtil.convertDataBaseMapToJavaMap(orders);
+        return orders;
+    }
+
+    @Override
+    public int billAvaliableOrderListCount(Map params) {
+        params.put("orderState",6);
+        params.put("kpState",0);
+        int res=orderDao.listOrderCount(params);
+        return res;
+    }
+
+    @Override
+    public List<Map<String, Object>> billAvaliableLogisticsList(Map params) {
+        params.put("state",6);
+        params.put("kpState",0);
+        List<Map<String,Object>> logisticss=logisticsInfoDao.listLogisticsOrderInfoViewByConditions(params);
+        for (Map<String,Object> logistics:logisticss){
+            long orderId=(long)logistics.get("order_id");
+            Date completeDate=waOrderServiceImpl.getOrderCompleteDate(orderId);
+            logistics.put("complete_date",completeDate);
+        }
+        ConvertUtil.convertDataBaseMapToJavaMap(logisticss);
+        return logisticss;
+    }
+
+    @Override
+    public int billAvaliableLogisticsListCount(Map params) {
+        params.put("state",6);
+        params.put("kpState",0);
+        int res=logisticsInfoDao.CountLogitticsInfoByConditions(params);
+        return res;
+    }
 }

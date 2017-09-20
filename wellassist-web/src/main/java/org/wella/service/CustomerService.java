@@ -347,4 +347,32 @@ public interface CustomerService {
      * @param zfSjMoney
      */
     void handleSettleLogistics(long logisticsId,long orderId,BigDecimal zfSjMoney);
+
+    /**
+     * 可开发票订单列表
+     * @param params 分页参数
+     * @return 可开发票订单列表
+     */
+    List<Map<String,Object>> billAvaliableOrderList(Map params);
+
+    /**
+     * 可开发票订单列表总数
+     * @param params 分页参数
+     * @return 可开发票订单列表总数
+     */
+    int billAvaliableOrderListCount(Map params);
+
+    /**
+     * 可开发票物流订单列表
+     * @param params 分页参数
+     * @return 可开发票物流订单列表
+     */
+    List<Map<String,Object>> billAvaliableLogisticsList(Map params);
+
+    /**
+     * 可开发票物流订单列表总数
+     * @param params 分页参数
+     * @return 可开发票物流订单列表总数
+     */
+    int billAvaliableLogisticsListCount(Map params);
 }

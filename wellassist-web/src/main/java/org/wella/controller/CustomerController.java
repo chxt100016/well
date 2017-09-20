@@ -3,9 +3,7 @@ package org.wella.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.wellapay.cncb.model.ForceTransferBasicInfo;
-import io.wellassist.utils.HttpContextUtils;
-import io.wellassist.utils.IPUtils;
-import io.wellassist.utils.R;
+import io.wellassist.utils.*;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -1162,7 +1160,6 @@ public class CustomerController extends BaseController {
 
    /**
     * 跳转还款页面
-    *
     * @param loanId
     * @return
     */
@@ -1178,7 +1175,6 @@ public class CustomerController extends BaseController {
 
    /**
     * 还贷款处理方法
-    *
     * @param loanId
     * @param repayMoney
     * @param interest
@@ -1422,5 +1418,31 @@ public class CustomerController extends BaseController {
       model.addAttribute("parentMenuNo",7);
       model.addAttribute("childMenuNo",2);
       return "views/front/customer/bill/goBillManage.jsp";
+   }
+
+   @RequestMapping(value = "billAvaliableOrderList",method = RequestMethod.GET)
+   @ResponseBody
+   public R billAvaliableOrderList(@RequestParam Map params,HttpServletRequest request){
+      User user=(User)request.getSession().getAttribute("user");
+      long userId=user.getUserId();
+      params.put("userId",userId);
+      Query query = new Query(params);
+      List<Map<String,Object>> list=customerServiceImpl.billAvaliableOrderList(query);
+      int totalCount=customerServiceImpl.billAvaliableOrderListCount(query);
+      PageUtils pageUtils=new PageUtils(list, totalCount, query.getLimit(), query.getPage());
+      return R.ok().put("page",pageUtils);
+   }
+
+   @RequestMapping(value ="billAvaliableLogisticsList",method = RequestMethod.GET)
+   @ResponseBody
+   public R billAvaliableLogisticsList(@RequestParam Map params,HttpServletRequest request){
+      User user=(User)request.getSession().getAttribute("user");
+      long userId=user.getUserId();
+      params.put("customerUserId",userId);
+      Query query = new Query(params);
+      List<Map<String,Object>> list=customerServiceImpl.billAvaliableLogisticsList(query);
+      int totalCount=customerServiceImpl.billAvaliableLogisticsListCount(query);
+      PageUtils pageUtils=new PageUtils(list, totalCount, query.getLimit(), query.getPage());
+      return R.ok().put("page",pageUtils);
    }
 }

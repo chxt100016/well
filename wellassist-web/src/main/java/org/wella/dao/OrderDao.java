@@ -58,5 +58,10 @@ public interface OrderDao {
 
     int getWaOrderListCount(Map<String, Object> paramMap);
 
-
+    /**
+     * 查询orderinfoview 视图
+     * @param params 查询参数
+     * @return list<map>
+     */
+    List<Map<String,Object>> listOrderinfoviewByConditions(Map params);
 }

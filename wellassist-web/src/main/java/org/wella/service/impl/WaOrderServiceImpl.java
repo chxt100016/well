@@ -14,6 +14,7 @@ import org.wella.service.RegionService;
 import org.wella.service.WaOrderService;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -272,5 +273,15 @@ public class WaOrderServiceImpl implements WaOrderService {
     public Map<String, Object> orderinfo(long orderId) {
         Map<String,Object> orderinfo=orderDao.singleOrderinfoByPrimaryKey(orderId);
         return orderinfo;
+    }
+
+    @Override
+    public Date getOrderCompleteDate(long orderId) {
+        Map<String,Object> query=new HashMap<>();
+        query.put("orderId",orderId);
+        query.put("orderBy","modify_date desc");
+        Map<String,Object> zorder=zorderDao.singleZorderByConditions(query);
+        Date modifyDate=(Date) zorder.get("modify_date");
+        return modifyDate;
     }
 }

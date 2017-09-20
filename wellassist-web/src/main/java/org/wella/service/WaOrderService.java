@@ -2,6 +2,7 @@ package org.wella.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2017/6/5.
@@ -69,5 +70,12 @@ public interface WaOrderService {
     Map<String,Object> orderinfo(long orderId);
 
     boolean checkOrder2ndpayOff(long orderId);
+
+    /**
+     * 在wa_zorder表中查询订单完成收货时间
+     * @param orderId wa_order主键
+     * @return 订单完成收货时间
+     */
+    Date getOrderCompleteDate(long orderId);
 
 }

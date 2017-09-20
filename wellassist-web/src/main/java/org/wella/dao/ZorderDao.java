@@ -20,4 +20,6 @@ public interface ZorderDao {
     List<Map<String,Object>> listZordersByConditions(Map query);
 
     Map<String,Object> singleZorderByPrimaryKey(@Param("zorderId") long zorderId);
+
+    Map<String,Object> singleZorderByConditions(Map params);
 }
