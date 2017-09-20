@@ -232,7 +232,7 @@
     <select id="senderLogisticsOrderListInfoCount" parameterType="map" resultType="int">
         SELECT count(*)
         from wa_logistics_info
-        WHERE `sender_user_id`=#{snederUserId}
+        WHERE `sender_user_id`=#{senderUserId}
         <if test="state != null">
             AND state=${state}
         </if>
