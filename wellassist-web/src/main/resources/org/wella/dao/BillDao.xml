@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.BillDao">
+    <resultMap id="BillMap" type="org.wella.entity.Bill" >
+        <id column="bill_id" property="billId" jdbcType="BIGINT" />
+        <result column="bill_no" property="billNo" jdbcType="VARCHAR" />
+        <result column="logistics_info_ids" property="logisticsInfoIds" jdbcType="VARCHAR" />
+        <result column="order_ids" property="orderIds" jdbcType="VARCHAR" />
+        <result column="lixi_id" property="lixiId" jdbcType="BIGINT" />
+        <result column="bill_unit" property="billUnit" jdbcType="VARCHAR" />
+        <result column="customer_user_id" property="customerUserId" jdbcType="BIGINT" />
+        <result column="supplier_id" property="supplierId" jdbcType="BIGINT" />
+        <result column="bill_money" property="billMoney" jdbcType="DECIMAL" />
+        <result column="bill_type" property="billType" jdbcType="TINYINT" />
+        <result column="order_type" property="orderType" jdbcType="TINYINT" />
+        <result column="receive_sh" property="receiveSh" jdbcType="VARCHAR" />
+        <result column="receive_name" property="receiveName" jdbcType="VARCHAR" />
+        <result column="receive_phone" property="receivePhone" jdbcType="VARCHAR" />
+        <result column="receive_address" property="receiveAddress" jdbcType="VARCHAR" />
+        <result column="receive_company_name" property="receiveCompanyName" jdbcType="VARCHAR" />
+        <result column="bill_state" property="billState" jdbcType="TINYINT" />
+        <result column="to_user_name" property="toUserName" jdbcType="VARCHAR" />
+        <result column="apply_date" property="applyDate" jdbcType="TIMESTAMP" />
+        <result column="send_date" property="sendDate" jdbcType="TIMESTAMP" />
+        <result column="confirm_date" property="confirmDate" jdbcType="TIMESTAMP" />
+        <result column="kd_no" property="kdNo" jdbcType="VARCHAR" />
+        <result column="kd_name" property="kdName" jdbcType="VARCHAR" />
+        <result column="e_bill" property="eBill" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <insert id="save" parameterType="org.wella.entity.Bill" >
+        insert into wa_bill ( logistics_info_ids,
+        order_ids,
+        customer_user_id, supplier_id, bill_money,
+        bill_type,order_type, receive_sh, receive_name,
+        receive_phone, receive_address, receive_company_name,
+        bill_state, apply_date)
+        values ( #{logisticsInfoIds,jdbcType=VARCHAR},
+        #{orderIds,jdbcType=VARCHAR},
+        #{customerUserId,jdbcType=BIGINT}, #{supplierId,jdbcType=BIGINT}, #{billMoney,jdbcType=DECIMAL},
+        #{billType,jdbcType=TINYINT},#{orderType,jdbcType=TINYINT}, #{receiveSh,jdbcType=VARCHAR}, #{receiveName,jdbcType=VARCHAR},
+        #{receivePhone,jdbcType=VARCHAR}, #{receiveAddress,jdbcType=VARCHAR}, #{receiveCompanyName,jdbcType=VARCHAR},
+        #{billState,jdbcType=TINYINT}, #{applyDate,jdbcType=TIMESTAMP})
+    </insert>
+
+</mapper>

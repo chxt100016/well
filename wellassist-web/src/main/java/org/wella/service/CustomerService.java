@@ -1,5 +1,6 @@
 package org.wella.service;
 
+import org.wella.entity.Bill;
 import org.wella.entity.Order;
 import org.wella.entity.Prod;
 import org.wella.entity.Userinfo;
@@ -390,4 +391,6 @@ public interface CustomerService {
      * @return 申请发票的订单信息
      */
     List<Map<String,Object>> billLogisticss(String ids);
+
+    int applyBill(Bill bill);
 }

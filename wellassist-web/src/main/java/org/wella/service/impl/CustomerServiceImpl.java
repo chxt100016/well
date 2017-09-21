@@ -79,6 +79,8 @@ public class CustomerServiceImpl implements CustomerService {
     private LogisticsTransDao logisticsTransDao;
     @Autowired
     private UserinfoService userinfoServiceImpl;
+    @Autowired
+    private BillDao billDao;
 
 
 
@@ -1035,5 +1037,35 @@ public class CustomerServiceImpl implements CustomerService {
         }
         ConvertUtil.convertDataBaseMapToJavaMap(logisticss);
         return logisticss;
+    }
+
+    @Override
+    @Transactional
+    public int applyBill(Bill bill) {
+        int res=0;
+        Date now=new Date();
+        bill.setBillState((byte)0);
+        bill.setApplyDate(now);
+        int orderType=bill.getOrderType();
+        Map<String,Object> update=new HashMap<>();
+        if (orderType==1){
+            String orderIds=bill.getOrderIds();
+            StringBuilder sb=new StringBuilder();
+            sb.append("(").append(orderIds.trim()).append(")");
+            update.put("inOrderIds",sb.toString());
+            update.put("kpState",1);
+            res +=orderDao.updateOrderByID(update);
+            bill.setLogisticsInfoIds("");
+        }else if (orderType==2){
+            String logisticsIds=bill.getLogisticsInfoIds();
+            StringBuilder sb=new StringBuilder();
+            sb.append("(").append(logisticsIds.trim()).append(")");
+            update.put("inLogisticsIds",sb.toString());
+            update.put("kpState",1);
+            res +=logisticsInfoDao.updateByPrimaryKey(update);
+            bill.setOrderIds("");
+        }
+        res+=billDao.save(bill);
+        return res;
     }
 }

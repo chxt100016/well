@@ -178,8 +178,18 @@
             <if test="vehicleGrabId != null" >
                 vehicle_grab_id = #{vehicleGrabId,jdbcType=BIGINT},
             </if>
+            <if test="kpState != null">
+                kp_state=#{kpState},
+            </if>
         </set>
-        where logistics_id = #{logisticsId,jdbcType=BIGINT}
+        <where>
+            <if test="logisticsId != null">
+                AND logistics_id = #{logisticsId,jdbcType=BIGINT}
+            </if>
+            <if test="inLogisticsIds != null">
+                AND logistics_id in ${inLogisticsIds}
+            </if>
+        </where>
     </update>
     <!-- set块 和 where块 都可视业务继续添加条件-->
     <update id="updateByConditions" parameterType="map">

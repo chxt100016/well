@@ -91,8 +91,16 @@
             <if test="logisticsPayState != null">logistics_pay_state = #{logisticsPayState}</if>
             <if test="prod2ndpayState!=null">prod_2ndpay_state=#{prod2ndpayState}</if>
             <if test="logistics2ndpayState!=null">logistics_2ndpay_state=#{logistics2ndpayState}</if>
+            <if test="kpState != null">kp_state=#{kpState}</if>
         </trim>
-        where order_id = #{orderId}
+        <where>
+            <if test="orderId != null">
+                AND order_id = #{orderId}
+            </if>
+            <if test="inOrderIds != null">
+                AND order_id in ${inOrderIds}
+            </if>
+        </where>
     </update>
 
     <select id="findOrder" parameterType="map" resultMap="order">

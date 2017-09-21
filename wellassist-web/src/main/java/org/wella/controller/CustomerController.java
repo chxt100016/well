@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.wella.common.ctrl.BaseController;
 import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
@@ -1504,5 +1501,16 @@ public class CustomerController extends BaseController {
    public R billLogisticss(@RequestParam("ids")String ids){
       List<Map<String,Object>> logisticss=customerServiceImpl.billLogisticss(ids);
       return R.ok().put("items",logisticss);
+   }
+
+   @RequestMapping(value = "applyBill",method = RequestMethod.POST)
+   @ResponseBody
+   public R applyBill(@RequestBody Bill bill,HttpServletRequest request){
+      /*User user=(User)request.getSession().getAttribute("user");
+      long userId=user.getUserId();
+      bill.setCustomerUserId(userId);*/
+      bill.setCustomerUserId(92L);
+      int res=customerServiceImpl.applyBill(bill);
+      return R.ok();
    }
 }

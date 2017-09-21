@@ -3,33 +3,60 @@ package org.wella.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * Created by liuwen on 2017/5/9.
- */
 public class Bill {
-    private long billId;
-    private String billNo;
-    private long sortId;
-    private long orderId;
-    private long lixiId;
-    private String billUnit;
-    private long supplierId;
-    private BigDecimal billMoney;
-    private String billSh;
-    private byte billState;
-    private String toUserName;
-    private Date billDate;
-    private Date tjDate;
-    private String kdNo;
-    private String kdName;
-    private Date confirmDate;
-    private long confirmUserId;
+    private Long billId;
 
-    public long getBillId() {
+    private String billNo;
+
+    private String logisticsInfoIds;
+
+    private String orderIds;
+
+    private Long lixiId;
+
+    private String billUnit;
+
+    private Long customerUserId;
+
+    private Long supplierId;
+
+    private BigDecimal billMoney;
+
+    private Byte billType;
+
+    private Byte orderType;
+
+    private String receiveSh;
+
+    private String receiveName;
+
+    private String receivePhone;
+
+    private String receiveAddress;
+
+    private String receiveCompanyName;
+
+    private Byte billState;
+
+    private String toUserName;
+
+    private Date applyDate;
+
+    private Date sendDate;
+
+    private Date confirmDate;
+
+    private String kdNo;
+
+    private String kdName;
+
+    private String eBill;
+
+    public Long getBillId() {
         return billId;
     }
 
-    public void setBillId(long billId) {
+    public void setBillId(Long billId) {
         this.billId = billId;
     }
 
@@ -38,30 +65,30 @@ public class Bill {
     }
 
     public void setBillNo(String billNo) {
-        this.billNo = billNo;
+        this.billNo = billNo == null ? null : billNo.trim();
     }
 
-    public long getSortId() {
-        return sortId;
+    public String getLogisticsInfoIds() {
+        return logisticsInfoIds;
     }
 
-    public void setSortId(long sortId) {
-        this.sortId = sortId;
+    public void setLogisticsInfoIds(String logisticsInfoIds) {
+        this.logisticsInfoIds = logisticsInfoIds == null ? null : logisticsInfoIds.trim();
     }
 
-    public long getOrderId() {
-        return orderId;
+    public String getOrderIds() {
+        return orderIds;
     }
 
-    public void setOrderId(long orderId) {
-        this.orderId = orderId;
+    public void setOrderIds(String orderIds) {
+        this.orderIds = orderIds == null ? null : orderIds.trim();
     }
 
-    public long getLixiId() {
+    public Long getLixiId() {
         return lixiId;
     }
 
-    public void setLixiId(long lixiId) {
+    public void setLixiId(Long lixiId) {
         this.lixiId = lixiId;
     }
 
@@ -70,14 +97,22 @@ public class Bill {
     }
 
     public void setBillUnit(String billUnit) {
-        this.billUnit = billUnit;
+        this.billUnit = billUnit == null ? null : billUnit.trim();
     }
 
-    public long getSupplierId() {
+    public Long getCustomerUserId() {
+        return customerUserId;
+    }
+
+    public void setCustomerUserId(Long customerUserId) {
+        this.customerUserId = customerUserId;
+    }
+
+    public Long getSupplierId() {
         return supplierId;
     }
 
-    public void setSupplierId(long supplierId) {
+    public void setSupplierId(Long supplierId) {
         this.supplierId = supplierId;
     }
 
@@ -89,19 +124,67 @@ public class Bill {
         this.billMoney = billMoney;
     }
 
-    public String getBillSh() {
-        return billSh;
+    public Byte getBillType() {
+        return billType;
     }
 
-    public void setBillSh(String billSh) {
-        this.billSh = billSh;
+    public void setBillType(Byte billType) {
+        this.billType = billType;
     }
 
-    public byte getBillState() {
+    public Byte getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(Byte orderType) {
+        this.orderType = orderType;
+    }
+
+    public String getReceiveSh() {
+        return receiveSh;
+    }
+
+    public void setReceiveSh(String receiveSh) {
+        this.receiveSh = receiveSh == null ? null : receiveSh.trim();
+    }
+
+    public String getReceiveName() {
+        return receiveName;
+    }
+
+    public void setReceiveName(String receiveName) {
+        this.receiveName = receiveName == null ? null : receiveName.trim();
+    }
+
+    public String getReceivePhone() {
+        return receivePhone;
+    }
+
+    public void setReceivePhone(String receivePhone) {
+        this.receivePhone = receivePhone == null ? null : receivePhone.trim();
+    }
+
+    public String getReceiveAddress() {
+        return receiveAddress;
+    }
+
+    public void setReceiveAddress(String receiveAddress) {
+        this.receiveAddress = receiveAddress == null ? null : receiveAddress.trim();
+    }
+
+    public String getReceiveCompanyName() {
+        return receiveCompanyName;
+    }
+
+    public void setReceiveCompanyName(String receiveCompanyName) {
+        this.receiveCompanyName = receiveCompanyName == null ? null : receiveCompanyName.trim();
+    }
+
+    public Byte getBillState() {
         return billState;
     }
 
-    public void setBillState(byte billState) {
+    public void setBillState(Byte billState) {
         this.billState = billState;
     }
 
@@ -110,40 +193,23 @@ public class Bill {
     }
 
     public void setToUserName(String toUserName) {
-        this.toUserName = toUserName;
+        this.toUserName = toUserName == null ? null : toUserName.trim();
     }
 
-
-    public String getKdNo() {
-        return kdNo;
+    public Date getApplyDate() {
+        return applyDate;
     }
 
-    public void setKdNo(String kdNo) {
-        this.kdNo = kdNo;
+    public void setApplyDate(Date applyDate) {
+        this.applyDate = applyDate;
     }
 
-    public String getKdName() {
-        return kdName;
+    public Date getSendDate() {
+        return sendDate;
     }
 
-    public void setKdName(String kdName) {
-        this.kdName = kdName;
-    }
-
-    public Date getBillDate() {
-        return billDate;
-    }
-
-    public void setBillDate(Date billDate) {
-        this.billDate = billDate;
-    }
-
-    public Date getTjDate() {
-        return tjDate;
-    }
-
-    public void setTjDate(Date tjDate) {
-        this.tjDate = tjDate;
+    public void setSendDate(Date sendDate) {
+        this.sendDate = sendDate;
     }
 
     public Date getConfirmDate() {
@@ -154,59 +220,27 @@ public class Bill {
         this.confirmDate = confirmDate;
     }
 
-    public long getConfirmUserId() {
-        return confirmUserId;
+    public String getKdNo() {
+        return kdNo;
     }
 
-    public void setConfirmUserId(long confirmUserId) {
-        this.confirmUserId = confirmUserId;
+    public void setKdNo(String kdNo) {
+        this.kdNo = kdNo == null ? null : kdNo.trim();
     }
 
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Bill waBill = (Bill) o;
-
-        if (billId != waBill.billId) return false;
-        if (sortId != waBill.sortId) return false;
-        if (orderId != waBill.orderId) return false;
-        if (lixiId != waBill.lixiId) return false;
-        if (supplierId != waBill.supplierId) return false;
-        if (billState != waBill.billState) return false;
-        if (confirmUserId != waBill.confirmUserId) return false;
-        if (billNo != null ? !billNo.equals(waBill.billNo) : waBill.billNo != null) return false;
-        if (billUnit != null ? !billUnit.equals(waBill.billUnit) : waBill.billUnit != null) return false;
-        if (billMoney != null ? !billMoney.equals(waBill.billMoney) : waBill.billMoney != null) return false;
-        if (billSh != null ? !billSh.equals(waBill.billSh) : waBill.billSh != null) return false;
-        if (toUserName != null ? !toUserName.equals(waBill.toUserName) : waBill.toUserName != null) return false;
-        if (billDate != null ? !billDate.equals(waBill.billDate) : waBill.billDate != null) return false;
-        if (tjDate != null ? !tjDate.equals(waBill.tjDate) : waBill.tjDate != null) return false;
-        if (kdNo != null ? !kdNo.equals(waBill.kdNo) : waBill.kdNo != null) return false;
-        if (kdName != null ? !kdName.equals(waBill.kdName) : waBill.kdName != null) return false;
-        if (confirmDate != null ? !confirmDate.equals(waBill.confirmDate) : waBill.confirmDate != null) return false;
-
-        return true;
+    public String getKdName() {
+        return kdName;
     }
 
-    public int hashCode() {
-        int result = (int) (billId ^ (billId >>> 32));
-        result = 31 * result + (billNo != null ? billNo.hashCode() : 0);
-        result = 31 * result + (int) (sortId ^ (sortId >>> 32));
-        result = 31 * result + (int) (orderId ^ (orderId >>> 32));
-        result = 31 * result + (int) (lixiId ^ (lixiId >>> 32));
-        result = 31 * result + (billUnit != null ? billUnit.hashCode() : 0);
-        result = 31 * result + (int) (supplierId ^ (supplierId >>> 32));
-        result = 31 * result + (billMoney != null ? billMoney.hashCode() : 0);
-        result = 31 * result + (billSh != null ? billSh.hashCode() : 0);
-        result = 31 * result + (int) billState;
-        result = 31 * result + (toUserName != null ? toUserName.hashCode() : 0);
-        result = 31 * result + (billDate != null ? billDate.hashCode() : 0);
-        result = 31 * result + (tjDate != null ? tjDate.hashCode() : 0);
-        result = 31 * result + (kdNo != null ? kdNo.hashCode() : 0);
-        result = 31 * result + (kdName != null ? kdName.hashCode() : 0);
-        result = 31 * result + (confirmDate != null ? confirmDate.hashCode() : 0);
-        result = 31 * result + (int) (confirmUserId ^ (confirmUserId >>> 32));
-        return result;
+    public void setKdName(String kdName) {
+        this.kdName = kdName == null ? null : kdName.trim();
+    }
+
+    public String geteBill() {
+        return eBill;
+    }
+
+    public void seteBill(String eBill) {
+        this.eBill = eBill == null ? null : eBill.trim();
     }
 }
