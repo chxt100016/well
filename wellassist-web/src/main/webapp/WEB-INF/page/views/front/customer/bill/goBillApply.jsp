@@ -271,14 +271,34 @@
                     if(this.bool){
                         console.log('correct!');
                         this.checkedOrderId=checkOrder;
+                       
+                        window.location.href='${pageContext.request.contextPath}/customer/goOrderBillRequest?ids='+ this.checkedOrderId;
                     }else{
                         alert('请选择相同出货方的订单！')
                     }
                        
                     },
-                    ApproveAjax:function(){
-                        
-                    }
+                    // ApproveAjax:function(){
+                    //     let  tourl='${pageContext.request.contextPath}/customer/goOrderBillRequest';
+                    //     let ids= this.checkedOrderId;
+                    //     $.ajax({
+                    //         type:'post', 
+                    //         url:tourl,
+                    //         data:{},
+                    //         dataType:'json',
+                    //         success:
+                    //                 function(result){
+                    //                         if(result.code==0){
+
+                    //                         }
+                    //                         else{
+                    //                                     console.log(result.msg)
+                    //                             }
+                    //                                 }
+
+
+                    //         })
+                    // }
 
                 }
 
