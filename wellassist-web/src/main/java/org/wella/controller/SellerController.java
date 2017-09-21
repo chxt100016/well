@@ -3,10 +3,7 @@ package org.wella.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import io.wellassist.utils.HttpContextUtils;
-import io.wellassist.utils.IPUtils;
-import io.wellassist.utils.PageUtils;
-import io.wellassist.utils.R;
+import io.wellassist.utils.*;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +21,7 @@ import org.wella.entity.Userinfo;
 import org.wella.front.mapper.FrontBankOrderMapper;
 import org.wella.front.mapper.FrontUserMoneyMapper;
 import org.wella.front.seller.mapper.SellerOrderMapper;
+import org.wella.service.BillService;
 import org.wella.service.FinanceService;
 import org.wella.service.MessageService;
 import org.wella.service.WaOrderService;
@@ -38,13 +36,14 @@ import java.math.BigDecimal;
 import java.util.*;
 
 /**
- * Created by liuwen on 2017/5/12.
+ * Created by ailing on 2017/5/12.
  */
 @Controller
 @RequestMapping(value = {"/seller/"})
 public class SellerController extends BaseController {
 
-
+    @Autowired
+    private BillService billServiceImpl;
 
     @Autowired
     private BankcardDao bankcardDao;
@@ -817,5 +816,39 @@ public class SellerController extends BaseController {
         model.addAttribute("childMenuNo",2);
         return "views/front/seller/bill/goBillManage.jsp";
     }
+
+    /**
+     * 卖家收到申请发票列表
+     * @param params 分页参数
+     * @param request request
+     * @return 成功：code：0，page:发票列表；失败：code：500，msg：原因
+     */
+    @RequestMapping(value = "requestBillsList",method = RequestMethod.GET)
+    @ResponseBody
+    public R requestBillsList(@RequestParam Map params,HttpServletRequest request){
+        User user=(User) request.getSession().getAttribute("user");
+        long userId=user.getUserId();
+        params.put("supplierId",userId);
+        /*params.put("supplierId",25L);*/
+        Query query=new Query(params);
+        List list=sellerServiceImpl.requestBillsList(query);
+        int totalCount=sellerServiceImpl.requestBillsListCount(query);
+        PageUtils pageUtils=new PageUtils(list,totalCount,query.getLimit(),query.getPage());
+        return R.ok().put("page",pageUtils);
+    }
+
+    /**
+     * 跳转发票发送页面
+     * @param model model
+     * @return view
+     */
+    @RequestMapping(value = "goBillSend",method = RequestMethod.GET)
+    public String goBillSend(Model model){
+        model.addAttribute("parentMenuNo",7);
+        model.addAttribute("childMenuNo",1);
+        return "views/front/seller/bill/goBillSend.jsp";
+    }
+
+
 }
 

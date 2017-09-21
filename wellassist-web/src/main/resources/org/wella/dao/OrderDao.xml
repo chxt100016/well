@@ -344,5 +344,9 @@
         </if>
     </select>
 
-
+    <select id="concatOrderNos" parameterType="string" resultType="string">
+        select GROUP_CONCAT(order_no)
+        from wa_order
+        WHERE order_id in ${inOrderIds}
+    </select>
 </mapper>

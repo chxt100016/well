@@ -31,7 +31,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 /**
- * Created by liuwen on 2017/5/11.
+ * Created by ailing on 2017/5/11.
  */
 @Controller
 @RequestMapping(value = "/customer/")
@@ -1503,14 +1503,25 @@ public class CustomerController extends BaseController {
       return R.ok().put("items",logisticss);
    }
 
+   /**
+    * 请求开具发票
+    * @param bill 接收vo数据
+    * @param request request
+    * @return 成功：code：0；失败：code：500，msg：原因
+    */
    @RequestMapping(value = "applyBill",method = RequestMethod.POST)
    @ResponseBody
    public R applyBill(@RequestBody Bill bill,HttpServletRequest request){
-      /*User user=(User)request.getSession().getAttribute("user");
+      User user=(User)request.getSession().getAttribute("user");
       long userId=user.getUserId();
-      bill.setCustomerUserId(userId);*/
-      bill.setCustomerUserId(92L);
-      int res=customerServiceImpl.applyBill(bill);
+      bill.setCustomerUserId(userId);
+      /*bill.setCustomerUserId(92L);*/
+      try {
+         int res=customerServiceImpl.applyBill(bill);
+      } catch (Exception e) {
+         e.printStackTrace();
+         return R.error();
+      }
       return R.ok();
    }
 }

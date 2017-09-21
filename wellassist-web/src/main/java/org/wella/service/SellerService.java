@@ -1,5 +1,6 @@
 package org.wella.service;
 
+import io.wellassist.utils.Query;
 import org.wella.entity.Order;
 import org.wella.entity.Prod;
 
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by liuwen on 2017/5/10.
+ * Created by ailing on 2017/5/10.
  */
 public interface SellerService {
 
@@ -118,6 +119,17 @@ public interface SellerService {
     List<BigDecimal> profit(Map<String,Object> map);
 
 
+    /**
+     * 卖家收到申请发票列表
+     * @param query 分页参数
+     * @return 发票列表
+     */
+    List requestBillsList(Query query);
 
-
+    /**
+     * 卖家收到申请发票列表总记录数
+     * @param query 分页参数
+     * @return 总记录数
+     */
+    int requestBillsListCount(Query query);
 }

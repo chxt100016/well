@@ -64,4 +64,11 @@ public interface OrderDao {
      * @return list<map>
      */
     List<Map<String,Object>> listOrderinfoviewByConditions(Map params);
+
+    /**
+     * 通过orderId 拼接 orderNo字符串
+     * @param inOrderIds example:(orderId1,orderId2,...)
+     * @return 拼接 orderNo字符串
+     */
+    String concatOrderNos(@Param("inOrderIds") String inOrderIds);
 }

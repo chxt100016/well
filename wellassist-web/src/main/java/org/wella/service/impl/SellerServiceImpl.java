@@ -1,5 +1,7 @@
 package org.wella.service.impl;
 
+import com.sun.javafx.collections.MappingChange;
+import io.wellassist.utils.Query;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +20,7 @@ import java.security.PrivateKey;
 import java.util.*;
 
 /**
- * Created by liuwen on 2017/5/10.
+ * Created by ailing on 2017/5/10.
  */
 @Service("sellerServiceImpl")
 public class SellerServiceImpl implements SellerService {
@@ -69,6 +71,9 @@ public class SellerServiceImpl implements SellerService {
 
     @Autowired
     private MessageService messageServicesk;
+
+    @Autowired
+    private BillDao billDao;
 
 
     /**
@@ -446,5 +451,27 @@ public class SellerServiceImpl implements SellerService {
         List<Map<Integer,Object>> list=orderDao.profit(map);
         List<BigDecimal> list1=PlatformServiceImpl.Transformation(list);
         return list1;
+    }
+
+    @Override
+    public List requestBillsList(Query query) {
+        query.put("inBillState","(-1,0)");
+        List<Map<String,Object>> list=billDao.listBilllistviewByConditions(query);
+        for(Map<String,Object> bill:list){
+            String orderIds=bill.get("order_ids").toString();
+            StringBuilder inOrderIds=new StringBuilder();
+            inOrderIds.append("(").append(orderIds.trim()).append(")");
+            String order_nos=orderDao.concatOrderNos(inOrderIds.toString());
+            bill.put("order_nos",order_nos);
+        }
+        ConvertUtil.convertDataBaseMapToJavaMap(list);
+        return list;
+    }
+
+    @Override
+    public int requestBillsListCount(Query query) {
+        query.put("inBillState","(-1,0)");
+        int res=billDao.listBilllistviewByConditionsCount(query);
+        return res;
     }
 }

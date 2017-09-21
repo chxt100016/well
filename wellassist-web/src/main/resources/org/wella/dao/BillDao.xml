@@ -44,4 +44,47 @@
         #{billState,jdbcType=TINYINT}, #{applyDate,jdbcType=TIMESTAMP})
     </insert>
 
+    <select id="listBilllistviewByConditions" parameterType="map" resultType="map">
+        SELECT *
+        from billlistview
+        <where>
+            <if test="supplierId != null">
+                AND supplier_id=#{supplierId}
+            </if>
+            <if test="billState != null">
+                AND bill_state =#{billState}
+            </if>
+            <if test="customerUserId != null">
+                and customer_user_id=#{customerUserId}
+            </if>
+        </where>
+        <if test="orderBy != null">
+            order by ${orderBy}
+        </if>
+        <if test="offset != null and limit != null">
+            limit #{offset},#{limit}
+        </if>
+    </select>
+
+    <select id="listBilllistviewByConditionsCount" parameterType="map" resultType="int">
+        SELECT count(*)
+        from billlistview
+        <where>
+            <if test="supplierId != null">
+                AND supplier_id=#{supplierId}
+            </if>
+            <if test="billState != null">
+                AND bill_state =#{billState}
+            </if>
+            <if test="customerUserId != null">
+                and customer_user_id=#{customerUserId}
+            </if>
+        </where>
+    </select>
+
+    <select id="query" parameterType="long" resultMap="BillMap">
+        SELECT *
+        from wa_bill
+        where bill_id=#{billId}
+    </select>
 </mapper>
