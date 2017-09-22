@@ -103,8 +103,8 @@
                     <div onclick="window.location.href='${pageContext.request.contextPath}/customer/goBillApply'" class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == 7&&childMenuNo ==1 }"> font-white</c:if> ">
                         <span >发票申请</span>
                     </div>
-                    <div onclick="window.location.href='${pageContext.request.contextPath}/customer/goBillManage'" class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == 7&&childMenuNo == 2 }"> font-white</c:if> ">
-                        <span >发票管理</span>
+                    <div onclick="window.location.href='${pageContext.request.contextPath}/customer/goOrderBills'" class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == 7&&childMenuNo == 2 }"> font-white</c:if> ">
+                        <span >商品发票</span>
                     </div>
                 </div>
             </div>

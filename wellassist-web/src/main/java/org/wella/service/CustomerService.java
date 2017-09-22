@@ -1,5 +1,6 @@
 package org.wella.service;
 
+import io.wellassist.utils.Query;
 import org.wella.entity.Bill;
 import org.wella.entity.Order;
 import org.wella.entity.Prod;
@@ -393,4 +394,8 @@ public interface CustomerService {
     List<Map<String,Object>> billLogisticss(String ids);
 
     int applyBill(Bill bill);
+
+    List<Map<String,Object>> applyOrderBillsList(Map param);
+
+    int applyOrderBillsListCount(Map param);
 }

@@ -477,13 +477,14 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     @Transactional
-    public int sendBill(long billId, int kpType, String eBill, String kdNo, String kdName) {
+    public int sendBill(long billId, String billNo,int kpType, String eBill, String kdNo, String kdName) {
         int res=0;
         Date now=new Date();
         Bill bill=new Bill();
         bill.setBillId(billId);
         bill.setBillState((byte)1);
         bill.setSendDate(now);
+        bill.setBillNo(billNo);
         bill.setKpType((byte)kpType);
         if (kpType==1){
             bill.seteBill(eBill);

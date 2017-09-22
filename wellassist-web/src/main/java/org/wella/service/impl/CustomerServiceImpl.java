@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.sun.javafx.collections.MappingChange;
 import com.wellapay.cncb.model.ForceTransferBasicInfo;
+import io.wellassist.utils.Query;
 import io.wellassist.utils.R;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -1066,6 +1067,29 @@ public class CustomerServiceImpl implements CustomerService {
             bill.setOrderIds("");
         }
         res+=billDao.save(bill);
+        return res;
+    }
+
+    @Override
+    public List<Map<String, Object>> applyOrderBillsList(Map param) {
+        param.put("orderType",1);
+        param.put("orderBy","FIELD(bill_state,-1,1,0,2),apply_date desc");
+        List<Map<String,Object>> list=billDao.listBilllistviewByConditions(param);
+        for (Map<String,Object> bill:list){
+            String orderIds=bill.get("order_ids").toString();
+            StringBuilder inOrderIds=new StringBuilder();
+            inOrderIds.append("(").append(orderIds.trim()).append(")");
+            String order_nos=orderDao.concatOrderNos(inOrderIds.toString());
+            bill.put("order_nos",order_nos);
+        }
+        ConvertUtil.convertDataBaseMapToJavaMap(list);
+        return list;
+    }
+
+    @Override
+    public int applyOrderBillsListCount(Map param) {
+        param.put("orderType",1);
+        int res=billDao.listBilllistviewByConditionsCount(param);
         return res;
     }
 }

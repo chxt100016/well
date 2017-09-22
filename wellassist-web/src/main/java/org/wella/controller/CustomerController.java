@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wellapay.cncb.model.ForceTransferBasicInfo;
 import io.wellassist.utils.*;
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.tools.ant.taskdefs.condition.Http;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -1410,11 +1411,11 @@ public class CustomerController extends BaseController {
     * @param model model
     * @return view
     */
-   @RequestMapping(value = "goBillManage",method = RequestMethod.GET)
+   @RequestMapping(value = "goOrderBills",method = RequestMethod.GET)
    public String goBillManage(Model model){
       model.addAttribute("parentMenuNo",7);
       model.addAttribute("childMenuNo",2);
-      return "views/front/customer/bill/goBillManage.jsp";
+      return "views/front/customer/bill/goOrderBills.jsp";
    }
 
    /**
@@ -1517,11 +1518,25 @@ public class CustomerController extends BaseController {
       bill.setCustomerUserId(userId);
       /*bill.setCustomerUserId(92L);*/
       try {
-         int res=customerServiceImpl.applyBill(bill);
+         customerServiceImpl.applyBill(bill);
       } catch (Exception e) {
          e.printStackTrace();
          return R.error();
       }
       return R.ok();
    }
+
+   @RequestMapping(value = "applyOrderBillsList",method = RequestMethod.GET)
+   @ResponseBody
+   public R applyOrderBillsList(@RequestParam Map params, HttpServletRequest request){
+      User user=(User)request.getSession().getAttribute("user");
+      long userId=user.getUserId();
+      params.put("customerUserId",userId);
+      Query query=new Query(params);
+      List<Map<String,Object>> list=customerServiceImpl.applyOrderBillsList(query);
+      int totalCount=customerServiceImpl.applyOrderBillsListCount(query);
+      PageUtils page=new PageUtils(list,totalCount,query.getLimit(),query.getPage());
+      return R.ok().put("page",page);
+   }
+
 }

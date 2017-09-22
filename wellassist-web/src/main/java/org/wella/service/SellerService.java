@@ -133,5 +133,14 @@ public interface SellerService {
      */
     int requestBillsListCount(Query query);
 
-    int sendBill(long billId, int kpType, String eBill, String kdNo, String kdName);
+    /**
+     * 卖家发送发票
+     * @param billId 发票id
+     * @param kpType 开票类型
+     * @param eBill 电子发票url
+     * @param kdNo 快递单号
+     * @param kdName 快递名
+     * @return 数据库更新行数
+     */
+    int sendBill(long billId,String billNo, int kpType, String eBill, String kdNo, String kdName);
 }

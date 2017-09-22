@@ -850,13 +850,22 @@ public class SellerController extends BaseController {
         return "views/front/seller/bill/goBillSend.jsp";
     }
 
+    /**
+     * 卖家发送发票
+     * @param billId 发票id
+     * @param kpType 开票类型
+     * @param eBill 电子发票url
+     * @param kdNo 快递单号
+     * @param kdName 快递名
+     * @return 成功：code：0；失败：code：500，msg：原因
+     */
     @RequestMapping(value = "sendBill",method = RequestMethod.POST)
     @ResponseBody
-    public R sendBill(@RequestParam("billId")long billId,@RequestParam("kpType")int kpType,@RequestParam(value = "eBill",required = false,defaultValue = "")String eBill,
+    public R sendBill(@RequestParam("billId")long billId,@RequestParam("billNo")String billNo,@RequestParam("kpType")int kpType,@RequestParam(value = "eBill",required = false,defaultValue = "")String eBill,
                       @RequestParam(value = "kdNo",required = false,defaultValue = "")String kdNo,@RequestParam(value = "kdName",required = false,defaultValue = "")String kdName)
     {
         try {
-            sellerServiceImpl.sendBill(billId,kpType,eBill,kdNo,kdName);
+            sellerServiceImpl.sendBill(billId,billNo,kpType,eBill,kdNo,kdName);
         } catch (Exception e) {
             e.printStackTrace();
             return R.error();
