@@ -27,8 +27,8 @@
             <thead>
                 <tr class="grey-4 tx-ct">
                     <th width="30%">产品详情</th>
-                    <th>金额（元）</th>
                     <th>数量（吨）</th>
+                    <th>金额（元）</th>
 					<!-- <th>交易状态</th> -->
 					<th>
 							<div class="ui pointing dropdown  item"  id="dropdown2" tabindex="0">

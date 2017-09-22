@@ -49,7 +49,8 @@
                     <div class="bar">
                         <div class="progress"></div>
                     </div>
-                    <div class="label left"> <span style="display:block;width:33%;float:left"> 基本信息</span>
+                    <div class="label left">
+                        <span style="display:block;width:33%;float:left"> 基本信息</span>
                         <span style="display:block;width:33%;float:left"> 企业资质</span>
                         <span style="display:block;width:33%;float:left"> 完成</span>
                     </div>
@@ -114,18 +115,18 @@
                                        </select>
                                     </div>
                                 </div>
-                                 <div class="field">
-                                      <div id ="sellerList" hidden="hidden">
-                                      <div class="ui labeled input ">
+                                <div class="field">
+                                    <div id ="sellerList" hidden="hidden">
+                                        <div class="ui labeled input ">
                                             <div class=" ui label">联系卖家:</div>
-                                                <select name="supply_id"  id="supply_id" class="ui dropdown focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
-                                                    <option value="0">--请选择卖家--</option>
-                                                    <c:forEach items="${customerList}" var="item" varStatus="status">
-                                                        <option value="${item.userId}">${item.userName}</option>
-                                                    </c:forEach>
-                                                </select>
+                                            <select name="supply_id"  id="supply_id" class="ui dropdown focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
+                                                <option value="0">--请选择卖家--</option>
+                                                <c:forEach items="${customerList}" var="item" varStatus="status">
+                                                    <option value="${item.userId}">${item.userName}</option>
+                                                </c:forEach>
+                                            </select>
                                         </div>
-                                      </div>
+                                    </div>
                                 </div>
                                 <!-- <div class="field" id="seller_binding" style="display:none">
                                     <div class="ui labeled input ">
@@ -139,7 +140,7 @@
                                         </select>
                                     </div>
                                 </div> -->
-                                                            </div>
+                            </div>
                             <!--//买家绑定-->
                         </div>
 
@@ -407,7 +408,6 @@
         for(var i = 0;i<inputs.length;i++){
             //如果是最后一个，则需判断验证错误个数
             if(i==(inputs.length-1)){
-              // if (confirm("是否提交?")) // 用户确认  
                 $("form[name='form1']").submit(); // 提交表单 
             }else if(thisInput == inputs[i]){
                 if (i==3) {
@@ -744,14 +744,20 @@
                     rules: [{
                         type: 'empty',
                         prompt: '请输入身份证'
-                    }, {
-                        type: 'maxLength[18]',
-                        prompt: '请输入身份证号码'
-                    },
-                    {
-                        type: 'maxLength[20]',
-                        prompt: '长度不得多于20位'
-                    },]
+                    },{
+                        type: 'regExp',
+                        value: /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/,
+                        prompt: '请输入正确的身份证号码'
+                    }, 
+                    // {
+                    //     type: 'maxLength[18]',
+                    //     prompt: '请输入15位或18位身份证号码'
+                    // },
+                    // {
+                    //     type: 'minLength[15]',
+                    //     prompt: '请输入15位或18位身份证号码'
+                    // },
+                    ]
                 },
 
                 yingye_img4 :{
