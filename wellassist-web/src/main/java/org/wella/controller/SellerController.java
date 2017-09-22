@@ -16,6 +16,7 @@ import org.wella.common.utils.ConvertUtil;
 import org.wella.common.vo.MyInfo;
 import org.wella.dao.*;
 import org.wella.entity.Bankcard;
+import org.wella.entity.Bill;
 import org.wella.entity.User;
 import org.wella.entity.Userinfo;
 import org.wella.front.mapper.FrontBankOrderMapper;
@@ -847,6 +848,20 @@ public class SellerController extends BaseController {
         model.addAttribute("parentMenuNo",7);
         model.addAttribute("childMenuNo",1);
         return "views/front/seller/bill/goBillSend.jsp";
+    }
+
+    @RequestMapping(value = "sendBill",method = RequestMethod.POST)
+    @ResponseBody
+    public R sendBill(@RequestParam("billId")long billId,@RequestParam("kpType")int kpType,@RequestParam(value = "eBill",required = false,defaultValue = "")String eBill,
+                      @RequestParam(value = "kdNo",required = false,defaultValue = "")String kdNo,@RequestParam(value = "kdName",required = false,defaultValue = "")String kdName)
+    {
+        try {
+            sellerServiceImpl.sendBill(billId,kpType,eBill,kdNo,kdName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error();
+        }
+        return R.ok();
     }
 
 

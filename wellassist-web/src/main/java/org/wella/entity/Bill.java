@@ -46,6 +46,8 @@ public class Bill {
 
     private Date confirmDate;
 
+    private byte kpType;
+
     private String kdNo;
 
     private String kdName;
@@ -218,6 +220,14 @@ public class Bill {
 
     public void setConfirmDate(Date confirmDate) {
         this.confirmDate = confirmDate;
+    }
+
+    public byte getKpType() {
+        return kpType;
+    }
+
+    public void setKpType(byte kpType) {
+        this.kpType = kpType;
     }
 
     public String getKdNo() {

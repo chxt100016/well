@@ -132,4 +132,6 @@ public interface SellerService {
      * @return 总记录数
      */
     int requestBillsListCount(Query query);
+
+    int sendBill(long billId, int kpType, String eBill, String kdNo, String kdName);
 }

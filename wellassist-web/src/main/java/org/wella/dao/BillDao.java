@@ -40,4 +40,5 @@ public interface BillDao {
     int listBilllistviewByConditionsCount(Map params);
 
 
+    int update(Bill bill);
 }

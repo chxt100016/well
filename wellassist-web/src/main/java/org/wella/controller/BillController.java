@@ -25,6 +25,11 @@ public class BillController {
     @Autowired
     private BillService billServiceImpl;
 
+    /**
+     * 开具发票的商品订单信息
+     * @param billId wa_bill主键
+     * @return 开具发票的商品订单信息
+     */
     @RequestMapping(value = "billOrders",method = RequestMethod.GET)
     @ResponseBody
     public R billOrders(@RequestParam("billId") long billId){
@@ -32,6 +37,11 @@ public class BillController {
         return R.ok().put("items",orders);
     }
 
+    /**
+     * 开具发票物流订单信息
+     * @param billId wa_bill主键
+     * @return 开具发票物流订单信息
+     */
     @RequestMapping(value = "billLogisticss",method = RequestMethod.GET)
     @ResponseBody
     public R billLogisticss(@RequestParam("billId")long billId){
@@ -39,6 +49,11 @@ public class BillController {
         return R.ok().put("items",list);
     }
 
+    /**
+     * 发票基本信息
+     * @param billId
+     * @return
+     */
     @RequestMapping(value = "bill",method =RequestMethod.GET)
     @ResponseBody
     public R bill(@RequestParam("billId") long billId){

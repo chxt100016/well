@@ -44,6 +44,52 @@
         #{billState,jdbcType=TINYINT}, #{applyDate,jdbcType=TIMESTAMP})
     </insert>
 
+    <update id="update" parameterType="org.wella.entity.Bill">
+        update wa_bill
+        <set >
+            <if test="receiveSh != null" >
+                receive_sh = #{receiveSh,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveName != null" >
+                receive_name = #{receiveName,jdbcType=VARCHAR},
+            </if>
+            <if test="receivePhone != null" >
+                receive_phone = #{receivePhone,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveAddress != null" >
+                receive_address = #{receiveAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveCompanyName != null" >
+                receive_company_name = #{receiveCompanyName,jdbcType=VARCHAR},
+            </if>
+            <if test="billState != null" >
+                bill_state = #{billState,jdbcType=TINYINT},
+            </if>
+            <if test="applyDate != null" >
+                apply_date = #{applyDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sendDate != null" >
+                send_date = #{sendDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="confirmDate != null" >
+                confirm_date = #{confirmDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="kpType != null">
+                kp_type=#{kpType,jdbcType=TINYINT},
+            </if>
+            <if test="kdNo != null" >
+                kd_no = #{kdNo,jdbcType=VARCHAR},
+            </if>
+            <if test="kdName != null" >
+                kd_name = #{kdName,jdbcType=VARCHAR},
+            </if>
+            <if test="eBill != null" >
+                e_bill = #{eBill,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where bill_id = #{billId,jdbcType=BIGINT}
+    </update>
+
     <select id="listBilllistviewByConditions" parameterType="map" resultType="map">
         SELECT *
         from billlistview

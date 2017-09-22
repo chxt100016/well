@@ -474,4 +474,35 @@ public class SellerServiceImpl implements SellerService {
         int res=billDao.listBilllistviewByConditionsCount(query);
         return res;
     }
+
+    @Override
+    @Transactional
+    public int sendBill(long billId, int kpType, String eBill, String kdNo, String kdName) {
+        int res=0;
+        Date now=new Date();
+        Bill bill=new Bill();
+        bill.setBillId(billId);
+        bill.setBillState((byte)1);
+        bill.setSendDate(now);
+        bill.setKpType((byte)kpType);
+        if (kpType==1){
+            bill.seteBill(eBill);
+            bill.setKdNo("");
+            bill.setKdName("");
+        }else if (kpType==2){
+            bill.seteBill("");
+            bill.setKdNo(kdNo);
+            bill.setKdName(kdName);
+        }
+        res+=billDao.update(bill);
+        Bill bill1=billDao.query(billId);
+        String orderIds=bill1.getOrderIds();
+        StringBuilder sb=new StringBuilder();
+        sb.append("(").append(orderIds.trim()).append(")");
+        Map<String,Object> update=new HashMap<>();
+        update.put("inOrderIds",sb.toString());
+        update.put("kpState",2);
+        res +=orderDao.updateOrderByID(update);
+        return res;
+    }
 }
