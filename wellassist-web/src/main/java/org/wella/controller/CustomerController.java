@@ -1526,6 +1526,12 @@ public class CustomerController extends BaseController {
       return R.ok();
    }
 
+   /**
+    * 已申请的商品订单发票列表数据
+    * @param params 分页参数
+    * @param request request
+    * @return 已申请的商品订单发票列表数据
+    */
    @RequestMapping(value = "applyOrderBillsList",method = RequestMethod.GET)
    @ResponseBody
    public R applyOrderBillsList(@RequestParam Map params, HttpServletRequest request){
@@ -1537,6 +1543,36 @@ public class CustomerController extends BaseController {
       int totalCount=customerServiceImpl.applyOrderBillsListCount(query);
       PageUtils page=new PageUtils(list,totalCount,query.getLimit(),query.getPage());
       return R.ok().put("page",page);
+   }
+
+   /**
+    * 跳转收发票界面
+    * @param model model
+    * @return view
+    */
+   @RequestMapping(value = "goReceiveBill",method = RequestMethod.GET)
+   public String goReceiveBill(Model model){
+      model.addAttribute("parentMenuNo",7);
+      model.addAttribute("childMenuNo",2);
+      return "views/front/customer/bill/goReceiveBill.jsp";
+   }
+
+   /**
+    * 处理买家收到发票
+    * @param billId 发票主键
+    * @param flag true：确认收到
+    * @return 成功：code：0；失败：code：500，msg：原因
+    */
+   @RequestMapping(value = "receiveBill",method = RequestMethod.POST)
+   @ResponseBody
+   public R confirmReceiveBill(@RequestParam("billId")long billId,@RequestParam(value = "flag",required = false,defaultValue = "true")boolean flag){
+      try {
+         customerServiceImpl.receiveBill(billId,flag);
+      } catch (Exception e) {
+         e.printStackTrace();
+         return R.error();
+      }
+      return R.ok();
    }
 
 }

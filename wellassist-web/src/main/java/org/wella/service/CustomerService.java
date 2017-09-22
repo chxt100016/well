@@ -393,9 +393,32 @@ public interface CustomerService {
      */
     List<Map<String,Object>> billLogisticss(String ids);
 
+    /**
+     * 请求开具发票
+     * @param bill 接收vo数据
+     * @return 更新的表行数
+     */
     int applyBill(Bill bill);
 
+    /**
+     * 已申请的商品订单发票列表数据
+     * @param param 分页参数
+     * @return 已申请的商品订单发票列表数据
+     */
     List<Map<String,Object>> applyOrderBillsList(Map param);
 
+    /**
+     * 已申请的商品订单发票列表记录总条数
+     * @param param 分页参数
+     * @return 已申请的商品订单发票列表记录总条数
+     */
     int applyOrderBillsListCount(Map param);
+
+    /**
+     * 处理买家收到发票
+     * @param billId 发票主键
+     * @param flag true：确认收到
+     * @return 数据库更新条目
+     */
+    int receiveBill(long billId, boolean flag);
 }

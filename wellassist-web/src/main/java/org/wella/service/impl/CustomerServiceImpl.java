@@ -18,9 +18,11 @@ import org.wella.service.*;
 import org.wella.utils.CommonUtil;
 
 import java.math.BigDecimal;
+import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 
 /**
  * Created by liuwen on 2017/5/10.
@@ -1090,6 +1092,37 @@ public class CustomerServiceImpl implements CustomerService {
     public int applyOrderBillsListCount(Map param) {
         param.put("orderType",1);
         int res=billDao.listBilllistviewByConditionsCount(param);
+        return res;
+    }
+
+    @Override
+    @Transactional
+    public int receiveBill(long billId, boolean flag) {
+        Date now=new Date();
+        int res=0;
+        Bill bill=billDao.query(billId);
+        String orderIds=bill.getOrderIds();
+        StringBuilder sb=new StringBuilder();
+        sb.append("(").append(orderIds.trim()).append(")");
+
+        //update table wa_bill
+        Bill update=new Bill();
+        update.setBillId(billId);
+        //update table wa_order
+        Map<String,Object> updateOrder=new HashMap<>();
+        updateOrder.put("inOrderIds",sb.toString());
+        if (flag){
+            update.setConfirmDate(now);
+            update.setBillState((byte)2);
+
+            updateOrder.put("kpState",3);
+        }else {
+            update.setBillState((byte)-1);
+
+            updateOrder.put("kpState",1);
+        }
+        res+=billDao.update(update);
+        res +=orderDao.updateOrderByID(updateOrder);
         return res;
     }
 }
