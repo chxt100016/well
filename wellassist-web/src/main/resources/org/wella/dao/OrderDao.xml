@@ -56,7 +56,7 @@
           sale_num, sale_money, dj_modify_date,
           sale_sj_num, sale_sj_money, sq_money,
           order_state, order_type, order_date,
-          order_ip, kp_state, kp_complete_date,
+          order_ip, kp_complete_date,
           is_self_car, pj_state, pj_date,
           pj_content, confirm_price, confirm_number,
           customer_except_carriage)
@@ -67,7 +67,7 @@
           #{saleNum,jdbcType=DECIMAL}, #{saleMoney,jdbcType=DECIMAL}, #{djModifyDate,jdbcType=TIMESTAMP},
           #{saleSjNum,jdbcType=DECIMAL}, #{saleSjMoney,jdbcType=DECIMAL}, #{sqMoney,jdbcType=DECIMAL},
           #{orderState,jdbcType=TINYINT}, #{orderType,jdbcType=TINYINT}, #{orderDate,jdbcType=TIMESTAMP},
-          #{orderIp,jdbcType=VARCHAR}, #{kpState,jdbcType=TINYINT}, #{kpCompleteDate,jdbcType=TIMESTAMP},
+          #{orderIp,jdbcType=VARCHAR}, #{kpCompleteDate,jdbcType=TIMESTAMP},
           #{isSelfCar,jdbcType=TINYINT}, #{pjState,jdbcType=TINYINT}, #{pjDate,jdbcType=TIMESTAMP},
           #{pjContent,jdbcType=VARCHAR}, #{confirmPrice,jdbcType=DECIMAL}, #{confirmNumber,jdbcType=DECIMAL},
           #{customerExceptCarriage,jdbcType=DECIMAL});
