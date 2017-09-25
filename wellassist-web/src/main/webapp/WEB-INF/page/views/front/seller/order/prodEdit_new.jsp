@@ -36,7 +36,7 @@
                                 <span style="display: table-cell;vertical-align: middle;">&emsp;吨</span>
                             </td>
                             <td class="form_label"><label for="" class="form_label">单价：</label></td>
-                            <td><input type="text" placeholder="请填写产品单价" class="" name="prodPrice" value="${prod.prodPrice}"> </td>
+                            <td><input type="text" placeholder="请填写产品单价" class="" name="prodPrice" value="${prod.prodPrice}" disabled="disabled"> </td>
                             <td>&emsp;元/吨</td>
                         </tr>
                         <tr>
@@ -57,7 +57,7 @@
                                         <option value="${item.regionId}"  <c:if test="${item.regionId==cityId}" >selected</c:if>  >${item.regionName}</option>
                                     </c:forEach>
                                 </select>
-                                <select id="regionId" name="regionId" onchange="selRegion(2);"  style="width:132px;float:left" >
+                                <select id="regionId" name="regionId" onchange="selRegion(2);" disabled="disabled"  style="width:132px;float:left" >
                                     <option>--请选择区--</option>
                                     <c:forEach items="${countyList}" var="item" varStatus="status">
                                         <option value="${item.regionId}"  <c:if test="${item.regionId==prod.get('prodRegionId')}" >selected</c:if> >${item.regionName}</option>
@@ -69,7 +69,7 @@
                         </tr>
                         <tr>
                             <td><label for="" class="form_label"></label>详细地址：</td>
-                            <td colspan="2"><input type="text" placeholder="请填写具体地址" class="" name="prodRegionAddr" value="${prod.prodRegionAddr}"></td>
+                            <td colspan="2"><input type="text" placeholder="请填写具体地址" class="" name="prodRegionAddr" value="${prod.prodRegionAddr}" disabled="disabled"></td>
                             
                             <td></td>
                             <td></td>
