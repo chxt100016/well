@@ -28,9 +28,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Administrator on 2017/7/21.
+ * Created by ailing on 2017/7/21.
  */
-
 @Controller
 @RequestMapping(value = "/creditor/")
 public class CreditorController extends BaseController{

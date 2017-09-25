@@ -71,4 +71,8 @@ public interface OrderDao {
      * @return 拼接 orderNo字符串
      */
     String concatOrderNos(@Param("inOrderIds") String inOrderIds);
+
+    List getSellerOrderList(Map param);
+
+    int getSellerOrderListCount(Map param);
 }

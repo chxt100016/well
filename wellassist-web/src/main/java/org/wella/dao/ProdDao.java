@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import org.wella.entity.Prod;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Map;
@@ -47,9 +48,9 @@ public interface ProdDao {
 
     Map<String,Object> selectSalenum(Long orderId);
 
+    List getWaProdList(Map map);
 
-
-
+    int getWaProdListCount(Map map);
 
 
     //void updateKucun(Map map);
