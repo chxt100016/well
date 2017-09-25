@@ -294,7 +294,6 @@
 			
 			$("input[name='vehicleSjSize']").each(function(){
 				var vehicleObj	  = new Object();
-				
 				if(!flag){
 					vehicleId = $(this).attr("vehicleid");
 					if(vehicleId==null || vehicleId=="" || vehicleId<=0){
@@ -305,7 +304,6 @@
 		    			vehicleObj.vehicleId = vehicleId;	
 		    		}
 				}
-
 				if(!flag){
 					vehicleSjSize = $(this).val();
 					if(vehicleSjSize==null || vehicleSjSize=="" || vehicleSjSize<=0){

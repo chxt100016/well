@@ -25,7 +25,17 @@ public interface UserMoneyDao {
 
     List<Map<Integer,Object>> fundFlowIn(Map map);
 
+    /**
+     * 用户交易记录
+     * @param param 分页参数
+     * @return 用户交易记录
+     */
     List<Map<String,Object>> getJyList(Map param);
 
+    /**
+     * 用户交易记录总记录数
+     * @param param 分页参数
+     * @return 用户交易记录总记录数
+     */
     int getJyListCount(Map param);
 }

@@ -121,8 +121,14 @@ public class SellerController extends BaseController {
         HttpSession httpSession = request.getSession();
         User user = (User) httpSession.getAttribute("user");
         param.put("userId", user.getUserId());
-        List waOrderList = this.orderDao.getSellerOrderList(param);
+        List<Map> waOrderList = this.orderDao.getSellerOrderList(param);
         ConvertUtil.convertDataBaseMapToJavaMap(waOrderList);
+        for (Map waOrder:waOrderList){
+            Map<String,Object> orderlog=waOrderServiceImpl.findNewestOrderLog(Long.parseLong(waOrder.get("orderId").toString()));
+            if(orderlog!=null &&orderlog.size()>0){
+                waOrder.putAll(orderlog);
+            }
+        }
         model.addAttribute("waOrderList", waOrderList);
         int totalCount = this.orderDao.getSellerOrderListCount(param);
         this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));

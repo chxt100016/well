@@ -12,6 +12,11 @@ import java.util.Map;
 @Repository
 public interface CreditDao {
 
+    /**
+     * 申请授信额度
+     * @param params 表单提交参数
+     * @return 数据库表单提交记录数
+     */
     int applyCreditLimit(Map<String, Object> params);
 
     List<Map<String,Object>> listCreditAttachUserinfoByConditions(Map<String, Object> params);

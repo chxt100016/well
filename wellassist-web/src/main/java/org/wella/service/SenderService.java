@@ -1,6 +1,5 @@
 package org.wella.service;
 
-import org.wella.entity.LogisticsInfo;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -8,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by liuwen on 2017/5/10.
+ * Created by ailing on 2017/5/10.
  */
 public interface SenderService {
     /**
@@ -49,9 +48,32 @@ public interface SenderService {
 
     int reGrabLogistics(long logisticsId);
 
-
     List<Map<String,Object>> selectDriver(Long  logisticsId);
 
-
     List<BigDecimal> profit(Map<String,Object> map);
+
+    /**
+     * 物流方收到申请发票列表
+     * @param query 分页参数
+     * @return 发票列表
+     */
+    List requestBillsList(Map query);
+
+    /**
+     * 物流方收到申请发票列表总记录数
+     * @param query 分页参数
+     * @return 总记录数
+     */
+    int requestBillsListCount(Map query);
+
+    /**
+     * 物流方发送发票
+     * @param billId 发票id
+     * @param kpType 开票类型
+     * @param eBill 电子发票url
+     * @param kdNo 快递单号
+     * @param kdName 快递名
+     * @return 数据库表更新条数
+     */
+    int sendBill(long billId, String billNo, int kpType, String eBill, String kdNo, String kdName);
 }

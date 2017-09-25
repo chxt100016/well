@@ -1,132 +1,53 @@
 package org.wella.service;
 
-import io.wellassist.utils.Query;
 import org.wella.entity.Bill;
 import org.wella.entity.Order;
 import org.wella.entity.Prod;
 import org.wella.entity.Userinfo;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Created by liuwen on 2017/5/10.
+ * Created by ailing on 2017/5/10.
  */
 public interface CustomerService {
+
     /**
-     * @param map 表单中提交的内容
      * 买方下订单操作,主要完成以下操作
      * 1.根据表单填写的内容，向表wa_order表中插入一条记录，此时订单的业务编发要根据相应的逻辑生成
      * 2.在表wa_order_info表中生成一条记录
+     * @param map 表单中提交的内容
+     * @return orderId
      */
     long order(Map map);
 
     /**
-     *订单支付
-     * @param orderId
-     *
-     */
-    void orderPay(int orderId);
-
-    /**
-     *订单取消支付
-     * @param orderId
-     */
-    void cancelPay(int orderId);
-
-    /**
-     *物流订单处理，选择物流单位
-     * @param deliveryOrderId
-     *
-     */
-    void processDeliveryOrder(int deliveryOrderId);
-
-    /**
-     *物流订单支付处理
-     * @param deliveryOrderId
-     */
-    void deliveryOrderPay(int deliveryOrderId);
-
-    /**
-     *确认发货
-     * @param deliveryOrderId
-     */
-    void confirmDelivery(int deliveryOrderId);
-
-    /**
-     *评价对方
-     * @param orderId
-     */
-    void evaluate(int orderId);
-
-    /**
-     *贷款申请
-     * @param customerId
-     */
-    void loanApply(int customerId);
-
-    /**
-     *贷款到账确认
-     */
-    void loanConfirm();
-
-    /**
-     *查询订单列表
-     * @return
-     */
-    List<Order> findOrderList();
-
-    /**
-     *查询订单列表
-     * @param map
-     * @return
-     */
-    List<Order> findOrderList(Map map);
-
-    /**
-     *创建订单
-     */
-    void createOrder();
-
-    /**
-     *更新订单
-     * @param order
-     */
-    void updateOrder(Order order);
-
-    /**
-     *删除订单
-     * @param orderId
-     */
-    void deleteOrder(int orderId);
-
-    /**
-     *获取产品列表
-     * @return
+     * 获取产品列表
+     * @param map 查询参数
+     * @return 可购买的产品列表
      */
     List<Prod> findProdList(Map map);
 
-
     /**
      * 获取产品信息，并将其中的prod_region_id(编码)转换成fromRegionName（字符串）
-     * @param param
-     * @return
+     * @param param 查询参数
+     * @return 产品信息
      */
     Map<String,Object> findProdById(Map param);
 
     /**
-     *获取区域列表
+     * 获取区域列表
      * @param param parentRegionId
-     * @return
+     * @return 区域列表
      */
     List<Map<String,Object>> getRegionList(Map param);
 
     /**
      * 获取公司所在地
      * @param userinfo
-     * @return
+     * @return 公司所在地
      */
     String findZcAddress(Userinfo userinfo);
 
@@ -181,79 +102,110 @@ public interface CustomerService {
      */
     int chooseGrab(Map param);
 
-    void testPayLogistics(long logisticsInfoId);
-
-    int testPayOrder(long orderId);
-
-
+    /**
+     * 订单预付款页面model信息
+     * @param orderId orderId
+     * @param userId userId
+     * @return 订单预付款页面model信息
+     */
     Map<String,Object> getPayOrderPageInfo(long orderId,long userId);
 
+    /**
+     * 物流预付款页面model信息
+     * @param logisticsInfoId wa_logistics_info主键
+     * @param userId userId
+     * @return 物流预付款页面model信息
+     */
     Map<String,Object> getPayLogisticsPageInfo(long logisticsInfoId,long userId);
 
+    /**
+     * 付款所需余额是否足够
+     * @param userId userId
+     * @param payMoney 支付金额
+     * @param zfMethod 支付方式
+     * @param balanceZfMoney 余额支付部分
+     * @param loanZfMoney 授信支付部分
+     * @return true 足够
+     * @return false 不够
+     */
     boolean isBalanceEnough(long userId, BigDecimal payMoney, int zfMethod,BigDecimal balanceZfMoney,BigDecimal loanZfMoney);
 
     /**
      * 申请授信额度
-     * @param params
+     * @param params 表单提交参数
+     * @return 数据库更新记录数
      */
     int applyCreditLimit(Map<String, Object> params);
 
     /**
      * 得到用户当前授信信息
-     * @param userId
-     * @return
+     * @param userId userId
+     * @return 得到用户当前授信信息
      */
     Map<String,Object> getCurrentCredit(long userId);
 
     /**
      * 得到用户的授信总额度
-     * @param userId
-     * @return
+     * @param userId userId
+     * @return 得到用户的授信总额度
      */
     BigDecimal getUserCreditSjMoney(long userId);
 
     /**
      * 得到用户授信额度的该条授信记录
+     * @param userId userId
+     * @return 得到用户授信额度的该条授信记录
      */
     Map<String,Object> getSjCredit(long userId);
 
     /**
      * 在授信总额度变化时修改用户的可用额度
-     * @param userId
+     * @param userId userId
      */
     void updateUserCreditMoney(long userId);
 
     /**
      * 在授信总额度变化时修改用户的可用额度
-     * @param userId
+     * @param userId userId
      */
     void updateUserCreditMoney(long userId,BigDecimal creditSjMoney);
 
+    /**
+     * 页面信息model：授信账户页面
+     * @param userId userId
+     * @return model页面信息：授信账户页面
+     */
     Map<String,Object> findCreditAccountPageInfo(Long userId);
 
     /**
      * 判断用户是否已经提交了授信申请，是则不能再提交
-     * @param userId
-     * @return
+     * @param userId userId
+     * @return true：已提交，false：未提交
      */
     boolean isCreditApplyAvailable(Long userId);
 
+    /**
+     * model页面信息：买家授信申请
+     * @param userId userId
+     * @return model页面信息：买家授信申请
+     */
     Map<String,Object> findCreditApplyPageInfo(Long userId);
 
     /**
      * 授信负债总额（不算利息）
-     * @param userId
-     * @return
+     * @param userId userId
+     * @return 授信负债总额（不算利息）
      */
     BigDecimal getLoansSum(Long userId);
 
     /**
      * 通过余额还款，提交银行订单
-     * @param userId
-     * @param loanId
-     * @param principal
-     * @param interest
-     * @param ip
+     * @param userId userId
+     * @param loanId wa_loan表主键
+     * @param principal 还款本金
+     * @param interest 还款利息
+     * @param ip 还款ip
+     * @return 数据库update记录数
      */
     int beforeRepayLoanByBalance(long userId,long loanId,BigDecimal principal,BigDecimal interest,String ip) throws Exception;
 
@@ -284,69 +236,70 @@ public interface CustomerService {
     /**
      * 未还清的贷款记录
      * @param params:long userId,int start,int size
-     * @return
+     * @return 未还清的贷款记录
      */
     List<Map<String,Object>> getLoansIndebt(Map params);
+
     /**
      * 未还清的贷款记录count
      * @param params:long userId,int start,int size
-     * @return
+     * @return 未还清的贷款记录count
      */
     int getLoansIndebtCount(Map params);
 
     /**
      * 所有贷款及相应的还款详情
      * @param params:long userId,int start,int size
-     * @return
+     * @return 所有贷款及相应的还款详情
      */
     List<Map<String,Object>> getLoansRepayDetail(Map params);
 
     /**
      * 所有贷款及相应的还款详情count
      * @param params:long userId,int start,int size
-     * @return
+     * @return 所有贷款及相应的还款详情count
      */
     int getLoansRepayDetailCount(Map params);
 
     /**
      * 用户额度申请记录
      * @param params:long userId,int start,int size
-     * @return
+     * @return 用户额度申请记录
      */
     List<Map<String,Object>> getCreditList(Map params);
 
     /**
      * 用户额度申请记录count
      * @param params:long userId,int start,int size
-     * @return
+     * @return 用户额度申请记录count
      */
     int getCreditListCount(Map params);
 
     /**
-     * 买家多退少补
-     * @param orderId
-     * @param secondPayMoney
-     * @param zfMethod
-     * @param balance
-     * @param loan
-     * @param certificateImg
+     * 买家多退少补后将订单结算金额转入卖方账户
+     * @param orderId orderId
+     * @param secondPayMoney 结算金额：为负为退款，为正为补款
+     * @param zfMethod 支付方式
+     * @param balance 余额支付部分
+     * @param loan 授信支付部分
+     * @param certificateImg 线下支付文件上传回调url
      */
     void handle2ndPayProd(long orderId, BigDecimal secondPayMoney, int zfMethod, BigDecimal balance, BigDecimal loan, String certificateImg) throws Exception;
 
     /**
      * 结算给卖家成功后数据入库
-     * @param orderId
-     * @param orderTransId
-     * @param moneyId
-     * @param zfSjMoney
+     * @param orderId orderId
+     * @param orderTransId wa_order_trans 主键
+     * @param moneyId wa_user_money主键
+     * @param zfSjMoney 订单实际金额
      */
     void handlePay2Seller(long orderId,long orderTransId,long moneyId,BigDecimal zfSjMoney);
 
     /**
      * 结算给物流成功后数据入库
-     * @param logisticsId
-     * @param orderId
-     * @param zfSjMoney
+     * @param logisticsId wa_logistics_info主键
+     * @param orderId orderId
+     * @param zfSjMoney 订单实际金额
      */
     void handleSettleLogistics(long logisticsId,long orderId,BigDecimal zfSjMoney);
 
