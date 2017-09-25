@@ -101,32 +101,32 @@
             <div class="two fields">
                 <div class="inline field">
                     <label>司机姓名：</label>
-                    <input type="text" name="driverName" v-model='newVehicle.driverName'>
+                    <input type="text" name="driverName" v-model='newVehicle.driverName' class="focus" onkeypress="if(event.keyCode == 13) nextInput(this,event);">
                 </div>
                 <div class="inline field">
                     <label>&#8195司机电话：</label>
-                    <input type="text" name="driverPhone" v-model='newVehicle.driverPhone'>
+                    <input type="text" name="driverPhone" v-model='newVehicle.driverPhone' class="focus" onkeypress="if (event.keyCode == 13) nextInput(this,event);">
                 </div>
             </div>
             <div class="two fields">
                 <div class="inline field">
                     <label>司机车牌：</label>
-                    <input type="text" name="vehicleNo" v-model='newVehicle.vehicleNo'>
+                    <input type="text" name="vehicleNo" v-model='newVehicle.vehicleNo' class="focus" onkeypress="if (event.keyCode == 13) nextInput(this,event);">
                 </div>
                 <div class="inline field">
                     <label>司机车挂号：</label>
-                    <input type="text" name="vehicleHangingNo" v-model='newVehicle.vehicleHangingNo'>
+                    <input type="text" name="vehicleHangingNo" v-model='newVehicle.vehicleHangingNo' class="focus" onkeypress="if (event.keyCode == 13) nextInput(this,event);">
                 </div>
             </div>
             <div class="two fields">
                 <div class="inline field">
                     <label>&#8195&#8195容量：</label>
-                    <input type="text" name="vehicleSize" v-model='newVehicle.vehicleSize'>
+                    <input type="text" name="vehicleSize" v-model='newVehicle.vehicleSize' class="focus" onkeypress="if (event.keyCode == 13) nextInput(this,event);">
                     <input type="hidden" name="orderId" value="${info.orderId}" >
                 </div>
 
             </div>
-            <div class="ui button submit" @click='createVehicle' >保存 </div>
+            <div class="ui button submit focus" @click='createVehicle' onkeypress="if (event.keyCode == 13) nextInput(this,event);">保存 </div>
             
 
         </form>
@@ -156,7 +156,7 @@
                         {{vehicle.driverName}}
                     </td>
                     <td class="single line ">{{vehicle.driverPhone}}</td>
-                    <td> {{vehicle.vehicleNo}}</td>
+                    <td>{{vehicle.vehicleNo}}</td>
                     <td>{{vehicle.vehicleHangingNo}}</td>
                     <td>{{vehicle.vehicleSize}} 吨</td>
                     <td width="15%"><a class="negative ui button " v-on:click="delVehicle(index) " style="height:35px">删除 </a></td>
@@ -176,6 +176,21 @@
     </div>
 </body>
 <script>
+
+    function nextInput(thisInput,e){
+        e.preventDefault();
+        var inputs = document.getElementsByClassName("focus");
+        for(var i = 0;i < inputs.length-1;i++){
+            if (i == 5) {
+                vm.createVehicle();
+                break;
+            }
+            else if(thisInput == inputs[i]){
+                inputs[i+1].focus();
+                break;
+            }           
+        }
+    }
      const orderId= '${info.orderId}';
      const url1='${pageContext.request.contextPath}/userinfo/operationDriver';
      var logisticsInfoId=${info.logisticsId};
@@ -215,7 +230,11 @@
                 rules: [{
                     type: 'empty',
                     prompt: '朋友别忘记填写哦'
-                }]
+                },{
+                    type: 'regExp[]',
+                    value: /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1}$/,
+                    prompt: '请输入正确的车牌号,如浙A12345'
+                },]
             },
             vehicleSize: {
                 identifier: 'vehicleSize',
