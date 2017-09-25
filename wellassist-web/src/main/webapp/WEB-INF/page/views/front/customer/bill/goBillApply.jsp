@@ -577,27 +577,7 @@
                     }
                        
                     },
-                    // ApproveAjax:function(){
-                    //     let  tourl='${pageContext.request.contextPath}/customer/goOrderBillRequest';
-                    //     let ids= this.checkedOrderId;
-                    //     $.ajax({
-                    //         type:'post', 
-                    //         url:tourl,
-                    //         data:{},
-                    //         dataType:'json',
-                    //         success:
-                    //                 function(result){
-                    //                         if(result.code==0){
-
-                    //                         }
-                    //                         else{
-                    //                                     console.log(result.msg)
-                    //                             }
-                    //                                 }
-
-
-                    //         })
-                    // }
+                    
 
                 }
 
