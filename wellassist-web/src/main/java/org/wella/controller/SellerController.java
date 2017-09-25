@@ -1,6 +1,5 @@
 package org.wella.controller;
 
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.wellassist.utils.*;
@@ -114,6 +113,25 @@ public class SellerController extends BaseController {
         this.echoJSON(response, obj);
     }
 
+
+
+    @RequestMapping("order")
+    public String order(HttpServletRequest request,Model model){
+        Map param = this.getConditionParam(request);
+        HttpSession httpSession = request.getSession();
+        User user = (User) httpSession.getAttribute("user");
+        param.put("userId", user.getUserId());
+        List waOrderList = this.orderDao.getSellerOrderList(param);
+        ConvertUtil.convertDataBaseMapToJavaMap(waOrderList);
+        model.addAttribute("waOrderList", waOrderList);
+        int totalCount = this.orderDao.getSellerOrderListCount(param);
+        this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
+        model.addAttribute("parentMenuNo", "5");
+        model.addAttribute("childMenuNo", "5");
+        model.addAttribute("userName", user.getUserName());
+        return "views/front/seller/order/orderList.jsp";
+    }
+
     /*@RequestMapping("orderListPage")
     public String ordersheet_list(HttpServletRequest request, HttpServletResponse response, Model model) {
         HttpSession session = request.getSession();
@@ -150,8 +168,6 @@ public class SellerController extends BaseController {
         model.addAttribute("childMenuNo", "3");
         return "views/front/seller/order/confirmOrder.jsp";
     }
-
-
 
     @RequestMapping("editOrder")
     public String editOrder(Model model,@RequestParam("orderId")String orderId){
@@ -206,8 +222,6 @@ public class SellerController extends BaseController {
         return jsonString;
     }
 
-
-
     @RequestMapping("sendProdSubmit")
     public void sendProdSubmit(@RequestParam Map params, HttpServletRequest request,HttpServletResponse response){
         String ret = "-1";
@@ -215,8 +229,6 @@ public class SellerController extends BaseController {
         obj.put("content", ConstantUtil.MSG_PARAM_ERR);
         long userId=((User)request.getSession().getAttribute("user")).getUserId();
         params.put("userId",userId);
-
-
         try {
             sellerServiceImpl.sendProd(params);
             ret = "1";
@@ -462,22 +474,6 @@ public class SellerController extends BaseController {
         return "views/front/seller/finance/accountInfo.jsp";
     }
 
-    @RequestMapping("order")
-    public String order(HttpServletRequest request,Model model){
-        Map param = this.getConditionParam(request);
-        HttpSession httpSession = request.getSession();
-        User user = (User) httpSession.getAttribute("user");
-        param.put("userId", user.getUserId());
-        List waOrderList = this.orderDao.getSellerOrderList(param);
-        ConvertUtil.convertDataBaseMapToJavaMap(waOrderList);
-        model.addAttribute("waOrderList", waOrderList);
-        int totalCount = this.orderDao.getSellerOrderListCount(param);
-        this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
-        model.addAttribute("parentMenuNo", "5");
-        model.addAttribute("childMenuNo", "5");
-        model.addAttribute("userName", user.getUserName());
-        return "views/front/seller/order/orderList.jsp";
-    }
 
     @RequestMapping("password")
     public String changePassword(Model model) {
