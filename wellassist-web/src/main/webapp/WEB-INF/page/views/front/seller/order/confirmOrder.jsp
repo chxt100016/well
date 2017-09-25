@@ -372,7 +372,8 @@
 			
 	function validateNumber(e, pnumber, type){
 		var len = 0;
-		if (!/^\d+$/.test(pnumber)){
+		/*if (!/^\d+$/.test(pnumber)){*/
+        if (!/^[0-9]+.{0,1}[0-9]{0,2}$/.test(pnumber)){
 			if(isNaN(pnumber) == '0') return;
 			len = pnumber.length;
 			$(e).val(pnumber.substring(0,len-1));

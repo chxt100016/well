@@ -138,7 +138,7 @@
 					</div>
 					<div class="labeldd" align="right">单价 :</div>
 					<div class="contentdd ui input" style="margin-top:8px;">
-						<input type="text" name="saleDj" value="${orderInfo.orderPrice}" placeholder="请输入单价" onkeyup="return validateNumber(this,value,0)" />
+						<input type="text" name="saleDj" value="${orderInfo.orderPrice}" placeholder="请输入单价"  onkeyup="return validateNumber(this,value,0)" />
 					</div>
 					<div class="labeldd" align="right">总价 :</div>
 					<div class="contentdd"><span id="saleMoney">${orderInfo.orderPrice * orderInfo.orderNumber}</span>元</div>
@@ -326,7 +326,8 @@
 	
 	function validateNumber(e, pnumber, type){
 		var len = 0;
-		if (!/^\d+$/.test(pnumber)){
+		/*if (!/^\d+$/.test(pnumber)){*/
+        if (!/^[0-9]+.{0,1}[0-9]{0,2}$/.test(pnumber)){
 			if(isNaN(pnumber) == '0') return;
 			len = pnumber.length;
 			$(e).val(pnumber.substring(0,len-1));
