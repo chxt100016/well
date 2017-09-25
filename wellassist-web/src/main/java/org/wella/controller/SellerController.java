@@ -856,7 +856,7 @@ public class SellerController extends BaseController {
                       @RequestParam(value = "kdNo",required = false,defaultValue = "")String kdNo,@RequestParam(value = "kdName",required = false,defaultValue = "")String kdName)
     {
         try {
-            sellerServiceImpl.sendBill(billId,billNo,kpType,eBill,kdNo,kdName);
+             sellerServiceImpl.sendBill(billId,billNo,kpType,eBill,kdNo,kdName);
         } catch (Exception e) {
             e.printStackTrace();
             return R.error();

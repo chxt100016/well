@@ -224,7 +224,7 @@
                                     function(result){
                                             if(result.code==0){
                                               alert('提交成功');
-                                              location.href='${pageContext.request.contextPath}/customer/goBillManage'
+                                              location.href='${pageContext.request.contextPath}/customer/goOrderBills'
                                             }
                                             else{
                                                         console.log(result.msg)
