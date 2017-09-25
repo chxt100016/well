@@ -74,12 +74,15 @@
                         <tr>
                             <td class="form_label"><label for="">产品图片：</label></td>
                             <td>
-
-                                <img class="yingyeimg focus" id="upload2" style="width:270px;height:230px ;border:1px solid #adadad" src="../img/upload.png" name="prodImg" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
-                               <!--  <input class="yingyeimg focus" id="upload2" style="width:270px;height:230px ;background-image:url(../img/upload.png);background-repeat:no-repeat;" name="prodImg" onkeypress="if(event.keyCode==13) focusNextInput(this,event);"> -->
+                                <div class="ui card">
+                                    <img id="prodImgpath" class="" style="width:100%; height:230px" src="" />
+                                    <input type="file" id="prodImg" name="prodImg_src"  class="fileManage focus imgInput"  onkeypress="if(event.keyCode==13) focusNextInput(this,event);"/>
+                                    <input type="hidden" name="prodImg"  class="fileManage"  />
+                                </div>
+                                <!-- <img class="yingyeimg focus" id="upload2" style="width:270px;height:230px ;border:1px solid #adadad" src="../img/upload.png" name="prodImg" onkeypress="if(event.keyCode==13) focusNextInput(this,event);"> -->
                             </td>
                             <td>
-                                <input type="hidden" name="prodImg" value="${prod.prodImg}" /><br>
+                                <!-- <input type="hidden" name="prodImg" value="${prod.prodImg}" /> --><br>
                                 <%--<input type="file" id="prodImg" name="prodImg_src" value="${prod.prodImg_src}" class="fileManage" />--%>
                                 <!-- <a class="ui button primary" >上传图片</a> -->
                             </td>
@@ -91,14 +94,14 @@
                             </td>
                             <td  colspan="3">
                                 <div id="editor" class="focus">
-                                    <p class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">此处可编辑产品详情</p>
+                                    <p>此处可编辑产品详情</p>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td></td>
                             <td><input type="reset" name="reset" style="display: none;" /></td>
-                            <td><button class="ui primary button focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">提交</button>&emsp;<a class="ui button" href="#" role="button" type="reset">返回</a></td>                            
+                            <td><button class="ui primary button">提交</button>&emsp;<a class="ui button" href="#" role="button" type="reset">返回</a></td>                            
                             <td></td>
                             <td></td>
                         </tr>
@@ -144,15 +147,13 @@
         }
     }
 
-    /*function clearFileName() {
+    //上传图片处理方法
+    function clearFileName() {
         $("input[type='file']").each(function () {
             $(this).attr("name", "");
         });
     }
-    /!**
-     * 上传图片处理方法
-     * @param idx
-     *!/
+    
     function uploadImage() {
         var options = {
             url: "${pageContext.request.contextPath}/uploadFile",
@@ -181,30 +182,31 @@
         clearFileName();
         $(this).attr("name", "file");
         uploadImage();
-    });*/
-
-    $(document).ready(function () {
-        new AjaxUpload('#upload2', {
-            action: '${pageContext.request.contextPath}/uploadFile',
-            name: 'file',
-            autoSubmit:true,
-            responseType:"json",
-            onSubmit:function(file, extension){
-                if (!(extension && /^(jpg|jpeg|png|gif)$/.test(extension.toLowerCase()))){
-                    alert('只支持jpg、png、gif格式的图片！');
-                    return false;
-                }
-            },
-            onComplete : function(file, data){
-                if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确定",""); return; }
-                $("input[name='prodImg']").val(data.path);
-                $("#upload2").prop("src", data.path);
-                // $("#upload2").css("background-image",url(data.path));
-                $("#prodImgpath").show();
-                return;
-            }
-        });
     });
+
+
+    // $(document).ready(function () {
+    //     new AjaxUpload('#upload2', {
+    //         action: '${pageContext.request.contextPath}/uploadFile',
+    //         name: 'file',
+    //         autoSubmit:true,
+    //         responseType:"json",
+    //         onSubmit:function(file, extension){
+    //             if (!(extension && /^(jpg|jpeg|png|gif)$/.test(extension.toLowerCase()))){
+    //                 alert('只支持jpg、png、gif格式的图片！');
+    //                 return false;
+    //             }
+    //         },
+    //         onComplete : function(file, data){
+    //             if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确定",""); return; }
+    //             $("input[name='prodImg']").val(data.path);
+    //             $("#upload2").prop("src", data.path);
+    //             // $("#upload2").css("background-image",url(data.path));
+    //             $("#prodImgpath").show();
+    //             return;
+    //         }
+    //     });
+    // });
 
     function selRegion(type) {
         var regionId = '';
@@ -238,40 +240,40 @@
     }
 
     $("#product-publish").validate({
-        rules: {
-            prodName: "required",
-            userId: "required",
-            prodType: { required: true },
-            prodNum: {
-                required:true,
-                number:true,
-                range:[1,500]
-                },
-            prodPrice: { required: true },
-            regionId: "required",
-            prodRegionAddr: { required: true },
-            prodLxr: { required: true },
-            prodLxrPhone: { required: true },
-            prodImg: "required",
-            prodIntro: "required"
-        },
-        messages: {
-            prodName: "请输入产品名称",
-            userId: "请选择卖家",
-            prodType: "请选择产品类型",
-            prodNum: {
-                required:"请输入产品供应量",
-                number:"请输入数字",
-                range:"产品供应链应在1-500顿之间"
-                },
-            prodPrice: "请输入产品单价（元/顿）",
-            prodRegionId: "请选择产品区域",
-            prodRegionAddr: "请输入产品详细地址",
-            prodLxr: "请输入产品联系人",
-            prodLxrPhone: "请输入产品联系人电话号码",
-            prodImg: "请上传产品图片",
-            prodIntro: "请填写产品简介"
-        },
+        // rules: {
+        //     prodName: "required",
+        //     userId: "required",
+        //     prodType: { required: true },
+        //     prodNum: {
+        //         required:true,
+        //         number:true,
+        //         range:[1,500]
+        //         },
+        //     prodPrice: { required: true },
+        //     regionId: "required",
+        //     prodRegionAddr: { required: true },
+        //     prodLxr: { required: true },
+        //     prodLxrPhone: { required: true },
+        //     prodImg: "required",
+        //     prodIntro: "required"
+        // },
+        // messages: {
+        //     prodName: "请输入产品名称",
+        //     userId: "请选择卖家",
+        //     prodType: "请选择产品类型",
+        //     prodNum: {
+        //         required:"请输入产品供应量",
+        //         number:"请输入数字",
+        //         range:"产品供应链应在1-500顿之间"
+        //         },
+        //     prodPrice: "请输入产品单价（元/顿）",
+        //     prodRegionId: "请选择产品区域",
+        //     prodRegionAddr: "请输入产品详细地址",
+        //     prodLxr: "请输入产品联系人",
+        //     prodLxrPhone: "请输入产品联系人电话号码",
+        //     prodImg: "请上传产品图片",
+        //     prodIntro: "请填写产品简介"
+        // },
         submitHandler: function (form) {
             var data=$(form).serialize();
             data=data+"&prodIntro="+editor.txt.html();
