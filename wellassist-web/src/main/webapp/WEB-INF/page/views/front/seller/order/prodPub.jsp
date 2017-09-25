@@ -75,9 +75,9 @@
                             <td class="form_label"><label for="">产品图片：</label></td>
                             <td>
                                 <div class="ui card">
-                                    <img id="prodImgpath" class="" style="width:100%; height:230px" src="" />
-                                    <input type="file" id="prodImg" name="prodImg_src"  class="fileManage focus imgInput"  onkeypress="if(event.keyCode==13) focusNextInput(this,event);"/>
-                                    <input type="hidden" name="prodImg"  class="fileManage"  />
+                                    <img id="prodImgpath" class="" style="width:100%; height:230px" src=""/>
+                                    <input type="file" id="prodImg" name="prodImg"  class="fileManage focus imgInput" onkeypress="if(event.keyCode==13) focusNextInput(this,event);"/>
+                                    <input type="hidden"  class="fileManage"  />
                                 </div>
                                 <!-- <img class="yingyeimg focus" id="upload2" style="width:270px;height:230px ;border:1px solid #adadad" src="../img/upload.png" name="prodImg" onkeypress="if(event.keyCode==13) focusNextInput(this,event);"> -->
                             </td>
@@ -240,40 +240,40 @@
     }
 
     $("#product-publish").validate({
-        // rules: {
-        //     prodName: "required",
-        //     userId: "required",
-        //     prodType: { required: true },
-        //     prodNum: {
-        //         required:true,
-        //         number:true,
-        //         range:[1,500]
-        //         },
-        //     prodPrice: { required: true },
-        //     regionId: "required",
-        //     prodRegionAddr: { required: true },
-        //     prodLxr: { required: true },
-        //     prodLxrPhone: { required: true },
-        //     prodImg: "required",
-        //     prodIntro: "required"
-        // },
-        // messages: {
-        //     prodName: "请输入产品名称",
-        //     userId: "请选择卖家",
-        //     prodType: "请选择产品类型",
-        //     prodNum: {
-        //         required:"请输入产品供应量",
-        //         number:"请输入数字",
-        //         range:"产品供应链应在1-500顿之间"
-        //         },
-        //     prodPrice: "请输入产品单价（元/顿）",
-        //     prodRegionId: "请选择产品区域",
-        //     prodRegionAddr: "请输入产品详细地址",
-        //     prodLxr: "请输入产品联系人",
-        //     prodLxrPhone: "请输入产品联系人电话号码",
-        //     prodImg: "请上传产品图片",
-        //     prodIntro: "请填写产品简介"
-        // },
+        rules: {
+            prodName: "required",
+            userId: "required",
+            prodType: { required: true },
+            prodNum: {
+                required:true,
+                number:true,
+                range:[1,500]
+                },
+            prodPrice: { required: true },
+            regionId: "required",
+            prodRegionAddr: { required: true },
+            prodLxr: { required: true },
+            prodLxrPhone: { required: true },
+            prodImg: "required",
+            prodIntro: "required"
+        },
+        messages: {
+            prodName: "请输入产品名称",
+            userId: "请选择卖家",
+            prodType: "请选择产品类型",
+            prodNum: {
+                required:"请输入产品供应量",
+                number:"请输入数字",
+                range:"产品供应链应在1-500顿之间"
+                },
+            prodPrice: "请输入产品单价（元/顿）",
+            prodRegionId: "请选择产品区域",
+            prodRegionAddr: "请输入产品详细地址",
+            prodLxr: "请输入产品联系人",
+            prodLxrPhone: "请输入产品联系人电话号码",
+            prodImg: "请上传产品图片",
+            prodIntro: "请填写产品简介"
+        },
         submitHandler: function (form) {
             var data=$(form).serialize();
             data=data+"&prodIntro="+editor.txt.html();
