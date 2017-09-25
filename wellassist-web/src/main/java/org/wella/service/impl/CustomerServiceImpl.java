@@ -199,70 +199,6 @@ public class CustomerServiceImpl implements CustomerService {
         return date;
     }
 
-    @Override
-    public void orderPay(int orderId) {
-
-    }
-
-    @Override
-    public void cancelPay(int orderId) {
-
-    }
-
-    @Override
-    public void processDeliveryOrder(int deliveryOrderId) {
-
-    }
-
-    @Override
-    public void deliveryOrderPay(int deliveryOrderId) {
-
-    }
-
-    @Override
-    public void confirmDelivery(int deliveryOrderId) {
-
-    }
-
-    @Override
-    public void evaluate(int orderId) {
-
-    }
-
-    @Override
-    public void loanApply(int customerId) {
-
-    }
-
-    @Override
-    public void loanConfirm() {
-
-    }
-
-    @Override
-    public List<Order> findOrderList() {
-        return null;
-    }
-
-    @Override
-    public List<Order> findOrderList(Map map) {
-        return null;
-    }
-
-    @Override
-    public void createOrder() {
-
-    }
-
-    @Override
-    public void updateOrder(Order order) {
-
-    }
-
-    @Override
-    public void deleteOrder(int orderId) {
-
-    }
 
     @Override
     public List<Prod> findProdList(Map map) {
@@ -465,53 +401,6 @@ public class CustomerServiceImpl implements CustomerService {
         res += logisticsInfoDao.updateByPrimaryKey(updateLogisticsInfo);
 
         messageServicesk.handleChooseGrabMessage(logisticsInfoId);
-        return res;
-    }
-
-    /**
-     * update wa_logistics_info 表 state=3，pre_payment=order_price
-     * update order表：如果order_state:11-->2;如果order_state:1-->12
-     *
-     * @param logisticsInfoId
-     */
-    @Override
-    @Transactional
-    public void testPayLogistics(long logisticsInfoId) {
-        Map<String, Object> logisticsInfo = logisticsInfoDao.singleLogisticsInfoByPrimaryKey(logisticsInfoId);
-        ConvertUtil.convertDataBaseMapToJavaMap(logisticsInfo);
-        logisticsInfo.remove("state");
-        logisticsInfo.put("state", (byte) 3);
-        logisticsInfo.put("prePayment", (double) logisticsInfo.get("orderPrice"));
-        logisticsInfoDao.updateByPrimaryKey(logisticsInfo);
-
-        Map<String, Object> order = orderDao.singleOrderByPrimaryKey((long) logisticsInfo.get("orderId"));
-        byte orderState = (int) order.get("order_state") == 1 ? (byte) 12 : (byte) 2;
-        Map updateOrder = new HashMap();
-        updateOrder.put("orderId", (long) order.get("order_id"));
-        updateOrder.put("orderState", orderState);
-        orderDao.updateOrderByID(updateOrder);
-    }
-
-    /**
-     * update order表：如果notSelfCar:order_state:12-->2;如果order_state:1-->11
-     * 如果isSelfCar:order_state:2
-     *
-     * @param orderId
-     */
-    @Override
-    public int testPayOrder(long orderId) {
-        int res = 0;
-        Map<String, Object> order = orderDao.singleOrderByPrimaryKey(orderId);
-        byte orderState = 0;
-        if ((int) order.get("is_self_car") == 0) {
-            orderState = 2;
-        } else if ((int) order.get("is_self_car") == 1) {
-            orderState = (int) order.get("order_state") == 1 ? (byte) 11 : (byte) 2;
-        }
-        Map updateOrder = new HashMap();
-        updateOrder.put("orderId", (long) order.get("order_id"));
-        updateOrder.put("orderState", orderState);
-        res += orderDao.updateOrderByID(updateOrder);
         return res;
     }
 

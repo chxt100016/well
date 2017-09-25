@@ -198,10 +198,16 @@
             <if test="state != null" >
                 state = #{state,jdbcType=TINYINT},
             </if>
+            <if test="kpState != null">
+                kp_state=#{kpState,jdbcType=TINYINT},
+            </if>
         </set>
         <where>
             <if test="orderId != null" >
                 and order_id = #{orderId,jdbcType=BIGINT}
+            </if>
+            <if test="inLogisticsIds != null">
+                AND logistics_id in ${inLogisticsIds}
             </if>
         </where>
     </update>
@@ -308,6 +314,12 @@
         <if test="offset != null and limit != null">
             limit #{offset},#{limit}
         </if>
+    </select>
+
+    <select id="concatOrderIds" parameterType="string" resultType="string">
+        select GROUP_CONCAT(order_id)
+        from wa_logistics_info
+        WHERE logistics_id in ${inLogisticsIds}
     </select>
 
 </mapper>

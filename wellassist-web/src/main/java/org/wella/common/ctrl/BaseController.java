@@ -210,12 +210,25 @@ public class BaseController {
         return result;
     }
 
+    /**
+     * pagination.jsp 翻页插件装配参数
+     * @param request request
+     * @param totalCount 总记录数
+     * @param page 当前页数
+     */
     public void setPagenationInfo(HttpServletRequest request, int totalCount, int page) {
         request.setAttribute("gap", Integer.valueOf(ConstantUtil.GAP));
         request.setAttribute("pageCount", Integer.valueOf((totalCount + ConstantUtil.PAGESIZE - 1) / ConstantUtil.PAGESIZE));
         request.setAttribute("page", Integer.valueOf(page));
     }
 
+    /**
+     * pagination.jsp 翻页插件装配参数
+     * @param request request
+     * @param totalCount 总记录数
+     * @param page 当前页数
+     * @param gap 自定义每页记录数
+     */
     public void setPagenationInfo(HttpServletRequest request, int totalCount, int page,int gap) {
         request.setAttribute("gap", gap);
         request.setAttribute("pageCount", Integer.valueOf((totalCount + gap - 1) / gap));

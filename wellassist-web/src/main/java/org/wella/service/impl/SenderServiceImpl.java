@@ -5,9 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConvertUtil;
-import org.wella.dao.LogisticsInfoDao;
-import org.wella.dao.VehicleGrabDao;
-import org.wella.dao.VehicleGrabInfoDao;
+import org.wella.dao.*;
 import org.wella.entity.*;
 import org.wella.service.MessageService;
 import org.wella.service.SenderService;
@@ -29,6 +27,10 @@ public class SenderServiceImpl implements SenderService {
     private VehicleGrabInfoDao vehicleGrabInfoDao;
     @Autowired
     private MessageService messageServicesk;
+    @Autowired
+    private BillDao billDao;
+    @Autowired
+    private OrderDao orderDao;
     /**
      * 抢单大厅获取物流订单
      * @param param
@@ -219,5 +221,61 @@ public class SenderServiceImpl implements SenderService {
         List<Map<Integer,Object>> list=logisticsInfoDao.profit(map);
         PlatformServiceImpl.Transformation(list);
         return PlatformServiceImpl.Transformation(list);
+    }
+
+    @Override
+    public List requestBillsList(Map query) {
+        query.put("inBillState","(-1,0)");
+        List<Map<String,Object>> list=billDao.listBilllistviewByConditions(query);
+        for(Map<String,Object> bill:list){
+            String logisticsInfoIds=bill.get("logistics_info_ids").toString();
+            StringBuilder inLogisticsInfoIds=new StringBuilder();
+            inLogisticsInfoIds.append("(").append(logisticsInfoIds.trim()).append(")");
+            String orderIds=logisticsInfoDao.concatOrderIds(inLogisticsInfoIds.toString());
+            StringBuilder inOrderIds=new StringBuilder();
+            inOrderIds.append("(").append(orderIds.trim()).append(")");
+            String order_nos=orderDao.concatOrderNos(inOrderIds.toString());
+            bill.put("order_nos",order_nos);
+        }
+        ConvertUtil.convertDataBaseMapToJavaMap(list);
+        return list;
+    }
+
+    @Override
+    public int requestBillsListCount(Map query) {
+        query.put("inBillState","(-1,0)");
+        int res=billDao.listBilllistviewByConditionsCount(query);
+        return res;
+    }
+
+    @Override
+    public int sendBill(long billId, String billNo, int kpType, String eBill, String kdNo, String kdName) {
+        int res=0;
+        Date now=new Date();
+        Bill bill=new Bill();
+        bill.setBillId(billId);
+        bill.setBillState((byte)1);
+        bill.setSendDate(now);
+        bill.setBillNo(billNo);
+        bill.setKpType((byte)kpType);
+        if (kpType==1){
+            bill.seteBill(eBill);
+            bill.setKdNo("");
+            bill.setKdName("");
+        }else if (kpType==2){
+            bill.seteBill("");
+            bill.setKdNo(kdNo);
+            bill.setKdName(kdName);
+        }
+        res+=billDao.update(bill);
+        Bill bill1=billDao.query(billId);
+        String logisticsInfoIds=bill1.getLogisticsInfoIds();
+        StringBuilder sb=new StringBuilder();
+        sb.append("(").append(logisticsInfoIds.trim()).append(")");
+        Map<String,Object> update=new HashMap<>();
+        update.put("inLogisticsIds",sb.toString());
+        update.put("kpState",2);
+        res +=logisticsInfoDao.updateByConditions(update);
+        return res;
     }
 }

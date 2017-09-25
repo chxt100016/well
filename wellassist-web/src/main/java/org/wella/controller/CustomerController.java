@@ -738,41 +738,11 @@ public class CustomerController extends BaseController {
    }
 
    /**
-    * 重复，要删
-    * 下订单界面
-    * @param
-    * @param model
-    * @return
+    * 买方账户信息页面
+    * @param request request
+    * @param model model
+    * @return view
     */
-   @RequestMapping(value = "orderPage", method = RequestMethod.GET)
-   public String orderPage(@RequestParam String prodId, Model model) {
-      HashMap param = new HashMap();
-      param.put("prodId", prodId);
-      Map prod = this.prodDao.findProdById(param);
-      ConvertUtil.convertDataBaseMapToJavaMap(prod);
-      String regionId = "";
-      String regionName = "";
-      if (prod != null) {
-         regionId = prod.get("prodRegionId").toString();
-         try {
-            regionName = this.getRegionDetailName(regionId);
-         } catch (Exception var12) {
-            var12.printStackTrace();
-         }
-      }
-      prod.put("fromRegionName", regionName);
-      HashMap param1 = new HashMap();
-      param1.put("parentRegionId", "0");
-      model.addAttribute("provinceList", this.getChildRegionList(0));
-      User user = (User) HttpContextUtils.getAttribute("user");
-      model.addAttribute("userName", user.getUserName());
-      model.addAttribute("prod", prod);
-      model.addAttribute("prodId", prodId);
-      model.addAttribute("parentMenuNo", "1");
-      model.addAttribute("childMenuNo", "1");
-      return "views/front/customer/orderPage_new.jsp";
-   }
-
    @RequestMapping("accountInfo")
    public String accountInfo(HttpServletRequest request, Model model) {
       User user = (User) HttpContextUtils.getAttribute("user");
@@ -813,9 +783,8 @@ public class CustomerController extends BaseController {
 
    /**
     * 进入个人中心，查看企业信息
-    *
     * @param model
-    * @return
+    * @return view
     */
    @RequestMapping("companyInfo")
    public String companyInfo(Model model) {
@@ -864,9 +833,9 @@ public class CustomerController extends BaseController {
    /**
     * 进入联系方式的修改页面
     * @param model
-    * @return
+    * @return view
     */
-   @RequestMapping("contact")
+   /*@RequestMapping("contact")
    public String contact(Model model) {
       HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
       User user = (User) httpSession.getAttribute("user");
@@ -877,9 +846,9 @@ public class CustomerController extends BaseController {
       model.addAttribute("userInfo", userinfo);
       model.addAttribute("userName", user.getUserName());
       return "views/front/customer/company/contactMode.jsp";
-   }
+   }*/
 
-   @RequestMapping("updateContact")
+   /*@RequestMapping("updateContact")
    @ResponseBody
    public R updateContext(@RequestParam Map<String, Object> params) {
       HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
@@ -892,7 +861,7 @@ public class CustomerController extends BaseController {
          e.printStackTrace();
          return R.error().put("state", 0);
       }
-   }
+   }*/
 
    @RequestMapping("withdraw")
    public String withdraw(HttpServletRequest request, Model model) {
@@ -986,7 +955,6 @@ public class CustomerController extends BaseController {
 
    /**
     * 添加银行卡的异步请求
-    *
     * @return
     */
    @RequestMapping("addBankcard")
@@ -1007,7 +975,6 @@ public class CustomerController extends BaseController {
 
    /**
     * 添加银行卡的异步请求
-    *
     * @return
     */
    @RequestMapping("getCards")
@@ -1026,7 +993,6 @@ public class CustomerController extends BaseController {
 
    /**
     * 添加银行卡的异步请求
-    *
     * @return
     */
    @RequestMapping("delBankcard")
@@ -1045,9 +1011,8 @@ public class CustomerController extends BaseController {
 
    /**
     * 买家取消订单
-    *
-    * @param request
-    * @return
+    * @param request request
+    * @return code:0成功/500异常 msg:异常信息
     */
    @RequestMapping("cancelOrder")
    @ResponseBody
@@ -1071,11 +1036,10 @@ public class CustomerController extends BaseController {
    }
 
    /**
-    * 授信账户页面
-    *
-    * @param request
-    * @param model
-    * @return
+    * 跳转授信账户页面
+    * @param request request
+    * @param model model
+    * @return view
     */
    @RequestMapping({"creditAccount"})
    public String creditAccount(HttpServletRequest request, Model model) {
@@ -1086,7 +1050,7 @@ public class CustomerController extends BaseController {
       //已用额度
       BigDecimal sumLoans = customerServiceImpl.getLoansSum(userId);
       model.addAttribute("sumLoans", sumLoans);
-      //未还款授信
+      //待还款贷款
       Map param = this.getConditionParam(request);
       param.put("userId", userId);
 
@@ -1103,9 +1067,9 @@ public class CustomerController extends BaseController {
 
    /**
     * 跳转授信申请页面
-    *
-    * @param request
-    * @return
+    * @param request request
+    * @param model model
+    * @return view
     */
    @RequestMapping("creditApply")
    public String creditApply(HttpServletRequest request, Model model) {
@@ -1116,11 +1080,10 @@ public class CustomerController extends BaseController {
    }
 
    /**
-    * 提交授信额度申请
-    *
-    * @param params
-    * @param request
-    * @return
+    * 提交授信额度申请表单提交
+    * @param params 授信额度申请表单参数
+    * @param request request
+    * @return view
     */
    @RequestMapping("applyCreditLimit")
    public String applyCreditLimit(@RequestParam Map<String, Object> params, HttpServletRequest request) {
@@ -1132,6 +1095,11 @@ public class CustomerController extends BaseController {
       return "views/front/customer/finance/applyCreditSuccess.jsp";
    }
 
+   /**
+    * 判断用户可否申请授信额度：如果已经提交了授信申请则需等待结果
+    * @param request request
+    * @return code:0成功/500异常 msg:异常信息
+    */
    @RequestMapping("isCreditApplyAvailable")
    @ResponseBody
    public R isCreditApplyAvailable(HttpServletRequest request) {
@@ -1145,8 +1113,8 @@ public class CustomerController extends BaseController {
 
    /**
     * 跳转还款页面
-    * @param loanId
-    * @return
+    * @param loanId wa_loan 主键
+    * @return view
     */
    @RequestMapping("goRepayLoan")
    public String goRepayLoan(@RequestParam("loanId") String loanId, Model model) {
@@ -1160,11 +1128,11 @@ public class CustomerController extends BaseController {
 
    /**
     * 还贷款处理方法
-    * @param loanId
-    * @param repayMoney
-    * @param interest
-    * @param request
-    * @return
+    * @param loanId wa_loan主键
+    * @param repayMoney 还款总额
+    * @param interest 还款利息
+    * @param request request
+    * @return code:0成功/500异常 msg:异常信息
     */
    @RequestMapping("repayLoan")
    @ResponseBody
@@ -1186,6 +1154,13 @@ public class CustomerController extends BaseController {
       return R.ok();
    }
 
+
+   /**
+    * 跳转用户授信申请记录页面
+    * @param model model
+    * @param request request
+    * @return view
+    */
    @RequestMapping("creditApplys")
    public String creditApplys(Model model, HttpServletRequest request) {
       User user = (User) request.getSession().getAttribute("user");
@@ -1195,12 +1170,17 @@ public class CustomerController extends BaseController {
       int totalCount = customerServiceImpl.getCreditListCount(param);
       this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
       model.addAttribute("credits", credits);
-
       model.addAttribute("parentMenuNo", "6");
       model.addAttribute("childMenuNo", "2");
       return "views/front/customer/finance/creditApplyRecords.jsp";
    }
 
+   /**
+    * 跳转买家授信中心：还款记录
+    * @param model model
+    * @param request request
+    * @return view
+    */
    @RequestMapping("loansRepayRecords")
    public String loansRepayRecords(Model model,HttpServletRequest request){
       User user=(User)request.getSession().getAttribute("user");
@@ -1215,6 +1195,11 @@ public class CustomerController extends BaseController {
       return "views/front/customer/finance/repayRecords.jsp";
    }
 
+   /**
+    * 跳转单条贷款还款记录详细页面
+    * @param model model
+    * @return view
+    */
    @RequestMapping("loanRepayDetailPage")
    public String loanRepayDetailPage(Model model){
       model.addAttribute("parentMenuNo", "6");
@@ -1222,6 +1207,11 @@ public class CustomerController extends BaseController {
       return "views/front/customer/finance/loanRepayDetail.jsp";
    }
 
+   /**
+    * 跳转账户设置报表管理
+    * @param model model
+    * @return view
+    */
    @RequestMapping("reportManagement")
    public String reportManagement(Model model){
       model.addAttribute("parentMenuNo","4");
@@ -1229,13 +1219,30 @@ public class CustomerController extends BaseController {
       return "views/front/customer/company/reportFrom.jsp";
    }
 
+   /**
+    * 跳转结算页面
+    * @param orderId orderId
+    * @param model model
+    * @return view
+    */
    @RequestMapping(value = "goSecondPayOrder",method = RequestMethod.GET)
    public String goSecondPay(@RequestParam(value = "orderId")long orderId,Model model){
       model.addAttribute("parentMenuNo", "2");
       return "views/front/customer/order/secondPayOrder.jsp";
    }
 
-
+   /**
+    * 处理结算
+    * @param orderId wa_order主键
+    * @param secondPayMoney 结算金额：为负为退款，为正为补款
+    * @param zfMethod 支付方式：暂只支持余额支付
+    * @param balance 余额支付部分
+    * @param loan 授信支付部分
+    * @param certificateImg 线下支付文件上传回调url
+    * @param request request
+    * @return code:0成功/500异常 msg:异常信息
+    * @throws Exception
+    */
    @RequestMapping(value = "secondPayOrderSub",method = RequestMethod.POST)
    @ResponseBody
    @Transactional
@@ -1335,6 +1342,12 @@ public class CustomerController extends BaseController {
       return R.ok();
    }
 
+   /**
+    * 物流订单结算处理
+    * @param logisticsId wa_logistics_info 主键
+    * @return code:0成功/500异常 msg:异常信息
+    * @throws Exception
+    */
    @RequestMapping(value = "secondPayLogisticsSub",method = RequestMethod.POST)
    @ResponseBody
    @Transactional

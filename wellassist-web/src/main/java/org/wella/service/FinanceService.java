@@ -28,9 +28,9 @@ public interface FinanceService {
     int withdraw(Map<String,Object> map);
 
     /**
-     * 关联order的单条贷款详细信息
-     * @param loanId
-     * @return
+     * 关联wa_order表 单条贷款详细信息
+     * @param loanId wa_loan 表主键
+     * @return 关联wa_order表 单条贷款详细信息
      */
     Map<String,Object> getLoanOrderInfo(long loanId);
 

@@ -18,6 +18,7 @@ public interface LoanDao {
 
     int listLoanOrderViewByConditionsCount(Map<String,Object> params);
 
+    //query loan_order_view 视图
     Map<String,Object> singleLoanOrderViewByPrimaryKey(long loanId);
 
     Integer updateLoanByPrimaryKey(Map<String, Object> param);

@@ -1,8 +1,6 @@
 package org.wella.controller;
 
-import io.wellassist.utils.HttpContextUtils;
-import io.wellassist.utils.IPUtils;
-import io.wellassist.utils.R;
+import io.wellassist.utils.*;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -755,4 +753,53 @@ public class SendController extends BaseController{
         model.addAttribute("childMenuNo",2);
         return "views/front/sender/bill/goBillManage.jsp";
     }
+
+    /**
+     * 物流方收到申请发票列表
+     * @param params 分页参数
+     * @param request request
+     * @return 成功：code：0，page:发票列表；失败：code：500，msg：原因
+     */
+    @RequestMapping(value = "requestBillsList",method = RequestMethod.GET)
+    @ResponseBody
+    public R requestBillsList(HttpServletRequest request,@RequestParam Map params){
+        User user=(User) request.getSession().getAttribute("user");
+        long userId=user.getUserId();
+        params.put("supplierId",userId);
+        Query query=new Query(params);
+        List list=senderServiceImpl.requestBillsList(query);
+        int totalCount=senderServiceImpl.requestBillsListCount(query);
+        PageUtils pageUtils=new PageUtils(list,totalCount,query.getLimit(),query.getPage());
+        return R.ok().put("page",pageUtils);
+    }
+
+    /**
+     * 跳转发票发送页面
+     * @param model model
+     * @return view
+     */
+    @RequestMapping(value = "goBillSend",method = RequestMethod.GET)
+    public String goBillSend(Model model){
+        model.addAttribute("parentMenuNo",7);
+        model.addAttribute("childMenuNo",1);
+        return "views/front/sender/bill/goBillSend.jsp";
+    }
+
+    /**
+     * 物流方发送发票
+     * @param billId 发票id
+     * @param kpType 开票类型
+     * @param eBill 电子发票url
+     * @param kdNo 快递单号
+     * @param kdName 快递名
+     * @return 成功：code：0；失败：code：500，msg：原因
+     */
+    @RequestMapping(value = "sendBill",method = RequestMethod.POST)
+    @ResponseBody
+    public R sendBill(@RequestParam("billId")long billId,@RequestParam("billNo")String billNo,@RequestParam("kpType")int kpType,@RequestParam(value = "eBill",required = false,defaultValue = "")String eBill,
+                      @RequestParam(value = "kdNo",required = false,defaultValue = "")String kdNo,@RequestParam(value = "kdName",required = false,defaultValue = "")String kdName){
+        senderServiceImpl.sendBill(billId,billNo,kpType,eBill,kdNo,kdName);
+        return R.ok();
+    }
+
 }
