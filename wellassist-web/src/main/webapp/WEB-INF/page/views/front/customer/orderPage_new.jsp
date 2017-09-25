@@ -173,10 +173,10 @@
                             <input type="text" placeholder="联系人电话" name="conTel" id="conTel" maxlength="11" class="number isPhone focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                         </div>
                     </div>
-                    <div class="three fields">
+                    <div class="three fields yunfei" style="display:none;">
                         <div class="inline field">
                             <label>期望运费</label>
-                            <input type="text" name="customerExceptCarriage" placeholder="需要物流时请填写" id="" class="focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">&emsp;元
+                            <input type="text" name="customerExceptCarriage" placeholder="需要物流时请填写" id="">&emsp;元
                         </div>
                         
                     </div>
@@ -328,7 +328,7 @@
 </div>
         
 </body>
-    
+<script>   
     function focusNextInput(thisInput,e){
         e.preventDefault();
         
@@ -591,10 +591,12 @@
     function checkSelfCar(type) {
         if (type == '0') {
             // $("#wuliudingdandiv").hide();
-            $("#vehiclepage").show();
+            $("#vehiclepage").show(500);
+            $(".yunfei").hide(500);
         } else {
             // $("#wuliudingdandiv").show();
-            $("#vehiclepage").hide();
+            $("#vehiclepage").hide(500);
+            $(".yunfei").show(500);
         }
     }
 
