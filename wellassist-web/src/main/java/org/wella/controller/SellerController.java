@@ -1,6 +1,5 @@
 package org.wella.controller;
 
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.wellassist.utils.*;
@@ -16,19 +15,14 @@ import org.wella.common.utils.ConvertUtil;
 import org.wella.common.vo.MyInfo;
 import org.wella.dao.*;
 import org.wella.entity.Bankcard;
-import org.wella.entity.Bill;
 import org.wella.entity.User;
 import org.wella.entity.Userinfo;
-import org.wella.front.mapper.FrontBankOrderMapper;
-import org.wella.front.mapper.FrontUserMoneyMapper;
-import org.wella.front.seller.mapper.SellerOrderMapper;
 import org.wella.service.BillService;
 import org.wella.service.FinanceService;
 import org.wella.service.MessageService;
 import org.wella.service.WaOrderService;
 import org.wella.service.impl.ProductServiceImpl;
 import org.wella.service.impl.SellerServiceImpl;
-import sun.plugin2.message.Message;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,20 +43,18 @@ public class SellerController extends BaseController {
     @Autowired
     private BankcardDao bankcardDao;
 
+    @Autowired
+    private ProdDao prodDao;
 
     @Autowired
-    private FrontBankOrderMapper bankOrderMapper0;
-
+    private UserMoneyDao userMoneyDao;
 
     @Autowired
     private WithdrawDAO withdrawDAO;
 
-
     @Autowired
     private TradeDAO tradeDao;
 
-    @Autowired
-    private SellerOrderMapper sellerOrderMapper;
 
     @Autowired
     private SellerServiceImpl sellerServiceImpl;
@@ -85,14 +77,13 @@ public class SellerController extends BaseController {
     @Autowired
     private MessageService messageServicesk;
 
+    @Autowired
+    private BankOrderDao bankOrderDao;
 
 
     @Autowired
-    private FrontUserMoneyMapper userMoneyMapper0;
+    private OrderDao orderDao;
 
-
-    @Autowired
-    private TradeDAO tradeDAO;
 
     @RequestMapping("processOrder")
     public void processOrder(HttpServletRequest request, HttpServletResponse response, Model model){
@@ -122,7 +113,26 @@ public class SellerController extends BaseController {
         this.echoJSON(response, obj);
     }
 
-    @RequestMapping("orderListPage")
+
+
+    @RequestMapping("order")
+    public String order(HttpServletRequest request,Model model){
+        Map param = this.getConditionParam(request);
+        HttpSession httpSession = request.getSession();
+        User user = (User) httpSession.getAttribute("user");
+        param.put("userId", user.getUserId());
+        List waOrderList = this.orderDao.getSellerOrderList(param);
+        ConvertUtil.convertDataBaseMapToJavaMap(waOrderList);
+        model.addAttribute("waOrderList", waOrderList);
+        int totalCount = this.orderDao.getSellerOrderListCount(param);
+        this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
+        model.addAttribute("parentMenuNo", "5");
+        model.addAttribute("childMenuNo", "5");
+        model.addAttribute("userName", user.getUserName());
+        return "views/front/seller/order/orderList.jsp";
+    }
+
+    /*@RequestMapping("orderListPage")
     public String ordersheet_list(HttpServletRequest request, HttpServletResponse response, Model model) {
         HttpSession session = request.getSession();
         User user=(User)session.getAttribute("user");
@@ -147,7 +157,7 @@ public class SellerController extends BaseController {
         } else {
             return "redirect:views/login/login.jsp";
         }
-    }
+    }*/
 
     @RequestMapping("confirmOrder")
     public String confirmOrder(Model model,@RequestParam("orderId")String orderId){
@@ -158,8 +168,6 @@ public class SellerController extends BaseController {
         model.addAttribute("childMenuNo", "3");
         return "views/front/seller/order/confirmOrder.jsp";
     }
-
-
 
     @RequestMapping("editOrder")
     public String editOrder(Model model,@RequestParam("orderId")String orderId){
@@ -214,8 +222,6 @@ public class SellerController extends BaseController {
         return jsonString;
     }
 
-
-
     @RequestMapping("sendProdSubmit")
     public void sendProdSubmit(@RequestParam Map params, HttpServletRequest request,HttpServletResponse response){
         String ret = "-1";
@@ -223,8 +229,6 @@ public class SellerController extends BaseController {
         obj.put("content", ConstantUtil.MSG_PARAM_ERR);
         long userId=((User)request.getSession().getAttribute("user")).getUserId();
         params.put("userId",userId);
-
-
         try {
             sellerServiceImpl.sendProd(params);
             ret = "1";
@@ -337,9 +341,9 @@ public class SellerController extends BaseController {
         map.put("userId", user.getUserId());
         //产品列表展示
 
-        ArrayList waProdList = this.sellerOrderMapper.getWaProdList(map);
+        List waProdList = this.prodDao.getWaProdList(map);
         ConvertUtil.convertDataBaseMapToJavaMap(waProdList);
-        int totalCount = this.sellerOrderMapper.getWaProdListCount(map);
+        int totalCount = this.prodDao.getWaProdListCount(map);
         this.setPagenationInfo(request, totalCount, Integer.parseInt(map.get("page").toString()));
         model.addAttribute("parentMenuNo", "1");
         model.addAttribute("childMenuNo", "2");
@@ -470,22 +474,6 @@ public class SellerController extends BaseController {
         return "views/front/seller/finance/accountInfo.jsp";
     }
 
-    @RequestMapping("order")
-    public String order(HttpServletRequest request,Model model){
-        Map param = this.getConditionParam(request);
-        HttpSession httpSession = request.getSession();
-        User user = (User) httpSession.getAttribute("user");
-        param.put("userId", user.getUserId());
-        ArrayList waOrderList = this.sellerOrderMapper.getWaOrderList(param);
-        ConvertUtil.convertDataBaseMapToJavaMap(waOrderList);
-        model.addAttribute("waOrderList", waOrderList);
-        int totalCount = this.sellerOrderMapper.getWaOrderListCount(param);
-        this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
-        model.addAttribute("parentMenuNo", "5");
-        model.addAttribute("childMenuNo", "5");
-        model.addAttribute("userName", user.getUserName());
-        return "views/front/seller/order/orderList.jsp";
-    }
 
     @RequestMapping("password")
     public String changePassword(Model model) {
@@ -498,7 +486,6 @@ public class SellerController extends BaseController {
     }
 
     /**修改支付密码
-     *
      * @param map
      */
     @RequestMapping("changePayPassword")
@@ -595,9 +582,9 @@ public class SellerController extends BaseController {
         Map param = this.getConditionParam(request);
         param.put("userId", user.getUserId());
         param.put("jyState", "2");
-        ArrayList list = this.userMoneyMapper0.getJyList(param);
+        List list = this.userMoneyDao.getJyList(param);
         ConvertUtil.convertDataBaseMapToJavaMap(list);
-        int totalCount = this.userMoneyMapper0.getJyListCount(param);
+        int totalCount = this.userMoneyDao.getJyListCount(param);
         this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
         model.addAttribute("parentMenuNo", "2");
         model.addAttribute("childMenuNo", "1");
@@ -639,10 +626,10 @@ public class SellerController extends BaseController {
         String userId = user.getUserId().toString();
         Map param = this.getConditionParam(request);
         param.put("userId", userId);
-        ArrayList list = this.bankOrderMapper0.getCzList(param);
+        List list = this.bankOrderDao.getCzList(param);
         ConvertUtil.convertDataBaseMapToJavaMap(list);
-        int totalCount = this.bankOrderMapper0.getCzListCount(param);
-        Map retInfo = this.bankOrderMapper0.getCzMoneyInfo(param);
+        int totalCount = this.bankOrderDao.getCzListCount(param);
+        Map retInfo = this.bankOrderDao.getCzMoneyInfo(param);
         this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
         model.addAttribute("list", list);
         model.addAttribute("parentMenuNo", "2");

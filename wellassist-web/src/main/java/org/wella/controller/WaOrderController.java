@@ -12,7 +12,7 @@ import org.wella.service.WaOrderService;
 import java.util.Map;
 
 /**
- * Created by Administrator on 2017/6/2.
+ * Created by ailing on 2017/6/2.
  */
 @Controller
 @RequestMapping(value = "/order/")

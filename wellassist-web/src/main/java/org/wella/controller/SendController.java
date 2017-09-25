@@ -1,6 +1,5 @@
 package org.wella.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import io.wellassist.utils.HttpContextUtils;
 import io.wellassist.utils.IPUtils;
 import io.wellassist.utils.R;
@@ -16,15 +15,10 @@ import org.wella.common.utils.ConvertUtil;
 import org.wella.common.vo.MyInfo;
 import org.wella.dao.*;
 import org.wella.entity.Bankcard;
-import org.wella.entity.LogisticsInfo;
 import org.wella.entity.User;
 import org.wella.entity.Userinfo;
-import org.wella.front.mapper.FrontBankOrderMapper;
-import org.wella.front.mapper.FrontTixianMapper;
-import org.wella.front.mapper.FrontUserMoneyMapper;
 import org.wella.service.CustomerService;
 import org.wella.service.FinanceService;
-import org.wella.service.SellerService;
 import org.wella.service.SenderService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +28,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 /**
- * Created by djw on 2017/5/12.
+ * Created by ailing on 2017/5/12.
  */
 @Controller
 @RequestMapping(value = "/sender/")
@@ -53,20 +47,17 @@ public class SendController extends BaseController{
     private WaUserDao userDao;
 
     @Autowired
-    public FrontTixianMapper tixianMapper0;
+    private BankOrderDao bankOrderDao;
 
     @Autowired
     private SenderService senderServiceImpl;
 
-    @Autowired
-    private SellerService sellerServiceImpl;
 
     @Autowired
     private CustomerService customerServiceImpl;
 
-
     @Autowired
-    private FrontUserMoneyMapper userMoneyMapper0;
+    private UserMoneyDao userMoneyDao;
 
     @Autowired
     private TradeDAO tradeDao;
@@ -74,14 +65,8 @@ public class SendController extends BaseController{
     @Autowired
     private VehicleGrabDao vehicleGrabDao;
 
-
     @Autowired
     private UserinfoDao userinfoDao;
-
-
-    @Autowired
-    private FrontBankOrderMapper bankOrderMapper0;
-
 
 
     @Autowired
@@ -308,9 +293,9 @@ public class SendController extends BaseController{
         Map param = this.getConditionParam(request);
         param.put("userId", user.getUserId());
         param.put("jyState", "2");
-        ArrayList list = this.userMoneyMapper0.getJyList(param);
+        List list = this.userMoneyDao.getJyList(param);
         ConvertUtil.convertDataBaseMapToJavaMap(list);
-        int totalCount = this.userMoneyMapper0.getJyListCount(param);
+        int totalCount = this.userMoneyDao.getJyListCount(param);
         this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
         model.addAttribute("parentMenuNo", "2");
         model.addAttribute("childMenuNo", "1");
@@ -353,10 +338,10 @@ public class SendController extends BaseController{
         String userId = user.getUserId().toString();
         Map param = this.getConditionParam(request);
         param.put("userId", userId);
-        ArrayList list = this.bankOrderMapper0.getCzList(param);
+        List list = this.bankOrderDao.getCzList(param);
         ConvertUtil.convertDataBaseMapToJavaMap(list);
-        int totalCount = this.bankOrderMapper0.getCzListCount(param);
-        Map retInfo = this.bankOrderMapper0.getCzMoneyInfo(param);
+        int totalCount = this.bankOrderDao.getCzListCount(param);
+        Map retInfo = this.bankOrderDao.getCzMoneyInfo(param);
         this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
         model.addAttribute("list", list);
         model.addAttribute("parentMenuNo", "2");

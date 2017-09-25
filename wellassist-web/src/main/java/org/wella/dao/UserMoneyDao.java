@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import org.wella.entity.Bankcard;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,4 +25,7 @@ public interface UserMoneyDao {
 
     List<Map<Integer,Object>> fundFlowIn(Map map);
 
+    List<Map<String,Object>> getJyList(Map param);
+
+    int getJyListCount(Map param);
 }

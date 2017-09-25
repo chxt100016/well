@@ -22,9 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by xuqinghuo on 2017/7/25.
+ * Created by ailing on 2017/7/25.
  */
-
 @Controller
 @RequestMapping(value = {"/userinfo/"})
 public class UserinfoController {
@@ -248,9 +247,7 @@ public class UserinfoController {
 
 
     /**
-     *
      * 物流方和买方 删除司机
-     *
      * @param id
      * @return
      */

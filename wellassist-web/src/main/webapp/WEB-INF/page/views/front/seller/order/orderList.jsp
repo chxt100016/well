@@ -20,7 +20,7 @@
         </ul>
 	<br>
 		
-	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/seller/orderListPage">
+	<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/seller/order">
 		<input type="hidden" id="page" name="page" value="${param.page}">
 		<input type="hidden" id="orderState" name="orderState" value="${param.orderState}">
 	</form>
@@ -103,6 +103,7 @@
                     </td>
                     <td class="right-border tx-ct" >
                         <span class="ds-bl fl-lt pd-lf-20 ft-wt-bd " style="">
+							<c:if test="${item.orderState=='-1'}">已取消</c:if>
 							<c:if test="${item.orderState=='0'}">待确认</c:if>
 							<c:if test="${item.orderState=='1'}">待付款</c:if>
 							<c:if test="${item.orderState=='2'}">已付款(未发货)</c:if>
@@ -126,7 +127,10 @@
 						<c:if test="${item.orderState=='1'}">
 							<span class="span_btn" onClick="toURL('editOrder', '${item.orderId}')">编辑订单</span>
 						</c:if>
-						<c:if test="${item.orderState=='2' || item.orderState=='3'}">
+						<c:if test="${item.orderState=='2'}">
+							<span class="span_btn" onClick="toURL('sendProd', '${item.orderId}')">发货</span>
+						</c:if>
+						<c:if test="${item.orderState=='3'}">
 							<span class="span_btn" onClick="toURL('sendProd', '${item.orderId}')">发货</span>
 							<span class="span_btn" onClick="toURL('sendProdOver', '${item.orderId}')">结束发货</span>
 						</c:if>

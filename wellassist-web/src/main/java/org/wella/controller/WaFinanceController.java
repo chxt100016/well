@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.wella.common.utils.ConstantUtil;
-import org.wella.dao.TradeDAO;
 import org.wella.dao.WaUserDao;
 import org.wella.dao.WithdrawDAO;
 import org.wella.entity.User;
-import org.wella.front.mapper.FrontUserMoneyMapper;
 import org.wella.service.FinanceService;
 import org.wella.service.MessageService;
 
@@ -22,16 +20,13 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 /**
- * Created by Administrator on 2017/8/11.
+ * Created by ailing on 2017/8/11.
  */
-
 @Controller
 @RequestMapping("/finance/")
 public class WaFinanceController {
 
 
-    @Autowired
-    private FrontUserMoneyMapper userMoneyMapper0;
 
     @Autowired
     private WithdrawDAO  withdrawDAO;
@@ -41,9 +36,6 @@ public class WaFinanceController {
 
     @Autowired
     private FinanceService financeServiceImpl;
-
-    @Autowired
-    private TradeDAO tradeDao;
 
     @Autowired
     private WaUserDao waUserDao;

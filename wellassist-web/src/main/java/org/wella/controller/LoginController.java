@@ -2,7 +2,6 @@ package org.wella.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import io.wellassist.utils.HttpContextUtils;
-import io.wellassist.utils.SpringContextUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,10 +11,6 @@ import org.wella.common.ctrl.BaseController;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.common.vo.MyInfo;
 import org.wella.dao.OrderDao;
-import org.wella.dao.ProdDao;
-import org.wella.dao.ProdUserDao;
-import org.wella.dao.RegionDao;
-import org.wella.entity.LogisticsInfo;
 import org.wella.entity.Prod;
 import org.wella.entity.User;
 import org.wella.entity.Userinfo;
@@ -43,13 +38,7 @@ public class LoginController extends BaseController {
     private LoginServiceImpl loginServiceImpl;
 
     @Autowired
-    private ProdDao prodDao;
-
-    @Autowired
     private OrderDao orderDao;
-
-    @Autowired
-    private RegionDao regionDao;
 
     @Autowired
     private CustomerService customerServiceImpl;

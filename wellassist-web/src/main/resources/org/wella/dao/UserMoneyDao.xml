@@ -88,6 +88,33 @@
        GROUP BY MONTH (jy_date)
     </select>
 
+    <!-- select -->
+    <!-- 用户交易记录获得函数 -->
+    <select id = "getJyList" parameterType = "java.util.Map" resultType = "java.util.Map">
+        SELECT * FROM wa_user_money
+        <where>
+            <if test = "userId != null">
+                AND user_id = #{userId}
+            </if>
+            <if test = "jyState != null">
+                AND jy_state = #{jyState}
+            </if>
+        </where>
+        ORDER BY complete_date DESC
+        LIMIT ${start}, ${size}
+    </select>
+    <!-- 用户交易记录个数获得函数 -->
+    <select id = "getJyListCount" parameterType = "java.util.Map" resultType = "int">
+        SELECT COUNT(*) FROM wa_user_money
+        <where>
+            <if test = "userId != null">
+                AND user_id = #{userId}
+            </if>
+            <if test = "jyState != null">
+                AND jy_state = #{jyState}
+            </if>
+        </where>
+    </select>
 
 
 </mapper>

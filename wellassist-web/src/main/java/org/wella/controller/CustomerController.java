@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.wellapay.cncb.model.ForceTransferBasicInfo;
 import io.wellassist.utils.*;
 import org.apache.commons.collections.map.HashedMap;
-import org.apache.tools.ant.taskdefs.condition.Http;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +17,6 @@ import org.wella.common.utils.ConvertUtil;
 import org.wella.common.vo.MyInfo;
 import org.wella.dao.*;
 import org.wella.entity.*;
-import org.wella.front.customer.mapper.CustomerBackOrderMapper;
-import org.wella.front.mapper.FrontBankOrderMapper;
-import org.wella.front.mapper.FrontUserMoneyMapper;
-import org.wella.front.mapper.NewsMapper;
 import org.wella.service.FinanceService;
 import org.wella.service.WaOrderService;
 import org.wella.service.impl.CustomerServiceImpl;
@@ -49,23 +44,12 @@ public class CustomerController extends BaseController {
    @Autowired
    private OrderDao orderDao;
 
-   @Autowired
-   private CustomerBackOrderMapper customerBackOrderMapper;
-
-   @Autowired
-   private FrontUserMoneyMapper userMoneyMapper0;
-
-   @Autowired
-   private NewsMapper newsMapper;
 
    @Autowired
    private UserinfoDao userinfoDao;
 
    @Autowired
    private WithdrawDAO withdrawDAO;
-
-   @Autowired
-   private FrontBankOrderMapper bankOrderMapper0;
 
    @Autowired
    private WaOrderService waOrderServiceImpl;
@@ -90,6 +74,9 @@ public class CustomerController extends BaseController {
 
    @Autowired
    private LogisticsInfoDao logisticsInfoDao;
+
+   @Autowired
+   private UserMoneyDao userMoneyDao;
 
    /**
     * 买家下订单
@@ -793,9 +780,9 @@ public class CustomerController extends BaseController {
       Map param = this.getConditionParam(request);
       param.put("userId", user.getUserId());
       param.put("jyState", "2");
-      ArrayList list = this.userMoneyMapper0.getJyList(param);
+      List list = this.userMoneyDao.getJyList(param);
       ConvertUtil.convertDataBaseMapToJavaMap(list);
-      int totalCount = this.userMoneyMapper0.getJyListCount(param);
+      int totalCount = this.userMoneyDao.getJyListCount(param);
       this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
       model.addAttribute("parentMenuNo", "2");
       model.addAttribute("childMenuNo", "1");
@@ -805,7 +792,7 @@ public class CustomerController extends BaseController {
       return "views/front/customer/finance/accountInfo.jsp";
    }
 
-   @RequestMapping({"messagePage"})
+   /*@RequestMapping({"messagePage"})
    public String news_list(HttpServletRequest request, Model model) {
       User user = (User) HttpContextUtils.getAttribute("user");
       Map param = this.getConditionParam(request);
@@ -822,7 +809,7 @@ public class CustomerController extends BaseController {
       model.addAttribute("childMenuNo", "1");
       model.addAttribute("userName", user.getUserName());
       return "views/front/customer/news/xxList.jsp";
-   }
+   }*/
 
    /**
     * 进入个人中心，查看企业信息
