@@ -127,7 +127,10 @@
 						<c:if test="${item.orderState=='1'}">
 							<span class="span_btn" onClick="toURL('editOrder', '${item.orderId}')">编辑订单</span>
 						</c:if>
-						<c:if test="${item.orderState=='2' || item.orderState=='3'}">
+						<c:if test="${item.orderState=='2'}">
+							<span class="span_btn" onClick="toURL('sendProd', '${item.orderId}')">发货</span>
+						</c:if>
+						<c:if test="${item.orderState=='3'}">
 							<span class="span_btn" onClick="toURL('sendProd', '${item.orderId}')">发货</span>
 							<span class="span_btn" onClick="toURL('sendProdOver', '${item.orderId}')">结束发货</span>
 						</c:if>
