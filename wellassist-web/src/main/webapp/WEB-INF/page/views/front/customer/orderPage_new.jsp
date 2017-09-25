@@ -6,6 +6,12 @@
    <title></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css"> -->
+
      <script src="https://unpkg.com/vue/dist/vue.js"></script>
      <style>
          .error-div{
@@ -148,11 +154,13 @@
                     <div class="three fields">
                         <div class="inline field">
                             <label>提货时间</label>
-                            <input type="text" name="deliverDate" id="deliverDate" class="focus"  onfocus="var receiveDate=$dp.$('receiveDate');WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){receiveDate.focus();},maxDate:'#F{$dp.$D(\'receiveDate\')}'})" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
+                            <input type="text" name="deliverDate" id="deliverDate" class="focus"  onfocus="var receiveDate=$dp.$('receiveDate');WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:function(){receiveDate.focus();},minDate:'%y-%M-%d %H-%m-%s',maxDate:'#F{$dp.$D(\'receiveDate\')}'})" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
+                            <!-- <input type="text" name="deliverDate" id="deliverDate" class="focus form" name="from" onkeypress="if(event.keyCode==13) focusNextInput(this,event);"> -->
                         </div>
                         <div class="inline field">
                             <label>预计到货时间</label>
                             <input type="text" name="receiveDate"  id="receiveDate" class="focus" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'deliverDate\')}'})" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
+                            <!-- <input type="text" name="receiveDate"  id="receiveDate" class="focus to" name="to" onkeypress="if(event.keyCode==13) focusNextInput(this,event);"> -->
                         </div>
                     </div>
                     <div class="three fields">
@@ -320,7 +328,6 @@
 </div>
         
 </body>
-<script>
     
     function focusNextInput(thisInput,e){
         e.preventDefault();
