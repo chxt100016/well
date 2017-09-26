@@ -256,11 +256,11 @@
                             //     }
                             //  })
                        $.post(url2,GetJsonData(),function(result){
-                            if(result.status==1){
-                                      alert(result.content);
-                                       window.location.href = "${pageContext.request.contextPath}/customer/logisticsInfoList";
+                            if(result.code==0){
+                                alert("处理中...");
+                                       window.location.href = "${pageContext.request.contextPath}/customer/orderList";
                                   }else{
-                                      alert(result.content);
+                                      alert(result.msg);
                                     
                                   }
                          },'json');

@@ -521,7 +521,7 @@
                 $("#orderVehicles").val(JSON.stringify(this.SelectedVehicles));
                 $.post($("#infoForm").attr("action"),$("#infoForm").serialize(),function(data){
                     if(data.status==1 ){
-                        window.location.href = "${pageContext.request.contextPath}/seller/orderListPage";
+                        window.location.href = "${pageContext.request.contextPath}/seller/order";
                     }
                 },"json");
             }

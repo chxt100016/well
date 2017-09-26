@@ -124,12 +124,13 @@ public class CustomerServiceImpl implements CustomerService {
         order.setOrderDate(new Date());
         order.setDjModifyDate(new Date());
         order.setOrderIp((String) map.get("orderIp"));
-        order.setIsSelfCar(Byte.parseByte((String) map.get("isSelfCar")));
-        order.setCustomerExceptCarriage(new BigDecimal((String)map.get("customerExceptCarriage")));
-
+        byte isSelfCar=Byte.parseByte((String) map.get("isSelfCar"));
+        order.setIsSelfCar(isSelfCar);
+        if ( isSelfCar==1 && null!=map.get("customerExceptCarriage") ){
+            order.setCustomerExceptCarriage(new BigDecimal((String)map.get("customerExceptCarriage")));
+        }
         order.setOrderType((byte) 0);
         order.setOrderState((byte) 0);
-
         orderDao.createOrder(order);
         //生成一条wa_order_info记录
         OrderInfo orderInfo = new OrderInfo();
