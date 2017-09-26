@@ -44,7 +44,6 @@ public class CustomerController extends BaseController {
    @Autowired
    private OrderDao orderDao;
 
-
    @Autowired
    private UserinfoDao userinfoDao;
 
@@ -1613,6 +1612,10 @@ public class CustomerController extends BaseController {
       return R.error();
    }
 
+   /**
+    * 查询用户发票地址
+    * @return  code:0成功/500异常 msg:异常信息
+    */
    @RequestMapping(value = "billAddress",method = RequestMethod.GET)
    @ResponseBody
    public R billAddress(){

@@ -61,27 +61,6 @@ public class MessageServiceImpl implements MessageService{
     @Autowired
     private RepayDao repayDao;
 
-    @Override
-    public List<Message> getMessageList(Map<String, Object> map) {
-        return messageDao.getMessageList(map);
-    }
-
-    @Override
-    public List<Message> getMessage(int id) {
-        return null;
-    }
-
-    @Override
-    public void delMessage(Long[] id) {
-
-    }
-
-    @Override
-    public void upMessage(Integer id) {
-
-    }
-
-
     @Transactional
     @Override
     public void addCreditRecord(CreditRecord creditRecord) {
@@ -104,11 +83,6 @@ public class MessageServiceImpl implements MessageService{
     public  Userinfo getCreditRecord(Long id) {
         return messageDao.getCreditRecord(id);
     }
-
-    /*@Override
-    public int queryTotal(Map<String, Object> map) {
-        *//*return messageDao.queryTotal(map);*//*
-    }*/
 
     @Override
     public int queryRecordCount(Map<String, Object> map) {

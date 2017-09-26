@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by liuwen on 2017/5/13.
+ * Created by ailing on 2017/5/13.
  * 处理注册相关业务逻辑
  */
 @Controller
@@ -21,11 +21,12 @@ import java.io.IOException;
 public class MailController extends BaseController {
     @Autowired
     private MailServiceImpl mailServiceImpl;
+
     /**
      * 如果注册成功，则跳转至登录页面，如果注册失败则跳转至。。。
      * @param request
      * @param response
-     * @return
+     * @return view
      * @throws ServletException
      * @throws IOException
      */
@@ -43,8 +44,9 @@ public class MailController extends BaseController {
 
     /**
      * 激活账号，将wa_user中的激活状态属性修改为1
-     * @param request
-     * @param response
+     * @param request request
+     * @param response response
+     * @return view
      * @throws ServletException
      * @throws IOException
      */

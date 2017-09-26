@@ -46,6 +46,10 @@ public class CreditorController extends BaseController{
     @Autowired
     private BankcardDao bankcardDao;
 
+    /**
+     * 查询放款方列表
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("creditors")
     @ResponseBody
     public R creditors() {
@@ -53,6 +57,11 @@ public class CreditorController extends BaseController{
         return R.ok().put("creditors", creditors);
     }
 
+    /**
+     * 放款方资质认证状态
+     * @param session session
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("creditorState")
     @ResponseBody
     public R creditorState(HttpSession session) {
@@ -62,11 +71,10 @@ public class CreditorController extends BaseController{
     }
 
     /**
-     * 用户申请放款方认证
-     *
-     * @param creditorAuthenticInfo
-     * @param request
-     * @return
+     * 用户申请成为放款方资质提交
+     * @param creditorAuthenticInfo 认证资质信息pojo
+     * @param request request
+     * @return code:0成功/500异常 msg:异常信息
      */
     @RequestMapping("creditorAuthApply")
     @ResponseBody
@@ -86,10 +94,9 @@ public class CreditorController extends BaseController{
 
     /**
      * 获取被指派的贷款列表
-     *
-     * @param params
-     * @param request
-     * @return
+     * @param params 分页参数
+     * @param request request
+     * @return code:0成功/500异常 msg:异常信息
      */
     @RequestMapping("loanAssignList")
     @ResponseBody
@@ -105,10 +112,10 @@ public class CreditorController extends BaseController{
 
     /**
      * 放款方确认
-     * @param loanId
-     * @param paymentDays
-     * @param request
-     * @return
+     * @param loanId wa_loan主键
+     * @param paymentDays 还款期限
+     * @param request request
+     * @return code:0成功/500异常 msg:异常信息
      */
     @RequestMapping("affirmLoan")
     @ResponseBody
@@ -127,9 +134,9 @@ public class CreditorController extends BaseController{
 
     /**
      * 放款方拒绝
-     * @param loanId
-     * @param request
-     * @return
+     * @param loanId wa_loan主键
+     * @param request request
+     * @return code:0成功/500异常 msg:异常信息
      */
     @RequestMapping("refuseLoan")
     @ResponseBody
@@ -146,6 +153,12 @@ public class CreditorController extends BaseController{
         return R.ok();
     }
 
+    /**
+     * 放款方利息列表
+     * @param params 分页参数
+     * @param request request
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("interestList")
     @ResponseBody
     public R interestList(@RequestParam Map<String, Object> params, HttpServletRequest request) {
@@ -161,6 +174,12 @@ public class CreditorController extends BaseController{
         return R.ok().put("page", pageUtils);
     }
 
+    /**
+     * 放款方放款已还清记录列表
+     * @param params 分页参数
+     * @param request request
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("repayOffList")
     @ResponseBody
     public R repayOffList(@RequestParam Map<String, Object> params, HttpServletRequest request) {
@@ -176,6 +195,12 @@ public class CreditorController extends BaseController{
         return R.ok().put("page", pageUtils);
     }
 
+    /**
+     * 放款方放款未还清记录列表
+     * @param params 分页参数
+     * @param request request
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("repayingList")
     @ResponseBody
     public R repayingList(@RequestParam Map<String, Object> params, HttpServletRequest request) {
@@ -193,8 +218,8 @@ public class CreditorController extends BaseController{
 
     /**
      * 跳转放款资质申请页面
-     * @param model
-     * @return
+     * @param model model
+     * @return view
      */
     @RequestMapping("qualityApply")
     public String qualityApply(Model model) {
@@ -206,8 +231,8 @@ public class CreditorController extends BaseController{
 
     /**
      * 跳转放款资质申请提交成功页面
-     * @param model
-     * @return
+     * @param model model
+     * @return view
      */
     @RequestMapping("qualityApplySuccess")
     public String qualityApplySuccess(Model model) {
@@ -217,9 +242,8 @@ public class CreditorController extends BaseController{
 
     /**
      * 跳转放贷审核页面
-     *
-     * @param model
-     * @return
+     * @param model model
+     * @return view
      */
     @RequestMapping("loanCheck")
     public String loanCheck(Model model) {
@@ -228,6 +252,11 @@ public class CreditorController extends BaseController{
         return "views/front/creditor/order/loanCheck.html";
     }
 
+    /**
+     * 跳转利息列表页面
+     * @param model model
+     * @return view
+     */
     @RequestMapping("interestListPage")
     public String interestListPage(Model model) {
         model.addAttribute("parentMenuNo", 2);
@@ -235,6 +264,11 @@ public class CreditorController extends BaseController{
         return "views/front/creditor/order/interestListPage.html";
     }
 
+    /**
+     * 跳转还款列表页面
+     * @param model model
+     * @return view
+     */
     @RequestMapping("repayOffListPage")
     public String repayOffListPage(Model model) {
         model.addAttribute("parentMenuNo", 2);
@@ -242,6 +276,11 @@ public class CreditorController extends BaseController{
         return "views/front/creditor/order/repayOffListPage.html";
     }
 
+    /**
+     * 跳转未还款列表
+     * @param model model
+     * @return view
+     */
     @RequestMapping("repayingListPage")
     public String repayingListPage(Model model) {
         model.addAttribute("parentMenuNo", 2);
@@ -256,25 +295,11 @@ public class CreditorController extends BaseController{
         model.addAttribute("childMenuNo", 2);
         return "views/front/creditors/order/reportCenterPage.html";
     }
-//    @RequestMapping("repayingList")
-//    @ResponseBody
-//    public R repayingList(@RequestParam Map<String,Object> params,HttpServletRequest request){
-//        User user=(User)request.getSession().getAttribute("user");
-//        long creditUserId=user.getUserId();
-//        Query query=new Query(params);
-//        query.put("creditUserId",creditUserId);
-//        query.put("loanState",2);
-//        List list=creditorServiceImpl.listLoanOrderViewByConditions(query);
-//        int totalCount=creditorServiceImpl.listLoanCount(query);
-//        PageUtils pageUtils=new PageUtils(list,totalCount,query.getLimit(),query.getPage());
-//        return R.ok().put("page",pageUtils);
-//    }
-//
+
     /**
      * 进入个人中心，查看企业信息
-     *
-     * @param model
-     * @return
+     * @param model model
+     * @return view
      */
     @RequestMapping("companyInfo")
     public String companyInfo(Model model) {

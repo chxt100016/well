@@ -34,11 +34,11 @@ public class MessageController {
 
     /**
      * 消息列表
-     * @param params
-     * @param model
-     * @return
+     * @param params 分页参数
+     * @param model model
+     * @return view
      */
-    @RequestMapping("message")
+    /*@RequestMapping("message")
     public String message(@RequestParam Map<String, Object> params, Model model){
         HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
         User user = (User) httpSession.getAttribute("user");
@@ -51,14 +51,14 @@ public class MessageController {
         model.addAttribute("userName", user.getUserName());
         model.addAttribute("message",message);
         return "views/front/seller/news/message.jsp";
-    }
+    }*/
 
 
     /**
      * 信誉度
-     * @param params
-     * @param model
-     * @return
+     * @param params 分页参数
+     * @param model model
+     * @return view
      */
     @RequestMapping("creditrecord")
     public String getCreditRecord(@RequestParam Map<String, Object> params, Model model){
@@ -78,8 +78,8 @@ public class MessageController {
 
     /**
      * 征信列表
-     * @param params
-     * @return
+     * @param params 分页参数
+     * @return code:0成功/500异常 msg:异常信息
      */
     @ResponseBody
     @RequestMapping("creditcalist")
@@ -91,14 +91,6 @@ public class MessageController {
 
         return R.ok().put("page",pageUtil);
     }
-
-    /*@ResponseBody
-    @RequestMapping("tocreditcal/{id}")
-    public R tocreditcal(@PathVariable("id") Long id){
-        CreditRecord creditrecord = messageServicesk.getCreditRecord(id);
-        return R.ok().put("creditrecord",creditrecord);
-    }*/
-
 
     /**
      *页面转向
@@ -122,6 +114,10 @@ public class MessageController {
         return R.ok();
     }
 
+    /**
+     * 未读消息总数
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("unreadCount")
     @ResponseBody
     public R unreadCount(){
@@ -136,6 +132,11 @@ public class MessageController {
         return R.ok().put("count",count);
     }
 
+    /**
+     * 系统消息列表
+     * @param param 分页参数
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("systemicMesList")
     @ResponseBody
     public R systemicMesList(@RequestParam Map param){
@@ -149,6 +150,11 @@ public class MessageController {
         return R.ok().put("page",page);
     }
 
+    /**
+     * 财务消息列表
+     * @param param 分页参数
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("financeMesList")
     @ResponseBody
     public R financeMesList(@RequestParam Map param){
@@ -162,6 +168,11 @@ public class MessageController {
         return R.ok().put("page",page);
     }
 
+    /**
+     * 垃圾箱列表
+     * @param param 分页参数
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("shitMesList")
     @ResponseBody
     public R shitMesList(@RequestParam Map param){
@@ -175,6 +186,11 @@ public class MessageController {
         return R.ok().put("page",page);
     }
 
+    /**
+     * 消息详细
+     * @param id id
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("messageDetail")
     @ResponseBody
     public R messageDetail(@RequestParam long id){
@@ -182,6 +198,11 @@ public class MessageController {
         return R.ok().put("message",message);
     }
 
+    /**
+     * 删除消息
+     * @param id 消息id
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("delete1Msg")
     @ResponseBody
     public R delete1Msg(@RequestParam long id){
@@ -189,6 +210,11 @@ public class MessageController {
         return R.ok();
     }
 
+    /**
+     * 批量删除消息
+     * @param ids id拼接字符串
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("deleteMsgBatch")
     @ResponseBody
     public R deleteMsgBatch(@RequestParam String ids){
@@ -196,6 +222,11 @@ public class MessageController {
         return R.ok();
     }
 
+    /**
+     * 跳转系统消息页面
+     * @param model model
+     * @return view
+     */
     @RequestMapping("systemicMesPage")
     public String systemicMesList(Model model){
         User user=(User)HttpContextUtils.getAttribute("user");
@@ -209,6 +240,11 @@ public class MessageController {
         }
     }
 
+    /**
+     * 跳转财务消息页面
+     * @param model model
+     * @return view
+     */
     @RequestMapping("financeMesPage")
     public String financeMesPage(Model model){
         User user=(User)HttpContextUtils.getAttribute("user");
@@ -222,6 +258,11 @@ public class MessageController {
         }
     }
 
+    /**
+     * 跳转垃圾箱
+     * @param model model
+     * @return view
+     */
     @RequestMapping("shitMes")
     public String shitMes(Model model){
         User user=(User)HttpContextUtils.getAttribute("user");
@@ -235,6 +276,13 @@ public class MessageController {
         }
     }
 
+    /**
+     * 跳转消息详情
+     * @param model model
+     * @param id 消息主键
+     * @param isRead 消息是否已读
+     * @return view
+     */
     @RequestMapping("messageDetailPage")
     public String messageDetailPage(Model model,@RequestParam long id,@RequestParam int isRead){
         User user=(User)HttpContextUtils.getAttribute("user");

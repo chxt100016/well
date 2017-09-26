@@ -27,7 +27,7 @@ import java.util.Map;
 
 /**
  * Created by liuwen on 2017/5/16.
- * 统一登录页面，
+ * 统一登录页面
  */
 @Controller
 @RequestMapping("/login/")
@@ -55,11 +55,20 @@ public class LoginController extends BaseController {
     @Autowired
     private WaOrderService waOrderServiceImpl;
 
+    /**
+     * 登录页面
+     * @return view
+     */
     @RequestMapping(value = {"page"},method = RequestMethod.GET)
     public String page(){
         return "views/login/login.jsp";
     }
-    //登录时的相关处理
+
+    /**
+     * 登录时的相关处理
+     * @param request request
+     * @param response response
+     */
     @RequestMapping(value = {"in"}, method = RequestMethod.POST)
     public void login(HttpServletRequest request , HttpServletResponse response){
         String account = request.getParameter("username");
@@ -95,9 +104,13 @@ public class LoginController extends BaseController {
         echo(response,jsonObject);
     }
 
-    //登录成功时根据不同的用户类别进行跳转
-    //0-供货商, 1-客户方, 2-放款方， 3-物流方
-    //视图界面逻辑
+    /**
+     * 登录成功时根据不同的用户类别进行跳转
+     * 0-供货商, 1-客户方, 2-放款方， 3-物流方
+     * @param request request
+     * @param model model
+     * @return view
+     */
     @RequestMapping(value = {"success"},method = RequestMethod.GET)
     public String success(HttpServletRequest request, Model model){
         String type = request.getParameter("type");
@@ -148,7 +161,12 @@ public class LoginController extends BaseController {
         }
     }
 
-    //买家进入管理员界面
+    /**
+     * 买家进入管理员界面
+     * @param request request
+     * @param model model
+     * @return view
+     */
     @RequestMapping(value = {"customerMain"},method = RequestMethod.GET)
     public String customerMain(HttpServletRequest request,Model model){
 
@@ -172,11 +190,21 @@ public class LoginController extends BaseController {
         return "views/front/customer/order/prodOrderList.jsp";
     }
 
+    /**
+     * 卖家进入管理员界面
+     * @param request request
+     * @param model model
+     * @return view
+     */
     @RequestMapping(value = {"sellerMain"},method = RequestMethod.GET)
     public String sellerMain(HttpServletRequest request,Model model){
         return "views/front/seller/order/prodPub.jsp";
     }
 
+    /**
+     * 登出处理
+     * @return view
+     */
     @RequestMapping(value = "out",method = RequestMethod.GET)
     public String loginOut (){
         HttpSession session = HttpContextUtils.getHttpServletRequest().getSession();

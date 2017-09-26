@@ -52,7 +52,7 @@ public class BillController {
     /**
      * 发票基本信息
      * @param billId
-     * @return
+     * @return code:0成功/500异常 msg:异常信息
      */
     @RequestMapping(value = "bill",method =RequestMethod.GET)
     @ResponseBody
