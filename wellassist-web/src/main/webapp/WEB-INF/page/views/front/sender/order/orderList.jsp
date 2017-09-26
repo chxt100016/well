@@ -94,17 +94,11 @@
 			</c:forEach>
 			
 			</tbody>
-			<tfoot>
-				<tr>
-					<td></td>
-					<td></td>
-					<td>
-					<div class="right-pagination">
-							<%@ include file="../../pagination.jsp"%>
-						</div>
-					</td>
-			</tfoot>
-        </table>
+			
+		</table>
+		<div class="right-pagination">
+			<%@ include file="../../pagination.jsp"%>
+	    </div>
 	<c:if test="${empty info || fn:length(info) == 0}">
 		<div style = "margin-top:10px; margin-left:20px; float:left;">没有资料</div>	 
     </c:if>

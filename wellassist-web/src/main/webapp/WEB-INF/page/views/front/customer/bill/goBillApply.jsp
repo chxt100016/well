@@ -557,7 +557,7 @@
                     for (var j = 0; j < checkmodel.length; j++) {
                         senderUserId.push(checkmodel[j].senderUserId);
                         // supplierId.push(checkmodel[j].orderId);
-                        checkOrder.push(checkmodel[j].orderId);
+                        checkOrder.push(checkmodel[j].logisticsId);
                     }
                     console.log(senderUserId);
                     // 判断是否为同一卖家
