@@ -98,7 +98,7 @@
                         <div class="field">
                             <div class="ui labeled input">
                                 <div class="ui label">提货时间：</div>
-                                <input type="text" name="zorderDate" placeholder="" value=""  class="" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',})">                                
+                                <input type="text" name="zorderDate" placeholder="" value=""  class="" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',},minDate:'%y-%M-%d %H-%m-%s')">                                
                             </div> 
                         </div>
                     </div>
