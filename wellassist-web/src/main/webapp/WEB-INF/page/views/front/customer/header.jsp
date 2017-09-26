@@ -106,6 +106,9 @@
                     <div onclick="window.location.href='${pageContext.request.contextPath}/customer/goOrderBills'" class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == 7&&childMenuNo == 2 }"> font-white</c:if> ">
                         <span >商品发票</span>
                     </div>
+                    <div onclick="window.location.href='${pageContext.request.contextPath}/customer/billAddressManage'" class="content pd-10 pointer  font-grey  <c:if test = "${parentMenuNo == 7&&childMenuNo == 4 }"> font-white</c:if> ">
+                        <span >发票地址管理</span>
+                    </div>
                 </div>
             </div>
         </div>

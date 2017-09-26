@@ -1575,4 +1575,54 @@ public class CustomerController extends BaseController {
       return R.ok();
    }
 
+   /**
+    * 跳转发票地址管理界面
+    * @param model model
+    * @return view
+    */
+   @RequestMapping(value = "billAddressManage",method = RequestMethod.GET)
+   public String billAddressManage(Model model){
+      model.addAttribute("parentMenuNo",7);
+      model.addAttribute("childMenuNo",4);
+      return "views/front/customer/bill/billAddressManage.jsp";
+   }
+
+   /**
+    * 保存或更新用户发票地址
+    * @param billAddress wa_bill_address pojo
+    * @return code:0成功/500异常 msg:异常信息
+    */
+   @RequestMapping(value = "saveOrUpdateBillAddress",method = RequestMethod.POST)
+   @ResponseBody
+   public R saveOrUpdateBillAddress(@RequestBody BillAddress billAddress){
+      User user=((User)HttpContextUtils.getAttribute("user"));
+      long userId=user.getUserId();
+      billAddress.setUserId(userId);
+      int res=0;
+      try {
+         res=customerServiceImpl.saveOrUpdateBillAddress(billAddress);
+      } catch (Exception e) {
+         e.printStackTrace();
+         return R.error();
+      }
+      if (res==1){
+         return R.ok().put("type",1).put("msg","保存成功");
+      }else if (res==2){
+         return R.ok().put("type",2).put("msg","更新成功");
+      }
+      return R.error();
+   }
+
+   @RequestMapping(value = "billAddress",method = RequestMethod.GET)
+   @ResponseBody
+   public R billAddress(){
+      User user=(User) HttpContextUtils.getAttribute("user");
+      long userId=user.getUserId();
+      BillAddress billAddress=customerServiceImpl.findBillAddress(userId);
+      if(null==billAddress){
+         return R.error(-1,"无用户发票地址数据");
+      }
+      return R.ok().put("billAddress",billAddress);
+   }
+
 }

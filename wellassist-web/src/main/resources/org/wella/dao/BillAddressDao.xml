@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.BillAddressDao">
+    <resultMap id="BillAddressMap" type="com.djw.pojo.WaBillAddress" >
+        <id column="wa_bill_address_id" property="waBillAddressId" jdbcType="BIGINT" />
+        <result column="user_id" property="userId" jdbcType="BIGINT" />
+        <result column="receive_name" property="receiveName" jdbcType="VARCHAR" />
+        <result column="receive_address" property="receiveAddress" jdbcType="VARCHAR" />
+        <result column="receive_company_name" property="receiveCompanyName" jdbcType="VARCHAR" />
+        <result column="receive_sh" property="receiveSh" jdbcType="VARCHAR" />
+        <result column="receive_phone" property="receivePhone" jdbcType="VARCHAR" />
+        <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+        <result column="bank_account" property="bankAccount" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <insert id="save" parameterType="org.wella.entity.BillAddress">
+        insert into wa_bill_address (user_id, receive_name,
+      receive_address, receive_company_name, receive_sh,
+      receive_phone, bank_name, bank_account
+      )
+    values ( #{userId,jdbcType=BIGINT}, #{receiveName,jdbcType=VARCHAR},
+      #{receiveAddress,jdbcType=VARCHAR}, #{receiveCompanyName,jdbcType=VARCHAR}, #{receiveSh,jdbcType=VARCHAR},
+      #{receivePhone,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, #{bankAccount,jdbcType=VARCHAR}
+      )
+    </insert>
+
+    <select id="queryByuserId" parameterType="long" resultMap="BillAddressMap">
+        SELECT * from wa_bill_address
+        where user_id=#{userId}
+    </select>
+
+    <update id="updateByuserId" parameterType="org.wella.entity.BillAddress">
+        update wa_bill_address
+        <set >
+            <if test="receiveName != null" >
+                receive_name = #{receiveName,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveAddress != null" >
+                receive_address = #{receiveAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveCompanyName != null" >
+                receive_company_name = #{receiveCompanyName,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveSh != null" >
+                receive_sh = #{receiveSh,jdbcType=VARCHAR},
+            </if>
+            <if test="receivePhone != null" >
+                receive_phone = #{receivePhone,jdbcType=VARCHAR},
+            </if>
+            <if test="bankName != null" >
+                bank_name = #{bankName,jdbcType=VARCHAR},
+            </if>
+            <if test="bankAccount != null" >
+                bank_account = #{bankAccount,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=BIGINT}
+    </update>
+
+</mapper>

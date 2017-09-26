@@ -1,9 +1,6 @@
 package org.wella.service;
 
-import org.wella.entity.Bill;
-import org.wella.entity.Order;
-import org.wella.entity.Prod;
-import org.wella.entity.Userinfo;
+import org.wella.entity.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -374,4 +371,18 @@ public interface CustomerService {
      * @return 数据库更新条目
      */
     int receiveBill(long billId, boolean flag);
+
+    /**
+     * 保存或更新用户发票地址
+     * @param billAddress 发票地址pojo
+     * @return 1：save；2：update
+     */
+    int saveOrUpdateBillAddress(BillAddress billAddress);
+
+    /**
+     * 得到用户发票地址信息
+     * @param userId
+     * @return
+     */
+    BillAddress findBillAddress(long userId);
 }

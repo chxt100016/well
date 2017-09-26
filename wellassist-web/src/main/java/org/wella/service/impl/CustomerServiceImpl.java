@@ -84,6 +84,8 @@ public class CustomerServiceImpl implements CustomerService {
     private UserinfoService userinfoServiceImpl;
     @Autowired
     private BillDao billDao;
+    @Autowired
+    private BillAddressDao billAddressDao;
 
 
 
@@ -1014,5 +1016,23 @@ public class CustomerServiceImpl implements CustomerService {
         res+=billDao.update(update);
         res +=orderDao.updateOrderByID(updateOrder);
         return res;
+    }
+
+    @Override
+    public int saveOrUpdateBillAddress(BillAddress billAddress) {
+        long userId=billAddress.getUserId();
+        BillAddress billAddress1=billAddressDao.queryByuserId(userId);
+        if (null==billAddress1){
+            billAddressDao.save(billAddress);
+            return 1;
+        }else {
+            billAddressDao.updateByuserId(billAddress);
+            return 2;
+        }
+    }
+
+    @Override
+    public BillAddress findBillAddress(long userId) {
+        return billAddressDao.queryByuserId(userId);
     }
 }
