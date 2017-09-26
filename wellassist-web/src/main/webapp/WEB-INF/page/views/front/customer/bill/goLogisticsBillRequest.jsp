@@ -25,11 +25,11 @@
                             <tr v-for='(item,index) in list'>
                                 <td>{{index+1}}</td>
                                 <td>{{item.prodName}}</td>
-                                <td>{{item.customerUserName}}</td>
+                                <td>{{item.senderUserName}}</td>
                                 <td>{{item.orderNo}}</td>
                                 <td><a href="">详情 </a></td>
                                 <td>{{item.completeDate}}</td>
-                                <td>{{item.saleSjMoney}}</td>
+                                <td>{{item.prePayment}}</td>
                                 <td>已选择</td>
                             </tr>
                         </tbody>
@@ -54,10 +54,10 @@
                         <div class="ui divider"></div>
                     </div>
                     <form class="ui form" id='billform'>
-                        <input type="hidden" name="orderIds" value="${param.ids}">
+                        <input type="hidden" name="logisticsInfoIds" value="${param.ids}">
                         <input type="hidden"  name="supplierId" value="" v-model='supplierId'>
                         <input type="hidden"  name="billMoney" value="" v-model='billMoney'>
-                        <input type="hidden"  name="orderType" value="1" >
+                        <input type="hidden"  name="orderType" value="2" >
                         <div class="inline fields">
                             <label for="fruit">发票类型:</label>
                             <div class="field">
@@ -86,6 +86,16 @@
                         </div>
                         <div class="two fields">
                             <div class="field">
+                                <label>开户行</label>
+                                <input type="text" name="" placeholder="开户行">
+                            </div>
+                            <div class="field">
+                                <label>开户行账号</label>
+                                <input type="text" name="" placeholder="开户行账号">
+                            </div>
+                        </div>
+                        <div class="two fields">
+                            <div class="field">
                                 <label>公司抬头</label>
                                 <input type="text" name="receiveCompanyName" placeholder="公司抬头">
                             </div>
@@ -108,6 +118,7 @@
                
            
             </div>
+            ${param.ids}  
 
         </div>
 
@@ -135,11 +146,11 @@
                             if (result.code == 0) {
                                 console.log(result);
                                 that.list = result.items;
-                                // that.supplierId=result.items[0].supplierId;
+                                that.supplierId=result.items[0].senderUserId;
                                 //    总计
                                 let sum = 0;
                                 for (var i = 0; i < that.list.length; i++) {
-                                    sum += Number(that.list[i].saleSjMoney)
+                                    sum += Number(that.list[i].prePayment)
                                 }
                                 that.billMoney = sum;
                                 // console.log(sum);
@@ -212,7 +223,7 @@
                         let  $form = $('#billform'),
                         allFields = JSON.stringify($form.form('get values')), 
                         applyurl='${pageContext.request.contextPath}/customer/applyBill';
-                        // console.log(allFields)
+                        console.log(allFields)
                         $.ajax({
                             type:'post', 
                             url:applyurl,
@@ -244,6 +255,6 @@
         })
         </script>
 
-${param.ids}  
+
 
 <%@ include file="../footer.jsp"%>
