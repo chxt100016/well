@@ -1,5 +1,8 @@
 package org.wella.service.impl;
 
+import com.sun.javafx.collections.MappingChange;
+import io.wellassist.utils.HttpContextUtils;
+import io.wellassist.utils.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -197,12 +200,20 @@ public class SenderServiceImpl implements SenderService {
     @Override
     public int reGrabLogistics(long logisticsId) {
         Map<String,Object> logisticsInfo=logisticsInfoDao.singleLogisticsInfoByPrimaryKey(logisticsId);
+        Map query=new HashMap();
+        query.put("logisticsInfoId",logisticsId);
+        query.put("grabState",0);
+        query.put("senderUserId", ((User)HttpContextUtils.getAttribute("user")).getUserId());
+        List<Map<String,Object>> vehicleGrabs=vehicleGrabDao.listVehicleGrabByConditions(query);
         if(logisticsInfo==null||logisticsInfo.size()==0){
             return -5;
         }
         int state=(int)logisticsInfo.get("state");
         if(state!=0){
             return -1;
+        }
+        if (null!=vehicleGrabs&&vehicleGrabs.size()>0){
+            return -2;
         }
         return 0;
     }

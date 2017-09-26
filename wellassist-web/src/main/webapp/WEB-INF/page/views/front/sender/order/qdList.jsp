@@ -96,7 +96,7 @@
 									<c:if test = "${item.grabState == '0'}">
 											<span class="span_btn" onClick = "toURL('cancelGrab','${item.grabId}')">取消</span>
 									</c:if>
-									<c:if test = "${item.grabState == '-1'}">
+									<c:if test = "${item.grabState == -1 and item.logisticsState==0}">
 											<span class="span_btn" onClick = "toURL('reGrab','${item.logisticsInfoId}',this)">再抢单</span>
 									</c:if>
 							</span>

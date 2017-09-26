@@ -276,6 +276,9 @@ public class SendController extends BaseController{
         if (res==-1){
             return R.error("此订单已被其他物流公司确认");
         }
+        if (res==-2){
+            return R.error("您已选择过此订单");
+        }
         if(res==-5){
             return R.error("其他错误");
         }

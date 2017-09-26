@@ -17,7 +17,7 @@
     </insert>
 
     <select id="getGrabLogisticsList" parameterType="java.util.Map" resultType="java.util.Map">
-        SELECT a.`vehicle_grab_id` grabId,a.logistics_info_id logisticsInfoId,d.user_id userId,d.`company_img` companyImg,c.`user_name` userName,d.`company_lxr` companyLxr,d.`company_lxr_phone` companyLxrPhone,b.`prod_name` prodName,b.num num,a.`grab_money` grabMoney,a.`grab_state` grabState,a.`grab_date` grabDate,f.prod_img prodImg,e.order_no orderNo,f.prod_price prodPrice,b.seller_user_name sellerUserName
+        SELECT a.`vehicle_grab_id` grabId,a.logistics_info_id logisticsInfoId,d.user_id userId,d.`company_img` companyImg,c.`user_name` userName,d.`company_lxr` companyLxr,d.`company_lxr_phone` companyLxrPhone,b.`prod_name` prodName,b.num num,b.state logisticsState,a.`grab_money` grabMoney,a.`grab_state` grabState,a.`grab_date` grabDate,f.prod_img prodImg,e.order_no orderNo,f.prod_price prodPrice,b.seller_user_name sellerUserName
         FROM wa_vehicle_grab a,wa_logistics_info b,wa_user c,wa_userinfo d,wa_order e,wa_prod f
         WHERE a.`logistics_info_id`=b.`logistics_id`
         AND b.`customer_user_id`=c.`user_id`
@@ -74,6 +74,12 @@
         <where>
             <if test="logisticsInfoId != null">
                 and `logistics_info_id`=#{logisticsInfoId}
+            </if>
+            <if test="senderUserId != null">
+                AND sender_user_id=#{senderUserId}
+            </if>
+            <if test="grabState != null">
+                AND grab_state=#{grabState}
             </if>
         </where>
     </select>
