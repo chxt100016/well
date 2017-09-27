@@ -169,7 +169,7 @@ public class CustomerController extends BaseController {
    }
 
    /**
-    *分批发货确认收货
+    * 分批发货确认收货
     * @param zorderId wa_zorder表主键
     * @param receiveComment 收货备注
     * @return 成功：code：0；失败：code：500，msg：原因

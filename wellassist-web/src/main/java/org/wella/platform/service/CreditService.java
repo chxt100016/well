@@ -17,7 +17,7 @@ public interface CreditService {
 
     /**
      * 驳回贷款申请
-     * @param loanId
+     * @param loanId loanId
      */
     void loanSayno(long loanId);
 }

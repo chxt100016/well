@@ -348,7 +348,7 @@
     <select id="getSellerOrderList" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT a.order_id, a.order_no, a.prod_id, a.sale_num, a.sale_money, a.sale_sj_num, a.sale_sj_money, a.order_state, a.order_date, b.prod_name, b.prod_img
         FROM wa_order as a INNER JOIN wa_prod as b ON a.prod_id = b.prod_id
-        WHERE a.supplier_id = #{userId} and a.order_state > -1
+        WHERE a.supplier_id = #{userId}
         <if test="orderState!=null and orderState!=''">
             AND a.order_state = #{orderState}
         </if>

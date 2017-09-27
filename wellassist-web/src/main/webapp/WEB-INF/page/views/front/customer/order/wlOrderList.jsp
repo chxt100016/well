@@ -71,7 +71,7 @@
                     <td class="right-border tx-ct" >
                         <span class="ds-bl fl-lt pd-lf-20 ft-wt-bd " style="">
                             <c:if test="${item.orderState==-2}">管理员取消订单</c:if>
-                           	<c:if test="${item.state==-1}">无效</c:if>
+                           	<c:if test="${item.state==-1}">已取消</c:if>
 								<c:if test="${item.state==0}">待确认</c:if>
                             <c:if test="${item.state==2}">
                             <c:if test="${item.orderState==1}">
