@@ -59,48 +59,58 @@
                             <input type="hidden"  name="billMoney" value="" v-model='billMoney'>
                             <input type="hidden"  name="orderType" value="1" >
                             <div class="inline fields">
-                                <label for="fruit">发票类型:</label>
-                                <div class="field">
-                                    <div class="ui radio checkbox">
-                                        <input type="radio" name="billType" checked="" value="1">
-                                        <label>普通发票</label>
+                                    <label for="fruit">发票类型:</label>
+                                    <div class="field">
+                                        <div class="ui radio checkbox">
+                                            <input type="radio" name="billType" checked="" value="1">
+                                            <label>普通发票</label>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="ui radio checkbox">
+                                            <input type="radio" name="billType" tabindex="0" value="2">
+                                            <label>增值税专用发票</label>
+                                        </div>
+                                    </div>
+        
+                                </div>
+                                <div class="two fields">
+                                    <div class="field">
+                                        <label>收件人</label>
+                                        <input type="text" name="receiveName" placeholder="收件人" v-model='info.receiveName'>
+                                    </div>
+                                    <div class="field">
+                                        <label>联系电话</label>
+                                        <input type="text" name="receivePhone" placeholder="联系电话" v-model='info.receivePhone'>
                                     </div>
                                 </div>
-                                <div class="field">
-                                    <div class="ui radio checkbox">
-                                        <input type="radio" name="billType" tabindex="0" value="2">
-                                        <label>增值税专用发票</label>
+                                <div class="two fields">
+                                    <div class="field">
+                                        <label>开户行</label>
+                                        <input type="text" name="bankName" placeholder="开户行" v-model='info.bankName'>
+                                    </div>
+                                    <div class="field">
+                                        <label>开户行账号</label>
+                                        <input type="text" name="bankAccount" placeholder="开户行账号" v-model='info.bankAccount'>
                                     </div>
                                 </div>
-
-                            </div>
-                            <div class="two fields">
-                                <div class="field">
-                                    <label>收件人</label>
-                                    <input type="text" name="receiveName" placeholder="收件人">
+                                <div class="two fields">
+                                    <div class="field">
+                                        <label>公司抬头</label>
+                                        <input type="text" name="receiveCompanyName" placeholder="公司抬头" v-model='info.receiveCompanyName'>
+                                    </div>
+                                    <div class="field">
+                                        <label>地址信息</label>
+                                        <input type="text" name="receiveAddress" placeholder="地址信息" v-model='info.receiveAddress'>
+                                    </div>
                                 </div>
-                                <div class="field">
-                                    <label>联系电话</label>
-                                    <input type="text" name="receivePhone" placeholder="联系电话">
+                                <div class="two fields">
+                                    <div class="field">
+                                        <label>纳税人识别号</label>
+                                        <input type="text" name="receiveSh" placeholder="纳税人识别号" v-model='info.receiveSh'>
+                                    </div>
+        
                                 </div>
-                            </div>
-                            <div class="two fields">
-                                <div class="field">
-                                    <label>公司抬头</label>
-                                    <input type="text" name="receiveCompanyName" placeholder="公司抬头">
-                                </div>
-                                <div class="field">
-                                    <label>地址信息</label>
-                                    <input type="text" name="receiveAddress" placeholder="地址信息">
-                                </div>
-                            </div>
-                            <div class="two fields">
-                                <div class="field">
-                                    <label>纳税人识别号</label>
-                                    <input type="text" name="receiveSh" placeholder="纳税人识别号">
-                                </div>
-
-                            </div>
                             <div class="ui submit button pink">提交</div>
                             <div class="ui cancel button grey" onclick="history.go(-1)">返回</div>
                         </form>
@@ -119,12 +129,14 @@
                 data: {
                     list: '',
                     billMoney: '',
-                    supplierId:''
+                    supplierId:'',
+                    info:''
 
                 },
                 created: function () {
                     let url = '${pageContext.request.contextPath}/customer/billOrders';
                     let ids = '${param.ids}';
+                    const url2='${pageContext.request.contextPath}/customer/billAddress';
                     let that = this;
                     $.ajax({
                         type: 'get',
@@ -151,7 +163,28 @@
                         }
 
 
-                    })
+                    });
+                         //基本信息
+                         $.ajax({
+                        type:'get', 
+                        url:url2,
+                        data:'',
+                        dataType:'json',
+                        success:
+                                function(result){
+                                        if(result.code==0){
+                                        ding.info=result.billAddress;
+                                          console.log(ding.info)
+                                        }
+                                        else{
+                                            alert('加载失败，请稍后..')
+                                            history.go(-1);
+                                                    console.log(result.msg)
+                                            }
+                                                }
+
+
+                        })
                 },
 
 
@@ -213,6 +246,7 @@
                         let  $form = $('#billform'),
                         allFields = JSON.stringify($form.form('get values')), 
                         applyurl='${pageContext.request.contextPath}/customer/applyBill';
+                        
                         // console.log(allFields)
                         $.ajax({
                             type:'post', 
