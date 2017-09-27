@@ -113,8 +113,6 @@ public class SellerController extends BaseController {
         this.echoJSON(response, obj);
     }
 
-
-
     @RequestMapping("order")
     public String order(HttpServletRequest request,Model model){
         Map param = this.getConditionParam(request);
