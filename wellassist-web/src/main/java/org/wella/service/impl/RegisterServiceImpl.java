@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by liuwen on 2017/5/15.
+ * Created by ailing on 2017/5/15.
  */
 @Service("registerServiceImpl")
 public class RegisterServiceImpl implements RegisterService{
@@ -36,9 +36,8 @@ public class RegisterServiceImpl implements RegisterService{
     private StringRedisTemplate stringRedisTemplate;
 
     /**
-     *
-     * @param request
-     * @return
+     * @param request request
+     * @return 包含状态码和状态内容的map
      * 处理的业务逻辑
      * 1.根据注册填写的信息，注册账号信息，公司相关信息，写入表wa_user与表wa_userinfo中
      * 2.项邮箱中发送相关信息
@@ -157,9 +156,9 @@ public class RegisterServiceImpl implements RegisterService{
     }
 
     /**
-     *
+     * 用户激活
      * @param code 激活码
-     * @return
+     * @return true 激活成功，false激活失败
      * 业务逻辑，根据激活码与数据库中的激活码进行对比，如果二者完全一致则执行激活操作
      */
     public boolean activeUser(String code) {
@@ -172,7 +171,7 @@ public class RegisterServiceImpl implements RegisterService{
 
     /**
      * 忘记密码后对密码进行重置时项邮箱发送验证码业务逻辑
-     * @param email
+     * @param email email地址
      * 项邮箱发送重置验证码，将该验证码写入redis数据库
      * 后面调整使用redis操作
      */
@@ -195,9 +194,8 @@ public class RegisterServiceImpl implements RegisterService{
     }
 
     /**
-     *
-     * @param email
      * 重置用户密码,将用户密码重置到数据库
+     * @param email email
      */
     public void resetPassword(String email,String password,String checkCode){
         HashMap map = new HashMap();
@@ -215,8 +213,8 @@ public class RegisterServiceImpl implements RegisterService{
 
     /**
      * 判断用户phone与email是否一致
-     * @param email
-     * @param userName
+     * @param email email
+     * @param userName 用户名
      */
     public boolean checkAccount(String email,String userName){
         int count = waUserDao.checkAccount(email,userName);

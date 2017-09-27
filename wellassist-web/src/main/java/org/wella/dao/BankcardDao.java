@@ -12,6 +12,8 @@ import java.util.Map;
  */
 @Repository
 public interface BankcardDao {
+
+
     List<Bankcard> getCardListByUserId(long userId);
 
     long addCard(Map<String,Object> map);

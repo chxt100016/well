@@ -1,6 +1,5 @@
 package org.wella.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,13 +14,12 @@ import org.wella.service.impl.RegisterServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Created by liuwen on 2017/5/15.
+ * Created by ailing on 2017/5/15.
  */
 @Controller
 @RequestMapping("/register/")
@@ -33,6 +31,12 @@ public class RegisterController extends BaseController{
     @Autowired
     private WaUserDao waUserDao;
 
+    /**
+     * 跳转注册页面
+     * @param request request
+     * @param model model
+     * @return view
+     */
     @RequestMapping(value = {"registerPage"},method = RequestMethod.GET)
     public String registerPage(HttpServletRequest request, Model model){
         Map map = new HashMap();
@@ -45,9 +49,9 @@ public class RegisterController extends BaseController{
 
     /**
      * 注册请求处理方法
-     * @param request
-     * @param response
-     * @return
+     * @param request request
+     * @param response response
+     * @return state：状态码，content：内容
      */
     @RequestMapping("register")
     public void register(HttpServletRequest request, HttpServletResponse response){
@@ -60,17 +64,22 @@ public class RegisterController extends BaseController{
     }
 
     /**
-     * 注册成功
-     * @param request
-     * @param response
-     * @param model
-     * @return
+     * 跳转注册成功页面
+     * @param request request
+     * @param response response
+     * @param model model
+     * @return view
      */
     @RequestMapping({"registerNext"})
     public String registerNext(HttpServletRequest request, HttpServletResponse response, Model model) {
         return "views/front/customer/login/registerNext.jsp";
     }
 
+    /**
+     * 发送邮箱验证码
+     * @param request request
+     * @param response response
+     */
     @RequestMapping("sendCheckCode")
     public void sendCheckCode(HttpServletRequest request,HttpServletResponse response){
         String email = request.getParameter("email");
@@ -86,6 +95,11 @@ public class RegisterController extends BaseController{
         this.echo(response,jsonObject);
     }
 
+    /**
+     * 重置密码
+     * @param request request
+     * @param response response
+     */
     @RequestMapping("resetPassword")
     public void resetPassword(HttpServletRequest request,HttpServletResponse response){
         String email = request.getParameter("email");
@@ -104,8 +118,8 @@ public class RegisterController extends BaseController{
 
     /**
      * 根据请求的账号与邮箱判断是否属于同一用户的
-     * @param request
-     * @param response
+     * @param request request
+     * @param response response
      */
     @RequestMapping("checkAccount")
     public void checkAccount(HttpServletRequest request,HttpServletResponse response){
@@ -121,6 +135,11 @@ public class RegisterController extends BaseController{
         echo(response,jsonObject);
     }
 
+    /**
+     * 根据请求的账号与电话判断是否属于同一用户的
+     * @param contactphone 电话
+     * @return state：状态码，content：内容
+     */
     @RequestMapping("checkPhone")
     @ResponseBody
     public Object checkPhone(@RequestParam("contactphone")String contactphone){
@@ -134,6 +153,11 @@ public class RegisterController extends BaseController{
         return object;
     }
 
+    /**
+     * 根据请求的账号与邮箱判断是否属于同一用户的
+     * @param contactemail 用户邮箱
+     * @return state：状态码，content：内容
+     */
     @RequestMapping("checkEmail")
     @ResponseBody
     public Object checkEmail(@RequestParam("contactemail")String contactemail){

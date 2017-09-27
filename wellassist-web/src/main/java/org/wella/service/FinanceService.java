@@ -14,7 +14,7 @@ public interface FinanceService {
     /**
      * 充值相关业务处理
      * 两种业务处理，线下支付与银行支付
-     * @param map
+     * @param map 操作参数
      * @return map返回充值处理结果，包含两个key值（state，content）
      */
     int recharge(Map<String,Object> map);
@@ -34,9 +34,19 @@ public interface FinanceService {
      */
     Map<String,Object> getLoanOrderInfo(long loanId);
 
-
+    /**
+     * 贷款还款明细
+     * @param loanId loanId
+     * @return  贷款还款明细
+     */
     Map<String,Object> getLoanRepayInfo(long loanId);
 
+    /**
+     * 查询用户余额
+     * @param userId userId
+     * @return 查询用户余额
+     * @throws Exception
+     */
     BigDecimal getBalance(long userId) throws Exception;
 
     /**

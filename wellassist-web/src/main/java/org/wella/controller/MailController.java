@@ -24,8 +24,8 @@ public class MailController extends BaseController {
 
     /**
      * 如果注册成功，则跳转至登录页面，如果注册失败则跳转至。。。
-     * @param request
-     * @param response
+     * @param request request
+     * @param response response
      * @return view
      * @throws ServletException
      * @throws IOException

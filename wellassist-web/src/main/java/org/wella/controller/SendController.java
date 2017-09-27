@@ -70,80 +70,13 @@ public class SendController extends BaseController{
     @Autowired
     private WithdrawDAO withdrawDAO;
 
-
     /**
-     * 跳转抢单大厅
-     * @param request 可传入参数size，page
-     * @param response
-     * @param model
-     * @return
+     * 跳转抢单页面
+     * @param request request
+     * @param response response
+     * @param model model
+     * @return view
      */
-    /*@RequestMapping("test1")
-    public void qdList(HttpServletRequest request, HttpServletResponse response, Model model){
-        JSONObject res = new JSONObject();
-        Map param = this.getConditionParam(request);
-        param.put("state",0);
-        List<LogisticsInfo> logisticsInfos=senderServiceImpl.findLogisticsInfos(param);
-        model.addAttribute("logisticsInfos",logisticsInfos);
-        int totalCount=senderServiceImpl.findLogisticsInfosCount(param);
-        this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
-        res.put("logisticsInfos",logisticsInfos);
-        echo(response,res);
-    }*/
-
-    /**
-     * 跳转报价界面
-     * @param request 需要传入的参数logisticsId
-     * @return
-     */
-    /*@RequestMapping("test2")
-    public void offerLogistics(HttpServletRequest request, HttpServletResponse response, Model model){
-        JSONObject res = new JSONObject();
-        Map param=new HashMap();
-        param.put("logisticsId",request.getParameter("logisticsInfoId"));
-        Map<String,Object> logisticsInfo=senderServiceImpl.(param);
-        model.addAttribute("logisticsInfo",logisticsInfo);
-        res.put("logisticsInfo",logisticsInfo);
-        echo(response,res);
-    }*/
-
-    /**
-     * 处理物流方抢单
-     * [{"sjmc":"丁建文1","sjdh":"13145678923","cph":"scdsgv"},{"sjmc":"丁建文2","sjdh":"13245678965","cph":"vfdbg"}]
-     * @param request 传入参数logisticsId物流订单id，wlUserId物流用户id，grabMoney报价，sjLxr车队联系人,sjLxPhone联系人电话，orderData车队信息，
-     * @param response
-     */
-    /*@RequestMapping("test3")
-    public void doOfferLogistics(HttpServletRequest request, HttpServletResponse response){
-        MyInfo myInfo = this.getMyInfo(request);
-        JSONObject res = new JSONObject();
-        Map map = new HashMap();
-        try {
-            map.put("logisticsId",request.getParameter("logisticsId"));
-            map.put("wlUserId",*//*myInfo.getUserId()*//*request.getParameter("wlUserId"));
-            map.put("grabMoney",request.getParameter("grabMoney"));
-            map.put("sjLxr",request.getParameter("sjLxr"));
-            map.put("sjLxPhone",request.getParameter("sjLxPhone"));
-            map.put("orderData",request.getParameter("orderData"));
-        }catch (Exception e){
-            e.printStackTrace();
-            res.put("state", "2");
-            res.put("content", ConstantUtil.MSG_FAILS);
-            e.printStackTrace();
-        }finally {
-            try {
-                senderServiceImpl.grabLogisticsOrder(map);
-                res.put("state", "1");
-                res.put("content", ConstantUtil.MSG_SUCCESS);
-            }catch (Exception e){
-                res.put("state", "2");
-                res.put("content", ConstantUtil.MSG_FAILS);
-                e.printStackTrace();
-            }finally {
-                this.echo(response,res);
-            }
-        }
-    }*/
     @RequestMapping({"grabLogistics"})
     public String qdPage(HttpServletRequest request, HttpServletResponse response, Model model) {
         HttpSession session=request.getSession();
@@ -159,6 +92,13 @@ public class SendController extends BaseController{
         return "views/front/sender/order/quote.jsp";
     }
 
+    /**
+     * 跳转订单详情页面
+     * @param orderId orderId
+     * @param request request
+     * @param model model
+     * @return view
+     */
     @RequestMapping("orderDetail")
     public String orderDetail(@RequestParam("orderId")String orderId,HttpServletRequest request, Model model){
         User user=(User)request.getSession().getAttribute("user");
@@ -170,6 +110,12 @@ public class SendController extends BaseController{
         return "views/front/sender/order/orderDetail_new.jsp";
     }
 
+    /**
+     * 抢单大厅
+     * @param request request
+     * @param model model
+     * @return view
+     */
     @RequestMapping("vehicleGrabHall")
     public String vehicleGrabHall(HttpServletRequest request,Model model){
         Map param = this.getConditionParam(request);
@@ -186,6 +132,11 @@ public class SendController extends BaseController{
         return "views/front/sender/order/vehicleGrabHall.jsp";
     }
 
+    /**
+     * 物流抢单处理
+     * @param param 物流抢单表单提交参数
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("grabLogisticsSubmit")
     @ResponseBody
     public R grabLogisticsSubmit(@RequestParam Map param){
@@ -202,6 +153,13 @@ public class SendController extends BaseController{
     }
 
 
+    /**
+     * 抢单成功
+     * @param request request
+     * @param response response
+     * @param model model
+     * @return view
+     */
     @RequestMapping({"/logisticsGrabResult"})
     public String sqResult(HttpServletRequest request, HttpServletResponse response, Model model) {
         return "views/front/sender/order/qdResult.jsp";
@@ -210,9 +168,9 @@ public class SendController extends BaseController{
     /**
      * 查看抢单记录
      * @param request 传入参数：orderNo,grabState,page
-     * @param response
-     * @param model
-     * @return
+     * @param response response
+     * @param model model
+     * @return view
      */
     @RequestMapping({"/logisticsGrabList"})
     public String qdList(HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -232,7 +190,12 @@ public class SendController extends BaseController{
         return "views/front/sender/order/qdList.jsp";
     }
 
-
+    /**
+     * 跳转物流订单页面
+     * @param request request
+     * @param model model
+     * @return view
+     */
     @RequestMapping("logisticsOrderList")
     public String logisticsOrderListPage(HttpServletRequest request,Model model){
         HttpSession session=request.getSession();
@@ -251,9 +214,9 @@ public class SendController extends BaseController{
 
     /**
      * 物流方取消抢单
-     * @param request
-     * @param vehicleGrabId
-     * @return
+     * @param request request
+     * @param vehicleGrabId wa_vehicle_grab id
+     * @return code:0成功/500异常 msg:异常信息
      */
     @RequestMapping("cancelGrab")
     @ResponseBody
@@ -265,11 +228,14 @@ public class SendController extends BaseController{
     }
 
     /**
-     *
+     * 物流方再抢单
+     * @param request request
+     * @param logisticsId wa_logistics_info pk
+     * @return code:0成功/500异常 msg:异常信息
      */
     @RequestMapping("reGrab")
     @ResponseBody
-    public R reGrab(HttpServletRequest request,@RequestParam("logisticsId")String logisticsId){
+    public R reGrab(@RequestParam("logisticsId")String logisticsId){
         int res=senderServiceImpl.reGrabLogistics(Long.parseLong(logisticsId));
         if(res==0){
             return R.ok();
@@ -287,7 +253,12 @@ public class SendController extends BaseController{
     }
 
 
-
+    /**
+     * 物流方账户信息
+     * @param request request
+     * @param model model
+     * @return view
+     */
     @RequestMapping("accountInfo")
     public String accountInfo(HttpServletRequest request, Model model) {
         User user = (User) HttpContextUtils.getAttribute("user");
@@ -309,8 +280,12 @@ public class SendController extends BaseController{
     }
 
 
-
-
+    /**
+     * 提现记录
+     * @param request request
+     * @param model model
+     * @return view
+     */
     @RequestMapping("withdrawRecordList")
     public String withdrawRecordList(HttpServletRequest request, Model model) {
         User user = (User) HttpContextUtils.getAttribute("user");
@@ -332,8 +307,12 @@ public class SendController extends BaseController{
     }
 
 
-
-
+    /**
+     * 充值记录
+     * @param request request
+     * @param model model
+     * @return view
+     */
     @RequestMapping({"rechargeRecord"})
     public String rechargeRecord(HttpServletRequest request, Model model) {
         User user = (User) HttpContextUtils.getAttribute("user");
@@ -354,9 +333,11 @@ public class SendController extends BaseController{
     }
 
 
-
-
-
+    /**
+     * 提现申请
+     * @param params 分页参数
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("withdrawProcess")
     @ResponseBody
     public R withdrawProcess(@RequestParam Map<String, Object> params) {
@@ -373,10 +354,14 @@ public class SendController extends BaseController{
     }
 
 
-
-
-
-    @RequestMapping({"/FinanceCtrl-txSq"})
+    /**
+     * 提现申请
+     * @param request request
+     * @param response response
+     * @param model model
+     * @return view
+     */
+    /*@RequestMapping({"/FinanceCtrl-txSq"})
     public String txSq(HttpServletRequest request, HttpServletResponse response, Model model) {
         String userMoney = CommonUtil.GetRequestParam(request, "userMoney", "0");
         MyInfo myInfo = this.getMyInfo(request);
@@ -386,14 +371,19 @@ public class SendController extends BaseController{
         model.addAttribute("userName", myInfo.getUserName());
         model.addAttribute("parentMenuNo", Integer.valueOf(2));
         return "views/front/sender/finance/txSq.jsp";
-    }
+    }*/
 
 
-
-    @RequestMapping({"/FinanceController-czSq"})
+    /**
+     * 跳转充值申请
+     * @param request request
+     * @param response response
+     * @return view
+     */
+    /*@RequestMapping({"/FinanceController-czSq"})
     public String czSq(HttpServletRequest request, HttpServletResponse response) {
         return "views/front/sender/finance/czSq.jsp";
-    }
+    }*/
 
 
 
@@ -429,7 +419,11 @@ public class SendController extends BaseController{
     }*/
 
 
-
+    /**
+     * 校验支付密码
+     * @param oldPass 旧密码
+     * @param response response
+     */
     @RequestMapping("checkCzPassword")
     public void checkWithdrawPassword(@RequestParam("pass") String oldPass, HttpServletResponse response) {
         HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
@@ -468,7 +462,11 @@ public class SendController extends BaseController{
         return "views/front/sender/finance/txList.jsp";
     }*/
 
-
+    /**
+     * 充值申请
+     * @param params 充值申请表单提交参数
+     * @return  code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("rechargeApply")
     @ResponseBody
     public R rechargeApply(@RequestParam Map<String, Object> params) {
@@ -481,8 +479,11 @@ public class SendController extends BaseController{
     }
 
 
-
-
+    /**
+     * 公司基本信息
+     * @param model model
+     * @return view
+     */
     @RequestMapping("companyInfo")
     public String companyInfo(Model model){
         HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
@@ -506,8 +507,11 @@ public class SendController extends BaseController{
     }
 
 
-
-
+    /**
+     * 公司联系人
+     * @param model model
+     * @return view
+     */
     @RequestMapping("contact")
     public String contact(Model model){
         HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
@@ -521,7 +525,11 @@ public class SendController extends BaseController{
     }
 
 
-
+    /**
+     * 更新联系人
+     * @param params 表单提交参数
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("updateContact")
     @ResponseBody
     public R updateContext(@RequestParam Map<String,Object> params){
@@ -537,7 +545,11 @@ public class SendController extends BaseController{
         }
     }
 
-
+    /**
+     * 修改密码页面
+     * @param model model
+     * @return view
+     */
     @RequestMapping("password")
     public String changePassword(Model model) {
         HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
@@ -549,7 +561,11 @@ public class SendController extends BaseController{
     }
 
 
-
+    /**
+     * 检验登录密码
+     * @param map 就密码
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("checkLoginPassword")
     @ResponseBody
     public R checkLoginPassword(@RequestParam Map<String,Object>map){
@@ -565,7 +581,11 @@ public class SendController extends BaseController{
         }
     }
 
-
+    /**
+     * 修改登录面
+     * @param map 新密码
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("changeLoginPassword")
     @ResponseBody
     public R changeLoginPassword(@RequestParam Map<String,Object>map){
@@ -589,8 +609,11 @@ public class SendController extends BaseController{
     }
 
 
-
-
+    /**
+     * 校验支付密码
+     * @param map 旧密码
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("checkPayPassword")
     @ResponseBody
     public R checkPayPassword(@RequestParam Map<String,Object>map){
@@ -607,7 +630,11 @@ public class SendController extends BaseController{
     }
 
 
-
+    /**
+     * 更新支付免
+     * @param map 新密码
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("changePayPassword")
     @ResponseBody
     public R changePayPassword(@RequestParam Map<String,Object>map){
@@ -630,9 +657,11 @@ public class SendController extends BaseController{
     }
 
 
-
-
-
+    /**
+     * 银行卡管理
+     * @param model model
+     * @return view
+     */
     @RequestMapping("bankcardPage")
     public String bankcardPage(Model model) {
         HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
@@ -648,7 +677,11 @@ public class SendController extends BaseController{
         return "views/front/sender/company/bankcard.jsp";
     }
 
-
+    /**
+     * 添加银行卡
+     * @param map 添加银行卡表单提交参数
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("addBankcard")
     @ResponseBody
     public R addBankcard(@RequestParam Map<String, Object> map) {
@@ -665,7 +698,11 @@ public class SendController extends BaseController{
         }
     }
 
-
+    /**
+     * 删除银行卡
+     * @param map 删除银行卡表单提交参数
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("delBankcard")
     @ResponseBody
     public R delBankcard(@RequestParam Map<String, Object> map) {
@@ -681,10 +718,12 @@ public class SendController extends BaseController{
     }
 
 
-
-
-
-
+    /**
+     * 物流订单详情
+     * @param model model
+     * @param request request
+     * @return view
+     */
     @RequestMapping("detail")
     public String logisticsDetail(Model model,HttpServletRequest request) {
         HttpSession session=request.getSession();
@@ -700,8 +739,11 @@ public class SendController extends BaseController{
         return "views/front/sender/order/logisticsDetail.jsp";
     }
 
-
-
+    /**
+     * 物流抢单司机列表
+     * @param logisticsId 物流订单id
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @ResponseBody
     @RequestMapping("selectDriver")
     public  R selectDriver(@RequestParam Long logisticsId){
@@ -715,7 +757,12 @@ public class SendController extends BaseController{
     }
 
 
-
+    /**
+     * 利润报表
+     * @param map echarts请求参数
+     * @param request request
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @ResponseBody
     @RequestMapping("profit")
     public R profit(@RequestBody Map<String,Object> map,HttpServletRequest request){
@@ -723,10 +770,13 @@ public class SendController extends BaseController{
         map.put("userId",user.getUserId());
         List<BigDecimal> list=senderServiceImpl.profit(map);
         return R.ok().put("data",list);
-
     }
 
-
+    /**
+     * 报表页面
+     * @param model model
+     * @return view
+     */
     @RequestMapping("reportManagement")
     public String reportManagement(Model model){
         model.addAttribute("parentMenuNo","4");
@@ -804,6 +854,25 @@ public class SendController extends BaseController{
                       @RequestParam(value = "kdNo",required = false,defaultValue = "")String kdNo,@RequestParam(value = "kdName",required = false,defaultValue = "")String kdName){
         senderServiceImpl.sendBill(billId,billNo,kpType,eBill,kdNo,kdName);
         return R.ok();
+    }
+
+    /**
+     * 已处理发票列表数据
+     * @param request request
+     * @param params 分页参数
+     * @return code:0成功/500异常 msg:异常信息
+     */
+    @RequestMapping(value = "handledBillsList",method = RequestMethod.GET)
+    @ResponseBody
+    public R billsList(HttpServletRequest request,@RequestParam Map params){
+        User user=(User) request.getSession().getAttribute("user");
+        long userId=user.getUserId();
+        params.put("supplierId",userId);
+        Query query=new Query(params);
+        List list=senderServiceImpl.handledBillsList(query);
+        int totalCount=senderServiceImpl.handledBillsListCount(query);
+        PageUtils pageUtils=new PageUtils(list,totalCount,query.getLimit(),query.getPage());
+        return R.ok().put("page",pageUtils);
     }
 
 }

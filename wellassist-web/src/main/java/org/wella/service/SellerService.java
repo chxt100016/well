@@ -82,8 +82,18 @@ public interface SellerService {
 
     int getOrderListCount(Map param);
 
+    /**
+     * 卖家确认订单页面vo
+     * @param orderId orderId
+     * @return 卖家确认订单页面vo
+     */
     Map<String,Object> getInfoForConfirmOrderPage(Long orderId);
 
+    /**
+     * 订单详细信息
+     * @param orderId orderId
+     * @return 订单详细信息
+     */
     Map<String,Object> getOrderDetail(Long orderId);
 
     Long createOrderLog(Long orderId, Map map);
@@ -91,25 +101,35 @@ public interface SellerService {
     /**
      * 获取订单物流信息
      * @param orderId
-     * @return 1.如果是买家自己物流：
-     * 2.第三方物流：
+     * @return 1.如果是买家自己物流：从wa_order_logistics_info表中读取车辆信息
+     * 2.第三方物流：从wa_vehicle_grab_info表中读取车辆信息
      */
     Map<String,Object> getOrderLogisticsInfo(long orderId);
 
+    /**
+     *
+     * @param orderId
+     * @return
+     */
     Map<String,Object> getSendProdPageInfo(long orderId);
 
     /**
-     * 卖家发货
-     * @param params
+     * 处理卖家发货
+     * @param params 发货表单提交参数
      */
     void sendProd(Map params);
 
     /**
      * 买家结束发货：update wa_order表 order_state 为4
-     * @param orderId
+     * @param orderId orderId
      */
     void sendProdStop(long orderId);
 
+    /**
+     * 卖家订单详情页面信息
+     * @param orderId
+     * @return 订单详情map
+     */
     Map<String,Object> getOrderDetailInfo(long orderId);
 
 
@@ -143,4 +163,18 @@ public interface SellerService {
      * @return 数据库更新行数
      */
     int sendBill(long billId,String billNo, int kpType, String eBill, String kdNo, String kdName);
+
+    /**
+     * 卖家已发送发票列表
+     * @param query
+     * @return
+     */
+    List handledBillsList(Query query);
+
+    /**
+     * 卖家已发送发票列表总记录数
+     * @param query 分页参数
+     * @return 总记录数
+     */
+    int handledBillsListCount(Query query);
 }

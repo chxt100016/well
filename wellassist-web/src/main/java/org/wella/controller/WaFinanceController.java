@@ -40,7 +40,11 @@ public class WaFinanceController {
     @Autowired
     private WaUserDao waUserDao;
 
-
+    /**
+     * 提现申请
+     * @param params 提现金额
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("withdrawProcess")
     @ResponseBody
     public R withdrawProcess(@RequestParam Map<String, Object> params) {
@@ -58,6 +62,11 @@ public class WaFinanceController {
         }
     }
 
+    /**
+     * 充值申请
+     * @param params 充值金额，充值方式
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("rechargeApply")
     @ResponseBody
     public R rechargeApply(@RequestParam Map<String, Object> params) {
@@ -69,6 +78,11 @@ public class WaFinanceController {
         }
     }
 
+    /**
+     * 贷款还款详细
+     * @param loanId loanId
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("loanRepayDetail")
     @ResponseBody
     public R loanRepayDetailPage(@RequestParam("loanId")String loanId){
@@ -128,6 +142,12 @@ public class WaFinanceController {
         return null;
     }*/
 
+    /**
+     * 查询用户余额
+     * @param request request
+     * @return code:0成功/500异常 msg:异常信息
+     * @throws Exception
+     */
     @RequestMapping("balance")
     @ResponseBody
     public R balance(HttpServletRequest request) throws Exception {
@@ -135,6 +155,11 @@ public class WaFinanceController {
         return R.ok().put("balance",financeServiceImpl.getBalance(userId));
     }
 
+    /**
+     * 查询用户授信余额
+     * @param request request
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("creditBalance")
     @ResponseBody
     public R creditBalance(HttpServletRequest request){

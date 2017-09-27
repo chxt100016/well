@@ -25,5 +25,10 @@ public interface BillService {
      */
     List<Map<String,Object>> billLogisticss(long billId);
 
+    /**
+     * 通过id查询单条发票记录
+     * @param billId billId
+     * @return pojo
+     */
     Bill bill(long billId);
 }

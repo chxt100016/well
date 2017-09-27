@@ -64,7 +64,6 @@ public class CommonUtil {
                 ret = 0;
             }
         }
-
         return ret;
     }
 
@@ -81,6 +80,13 @@ public class CommonUtil {
         return ret;
     }
 
+    /**
+     * 得到请求参数
+     * @param request request
+     * @param name 请求参数key
+     * @param def 默认值
+     * @return 请求参数value
+     */
     public static String GetRequestParam(HttpServletRequest request, String name, String def) {
         if(request == null) {
             return def;

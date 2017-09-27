@@ -1,7 +1,5 @@
 package org.wella.service;
 
-import org.wella.entity.Order;
-import org.wella.entity.Prod;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -12,43 +10,46 @@ import java.util.Map;
  */
 public interface PlatformService {
 
-    List<Order> findOrderList();
-
-    List<Order> findOrderList(Map map);
-
-    List<Prod> findProdList();
-
-    List<Prod> findProdList(Map map);
-
-    void updateOrder(Order order);
-
-    void updateProduct(Prod prod);
-
-    void deleteOrder(Order order);
-
-    void deleteProduct(Prod prod);
-
-    void confirmDeal(int orderId);
-
-    void preprocessLoanApply(int orderId);
-
-    void processloanApply(int orderId);
-
-
+    /**
+     * 添加用户
+     * @param map 用户信息
+     * @return 是否操作成功
+     */
     boolean insertCustomer(Map map);
 
-
+    /**
+     * 交易量
+     * @param map echart请求参数
+     * @return 报表信息
+     */
     List<BigDecimal> tradingVolume(Map map);
 
-
+    /**
+     * 贷款
+     * @param map echart请求参数
+     * @return 报表信息
+     */
     List<BigDecimal> loanAmount(Map map);
 
-
+    /**
+     * 成交额
+     * @param map echart请求参数
+     * @return 报表信息
+     */
     List<BigDecimal> turnover(Map map);
 
+    /**
+     * 利息
+     * @param map echart请求参数
+     * @return 报表信息
+     */
     List<BigDecimal> interest(Map map);
 
-
+    /**
+     * 利息
+     * @param map echart请求参数
+     * @return 报表信息
+     */
     Map<String,List> fundFlow(Map map);
 
 }

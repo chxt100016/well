@@ -21,6 +21,11 @@ public class WaOrderController {
     @Autowired
     private WaOrderService waOrderServiceImpl;
 
+    /**
+     * 订单分批发货是否存疑
+     * @param orderId orderId
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("isZordersQuestion")
     @ResponseBody
     public R isZordersQuestion(@RequestParam("orderId")long orderId){
@@ -28,6 +33,11 @@ public class WaOrderController {
         return R.ok().put("flag",flag);
     }
 
+    /**
+     * 订单详情
+     * @param orderId orderId
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping(value = "orderinfo",method = RequestMethod.GET)
     @ResponseBody
     public R orderinfo(@RequestParam(value = "orderId")long orderId){

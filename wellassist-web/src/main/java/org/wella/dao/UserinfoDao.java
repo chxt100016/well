@@ -8,9 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Administrator on 2017/5/10.
+ * Created by ailing on 2017/5/10.
  */
 public interface UserinfoDao {
+
     /**
      * 买家生成订单过程中需要的公司信息
      * @param userId
@@ -24,6 +25,11 @@ public interface UserinfoDao {
 
     Map<String,Object> findUserInfoById(@Param("userId")long id);
 
+    /**
+     * update
+     * @param map update param
+     * @return react lines count
+     */
     int updateUserinfoByUserId(Map map);
 
     int deleteByUserId(@Param("userId")long userId);

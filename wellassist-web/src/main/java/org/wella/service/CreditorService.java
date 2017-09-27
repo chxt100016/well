@@ -116,10 +116,18 @@ public interface CreditorService {
     List<Map<String,Object>> repayOffList(Query query);
 
 
-
+    /**
+     * 贷款总额
+     * @param map echart查询参数
+     * @return 贷款总额
+     */
     List<BigDecimal> lendingAmount(Map<String,Object> map);
 
-
+    /**
+     * 利息总额
+     * @param map echart查询参数
+     * @return 利息总额
+     */
     List<BigDecimal> interest(Map<String,Object> map);
 
 

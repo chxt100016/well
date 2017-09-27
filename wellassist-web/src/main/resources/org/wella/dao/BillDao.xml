@@ -109,6 +109,9 @@
             <if test="orderType != null">
                 AND order_type=#{orderType}
             </if>
+            <if test="inBillState != null">
+                and bill_state in ${inBillState}
+            </if>
         </where>
         <if test="orderBy != null">
             order by ${orderBy}
@@ -133,6 +136,9 @@
             </if>
             <if test="orderType != null">
                 AND order_type=#{orderType}
+            </if>
+            <if test="inBillState != null">
+                and bill_state in ${inBillState}
             </if>
         </where>
     </select>

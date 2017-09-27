@@ -1,22 +1,17 @@
 package org.wella.controller;
 
 import io.wellassist.utils.HttpContextUtils;
-import io.wellassist.utils.PageUtils;
-import io.wellassist.utils.Query;
 import io.wellassist.utils.R;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.wella.dao.BankcardDao;
 import org.wella.entity.*;
-import org.wella.service.MessageService;
 import org.wella.service.UserinfoService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +30,12 @@ public class UserinfoController {
     @Autowired
     private BankcardDao bankcardDao;
 
+    /**
+     * 更新公司基本信息
+     * @param params 表单提交参数
+     * @param request request
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping(value = "updateCompanyInfo")
     @ResponseBody
     public R updateCompanyInfo(@RequestParam Map params, HttpServletRequest request){
@@ -50,6 +51,12 @@ public class UserinfoController {
         return R.ok();
     }
 
+    /**
+     * 校验登录密码
+     * @param oldPass 旧密码
+     * @param request request
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("checkOrgPass")
     @ResponseBody
     public R checkOrgPass(@RequestParam("oldPass") String oldPass,HttpServletRequest request){
@@ -65,6 +72,12 @@ public class UserinfoController {
         return R.ok().put("flag",flag);
     }
 
+    /**
+     * 校验支付密码
+     * @param oldPass 旧密码
+     * @param request request
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("checkPayOrgPass")
     @ResponseBody
     public R checkPayOrgPass(@RequestParam("oldPass") String oldPass,HttpServletRequest request){
@@ -80,6 +93,12 @@ public class UserinfoController {
         return R.ok().put("flag",flag);
     }
 
+    /**
+     * 更新支付密码
+     * @param payNewpass 新密码
+     * @param request request
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("updatePayNewPass")
     @ResponseBody
     public R updatePayNewPass(@RequestParam("payNewpass")String payNewpass,HttpServletRequest request){
@@ -94,6 +113,12 @@ public class UserinfoController {
         return R.ok();
     }
 
+    /**
+     * 更新登录密码
+     * @param loginNewPass 新密码
+     * @param request request
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("updateLoginNewPass")
     @ResponseBody
     public R updateLoginNewPass(@RequestParam("loginNewpass")String loginNewPass,HttpServletRequest request){
@@ -110,8 +135,8 @@ public class UserinfoController {
 
     /**
      * 添加银行卡的异步请求
-     *
-     * @return
+     * @param map 银行卡信息
+     * @return code:0成功/500异常 msg:异常信息
      */
     @RequestMapping("addBankcard")
     @ResponseBody
@@ -131,13 +156,12 @@ public class UserinfoController {
 
 
     /**
-     * 添加银行卡的异步请求
-     *
-     * @return
+     * 用户银行卡
+     * @return wa_bankcard 列表
      */
     @RequestMapping("getCards")
     @ResponseBody
-    public R getCards(@RequestParam Map<String, Object> map) {
+    public R getCards() {
         User user = (User) HttpContextUtils.getAttribute("user");
         long userId = user.getUserId();
         try {
@@ -150,9 +174,9 @@ public class UserinfoController {
     }
 
     /**
-     * 添加银行卡的异步请求
-     *
-     * @return
+     * 删除银行卡
+     * @param map 银行卡id
+     * @return code:0成功/500异常 msg:异常信息
      */
     @RequestMapping("delBankcard")
     @ResponseBody
@@ -171,9 +195,8 @@ public class UserinfoController {
 
     /**
      * 添加地址
-     *
-     * @param map
-     * @return
+     * @param map 地址信息
+     * @return code:0成功/500异常 msg:异常信息
      */
     @ResponseBody
     @RequestMapping("operationAddress")
@@ -190,9 +213,7 @@ public class UserinfoController {
 
 
     /**
-     *
      * 查找地址
-     *
      * @return
      */
     @ResponseBody
@@ -201,13 +222,10 @@ public class UserinfoController {
         User user=(User) HttpContextUtils.getAttribute("user");
         long userId=user.getUserId();
         List<Map<String,Object>> list=userinfoServiceImpl.selectAddress(userId);
-
         return null;
     }
 
-
     /**
-     *
      * 修改默认
      * @return
      */
@@ -224,9 +242,7 @@ public class UserinfoController {
 
 
     /**
-     *
      * 物流方和买方操作司机   修改或者增加
-     *
      * @param map
      * @return
      */
@@ -264,7 +280,6 @@ public class UserinfoController {
     }
 
 
-
     @ResponseBody
     @RequestMapping("selectProduct")
     public R selectProduct(Long prodId){
@@ -276,7 +291,6 @@ public class UserinfoController {
     public String prodDetail(){
         return "views/front/seller/order/prodDetail_new.jsp";
     }
-
 
 
 }

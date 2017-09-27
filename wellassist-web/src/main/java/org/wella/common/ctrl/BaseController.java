@@ -321,6 +321,11 @@ public class BaseController {
         session.removeAttribute("MY_INFO");
     }
 
+    /**
+     * 通过父区域id查询子区域list
+     * @param regionId 父区域id
+     * @return 子区域list
+     */
     public ArrayList<Map<String, Object>> getChildRegionList(int regionId) {
         ArrayList ret = null;
         HashMap param = new HashMap();

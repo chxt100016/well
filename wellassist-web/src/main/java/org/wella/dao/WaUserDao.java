@@ -50,7 +50,7 @@ public interface WaUserDao {
 
     /**
      * 重置密码
-     * @param map
+     * @param map 加密后的新密码
      */
     void resetPassword(Map map);
 

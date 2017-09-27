@@ -289,4 +289,29 @@ public class SenderServiceImpl implements SenderService {
         res +=logisticsInfoDao.updateByConditions(update);
         return res;
     }
+
+    @Override
+    public List handledBillsList(Query query) {
+        query.put("inBillState","(-1,1,2)");
+        List<Map<String,Object>> list=billDao.listBilllistviewByConditions(query);
+        for(Map<String,Object> bill:list){
+            String logisticsInfoIds=bill.get("logistics_info_ids").toString();
+            StringBuilder inLogisticsInfoIds=new StringBuilder();
+            inLogisticsInfoIds.append("(").append(logisticsInfoIds.trim()).append(")");
+            String orderIds=logisticsInfoDao.concatOrderIds(inLogisticsInfoIds.toString());
+            StringBuilder inOrderIds=new StringBuilder();
+            inOrderIds.append("(").append(orderIds.trim()).append(")");
+            String order_nos=orderDao.concatOrderNos(inOrderIds.toString());
+            bill.put("order_nos",order_nos);
+        }
+        ConvertUtil.convertDataBaseMapToJavaMap(list);
+        return list;
+    }
+
+    @Override
+    public int handledBillsListCount(Query query) {
+        query.put("inBillState","(-1,1,2)");
+        int res=billDao.listBilllistviewByConditionsCount(query);
+        return res;
+    }
 }

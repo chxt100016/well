@@ -27,21 +27,11 @@ public class PlateformController {
     @Autowired
     private PlatformServiceImpl platformService;
 
-
-
-
     /**
-     * 模糊查询所买方
-     * @param request
-     * @param response
+     * 新增用户
+     * @param map 用户信息
+     * @return code:0成功/500异常 msg:异常信息
      */
-    @RequestMapping("customerList")
-    public void customerList(HttpServletRequest request, HttpServletResponse response){
-
-    }
-
-
-
     @ResponseBody
     @RequestMapping("insertCustomer")
     public R insertCustomer(@RequestBody  Map<String,Object> map){
@@ -55,8 +45,8 @@ public class PlateformController {
 
     /**
      * 交易量
-     * @param map
-     * @return
+     * @param map echart请求参数
+     * @return code:0成功/500异常 msg:异常信息
      */
     @ResponseBody
     @RequestMapping("tradingVolume")
@@ -72,8 +62,8 @@ public class PlateformController {
 
     /**
      * 贷款
-     * @param map
-     * @return
+     * @param map echart请求参数
+     * @return code:0成功/500异常 msg:异常信息
      */
     @ResponseBody
     @RequestMapping("loanAmount")
@@ -86,7 +76,12 @@ public class PlateformController {
         return R.ok().put("data",list);
     }
 
-
+    /**
+     * 成交额
+     * @param map echart请求参数
+     * @param request request
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @ResponseBody
     @RequestMapping("turnover")
     public R turnover(@RequestBody Map<String,Object> map,HttpServletRequest request){
@@ -99,7 +94,12 @@ public class PlateformController {
     }
 
 
-
+    /**
+     * 利息
+     * @param map echart请求参数
+     * @param request request
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @ResponseBody
     @RequestMapping("interest")
     public R interest(@RequestBody Map<String,Object> map,HttpServletRequest request){
@@ -111,7 +111,12 @@ public class PlateformController {
         return R.ok().put("data",list);
     }
 
-
+    /**
+     * 利息
+     * @param map echart请求参数
+     * @param request request
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @ResponseBody
     @RequestMapping("fundFlow")
     public R fundFlow(@RequestBody Map<String,Object> map,HttpServletRequest request){

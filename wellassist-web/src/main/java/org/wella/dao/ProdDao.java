@@ -48,6 +48,11 @@ public interface ProdDao {
 
     Map<String,Object> selectSalenum(Long orderId);
 
+    /**
+     * list query
+     * @param map query param
+     * @return wa_prod pojo
+     */
     List getWaProdList(Map map);
 
     int getWaProdListCount(Map map);

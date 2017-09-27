@@ -1,7 +1,5 @@
 package org.wella.service;
 
-import io.wellassist.utils.Query;
-import org.wella.entity.CreditorAuthenticInfo;
 import org.wella.entity.Prod;
 
 import java.util.List;

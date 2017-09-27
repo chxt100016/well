@@ -78,10 +78,11 @@ public class SellerServiceImpl implements SellerService {
 
     /**
      * 买家确认时的业务逻辑
-     *
      * @param orderId 订单id
-     *                业务逻辑处理：
-     *                1.先根据订单id从表wa_order中获取该条记录并判断该其配送方式
+     * 业务逻辑处理：
+     * 1.先根据订单id从表wa_order中获取该条记录并判断该其配送方式
+     * 2.更新order表中的确认价格，确认数量，单价修改时间，状态
+     * 3.判断配送方式，如果为配送则生成物流订单供物流抢单使用
      */
     @Transactional
     public void processOrder(long orderId, Map map) {
@@ -270,7 +271,7 @@ public class SellerServiceImpl implements SellerService {
 
     /**
      * 生成对订单操作的日志文件
-     * @param
+     * @param orderId orderId
      * @param map 其中confirmPrice是指修改后的文件
      */
     @Override
@@ -504,6 +505,28 @@ public class SellerServiceImpl implements SellerService {
         update.put("inOrderIds",sb.toString());
         update.put("kpState",2);
         res +=orderDao.updateOrderByID(update);
+        return res;
+    }
+
+    @Override
+    public List handledBillsList(Query query) {
+        query.put("inBillState","(-1,1,2)");
+        List<Map<String,Object>> list=billDao.listBilllistviewByConditions(query);
+        for(Map<String,Object> bill:list){
+            String orderIds=bill.get("order_ids").toString();
+            StringBuilder inOrderIds=new StringBuilder();
+            inOrderIds.append("(").append(orderIds.trim()).append(")");
+            String order_nos=orderDao.concatOrderNos(inOrderIds.toString());
+            bill.put("order_nos",order_nos);
+        }
+        ConvertUtil.convertDataBaseMapToJavaMap(list);
+        return list;
+    }
+
+    @Override
+    public int handledBillsListCount(Query query) {
+        query.put("inBillState","(-1,1,2)");
+        int res=billDao.listBilllistviewByConditionsCount(query);
         return res;
     }
 }

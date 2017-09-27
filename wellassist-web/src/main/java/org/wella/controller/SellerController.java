@@ -38,9 +38,6 @@ import java.util.*;
 public class SellerController extends BaseController {
 
     @Autowired
-    private BillService billServiceImpl;
-
-    @Autowired
     private BankcardDao bankcardDao;
 
     @Autowired
@@ -84,7 +81,12 @@ public class SellerController extends BaseController {
     @Autowired
     private OrderDao orderDao;
 
-
+    /**
+     * 卖家确认订单
+     * @param request request
+     * @param response response
+     * @param model model
+     */
     @RequestMapping("processOrder")
     public void processOrder(HttpServletRequest request, HttpServletResponse response, Model model){
         String ret = "-1";
@@ -113,6 +115,12 @@ public class SellerController extends BaseController {
         this.echoJSON(response, obj);
     }
 
+    /**
+     * 订单列表
+     * @param request request
+     * @param model model
+     * @return view
+     */
     @RequestMapping("order")
     public String order(HttpServletRequest request,Model model){
         Map param = this.getConditionParam(request);
@@ -163,6 +171,12 @@ public class SellerController extends BaseController {
         }
     }*/
 
+    /**
+     * 跳转卖家确认订单页面
+     * @param model model
+     * @param orderId orderId
+     * @return view
+     */
     @RequestMapping("confirmOrder")
     public String confirmOrder(Model model,@RequestParam("orderId")String orderId){
         Map<String,Object> modelMap=sellerServiceImpl.getInfoForConfirmOrderPage(Long.valueOf(orderId));
@@ -173,6 +187,12 @@ public class SellerController extends BaseController {
         return "views/front/seller/order/confirmOrder.jsp";
     }
 
+    /**
+     * 跳转卖家编辑订单页面
+     * @param model model
+     * @param orderId orderId
+     * @return view
+     */
     @RequestMapping("editOrder")
     public String editOrder(Model model,@RequestParam("orderId")String orderId){
         Map<String,Object> modelMap=sellerServiceImpl.getOrderDetail(Long.valueOf(orderId));
@@ -180,6 +200,12 @@ public class SellerController extends BaseController {
         return "views/front/seller/order/editOrder.jsp";
     }
 
+    /**
+     * 编辑订单处理
+     * @param request request
+     * @param response response
+     * @param model model
+     */
     @RequestMapping("editOrderSubmit")
     public void editOrderSubmit(HttpServletRequest request, HttpServletResponse response, Model model){
         String ret = "-1";
@@ -209,6 +235,12 @@ public class SellerController extends BaseController {
         this.echoJSON(response, obj);
     }
 
+    /**
+     * 跳转发货页面
+     * @param orderId orderId
+     * @param model model
+     * @return view
+     */
     @RequestMapping("sendProd")
     public String sendProdPage(@RequestParam("orderId")String orderId, Model model){
         Map<String,Object> info=sellerServiceImpl.getSendProdPageInfo(Long.parseLong(orderId));
@@ -218,6 +250,11 @@ public class SellerController extends BaseController {
         return "views/front/seller/order/sendProd_new.jsp";
     }
 
+    /**
+     * 发货页面选择取货车辆
+     * @param orderId orderId
+     * @return 取货车辆list
+     */
     @RequestMapping("getOrderVehicles")
     @ResponseBody
     public Object getOrderVehicles(@RequestParam("orderId")String orderId){
@@ -226,6 +263,12 @@ public class SellerController extends BaseController {
         return jsonString;
     }
 
+    /**
+     * 发货提交处理
+     * @param params 发货页面提交参数
+     * @param request request
+     * @param response response
+     */
     @RequestMapping("sendProdSubmit")
     public void sendProdSubmit(@RequestParam Map params, HttpServletRequest request,HttpServletResponse response){
         String ret = "-1";
@@ -246,6 +289,11 @@ public class SellerController extends BaseController {
         this.echoJSON(response, obj);
     }
 
+    /**
+     * 处理卖家结束发货
+     * @param response response
+     * @param orderId orderId
+     */
     @RequestMapping("sendProdOver")
     public void sendProdOver(HttpServletResponse response,@RequestParam("orderId")String orderId){
         String ret = "-1";
@@ -266,8 +314,8 @@ public class SellerController extends BaseController {
 
     /**
      * 跳转订单详情页面
-     * @param model
-     * @return
+     * @param model model
+     * @return view
      */
     @RequestMapping("orderDetail")
     public String orderDetail(@RequestParam("orderId")String orderId, Model model){
@@ -280,8 +328,8 @@ public class SellerController extends BaseController {
 
     /**
      * 跳转物流详情页面
-     * @param model
-     * @return
+     * @param model model
+     * @return view
      */
     @RequestMapping("logisticsDetail")
     public String logisticsDetail(@RequestParam("orderId")String orderId, Model model){
@@ -294,8 +342,8 @@ public class SellerController extends BaseController {
 
     /**
      * 产品发布页面
-     * @param model
-     * @return
+     * @param model model
+     * @return view
      */
     @RequestMapping("publishPage")
     public String publishPage(Model model){
@@ -307,11 +355,11 @@ public class SellerController extends BaseController {
         return "views/front/seller/order/prodPub.jsp";
     }
 
-    @RequestMapping("orderList")
+    /*@RequestMapping("orderList")
     public void orderList(HttpServletRequest request, HttpServletResponse response){
         int ret = -1;
         JSONObject obj = new JSONObject();
-        User user= (User) request.getSession().getAttribute("use r");
+        User user= (User) request.getSession().getAttribute("user");
         Long userId=user.getUserId();
         Map param=getConditionParam(request);
         param.put("supplierId",userId);
@@ -321,9 +369,13 @@ public class SellerController extends BaseController {
         obj.put("code",1);
         obj.put("page",page);
         this.echo(response,obj);
-    }
+    }*/
 
-
+    /**
+     * 发布产品
+     * @param params 产品详细
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("publish")
     @ResponseBody
     public R publish(@RequestParam Map<String,Object> params){
@@ -336,6 +388,12 @@ public class SellerController extends BaseController {
         return new R().ok();
     }
 
+    /**
+     * 产品列表
+     * @param request request
+     * @param model model
+     * @return view
+     */
     @RequestMapping("productList")
     public String productList(HttpServletRequest request,Model model) {
         Map map = this.getConditionParam(request);
@@ -357,9 +415,9 @@ public class SellerController extends BaseController {
 
     /**
      * 编辑产品时的初始化信息的封装
-     * @param params
-     * @param model
-     * @return
+     * @param params prod主键
+     * @param model model
+     * @return view
      */
     @RequestMapping("productEditPage")
     public String productEditPage(@RequestParam Map params,Model model){
@@ -386,6 +444,11 @@ public class SellerController extends BaseController {
         return "views/front/seller/order/prodEdit_new.jsp";
     }
 
+    /**
+     * 编辑产品
+     * @param params 编辑产品表单提交参数表
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("updateproduct")
     @ResponseBody
     public R update(@RequestParam Map<String,Object> params){
@@ -395,8 +458,8 @@ public class SellerController extends BaseController {
 
     /**
      * 进入个人中心，查看企业信息
-     * @param model
-     * @return
+     * @param model model
+     * @return view
      */
     @RequestMapping("companyInfo")
     public String companyInfo(Model model){
@@ -422,8 +485,8 @@ public class SellerController extends BaseController {
 
     /**
      * 进入联系方式的修改页面
-     * @param model
-     * @return
+     * @param model model
+     * @return view
      */
     @RequestMapping("contact")
     public String contact(Model model){
@@ -437,6 +500,11 @@ public class SellerController extends BaseController {
         return "views/front/seller/company/contactMode.jsp";
     }
 
+    /**
+     * 处理更新客户联系人信息
+     * @param params 联系人信息
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("updateContact")
     @ResponseBody
     public R updateContext(@RequestParam Map<String,Object> params){
@@ -454,31 +522,38 @@ public class SellerController extends BaseController {
 
     /**
      * 进入消息中心，并初始化相关内容
-     * @param model
-     * @return
+     * @param model model
+     * @return view
      */
     @RequestMapping("message")
     public String message(Model model){
         HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
         User user = (User) httpSession.getAttribute("user");
-
-
         model.addAttribute("parentMenuNo", "3");
         model.addAttribute("childMenuNo", "1");
         model.addAttribute("userName", user.getUserName());
         return "views/front/seller/news/message.jsp";
     }
+
+    /**
+     * 跳转财务中心
+     * @param model model
+     * @return view
+     */
     @RequestMapping("finance")
     public String finance(Model model){
         HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
         User user = (User) httpSession.getAttribute("user");
         model.addAttribute("parentMenuNo", "2");
         model.addAttribute("childMenuNo", "1");
-
         return "views/front/seller/finance/accountInfo.jsp";
     }
 
-
+    /**
+     * 跳转修密码页面
+     * @param model model
+     * @return view
+     */
     @RequestMapping("password")
     public String changePassword(Model model) {
         HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
@@ -489,8 +564,10 @@ public class SellerController extends BaseController {
         return "views/front/seller/company/changePass.jsp";
     }
 
-    /**修改支付密码
-     * @param map
+    /**
+     * 修改支付密码
+     * @param map 修改支付密码
+     * @return code:0成功/500异常 msg:异常信息
      */
     @RequestMapping("changePayPassword")
     @ResponseBody
@@ -513,9 +590,10 @@ public class SellerController extends BaseController {
         }
     }
 
-    /**检验支付密码
+    /**
      *修改支付密码前要输入原有的支付密码，原有的支付密码从session中获取
-     * @param map
+     * @param map 检验支付密码
+     * @return code:0成功/500异常 msg:异常信息
      */
     @RequestMapping("checkPayPassword")
     @ResponseBody
@@ -532,9 +610,10 @@ public class SellerController extends BaseController {
         }
     }
 
-    /**修改登录密码
+    /**
      *1.修改session中的操作密码，2.修改数据库中session密码
-     * @param map
+     * @param map 修改登录密码
+     * @return code:0成功/500异常 msg:异常信息
      */
     @RequestMapping("changeLoginPassword")
     @ResponseBody
@@ -558,9 +637,10 @@ public class SellerController extends BaseController {
         }
     }
 
-    /**检验登录密码
+    /**
      *修改登录密码前要输入原有的登录密码，原有的登录密码可以从session中获取
-     * @param map
+     * @param map 检验登录密码
+     * @return code:0成功/500异常 msg:异常信息
      */
     @RequestMapping("checkLoginPassword")
     @ResponseBody
@@ -578,7 +658,12 @@ public class SellerController extends BaseController {
     }
 
 
-
+    /**
+     * 跳转账户信息页面
+     * @param request request
+     * @param model model
+     * @return view
+     */
     @RequestMapping("accountInfo")
     public String accountInfo(HttpServletRequest request, Model model) {
         User user = (User) HttpContextUtils.getAttribute("user");
@@ -598,9 +683,12 @@ public class SellerController extends BaseController {
         return "views/front/seller/finance/accountInfo.jsp";
     }
 
-
-
-
+    /**
+     * 跳转提现列表界面
+     * @param request request
+     * @param model model
+     * @return view
+     */
     @RequestMapping("withdrawRecordList")
     public String withdrawRecordList(HttpServletRequest request, Model model) {
         User user = (User) HttpContextUtils.getAttribute("user");
@@ -621,9 +709,12 @@ public class SellerController extends BaseController {
         return "views/front/seller/finance/txList.jsp";
     }
 
-
-
-
+    /**
+     * 跳转充值记录页面
+     * @param request request
+     * @param model model
+     * @return view
+     */
     @RequestMapping({"rechargeRecord"})
     public String rechargeRecord(HttpServletRequest request, Model model) {
         User user = (User) HttpContextUtils.getAttribute("user");
@@ -643,7 +734,11 @@ public class SellerController extends BaseController {
         return "views/front/seller/finance/czSqList.jsp";
     }
 
-
+    /**
+     * 充值申请
+     * @param params 充值申请表单提交参数
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("rechargeApply")
     @ResponseBody
     public R rechargeApply(@RequestParam Map<String, Object> params) {
@@ -655,8 +750,11 @@ public class SellerController extends BaseController {
         }
     }
 
-
-
+    /**
+     * 校验支付密码
+     * @param oldPass 旧密码
+     * @param response response
+     */
     @RequestMapping("checkCzPassword")
     public void checkWithdrawPassword(@RequestParam("pass") String oldPass, HttpServletResponse response) {
         HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
@@ -672,11 +770,11 @@ public class SellerController extends BaseController {
         this.echo(response, res.toString());
     }
 
-
-
-
-
-
+    /**
+     * 申请提现
+     * @param params 申请提现提交参数
+     * @return code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("withdrawProcess")
     @ResponseBody
     public R withdrawProcess(@RequestParam Map<String, Object> params) {
@@ -692,9 +790,11 @@ public class SellerController extends BaseController {
         }
     }
 
-
-
-
+    /**
+     * 跳转银行卡管理页面
+     * @param model model
+     * @return view
+     */
     @RequestMapping("bankcardPage")
     public String bankcardPage(Model model) {
         HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
@@ -710,8 +810,11 @@ public class SellerController extends BaseController {
         return "views/front/seller/company/bankcard.jsp";
     }
 
-
-
+    /**
+     * 添加银行卡
+     * @param map 添加银行卡表单提交参数
+     * @return  code:0成功/500异常 msg:异常信息
+     */
     @RequestMapping("addBankcard")
     @ResponseBody
     public R addBankcard(@RequestParam Map<String, Object> map) {
@@ -728,8 +831,11 @@ public class SellerController extends BaseController {
         }
     }
 
-
-
+    /**
+     * 删除银行卡
+     * @param map 删除银行卡表单提交参数
+     * @return
+     */
     @RequestMapping("delBankcard")
     @ResponseBody
     public R delBankcard(@RequestParam Map<String, Object> map) {
@@ -744,12 +850,11 @@ public class SellerController extends BaseController {
         }
     }
 
-
     /**
      * 销售量
-     * @param map
-     * @param request
-     * @return
+     * @param map echart查询参数
+     * @param request request
+     * @return code:0成功/500异常 msg:异常信息
      */
     @ResponseBody
     @RequestMapping("saleVolume")
@@ -761,12 +866,11 @@ public class SellerController extends BaseController {
         return R.ok().put("data",list);
     }
 
-
     /**
      * 获得利益
-     * @param map
-     * @param request
-     * @return
+     * @param map echart查询参数
+     * @param request request
+     * @return code:0成功/500异常 msg:异常信息
      */
     @ResponseBody
     @RequestMapping("profit")
@@ -777,7 +881,11 @@ public class SellerController extends BaseController {
         return R.ok().put("data",list);
     }
 
-
+    /**
+     * 跳转报表管理页面
+     * @param model model
+     * @return view
+     */
     @RequestMapping("reportManagement")
     public String reportManagement(Model model){
         model.addAttribute("parentMenuNo","4");
@@ -864,6 +972,24 @@ public class SellerController extends BaseController {
         return R.ok();
     }
 
+    /**
+     * 已处理发票列表数据
+     * @param request request
+     * @param params 分页参数
+     * @return code:0成功/500异常 msg:异常信息
+     */
+    @RequestMapping(value = "handledBillsList",method = RequestMethod.GET)
+    @ResponseBody
+    public R billsList(HttpServletRequest request,@RequestParam Map params){
+        User user=(User) request.getSession().getAttribute("user");
+        long userId=user.getUserId();
+        params.put("supplierId",userId);
+        Query query=new Query(params);
+        List list=sellerServiceImpl.handledBillsList(query);
+        int totalCount=sellerServiceImpl.handledBillsListCount(query);
+        PageUtils pageUtils=new PageUtils(list,totalCount,query.getLimit(),query.getPage());
+        return R.ok().put("page",pageUtils);
+    }
 
 }
 
