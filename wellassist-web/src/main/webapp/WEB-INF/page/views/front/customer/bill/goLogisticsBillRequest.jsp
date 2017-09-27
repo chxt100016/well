@@ -77,37 +77,37 @@
                         <div class="two fields">
                             <div class="field">
                                 <label>收件人</label>
-                                <input type="text" name="receiveName" placeholder="收件人">
+                                <input type="text" name="receiveName" placeholder="收件人" v-model='info.receiveName'>
                             </div>
                             <div class="field">
                                 <label>联系电话</label>
-                                <input type="text" name="receivePhone" placeholder="联系电话">
+                                <input type="text" name="receivePhone" placeholder="联系电话" v-model='info.receivePhone'>
                             </div>
                         </div>
                         <div class="two fields">
                             <div class="field">
                                 <label>开户行</label>
-                                <input type="text" name="" placeholder="开户行">
+                                <input type="text" name="bankName" placeholder="开户行" v-model='info.bankName'>
                             </div>
                             <div class="field">
                                 <label>开户行账号</label>
-                                <input type="text" name="" placeholder="开户行账号">
+                                <input type="text" name="bankAccount" placeholder="开户行账号" v-model='info.bankAccount'>
                             </div>
                         </div>
                         <div class="two fields">
                             <div class="field">
                                 <label>公司抬头</label>
-                                <input type="text" name="receiveCompanyName" placeholder="公司抬头">
+                                <input type="text" name="receiveCompanyName" placeholder="公司抬头" v-model='info.receiveCompanyName'>
                             </div>
                             <div class="field">
                                 <label>地址信息</label>
-                                <input type="text" name="receiveAddress" placeholder="地址信息">
+                                <input type="text" name="receiveAddress" placeholder="地址信息" v-model='info.receiveAddress'>
                             </div>
                         </div>
                         <div class="two fields">
                             <div class="field">
                                 <label>纳税人识别号</label>
-                                <input type="text" name="receiveSh" placeholder="纳税人识别号">
+                                <input type="text" name="receiveSh" placeholder="纳税人识别号" v-model='info.receiveSh'>
                             </div>
 
                         </div>
@@ -118,7 +118,7 @@
                
            
             </div>
-            ${param.ids}  
+            <!-- ${param.ids}   -->
 
         </div>
 
@@ -129,12 +129,14 @@
                 data: {
                     list: '',
                     billMoney: '',
-                    supplierId:''
+                    supplierId:'',
+                    info:''
 
                 },
                 created: function () {
                     let url = '${pageContext.request.contextPath}/customer/billLogisticss';
                     let ids = '${param.ids}';
+                    const url2='${pageContext.request.contextPath}/customer/billAddress';
                     let that = this;
                     $.ajax({
                         type: 'get',
@@ -161,7 +163,29 @@
                         }
 
 
-                    })
+                    });
+                       //基本信息
+                        $.ajax({
+                        type:'get', 
+                        url:url2,
+                        data:'',
+                        dataType:'json',
+                        success:
+                                function(result){
+                                        if(result.code==0){
+                                        ding.info=result.billAddress;
+                                          console.log(ding.info)
+                                        }
+                                        else{
+                                            alert('加载失败，请稍后..')
+                                            history.go(-1);
+                                                    console.log(result.msg)
+                                            }
+                                                }
+
+
+                        })
+
                 },
 
 
