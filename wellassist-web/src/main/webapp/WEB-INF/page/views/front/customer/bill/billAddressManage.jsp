@@ -126,6 +126,7 @@
         },
         beforeCreate:()=>{
             // let that= this ;
+            //基本信息
             $.ajax({
             type:'get', 
             url:url2,

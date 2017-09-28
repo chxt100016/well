@@ -26,6 +26,9 @@ white-space: nowrap;
                                 </tr>
                             </thead>
                             <tbody>
+                                    <tr v-if='list.length==0'>
+                                            <td>暂未数据....</td>
+                                        </tr>
                                 <tr v-for="item in list">
                                     <td>{{item.customerUserName}}</td>
                                     <td>{{item.applyDate}}</td>
