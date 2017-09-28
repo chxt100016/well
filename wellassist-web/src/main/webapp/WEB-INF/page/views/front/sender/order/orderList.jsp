@@ -53,7 +53,7 @@
             <tbody>
 					<c:forEach var="item" items="${info}">
                 <tr class="blue-3">
-                    <td colspan="5"><span>${item.orderDate}</span><span>订单号：${item.orderNo}</span></td>
+                    <td colspan="5"><span><fmt:formatDate value="${item.orderDate}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></span><span>订单号：${item.orderNo}</span></td>
                     <td> <a href="" ><i class="trash icon"></i></a></td>
                 </tr>
                 <tr>

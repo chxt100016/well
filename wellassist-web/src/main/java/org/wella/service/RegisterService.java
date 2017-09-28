@@ -4,14 +4,14 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 
 /**
- * Created by liuwen on 2017/5/15.
+ * Created by ailing on 2017/5/15.
  */
 public interface RegisterService {
 
     /**
      * 用户注册时的相关业务逻辑
-     * @param request
-     * @return
+     * @param request request
+     * @return 相应逻辑码
      */
     HashMap register(HttpServletRequest request);
 
