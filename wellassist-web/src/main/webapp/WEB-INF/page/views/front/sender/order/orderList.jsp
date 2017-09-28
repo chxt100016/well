@@ -71,12 +71,14 @@
                         
                     </td>
                     <td class="right-border tx-ct" >
-                         <span class="ds-bl fl-lt pd-lf-20 ft-wt-bd " style=""> 
+                         <span class="ds-bl fl-lt pd-lf-20 ft-wt-bd " style="">
+                             <c:if test="${item.state==-1}">已取消</c:if>
 								<c:if test="${item.state==0}">无效</c:if>
 								<c:if test="${item.state==2}">待支付</c:if>
 								<c:if test="${item.state==3}">待提货</c:if>
 								<c:if test="${item.state==4}">配送中</c:if>
 								<c:if test="${item.state==5}">已完成</c:if>
+                             <c:if test="${item.state==6}">已结算</c:if>
 						</span>
 						<c:if test="${item.state=='4' || item.state=='5'}">
 							<br>
