@@ -231,7 +231,7 @@
                         let  allFields = $('#sendbill').form('get values');
                         e.preventDefault();
                         console.log(allFields);
-                        let sendurl='${pageContext.request.contextPath}/sender/sendBill';
+                        let sendurl='${pageContext.request.contextPath}/seller/sendBill';
                         $.ajax({
                         type: 'post', 
                         url:sendurl,
@@ -241,7 +241,7 @@
                                 function(result){
                                         if(result.code==0){
                                              alert('提交成功');
-                                             location.href='${pageContext.request.contextPath}/sender/goBillApply'
+                                             location.href='${pageContext.request.contextPath}/seller/goBillApply'
 
                                         }
                                         else{

@@ -66,6 +66,7 @@
                         <td>
                                 <span>操作：
                                         <button class="ui button teal" @click='received()'>收到确认</button>
+                                        <button class="ui button negative" disabled >收到否认</button>
                                 </span>
 
                         </td>
@@ -141,7 +142,7 @@
                                     function(result){
                                             if(result.code==0){
                                                 alert('提交成功')
-                            window.location.href='${pageContext.request.contextPath}/customer/prodList'
+                            window.location.href='${pageContext.request.contextPath}/customer/goOrderBills'
                                             }
                                             else{
                                                         console.log(result.msg)
