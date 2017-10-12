@@ -220,7 +220,7 @@
                     var json = {
                         "zfMethod":payform.form("get value","zfMethod"),
                         "loan": payform.form("get value","loans"),
-                        "balance": $("#balanceNeed").val(),
+                        "balance": $("#balancePay").val(),
                         'secondPayMoney':$('#payMoney').val(),
                         'orderId':${param.orderId},
                         'certificateImg':$("#prohidden").val()
@@ -256,6 +256,7 @@
                             //     }
                             //  })
                        $.post(url2,GetJsonData(),function(result){
+                           console.log(GetJsonData());
                             if(result.code==0){
                                 alert("处理中...");
                                        window.location.href = "${pageContext.request.contextPath}/customer/orderList";
@@ -283,7 +284,7 @@
 
 
     function bond(x) {
-        $('#balanceNeed').val('');
+        // $('#balanceNeed').val('');
         //    let chk= x.checked;
         // $("#bondc").removeAttr("checked");
     let loanLeft=$('#creditBalance').val();

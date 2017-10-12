@@ -109,10 +109,14 @@
                                 <label>纳税人识别号</label>
                                 <input type="text" name="receiveSh" placeholder="纳税人识别号" v-model='info.receiveSh'>
                             </div>
+                         
+                               
+                            
 
                         </div>
                         <div class="ui submit button pink">提交</div>
                         <div class="ui cancel button grey" onclick="history.go(-1)">返回</div>
+                        <a href="${pageContext.request.contextPath}/customer/billAddressManage">去修改</a>
                     </form>
                 </div>
                
