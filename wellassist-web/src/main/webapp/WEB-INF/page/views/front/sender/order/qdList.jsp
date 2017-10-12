@@ -42,16 +42,16 @@
                     <th>买家</th>
                     <th>报价（元）</th>
                     <th>
-							<div class="ui dropdown">
-									<div class="text">状态</div>
-									<i class="dropdown icon"></i>
-									<div class="menu">
-											<div class="item" onclick="$('#grabState').val('');searchData(1);">全部</div>
-											<div class="item" onclick="$('#grabState').val('-1');searchData(1);">取消</div>
-											<div class="item" onclick="$('#grabState').val('0');searchData(1);">未确定</div>
-											<div class="item" onclick="$('#grabState').val('1');searchData(1);">确定</div>
-									</div>
+						<div class="ui dropdown">
+							<div class="text">状态</div>
+							<i class="dropdown icon"></i>
+							<div class="menu">
+								<div class="item" onclick="$('#grabState').val('');searchData(1);">全部</div>
+								<div class="item" onclick="$('#grabState').val('-1');searchData(1);">取消</div>
+								<div class="item" onclick="$('#grabState').val('0');searchData(1);">未确定</div>
+								<div class="item" onclick="$('#grabState').val('1');searchData(1);">确定</div>
 							</div>
+						</div>
 					</th>
                     <th>操作</th>
                 </tr>
@@ -106,17 +106,10 @@
 			</c:forEach>
 			
 			</tbody>
-			<tfoot>
-				<tr>
-					<td></td>
-					<td></td>
-					<td>
-					<div class="right-pagination">
-							<%@ include file="../../pagination.jsp"%>
-						</div>
-					</td>
-			</tfoot>
         </table>
+    <div class="right-pagination">
+		<%@ include file="../../pagination.jsp"%>
+	</div>
 	<c:if test="${list== null || fn:length(list) == 0}">
 		     	<div style = "margin-top:10px; margin-left:20px; float:left;">没有资料</div>	 
     </c:if>	

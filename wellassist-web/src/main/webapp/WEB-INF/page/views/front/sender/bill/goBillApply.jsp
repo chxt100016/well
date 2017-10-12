@@ -26,6 +26,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                        <tr v-if="list.length==0">
+                                                <td>暂无数据...</td>
+                                            </tr>
                                     <tr v-for="item in list">
                                         <td>{{item.customerUserName}}</td>
                                         <td>{{item.applyDate}}</td>
@@ -237,7 +240,7 @@
                  },
                  makebill:function(billid){
                          console.log(billid);
-                         location.href='${pageContext.request.contextPath}/seller/goBillSend?billId='+billid;
+                         location.href='${pageContext.request.contextPath}/sender/goBillSend?billId='+billid;
                  }
     
              }

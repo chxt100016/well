@@ -27,6 +27,9 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                    <tr v-if="list.length==0">
+                                            <td>暂无数据...</td>
+                                        </tr>
                                 <tr v-for='(item,index) in list'>
                                     <td>
                                         <div class="ui fitted checkbox">
@@ -84,6 +87,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                            <tr v-if="list.length==0">
+                                                    <td>暂无数据...</td>
+                                                </tr>
                                         <tr v-for='(item,index) in list'>
                                             <td>
                                                 <div class="ui fitted checkbox">
