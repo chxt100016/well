@@ -22,36 +22,6 @@ public interface SellerService {
      */
     void processOrder(long orderId,Map map);
 
-
-    /**
-     *
-     * @param orderId
-     */
-    void deliverGoods(int orderId);
-
-    /**
-     *
-     */
-    void createProduct();
-
-     /**
-     *
-     * @param productId
-     */
-    void deleteProduct(int productId);
-
-    /**
-     *
-     * @param prod
-     */
-    void updateProduct(Prod prod);
-
-    /**
-     *
-     * @return
-     */
-    List<Prod> findProductList();
-
     /**
      *
      * @param map
@@ -60,26 +30,17 @@ public interface SellerService {
     List<Prod> findProductList(Map map);
 
     /**
-     *
-     * @return
+     * 获取卖家订单列表
+     * @param param 分页参数
+     * @return 卖家订单列表list
      */
-    List<Order> findOrderList();
-
-    /**
-     *
-     * @param map
-     * @return
-     */
-    List<Order> findOrderList(Map map);
-
-    /**
-     *
-     * @param orderId
-     */
-    void evaluate(int orderId);
-
     List<Map<String,Object>> getOrderList(Map param);
 
+    /**
+     * 获取卖家订单列表总数
+     * @param param 分页参数
+     * @return 买家订单列表总记录数
+     */
     int getOrderListCount(Map param);
 
     /**
@@ -96,6 +57,12 @@ public interface SellerService {
      */
     Map<String,Object> getOrderDetail(Long orderId);
 
+    /**
+     * 生成对订单操作的日志文件
+     * @param orderId orderId
+     * @param map 其中confirmPrice是指修改后的文件
+     * @return wa_order_log主键
+     */
     Long createOrderLog(Long orderId, Map map);
 
     /**
@@ -107,9 +74,9 @@ public interface SellerService {
     Map<String,Object> getOrderLogisticsInfo(long orderId);
 
     /**
-     *
-     * @param orderId
-     * @return
+     * 发货页面信息
+     * @param orderId orderId
+     * @return 发货页面信息
      */
     Map<String,Object> getSendProdPageInfo(long orderId);
 

@@ -4,6 +4,44 @@
 
 <mapper namespace="org.wella.dao.LoanDao">
 
+    <resultMap id="BaseResultMap" type="org.wella.entity.Loan" >
+        <id column="loan_id" property="loanId" jdbcType="BIGINT" />
+        <result column="money_id" property="moneyId" jdbcType="BIGINT" />
+        <result column="credit_id" property="creditId" jdbcType="BIGINT" />
+        <result column="user_id" property="userId" jdbcType="BIGINT" />
+        <result column="credit_user_id" property="creditUserId" jdbcType="BIGINT" />
+        <result column="loan_money" property="loanMoney" jdbcType="DECIMAL" />
+        <result column="loan_interest_money" property="loanInterestMoney" jdbcType="DECIMAL" />
+        <result column="apply_date" property="applyDate" jdbcType="TIMESTAMP" />
+        <result column="loan_date" property="loanDate" jdbcType="TIMESTAMP" />
+        <result column="interest_free_date" property="interestFreeDate" jdbcType="TIMESTAMP" />
+        <result column="payment_date" property="paymentDate" jdbcType="TIMESTAMP" />
+        <result column="lixi_rate" property="lixiRate" jdbcType="DECIMAL" />
+        <result column="lixi_rate_fkf" property="lixiRateFkf" jdbcType="DECIMAL" />
+        <result column="repay_money" property="repayMoney" jdbcType="DECIMAL" />
+        <result column="remain_repay_money" property="remainRepayMoney" jdbcType="DECIMAL" />
+        <result column="lixi_money" property="lixiMoney" jdbcType="DECIMAL" />
+        <result column="lixi_money_fkf" property="lixiMoneyFkf" jdbcType="DECIMAL" />
+        <result column="repay_lixi" property="repayLixi" jdbcType="DECIMAL" />
+        <result column="remain_lixi_money" property="remainLixiMoney" jdbcType="DECIMAL" />
+        <result column="loan_state" property="loanState" jdbcType="TINYINT" />
+        <result column="content" property="content" jdbcType="VARCHAR" />
+        <result column="loan_ip" property="loanIp" jdbcType="VARCHAR" />
+        <result column="loan_type" property="loanType" jdbcType="TINYINT" />
+    </resultMap>
+    
+    <insert id="create" parameterType="org.wella.entity.Loan" useGeneratedKeys="true" keyProperty="loanId">
+        insert into wa_loan ( money_id,
+      user_id, loan_money,
+      apply_date, lixi_rate,
+       loan_state,
+      loan_ip, loan_type)
+    values ( #{moneyId,jdbcType=BIGINT},
+      #{userId,jdbcType=BIGINT}, #{loanMoney,jdbcType=DECIMAL},
+      #{applyDate,jdbcType=TIMESTAMP}, #{lixiRate,jdbcType=DECIMAL},
+       #{loanState,jdbcType=TINYINT},
+      #{loanIp,jdbcType=VARCHAR}, #{loanType,jdbcType=TINYINT})
+    </insert>
 
     <select id="listLoanOrderViewByConditions" parameterType="map" resultType="map">
         SELECT *

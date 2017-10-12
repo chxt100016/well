@@ -17,6 +17,7 @@ import org.wella.common.utils.ConvertUtil;
 import org.wella.common.vo.MyInfo;
 import org.wella.dao.*;
 import org.wella.entity.*;
+import org.wella.service.AdminSubAccountService;
 import org.wella.service.FinanceService;
 import org.wella.service.WaOrderService;
 import org.wella.service.impl.CustomerServiceImpl;
@@ -76,6 +77,15 @@ public class CustomerController extends BaseController {
 
    @Autowired
    private UserMoneyDao userMoneyDao;
+
+   @Autowired
+   private OrderTransDao orderTransDao;
+
+   @Autowired
+   private AdminSubAccountService adminSubAccountServiceImpl;
+
+   @Autowired
+   private LoanDao loanDao;
 
    /**
     * 买家下订单
@@ -426,50 +436,50 @@ public class CustomerController extends BaseController {
          Map orderObj = this.getMyOneSingBO("wa_order", "order_id", Long.parseLong(orderId));
          if (orderObj != null && orderObj.get("userId") != null && (long) orderObj.get("userId") == (user.getUserId()) && orderObj.get("orderState") != null && ((int) orderObj.get("orderState") == 1 || (int) orderObj.get("orderState") == 11) || (int) orderObj.get("orderState") == 13) {
             final String finalCertificateImg = certificateImg;
-            new Thread(new Runnable() {
-               @Override
-               public void run() {
-                  int zfMethodi=Integer.parseInt(zfMethod);
-                  if (zfMethodi==2||zfMethodi==4) {
-                     BigDecimal Bbalance = new BigDecimal(balance);
-                     if (zfMethodi == 2) {
-                        Bbalance = new BigDecimal(grabMoney);
-                     }
-                     Map<String,Object> query=new HashMap<>();
-                     query.put("userId",user.getUserId());
-                     UserSubAccount userSubAccount=userSubAccountDao.singleQuery(query);
-                     Map<String,String> paramss=new HashMap<>();
-                     paramss.put("payAccNo",userSubAccount.getSubAccNo().toString());
-                     paramss.put("tranAmt",Bbalance.toString());
-                     String result= null;
+            int zfMethodi = Integer.parseInt(zfMethod);
+            if (zfMethodi == 2 || zfMethodi == 4) {
+               BigDecimal Bbalance = new BigDecimal(balance);
+               if (zfMethodi == 2) {
+                  Bbalance = new BigDecimal(grabMoney);
+               }
+               final BigDecimal finalBbalance = Bbalance;
+               new Thread(new Runnable() {
+                  @Override
+                  public void run() {
+                     Map<String, Object> query = new HashMap<>();
+                     query.put("userId", user.getUserId());
+                     UserSubAccount userSubAccount = userSubAccountDao.singleQuery(query);
+                     Map<String, String> paramss = new HashMap<>();
+                     paramss.put("payAccNo", userSubAccount.getSubAccNo().toString());
+                     paramss.put("tranAmt", finalBbalance.toString());
+                     String result = null;
                      try {
-                        result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer2TransferAccNo",paramss);
+                        result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL + "forceTransfer2TransferAccNo", paramss);
                      } catch (Exception e) {
                         e.printStackTrace();
                      }
-                     R r= JSON.parseObject(result,R.class);
-                     ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
-                     CncbTrans cncbTrans=new CncbTrans();
+                     R r = JSON.parseObject(result, R.class);
+                     ForceTransferBasicInfo forceTransferBasicInfo = JSON.parseObject(r.get("forceTransferBasicInfo").toString(), ForceTransferBasicInfo.class);
+                     CncbTrans cncbTrans = new CncbTrans();
                      cncbTrans.setXml(forceTransferBasicInfo.getXml());
                      cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
                      cncbTrans.setTime(new Date());
-                     cncbTrans.setType((byte)3);
-                     JSONObject operationParamsObj=new JSONObject();
-                     operationParamsObj.put("sql"," CALL logisticsPayProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + logisticsInfoId + "\',\'" + grabMoney + "\',\'" + zfMethod + "\',\'" + balance + "\',\'" + loan + "\',\'" + rate + "\',\'" + finalCertificateImg + "\',\'" + ip + "\')");
-                     operationParamsObj.put("orderId",orderId);
+                     cncbTrans.setType((byte) 3);
+                     JSONObject operationParamsObj = new JSONObject();
+                     operationParamsObj.put("sql", " CALL logisticsPayProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + logisticsInfoId + "\',\'" + grabMoney + "\',\'" + zfMethod + "\',\'" + balance + "\',\'" + loan + "\',\'" + rate + "\',\'" + finalCertificateImg + "\',\'" + ip + "\')");
+                     operationParamsObj.put("orderId", orderId);
                      cncbTrans.setOperationParams(operationParamsObj.toJSONString());
                      cncbTransDao.create(cncbTrans);
-               }
-            }}).start();
-
-               Map<String,Object> query1=new HashMap();
-               query1.put("orderId",Long.parseLong(orderId));
-               query1.put("logisticsPayState",3);
+                  }
+               }).start();
+               Map<String, Object> query1 = new HashMap();
+               query1.put("orderId", Long.parseLong(orderId));
+               query1.put("logisticsPayState", 3);
                orderDao.updateOrderByID(query1);
                obj.put("status", "1");
-               obj.put("content","处理中...");
+               obj.put("content", "处理中...");
                return obj;
-            }else{
+            } else {
                String sql = "";
                sql = " CALL logisticsPayProcess(\'" + user.getUserId() + "\',\'" + orderId + "\',\'" + logisticsInfoId + "\',\'" + grabMoney + "\',\'" + zfMethod + "\',\'" + balance + "\',\'" + loan + "\',\'" + rate + "\',\'" + certificateImg + "\',\'" + ip + "\')";
                HashMap queryParam = new HashMap();
@@ -482,7 +492,7 @@ public class CustomerController extends BaseController {
                   return obj;
                }
             }
-
+         }
       }
       obj.put("content", ConstantUtil.MSG_FAILS);
       obj.put("status", "-1");
@@ -1252,48 +1262,142 @@ public class CustomerController extends BaseController {
                      ) throws Exception {
       BigDecimal zero=new BigDecimal(0);
       User user=(User)request.getSession().getAttribute("user");
+      long userId=user.getUserId();
+      BigDecimal lixiRate=user.getLixiRate();
+      String ip=getIpAddr(request);
+      //从数据库得到最新的余额和授信余额
+      Map<String,Object> databaseUser=userDao.singleUserByPrimaryKey(userId);
+      BigDecimal oldUserMoney=(BigDecimal)databaseUser.get("user_money");
+      BigDecimal oldUserLockMoney=(BigDecimal)databaseUser.get("user_lock_money");
+      BigDecimal oldUserCreditMoney=(BigDecimal)databaseUser.get("user_credit_money");
+      BigDecimal oldUserLockCreditMoney=(BigDecimal)databaseUser.get("user_lock_credit_money");
+
       UserSubAccount userSubAccount=financeServiceImpl.getUserSubAccountByUserId(user.getUserId());
       final String subAccNo=userSubAccount.getSubAccNo();
       final String subAccNm=userSubAccount.getSubAccNm();
       Map<String,Object> param=new HashMap<>();
+      final AdminSubAccount orderTransfer=adminSubAccountServiceImpl.findOrderTransferAccount();
+      final AdminSubAccount loanTransfer=adminSubAccountServiceImpl.findLoanTransferAccount();
 
+      //得到order_trans记录
+      param.put("orderId",orderId);
+      param.put("transState",1);
+      Map<String,Object> orderTrans=orderTransDao.singlePoByConditions(param);
+      long orderTransId=(long)orderTrans.get("order_trans_id");
+      long moneyId=(long)orderTrans.get("money_id");
+      BigDecimal zfMoney=(BigDecimal)orderTrans.get("zf_money");
+      BigDecimal zfSjMoney=zfMoney.add(secondPayMoney);
       //多退
       if (secondPayMoney.compareTo(zero)<0){
-         new Thread(new Runnable() {
-            @Override
-            public void run() {
-               Map<String,String> paramss=new HashMap<>();
-               paramss.put("recvAccNo",subAccNo);
-               paramss.put("recvAccNm",subAccNm);
-               paramss.put("tranAmt",secondPayMoney.abs().toString());
-               String result= null;
-               try {
-                  result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransferFromTransferAccNo",paramss);
-               } catch (Exception e) {
-                  e.printStackTrace();
+
+         int firstZfmethod=(int)orderTrans.get("zf_method");
+         if (firstZfmethod==2){
+            new Thread(new Runnable() {
+               @Override
+               public void run() {
+                  Map<String,String> paramss=new HashMap<>();
+                  paramss.put("recvAccNo",subAccNo);
+                  paramss.put("recvAccNm",subAccNm);
+                  paramss.put("tranAmt",secondPayMoney.abs().toString());
+                  String result= null;
+                  try {
+                     result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransferFromTransferAccNo",paramss);
+                  } catch (Exception e) {
+                     e.printStackTrace();
+                  }
+                  R r= JSON.parseObject(result,R.class);
+                  ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
+                  CncbTrans cncbTrans=new CncbTrans();
+                  cncbTrans.setXml(forceTransferBasicInfo.getXml());
+                  cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
+                  cncbTrans.setTime(new Date());
+                  cncbTrans.setType((byte)5);
+                  JSONObject operationParamsObj=new JSONObject();
+                  operationParamsObj.put("orderId",orderId);
+                  operationParamsObj.put("secondPayMoney",secondPayMoney);
+                  operationParamsObj.put("zfMethod",zfMethod);
+                  operationParamsObj.put("balance",balance);
+                  operationParamsObj.put("loan",loan);
+                  operationParamsObj.put("certificateImg",certificateImg);
+                  cncbTrans.setOperationParams(operationParamsObj.toJSONString());
+                  cncbTransDao.create(cncbTrans);
                }
-               R r= JSON.parseObject(result,R.class);
-               ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
-               CncbTrans cncbTrans=new CncbTrans();
-               cncbTrans.setXml(forceTransferBasicInfo.getXml());
-               cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
-               cncbTrans.setTime(new Date());
-               cncbTrans.setType((byte)5);
-               JSONObject operationParamsObj=new JSONObject();
-               operationParamsObj.put("orderId",orderId);
-               operationParamsObj.put("secondPayMoney",secondPayMoney);
-               operationParamsObj.put("zfMethod",zfMethod);
-               operationParamsObj.put("balance",balance);
-               operationParamsObj.put("loan",loan);
-               operationParamsObj.put("certificateImg",certificateImg);
-               cncbTrans.setOperationParams(operationParamsObj.toJSONString());
-               cncbTransDao.create(cncbTrans);
+            }).start();
+            param.clear();
+            param.put("orderId",orderId);
+            param.put("prod2ndpayState",3);
+            orderDao.updateOrderByID(param);
+            return R.ok().put("msg","结算中...");
+         }else if(firstZfmethod==3){
+            Map<String,String> paramss=new HashMap<>();
+            paramss.put("payAccNo",orderTransfer.getSubAccNo());
+            paramss.put("recvAccNo",loanTransfer.getSubAccNo());
+            paramss.put("recvAccNm",loanTransfer.getSubAccNm());
+            paramss.put("tranAmt",secondPayMoney.abs().toString());
+            String result= null;
+            try {
+               result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer",paramss);
+            } catch (Exception e) {
+               e.printStackTrace();
             }
-         }).start();
-         param.put("orderId",orderId);
-         param.put("prod2ndpayState",3);
-         orderDao.updateOrderByID(param);
-         return R.ok().put("msg","结算中...");
+            R r= JSON.parseObject(result,R.class);
+            ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
+            CncbTrans cncbTrans=new CncbTrans();
+            cncbTrans.setXml(forceTransferBasicInfo.getXml());
+            cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
+            cncbTrans.setTime(new Date());
+            cncbTrans.setType((byte)8);
+            JSONObject operationParamsObj=new JSONObject();
+            operationParamsObj.put("orderId",orderId);
+            operationParamsObj.put("secondPayMoney",secondPayMoney);
+            operationParamsObj.put("orderTransId",orderTrans.get("order_trans_id"));
+            cncbTrans.setOperationParams(operationParamsObj.toJSONString());
+            cncbTransDao.create(cncbTrans);
+            param.clear();
+            param.put("orderId",orderId);
+            param.put("prod2ndpayState",3);
+            orderDao.updateOrderByID(param);
+            return R.ok().put("msg","结算中...");
+         }else if(firstZfmethod==4){
+            BigDecimal balanceZfMoney1st=(BigDecimal) orderTrans.get("balance_zf_money");
+            BigDecimal loanZfMoney1st=(BigDecimal)orderTrans.get("loan_zf_money");
+            //需少退的余额和贷款
+            BigDecimal refundBalance=secondPayMoney.multiply(balanceZfMoney1st).divide(balanceZfMoney1st.add(loanZfMoney1st),1,BigDecimal.ROUND_HALF_DOWN);
+            BigDecimal refundLoan=secondPayMoney.multiply(loanZfMoney1st).divide(balanceZfMoney1st.add(loanZfMoney1st),1,BigDecimal.ROUND_HALF_DOWN);
+            Map<String,String> paramss=new HashMap<>();
+            paramss.put("payAccNo",orderTransfer.getSubAccNo());
+            paramss.put("recvAccNo",loanTransfer.getSubAccNo());
+            paramss.put("recvAccNm",loanTransfer.getSubAccNm());
+            paramss.put("tranAmt",refundLoan.abs().toString());
+            String result= null;
+            try {
+               result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer",paramss);
+            } catch (Exception e) {
+               e.printStackTrace();
+            }
+            R r= JSON.parseObject(result,R.class);
+            ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
+            CncbTrans cncbTrans=new CncbTrans();
+            cncbTrans.setXml(forceTransferBasicInfo.getXml());
+            cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
+            cncbTrans.setTime(new Date());
+            cncbTrans.setType((byte)9);
+            JSONObject operationParamsObj=new JSONObject();
+            operationParamsObj.put("orderId",orderId);
+            operationParamsObj.put("secondPayMoney",secondPayMoney);
+            operationParamsObj.put("orderTransId",orderTrans.get("order_trans_id"));
+            operationParamsObj.put("refundBalance",refundBalance);
+            operationParamsObj.put("refundLoan",refundLoan);
+            operationParamsObj.put("userId",userId);
+            cncbTrans.setOperationParams(operationParamsObj.toJSONString());
+            cncbTransDao.create(cncbTrans);
+            param.clear();
+            param.put("orderId",orderId);
+            param.put("prod2ndpayState",3);
+            orderDao.updateOrderByID(param);
+            return R.ok().put("msg","结算中...");
+         }
+
       }else if (secondPayMoney.compareTo(zero)==0){
          customerServiceImpl.handle2ndPayProd(orderId,secondPayMoney,zfMethod,balance,loan,certificateImg);
          return R.ok().put("msg","结算中...");
@@ -1334,8 +1438,91 @@ public class CustomerController extends BaseController {
             param.put("prod2ndpayState",3);
             orderDao.updateOrderByID(param);
             return R.ok().put("msg","结算中...");
-         }else {
-            return R.error().put("msg","暂不支持余额外的支付方式");
+         }else if (zfMethod==3){
+            //update wa_user 授信余额
+            param.clear();
+            param.put("userId",userId);
+            param.put("userCreditMoney",oldUserCreditMoney.subtract(loan));
+            param.put("userLockCreditMoney",oldUserLockCreditMoney.add(loan));
+            userDao.updateUserByUserId(param);
+            //insert wa_loan
+            param.clear();
+            Loan newLoan=new Loan();
+            newLoan.setMoneyId(moneyId);
+            newLoan.setUserId(userId);
+            newLoan.setLoanMoney(loan);
+            newLoan.setApplyDate(new Date());
+            newLoan.setLixiRate(lixiRate);
+            newLoan.setLoanState((byte)0);
+            newLoan.setLoanIp(getIpAddr(request));
+            newLoan.setLoanType((byte)3);
+            loanDao.create(newLoan);
+            long loanId=newLoan.getLoanId();
+
+            //将少补付款记录保存在wa_order_trans表中，并将trans_state=2 ：进行中
+            param.clear();
+            param.put("orderTransId",orderTransId);
+            param.put("zfMethod2",3);
+            param.put("balanceZfMoney2",new BigDecimal(0));
+            param.put("loanZfMoney2",loan);
+            param.put("loanId2",loanId);
+            param.put("zfSjMoney",zfSjMoney);
+            param.put("transState",2);
+            orderTransDao.update(param);
+
+            //wa_order update（prod2ndpayState-1-授信支付未到账）
+            param.clear();
+            param.put("orderId",orderId);
+            param.put("prod2ndpayState",1);
+            orderDao.updateOrderByID(param);
+            return R.ok().put("msg","结算中...");
+
+         }else if (zfMethod==4){
+            //update wa_user 余额/授信余额
+            param.clear();
+            param.put("userId",userId);
+            param.put("userCreditMoney",oldUserCreditMoney.subtract(loan));
+            param.put("userLockCreditMoney",oldUserLockCreditMoney.add(loan));
+            param.put("userMoney",oldUserMoney.subtract(balance));
+            param.put("userLockMoney",oldUserLockMoney.add(balance));
+            userDao.updateUserByUserId(param);
+
+            //余额支付部分转入中转户
+            Map<String,String> paramss=new HashMap<>();
+            paramss.put("payAccNo",subAccNo);
+            paramss.put("recvAccNo",orderTransfer.getSubAccNo());
+            paramss.put("recvAccNm",orderTransfer.getSubAccNm());
+            paramss.put("tranAmt",balance.toString());
+            String result= null;
+            try {
+               result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer",paramss);
+            } catch (Exception e) {
+               e.printStackTrace();
+            }
+            R r= JSON.parseObject(result,R.class);
+            ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
+            CncbTrans cncbTrans=new CncbTrans();
+            cncbTrans.setXml(forceTransferBasicInfo.getXml());
+            cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
+            cncbTrans.setTime(new Date());
+            cncbTrans.setType((byte)11);
+            JSONObject operationParamsObj=new JSONObject();
+            operationParamsObj.put("orderId",orderId);
+            operationParamsObj.put("secondPayMoney",secondPayMoney);
+            operationParamsObj.put("orderTransId",orderTrans.get("order_trans_id"));
+            operationParamsObj.put("zfMethod",zfMethod);
+            operationParamsObj.put("balance",balance);
+            operationParamsObj.put("loan",loan);
+            operationParamsObj.put("userId",userId);
+            operationParamsObj.put("ip",ip);
+            cncbTrans.setOperationParams(operationParamsObj.toJSONString());
+            cncbTransDao.create(cncbTrans);
+            param.clear();
+            param.put("orderId",orderId);
+            param.put("prod2ndpayState",3);
+            orderDao.updateOrderByID(param);
+            return R.ok().put("msg","结算中...");
+
          }
       }
       return R.ok();

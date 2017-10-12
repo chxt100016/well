@@ -385,4 +385,27 @@ public interface CustomerService {
      * @return
      */
     BillAddress findBillAddress(long userId);
+
+    /**
+     * 授信支付的退款--直接还款到贷款本金
+     * @param loanId wa_loan 主键
+     * @param repayMoney 还款金额
+     * @return 数据库更新行数
+     */
+    int repayLoanByRefund(long loanId,BigDecimal repayMoney);
+
+    /**
+     *
+     * @param orderId
+     * @param secondPayMoney
+     * @param orderTransId
+     * @return
+     */
+    int handleCreditPayRefund(long orderId, BigDecimal secondPayMoney, long orderTransId) throws Exception;
+
+    int handleComboPayRefundStep1(long orderId, long userId, BigDecimal secondPayMoney, long orderTransId, BigDecimal refundBalance, BigDecimal refundLoan);
+
+    int handleComboPayRefundStep2(long orderId, long userId, BigDecimal secondPayMoney, long orderTransId, BigDecimal refundBalance, BigDecimal refundLoan) throws Exception;
+
+    void handleCncbType11(long orderId, long userId, BigDecimal secondPayMoney, long orderTransId, int zfMethod, BigDecimal balance, BigDecimal loan,String ip);
 }

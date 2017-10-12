@@ -86,6 +86,8 @@ public class CustomerServiceImpl implements CustomerService {
     private BillDao billDao;
     @Autowired
     private BillAddressDao billAddressDao;
+    @Autowired
+    private AdminSubAccountService adminSubAccountServiceImpl;
 
 
 
@@ -620,6 +622,7 @@ public class CustomerServiceImpl implements CustomerService {
         repay.setRepayInterestMoney(interest);
         repay.setRepayDate(new Date());
         repay.setRepayIp(ip);
+        repay.setRepayType((byte)0);
         repayDao.createRepay(repay);
 
         Map<String, Object> updateuser = new HashMap<>();
@@ -719,7 +722,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         //update orderTrans
         params.put("orderId",orderId);
-        params.put("transState",1);
+        params.put("inTransState","(1,2)");
         Map<String,Object> orderTrans=orderTransDao.singlePoByConditions(params);
         long orderTransId=(long)orderTrans.get("order_trans_id");
         long moneyId=(long)orderTrans.get("money_id");
@@ -730,6 +733,9 @@ public class CustomerServiceImpl implements CustomerService {
         params.put("zfSjMoney",zfSjMoney);
         if (secondPayMoney.compareTo(zero)>0){
             params.put("zfMethod2",zfMethod);
+            params.put("balanceZfMoney2",balance);
+            params.put("loanZfMoney2",loan);
+        }else if (secondPayMoney.compareTo(zero)<0){
             params.put("balanceZfMoney2",balance);
             params.put("loanZfMoney2",loan);
         }
@@ -1034,5 +1040,133 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public BillAddress findBillAddress(long userId) {
         return billAddressDao.queryByuserId(userId);
+    }
+
+    @Override
+    public int repayLoanByRefund(long loanId, BigDecimal repayMoney) {
+        int res=0;
+        Map<String,Object> loan=loanDao.singleLoanByPrimaryKey(loanId);
+
+        Map<String, Object> updateLoan = new HashMap<>();
+        updateLoan.put("loanId", loanId);
+        updateLoan.put("repayMoney", ((BigDecimal) loan.get("repay_money")).add(repayMoney));
+        BigDecimal remainRepayMoney = ((BigDecimal) loan.get("remain_repay_money")).subtract(repayMoney);
+        updateLoan.put("remainRepayMoney", remainRepayMoney);
+        if (new BigDecimal(0).compareTo(remainRepayMoney) == 0) {
+            updateLoan.put("loanState", 3);
+        }else {
+            updateLoan.put("loanState", 2);
+        }
+        res+=loanDao.updateLoanByPrimaryKey(updateLoan);
+
+        //insert table wa_repay
+        Repay repay = new Repay();
+        repay.setLoanId(loanId);
+        repay.setUserId((long)loan.get("user_id"));
+        repay.setRepayMoney(repayMoney);
+        repay.setRepayInterestMoney(new BigDecimal(0));
+        repay.setRepayDate(new Date());
+        repay.setRepayIp("0:0:0:0:0:0:0:1");
+        repay.setRepayType((byte)1);
+        res+=repayDao.createRepay(repay);
+        return res;
+    }
+
+    @Override
+    public int handleCreditPayRefund(long orderId, BigDecimal secondPayMoney, long orderTransId) throws Exception {
+        int res=0;
+        Map<String,Object> orderTrans=orderTransDao.singlePoByPrimaryKey(orderTransId);
+        long loanId=(long)orderTrans.get("loan_id");
+        res+=repayLoanByRefund(loanId,secondPayMoney.abs());
+        //res+=handle2ndPayProd();
+        handle2ndPayProd(orderId,secondPayMoney,0,new BigDecimal(0),secondPayMoney,"");
+        return res;
+    }
+
+    @Override
+    public int handleComboPayRefundStep1(long orderId, long userId, BigDecimal secondPayMoney, long orderTransId, BigDecimal refundBalance, BigDecimal refundLoan) {
+        int res=0;
+        Map<String,Object> orderTrans=orderTransDao.singlePoByPrimaryKey(orderTransId);
+        long loanId=(long)orderTrans.get("loan_id");
+        res+=repayLoanByRefund(loanId,refundLoan.abs());
+
+        UserSubAccount userSubAccount=financeServiceImpl.getUserSubAccountByUserId(userId);
+        String subAccNo=userSubAccount.getSubAccNo();
+        String subAccNm=userSubAccount.getSubAccNm();
+
+        AdminSubAccount orderTransfer=adminSubAccountServiceImpl.findOrderTransferAccount();
+
+        Map<String,String> paramss=new HashMap<>();
+        paramss.put("payAccNo",orderTransfer.getSubAccNo());
+        paramss.put("recvAccNo",subAccNo);
+        paramss.put("recvAccNm",subAccNm);
+        paramss.put("tranAmt",refundBalance.abs().toString());
+        String result= null;
+        try {
+            result = org.wella.common.utils.CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer",paramss);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        R r= JSON.parseObject(result,R.class);
+        ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
+        CncbTrans cncbTrans=new CncbTrans();
+        cncbTrans.setXml(forceTransferBasicInfo.getXml());
+        cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
+        cncbTrans.setTime(new Date());
+        cncbTrans.setType((byte)10);
+        JSONObject operationParamsObj=new JSONObject();
+        operationParamsObj.put("orderId",orderId);
+        operationParamsObj.put("secondPayMoney",secondPayMoney);
+        operationParamsObj.put("orderTransId",orderTrans.get("order_trans_id"));
+        operationParamsObj.put("refundBalance",refundBalance);
+        operationParamsObj.put("refundLoan",refundLoan);
+        operationParamsObj.put("userId",userId);
+        cncbTrans.setOperationParams(operationParamsObj.toJSONString());
+        res+=cncbTransDao.create(cncbTrans);
+        return res;
+    }
+
+    @Override
+    public int handleComboPayRefundStep2(long orderId, long userId, BigDecimal secondPayMoney, long orderTransId, BigDecimal refundBalance, BigDecimal refundLoan) throws Exception {
+        handle2ndPayProd(orderId,secondPayMoney,0,refundBalance,refundLoan,"");
+        return 0;
+    }
+
+    @Override
+    public void handleCncbType11(long orderId, long userId, BigDecimal secondPayMoney, long orderTransId, int zfMethod, BigDecimal balance, BigDecimal loan,String ip) {
+        Map<String,Object> user=waUserDao.singleUserByPrimaryKey(userId);
+        BigDecimal lixiRate=(BigDecimal) user.get("lixi_rate");
+
+        Map<String,Object> orderTrans=orderTransDao.singlePoByPrimaryKey(orderTransId);
+        long moneyId=(long)orderTrans.get("money_id");
+        BigDecimal zfMoney=(BigDecimal)orderTrans.get("zfMoney");
+        BigDecimal zfSjMoney=zfMoney.add(secondPayMoney);
+
+        Loan newLoan=new Loan();
+        newLoan.setMoneyId(moneyId);
+        newLoan.setUserId(userId);
+        newLoan.setLoanMoney(loan);
+        newLoan.setApplyDate(new Date());
+        newLoan.setLixiRate(lixiRate);
+        newLoan.setLoanState((byte)0);
+        newLoan.setLoanIp(ip);
+        newLoan.setLoanType((byte)3);
+        loanDao.create(newLoan);
+        long loanId=newLoan.getLoanId();
+
+        Map<String,Object> param=new HashMap<>();
+        param.put("orderTransId",orderTransId);
+        param.put("zfMethod2",zfMethod);
+        param.put("balanceZfMoney2",balance);
+        param.put("loanZfMoney2",loan);
+        param.put("loanId2",loanId);
+        param.put("zfSjMoney",zfSjMoney);
+        param.put("transState",2);
+        orderTransDao.update(param);
+
+        param.clear();
+        param.put("orderId",orderId);
+        param.put("prod2ndpayState",1);
+        orderDao.updateOrderByID(param);
     }
 }

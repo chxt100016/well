@@ -16,6 +16,7 @@ import org.wella.entity.CncbTrans;
 import org.wella.entity.CreditorAuthenticInfo;
 import org.wella.entity.UserSubAccount;
 import org.wella.service.CreditorService;
+import org.wella.service.CustomerService;
 import org.wella.service.MessageService;
 import org.wella.service.WaOrderService;
 import org.wella.utils.DateUtils;
@@ -73,6 +74,9 @@ public class CreditorServiceImpl implements CreditorService{
     @Autowired
     private CncbTransDao cncbTransDao;
 
+    @Autowired
+    private CustomerService customerServiceImpl;
+
 
 
     /**
@@ -91,31 +95,42 @@ public class CreditorServiceImpl implements CreditorService{
     }
 
     @Override
-    public int payLoan(long loanId, long creditorUserId, int paymentDays, String operateIp) throws Exception {
+    public int payLoan(final long loanId, final long creditorUserId, final int paymentDays, final String operateIp) throws Exception {
         Map<String,Object> loan=loanDao.singleLoanByPrimaryKey(loanId);
-        BigDecimal loanMoney=(BigDecimal)loan.get("loan_money");
+        final BigDecimal loanMoney=(BigDecimal)loan.get("loan_money");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Map<String,Object> query=new HashMap<>();
+                query.put("userId",creditorUserId);
+                UserSubAccount userSubAccount=userSubAccountDao.singleQuery(query);
+                Map<String,String> paramss=new HashMap<>();
+                paramss.put("payAccNo",userSubAccount.getSubAccNo().toString());
+                paramss.put("tranAmt",loanMoney.toString());
+                String result= null;
+                try {
+                    result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer2TransferAccNo",paramss);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                R r= JSON.parseObject(result,R.class);
+                ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
+                CncbTrans cncbTrans=new CncbTrans();
+                cncbTrans.setXml(forceTransferBasicInfo.getXml());
+                cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
+                cncbTrans.setTime(new Date());
+                cncbTrans.setType((byte)2);
+                JSONObject operationParamsObj=new JSONObject();
+                operationParamsObj.put("loanId",loanId);
+                operationParamsObj.put("creditorUserId",creditorUserId);
+                operationParamsObj.put("paymentDays",paymentDays);
+                operationParamsObj.put("operateIp",operateIp);
+                cncbTrans.setOperationParams(operationParamsObj.toJSONString());
+                cncbTransDao.create(cncbTrans);
 
+            }
+        }).start();
         Map<String,Object> query=new HashMap<>();
-        query.put("userId",creditorUserId);
-        UserSubAccount userSubAccount=userSubAccountDao.singleQuery(query);
-        Map<String,String> paramss=new HashMap<>();
-        paramss.put("payAccNo",userSubAccount.getSubAccNo().toString());
-        paramss.put("tranAmt",loanMoney.toString());
-        String result= CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer2TransferAccNo",paramss);
-        R r= JSON.parseObject(result,R.class);
-        ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
-        CncbTrans cncbTrans=new CncbTrans();
-        cncbTrans.setXml(forceTransferBasicInfo.getXml());
-        cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
-        cncbTrans.setTime(new Date());
-        cncbTrans.setType((byte)2);
-        JSONObject operationParamsObj=new JSONObject();
-        operationParamsObj.put("loanId",loanId);
-        operationParamsObj.put("creditorUserId",creditorUserId);
-        operationParamsObj.put("paymentDays",paymentDays);
-        operationParamsObj.put("operateIp",operateIp);
-        cncbTrans.setOperationParams(operationParamsObj.toJSONString());
-        cncbTransDao.create(cncbTrans);
         query.clear();
         query.put("loanId",loanId);
         query.put("loanState",11);
@@ -125,10 +140,11 @@ public class CreditorServiceImpl implements CreditorService{
 
     @Override
     @Transactional
-    public int acceptLoan(long loanId, long creditorUserId, int paymentDays,String operateIp) {
+    public int acceptLoan(long loanId, long creditorUserId, int paymentDays,String operateIp) throws Exception {
         Date now=new Date();
 
         Map<String,Object> loan=loanDao.singleLoanByPrimaryKey(loanId);
+        int loanType=(int)loan.get("loan_type");
         if(creditorUserId!=(long)loan.get("credit_user_id")){
             return 0;
         }
@@ -156,40 +172,53 @@ public class CreditorServiceImpl implements CreditorService{
         updateloanAssignInfo.put("operateIp",operateIp);
         loanAssignInfoDao.updateByPrimaryKey(updateloanAssignInfo);
 
-        //订单授信付款已到账，修改相应订单状态
         Map<String,Object> loanFkView=loanDao.singleLoanFkViewByPrimaryKey(loanId);
-        if (loanFkView!=null && loanFkView.size()>0){
-            Map<String,Object> update=new HashMap();
-            if ((int)loanFkView.get("jy_type")==1){
-                update.put("orderId",loanFkView.get("order_id"));
-                update.put("prodPayState",5);
-                orderDao.updateOrderByID(update);
-                update.clear();
-                update.put("orderTransId",loanFkView.get("order_trans_id"));
-                update.put("transState",1);
-                orderTransDao.update(update);
-                update.clear();
-                update.put("moneyId",loanFkView.get("money_id"));
-                update.put("jyState",1);
-                userMoneyDao.update(update);
-                update.clear();
-            }else if ((int)loanFkView.get("jy_type")==3){
-                update.put("orderId",loanFkView.get("order_id"));
-                update.put("logisticsPayState",5);
-                orderDao.updateOrderByID(update);
-                update.clear();
-                update.put("logisticsTransId",loanFkView.get("logistics_trans_id"));
-                update.put("transState",1);
-                logisticsTransDao.update(update);
-                update.clear();
-                update.put("moneyId",loanFkView.get("money_id"));
-                update.put("jyState",1);
-                userMoneyDao.update(update);
-                update.clear();
+        if (loanType==1 ||loanType==2){
+            //订单授信付款已到账，修改相应订单状态
+            if (loanFkView!=null && loanFkView.size()>0){
+                Map<String,Object> update=new HashMap();
+                if ((int)loanFkView.get("jy_type")==1){
+                    update.put("orderId",loanFkView.get("order_id"));
+                    update.put("prodPayState",5);
+                    orderDao.updateOrderByID(update);
+                    update.clear();
+                    update.put("orderTransId",loanFkView.get("order_trans_id"));
+                    update.put("transState",1);
+                    orderTransDao.update(update);
+                    update.clear();
+                    update.put("moneyId",loanFkView.get("money_id"));
+                    update.put("jyState",1);
+                    userMoneyDao.update(update);
+                    update.clear();
+                }else if ((int)loanFkView.get("jy_type")==3){
+                    update.put("orderId",loanFkView.get("order_id"));
+                    update.put("logisticsPayState",5);
+                    orderDao.updateOrderByID(update);
+                    update.clear();
+                    update.put("logisticsTransId",loanFkView.get("logistics_trans_id"));
+                    update.put("transState",1);
+                    logisticsTransDao.update(update);
+                    update.clear();
+                    update.put("moneyId",loanFkView.get("money_id"));
+                    update.put("jyState",1);
+                    userMoneyDao.update(update);
+                    update.clear();
+                }
+                waOrderServiceImpl.checkOrderRepayOff((long)loanFkView.get("order_id"));
             }
-            waOrderServiceImpl.checkOrderRepayOff((long)loanFkView.get("order_id"));
+            messageServicesk.handleLoanCreatedMessage(loanId);
+        }else if (loanType==3){
+            long orderTransId=(long)loanFkView.get("order_trans_id");
+            long orderId=(long)loanFkView.get("order_id");
+            Map<String,Object> orderTrans=orderTransDao.singlePoByPrimaryKey(orderTransId);
+            BigDecimal zfMoney=(BigDecimal)orderTrans.get("zf_money");
+            BigDecimal zfSjMoney=(BigDecimal)orderTrans.get("zf_sj_money");
+            BigDecimal secondPayMoney=zfSjMoney.subtract(zfMoney);
+            int zfMethod2=(int)orderTrans.get("zf_method2");
+            BigDecimal balanceZfMoney2=(BigDecimal)orderTrans.get("balance_zf_money2");
+            BigDecimal loanZfMoney2=(BigDecimal)orderTrans.get("loan_zf_money2");
+            customerServiceImpl.handle2ndPayProd(orderId,secondPayMoney,zfMethod2,balanceZfMoney2,loanZfMoney2,"");
         }
-        messageServicesk.handleLoanCreatedMessage(loanId);
         return 1;
     }
 

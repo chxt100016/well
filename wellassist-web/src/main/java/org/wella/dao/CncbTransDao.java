@@ -13,7 +13,7 @@ import java.util.Map;
 @Repository
 public interface CncbTransDao {
 
-    void create(CncbTrans cncbTrans);
+    int create(CncbTrans cncbTrans);
 
     List<CncbTrans> queryList(Map<String,Object> conditions);
 

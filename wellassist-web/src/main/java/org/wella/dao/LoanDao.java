@@ -3,6 +3,7 @@ package org.wella.dao;
 import io.wellassist.utils.Query;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import org.wella.entity.Loan;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -13,6 +14,8 @@ import java.util.Map;
  */
 @Repository
 public interface LoanDao {
+
+    void create(Loan loan);
 
     List listLoanOrderViewByConditions(Map<String,Object> params);
 

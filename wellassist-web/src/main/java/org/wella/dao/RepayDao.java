@@ -14,7 +14,7 @@ import java.util.Map;
 @Repository
 public interface RepayDao {
 
-    void createRepay(Repay repay);
+    int createRepay(Repay repay);
 
     List<Map<String,Object>> listRepayByConditions(Map<String, Object> query);
 

@@ -48,6 +48,8 @@ public class Loan {
 
     private String loanIp;
 
+    private Byte loanType;
+
     public Long getLoanId() {
         return loanId;
     }
@@ -222,5 +224,13 @@ public class Loan {
 
     public void setLoanIp(String loanIp) {
         this.loanIp = loanIp == null ? null : loanIp.trim();
+    }
+
+    public Byte getLoanType() {
+        return loanType;
+    }
+
+    public void setLoanType(Byte loanType) {
+        this.loanType = loanType;
     }
 }

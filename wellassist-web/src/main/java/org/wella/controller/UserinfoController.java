@@ -214,7 +214,7 @@ public class UserinfoController {
 
     /**
      * 查找地址
-     * @return
+     * @return code:0成功/500异常 msg:异常信息
      */
     @ResponseBody
     @RequestMapping("selectAddress")
@@ -227,7 +227,7 @@ public class UserinfoController {
 
     /**
      * 修改默认
-     * @return
+     * @return  code:0成功/500异常 msg:异常信息
      */
     @ResponseBody
     @RequestMapping("updateDefault")

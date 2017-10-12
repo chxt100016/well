@@ -24,6 +24,8 @@ public class Repay {
 
     private String content;
 
+    private Byte repayType;
+
     public Long getRepayId() {
         return repayId;
     }
@@ -102,5 +104,13 @@ public class Repay {
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
+    }
+
+    public Byte getRepayType() {
+        return repayType;
+    }
+
+    public void setRepayType(Byte repayType) {
+        this.repayType = repayType;
     }
 }

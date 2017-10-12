@@ -11,27 +11,29 @@ import java.util.Date;
 public interface WaOrderService {
     /**
      * 得到订单实时价格和数量
-     * @param orderId
-     * @return
+     * @param orderId orderId
+     * @return 订单实时价格和数量
      */
     Map<String,Object> findNewestOrderLog(long orderId);
 
     /**
      * 得到订单卖家已发货的数量和对应成交额
+     * @param orderId orderId
+     * @return 家已发货的数量和对应成交额
      */
     Map<String,Object> findDeliverProdCount(long orderId);
 
     /**
      * 得到订单买家已收货的数量和对应成交额
-     * @param orderId
-     * @return
+     * @param orderId orderId
+     * @return 买家已收货的数量和对应成交额
      */
     Map<String,Object> findReceiveProdCount(long orderId);
 
     /**
      * 得到分批发货的详细信息
      * @param orderId wa_order表主键
-     * @return
+     * @return 分批发货的详细信息
      */
     List<Map<String,Object>> findZorders(long orderId);
 
@@ -52,14 +54,15 @@ public interface WaOrderService {
 
     /**
      * 确认子订单是否全部确认收货
-     * @param orderId
+     * @param orderId orderId
+     * @return 是否全部确认收货
      */
     boolean checkZordersConfirmed(long orderId);
 
     /**
      * 该订单是否存疑
-     * @param orderId
-     * @return
+     * @param orderId orderId
+     * @return 订单是否存疑
      */
     boolean idZordersQuestion(long orderId);
 
@@ -70,8 +73,18 @@ public interface WaOrderService {
      */
     boolean checkOrderRepayOff(long orderId);
 
+    /**
+     * 订单详情
+     * @param orderId orderId
+     * @return 订单详情
+     */
     Map<String,Object> orderinfo(long orderId);
 
+    /**
+     * 校验订单（商品订单，物流订单）是否都结算完成
+     * @param orderId orderId
+     * @return 是否都结算完成
+     */
     boolean checkOrder2ndpayOff(long orderId);
 
     /**

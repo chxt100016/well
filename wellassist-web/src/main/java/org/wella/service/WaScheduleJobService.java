@@ -55,6 +55,10 @@ public class WaScheduleJobService {
     @Autowired
     private CustomerService customerServiceImpl;
 
+
+    /**
+     * 中信银行交易请求提交后轮询交易处理结果
+     */
     @Scheduled(fixedRate = 60000)
     public void checkCncbTrans(){
         Map<String,Object> query=new HashMap();
@@ -92,6 +96,18 @@ public class WaScheduleJobService {
                         case 7:
                             handleType7(cncbTrans,entity);
                             break;
+                        case 8:
+                            handleType8(cncbTrans,entity);
+                            break;
+                        case 9:
+                            handleType9(cncbTrans,entity);
+                            break;
+                        case 10:
+                            handleType10(cncbTrans,entity);
+                            break;
+                        case 11:
+                            handleType11(cncbTrans,entity);
+                            break;
                     }
                 }catch (CNCBException e){
                     e.printStackTrace();
@@ -105,6 +121,135 @@ public class WaScheduleJobService {
         }
     }
 
+    @Transactional
+    private void handleType11(CncbTrans cncbTrans, TransQueryOutputListEntity entity) {
+        String operationParams=cncbTrans.getOperationParams();
+        Map params=JSON.parseObject(operationParams,Map.class);
+        long orderId=(long)(int)params.get("orderId");
+        long userId=(long)(int)params.get("userId");
+        BigDecimal secondPayMoney=new BigDecimal(params.get("secondPayMoney").toString());
+        long orderTransId=(long)(int)params.get("orderTransId");
+        int zfMethod=(int)params.get("zfMethod");
+        BigDecimal balance=new BigDecimal(params.get("balance").toString());
+        BigDecimal loan=new BigDecimal(params.get("loan").toString());
+        String ip=params.get("ip").toString();
+
+        Map update=new HashMap();
+        update.put("id",cncbTrans.getId());
+        update.put("status",entity.getStatus());
+        update.put("statusText",entity.getStatusText());
+        if(CNCBConstants.CNCB_STATUS_SUCCESS.equals(entity.getStatus())){
+            update.put("state",1);
+            customerServiceImpl.handleCncbType11(orderId,userId,secondPayMoney,orderTransId,zfMethod,balance,loan,ip);
+        }else if(entity.getStatus().startsWith("AAAAAA")){
+
+        }else {
+            update.put("state",-1);
+            Map order=new HashMap();
+            order.put("orderId",orderId);
+            order.put("prod2ndpayState",0);
+            orderDao.updateOrderByID(order);
+        }
+        cncbTransDao.update(update);
+    }
+
+    @Transactional
+    private void handleType10(CncbTrans cncbTrans, TransQueryOutputListEntity entity) throws Exception {
+        String operationParams=cncbTrans.getOperationParams();
+        Map params=JSON.parseObject(operationParams,Map.class);
+        long orderId=(long)(int)params.get("orderId");
+        long userId=(long)(int)params.get("userId");
+        BigDecimal secondPayMoney=new BigDecimal(params.get("secondPayMoney").toString());
+        long orderTransId=(long)(int)params.get("orderTransId");
+        BigDecimal refundBalance=new BigDecimal(params.get("refundBalance").toString());
+        BigDecimal refundLoan=new BigDecimal(params.get("refundLoan").toString());
+
+        Map update=new HashMap();
+        update.put("id",cncbTrans.getId());
+        update.put("status",entity.getStatus());
+        update.put("statusText",entity.getStatusText());
+        if(CNCBConstants.CNCB_STATUS_SUCCESS.equals(entity.getStatus())){
+            update.put("state",1);
+            customerServiceImpl.handleComboPayRefundStep2(orderId,userId,secondPayMoney,orderTransId,refundBalance,refundLoan);
+        }else if(entity.getStatus().startsWith("AAAAAA")){
+
+        }else {
+            update.put("state",-1);
+            Map order=new HashMap();
+            order.put("orderId",orderId);
+            order.put("prod2ndpayState",0);
+            orderDao.updateOrderByID(order);
+        }
+        cncbTransDao.update(update);
+    }
+
+    @Transactional
+    private void handleType9(CncbTrans cncbTrans, TransQueryOutputListEntity entity) {
+        String operationParams=cncbTrans.getOperationParams();
+        Map params=JSON.parseObject(operationParams,Map.class);
+        long orderId=(long)(int)params.get("orderId");
+        long userId=(long)(int)params.get("userId");
+        BigDecimal secondPayMoney=new BigDecimal(params.get("secondPayMoney").toString());
+        long orderTransId=(long)(int)params.get("orderTransId");
+        BigDecimal refundBalance=new BigDecimal(params.get("refundBalance").toString());
+        BigDecimal refundLoan=new BigDecimal(params.get("refundLoan").toString());
+
+        Map update=new HashMap();
+        update.put("id",cncbTrans.getId());
+        update.put("status",entity.getStatus());
+        update.put("statusText",entity.getStatusText());
+        if(CNCBConstants.CNCB_STATUS_SUCCESS.equals(entity.getStatus())){
+            update.put("state",1);
+            customerServiceImpl.handleComboPayRefundStep1(orderId,userId,secondPayMoney,orderTransId,refundBalance,refundLoan);
+        }else if(entity.getStatus().startsWith("AAAAAA")){
+
+        }else {
+            update.put("state",-1);
+            Map order=new HashMap();
+            order.put("orderId",orderId);
+            order.put("prod2ndpayState",0);
+            orderDao.updateOrderByID(order);
+        }
+        cncbTransDao.update(update);
+    }
+
+    /**
+     * 授信支付退款后处理：将退款部分作为该贷款本金还款
+     * @param cncbTrans wa_cncb_trans pojo
+     * @param entity 轮询结果
+     */
+    @Transactional
+    private void handleType8(CncbTrans cncbTrans, TransQueryOutputListEntity entity) throws Exception {
+        String operationParams=cncbTrans.getOperationParams();
+        Map params=JSON.parseObject(operationParams,Map.class);
+        long orderId=(long)(int)params.get("orderId");
+        BigDecimal secondPayMoney=new BigDecimal(params.get("secondPayMoney").toString());
+        long orderTransId=(long)(int)params.get("orderTransId");
+
+        Map update=new HashMap();
+        update.put("id",cncbTrans.getId());
+        update.put("status",entity.getStatus());
+        update.put("statusText",entity.getStatusText());
+        if(CNCBConstants.CNCB_STATUS_SUCCESS.equals(entity.getStatus())){
+            update.put("state",1);
+            customerServiceImpl.handleCreditPayRefund(orderId,secondPayMoney,orderTransId);
+        }else if(entity.getStatus().startsWith("AAAAAA")){
+
+        }else {
+            update.put("state",-1);
+            Map order=new HashMap();
+            order.put("orderId",orderId);
+            order.put("prod2ndpayState",0);
+            orderDao.updateOrderByID(order);
+        }
+        cncbTransDao.update(update);
+    }
+
+    /**
+     * 物流结算给卖方交易成功后处理
+     * @param cncbTrans wa_cncb_trans pojo
+     * @param entity 轮询结果
+     */
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     private void handleType7(CncbTrans cncbTrans, TransQueryOutputListEntity entity) {
         String operationParams=cncbTrans.getOperationParams();
@@ -132,6 +277,11 @@ public class WaScheduleJobService {
         cncbTransDao.update(update);
     }
 
+    /**
+     * 商品订单结算给卖方交易成功后处理
+     * @param cncbTrans wa_cncb_trans pojo
+     * @param entity 轮询结果
+     */
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     private void handleType6(CncbTrans cncbTrans, TransQueryOutputListEntity entity) {
         String operationParams=cncbTrans.getOperationParams();
@@ -160,6 +310,12 @@ public class WaScheduleJobService {
         cncbTransDao.update(update);
     }
 
+    /**
+     * 多退少补交易成功后处理
+     * @param cncbTrans wa_cncb_trans pojo
+     * @param entity 轮询结果
+     * @throws Exception
+     */
     private void handleType5(CncbTrans cncbTrans, TransQueryOutputListEntity entity) throws Exception {
         String operationParams=cncbTrans.getOperationParams();
         Map params=JSON.parseObject(operationParams,Map.class);
@@ -188,7 +344,11 @@ public class WaScheduleJobService {
         cncbTransDao.update(update);
     }
 
-
+    /**
+     * 物流订单预付款交易成功后处理
+     * @param cncbTrans wa_cncb_trans pojo
+     * @param entity 轮询结果
+     */
     private void handleType3(CncbTrans cncbTrans, TransQueryOutputListEntity entity) {
         String operationParams=cncbTrans.getOperationParams();
         Map params=JSON.parseObject(operationParams,Map.class);
@@ -215,6 +375,11 @@ public class WaScheduleJobService {
         cncbTransDao.update(update);
     }
 
+    /**
+     * 商品订单预付款交易成功后处理
+     * @param cncbTrans wa_cncb_trans pojo
+     * @param entity 轮询结果
+     */
     @Transactional
     private void handleType1(CncbTrans cncbTrans,TransQueryOutputListEntity entity){
         String operationParams=cncbTrans.getOperationParams();
@@ -242,6 +407,11 @@ public class WaScheduleJobService {
         cncbTransDao.update(update);
     }
 
+    /**
+     * 余额还款交易成功后处理
+     * @param cncbTrans wa_cncb_trans pojo
+     * @param entity 轮询结果
+     */
     private void handleType4(CncbTrans cncbTrans, TransQueryOutputListEntity entity) {
         String operationParams=cncbTrans.getOperationParams();
         Map params=JSON.parseObject(operationParams,Map.class);
@@ -269,7 +439,12 @@ public class WaScheduleJobService {
         cncbTransDao.update(update);
     }
 
-    public void handleType2(CncbTrans cncbTrans,TransQueryOutputListEntity entity){
+    /**
+     * 放款方放款交易成功后处理
+     * @param cncbTrans wa_cncb_trans pojo
+     * @param entity 轮询结果
+     */
+    public void handleType2(CncbTrans cncbTrans,TransQueryOutputListEntity entity) throws Exception {
         String operationParams=cncbTrans.getOperationParams();
         Map params=JSON.parseObject(operationParams,Map.class);
         long loanId=(long)(int)params.get("loanId");

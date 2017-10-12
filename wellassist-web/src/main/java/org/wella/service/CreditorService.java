@@ -34,7 +34,7 @@ public interface CreditorService {
      * @param paymentDays 还款期限
      * @return 0 失败 1成功
      */
-    int acceptLoan(long loanId,long creditorUserId,int paymentDays,String operateIp);
+    int acceptLoan(long loanId,long creditorUserId,int paymentDays,String operateIp) throws Exception;
 
     /**
      * 放款方资质状态

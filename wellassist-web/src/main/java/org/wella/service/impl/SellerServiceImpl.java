@@ -119,59 +119,13 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public void deliverGoods(int orderId) {
-
-    }
-
-    @Override
-    public void createProduct() {
-
-    }
-
-    @Override
-    public void deleteProduct(int productId) {
-
-    }
-
-    @Override
-    public void updateProduct(Prod prod) {
-
-    }
-
-    @Override
-    public List<Prod> findProductList() {
-
-        return null;
-    }
-
-    @Override
     public List<Prod> findProductList(Map map) {
         map.put("prodState", 2);
         map.put("orderBy", " prod_id DESC");
         return prodDao.findProdByUserId(map);
     }
 
-    @Override
-    public List<Order> findOrderList() {
-        return null;
-    }
 
-    @Override
-    public List<Order> findOrderList(Map map) {
-        return null;
-    }
-
-    @Override
-    public void evaluate(int orderId) {
-
-    }
-
-    /**
-     * 获取卖家订单列表
-     *
-     * @param param
-     * @return
-     */
     @Override
     public List<Map<String, Object>> getOrderList(Map param) {
         List<Map<String, Object>> res = new ArrayList<Map<String, Object>>();
@@ -200,12 +154,7 @@ public class SellerServiceImpl implements SellerService {
         return res;
     }
 
-    /**
-     * 获取卖家订单列表总数
-     *
-     * @param param
-     * @return
-     */
+
     @Override
     public int getOrderListCount(Map param) {
         return orderDao.listOrderCount(param);
@@ -269,11 +218,7 @@ public class SellerServiceImpl implements SellerService {
         logisticsInfoDao.createLogisticsInfo(logisticsInfo);
     }
 
-    /**
-     * 生成对订单操作的日志文件
-     * @param orderId orderId
-     * @param map 其中confirmPrice是指修改后的文件
-     */
+
     @Override
     public Long createOrderLog(Long orderId, Map map) {
         OrderLog orderLog = new OrderLog();

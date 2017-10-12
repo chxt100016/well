@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.AdminSubAccountDao">
+    <resultMap id="adminSubAccountMap" type="org.wella.entity.AdminSubAccount" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="sub_acc_no" property="subAccNo" jdbcType="CHAR" />
+        <result column="sub_acc_nm" property="subAccNm" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="TINYINT" />
+        <result column="status" property="status" jdbcType="TINYINT" />
+    </resultMap>
+
+    <select id="singlePoByConditions" parameterType="map" resultMap="adminSubAccountMap">
+        SELECT *
+        from wa_admin_sub_account
+        <where>
+            <if test="type != null">
+                AND type=#{type}
+            </if>
+            <if test="status != null">
+                AND status=#{status}
+            </if>
+        </where>
+        limit 1
+    </select>
+
+
+
+</mapper>

@@ -93,7 +93,7 @@
 
                         <td><fmt:formatDate value="${repay.repayDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                         <%--<td>还款成功</td>--%>
-                        <td>余额支付</td>
+                        <td><c:if test="${repay.repayType==0}">余额支付</c:if><c:if test="${repay.repayType==1}">退款</c:if></td>
                         <td>${repay.repayMoney}元</td>
                         <td>${repay.repayInterestMoney}元</td>
                         <td>${loan.lixiRate}‱</td>

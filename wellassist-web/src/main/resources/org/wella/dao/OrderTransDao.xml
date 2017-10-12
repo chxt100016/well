@@ -98,6 +98,9 @@
             <if test="zfMethod2 != null" >
                 zf_method2 = #{zfMethod2,jdbcType=TINYINT},
             </if>
+            <if test="loanId2 != null" >
+                loan_id2 = #{loanId2,jdbcType=BIGINT},
+            </if>
             <if test="zfId != null" >
                 zf_id = #{zfId,jdbcType=BIGINT},
             </if>
