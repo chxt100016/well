@@ -26,6 +26,8 @@ public abstract class DateUtil {
     public static final FastDateFormat FAST_SECOND_FORMATETR = FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss");
     public static final FastDateFormat FAST_SHORT_FORMATETR = FastDateFormat.getInstance("yyyyMMdd");
     public static final FastDateFormat FAST_ONLY_MINUTE_FORMATETR = FastDateFormat.getInstance("HH:mm");
+    public static final long cncbTimeDive=196819200000L;
+
 
     public DateUtil() {
     }
@@ -675,5 +677,12 @@ public abstract class DateUtil {
         }
 
         return (Date)date;
+    }
+
+
+    public static String cncbDate(Date date){
+        DateFormat df=new SimpleDateFormat("yyyyMMdd");
+        String res=df.format(new Date(date.getTime()+cncbTimeDive));
+        return res;
     }
 }

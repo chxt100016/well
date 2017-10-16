@@ -54,7 +54,7 @@
                     <div class="column">订单编号：${loan.orderNo}</div>
                     <div class="column">还款状态:
                         <c:if test="${loan.loanState==2}"> <i class="hourglass start icon redxx"></i>待还款 </c:if>
-                        <c:if test="${loan.loanState==3}"> <i class="check circle outline icon greenxx" style="font-size:16px"></i> 已还清 </c:if>
+                        <c:if test="${loan.loanState==3 or loan.loanState==4}"> <i class="check circle outline icon greenxx" style="font-size:16px"></i> 已还清 </c:if>
                     </div>
                     <div class="column">借款时间：<fmt:formatDate value="${loan.applyDate}" pattern="yyyy-MM-dd"/> </div>
                 </div>

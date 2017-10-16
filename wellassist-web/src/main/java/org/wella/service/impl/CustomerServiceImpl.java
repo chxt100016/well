@@ -558,7 +558,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    public int beforeRepayLoanByBalance(long userId, long loanId, BigDecimal principal, BigDecimal interest, String ip) throws Exception {
+    public int beforeRepayLoanByBalance(final long userId, final long loanId, final BigDecimal principal, final BigDecimal interest, final String ip) throws Exception {
         Map<String, Object> user = waUserDao.singleUserByPrimaryKey(userId);
         BigDecimal oldUserMoney = (BigDecimal) user.get("user_money");
         if (oldUserMoney.compareTo(principal.add(interest)) < 0) {
@@ -566,26 +566,40 @@ public class CustomerServiceImpl implements CustomerService {
         }
         Map<String,Object> query=new HashMap<>();
         query.put("userId",userId);
-        UserSubAccount userSubAccount=userSubAccountDao.singleQuery(query);
-        Map<String,String> paramss=new HashMap<>();
-        paramss.put("payAccNo",userSubAccount.getSubAccNo().toString());
-        paramss.put("tranAmt",principal.add(interest).toString());
-        String result= CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer2TransferAccNo",paramss);
-        R r= JSON.parseObject(result,R.class);
-        ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
-        CncbTrans cncbTrans=new CncbTrans();
-        cncbTrans.setXml(forceTransferBasicInfo.getXml());
-        cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
-        cncbTrans.setTime(new Date());
-        cncbTrans.setType((byte)4);
-        JSONObject operationParamsObj=new JSONObject();
-        operationParamsObj.put("userId",userId);
-        operationParamsObj.put("loanId",loanId);
-        operationParamsObj.put("principal",principal);
-        operationParamsObj.put("interest",interest);
-        operationParamsObj.put("ip",ip);
-        cncbTrans.setOperationParams(operationParamsObj.toJSONString());
-        cncbTransDao.create(cncbTrans);
+        final UserSubAccount userSubAccount=userSubAccountDao.singleQuery(query);
+        final AdminSubAccount loanTransfer=adminSubAccountServiceImpl.findLoanTransferAccount();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Map<String,String> paramss=new HashMap<>();
+                paramss.put("payAccNo",userSubAccount.getSubAccNo().toString());
+                paramss.put("recvAccNo",loanTransfer.getSubAccNo());
+                paramss.put("recvAccNm",loanTransfer.getSubAccNm());
+                paramss.put("tranAmt",principal.add(interest).toString());
+                paramss.put("memo","loanId:"+loanId+",content:还款");
+                String result= null;
+                try {
+                    result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer",paramss);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                R r= JSON.parseObject(result,R.class);
+                ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
+                CncbTrans cncbTrans=new CncbTrans();
+                cncbTrans.setXml(forceTransferBasicInfo.getXml());
+                cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
+                cncbTrans.setTime(new Date());
+                cncbTrans.setType((byte)4);
+                JSONObject operationParamsObj=new JSONObject();
+                operationParamsObj.put("userId",userId);
+                operationParamsObj.put("loanId",loanId);
+                operationParamsObj.put("principal",principal);
+                operationParamsObj.put("interest",interest);
+                operationParamsObj.put("ip",ip);
+                cncbTrans.setOperationParams(operationParamsObj.toJSONString());
+                cncbTransDao.create(cncbTrans);
+            }
+        }).start();
         query.clear();
         query.put("loanId",loanId);
         query.put("loanState",21);
@@ -609,6 +623,7 @@ public class CustomerServiceImpl implements CustomerService {
         updateLoan.put("remainLixiMoney", new BigDecimal(0));
         if (new BigDecimal(0).compareTo(remainRepayMoney) == 0) {
             updateLoan.put("loanState", 3);
+            financeServiceImpl.handleLoanRepayoff(loanId);
         }else {
             updateLoan.put("loanState", 2);
         }
@@ -1139,7 +1154,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         Map<String,Object> orderTrans=orderTransDao.singlePoByPrimaryKey(orderTransId);
         long moneyId=(long)orderTrans.get("money_id");
-        BigDecimal zfMoney=(BigDecimal)orderTrans.get("zfMoney");
+        BigDecimal zfMoney=(BigDecimal)orderTrans.get("zf_money");
         BigDecimal zfSjMoney=zfMoney.add(secondPayMoney);
 
         Loan newLoan=new Loan();

@@ -1,9 +1,12 @@
 package org.wella.service;
 
+import com.wellapay.cncb.model.output.AccountTransQuery.AccountTransQueryOutputListEntity;
 import org.wella.entity.UserSubAccount;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
+import java.util.Date;
 
 /**
  * Created by liuwen on 2017/6/5.
@@ -55,4 +58,32 @@ public interface FinanceService {
      * @return wa_user_sub_account表记录
      */
     UserSubAccount getUserSubAccountByUserId(long userId);
+
+    /**
+     * 附属账户某日的交易流水
+     * @param subAccNo 附属账户
+     * @param date 日期
+     * @return list
+     */
+    List<AccountTransQueryOutputListEntity> getSubAccountFlowByDate(String subAccNo,Date date);
+
+    /**
+     * 订单交易中转户某日的交易流水
+     * @param date 日期
+     * @return list
+     */
+    List<AccountTransQueryOutputListEntity> getOrderTransferAccountFlowByDate(Date date);
+
+    /**
+     * 还款中转户某日的交易流水
+     * @param date 日期
+     * @return list
+     */
+    List<AccountTransQueryOutputListEntity> getLoanTransferAccountFlowByDate(Date date);
+
+    /**
+     * 待贷款还清后从还款中转户还给放款账户
+     * @param loanId wa_loan 主键
+     */
+    void handleLoanRepayoff(long loanId);
 }

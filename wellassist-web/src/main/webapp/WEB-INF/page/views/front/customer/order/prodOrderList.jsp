@@ -134,7 +134,8 @@
 								<c:if test="${item.orderState=='4'}">已发货</c:if>
 								<c:if test="${item.orderState=='5'}">
 									<c:if test="${item.prod2ndpayState==0}">已收货</c:if>
-									<c:if test="${item.prod2ndpayState!=0 and item.prod2ndpayState!=7}">结算中</c:if>
+									<c:if test="${item.prod2ndpayState==1}">授信支付未到账</c:if>
+									<c:if test="${item.prod2ndpayState!=0 and item.prod2ndpayState!=7 and item.prod2ndpayState!=1}">结算中</c:if>
 									<c:if test="${item.prod2ndpayState==7}">已结算</c:if>
 									</c:if>
 								<c:if test="${item.orderState=='6'}">发送发票</c:if>

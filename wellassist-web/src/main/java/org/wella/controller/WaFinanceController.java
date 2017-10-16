@@ -26,8 +26,6 @@ import java.util.Map;
 @RequestMapping("/finance/")
 public class WaFinanceController {
 
-
-
     @Autowired
     private WithdrawDAO  withdrawDAO;
 

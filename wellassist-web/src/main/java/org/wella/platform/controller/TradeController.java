@@ -2,6 +2,7 @@ package org.wella.platform.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.wellapay.cncb.model.ForceTransferBasicInfo;
+import com.wellapay.cncb.model.output.AccountTransQuery.AccountTransQueryOutputListEntity;
 import io.wellassist.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.wella.common.ctrl.BaseController;
 import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
+import org.wella.common.utils.DateUtil;
 import org.wella.dao.LogisticsTransDao;
 import org.wella.dao.OrderTransDao;
 import org.wella.dao.TradeDAO;
@@ -23,9 +25,11 @@ import org.wella.service.MessageService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
 
 /**
  * Created by liuwen on 2017/6/5.
@@ -299,6 +303,52 @@ public class TradeController extends BaseController {
         int totalCount = tradeDAO.logisticsListCount(query);
         PageUtils pageUtils = new PageUtils(list,totalCount,query.getLimit(),query.getPage());
         return R.ok().put("page",pageUtils);
+    }
+
+    @RequestMapping(value = "orderTransFlow.html",method = RequestMethod.GET)
+    public String orderTransFlow(){
+        return "views/platform/trade/orderTransFlow.html";
+    }
+
+    @RequestMapping(value = "loanTransFlow.html",method = RequestMethod.GET)
+    public String loanTransFlow(){
+        return "views/platform/trade/loanTransFlow.html";
+    }
+
+    /**
+     * 查询交易中转户某一天的交易流水
+     * @param date 日期 yyyy-MM-dd
+     * @return R
+     */
+    @RequestMapping(value = "orderTransFlowByDay",method = RequestMethod.GET)
+    @ResponseBody
+    public R orderTransFlowByDay(@RequestParam(value="date",required = false,defaultValue = "")String date){
+        List<AccountTransQueryOutputListEntity> list=null;
+        if (!"".equals(date)){
+            Date queryDate=DateUtil.parse(date,new SimpleDateFormat("yyyy-MM-dd"));
+            list=financeServiceImpl.getOrderTransferAccountFlowByDate(queryDate);
+        }else{
+            list=financeServiceImpl.getOrderTransferAccountFlowByDate(new Date());
+        }
+        return R.ok().put("list",list);
+    }
+
+    /**
+     * 查询交易中转户某一天的交易流水
+     * @param date 日期 yyyy-MM-dd
+     * @return R
+     */
+    @RequestMapping(value = "loanTransFlowByDay",method = RequestMethod.GET)
+    @ResponseBody
+    public R loanTransFlowByDay(@RequestParam(value="date",required = false,defaultValue = "")String date){
+        List<AccountTransQueryOutputListEntity> list=null;
+        if (!"".equals(date)){
+            Date queryDate=DateUtil.parse(date,new SimpleDateFormat("yyyy-MM-dd"));
+            list=financeServiceImpl.getLoanTransferAccountFlowByDate(queryDate);
+        }else{
+            list=financeServiceImpl.getLoanTransferAccountFlowByDate(new Date());
+        }
+        return R.ok().put("list",list);
     }
 
 }

@@ -108,6 +108,9 @@ public class WaScheduleJobService {
                         case 11:
                             handleType11(cncbTrans,entity);
                             break;
+                        case 12:
+                            handleType12(cncbTrans,entity);
+                            break;
                     }
                 }catch (CNCBException e){
                     e.printStackTrace();
@@ -119,6 +122,29 @@ public class WaScheduleJobService {
                 }
             }
         }
+    }
+
+    @Transactional
+    private void handleType12(CncbTrans cncbTrans, TransQueryOutputListEntity entity) {
+        String operationParams=cncbTrans.getOperationParams();
+        Map params=JSON.parseObject(operationParams,Map.class);
+        long loanId=(long)(int)params.get("loanId");
+
+        Map update=new HashMap();
+        update.put("id",cncbTrans.getId());
+        update.put("status",entity.getStatus());
+        update.put("statusText",entity.getStatusText());
+        if(CNCBConstants.CNCB_STATUS_SUCCESS.equals(entity.getStatus())){
+            update.put("state",1);
+            Map<String,Object> updateLoan=new HashMap<>();
+            updateLoan.put("loanId",loanId);
+            updateLoan.put("loanState",4);
+            loanDao.updateLoanByPrimaryKey(updateLoan);
+        }else if(entity.getStatus().startsWith("AAAAAA")){
+
+        }else {
+        }
+        cncbTransDao.update(update);
     }
 
     @Transactional
