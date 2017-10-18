@@ -27,6 +27,12 @@
             <if test="userId != null">
                 and user_id=#{userId}
             </if>
+            <if test="subAccNo != null">
+                AND sub_acc_no=#{subAccNo}
+            </if>
+            <if test="subAccNm != null">
+                AND sub_acc_nm=#{subAccNm}
+            </if>
         </where>
         limit 1
     </select>

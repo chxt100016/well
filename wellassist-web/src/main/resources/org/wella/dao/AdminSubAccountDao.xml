@@ -14,16 +14,57 @@
         SELECT *
         from wa_admin_sub_account
         <where>
+            <if test="id != null">
+                AND id=#{id}
+            </if>
             <if test="type != null">
                 AND type=#{type}
             </if>
             <if test="status != null">
                 AND status=#{status}
             </if>
+            <if test="subAccNo !=null">
+                AND sub_acc_no=#{subAccNo}
+            </if>
+            <if test="subAccNm != null">
+                AND sub_acc_nm=#{subAccNm}
+            </if>
         </where>
         limit 1
     </select>
 
+    <insert id="create" parameterType="org.wella.entity.AdminSubAccount">
+      insert into wa_admin_sub_account (sub_acc_no, sub_acc_nm,
+      type, status)
+    values (#{subAccNo,jdbcType=CHAR}, #{subAccNm,jdbcType=VARCHAR},
+      #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT})
+    </insert>
 
+    <select id="queryList" parameterType="map" resultMap="adminSubAccountMap">
+        SELECT *
+        from wa_admin_sub_account
+        <where>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+        </where>
+    </select>
+
+    <update id="update" parameterType="map">
+        UPDATE wa_admin_sub_account
+        <set >
+            <if test="status != null" >
+                status = #{status},
+            </if>
+        </set>
+        <where>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="id != null">
+                AND id=#{id}
+            </if>
+        </where>
+    </update>
 
 </mapper>

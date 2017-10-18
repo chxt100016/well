@@ -82,6 +82,13 @@ public interface FinanceService {
     List<AccountTransQueryOutputListEntity> getOrderTransferAccountFlowByDate(Date date);
 
     /**
+     * 校验账号
+     * @param subAccNo 账号
+     * @return 0：成功，-1：无此账号
+     */
+    int validateSubAccount(String subAccNo);
+
+    /**
      * 还款中转户某日的交易流水
      * @param date 日期
      * @return list

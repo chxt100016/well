@@ -17,8 +17,10 @@ import org.wella.dao.LogisticsTransDao;
 import org.wella.dao.OrderTransDao;
 import org.wella.dao.TradeDAO;
 import org.wella.dao.WithdrawDAO;
+import org.wella.entity.AdminSubAccount;
 import org.wella.entity.UserSubAccount;
 import org.wella.platform.service.TradeService;
+import org.wella.service.AdminSubAccountService;
 import org.wella.service.FinanceService;
 import org.wella.service.MessageService;
 
@@ -58,6 +60,9 @@ public class TradeController extends BaseController {
 
     @Autowired
     private FinanceService financeServiceImpl;
+
+    @Autowired
+    private AdminSubAccountService adminSubAccountServiceImpl;
 
     @RequestMapping("tradeList")
     @ResponseBody
@@ -356,7 +361,7 @@ public class TradeController extends BaseController {
     }
 
     /**
-     * 查询交易中转户某一天的交易流水
+     * 查询还款中转户某一天的交易流水
      * @param date 日期 yyyy-MM-dd
      * @return R
      */
@@ -372,5 +377,95 @@ public class TradeController extends BaseController {
         }
         return R.ok().put("list",list);
     }
+
+    @RequestMapping(value = "accountFlowByDay",method = RequestMethod.GET)
+    @ResponseBody
+    public R accountFlowByDay(@RequestParam(value = "subAccNo")String subAccNo,@RequestParam(value="date",required = false,defaultValue = "")String date){
+        int code=financeServiceImpl.validateSubAccount(subAccNo);
+        if (code==-1){
+            return R.error("无此账户");
+        }
+        List<AccountTransQueryOutputListEntity> list=null;
+        if (!"".equals(date)){
+            Date queryDate=DateUtil.parse(date,new SimpleDateFormat("yyyy-MM-dd"));
+            list=financeServiceImpl.getSubAccountFlowByDate(subAccNo,queryDate);
+        }else{
+            list=financeServiceImpl.getSubAccountFlowByDate(subAccNo,new Date());
+        }
+        return R.ok().put("list",list);
+    }
+
+    /**
+     * 校验添加的中转账户
+     * @param subAccNo 账号
+     * @param subAccNm 账户名
+     * @return R
+     */
+    @RequestMapping(value = "validateAdminSubAccount",method = RequestMethod.GET)
+    @ResponseBody
+    public R validateAccount(@RequestParam("subAccNo")String subAccNo,@RequestParam("subAccNm")String subAccNm){
+        int code=adminSubAccountServiceImpl.validateAdminSubAccount(subAccNo,subAccNm);
+        if (code==0){
+            return R.ok("success!");
+        }else if (code==-1){
+            return R.error("无此账户.");
+        }else if (code==-2){
+            return R.error("重复添加.");
+        }
+        return R.ok();
+    }
+
+    /**
+     * 添加中转账户
+     * @param subAccNo 账号
+     * @param subAccNm 账户名
+     * @param type 1-付款中转户，2-还款中转户
+     * @return
+     */
+    @RequestMapping(value = "adminSubAccount",method = RequestMethod.PUT)
+    @ResponseBody
+    public R addAdminSubAccount(@RequestParam("subAccNo")String subAccNo,@RequestParam("subAccNm")String subAccNm,@RequestParam("type")int type){
+        AdminSubAccount adminSubAccount=new AdminSubAccount();
+        adminSubAccount.setSubAccNo(subAccNo);
+        adminSubAccount.setSubAccNm(subAccNm);
+        adminSubAccount.setType((byte)type);
+        adminSubAccount.setStatus((byte)2);
+        adminSubAccountServiceImpl.create(adminSubAccount);
+        return R.ok();
+    }
+
+    /**
+     * 通过类型查询所有可选的中转账户
+     * @param type type 1-付款中转户，2-还款中转户
+     * @return
+     */
+    @RequestMapping(value = "adminSubAccountList",method = RequestMethod.GET)
+    @ResponseBody
+    public R adminSubAccountList(@RequestParam("type")int type){
+        List<AdminSubAccount> list=adminSubAccountServiceImpl.findAdminSubAccounts(type);
+        return R.ok().put("list",list);
+    }
+
+    /**
+     * 调整中转账户
+     * @param id 选择的中转户id
+     * @param type type type 1-付款中转户，2-还款中转户
+     * @return
+     */
+    @RequestMapping(value = "chooseAdminSubAccount",method = RequestMethod.POST)
+    @ResponseBody
+    public R chooseAdminSubAccount(@RequestParam("id")long id,@RequestParam("type")int type){
+        int code=0;
+        if (1==type){
+            code=adminSubAccountServiceImpl.updateOrderTransferAccount(id);
+        }else if (2==type){
+            code=adminSubAccountServiceImpl.updateLoanTransferAccount(id);
+        }
+        if (code==-1){
+            return R.error();
+        }
+        return R.ok();
+    }
+
 
 }

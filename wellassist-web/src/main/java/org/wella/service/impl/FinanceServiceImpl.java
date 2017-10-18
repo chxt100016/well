@@ -232,4 +232,15 @@ public class FinanceServiceImpl implements FinanceService {
         BigDecimal userMoney=(BigDecimal) user.get("user_money");
         return userMoney;
     }
+
+    @Override
+    public int validateSubAccount(String subAccNo) {
+        Map<String,Object> query=new HashMap<>();
+        query.put("subAccNo",subAccNo);
+        UserSubAccount userSubAccount=userSubAccountDao.singleQuery(query);
+        if (null==userSubAccount){
+            return -1;
+        }
+        return 0;
+    }
 }
