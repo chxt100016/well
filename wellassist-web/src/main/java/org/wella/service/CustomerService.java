@@ -135,7 +135,7 @@ public interface CustomerService {
     int applyCreditLimit(Map<String, Object> params);
 
     /**
-     * 得到用户当前授信信息
+     * 得到用户当前(最新)授信信息
      * @param userId userId
      * @return 得到用户当前授信信息
      */

@@ -167,5 +167,18 @@ public class WaFinanceController {
         return R.ok().put("userCreditMoney",userCreditMoney);
     }
 
+    /**
+     * 从服务器数据库查询用户余额
+     * @return code:0成功/500异常 msg:异常信息
+     */
+    @RequestMapping("localBalance")
+    @ResponseBody
+    public R localBalance(){
+        User user=(User)HttpContextUtils.getAttribute("user");
+        long userId=user.getUserId();
+        BigDecimal userMoney=financeServiceImpl.getLocalBalance(userId);
+        return R.ok().put("balance",userMoney);
+    }
+
 
 }

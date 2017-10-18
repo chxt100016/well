@@ -576,7 +576,11 @@ public class CustomerServiceImpl implements CustomerService {
                 paramss.put("recvAccNo",loanTransfer.getSubAccNo());
                 paramss.put("recvAccNm",loanTransfer.getSubAccNm());
                 paramss.put("tranAmt",principal.add(interest).toString());
-                paramss.put("memo","loanId:"+loanId+",content:还款");
+                JSONObject memo=new JSONObject();
+                memo.put("loanId",loanId);
+                memo.put("type",4);
+                memo.put("content","还款");
+                paramss.put("memo",memo.toString());
                 String result= null;
                 try {
                     result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer",paramss);
@@ -598,6 +602,7 @@ public class CustomerServiceImpl implements CustomerService {
                 operationParamsObj.put("ip",ip);
                 cncbTrans.setOperationParams(operationParamsObj.toJSONString());
                 cncbTransDao.create(cncbTrans);
+                financeServiceImpl.calLocalBalance(userId,principal.add(interest).negate());
             }
         }).start();
         query.clear();
@@ -611,7 +616,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     public int repayLoanByBalance(long userId, long loanId, BigDecimal principal, BigDecimal interest, String ip) {
         Map<String, Object> user = waUserDao.singleUserByPrimaryKey(userId);
-        BigDecimal oldUserMoney = (BigDecimal) user.get("user_money");
+        //BigDecimal oldUserMoney = (BigDecimal) user.get("user_money");
         Map<String, Object> loan = loanDao.singleLoanByPrimaryKey(loanId);
         //update table wa_loan
         Map<String, Object> updateLoan = new HashMap<>();
@@ -640,10 +645,10 @@ public class CustomerServiceImpl implements CustomerService {
         repay.setRepayType((byte)0);
         repayDao.createRepay(repay);
 
-        Map<String, Object> updateuser = new HashMap<>();
+       /* Map<String, Object> updateuser = new HashMap<>();
         updateuser.put("userId", userId);
         updateuser.put("userMoney", oldUserMoney.subtract(principal.add(interest)));
-        waUserDao.updateUserByUserId(updateuser);
+        waUserDao.updateUserByUserId(updateuser);*/
 
         messageServicesk.handleRepayLoanMessage(loanId,repay.getRepayId());
         checkLoanRepayedOff(userId, loanId);
@@ -759,12 +764,19 @@ public class CustomerServiceImpl implements CustomerService {
 
         Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
         long supplierId=(long)order.get("supplier_id");
+        AdminSubAccount orderTransfer=adminSubAccountServiceImpl.findOrderTransferAccount();
         UserSubAccount seller=financeServiceImpl.getUserSubAccountByUserId(supplierId);
         Map<String,String> paramss=new HashMap<>();
+        paramss.put("payAccNo",orderTransfer.getSubAccNo());
         paramss.put("recvAccNo",seller.getSubAccNo());
         paramss.put("recvAccNm",seller.getSubAccNm());
         paramss.put("tranAmt",zfSjMoney.toString());
-        String result= org.wella.common.utils.CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransferFromTransferAccNo",paramss);
+        JSONObject memo=new JSONObject();
+        memo.put("orderId",orderId);
+        memo.put("type",6);
+        memo.put("content","订单结算给卖方");
+        paramss.put("memo",memo.toString());
+        String result= org.wella.common.utils.CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer",paramss);
         R r= JSON.parseObject(result,R.class);
         ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
         CncbTrans cncbTrans=new CncbTrans();
@@ -792,6 +804,7 @@ public class CustomerServiceImpl implements CustomerService {
         Map<String,Object> params=new HashMap<>();
         params.put("orderId",orderId);
         Map<String,Object> order=orderDao.singleOrderByPrimaryKey(orderId);
+        long supplierId=(long)order.get("supplier_id");
         int isSelfCar=(int)order.get("is_self_car");
         int prod2ndpayState=7;
         int logistics2ndpayState=(int)order.get("logistics_2ndpay_state");
@@ -818,6 +831,9 @@ public class CustomerServiceImpl implements CustomerService {
         params.put("completeDate",new Date());
         params.put("jyState",2);
         userMoneyDao.update(params);
+
+        //update seller 余额
+        financeServiceImpl.calLocalBalance(supplierId,zfSjMoney);
 
         /*waOrderServiceImpl.checkOrder2ndpayOff(orderId);*/
     }
@@ -871,6 +887,12 @@ public class CustomerServiceImpl implements CustomerService {
         params.put("logisticsId",logisticsId);
         params.put("state",6);
         logisticsInfoDao.updateByPrimaryKey(params);
+
+        //update 物流方余额
+        params.clear();
+        params=logisticsInfoDao.singleLogisticsInfoByPrimaryKey(logisticsId);
+        long senderUserId=(long)params.get("sender_user_id");
+        financeServiceImpl.calLocalBalance(senderUserId,zfSjMoney);
     }
 
     @Override
@@ -1116,6 +1138,11 @@ public class CustomerServiceImpl implements CustomerService {
         paramss.put("recvAccNo",subAccNo);
         paramss.put("recvAccNm",subAccNm);
         paramss.put("tranAmt",refundBalance.abs().toString());
+        JSONObject memo=new JSONObject();
+        memo.put("orderId",orderId);
+        memo.put("type",10);
+        memo.put("content","订单多退退至余额");
+        paramss.put("memo",memo.toString());
         String result= null;
         try {
             result = org.wella.common.utils.CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer",paramss);

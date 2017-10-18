@@ -7,7 +7,7 @@ import com.wellapay.cncb.model.output.AccountTransQuery.AccountTransQueryOutputL
 import com.wellapay.cncb.model.output.BalanceQueryOutput;
 import com.wellapay.cncb.util.CNCBConstants;
 import io.wellassist.utils.HttpContextUtils;
-import io.wellassist.utils.IPUtils;;
+import io.wellassist.utils.IPUtils;
 import io.wellassist.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +21,7 @@ import org.wella.entity.CncbTrans;
 import org.wella.entity.User;
 import org.wella.entity.UserSubAccount;
 import org.wella.service.AdminSubAccountService;
+import org.wella.service.CustomerService;
 import org.wella.service.FinanceService;
 import org.wella.service.MessageService;
 
@@ -56,6 +57,12 @@ public class FinanceServiceImpl implements FinanceService {
 
     @Autowired
     private CncbTransDao cncbTransDao;
+
+    @Autowired
+    private WaUserDao waUserDao;
+
+    @Autowired
+    private CustomerService customerServiceImpl;
 
 
     @Override
@@ -171,6 +178,7 @@ public class FinanceServiceImpl implements FinanceService {
         BigDecimal lixiMoneyFkf=(BigDecimal)loan.get("lixi_rate_fkf");
         BigDecimal tranAmt=repayMoney.add(lixiMoneyFkf);
         long creditUserId=(long)loan.get("credit_user_id");
+        long userId=(long)loan.get("user_id");
         UserSubAccount creditor=getUserSubAccountByUserId(creditUserId);
         AdminSubAccount loanTransfer=adminSubAccountServiceImpl.findLoanTransferAccount();
 
@@ -179,7 +187,11 @@ public class FinanceServiceImpl implements FinanceService {
         paramss.put("recvAccNo",creditor.getSubAccNo());
         paramss.put("recvAccNm",creditor.getSubAccNm());
         paramss.put("tranAmt",tranAmt.toString());
-        paramss.put("memo","loanId:"+loanId+",content:结算");
+        JSONObject memo=new JSONObject();
+        memo.put("type",12);
+        memo.put("loanId",loanId);
+        memo.put("content","贷款结算");
+        paramss.put("memo",memo.toString());
         String result= null;
         try {
             result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer",paramss);
@@ -197,5 +209,27 @@ public class FinanceServiceImpl implements FinanceService {
         operationParamsObj.put("loanId",loanId);
         cncbTrans.setOperationParams(operationParamsObj.toJSONString());
         cncbTransDao.create(cncbTrans);
+        //计算放款方余额
+        calLocalBalance(creditUserId,tranAmt);
+        //更新用户授信余额
+        customerServiceImpl.updateUserCreditMoney(userId);
+    }
+
+    @Override
+    public void calLocalBalance(long userId, BigDecimal differ) {
+        Map<String,Object> user=waUserDao.singleUserByPrimaryKey(userId);
+        BigDecimal oldUserMoney=(BigDecimal) user.get("user_money");
+        BigDecimal newUserMoney=oldUserMoney.add(differ);
+        user.clear();
+        user.put("userId",userId);
+        user.put("userMoney",newUserMoney);
+        waUserDao.updateUserByUserId(user);
+    }
+
+    @Override
+    public BigDecimal getLocalBalance(long userId) {
+        Map<String,Object> user=waUserDao.singleUserByPrimaryKey(userId);
+        BigDecimal userMoney=(BigDecimal) user.get("user_money");
+        return userMoney;
     }
 }

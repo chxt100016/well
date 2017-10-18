@@ -305,15 +305,37 @@ public class TradeController extends BaseController {
         return R.ok().put("page",pageUtils);
     }
 
-    @RequestMapping(value = "orderTransFlow.html",method = RequestMethod.GET)
+    /**
+     * 订单中转户交易流水页面跳转
+     * @return view
+     */
+    @RequestMapping(value = "orderTransfer.html",method = RequestMethod.GET)
     public String orderTransFlow(){
-        return "views/platform/trade/orderTransFlow.html";
+        return "views/platform/trade/orderTransfer.html";
     }
 
-    @RequestMapping(value = "loanTransFlow.html",method = RequestMethod.GET)
+    /**
+     * 还款中转户交易流水页面跳转
+     * @return view
+     */
+    @RequestMapping(value = "loanTransfer.html",method = RequestMethod.GET)
     public String loanTransFlow(){
-        return "views/platform/trade/loanTransFlow.html";
+        return "views/platform/trade/loanTransfer.html";
     }
+
+    /**
+     * 中转户设置页面跳转
+     * @return view
+     */
+    @RequestMapping(value = "adminAccountManage.html",method = RequestMethod.GET)
+    public String adminAccountManage(){return "views/platform/trade/adminAccountManage.html";}
+
+    /**
+     * 账户交易流水查询页面
+     * @return view
+     */
+    @RequestMapping(value = "accountQuery.html",method = RequestMethod.GET)
+    public String accountQuery(){return "views/platform/trade/accountQuery.html";}
 
     /**
      * 查询交易中转户某一天的交易流水

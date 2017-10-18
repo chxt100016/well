@@ -282,6 +282,7 @@ public class WaScheduleJobService {
         Map params=JSON.parseObject(operationParams,Map.class);
         long logisticsId=(long)(int)params.get("logisticsId");
         long orderId=(long)(int)params.get("orderId");
+        long senderUserId=(long)(int)params.get("senderUserId");
         BigDecimal zfSjMoney=(BigDecimal)params.get("zfSjMoney");
 
         Map update=new HashMap();

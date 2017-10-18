@@ -12,13 +12,11 @@ import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
+import org.wella.entity.AdminSubAccount;
 import org.wella.entity.CncbTrans;
 import org.wella.entity.CreditorAuthenticInfo;
 import org.wella.entity.UserSubAccount;
-import org.wella.service.CreditorService;
-import org.wella.service.CustomerService;
-import org.wella.service.MessageService;
-import org.wella.service.WaOrderService;
+import org.wella.service.*;
 import org.wella.utils.DateUtils;
 
 import java.math.BigDecimal;
@@ -77,6 +75,12 @@ public class CreditorServiceImpl implements CreditorService{
     @Autowired
     private CustomerService customerServiceImpl;
 
+    @Autowired
+    private AdminSubAccountService adminSubAccountServiceImpl;
+
+    @Autowired
+    private FinanceService financeServiceImpl;
+
 
 
     /**
@@ -97,6 +101,10 @@ public class CreditorServiceImpl implements CreditorService{
     @Override
     public int payLoan(final long loanId, final long creditorUserId, final int paymentDays, final String operateIp) throws Exception {
         Map<String,Object> loan=loanDao.singleLoanByPrimaryKey(loanId);
+        final int loanType=(int)loan.get("loan_type");
+        Map<String,Object> loanFkView=loanDao.singleLoanFkViewByPrimaryKey(loanId);
+        final long orderId=null==loanFkView.get("order_id")?0L:(long)loanFkView.get("order_id");
+        final long logisticsInfoId=null==loanFkView.get("logistics_id")?0L:(long)loanFkView.get("logistics_id");
         final BigDecimal loanMoney=(BigDecimal)loan.get("loan_money");
         new Thread(new Runnable() {
             @Override
@@ -104,12 +112,28 @@ public class CreditorServiceImpl implements CreditorService{
                 Map<String,Object> query=new HashMap<>();
                 query.put("userId",creditorUserId);
                 UserSubAccount userSubAccount=userSubAccountDao.singleQuery(query);
+                AdminSubAccount orderTransfer=adminSubAccountServiceImpl.findOrderTransferAccount();
                 Map<String,String> paramss=new HashMap<>();
                 paramss.put("payAccNo",userSubAccount.getSubAccNo().toString());
+                paramss.put("recvAccNo",orderTransfer.getSubAccNo());
+                paramss.put("recvAccNm",orderTransfer.getSubAccNm());
                 paramss.put("tranAmt",loanMoney.toString());
+                JSONObject memo=new JSONObject();
+                memo.put("loanId",loanId);
+                memo.put("orderId",orderId);
+                memo.put("logisticsInfoId",logisticsInfoId);
+                memo.put("type",2);
+                if (loanType==1){
+                    memo.put("content","订单预付款授信付款");
+                }else if (loanType==2){
+                    memo.put("content","物流订单预付款授信付款");
+                }else if (loanType==3){
+                    memo.put("content","订单少补付款授信付款");
+                }
+                paramss.put("memo",memo.toString());
                 String result= null;
                 try {
-                    result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer2TransferAccNo",paramss);
+                    result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer",paramss);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -148,6 +172,10 @@ public class CreditorServiceImpl implements CreditorService{
         if(creditorUserId!=(long)loan.get("credit_user_id")){
             return 0;
         }
+
+        //授信账户余额减
+        financeServiceImpl.calLocalBalance(creditorUserId,((BigDecimal) loan.get("loan_money")).negate());
+
 
         // update table wa_loan
         Map<String,Object> updateloan=new HashMap();

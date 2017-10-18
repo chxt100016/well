@@ -176,7 +176,7 @@
         SELECT sum(loan_money)
         from wa_loan
         WHERE user_id=#{userId}
-        AND loan_state not in (-3,3);
+        AND loan_state not in (-3,3,4);
     </select>
 
     <select id="listLoanByConditions" parameterType="map" resultType="map">

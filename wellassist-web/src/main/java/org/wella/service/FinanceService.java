@@ -53,6 +53,13 @@ public interface FinanceService {
     BigDecimal getBalance(long userId) throws Exception;
 
     /**
+     * 查询本地余额
+     * @param userId userId
+     * @return 查询用户余额
+     */
+    BigDecimal getLocalBalance(long userId);
+
+    /**
      * 得到用户的附属账户信息
      * @param userId wa_user表主键
      * @return wa_user_sub_account表记录
@@ -86,4 +93,11 @@ public interface FinanceService {
      * @param loanId wa_loan 主键
      */
     void handleLoanRepayoff(long loanId);
+
+    /**
+     * 在本地数据库中存用户余额
+     * @param userId 用户id
+     * @param differ 增为正，减为负
+     */
+    void calLocalBalance(long userId,BigDecimal differ);
 }

@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wellapay.cncb.model.ForceTransferBasicInfo;
 import io.wellassist.utils.*;
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.logging.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ import org.wella.entity.*;
 import org.wella.service.AdminSubAccountService;
 import org.wella.service.FinanceService;
 import org.wella.service.WaOrderService;
+import org.wella.service.WaScheduleJobService;
 import org.wella.service.impl.CustomerServiceImpl;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,6 +35,9 @@ import java.util.*;
 @Controller
 @RequestMapping(value = "/customer/")
 public class CustomerController extends BaseController {
+
+   private static org.apache.commons.logging.Log log = LogFactory.getLog(CustomerController.class);
+
    @Autowired
    private CustomerServiceImpl customerServiceImpl;
 
@@ -342,16 +347,24 @@ public class CustomerController extends BaseController {
                   }
                   final BigDecimal finalBbalance = Bbalance;
                   final String finalCertificateImg = certificateImg;
+                  final AdminSubAccount orderTransfer=adminSubAccountServiceImpl.findOrderTransferAccount();
                   new Thread(new Runnable() {
                      @Override
                      public void run() {
                         UserSubAccount userSubAccount=financeServiceImpl.getUserSubAccountByUserId(user.getUserId());
                         Map<String,String> paramss=new HashMap<>();
                         paramss.put("payAccNo",userSubAccount.getSubAccNo().toString());
+                        paramss.put("recvAccNo",orderTransfer.getSubAccNo());
+                        paramss.put("recvAccNm",orderTransfer.getSubAccNm());
                         paramss.put("tranAmt", finalBbalance.toString());
+                        JSONObject memo=new JSONObject();
+                        memo.put("orderId",orderId);
+                        memo.put("type",1);
+                        memo.put("content","预付款余额付款");
+                        paramss.put("memo",memo.toString());
                         String result= null;
                         try {
-                           result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer2TransferAccNo",paramss);
+                           result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer",paramss);
                         } catch (Exception e) {
                            e.printStackTrace();
                         }
@@ -407,7 +420,7 @@ public class CustomerController extends BaseController {
    @RequestMapping(value = {"payLogistics"},
            method = {RequestMethod.POST})
    @ResponseBody
-   public JSONObject payLogistics(@RequestParam Map<String,Object> params, HttpServletRequest request, HttpServletResponse response) throws Exception {
+   public JSONObject payLogistics(@RequestParam final Map<String,Object> params, HttpServletRequest request, HttpServletResponse response) throws Exception {
       final JSONObject obj = new JSONObject();
       final String orderId = CommonUtil.GetRequestParam(request, "orderId", "0");
       final String logisticsInfoId = CommonUtil.GetRequestParam(request, "logisticsInfoId", "0");
@@ -436,6 +449,7 @@ public class CustomerController extends BaseController {
          Map orderObj = this.getMyOneSingBO("wa_order", "order_id", Long.parseLong(orderId));
          if (orderObj != null && orderObj.get("userId") != null && (long) orderObj.get("userId") == (user.getUserId()) && orderObj.get("orderState") != null && ((int) orderObj.get("orderState") == 1 || (int) orderObj.get("orderState") == 11) || (int) orderObj.get("orderState") == 13) {
             final String finalCertificateImg = certificateImg;
+            final AdminSubAccount orderTransfer=adminSubAccountServiceImpl.findOrderTransferAccount();
             int zfMethodi = Integer.parseInt(zfMethod);
             if (zfMethodi == 2 || zfMethodi == 4) {
                BigDecimal Bbalance = new BigDecimal(balance);
@@ -451,10 +465,18 @@ public class CustomerController extends BaseController {
                      UserSubAccount userSubAccount = userSubAccountDao.singleQuery(query);
                      Map<String, String> paramss = new HashMap<>();
                      paramss.put("payAccNo", userSubAccount.getSubAccNo().toString());
+                     paramss.put("recvAccNo",orderTransfer.getSubAccNo());
+                     paramss.put("recvAccNm",orderTransfer.getSubAccNm());
                      paramss.put("tranAmt", finalBbalance.toString());
+                     JSONObject memo=new JSONObject();
+                     memo.put("loanId",orderId);
+                     memo.put("logisticsInfoId",logisticsInfoId);
+                     memo.put("type",3);
+                     memo.put("content","物流预付款余额付款");
+                     paramss.put("memo",memo.toString());
                      String result = null;
                      try {
-                        result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL + "forceTransfer2TransferAccNo", paramss);
+                        result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL + "forceTransfer", paramss);
                      } catch (Exception e) {
                         e.printStackTrace();
                      }
@@ -1262,9 +1284,9 @@ public class CustomerController extends BaseController {
                      ) throws Exception {
       BigDecimal zero=new BigDecimal(0);
       User user=(User)request.getSession().getAttribute("user");
-      long userId=user.getUserId();
+      final long userId=user.getUserId();
       BigDecimal lixiRate=user.getLixiRate();
-      String ip=getIpAddr(request);
+      final String ip=getIpAddr(request);
       //从数据库得到最新的余额和授信余额
       Map<String,Object> databaseUser=userDao.singleUserByPrimaryKey(userId);
       BigDecimal oldUserMoney=(BigDecimal)databaseUser.get("user_money");
@@ -1275,14 +1297,14 @@ public class CustomerController extends BaseController {
       UserSubAccount userSubAccount=financeServiceImpl.getUserSubAccountByUserId(user.getUserId());
       final String subAccNo=userSubAccount.getSubAccNo();
       final String subAccNm=userSubAccount.getSubAccNm();
-      Map<String,Object> param=new HashMap<>();
+      final Map<String,Object> param=new HashMap<>();
       final AdminSubAccount orderTransfer=adminSubAccountServiceImpl.findOrderTransferAccount();
       final AdminSubAccount loanTransfer=adminSubAccountServiceImpl.findLoanTransferAccount();
 
       //得到order_trans记录
       param.put("orderId",orderId);
       param.put("transState",1);
-      Map<String,Object> orderTrans=orderTransDao.singlePoByConditions(param);
+      final Map<String,Object> orderTrans=orderTransDao.singlePoByConditions(param);
       long orderTransId=(long)orderTrans.get("order_trans_id");
       long moneyId=(long)orderTrans.get("money_id");
       BigDecimal zfMoney=(BigDecimal)orderTrans.get("zf_money");
@@ -1292,16 +1314,28 @@ public class CustomerController extends BaseController {
 
          int firstZfmethod=(int)orderTrans.get("zf_method");
          if (firstZfmethod==2){
+            param.clear();
+            param.put("userId",userId);
+            param.put("userMoney",oldUserMoney.subtract(secondPayMoney));
+            param.put("userLockMoney",oldUserLockMoney.add(secondPayMoney));
+            userDao.updateUserByUserId(param);
+
             new Thread(new Runnable() {
                @Override
                public void run() {
                   Map<String,String> paramss=new HashMap<>();
+                  paramss.put("payAccNo",orderTransfer.getSubAccNo());
                   paramss.put("recvAccNo",subAccNo);
                   paramss.put("recvAccNm",subAccNm);
                   paramss.put("tranAmt",secondPayMoney.abs().toString());
+                  JSONObject memo=new JSONObject();
+                  memo.put("orderId",orderId);
+                  memo.put("type",5);
+                  memo.put("content","订单多退退回余额");
+                  paramss.put("memo",memo.toString());
                   String result= null;
                   try {
-                     result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransferFromTransferAccNo",paramss);
+                     result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer",paramss);
                   } catch (Exception e) {
                      e.printStackTrace();
                   }
@@ -1329,68 +1363,99 @@ public class CustomerController extends BaseController {
             orderDao.updateOrderByID(param);
             return R.ok().put("msg","结算中...");
          }else if(firstZfmethod==3){
-            Map<String,String> paramss=new HashMap<>();
-            paramss.put("payAccNo",orderTransfer.getSubAccNo());
-            paramss.put("recvAccNo",loanTransfer.getSubAccNo());
-            paramss.put("recvAccNm",loanTransfer.getSubAccNm());
-            paramss.put("tranAmt",secondPayMoney.abs().toString());
-            String result= null;
-            try {
-               result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer",paramss);
-            } catch (Exception e) {
-               e.printStackTrace();
-            }
-            R r= JSON.parseObject(result,R.class);
-            ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
-            CncbTrans cncbTrans=new CncbTrans();
-            cncbTrans.setXml(forceTransferBasicInfo.getXml());
-            cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
-            cncbTrans.setTime(new Date());
-            cncbTrans.setType((byte)8);
-            JSONObject operationParamsObj=new JSONObject();
-            operationParamsObj.put("orderId",orderId);
-            operationParamsObj.put("secondPayMoney",secondPayMoney);
-            operationParamsObj.put("orderTransId",orderTrans.get("order_trans_id"));
-            cncbTrans.setOperationParams(operationParamsObj.toJSONString());
-            cncbTransDao.create(cncbTrans);
+            new Thread(new Runnable() {
+               @Override
+               public void run() {
+                  Map<String,String> paramss=new HashMap<>();
+                  paramss.put("payAccNo",orderTransfer.getSubAccNo());
+                  paramss.put("recvAccNo",loanTransfer.getSubAccNo());
+                  paramss.put("recvAccNm",loanTransfer.getSubAccNm());
+                  paramss.put("tranAmt",secondPayMoney.abs().toString());
+                  JSONObject memo=new JSONObject();
+                  memo.put("orderId",orderId);
+                  memo.put("type",8);
+                  memo.put("content","订单多退退至贷款");
+                  paramss.put("memo",memo.toString());
+                  String result= null;
+                  try {
+                     result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer",paramss);
+                  } catch (Exception e) {
+                     e.printStackTrace();
+                  }
+                  R r= JSON.parseObject(result,R.class);
+                  ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
+                  CncbTrans cncbTrans=new CncbTrans();
+                  cncbTrans.setXml(forceTransferBasicInfo.getXml());
+                  cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
+                  cncbTrans.setTime(new Date());
+                  cncbTrans.setType((byte)8);
+                  JSONObject operationParamsObj=new JSONObject();
+                  operationParamsObj.put("orderId",orderId);
+                  operationParamsObj.put("secondPayMoney",secondPayMoney);
+                  operationParamsObj.put("orderTransId",orderTrans.get("order_trans_id"));
+                  cncbTrans.setOperationParams(operationParamsObj.toJSONString());
+                  cncbTransDao.create(cncbTrans);
+               }
+            }).start();
+
             param.clear();
             param.put("orderId",orderId);
             param.put("prod2ndpayState",3);
             orderDao.updateOrderByID(param);
             return R.ok().put("msg","结算中...");
          }else if(firstZfmethod==4){
+
+
+
             BigDecimal balanceZfMoney1st=(BigDecimal) orderTrans.get("balance_zf_money");
             BigDecimal loanZfMoney1st=(BigDecimal)orderTrans.get("loan_zf_money");
             //需少退的余额和贷款
-            BigDecimal refundBalance=secondPayMoney.multiply(balanceZfMoney1st).divide(balanceZfMoney1st.add(loanZfMoney1st),1,BigDecimal.ROUND_HALF_DOWN);
-            BigDecimal refundLoan=secondPayMoney.multiply(loanZfMoney1st).divide(balanceZfMoney1st.add(loanZfMoney1st),1,BigDecimal.ROUND_HALF_DOWN);
-            Map<String,String> paramss=new HashMap<>();
-            paramss.put("payAccNo",orderTransfer.getSubAccNo());
-            paramss.put("recvAccNo",loanTransfer.getSubAccNo());
-            paramss.put("recvAccNm",loanTransfer.getSubAccNm());
-            paramss.put("tranAmt",refundLoan.abs().toString());
-            String result= null;
-            try {
-               result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer",paramss);
-            } catch (Exception e) {
-               e.printStackTrace();
-            }
-            R r= JSON.parseObject(result,R.class);
-            ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
-            CncbTrans cncbTrans=new CncbTrans();
-            cncbTrans.setXml(forceTransferBasicInfo.getXml());
-            cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
-            cncbTrans.setTime(new Date());
-            cncbTrans.setType((byte)9);
-            JSONObject operationParamsObj=new JSONObject();
-            operationParamsObj.put("orderId",orderId);
-            operationParamsObj.put("secondPayMoney",secondPayMoney);
-            operationParamsObj.put("orderTransId",orderTrans.get("order_trans_id"));
-            operationParamsObj.put("refundBalance",refundBalance);
-            operationParamsObj.put("refundLoan",refundLoan);
-            operationParamsObj.put("userId",userId);
-            cncbTrans.setOperationParams(operationParamsObj.toJSONString());
-            cncbTransDao.create(cncbTrans);
+            final BigDecimal refundBalance=secondPayMoney.multiply(balanceZfMoney1st).divide(balanceZfMoney1st.add(loanZfMoney1st),1,BigDecimal.ROUND_HALF_DOWN);
+            final BigDecimal refundLoan=secondPayMoney.multiply(loanZfMoney1st).divide(balanceZfMoney1st.add(loanZfMoney1st),1,BigDecimal.ROUND_HALF_DOWN);
+
+            param.clear();
+            param.put("userId",userId);
+            param.put("userMoney",oldUserMoney.subtract(refundBalance));
+            param.put("userLockMoney",oldUserLockMoney.add(refundBalance));
+            userDao.updateUserByUserId(param);
+            new Thread(new Runnable() {
+               @Override
+               public void run() {
+                  Map<String,String> paramss=new HashMap<>();
+                  paramss.put("payAccNo",orderTransfer.getSubAccNo());
+                  paramss.put("recvAccNo",loanTransfer.getSubAccNo());
+                  paramss.put("recvAccNm",loanTransfer.getSubAccNm());
+                  paramss.put("tranAmt",refundLoan.abs().toString());
+                  JSONObject memo=new JSONObject();
+                  memo.put("orderId",orderId);
+                  memo.put("type",9);
+                  memo.put("content","订单多退退至贷款");
+                  paramss.put("memo",memo.toString());
+                  String result= null;
+                  try {
+                     result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer",paramss);
+                  } catch (Exception e) {
+                     e.printStackTrace();
+                  }
+                  R r= JSON.parseObject(result,R.class);
+                  ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
+                  CncbTrans cncbTrans=new CncbTrans();
+                  cncbTrans.setXml(forceTransferBasicInfo.getXml());
+                  cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
+                  cncbTrans.setTime(new Date());
+                  cncbTrans.setType((byte)9);
+                  JSONObject operationParamsObj=new JSONObject();
+                  operationParamsObj.put("orderId",orderId);
+                  operationParamsObj.put("secondPayMoney",secondPayMoney);
+                  operationParamsObj.put("orderTransId",orderTrans.get("order_trans_id"));
+                  operationParamsObj.put("refundBalance",refundBalance);
+                  operationParamsObj.put("refundLoan",refundLoan);
+                  operationParamsObj.put("userId",userId);
+                  cncbTrans.setOperationParams(operationParamsObj.toJSONString());
+                  cncbTransDao.create(cncbTrans);
+               }
+            }).start();
+
             param.clear();
             param.put("orderId",orderId);
             param.put("prod2ndpayState",3);
@@ -1403,15 +1468,27 @@ public class CustomerController extends BaseController {
          return R.ok().put("msg","结算中...");
       }else if(secondPayMoney.compareTo(zero)>0){
          if(zfMethod==2){
+            param.clear();
+            param.put("userId",userId);
+            param.put("userMoney",oldUserMoney.subtract(secondPayMoney));
+            param.put("userLockMoney",oldUserLockMoney.add(secondPayMoney));
+            userDao.updateUserByUserId(param);
             new Thread(new Runnable() {
                @Override
                public void run() {
                   Map<String,String> paramss=new HashMap<>();
                   paramss.put("payAccNo",subAccNo);
+                  paramss.put("recvAccNo",orderTransfer.getSubAccNo());
+                  paramss.put("recvAccNm",orderTransfer.getSubAccNm());
                   paramss.put("tranAmt",secondPayMoney.toString());
+                  JSONObject memo=new JSONObject();
+                  memo.put("orderId",orderId);
+                  memo.put("type",5);
+                  memo.put("content","订单少补余额支付");
+                  paramss.put("memo",memo.toString());
                   String result= null;
                   try {
-                     result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer2TransferAccNo",paramss);
+                     result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer",paramss);
                   } catch (Exception e) {
                      e.printStackTrace();
                   }
@@ -1488,35 +1565,47 @@ public class CustomerController extends BaseController {
             userDao.updateUserByUserId(param);
 
             //余额支付部分转入中转户
-            Map<String,String> paramss=new HashMap<>();
-            paramss.put("payAccNo",subAccNo);
-            paramss.put("recvAccNo",orderTransfer.getSubAccNo());
-            paramss.put("recvAccNm",orderTransfer.getSubAccNm());
-            paramss.put("tranAmt",balance.toString());
-            String result= null;
-            try {
-               result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer",paramss);
-            } catch (Exception e) {
-               e.printStackTrace();
-            }
-            R r= JSON.parseObject(result,R.class);
-            ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
-            CncbTrans cncbTrans=new CncbTrans();
-            cncbTrans.setXml(forceTransferBasicInfo.getXml());
-            cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
-            cncbTrans.setTime(new Date());
-            cncbTrans.setType((byte)11);
-            JSONObject operationParamsObj=new JSONObject();
-            operationParamsObj.put("orderId",orderId);
-            operationParamsObj.put("secondPayMoney",secondPayMoney);
-            operationParamsObj.put("orderTransId",orderTrans.get("order_trans_id"));
-            operationParamsObj.put("zfMethod",zfMethod);
-            operationParamsObj.put("balance",balance);
-            operationParamsObj.put("loan",loan);
-            operationParamsObj.put("userId",userId);
-            operationParamsObj.put("ip",ip);
-            cncbTrans.setOperationParams(operationParamsObj.toJSONString());
-            cncbTransDao.create(cncbTrans);
+            new Thread(new Runnable() {
+               @Override
+               public void run() {
+                  Map<String,String> paramss=new HashMap<>();
+                  paramss.put("payAccNo",subAccNo);
+                  paramss.put("recvAccNo",orderTransfer.getSubAccNo());
+                  paramss.put("recvAccNm",orderTransfer.getSubAccNm());
+                  paramss.put("tranAmt",balance.toString());
+                  JSONObject memo=new JSONObject();
+                  memo.put("orderId",orderId);
+                  memo.put("type",11);
+                  memo.put("content","订单少补余额支付");
+                  paramss.put("memo",memo.toString());
+                  String result= null;
+                  try {
+                     result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer",paramss);
+                  } catch (Exception e) {
+                     e.printStackTrace();
+                  }
+                  R r= JSON.parseObject(result,R.class);
+                  ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
+                  CncbTrans cncbTrans=new CncbTrans();
+                  cncbTrans.setXml(forceTransferBasicInfo.getXml());
+                  cncbTrans.setClientId(forceTransferBasicInfo.getClientID());
+                  cncbTrans.setTime(new Date());
+                  cncbTrans.setType((byte)11);
+                  JSONObject operationParamsObj=new JSONObject();
+                  operationParamsObj.put("orderId",orderId);
+                  operationParamsObj.put("secondPayMoney",secondPayMoney);
+                  operationParamsObj.put("orderTransId",orderTrans.get("order_trans_id"));
+                  operationParamsObj.put("zfMethod",zfMethod);
+                  operationParamsObj.put("balance",balance);
+                  operationParamsObj.put("loan",loan);
+                  operationParamsObj.put("userId",userId);
+                  operationParamsObj.put("ip",ip);
+                  cncbTrans.setOperationParams(operationParamsObj.toJSONString());
+                  cncbTransDao.create(cncbTrans);
+
+               }
+            }).start();
+
             param.clear();
             param.put("orderId",orderId);
             param.put("prod2ndpayState",3);
@@ -1542,6 +1631,7 @@ public class CustomerController extends BaseController {
       final BigDecimal prePayment=(BigDecimal)logisticsInfo.get("pre_payment");
       final long senderUserId=(long)logisticsInfo.get("sender_user_id");
       final long orderId=(long)logisticsInfo.get("order_id");
+      final AdminSubAccount orderTransfer=adminSubAccountServiceImpl.findOrderTransferAccount();
       new Thread(new Runnable() {
          @Override
          public void run() {
@@ -1549,12 +1639,19 @@ public class CustomerController extends BaseController {
             String subAccNo=senderSubAccount.getSubAccNo();
             String subAccNm=senderSubAccount.getSubAccNm();
             Map<String,String> paramss=new HashMap<>();
+            paramss.put("payAccNo",orderTransfer.getSubAccNo());
             paramss.put("recvAccNo",subAccNo);
             paramss.put("recvAccNm",subAccNm);
             paramss.put("tranAmt",prePayment.toString());
+            JSONObject memo=new JSONObject();
+            memo.put("orderId",orderId);
+            memo.put("logisticsInfoId",logisticsId);
+            memo.put("type",7);
+            memo.put("content","物流订单结算");
+            paramss.put("memo",memo.toString());
             String result= null;
             try {
-               result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransferFromTransferAccNo",paramss);
+               result = CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"forceTransfer",paramss);
             } catch (Exception e) {
                e.printStackTrace();
             }
@@ -1567,6 +1664,7 @@ public class CustomerController extends BaseController {
             cncbTrans.setType((byte)7);
             JSONObject operationParamsObj=new JSONObject();
             operationParamsObj.put("logisticsId",logisticsId);
+            operationParamsObj.put("senderUserId",senderUserId);
             operationParamsObj.put("orderId",orderId);
             operationParamsObj.put("zfSjMoney",prePayment);
             cncbTrans.setOperationParams(operationParamsObj.toJSONString());
