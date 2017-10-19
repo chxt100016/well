@@ -186,7 +186,7 @@ public class WaFinanceController {
      */
     @RequestMapping("syncBalance")
     @ResponseBody
-    public R syncBalance(){
+    public R syncBalance() throws Exception {
         User user=(User)HttpContextUtils.getAttribute("user");
         long userId=user.getUserId();
         BigDecimal balance=financeServiceImpl.syncBalance(userId);
