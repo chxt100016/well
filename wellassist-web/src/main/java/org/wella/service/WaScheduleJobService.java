@@ -20,6 +20,7 @@ import org.wella.common.utils.ConstantUtil;
 import org.wella.dao.CncbTransDao;
 import org.wella.dao.LoanDao;
 import org.wella.dao.OrderDao;
+import org.wella.dao.WaUserDao;
 import org.wella.entity.CncbTrans;
 
 import java.math.BigDecimal;
@@ -54,6 +55,12 @@ public class WaScheduleJobService {
 
     @Autowired
     private CustomerService customerServiceImpl;
+
+    @Autowired
+    private WaUserDao waUserDao;
+
+    @Autowired
+    private FinanceService financeServiceImpl;
 
 
     /**
@@ -121,6 +128,20 @@ public class WaScheduleJobService {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    /**
+     * 定时同步数据库中的用户余额字段
+     * @throws Exception
+     */
+    @Scheduled(fixedRate = 3600000)
+    public void syncUserBalance() throws Exception {
+        Map<String,Object> param=new HashMap<>();
+        List<Map<String,Object>> allUser=waUserDao.listUserByConditions(param);
+        for (Map<String,Object> user : allUser){
+            long userId=(long)user.get("user_id");
+            financeServiceImpl.syncBalance(userId);
         }
     }
 

@@ -6,6 +6,7 @@ import io.wellassist.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.wella.common.utils.ConstantUtil;
@@ -171,7 +172,7 @@ public class WaFinanceController {
      * 从服务器数据库查询用户余额
      * @return code:0成功/500异常 msg:异常信息
      */
-    @RequestMapping("localBalance")
+    @RequestMapping(value = "localBalance",method = RequestMethod.GET)
     @ResponseBody
     public R localBalance(){
         User user=(User)HttpContextUtils.getAttribute("user");
@@ -184,13 +185,13 @@ public class WaFinanceController {
      * 从中信银行同步余额
      * @return
      */
-    @RequestMapping("syncBalance")
+    @RequestMapping(value = "syncBalance",method = RequestMethod.GET)
     @ResponseBody
     public R syncBalance() throws Exception {
         User user=(User)HttpContextUtils.getAttribute("user");
         long userId=user.getUserId();
         BigDecimal balance=financeServiceImpl.syncBalance(userId);
-        return R.ok();
+        return R.ok().put("balance",balance);
     }
 
 }
