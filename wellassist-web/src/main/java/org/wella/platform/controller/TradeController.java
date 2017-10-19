@@ -28,10 +28,7 @@ import org.wella.service.MessageService;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Date;
+import java.util.*;
 
 /**
  * Created by liuwen on 2017/6/5.
@@ -357,6 +354,10 @@ public class TradeController extends BaseController {
         }else{
             list=financeServiceImpl.getOrderTransferAccountFlowByDate(new Date());
         }
+        //页面接收到空集合而不是null
+        if (null==list){
+            list=new ArrayList<>();
+        }
         return R.ok().put("list",list);
     }
 
@@ -375,6 +376,10 @@ public class TradeController extends BaseController {
         }else{
             list=financeServiceImpl.getLoanTransferAccountFlowByDate(new Date());
         }
+        //页面接收到空集合而不是null
+        if (null==list){
+            list=new ArrayList<>();
+        }
         return R.ok().put("list",list);
     }
 
@@ -391,6 +396,10 @@ public class TradeController extends BaseController {
             list=financeServiceImpl.getSubAccountFlowByDate(subAccNo,queryDate);
         }else{
             list=financeServiceImpl.getSubAccountFlowByDate(subAccNo,new Date());
+        }
+        //页面接收到空集合而不是null
+        if (null==list){
+            list=new ArrayList<>();
         }
         return R.ok().put("list",list);
     }

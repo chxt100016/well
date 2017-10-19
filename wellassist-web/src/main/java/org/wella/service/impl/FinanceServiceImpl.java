@@ -243,4 +243,10 @@ public class FinanceServiceImpl implements FinanceService {
         }
         return 0;
     }
+
+    @Override
+    public BigDecimal syncBalance(long userId) {
+        BigDecimal
+        return null;
+    }
 }

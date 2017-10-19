@@ -107,4 +107,11 @@ public interface FinanceService {
      * @param differ 增为正，减为负
      */
     void calLocalBalance(long userId,BigDecimal differ);
+
+    /**
+     * 从中信银行获取用户余额，并与本地余额进行同步
+     * @param userId
+     * @return
+     */
+    BigDecimal syncBalance(long userId);
 }

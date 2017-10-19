@@ -180,5 +180,17 @@ public class WaFinanceController {
         return R.ok().put("balance",userMoney);
     }
 
+    /**
+     * 从中信银行同步余额
+     * @return
+     */
+    @RequestMapping("syncBalance")
+    @ResponseBody
+    public R syncBalance(){
+        User user=(User)HttpContextUtils.getAttribute("user");
+        long userId=user.getUserId();
+        BigDecimal balance=financeServiceImpl.syncBalance(userId);
+        return R.ok();
+    }
 
 }
