@@ -245,8 +245,17 @@ public class FinanceServiceImpl implements FinanceService {
     }
 
     @Override
-    public BigDecimal syncBalance(long userId) {
-        BigDecimal
-        return null;
+    public BigDecimal syncBalance(long userId) throws Exception {
+        BigDecimal remoteBalance=getBalance(userId);
+        BigDecimal localBalance=getLocalBalance(userId);
+        if (remoteBalance.compareTo(localBalance)==0){
+            return remoteBalance;
+        }else {
+            Map<String,Object> param=new HashMap<>();
+            param.put("userId",userId);
+            param.put("userMoney",remoteBalance);
+            waUserDao.updateUserByUserId(param);
+            return remoteBalance;
+        }
     }
 }

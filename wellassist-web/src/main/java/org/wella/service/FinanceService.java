@@ -45,7 +45,7 @@ public interface FinanceService {
     Map<String,Object> getLoanRepayInfo(long loanId);
 
     /**
-     * 查询用户余额
+     * 从cncb查询用户余额
      * @param userId userId
      * @return 查询用户余额
      * @throws Exception
@@ -113,5 +113,5 @@ public interface FinanceService {
      * @param userId
      * @return
      */
-    BigDecimal syncBalance(long userId);
+    BigDecimal syncBalance(long userId) throws Exception;
 }
