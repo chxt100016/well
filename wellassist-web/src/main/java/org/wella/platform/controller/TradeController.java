@@ -424,6 +424,8 @@ public class TradeController extends BaseController {
         return R.ok();
     }
 
+
+
     /**
      * 添加中转账户
      * @param subAccNo 账号
@@ -431,7 +433,7 @@ public class TradeController extends BaseController {
      * @param type 1-付款中转户，2-还款中转户
      * @return
      */
-    @RequestMapping(value = "adminSubAccount",method = RequestMethod.PUT)
+    @RequestMapping(value = "addAdminSubAccount",method = RequestMethod.POST)
     @ResponseBody
     public R addAdminSubAccount(@RequestParam("subAccNo")String subAccNo,@RequestParam("subAccNm")String subAccNm,@RequestParam("type")int type){
         AdminSubAccount adminSubAccount=new AdminSubAccount();
