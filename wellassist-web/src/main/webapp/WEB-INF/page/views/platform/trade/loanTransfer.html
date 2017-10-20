@@ -8,10 +8,173 @@
     <title>交易列表</title>
     <!--valocity模板解析-->
     #parse("sys/header.html")
+    <link rel="stylesheet" href="${rc.contextPath}/statics/css/bootstrap-datetimepicker.min.css">
+    
 </head>
 
 <body>
+    <div class="container" >
+        <br>
+        <br>
+            <div class="form-group">
+                    <label for="dtp_input2" class="col-md-2 control-label">请选择日期：</label>
+                    <div class="input-group date form_date col-md-5" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                        <input class="form-control" size="16" type="text" value="" readonly id='datepk'>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                   
+                    <input type="hidden" id="dtp_input2" value="" /><br/>
+            </div>
+            
+            <div id='smapp'>
+            <button class="btn btn-success" v-on:click='search'>查询</button>
+            <br><br>
+            <table class="table table-bordered">
+                <thead >
+                    <tr>
+                        <th>#</th>
+                        <th>对方账号</th>
+                        <th>对方账户名称</th>
+                        <th>交易金额</th>
+                        <th>账户余额</th>
+                        <th>借贷标志</th>
+                        <th>交易时间</th>
+                        <th>摘要</th>
+                    </tr>
+                    <tbody>
+                        <tr v-if='list.length==0'>
+                            <td v-if='nodata==false' colspan="8">请等待...</td>
+                            <td v-if='nodata==true' colspan="8">无交易数据...</td>
+                        </tr>
+                        
+                        <tr v-for='(item,index) in list' >
+                            <td>{{index+1}}</td>
+                            <td>{{item.subAccNo}}</td>
+                            <td>{{item.oPPACCNAME}}</td>
+                            <td>{{item.tRANAMT}}</td>
+                            <td>{{item.aCCBAL}}</td>
+                            <td>{{item.cDFG}}</td>
+                            <td>{{item.tRANTIME}}</td>
+                            <td>{{item.rESUME}}</td>
+                        </tr>
+                    </tbody>
+                </thead>
+
+            </table>
+        </div>
+    </div>
 
 </body>
+<script src="${rc.contextPath}/resources/wella/front/js/datepicker/bootstrap-datetimepicker.min.js"></script>
+<script src="${rc.contextPath}/resources/wella/front/js/datepicker/bootstrap-datetimepicker.zh-CN.js"></script>
+<script>
+$('.form_date').datetimepicker({
+    language:  'zh-CN',
+    format: 'yyyy-mm-dd ',
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    minView: 2,
+    // forceParse: 0
+});
+</script>
+<script>
+const urlxx='${rc.contextPath}/platform/trade/loanTransFlowByDay'
+const vmm= new Vue({
+el:'#smapp',
+data:{
+    list:'',
+    date:'',
+    nodata:false,
+    },
+mounted:()=>{
+         let that= this;  let date= $('#datepk').val();
+        this.nodata=false;
+            $.ajax({
+                type: 'get', 
+                url:urlxx,
+                data:{date:date},
+                dataType:'json',
+                success:function(result){
+                    vmm.nodata=false;
+                                if(result.code==0){
+                                   console.log(result);
+                                   vmm.list=result.list;
+                                   if(result.list.length==0){
+                                       vmm.list==[];
+                                    //    alert('暂无数据')
+                                       vmm.nodata=true;
+                                   }else {
+                                   for(var i= 0;i<vmm.list.length; i++){
+                                                       
+                                       vmm.list[i].tRANTIME = vmm.list[i].tRANDATE+ vmm.list[i].tRANTIME;
+                                       var s= vmm.list[i].tRANTIME; 
+                                       let c=s.slice(0,4)+'-'+s.slice(4,6)+'-'+s.slice(6,8)+' '+s.slice(8,10)+':'+s.slice(10,12)+':'+s.slice(12,14);
+                                       vmm.list[i].tRANTIME=c;
+
+                                        }
+                                   
+                                  
+                                    }
+                                console.log(vmm.list);
+                                }
+                                else{
+                                            console.log(result.msg)
+                                    }
+                        }
+
+
+            })  
+},
+methods:{
+    search:()=>{
+        console.log($('#datepk').val());
+        let date= $('#datepk').val();
+        $.ajax({
+                type: 'get', 
+                url:urlxx,
+                data:{date:date},
+                dataType:'json',
+                success:function(result){
+                                if(result.code==0){
+                                   console.log(result);
+                                   vmm.list=result.list;
+                                   if(result.list==null){
+                                    vmm.list==[];
+                                    alert('暂无数据')
+                                    vmm.nodata=true;
+                                    vmm.$forceUpdate();
+                                   }else{
+
+                                   
+                                   for(var i= 0;i<vmm.list.length; i++){
+                                                       
+                                       vmm.list[i].tRANTIME = vmm.list[i].tRANDATE+ vmm.list[i].tRANTIME;
+                                       var s= vmm.list[i].tRANTIME; 
+                                       let c=s.slice(0,4)+'-'+s.slice(4,6)+'-'+s.slice(6,8)+' '+s.slice(8,10)+':'+s.slice(10,12)+':'+s.slice(12,14);
+                                       vmm.list[i].tRANTIME=c;
+
+                                   }
+                                   vmm.$forceUpdate()
+
+                                }
+                                   console.log(vmm.list)
+                                }
+                                else{
+                                            console.log(result.msg)
+                                    }
+                        }
+
+
+            }) 
+
+    }
+}
+   
+})
+</script>
 
 </html>

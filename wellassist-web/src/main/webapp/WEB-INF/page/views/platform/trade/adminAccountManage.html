@@ -11,7 +11,101 @@
 </head>
 
 <body>
+    <div class="container">
+        <div>
+            <form class="form-inline" id="subAccForm">
+                <div class="form-group">
+                    <label for="exampleInputName2">账户：</label>
+                    <input type="text" class="form-control" id="subAccNo" placeholder="" name='subAccNo'>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail2">账户名：</label>
+                    <input type="text" class="form-control" id="subAccNm" placeholder="" name="subAccNm">
+                </div>
+                <label class="radio-inline">
+                    <input type="radio" name="type" id="inlineRadio1" value="1"> 交易中转户
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="type" id="inlineRadio2" value="2"> 还款中转户
+                </label>
+                <button type="submit" class="btn btn-default">添加</button>
+            </form>
+        </div>
+        <br>
+        <div>
+            <p>当前中转账号为：</p>
+        </div>
+        <div class="fivehuns">
+            <label for="" class=" control-label">请选择中转账号：</label>
+            <select class="form-control">
+
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+            <br>
+            <button class="btn btn-info">确认更换</button>
+        </div>
+    </div>
 
 </body>
+<script>
+    const urlcheck = '${rc.contextPath}/platform/trade/validateAdminSubAccount';
+    const addurl='${rc.contextPath}/platform/trade/adminSubAccount'
+    $('#subAccForm').submit(function (e) {
+        //阻止表单提交啦
+        e.preventDefault();
+        //    开始验证
+        let subAccNo = $('#subAccNo').val();
+        let subAccNm = $('#subAccNm').val();
+        let type=$("input[name='type']:checked").val();
+        $.ajax({
+            type: 'get',
+            url: urlcheck,
+            data: {
+                subAccNo: subAccNo,
+                subAccNm: subAccNm
+            },
+            dataType: 'json',
+            success:
+            function (result) {
+                if (result.code == 0) {
+                    //   验证成功回调
+                    console.log(type)
+                    $.ajax({
+                        type: 'put', 
+                        url: addurl,
+                         data: {
+                            subAccNo: subAccNo,
+                            subAccNm: subAccNm,
+                            type:type
+                        },
+                        dataType: 'json',
+                        contentType:'application/json',
+                        success:
+                        function (result) {
+                            if (result.code == 0) {
+                                     alert('添加成功')
+                            }
+                            else {
+                                console.log(result.msg)
+                            }
+                        }
+
+
+                    })
+                  
+                }
+                else {
+                    alert(result.msg)
+                }
+            }
+
+
+        })
+    });
+</script>
 
 </html>

@@ -30,7 +30,11 @@
                     
                     <div id='smapp'>
                     <button class="btn btn-success" v-on:click='search'>查询</button>
-                    <br><br>
+                    <br>
+                    <div>
+                        <p>[注：借贷标志中，D为转入，C转出]</p>
+                    </div>
+                    <br>
                     <table class="table table-bordered">
                         <thead >
                             <tr>
@@ -45,8 +49,10 @@
                             </tr>
                             <tbody>
                                 <tr v-if='list.length==0'>
-                                    <td>请等待...</td>
+                                    <td v-if='nodata==false' colspan="8">请等待...</td>
+                                    <td v-if='nodata==true' colspan="8">无交易数据...</td>
                                 </tr>
+                                
                                 <tr v-for='(item,index) in list' >
                                     <td>{{index+1}}</td>
                                     <td>{{item.subAccNo}}</td>
@@ -86,20 +92,27 @@
         el:'#smapp',
         data:{
             list:'',
-            date:''
+            date:'',
+            nodata:false,
             },
         mounted:()=>{
                  let that= this;  let date= $('#datepk').val();
-
+                this.nodata=false;
                     $.ajax({
                         type: 'get', 
                         url:urlxx,
                         data:{date:date},
                         dataType:'json',
                         success:function(result){
+                            vmm.nodata=false;
                                         if(result.code==0){
                                            console.log(result);
                                            vmm.list=result.list;
+                                           if(result.list.length==0){
+                                               vmm.list==[];
+                                            //    alert('暂无数据')
+                                               vmm.nodata=true;
+                                           }else {
                                            for(var i= 0;i<vmm.list.length; i++){
                                                                
                                                vmm.list[i].tRANTIME = vmm.list[i].tRANDATE+ vmm.list[i].tRANTIME;
@@ -107,9 +120,11 @@
                                                let c=s.slice(0,4)+'-'+s.slice(4,6)+'-'+s.slice(6,8)+' '+s.slice(8,10)+':'+s.slice(10,12)+':'+s.slice(12,14);
                                                vmm.list[i].tRANTIME=c;
 
-                                           }
+                                                }
                                            
-                                           console.log(vmm.list)
+                                          
+                                            }
+                                        console.log(vmm.list);
                                         }
                                         else{
                                                     console.log(result.msg)
@@ -132,6 +147,14 @@
                                         if(result.code==0){
                                            console.log(result);
                                            vmm.list=result.list;
+                                           if(result.list==null){
+                                            vmm.list==[];
+                                            alert('暂无数据')
+                                            vmm.nodata=true;
+                                            vmm.$forceUpdate();
+                                           }else{
+
+                                           
                                            for(var i= 0;i<vmm.list.length; i++){
                                                                
                                                vmm.list[i].tRANTIME = vmm.list[i].tRANDATE+ vmm.list[i].tRANTIME;
@@ -142,7 +165,7 @@
                                            }
                                            vmm.$forceUpdate()
 
-                                           
+                                        }
                                            console.log(vmm.list)
                                         }
                                         else{
