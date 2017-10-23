@@ -478,5 +478,16 @@ public class TradeController extends BaseController {
         return R.ok();
     }
 
+    @RequestMapping(value = "adminSubAccount",method = RequestMethod.GET)
+    @ResponseBody
+    public R orderTransferAccount(@RequestParam("type")int type){
+        AdminSubAccount adminSubAccount=null;
+        if (1==type){
+            adminSubAccount=adminSubAccountServiceImpl.findOrderTransferAccount();
+        } else if (2==type){
+            adminSubAccount=adminSubAccountServiceImpl.findLoanTransferAccount();
+        }
+        return R.ok().put("account",adminSubAccount);
+    }
 
 }
