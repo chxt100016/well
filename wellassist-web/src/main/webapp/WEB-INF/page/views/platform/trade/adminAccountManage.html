@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container" id='app2'>
         <div>
             <form class="form-inline" id="subAccForm">
                 <div class="form-group">
@@ -35,25 +35,48 @@
         <div>
             <p>当前中转账号为：</p>
         </div>
+         <!-- Nav tabs -->
+     <ul class="nav nav-tabs" role="tablist" id='myTabs'>
+        <li role="presentation" class="active"><a href="#order" aria-controls="order" role="tab" data-toggle="tab">交易中转户</a></li>
+        <li role="presentation"><a href="#loan" aria-controls="loan" role="tab" data-toggle="tab">还款中转户</a></li>
+      </ul>
+      <div class="tab-content" >
+            <div role="tabpanel" class="tab-pane active" id="order"> 
+                <label for="" class=" control-label">请选择中转账号：</label>
+                <select class="form-control" @change="selectVal">
+    
+                    <option value='0'>交易中转号</option>
+                    <option v-for='item in list'  :value ="item.id">{{item.subAccNm}}</option>
+                </select>
+                <br>
+                <button class="btn btn-info" @click='changeAcc'>确认更换</button>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="loan">
+                    <label for="" class=" control-label">请选择中转账号：</label>
+                    <select class="form-control" @change="selectVal2">
+        
+                        <option value='0'>还款中转户</option>
+                        <option v-for='item in list2'  :value ="item.id">{{item.subAccNm}}</option>
+                    </select>
+                    <br>
+                    <button class="btn btn-info" @click='changeAcc'>确认更换</button>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="messages">...</div>
+            <div role="tabpanel" class="tab-pane" id="settings">...</div>
+    </div>
         <div class="fivehuns">
-            <label for="" class=" control-label">请选择中转账号：</label>
-            <select class="form-control">
-
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </select>
-            <br>
-            <button class="btn btn-info">确认更换</button>
+           
+           
         </div>
     </div>
 
 </body>
 <script>
+    $(function(){
+
+   
     const urlcheck = '${rc.contextPath}/platform/trade/validateAdminSubAccount';
-    const addurl='${rc.contextPath}/platform/trade/adminSubAccount'
+    const addurl='${rc.contextPath}/platform/trade/addAdminSubAccount'
     $('#subAccForm').submit(function (e) {
         //阻止表单提交啦
         e.preventDefault();
@@ -75,7 +98,7 @@
                     //   验证成功回调
                     console.log(type)
                     $.ajax({
-                        type: 'put', 
+                        type: 'post', 
                         url: addurl,
                          data: {
                             subAccNo: subAccNo,
@@ -83,7 +106,7 @@
                             type:type
                         },
                         dataType: 'json',
-                        contentType:'application/json',
+                        contentType:'application/x-www-form-urlencoded',
                         success:
                         function (result) {
                             if (result.code == 0) {
@@ -106,6 +129,103 @@
 
         })
     });
+    $('#myTabs a').click(function (e) {
+  e.preventDefault()
+  $(this).tab('show')
+})
+})
 </script>
+<script>
+    const  url3= '${rc.contextPath}/platform/trade/adminSubAccountList'
+    const url4='${rc.contextPath}/platform/trade/chooseAdminSubAccount'
+    const vm2= new Vue({
+        el:'#app2',
+        data:{
+            list:[],
+            list2:[],
+            selected:'',
+            selected2:''
+        },
+        created:function(){
+            let that = this;
+            // 获取交易中转账户
+            $.ajax({
+                type: 'get', 
+                url:url3,
+                data:{type:1},
+                dataType:'json',
+                success:
+                        function(result){
+                                if(result.code==0){
+                                    that.list=result.list;
+                                    console.log(that.list)
+                                }
+                                else{
+                                            console.log(result.msg)
+                                    }
+                                        }
 
+
+                });
+                // 获取还款中转账户
+                $.ajax({
+                type: 'get', 
+                url:url3,
+                data:{type:2},
+                dataType:'json',
+                success:
+                        function(result){
+                                if(result.code==0){
+                                    that.list2=result.list;
+                                    console.log(that.list2)
+                                }
+                                else{
+                                            console.log(result.msg)
+                                    }
+                                        }
+
+
+                });
+
+        },
+        methods: {
+        selectVal: function(ele) {
+            this.selected = ele.target.value;
+            console.log(this.selected);
+        },
+        selectVal2: function(ele) {
+            this.selected2 = ele.target.value;
+            console.log(this.selected);
+        },
+        changeAcc:function(){
+            let sel=this.selected;
+            console.log(sel);
+
+            //一波更换操作
+            $.ajax({
+                type:'post', 
+                url:url4,
+                data:{
+                    id:sel,
+                    type:1
+                },
+                dataType:'json',
+                contentType:'application/x-www-form-urlencoded',
+                success:
+                        function(result){
+                                if(result.code==0){
+                                     alert("修改成功")
+                                }
+                                else{
+                                    alert(result.msg)
+                                            console.log(result.msg)
+                                    }
+                                        }
+
+
+                })
+        }
+    }
+    })
+</script>
 </html>

@@ -8,10 +8,127 @@
     <title>交易列表</title>
     <!--valocity模板解析-->
     #parse("sys/header.html")
+    <link rel="stylesheet" href="${rc.contextPath}/statics/css/bootstrap-datetimepicker.min.css">
 </head>
 
 <body>
+    <div class="container">
+        <div class="form-group">
+                <label for="dtp_input2" class="col-md-2 control-label">请填写账号（必填）：</label> 
+                <div class="input-group col-md-5">
+                <input type="text" class="form-control"  size="16" id='subAccNo'>
+                </div>
+        </div>
+            <div class="form-group">
+                    <label for="dtp_input2" class="col-md-2 control-label">请选择日期：</label>
+                    <div class="input-group date form_date col-md-5" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                        <input class="form-control" size="16" type="text" value="" readonly id='datepk'>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                   
+                    <input type="hidden" id="dtp_input2" value="" /><br/>
+            </div>
+           
+           
+         
+            <div id='applist'>
+                    <div>
+                            <button class="btn btn-primary" @click='query'>查询</button>
+                    </div>
+                    <hr>
+                    <table class="table table-bordered">
+                            <thead >
+                                <tr>
+                                    <th>#</th>
+                                    <th>对方账号</th>
+                                    <th>对方账户名称</th>
+                                    <th>交易金额</th>
+                                    <th>账户余额</th>
+                                    <th>借贷标志</th>
+                                    <th>交易时间</th>
+                                    <th>摘要</th>
+                                </tr>
+                                <tbody>
+                                    <tr v-if='list.length==0'>
+                                        <td v-if='nodata==false' colspan="8">请等待...</td>
+                                        <td v-if='nodata==true' colspan="8">无交易数据...</td>
+                                    </tr>
+                                    
+                                    <tr v-for='(item,index) in list' >
+                                        <td>{{index+1}}</td>
+                                        <td>{{item.subAccNo}}</td>
+                                        <td>{{item.oPPACCNAME}}</td>
+                                        <td>{{item.tRANAMT}}</td>
+                                        <td>{{item.aCCBAL}}</td>
+                                        <td>{{item.cDFG}}</td>
+                                        <td>{{item.tRANTIME}}</td>
+                                        <td>{{item.rESUME}}</td>
+                                    </tr>
+                                </tbody>
+                            </thead>
+            
+                        </table>
+
+            </div>
+        
+    </div>
 
 </body>
+<script src="${rc.contextPath}/resources/wella/front/js/datepicker/bootstrap-datetimepicker.min.js"></script>
+<script src="${rc.contextPath}/resources/wella/front/js/datepicker/bootstrap-datetimepicker.zh-CN.js"></script>
+<script>
+$('.form_date').datetimepicker({
+    language:  'zh-CN',
+    format: 'yyyy-mm-dd ',
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    minView: 2,
+    // forceParse: 0
+});
+</script>
+<script>
+    const url2='${rc.contextPath}/platform/trade/accountFlowByDay';
+    const vm2= new Vue({
+        el:'#applist',
+        data:{
+            list:[],
+            nodata:true
+        },
+        methods:{
+            query:function(){
+            let date= $('#datepk').val();
+            let subAccNo=$('#subAccNo').val();
+            let that= this;
+            $.ajax({
+                type: 'get', 
+                url:url2,
+                data:{
+                    date:date,
+                    subAccNo:subAccNo
+                },
+                dataType:'json',
+                success:
+                        function(result){
+                                if(result.code==0){
+                                that.list=result.list;
+                                console.log(that.list)
+                                }
+                                else{
+                                    alert(result.msg)
+                                            console.log(result.msg)
+                                    }
+                                        }
+
+
+                })
+
+        }
+        },
+    })
+</script>
 
 </html>
