@@ -33,7 +33,8 @@
         </div>
         <br>
         <div>
-            <p>当前中转账号为：</p>
+            <p>当前交易中转账户为：{{currAcc.orderAcc.subAccNm}},账号为：{{currAcc.orderAcc.subAccNo}}</p>
+            <p>当前还款中转账户为：{{currAcc.loanAcc.subAccNm}},账号为：{{currAcc.loanAcc.subAccNo}}</p>
         </div>
          <!-- Nav tabs -->
      <ul class="nav nav-tabs" role="tablist" id='myTabs'>
@@ -136,15 +137,20 @@
 })
 </script>
 <script>
-    const  url3= '${rc.contextPath}/platform/trade/adminSubAccountList'
-    const url4='${rc.contextPath}/platform/trade/chooseAdminSubAccount'
+    const  url3= '${rc.contextPath}/platform/trade/adminSubAccountList';
+    const url4='${rc.contextPath}/platform/trade/chooseAdminSubAccount';
+    const url5='${rc.contextPath}/platform/trade/adminSubAccount';
     const vm2= new Vue({
         el:'#app2',
         data:{
             list:[],
             list2:[],
             selected:'',
-            selected2:''
+            selected2:'',
+            currAcc:{
+                loanAcc:'',
+                orderAcc:''
+            }
         },
         created:function(){
             let that = this;
@@ -178,6 +184,43 @@
                                 if(result.code==0){
                                     that.list2=result.list;
                                     console.log(that.list2)
+                                }
+                                else{
+                                            console.log(result.msg)
+                                    }
+                                        }
+
+
+                });
+                //获取中转账户
+                $.ajax({
+                type: 'get', 
+                url:url5,
+                data:{type:2},
+                dataType:'json',
+                success:
+                        function(result){
+                                if(result.code==0){
+                                   that.currAcc.loanAcc=result.account
+                                    console.log(result)
+                                }
+                                else{
+                                            console.log(result.msg)
+                                    }
+                                        }
+
+
+                });
+                $.ajax({
+                type: 'get', 
+                url:url5,
+                data:{type:1},
+                dataType:'json',
+                success:
+                        function(result){
+                                if(result.code==0){
+                                   that.currAcc.orderAcc=result.account
+                                    console.log(result)
                                 }
                                 else{
                                             console.log(result.msg)
