@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.wella.dao.BankcardDao;
 import org.wella.entity.*;
+import org.wella.service.BankcardService;
 import org.wella.service.UserinfoService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,9 @@ public class UserinfoController {
 
     @Autowired
     private BankcardDao bankcardDao;
+
+    @Autowired
+    private BankcardService bankcardServiceImpl;
 
     /**
      * 更新公司基本信息
@@ -147,7 +151,7 @@ public class UserinfoController {
         bankcard.setAddTime(new Date());
         bankcard.setState((byte)1);
         try {
-            bankcardDao.create(bankcard);
+            bankcardServiceImpl.addBankcard(bankcard);
             return R.ok().put("content", "添加成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -160,13 +164,13 @@ public class UserinfoController {
      * 用户银行卡
      * @return wa_bankcard 列表
      */
-    @RequestMapping("getCards")
+    @RequestMapping(value = "getCards",method = RequestMethod.GET)
     @ResponseBody
     public R getCards() {
         User user = (User) HttpContextUtils.getAttribute("user");
         long userId = user.getUserId();
         try {
-            List<Bankcard> cards = bankcardDao.getCardListByUserId(userId);
+            List<Bankcard> cards = bankcardServiceImpl.getCards(userId);
             return R.ok().put("Cards", cards);
         } catch (Exception e) {
             e.printStackTrace();
@@ -176,17 +180,15 @@ public class UserinfoController {
 
     /**
      * 删除银行卡
-     * @param map 银行卡id
+     * @param bankcardId 银行卡id
      * @return code:0成功/500异常 msg:异常信息
      */
-    @RequestMapping("delBankcard")
+    @RequestMapping(value = "delBankcard",method = RequestMethod.POST)
     @ResponseBody
-    public R delBankcard(@RequestParam Map<String, Object> map) {
-        User user = (User) HttpContextUtils.getAttribute("user");
-        long userId = user.getUserId();
+    public R delBankcard(@RequestParam("bankcardId")long bankcardId) {
         try {
-            int count = bankcardDao.delCard(Long.parseLong(map.get("bankcardId").toString()));
-            return R.ok().put("content", "删除成功").put("count", count);
+            bankcardServiceImpl.delBankcard(bankcardId);
+            return R.ok();
         } catch (Exception e) {
             e.printStackTrace();
             return R.error();

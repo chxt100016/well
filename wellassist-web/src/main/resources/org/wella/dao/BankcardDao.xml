@@ -48,4 +48,23 @@
       #{openBankTgfi,jdbcType=VARCHAR}, #{openBankName,jdbcType=VARCHAR}, #{state,jdbcType=TINYINT}
       )
     </insert>
+
+    <update id="update" parameterType="map">
+        update wa_bankcard
+        <set>
+            <if test="state != null">
+                state = #{state,jdbcType=TINYINT},
+            </if>
+        </set>
+        where bankcard_id = #{bankcardId,jdbcType=BIGINT}
+    </update>
+
+    <select id="queryList" parameterType="map" resultMap="BankcardMap">
+        SELECT * from wa_bankcard
+        <where>
+            <if test="userId != null">
+                AND user_id=#{userId}
+            </if>
+        </where>
+    </select>
 </mapper>
