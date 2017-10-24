@@ -18,7 +18,7 @@
     </resultMap>
 
     <!--获取用户所有的银行卡-->
-	<select id="getCardListByUserId" parameterType="long" resultMap="bankcard">
+	<select id="getCardListByUserId" parameterType="long" resultMap="BankcardMap">
         SELECT *
         FROM wa_bankcard
         WHERE user_id = #{userId}
