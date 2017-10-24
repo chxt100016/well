@@ -478,6 +478,11 @@ public class TradeController extends BaseController {
         return R.ok();
     }
 
+    /**
+     * 正在使用的交易中转户信息
+     * @param type
+     * @return
+     */
     @RequestMapping(value = "adminSubAccount",method = RequestMethod.GET)
     @ResponseBody
     public R orderTransferAccount(@RequestParam("type")int type){

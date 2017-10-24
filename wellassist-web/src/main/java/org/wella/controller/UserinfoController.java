@@ -135,18 +135,19 @@ public class UserinfoController {
 
     /**
      * 添加银行卡的异步请求
-     * @param map 银行卡信息
+     * @param bankcard 银行卡信息
      * @return code:0成功/500异常 msg:异常信息
      */
-    @RequestMapping("addBankcard")
+    @RequestMapping(value = "addBankcard",method = RequestMethod.POST)
     @ResponseBody
-    public R addBankcard(@RequestParam Map<String, Object> map) {
+    public R addBankcard(@RequestBody Bankcard bankcard) {
         User user = (User) HttpContextUtils.getAttribute("user");
         long userId = user.getUserId();
-        map.put("userId", userId);
-        map.put("addTime", new Date());
+        bankcard.setUserId(userId);
+        bankcard.setAddTime(new Date());
+        bankcard.setState((byte)1);
         try {
-            long key = bankcardDao.addCard(map);
+            bankcardDao.create(bankcard);
             return R.ok().put("content", "添加成功");
         } catch (Exception e) {
             e.printStackTrace();

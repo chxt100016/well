@@ -26,16 +26,16 @@ $(function () {
                 }else if(value ==-2){
                     return "提现失败";
                 }else  if(value==1){
-                    return "待付款";
+                    return "提现中";
                 }else {
-                    return "已付款";
+                    return "已完成";
                 }
             }},{ label: '内容', name: 'content', width: 100
             },
             { label: '操作', name: 'withdrawState', width: 100, formatter:function (value,option,row) {
                 var withdrawId = row.withdrawId;
                 if(value==0){
-                    return '<a  class="btn btn-primary" onclick="vm.process('+withdrawId+',1)">审核</a>' +
+                    return '<a  class="btn btn-primary" onclick="vm.process('+withdrawId+',1)">通过</a>' +
                         '<a  class="btn btn-primary" onclick="vm.process('+withdrawId+',-1)">不通过</a>';
                 }else if(value ==-1){
                     return '<a  class="btn btn-primary" onclick="vm.process('+withdrawId+',-2)">删除</a>' +
