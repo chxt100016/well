@@ -383,6 +383,7 @@ public class TradeServiceImpl implements TradeService{
      * @param mgrIp
      */
     @Override
+    @Transactional
     public void withdrawApprove(long withdrawId, long mgrId, String mgrIp) throws Exception {
         Date now=new Date();
         Withdraw withdraw=withdrawDAO.querySingleByPk(withdrawId);

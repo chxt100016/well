@@ -110,17 +110,20 @@
 		            <td style="color:#009900;">${item.withdrawMoney}</td>
 		            <td>
 		                <c:if test = "${item.withdrawState == '-1'}">
-		                        不通过
+		                        拒绝
 		                </c:if>
 		                <c:if test = "${item.withdrawState == '0'}">
 		                        申请
 		                </c:if>
 		                <c:if test = "${item.withdrawState == '1'}">
-		                        待付款
+		                        处理中
 		                </c:if>
 		                <c:if test = "${item.withdrawState == '2'}">
-		                        已付款
+		                        完成
 		                </c:if>
+						<c:if test = "${item.withdrawState == '-2'}">
+							提现失败
+						</c:if>
 		            </td>  
 		        </tr>
 		        </c:forEach>

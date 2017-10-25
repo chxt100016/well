@@ -1,8 +1,6 @@
 package org.wella.service;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.sun.javafx.collections.MappingChange;
 import com.wellapay.cncb.Exception.CNCBException;
 import com.wellapay.cncb.model.output.TransQueryOutputListEntity;
 import com.wellapay.cncb.util.CNCBConstants;
@@ -29,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Administrator on 2017/9/4.
+ * Created by ailing on 2017/9/4.
  */
 @Component
 public class WaScheduleJobService {

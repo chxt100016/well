@@ -11,10 +11,10 @@ $(function () {
             { label: '提现金额', name: 'withdrawMoney', width: 50 ,formatter:function (value,option,row) {
                 return value+"元";
             }},
-            { label: '开户行', name: 'withdrawBank', width: 100 ,formatter:function (value,option,row) {
+            { label: '开户行', name: 'bankName', width: 100 ,formatter:function (value,option,row) {
                 return value+"<br>";
             }},
-            { label: '户主', name: 'withdrawName', width: 100
+            { label: '户主', name: 'userName', width: 100
             },
             { label: '提现时间', name: 'withdrawDate', width: 100
             },
@@ -43,7 +43,7 @@ $(function () {
                 }else  if(value==1){
                     return '<a  class="btn btn-primary" onclick="vm.process('+withdrawId+',2)"><!--付款-->确认提现</a>';
                 }else{
-                    return "";
+                    return "无";
                 }
             }}
         ],
