@@ -30,10 +30,14 @@
 			<div class = "row-header" style="border-bottom:1px solid #d0d0d0;padding-bottom:10px;"><span class = "header-title">账户余额</span></div>
 			<div class = "row1">
 				<div class = "row1_2">
-					<span class = "col1" id='balance'></span>
-					<span class = "col2">&nbsp;&nbsp;元</span>
-					<span id="fillmoney" class="smallbutton" style="margin-left:32px;" onClick = "toURL('czSqList')">充值</span>
-					<span id="getmoney" class="smallbutton" style="margin-left:12px;"  onClick = "toURL('txList')">提现</span>
+					<span class="col1" id=''>
+						<div class="ui active inline loader" id='loader'></div>
+						<span id='balance'></span>
+					</span>
+					<span class="col2">&nbsp;&nbsp;元</span>
+					<span id="fillmoney" class="smallbutton" style="margin-left:32px;" onClick="toURL('czSqList')">充值</span>
+					<span id="getmoney" class="smallbutton" style="margin-left:12px;" onClick="toURL('txList')">提现</span>
+					<span id="reload" class="smallbutton" style="margin-left:12px;" onClick="reLoad()">刷新</span>
 				</div>
 			</div>
 			<form id="searchFrm" method="post" action="${pageContext.request.contextPath}/front/seller/FinanceController-accountInfo">
@@ -98,27 +102,52 @@
 </script>
 <script>
 		//获取账户余额
-	  const urrr = '${pageContext.request.contextPath}/finance/balance';
-	  $(function () {
-		  $.ajax({
-			  type: 'get',
-			  url: urrr,
-			  data: '',
-			  dataType: 'json',
-			  success:
-			  function (result) {
-				  if (result.code == 0) {
-					  let bal= result.balance;
-					  console.log(result.msg);
-					   $('#balance').html(bal)
-				  }
-				  else {
-					  console.log(result.msg)
-				  }
-			  }
-
-
-		  })
-	  })
+	  const urrr = '${pageContext.request.contextPath}/finance/localBalance';
+	  const syurl='${pageContext.request.contextPath}/finance/syncBalance';
+	
+		$(function () {
+			$.ajax({
+				type: 'get',
+				url: urrr,
+				data: '',
+				dataType: 'json',
+				success:
+				function (result) {
+					if (result.code == 0) {
+						let bal= result.balance;
+						console.log(result.msg);
+						 $('#balance').html(bal)
+						 $('#loader').fadeOut();
+					}
+					else {
+						console.log(result.msg)
+					}
+				}
+			})
+		})
+		function reLoad() {
+			$('#loader').fadeIn();
+			$('#balance').html(' ');
+			
+			$.ajax({
+				type: 'get',
+				url: syurl,
+				data: '',
+				dataType: 'json',
+				success:
+				function (result) {
+					if (result.code == 0) {
+						let bal= result.balance;
+						console.log(result.msg);
+						 $('#balance').html(bal)
+						 $('#loader').hide();
+					}
+					else {
+						console.log(result.msg)
+					}
+				}
+			})
+			 
+		}
   </script> 
 <%@ include file="../footer.jsp"%>

@@ -373,7 +373,7 @@
 </script>
 
     <script>
-          const balanceUrl='${pageContext.request.contextPath}/finance/balance';
+          const balanceUrl='${pageContext.request.contextPath}/finance/localBalance';
           const creditUrl='${pageContext.request.contextPath}/finance/creditBalance';
           const orderInfoUrl='${pageContext.request.contextPath}/order/orderinfo';
           const paymentUrl='${pageContext.request.contextPath}/customer/secondPayOrderSub';

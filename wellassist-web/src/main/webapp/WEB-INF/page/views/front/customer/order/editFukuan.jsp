@@ -428,7 +428,7 @@
         });
 
 	  //获取账户余额
-      const urrr = '${pageContext.request.contextPath}/finance/balance';
+      const urrr = '${pageContext.request.contextPath}/finance/localBalance';
 			
 				$.ajax({
 					type: 'get',
