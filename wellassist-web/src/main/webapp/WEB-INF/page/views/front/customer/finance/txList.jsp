@@ -191,8 +191,7 @@ const vm = new Vue({
   data:{
    Cards:'',
    selCards:{
-	   withdrawBank:'',
-	   account:'',
+	   bankcardId:'',
 	   withdrawMoney:'',
    }
 //    selected:''
@@ -201,10 +200,10 @@ const vm = new Vue({
 	    var that =this;
 	  $.get(url1,'',function(data){
 			if(data.code==0){
-			console.log(data.Cards);
+			     console.log( data.Cards);
 				for (var i = 0; i < data.Cards.length; i++) {
 				var str='' ,str2;
-				str= data.Cards[i].bankAccount;
+				str= data.Cards[i].account;
 				// str = Number(str);
 				str2 = str.substring(str.length-4);
 				data.Cards[i].bankAccountNew =str2;
@@ -224,7 +223,7 @@ const vm = new Vue({
 		  let sid= $("#bankS").val();
 		  console.log(sid);
 		  that.selCards.withdrawBank=that.Cards[sid].bankName;
-		  that.selCards.account=that.Cards[sid].bankAccount;
+		  that.selCards.bankcardId=that.Cards[sid].bankcardId;
 		  console.log(that.selCards);
 	  },
 	  selected:function(index,bankName,bankAccountNew){

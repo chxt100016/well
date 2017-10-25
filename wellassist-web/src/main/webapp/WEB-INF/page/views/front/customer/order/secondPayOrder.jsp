@@ -389,6 +389,7 @@
                     if(result.code==0){
 
                        that.balance=result.balance;
+                       console.log(result.balance)
                        $('#loader').hide();
                      }else{
                           console.log(result)
