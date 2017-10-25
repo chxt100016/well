@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.wella.common.utils.ConstantUtil;
+import org.wella.dao.BankcardDao;
 import org.wella.dao.WaUserDao;
 import org.wella.dao.WithdrawDAO;
+import org.wella.entity.Bankcard;
 import org.wella.entity.User;
+import org.wella.service.BankcardService;
 import org.wella.service.FinanceService;
 import org.wella.service.MessageService;
 
@@ -39,12 +42,15 @@ public class WaFinanceController {
     @Autowired
     private WaUserDao waUserDao;
 
+    @Autowired
+    private BankcardService bankcardServiceImpl;
+
     /**
-     * 提现申请
+     * 提现申请,遗留代码，要删
      * @param params 提现金额
      * @return code:0成功/500异常 msg:异常信息
      */
-    @RequestMapping("withdrawProcess")
+    /*@RequestMapping("withdrawProcess")
     @ResponseBody
     public R withdrawProcess(@RequestParam Map<String, Object> params) {
         User user = (User) HttpContextUtils.getAttribute("user");
@@ -59,6 +65,24 @@ public class WaFinanceController {
             e.printStackTrace();
             return R.ok().put("state", -1).put("content", "系统错误");
         }
+    }*/
+
+    @RequestMapping(value = "withdrawProcess",method = RequestMethod.POST)
+    @ResponseBody
+    public R withdrawApply(@RequestParam(value = "bankcardId")long bankcardId,@RequestParam(value = "withdrawMoney")BigDecimal withdrawMoney){
+        User user=(User)HttpContextUtils.getAttribute("user");
+        long userId=user.getUserId();
+        Bankcard bankcard=bankcardServiceImpl.getCard(bankcardId);
+        if (null==bankcard || userId != bankcard.getUserId() ){
+            return R.error("遭受攻击，提现失败");
+        }
+        BigDecimal localBalance=financeServiceImpl.getLocalBalance(userId);
+        if (localBalance.compareTo(withdrawMoney)<0){
+            return R.error("提现超额");
+        }
+        String ip=IPUtils.getIpAddr(HttpContextUtils.getHttpServletRequest());
+        financeServiceImpl.withdrawApply(userId,withdrawMoney,bankcardId,ip);
+        return R.ok();
     }
 
     /**

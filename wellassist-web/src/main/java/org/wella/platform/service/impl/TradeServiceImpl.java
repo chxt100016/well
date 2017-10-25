@@ -1,16 +1,24 @@
 package org.wella.platform.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.wellapay.cncb.model.ForceTransferBasicInfo;
+import com.wellapay.cncb.util.CNCBConstants;
 import io.wellassist.utils.IPUtils;
 import io.wellassist.utils.Query;
+import io.wellassist.utils.R;
 import io.wellassist.utils.ShiroUtils;
 import org.apache.commons.collections.map.HashedMap;
+import org.aspectj.lang.annotation.SuppressAjWarnings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.wella.common.utils.CommonUtil;
+import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
-import org.wella.entity.OrderLog;
+import org.wella.entity.*;
 import org.wella.platform.service.TradeService;
+import org.wella.service.FinanceService;
 import org.wella.service.MessageService;
 import org.wella.service.WaOrderService;
 
@@ -56,6 +64,18 @@ public class TradeServiceImpl implements TradeService{
 
     @Autowired
     private LogisticsTransDao logisticsTransDao;
+
+    @Autowired
+    private WithdrawDAO withdrawDAO;
+
+    @Autowired
+    private UserMoneyInfoDao userMoneyInfoDao;
+
+    @Autowired
+    private FinanceService financeServiceImpl;
+
+    @Autowired
+    private BankcardDao bankcardDao;
 
     @Override
     public Map<String, Object> findOfflinePayInfo(long orderTransId) {
@@ -278,5 +298,188 @@ public class TradeServiceImpl implements TradeService{
         Map<String,Object> res=logisticsTransDao.singleLogisticsTransAttachLogisticsOrderInfoViewByPrimaryKey(logisticsTransId);
         ConvertUtil.convertDataBaseMapToJavaMap(res);
         return res;
+    }
+
+    /**
+     * 提现审核不通过：
+     UPDATE wa_withdraw（withdraw_state = -1-不通过），UPDATE wa_user_money（jy_state = -1），INSERT wa_user_money_info （state = -1）
+     * @param withdrawId  withdrawId
+     * @param mgrId 管理员id
+     * @param mgrIp 管理员ip
+     */
+    @Override
+    public void withdrawRefuse(long withdrawId, long mgrId, String mgrIp) {
+        Date now=new Date();
+        Withdraw withdraw=withdrawDAO.querySingleByPk(withdrawId);
+        long moneyId=withdraw.getMoneyId();
+
+        Map<String,Object> update=new HashMap<>();
+        update.put("withdrawId",withdrawId);
+        update.put("withdrawState",-1);
+        update.put("mgrUserId",mgrId);
+        update.put("mgrIp",mgrIp);
+        update.put("mgrDate",now);
+        withdrawDAO.update(update);
+
+        update.clear();
+        update.put("moneyId",moneyId);
+        update.put("jyState",-1);
+        update.put("mgrUserId",mgrId);
+        update.put("mgrIp",mgrIp);
+        update.put("completeDate",now);
+        userMoneyDao.update(update);
+
+        UserMoneyInfo userMoneyInfo=new UserMoneyInfo();
+        userMoneyInfo.setMoneyId(moneyId);
+        userMoneyInfo.setContent("提现拒绝");
+        userMoneyInfo.setMgrAdminId(mgrId);
+        userMoneyInfo.setMgrDate(now);
+        userMoneyInfo.setState((byte)-1);
+        userMoneyInfoDao.create(userMoneyInfo);
+    }
+
+    /**
+     * 提现再审核：
+     UPDATE wa_withdraw，UPDATE wa_user_money，INSERT wa_user_money_info （0）
+     * @param withdrawId withdrawId
+     * @param mgrId 管理员id
+     * @param mgrIp 管理员ip
+     */
+    @Override
+    public void withdrawReCheck(long withdrawId, long mgrId, String mgrIp) {
+        Date now=new Date();
+        Withdraw withdraw=withdrawDAO.querySingleByPk(withdrawId);
+        long moneyId=withdraw.getMoneyId();
+
+        Map<String,Object> update=new HashMap<>();
+        update.put("withdrawId",withdrawId);
+        update.put("withdrawState",0);
+        update.put("mgrUserId",mgrId);
+        update.put("mgrIp",mgrIp);
+        update.put("mgrDate",now);
+        withdrawDAO.update(update);
+
+        update.clear();
+        update.put("moneyId",moneyId);
+        update.put("jyState",0);
+        update.put("mgrUserId",mgrId);
+        update.put("mgrIp",mgrIp);
+        userMoneyDao.update(update);
+
+        UserMoneyInfo userMoneyInfo=new UserMoneyInfo();
+        userMoneyInfo.setMoneyId(moneyId);
+        userMoneyInfo.setContent("提现提交再审核");
+        userMoneyInfo.setMgrAdminId(mgrId);
+        userMoneyInfo.setMgrDate(now);
+        userMoneyInfo.setState((byte)0);
+        userMoneyInfoDao.create(userMoneyInfo);
+    }
+
+    /**
+     * UPDATE wa_withdraw（mgr_user_id，mgr_ip =，withdraw_state = 1-审核通过(待付款）），UPDATE wa_user_money（jy_state = 1）
+     走平台出金接口
+     * @param withdrawId
+     * @param mgrId
+     * @param mgrIp
+     */
+    @Override
+    public void withdrawApprove(long withdrawId, long mgrId, String mgrIp) throws Exception {
+        Date now=new Date();
+        Withdraw withdraw=withdrawDAO.querySingleByPk(withdrawId);
+        long userId=withdraw.getUserId();
+        long bankcardId=withdraw.getBankcardId();
+        BigDecimal withdrawMoney=withdraw.getWithdrawMoney();
+        Map<String,Object> update=new HashMap<>();
+        update.put("bankcardId",bankcardId);
+        Bankcard bankcard=bankcardDao.querySingle(update);
+        long moneyId=withdraw.getMoneyId();
+
+        update.clear();
+        update.put("withdrawId",withdrawId);
+        update.put("withdrawState",1);
+        update.put("mgrUserId",mgrId);
+        update.put("mgrIp",mgrIp);
+        update.put("mgrDate",now);
+        withdrawDAO.update(update);
+
+        update.clear();
+        update.put("moneyId",moneyId);
+        update.put("jyState",1);
+        update.put("mgrUserId",mgrId);
+        update.put("mgrIp",mgrIp);
+        update.put("completeDate",now);
+        userMoneyDao.update(update);
+
+        //accountNo, recvAccNo, recvAccNm, tranAmt, sameBank, payType, recvTgfi, recvBankNm, memo
+        Map<String,String> paramss=new HashMap<>();
+        UserSubAccount userSubAccount=financeServiceImpl.getUserSubAccountByUserId(userId);
+        paramss.put("accountNo",userSubAccount.getSubAccNo());
+        paramss.put("recvAccNo",bankcard.getAccount());
+        paramss.put("recvAccNm",bankcard.getAccountName());
+        paramss.put("tranAmt",withdrawMoney.toString());
+        if ("中信银行".equals(bankcard.getBankName())){
+            paramss.put("sameBank","0");
+            BigDecimal payTypeFlag=new BigDecimal(20000);
+            if (withdrawMoney.compareTo(payTypeFlag)<0){
+                paramss.put("payType","2B");
+            }else {
+                paramss.put("payType","2H");
+            }
+        }else {
+            paramss.put("sameBank","1");
+            paramss.put("payType","2E");
+        }
+        paramss.put("recvTgfi",bankcard.getOpenBankTgfi());
+        paramss.put("recvBankNm",bankcard.getOpenBankName());
+        paramss.put("memo","提现");
+        String result= CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"notprePlatformOutGold",paramss);
+        R r= JSON.parseObject(result,R.class);
+        ForceTransferBasicInfo forceTransferBasicInfo=JSON.parseObject(r.get("forceTransferBasicInfo").toString(),ForceTransferBasicInfo.class);
+        if (!forceTransferBasicInfo.getStatus().startsWith("AAAAAA")){
+            update.put("withdrawId",withdrawId);
+            update.put("withdrawState",-2);
+            update.put("content",forceTransferBasicInfo.getStatusText());
+            withdrawDAO.update(update);
+        }else if (forceTransferBasicInfo.getStatus().equals(CNCBConstants.CNCB_STATUS_SUCCESS)){
+
+        }
+    }
+
+    /**
+     * 平台出金完成后：
+     * UPDATE wa_withdraw（withdraw_state = 2-已完成），UPDATE wa_user_money（jy_state = 2-已完成），update user余额，INSERT wa_user_money_info （state = 2, content ）
+     * @param withdrawId
+     * @param mgrId
+     * @param mgrIp
+     */
+    @Override
+    public void withdrawComplete(long withdrawId, long mgrId, String mgrIp) {
+        Date now=new Date();
+        Withdraw withdraw=withdrawDAO.querySingleByPk(withdrawId);
+        long moneyId=withdraw.getMoneyId();
+
+        Map<String,Object> update=new HashMap<>();
+        update.put("withdrawId",withdrawId);
+        update.put("withdrawState",2);
+        update.put("mgrUserId",mgrId);
+        update.put("mgrIp",mgrIp);
+        update.put("mgrDate",now);
+        withdrawDAO.update(update);
+
+        update.clear();
+        update.put("moneyId",moneyId);
+        update.put("jyState",2);
+        update.put("mgrUserId",mgrId);
+        update.put("mgrIp",mgrIp);
+        update.put("completeDate",now);
+        userMoneyDao.update(update);
+
+        UserMoneyInfo userMoneyInfo=new UserMoneyInfo();
+        userMoneyInfo.setMoneyId(moneyId);
+        userMoneyInfo.setContent("提现完成");
+        userMoneyInfo.setMgrAdminId(mgrId);
+        userMoneyInfo.setMgrDate(now);
+        userMoneyInfo.setState((byte)2);
+        userMoneyInfoDao.create(userMoneyInfo);
     }
 }

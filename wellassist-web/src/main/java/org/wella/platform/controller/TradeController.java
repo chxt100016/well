@@ -19,6 +19,7 @@ import org.wella.dao.TradeDAO;
 import org.wella.dao.WithdrawDAO;
 import org.wella.entity.AdminSubAccount;
 import org.wella.entity.UserSubAccount;
+import org.wella.entity.Withdraw;
 import org.wella.platform.service.TradeService;
 import org.wella.service.AdminSubAccountService;
 import org.wella.service.FinanceService;
@@ -206,14 +207,29 @@ public class TradeController extends BaseController {
         return R.ok().put("page",pageUtils);
     }
 
-    @RequestMapping("withdrawHandle")
+    @RequestMapping(value = "withdrawHandle",method = RequestMethod.POST)
     @ResponseBody
-    public R withdrawHandle(@RequestParam Map<String,Object> param) throws Exception {
-        int withdrawState=Integer.parseInt((String) param.get("withdrawState"));
-        long withdrawId=Long.parseLong(param.get("withdrawId").toString());
-        param.put("userId",ShiroUtils.getUserId());
-        param.put("withdrawIp",IPUtils.getIpAddr(HttpContextUtils.getHttpServletRequest()));
-        if (withdrawState==1){
+    public R withdrawHandle(@RequestParam("withdrawId")long withdrawId,@RequestParam("withdrawState")int withdrawState )throws Exception {
+        long userId=ShiroUtils.getUserId();
+        String ip=IPUtils.getIpAddr(HttpContextUtils.getHttpServletRequest());
+        if (-1==withdrawState){
+            tradeServiceImpl.withdrawRefuse(withdrawId,userId,ip);
+            return R.ok();
+        }
+        if (0==withdrawState){
+            tradeServiceImpl.withdrawReCheck(withdrawId,userId,ip);
+            return R.ok();
+        }
+        if (1==withdrawState){
+            tradeServiceImpl.withdrawApprove(withdrawId,userId,ip);
+            return R.ok();
+        }
+
+
+
+        //param.put("userId",ShiroUtils.getUserId());
+        //param.put("withdrawIp",IPUtils.getIpAddr(HttpContextUtils.getHttpServletRequest()));
+        /*if (withdrawState==1){
             int res = tradeDAO.withdrawHandle(param);
             messageServicesk.handleWithdrawHandleMessage(withdrawId,withdrawState);
             if(res==1){
@@ -244,7 +260,8 @@ public class TradeController extends BaseController {
                 withdrawDAO.update(update);
             }
         }
-        return R.ok().put("state",1);
+        return R.ok().put("state",1);*/
+        return R.ok();
     }
 //    @RequestMapping("logisticsList")
 //    @ResponseBody

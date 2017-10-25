@@ -3,6 +3,7 @@ package org.wella.dao;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import org.wella.entity.Bankcard;
+import org.wella.entity.UserMoney;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,8 @@ import java.util.Map;
  */
 @Repository
 public interface UserMoneyDao {
+
+    void create(UserMoney userMoney);
 
     void update(Map map);
 

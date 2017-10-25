@@ -11,19 +11,14 @@ import io.wellassist.utils.IPUtils;
 import io.wellassist.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.common.utils.DateUtil;
 import org.wella.dao.*;
-import org.wella.entity.AdminSubAccount;
-import org.wella.entity.CncbTrans;
-import org.wella.entity.User;
-import org.wella.entity.UserSubAccount;
-import org.wella.service.AdminSubAccountService;
-import org.wella.service.CustomerService;
-import org.wella.service.FinanceService;
-import org.wella.service.MessageService;
+import org.wella.entity.*;
+import org.wella.service.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -63,6 +58,15 @@ public class FinanceServiceImpl implements FinanceService {
 
     @Autowired
     private CustomerService customerServiceImpl;
+
+    @Autowired
+    private UserMoneyDao userMoneyDao;
+
+    @Autowired
+    private BankcardService bankcardServiceImpl;
+
+    @Autowired
+    private WithdrawDAO withdrawDAO;
 
 
     @Override
@@ -257,5 +261,46 @@ public class FinanceServiceImpl implements FinanceService {
             waUserDao.updateUserByUserId(param);
             return remoteBalance;
         }
+    }
+
+    @Override
+    @Transactional
+    public void withdrawApply(long userId, BigDecimal withdrawMoney, long bankcardId,String ip) {
+        Date now=new Date();
+        Map<String,Object> user=waUserDao.singleUserByPrimaryKey(userId);
+        Bankcard bankcard=bankcardServiceImpl.getCard(bankcardId);
+        String userName=user.get("user_name").toString();
+        String account=bankcard.getAccount();
+        String accountName=bankcard.getAccountName();
+        String bankName=bankcard.getBankName();
+
+
+        UserMoney userMoney=new UserMoney();
+        userMoney.setUserId(userId);
+        userMoney.setJyType((byte)2);
+        userMoney.setJyMc("提现申请");
+        userMoney.setContent("提现申请");
+        userMoney.setJyMoney(withdrawMoney);
+        userMoney.setMgrIp(ip);
+        userMoney.setJyDate(now);
+        userMoney.setJyState((byte)0);
+        userMoneyDao.create(userMoney);
+
+        long moneyId=userMoney.getMoneyId();
+        //SET money_id = _moneyId , user_id = _userId, withdraw_money = _txMoney,
+        //withdraw_bank = _txKhh, account = _account, withdraw_date = _txDate, withdraw_ip = _txIp;
+        Withdraw withdraw=new Withdraw();
+        withdraw.setMoneyId(moneyId);
+        withdraw.setUserId(userId);
+        withdraw.setWithdrawMoney(withdrawMoney);
+        withdraw.setUserName(userName);
+        withdraw.setBankcardId(bankcardId);
+        withdraw.setAccount(account);
+        withdraw.setAccountName(accountName);
+        withdraw.setBankName(bankName);
+        withdraw.setWithdrawDate(now);
+        withdraw.setWithdrawIp(ip);
+        withdraw.setWithdrawState((byte)0);
+        withdrawDAO.create(withdraw);
     }
 }

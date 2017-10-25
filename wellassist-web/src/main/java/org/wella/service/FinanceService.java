@@ -114,4 +114,14 @@ public interface FinanceService {
      * @return
      */
     BigDecimal syncBalance(long userId) throws Exception;
+
+    /**
+     * 处理用户提交提现申请
+     * wa_user_money insert（jy_type = 2-提现，jy_state=0-未确定），wa_withdraw insert（withdraw_state-0-申请）
+     * @param userId userId
+     * @param withdrawMoney 提现金额
+     * @param bankcardId bankcardId
+     * @param ip ip
+     */
+    void withdrawApply(long userId, BigDecimal withdrawMoney, long bankcardId,String ip);
 }

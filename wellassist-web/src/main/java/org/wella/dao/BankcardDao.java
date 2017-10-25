@@ -35,4 +35,6 @@ public interface BankcardDao {
     void update(Map<String, Object> update);
 
     List<Bankcard> queryList(Map<String, Object> query);
+
+    Bankcard querySingle(Map<String, Object> query);
 }

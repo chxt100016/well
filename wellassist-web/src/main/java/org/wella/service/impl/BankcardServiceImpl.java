@@ -39,4 +39,11 @@ public class BankcardServiceImpl implements BankcardService {
         List<Bankcard> list=bankcardDao.queryList(query);
         return list;
     }
+
+    @Override
+    public Bankcard getCard(long bankcardId) {
+        Map<String,Object> query=new HashMap<>();
+        query.put("bankcardId",bankcardId);
+        return bankcardDao.querySingle(query);
+    }
 }

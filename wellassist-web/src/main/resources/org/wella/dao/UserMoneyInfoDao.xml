@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wella.dao.UserMoneyInfoDao">
+    <resultMap id="userMoneyInfoMap" type="org.wella.entity.UserMoneyInfo" >
+        <id column="info_id" property="infoId" jdbcType="BIGINT" />
+        <result column="money_id" property="moneyId" jdbcType="BIGINT" />
+        <result column="state" property="state" jdbcType="TINYINT" />
+        <result column="content" property="content" jdbcType="VARCHAR" />
+        <result column="mgr_user_id" property="mgrUserId" jdbcType="BIGINT" />
+        <result column="mgr_admin_id" property="mgrAdminId" jdbcType="BIGINT" />
+        <result column="mgr_date" property="mgrDate" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <insert id="create" parameterType="org.wella.entity.UserMoneyInfo" useGeneratedKeys="true" keyProperty="infoId">
+        insert into wa_user_money_info
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="moneyId != null" >
+                money_id,
+            </if>
+            <if test="state != null" >
+                state,
+            </if>
+            <if test="content != null" >
+                content,
+            </if>
+            <if test="mgrUserId != null" >
+                mgr_user_id,
+            </if>
+            <if test="mgrAdminId != null" >
+                mgr_admin_id,
+            </if>
+            <if test="mgrDate != null" >
+                mgr_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="moneyId != null" >
+                #{moneyId,jdbcType=BIGINT},
+            </if>
+            <if test="state != null" >
+                #{state,jdbcType=TINYINT},
+            </if>
+            <if test="content != null" >
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="mgrUserId != null" >
+                #{mgrUserId,jdbcType=BIGINT},
+            </if>
+            <if test="mgrAdminId != null" >
+                #{mgrAdminId,jdbcType=BIGINT},
+            </if>
+            <if test="mgrDate != null" >
+                #{mgrDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+</mapper>

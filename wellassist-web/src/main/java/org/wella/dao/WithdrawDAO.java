@@ -41,4 +41,8 @@ public interface WithdrawDAO {
     Map<String,Object> singlePoByPrimaryKey(@Param("withdrawId") long withdrawId);
 
     void update(Map<String, Object> update);
+
+    void create(Withdraw withdraw);
+
+    Withdraw querySingleByPk(@Param("withdrawId") long withdrawId);
 }

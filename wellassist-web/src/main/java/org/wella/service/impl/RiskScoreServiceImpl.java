@@ -1,23 +1,15 @@
 package org.wella.service.impl;
 
-import io.wellassist.utils.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.wella.common.utils.ConvertUtil;
-import org.wella.dao.*;
-import org.wella.entity.CreditorAuthenticInfo;
 import org.wella.entity.RiskFactor;
 import org.wella.service.*;
-import org.wella.utils.DateUtils;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 /**
  * Created by Administrator on 2017/7/21.
  */
-
 @Service("riskScoreServiceImpl")
 public class RiskScoreServiceImpl implements RiskScoreService {
 
@@ -34,7 +26,7 @@ public class RiskScoreServiceImpl implements RiskScoreService {
         HashMap<String,HashMap<String,Double>> factorScoreMap = this.riskFactorServiceImpl.getFactorScoreMap();
 
         //获取所有参与计算的风险因子
-         HashMap<String,Object> paramMap = new HashMap<String,Object>();
+        HashMap<String,Object> paramMap = new HashMap<String,Object>();
         paramMap.put("isCalculate",true);
         List<RiskFactor> riskFactor = riskFactorServiceImpl.getRiskFactor(paramMap);
 
@@ -45,7 +37,7 @@ public class RiskScoreServiceImpl implements RiskScoreService {
             String factorItem = factorValueMap.get(factorName).toString();
             int factorType = riskFactor.get(i).getFactorType();
             double score = getScore(factorScoreMap,factorCode,factorItem,factorType);
-            Map<String,Object> tempForMap = new HashMap<String, Object>();
+            Map<String,Object> tempForMap = new HashMap<>();
             tempForMap.put("id",i);
             //tempForMap.put("score",score);
             tempForMap.put("score",String.format("%.2f",score));

@@ -46,6 +46,74 @@
         where money_id = #{moneyId,jdbcType=BIGINT}
     </update>
 
+    <insert id="create" parameterType="org.wella.entity.UserMoney" useGeneratedKeys="true" keyProperty="moneyId">
+        insert into wa_user_money
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="jyType != null" >
+                jy_type,
+            </if>
+            <if test="orderId != null" >
+                order_id,
+            </if>
+            <if test="jyMc != null" >
+                jy_mc,
+            </if>
+            <if test="content != null" >
+                content,
+            </if>
+            <if test="jyMoney != null" >
+                jy_money,
+            </if>
+            <if test="mgrUserId != null" >
+                mgr_user_id,
+            </if>
+            <if test="mgrIp != null" >
+                mgr_ip,
+            </if>
+            <if test="jyDate != null" >
+                jy_date,
+            </if>
+            <if test="jyState != null" >
+                jy_state,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="jyType != null" >
+                #{jyType,jdbcType=TINYINT},
+            </if>
+            <if test="orderId != null" >
+                #{orderId,jdbcType=BIGINT},
+            </if>
+            <if test="jyMc != null" >
+                #{jyMc,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null" >
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="jyMoney != null" >
+                #{jyMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="mgrUserId != null" >
+                #{mgrUserId,jdbcType=BIGINT},
+            </if>
+            <if test="mgrIp != null" >
+                #{mgrIp,jdbcType=VARCHAR},
+            </if>
+            <if test="jyDate != null" >
+                #{jyDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="jyState != null" >
+                #{jyState,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+
     <select id="singlePoByPrimaryKey" parameterType="long" resultType="map">
         SELECT *
         from wa_user_money

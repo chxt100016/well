@@ -26,7 +26,7 @@ public abstract class DateUtil {
     public static final FastDateFormat FAST_SECOND_FORMATETR = FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss");
     public static final FastDateFormat FAST_SHORT_FORMATETR = FastDateFormat.getInstance("yyyyMMdd");
     public static final FastDateFormat FAST_ONLY_MINUTE_FORMATETR = FastDateFormat.getInstance("HH:mm");
-    public static final long cncbTimeDive=197337600000L;
+    public static final long cncbTimeDive=202003200000L;
 
 
     public DateUtil() {

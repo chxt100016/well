@@ -16,4 +16,6 @@ public interface BankcardService {
 
     List<Bankcard> getCards(long userId);
 
+    Bankcard getCard(long bankcardId);
+
 }

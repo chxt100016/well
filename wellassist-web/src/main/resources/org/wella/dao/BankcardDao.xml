@@ -67,4 +67,14 @@
             </if>
         </where>
     </select>
+
+    <select id="querySingle" parameterType="map" resultMap="BankcardMap">
+        SELECT * from wa_bankcard
+        <where>
+            <if test="bankcardId != null">
+                AND bankcard_id=#{bankcardId}
+            </if>
+        </where>
+        limit 1
+    </select>
 </mapper>

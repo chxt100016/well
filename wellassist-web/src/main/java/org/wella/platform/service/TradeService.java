@@ -24,4 +24,12 @@ public interface TradeService {
     Map<String,Object> findWlOfflinePayInfo(long logisticsTransId);
 
     int wlOfflinePayCheckSubmit(Map<String, Object> param);
+
+    void withdrawRefuse(long withdrawId,long mgrId,String mgrIp);
+
+    void withdrawReCheck(long withdrawId,long mgrId,String mgrIp);
+
+    void withdrawApprove(long withdrawId,long mgrId,String mgrIp) throws Exception;
+
+    void withdrawComplete(long withdrawId,long mgrId,String mgrIp);
 }
