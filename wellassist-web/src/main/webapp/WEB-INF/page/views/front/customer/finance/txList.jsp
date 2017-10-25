@@ -200,14 +200,14 @@ const vm = new Vue({
 	    var that =this;
 	  $.get(url1,'',function(data){
 			if(data.code==0){
-			     console.log( data.Cards);
+			    //  console.log( data.Cards);
 				for (var i = 0; i < data.Cards.length; i++) {
 				var str='' ,str2;
 				str= data.Cards[i].account;
 				// str = Number(str);
 				str2 = str.substring(str.length-4);
 				data.Cards[i].bankAccountNew =str2;
-				console.log(data.Cards[i].bankAccountNew);
+				// console.log(data.Cards[i].bankAccountNew);
 			}
 			 that.Cards= data.Cards
 			}
@@ -221,10 +221,10 @@ const vm = new Vue({
 	  secBank:function(){
 		   var that =this;
 		  let sid= $("#bankS").val();
-		  console.log(sid);
+		//   console.log(sid);
 		  that.selCards.withdrawBank=that.Cards[sid].bankName;
 		  that.selCards.bankcardId=that.Cards[sid].bankcardId;
-		  console.log(that.selCards);
+		//   console.log(that.selCards);
 	  },
 	  selected:function(index,bankName,bankAccountNew){
        console.log(index);
