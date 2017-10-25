@@ -20,7 +20,7 @@
    
 <body>
     <div class="container1">
-        <div class="containe2">
+        <div class="container2">
             <div class="ui container segment" id='app'>
                     
                 <div class="pd-bt-20">
