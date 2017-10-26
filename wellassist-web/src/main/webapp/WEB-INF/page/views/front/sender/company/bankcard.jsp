@@ -1,5 +1,5 @@
 <%@ include file="../header.jsp"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,6 +8,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
+</head>
+<body>   
 <div class="container1">
     <div style="margin:40px 0 0 210px;">
 
@@ -68,7 +70,7 @@
                         <td width="10%">
                             <span style="font-size:15px;">{{card.bankName}}</span>
                         </td>
-                        <td width="15%"><span style="font-size:15px;">{{card.bankAccount}}</span></td>
+                        <td width="15%"><span style="font-size:15px;">{{card.account}}</span></td>
                         <td><a class="ui button red" v-on:click="delCard(card)">删除</a></td>
                     </tr>
                 </tbody>
@@ -81,30 +83,66 @@
             <form class="ui form has_vehicle_form">
             <!-- <i class="close icon"></i> -->
             <!-- <div class="header">添加新银行卡信息</div> -->
-                <div class="ui form has_vehicle_form">
+                <div class="ui form ">
                     <div class="field inline">
                         <label style="width:15%;text-align:right;">请输入你的开户银行</label>
                         <div class="ui input ">
-                            <input type="text " class="vh" placeholder=" " v-model="new_card.bankName " id="hanging" name="bankName">
+                            <input type="text " class="vh" placeholder=" " v-model="new_card.bankName " id="bankName" name="bankName">
                         </div>
                     </div>
                     <div class="field inline">
                         <label style="width:15%;text-align:right;">请输入你的银行卡号</label>
                         <div class="ui input ">
-                            <input type="text " class="vh" placeholder=" " v-model="new_card.bankAccount " id="capacity" name="bankAccount">
+                            <input type="text " class="vh" placeholder=" " v-model="new_card.account " id="account" name="account">
+                        </div>
+                    </div>
+                    <div class="field inline">
+                        <label style="width:15%;text-align:right;">请输入你的银行账户名</label>
+                        <div class="ui input ">
+                            <input type="text " class="vh" placeholder=" " v-model="new_card.accountName " id="accountName" name="accountName">
+                        </div>
+                    </div>
+                    <div class="field inline">
+                        <label style="width:15%;text-align:right;">请选择您的证件类型</label>
+                        <div class="ui input ">
+               
+                            <select class="ui compact selection dropdown vh" v-model="new_card.certType " id="certType" name="certType" >
+                                <option value="1">身份证</option>
+                                <option selected="" value="2">军官证</option>
+                                <option value="3">学生证</option>
+                              </select>
+                        </div>
+                    </div>
+                    <div class="field inline">
+                        <label style="width:15%;text-align:right;">请输入您的证件号</label>
+                        <div class="ui input ">
+                            <input type="text " class="vh" placeholder=" " v-model="new_card.certNum " id="certNum" name="certNum">
                         </div>
                     </div>
                     <div class="field inline">
                         <label style="width:15%;text-align:right;">请输入银行预留手机号</label>
                         <div class="ui input ">  
-                            <input type="text " class="vh" placeholder=" " v-model="new_card.bankPhone " id="capacity" name="bankPhone">
+                            <input type="text " class="vh" placeholder=" " v-model="new_card.phone " id="phone" name="phone">
                             <a class="ui button" style="margin-left:15px;">获取验证码</a>
+                        </div>
+                    </div>
+                    <div class="field inline">
+                        <label style="width:15%;text-align:right;">请输入开户行支付联行号</label>
+                        <div class="ui input ">  
+                            <input type="text " class="vh" placeholder=" " v-model="new_card.openBankTgfi " id="openBankTgfi" name="openBankTgfi">
+                           
+                        </div>
+                    </div><div class="field inline">
+                        <label style="width:15%;text-align:right;">请输入开户行名</label>
+                        <div class="ui input ">  
+                            <input type="text " class="vh" placeholder=" " v-model="new_card.openBankName " id="openBankName" name="openBankName">
+                          
                         </div>
                     </div>
                     <div class="field inline">
                         <label style="width:15%;text-align:right;">请输入验证码</label>
                         <div class="ui input ">
-                            <input type="text " class="vh" placeholder=" " v-model="new_card.bankCode " id="capacity" name="bankcode">
+                            <input type="text " class="vh" placeholder=" " v-model="new_card.bankCode " id="bankcode" name="">
                         </div>
                     </div>
 
@@ -112,13 +150,7 @@
                         <label style="width:18.5%;"></label>
                         <a class="ui primary button " @click="createCard" style="height:38px">添加 </a>
                     </div>
-                    <ul v-if="!isValid" class="errors">
-                        <p style="color:#234">填写时请注意：</p>
-                        <li v-show="!validation.bankName">请输入正确的银行名称</li>
-                        <li v-show="!validation.bankAccount">请输入正确的银行卡号</li>
-                        <li v-show="!validation.bankPhone">请输入正确的银行预留手机号</li>
-                        <li v-show="!validation.bankCode">请输入正确的验证码</li>
-                    </ul>
+                 
                 </div>
             </div>
             <!-- 添加新司机弹框end -->
@@ -127,61 +159,88 @@
         
     </div>
 </div>
-
+</body>
 <script>
-// $('.ui.form').form({
-//     inline : true,
-//     on     : 'blur'
-//     fields : {
-//         bankName:{
-//             identifier: 'bankName',
-//             rules: [
-//               {
-//                 type   : 'empty',
-//                 prompt : '请输入你的开户银行'
-//               }
-//             ]
-//         },
-//         bankAccount:{
-//             identifier: 'bankAccount',
-//             rules: [
-//               {
-//                 type   : 'empty',
-//                 prompt : '请输入你的银行卡号'
-//               }
-//               {
-//                 type   : 'minLength[16]',
-//                 prompt : '请输入正确的银行卡号'
-//               }
-//             ]
-//         },
-//         bankPhone:{
-//             identifier: 'bankPhone',
-//             rules: [
-//               {
-//                 type   : 'empty',
-//                 prompt : '请输入银行卡预留手机号'
-//               }
-//             ]
-//         },
-//         bankCode:{
-//             identifier: 'bankCode',
-//             rules: [
-//               {
-//                 type   : 'empty',
-//                 prompt : '请输入你的验证码'
-//               }
-//             ]
-//         },
-//     }
-//   })
-// ;
+    $(function(){
+        $('.has_vehicle_form').form({
+       on:'blur',
+       inline : true,
+         fields:{
+            bankName :{
+                identifier:'bankName',
+                rules:[{
+                    type   : 'empty',
+                    prompt : '朋友别忘记银行卡哦'
+                }]
+            },
+            account :{
+                identifier:'account',
+                rules:[{
+                    type   : 'empty',
+                    prompt : '朋友别忘记填写哦'
+                }]
+            },
+            accountName :{
+                identifier:'accountName',
+                rules:[{
+                    type   : 'empty',
+                    prompt : '朋友别忘记填写哦'
+                }]
+            },
+            certType :{
+                identifier:'certType',
+                rules:[{
+                    type   : 'empty',
+                    prompt : '朋友别忘记填写哦'
+                }]
+            },
+            certNum :{
+                identifier:'certNum',
+                rules:[{
+                    type   : 'empty',
+                    prompt : '朋友别忘记填写哦'
+                }]
+            },
+            phone :{
+                identifier:'phone',
+                rules:[{
+                    type   : 'empty',
+                    prompt : '朋友别忘记填写哦'
+                }]
+            },
+            openBankTgfi :{
+                identifier:'openBankTgfi',
+                rules:[{
+                    type   : 'empty',
+                    prompt : '朋友别忘记填写哦'
+                }]
+            },
+            openBankName :{
+                identifier:'openBankName',
+                rules:[{
+                    type   : 'empty',
+                    prompt : '朋友别忘记填写哦'
+                }]
+            },
+         },
+        
+      
+      
+      
+      
+      
+  })
+    })
+</script>
+<script>
+     const getUrl='${pageContext.request.contextPath}/userinfo/getCards';
+     const addUrl="${pageContext.request.contextPath}/userinfo/addBankcard";
     var vm = new Vue({
         el: app1,
         data: {
             new_card: {
                 bankName: '',
-                bankAccount: '',
+                account: '',
                 bankPhone: '',
                 bankCode: ''
             },
@@ -192,7 +251,7 @@
             validation: function() {
                 return {
                     bankName: !!this.new_card.bankName.trim(),
-                    bankAccount: !!this.new_card.bankAccount.trim(),
+                    bankAccount: !!this.new_card.account.trim(),
                     bankPhone: !!this.new_card.bankPhone.trim(),
                     bankCode: !!this.new_card.bankCode.trim(),
                 }
@@ -205,36 +264,81 @@
             }
         },
         created:function () {
-            $.get('${pageContext.request.contextPath}/userinfo/getCards',function(data){
-                if(typeof data ==="object"){
-                    vm.Cards = data.Cards;
-                }else {
-                    vm.Cards = JSON.parse(data).Cards;
-                };
-            });
+            // $.get(addUrl,function(data){
+            //     if(typeof data ==="object"){
+            //         vm.Cards = data.Cards;
+            //     }else {
+            //         vm.Cards = JSON.parse(data).Cards;
+            //     };
+            // });
+            $.ajax({
+                    type:'get' , 
+                    url:getUrl,
+                    data:'',
+                    dataType:'json',
+                    success:
+                            function(result){
+                                    if(result.code==0){
+                                        vm.Cards = result.Cards;
+                                        console.log(result.Cards)
+                                    }
+                                    else{
+                                                console.log(result.msg)
+                                        }
+                                            }
+
+
+                    })
         },
         methods: {
             createCard: function() {
-                if (this.isValid) {
+                let  allFields =$('.has_vehicle_form').form('get values');
+                let alls=JSON.stringify(allFields)
+                     console.log(typeof alls)
+                   if( $('.has_vehicle_form').form('is valid')){
+                 
+                     
+                     console.log(allFields)
+                   }
+                    
                     //项后台发送ajax请求，完成数据存储
-                    $.post("${pageContext.request.contextPath}/userinfo/addBankcard",vm.new_card,function (data) {
-                        if(data.code == 0){
-                            // alert(JSON.stringify(this));
-                            vm.Cards.push(vm.new_card);
-                            // 添加完newPerson对象后，重置newPerson对象
-                            vm.new_card = {
-                                bankName: '',
-                                bankAccount: '',
-                                bankPhone: '',
-                                bankCode: ''
-                            };
-                            alert("添加成功");
-                        }else{
-                            alert("系统错误");
-                        }
-                    },"json")
-                    // $('.modal').modal('hide');
-                };
+                    // $.post(addUrl,allFields,function (data) {
+                    //     if(data.code == 0){
+                    //         // alert(JSON.stringify(this));
+                    //         vm.Cards.push(vm.new_card);
+                    //         // 添加完newPerson对象后，重置newPerson对象
+                    //         vm.new_card = {
+                    //             bankName: '',
+                    //             account: '',
+                    //             bankPhone: '',
+                    //             bankCode: ''
+                    //         };
+                    //         alert("添加成功");
+                    //     }else{
+                    //         alert("系统错误");
+                    //     }
+                    // },"json")
+                    $.ajax({
+                            type:'post', 
+                            url:addUrl,
+                            data:alls,
+                            dataType:'json',
+                            contentType:'application/json',
+                            success:
+                                    function(result){
+                                            if(result.code==0){
+                                                alert("添加成功");
+                                            }
+                                            else{
+                                                alert("系统错误");
+                                                        console.log(result.msg)
+                                                }
+                                                    }
+
+
+                            })
+                    $('.modal').modal('hide');
+                
 
             },
             delCard: function(card) {

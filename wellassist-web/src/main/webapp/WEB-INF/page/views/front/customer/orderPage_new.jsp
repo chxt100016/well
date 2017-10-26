@@ -559,26 +559,41 @@
     // 单价和数量变化函数 
     function validateNumber(e, pnumber, type) {
         var len = 0;
-        if (!/^\d+$/.test(pnumber)) {
+        // if (!/^\d+$/.test(pnumber)) {
+            if (!/^[0-9]+.{0,1}[0-9]{0,2}$/.test(pnumber)){
             if (isNaN(pnumber) == '0') return;
             len = pnumber.length;
+            
             $(e).val(pnumber.substring(0, len - 1));
         }
         if (type == 0) {
             var saleNum = $("#saleNum").val();
             var saleDj = $("#danjia").val();
             if (saleNum == "" || saleDj == "") {
-                $("#saleMoney").val(0);
-                $("#saleMoneyShow").html(0);
+                // $("#saleMoney").val(0);
+                // $("#saleMoneyShow").html(0);
+                $("#saleMoney").html("0");
+
             } else {
-                console.log($("#danjia").length);
-                $("#saleMoney").val(saleNum * saleDj);
-                 $("#saleMoneyShow").html(saleNum * saleDj);
+                // console.log($("#danjia").length);
+                // $("#saleMoney").val(saleNum * saleDj);
+                var Sum=accMul(saleNum,saleDj)   
+                $("#saleMoneyShow").html(Sum);
+
+                $("#saleMoney").html(Sum);	
+
             }
         }
         return false;
     }
-
+    // 精确乘法
+    function accMul(arg1,arg2)  
+{  
+    var m=0,s1=arg1.toString(),s2=arg2.toString();  
+    try{m+=s1.split(".")[1].length}catch(e){}  
+    try{m+=s2.split(".")[1].length}catch(e){}  
+    return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m)  
+}
     // 手机验证
     jQuery.validator.addMethod("isPhone", function(value, element) {
         var length = value.length;

@@ -3,13 +3,16 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <title>银行卡管理</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script>
 </head>
-<body>   
 <div class="container1">
     <div style="margin:40px 0 0 210px;">
 
@@ -58,23 +61,23 @@
                         <li v-show="!validation.bankName">请输入正确的银行名称</li>
                         <li v-show="!validation.dr_number">请输入银行卡号</li>
                     </ul> -->
-            <h4 class="ui header" style="font-size:15px;font-weight:600;">我的银行卡</h4>
-            <div class="ui divider"></div>
-            <table class="ui table " style="width:85%;border:0;text-align:center;">
-                <tbody>
-                    <tr v-for="card in Cards " v-cloak>
-                        <td width="8%">
-                            <!-- <input type="hidden" v-model="card.bankcardId"/> -->
-                            <img src="../img/u5445.jpg" width="30" height="30" />
-                        </td>
-                        <td width="10%">
-                            <span style="font-size:15px;">{{card.bankName}}</span>
-                        </td>
-                        <td width="15%"><span style="font-size:15px;">{{card.account}}</span></td>
-                        <td><a class="ui button red" v-on:click="delCard(card)">删除</a></td>
-                    </tr>
-                </tbody>
-            </table>
+                    <h4 class="ui header" style="font-size:15px;font-weight:600;">我的银行卡</h4>
+                    <div class="ui divider"></div>
+                    <table class="ui table " style="width:85%;border:0;text-align:center;">
+                        <tbody>
+                            <tr v-for="card in Cards " v-cloak>
+                                <td width="8%">
+                                    <!-- <input type="hidden" v-model="card.bankcardId"/> -->
+                                    <img src="../img/u5445.jpg" width="30" height="30" />
+                                </td>
+                                <td width="10%">
+                                    <span style="font-size:15px;">{{card.bankName}}</span>
+                                </td>
+                                <td width="15%"><span style="font-size:15px;">{{card.account}}</span></td>
+                                <td><a class="ui button red" v-on:click="delCard(card)">删除</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
 
             <h4 class="ui header" style="font-size:15px;font-weight:600;margin-top:40px;">绑定银行卡</h4>
             <div class="ui divider"></div>
@@ -83,75 +86,74 @@
             <form class="ui form has_vehicle_form">
             <!-- <i class="close icon"></i> -->
             <!-- <div class="header">添加新银行卡信息</div> -->
-                <div class="ui form ">
-                    <div class="field inline">
-                        <label style="width:15%;text-align:right;">请输入你的开户银行</label>
-                        <div class="ui input ">
-                            <input type="text " class="vh" placeholder=" " v-model="new_card.bankName " id="bankName" name="bankName">
-                        </div>
+            <div class="ui form ">
+                <div class="field inline">
+                    <label style="width:15%;text-align:right;">请输入你的开户银行</label>
+                    <div class="ui input ">
+                        <input type="text " class="vh" placeholder=" " v-model="new_card.bankName " id="bankName" name="bankName">
                     </div>
-                    <div class="field inline">
-                        <label style="width:15%;text-align:right;">请输入你的银行卡号</label>
-                        <div class="ui input ">
-                            <input type="text " class="vh" placeholder=" " v-model="new_card.account " id="account" name="account">
-                        </div>
-                    </div>
-                    <div class="field inline">
-                        <label style="width:15%;text-align:right;">请输入你的银行账户名</label>
-                        <div class="ui input ">
-                            <input type="text " class="vh" placeholder=" " v-model="new_card.accountName " id="accountName" name="accountName">
-                        </div>
-                    </div>
-                    <div class="field inline">
-                        <label style="width:15%;text-align:right;">请选择您的证件类型</label>
-                        <div class="ui input ">
-               
-                            <select class="ui compact selection dropdown vh" v-model="new_card.certType " id="certType" name="certType" >
-                                <option value="1">身份证</option>
-                                <option selected="" value="2">军官证</option>
-                                <option value="3">学生证</option>
-                              </select>
-                        </div>
-                    </div>
-                    <div class="field inline">
-                        <label style="width:15%;text-align:right;">请输入您的证件号</label>
-                        <div class="ui input ">
-                            <input type="text " class="vh" placeholder=" " v-model="new_card.certNum " id="certNum" name="certNum">
-                        </div>
-                    </div>
-                    <div class="field inline">
-                        <label style="width:15%;text-align:right;">请输入银行预留手机号</label>
-                        <div class="ui input ">  
-                            <input type="text " class="vh" placeholder=" " v-model="new_card.phone " id="phone" name="phone">
-                            <a class="ui button" style="margin-left:15px;">获取验证码</a>
-                        </div>
-                    </div>
-                    <div class="field inline">
-                        <label style="width:15%;text-align:right;">请输入开户行支付联行号</label>
-                        <div class="ui input ">  
-                            <input type="text " class="vh" placeholder=" " v-model="new_card.openBankTgfi " id="openBankTgfi" name="openBankTgfi">
-                           
-                        </div>
-                    </div><div class="field inline">
-                        <label style="width:15%;text-align:right;">请输入开户行名</label>
-                        <div class="ui input ">  
-                            <input type="text " class="vh" placeholder=" " v-model="new_card.openBankName " id="openBankName" name="openBankName">
-                          
-                        </div>
-                    </div>
-                    <div class="field inline">
-                        <label style="width:15%;text-align:right;">请输入验证码</label>
-                        <div class="ui input ">
-                            <input type="text " class="vh" placeholder=" " v-model="new_card.bankCode " id="bankcode" name="">
-                        </div>
-                    </div>
-
-                    <div class="field inline">
-                        <label style="width:18.5%;"></label>
-                        <a class="ui primary button " @click="createCard" style="height:38px">添加 </a>
-                    </div>
-                 
                 </div>
+                <div class="field inline">
+                    <label style="width:15%;text-align:right;">请输入你的银行卡号</label>
+                    <div class="ui input ">
+                        <input type="text " class="vh" placeholder=" " v-model="new_card.account " id="account" name="account">
+                    </div>
+                </div>
+                <div class="field inline">
+                    <label style="width:15%;text-align:right;">请输入你的银行账户名</label>
+                    <div class="ui input ">
+                        <input type="text " class="vh" placeholder=" " v-model="new_card.accountName " id="accountName" name="accountName">
+                    </div>
+                </div>
+                <div class="field inline">
+                    <label style="width:15%;text-align:right;">请选择您的证件类型</label>
+                    <div class="ui input ">
+           
+                        <select class="ui compact selection dropdown vh" v-model="new_card.certType " id="certType" name="certType" >
+                            <option value="1">身份证</option>
+                            <option selected="" value="2">军官证</option>
+                            <option value="3">学生证</option>
+                          </select>
+                    </div>
+                </div>
+                <div class="field inline">
+                    <label style="width:15%;text-align:right;">请输入您的证件号</label>
+                    <div class="ui input ">
+                        <input type="text " class="vh" placeholder=" " v-model="new_card.certNum " id="certNum" name="certNum">
+                    </div>
+                </div>
+                <div class="field inline">
+                    <label style="width:15%;text-align:right;">请输入银行预留手机号</label>
+                    <div class="ui input ">  
+                        <input type="text " class="vh" placeholder=" " v-model="new_card.phone " id="phone" name="phone">
+                        <a class="ui button" style="margin-left:15px;">获取验证码</a>
+                    </div>
+                </div>
+                <div class="field inline">
+                    <label style="width:15%;text-align:right;">请输入开户行支付联行号</label>
+                    <div class="ui input ">  
+                        <input type="text " class="vh" placeholder=" " v-model="new_card.openBankTgfi " id="openBankTgfi" name="openBankTgfi">
+                       
+                    </div>
+                </div><div class="field inline">
+                    <label style="width:15%;text-align:right;">请输入开户行名</label>
+                    <div class="ui input ">  
+                        <input type="text " class="vh" placeholder=" " v-model="new_card.openBankName " id="openBankName" name="openBankName">
+                      
+                    </div>
+                </div>
+                <div class="field inline">
+                    <label style="width:15%;text-align:right;">请输入验证码</label>
+                    <div class="ui input ">
+                        <input type="text " class="vh" placeholder=" " v-model="new_card.bankCode " id="bankcode" name="">
+                    </div>
+                </div>
+
+                <div class="field inline">
+                    <label style="width:18.5%;"></label>
+                    <a class="ui primary button " @click="createCard" style="height:38px">添加 </a>
+                </div>
+             
             </div>
             <!-- 添加新司机弹框end -->
         </div>
@@ -159,7 +161,7 @@
         
     </div>
 </div>
-</body>
+
 <script>
     $(function(){
         $('.has_vehicle_form').form({
@@ -362,7 +364,7 @@
     })
 </script>
 
-<!-- <script>
+<script>
     function add() {
         $('.modal')
             .modal('show');
@@ -372,7 +374,7 @@
         $('.modal')
             .modal('hide');
     }
-</script> -->
+</script>
 
 </html>
 

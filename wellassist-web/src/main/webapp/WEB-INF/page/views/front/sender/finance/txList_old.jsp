@@ -110,20 +110,17 @@
 		            <td style="color:#009900;">${item.withdrawMoney}</td>
 		            <td>
 		                <c:if test = "${item.withdrawState == '-1'}">
-		                        拒绝
+		                        不通过
 		                </c:if>
 		                <c:if test = "${item.withdrawState == '0'}">
 		                        申请
 		                </c:if>
 		                <c:if test = "${item.withdrawState == '1'}">
-		                        处理中
+		                        待付款
 		                </c:if>
 		                <c:if test = "${item.withdrawState == '2'}">
-		                        完成
+		                        已付款
 		                </c:if>
-						<c:if test = "${item.withdrawState == '-2'}">
-							提现失败
-						</c:if>
 		            </td>  
 		        </tr>
 		        </c:forEach>
@@ -142,7 +139,6 @@
 	</div>
 </div>
 </div>
-
 <script type = "text/javascript">
 	// 功能函数
 	
@@ -159,11 +155,11 @@ $('.txform')
 				rules: [
 				{
 					type   : 'empty',
-					prompt : '请输入金额'
+					prompt : '朋友你得提多少钱'
 				},
 				{
 				 type: 'number',
-				 prompt:'请输入数字'	
+				 prompt:'数字啊兄弟'	
 				}
 			]
 		  },
@@ -172,7 +168,7 @@ $('.txform')
 				rules: [
 				{
 					type   : 'empty',
-					prompt : '请选择提现账户'
+					prompt : '朋友你的账户要选好'
 				}
 			]
 		  }
@@ -194,7 +190,8 @@ const vm = new Vue({
   data:{
    Cards:'',
    selCards:{
-	   bankcardId:'',
+	   withdrawBank:'',
+	   account:'',
 	   withdrawMoney:'',
    }
 //    selected:''
@@ -203,14 +200,14 @@ const vm = new Vue({
 	    var that =this;
 	  $.get(url1,'',function(data){
 			if(data.code==0){
-			    //  console.log( data.Cards);
+			console.log(data.Cards);
 				for (var i = 0; i < data.Cards.length; i++) {
 				var str='' ,str2;
-				str= data.Cards[i].account;
+				str= data.Cards[i].bankAccount;
 				// str = Number(str);
 				str2 = str.substring(str.length-4);
 				data.Cards[i].bankAccountNew =str2;
-				// console.log(data.Cards[i].bankAccountNew);
+				console.log(data.Cards[i].bankAccountNew);
 			}
 			 that.Cards= data.Cards
 			}
@@ -224,10 +221,10 @@ const vm = new Vue({
 	  secBank:function(){
 		   var that =this;
 		  let sid= $("#bankS").val();
-		//   console.log(sid);
+		  console.log(sid);
 		  that.selCards.withdrawBank=that.Cards[sid].bankName;
-		  that.selCards.bankcardId=that.Cards[sid].bankcardId;
-		//   console.log(that.selCards);
+		  that.selCards.account=that.Cards[sid].bankAccount;
+		  console.log(that.selCards);
 	  },
 	  selected:function(index,bankName,bankAccountNew){
        console.log(index);
@@ -244,12 +241,10 @@ const vm = new Vue({
 						data: that.selCards,
 						success:function(result){
 								if(result.code==0){
-									alert("成功");
-									window.location.reload()
+									alert("成功")
 								}
 								else{
-									alert(result.msg);
-									window.location.reload()
+									alert(result.msg)
 								}
 						}
 				  })
