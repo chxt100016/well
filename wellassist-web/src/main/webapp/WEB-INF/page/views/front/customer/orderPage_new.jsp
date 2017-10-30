@@ -258,19 +258,19 @@
                         添加新司机
                         </div>
                 <div class="content">
-                    <form class="ui form segment has_vehicle_form">
+                    <form class="ui form segment has_vehicle_form" id='has_vehicle_form'>
                      <div class="ui form has_vehicle_form">
                     <div class=" two fields ">
                         <div class="field ">
                             <div class="ui labeled input  ">
                                 <div class="ui label ">司机名称 </div>
-                                <input type="text " class="vh act" placeholder=" " v-model="newVehicle.dr_name " id="dr_name" name="dr_name" @keypress="focusNextIn($event);">
+                                <input type="text " class="vh act" placeholder=" " v-model="newVehicle.dr_name" id="dr_name" name="dr_name">
                             </div>
                         </div>
                         <div class="field ">
                             <div class="ui labeled input vh">
                                 <div class="ui label ">电话 </div>
-                                <input type="text " class="vh number isPhone act" placeholder=" " v-model="newVehicle.dr_tel " id="dr_tel" name="dr_tel" @keypress="focusNextIn($event);">
+                                <input type="text " class="vh number isPhone act" placeholder=" " v-model="newVehicle.dr_tel" id="dr_tel" name="dr_tel" >
                             </div>
                         </div>
                      
@@ -281,13 +281,13 @@
                            <div class="field ">
                             <div class="ui labeled input ">
                                 <div class="ui label ">车牌 </div>
-                                <input type="text " class="vh act" placeholder=" " v-model="newVehicle.dr_number " id="dr_number" name="dr_number" @keypress="focusNextIn($event);">
+                                <input type="text " class="vh act" placeholder=" " v-model="newVehicle.dr_number" id="dr_number" name="dr_number" >
                             </div>
                         </div>
                          <div class="field ">
                             <div class="ui labeled input ">
                                 <div class="ui label ">车挂号 </div>
-                                <input type="text " class="vh act" placeholder=" " v-model="newVehicle.hanging_number " id="hanging_number" name="hanging_number" @keypress="focusNextIn($event);">
+                                <input type="text " class="vh act" placeholder=" " v-model="newVehicle.hanging_number" id="hanging_number" name="hanging_number">
                             </div>
                         </div>
                     </div>
@@ -295,32 +295,31 @@
                            <div class="field ">
                             <div class="ui labeled input ">
                                 <div class="ui label ">容量 </div>
-                                <input type="text " class="vh act" placeholder=" " v-model="newVehicle.actual_size" id="actual_size" name="actual_size"  @keypress="focusNextIn($event);">
+                                <input type="text " class="vh act" placeholder=" " v-model="newVehicle.actual_size" id="actual_size" name="actual_size"  >
                             </div>
                         </div>
                          
                     </div>
                   
-                    <ul class="errors" v-if="!isValid" >
+                    <!-- <ul class="errors" v-if="!isValid" >
                         <p style="color:#234">填写时请注意：</p>
                         <li v-if="!validation.dr_name">司机姓名不得为空</li>
-                        <!--<li v-show="!validation.dr_tel">请输入联系电话</li>-->
                          <li v-if="!validation.dr_tel_num">请输入正确的联系电话</li>
                         <li v-show="!validation.dr_number">请输入车辆车牌号码</li>
                         <li v-show="!validation.actual_size">请输入车辆容量</li>
                         <li v-if="!validation.actual_size_num">请输入正确车辆容量</li>
                         <li  v-if="!validation.hanging_number">请输入车挂号</li>
                         
-
-                    </ul>
+                    </ul> -->
                 </div>
                     
-                </div>
+               
                 <div class="actions">
                     <div class="ui button cancel">取消</div>
-                    <div class="ui button green act" id="for1"  @click="createVehicle" @keypress="focusNextIn($event);">保存</div>
+                    <div class="ui button green act" id="for1"  @click="createVehicle" >保存</div>
                 </div>
                 </form>
+            </div>
         </div>
     </div>
    
@@ -378,27 +377,28 @@
             Vehicles: []
         },
         computed: {
-            validation: function() {
-                return {
-                    dr_name: !!this.newVehicle.dr_name.trim(),
-                    dr_tel:!!this.newVehicle.dr_tel.trim(),
-                    dr_tel_num: telRE.test(this.newVehicle.dr_tel),                 
-                    dr_number: !!this.newVehicle.dr_number.trim(),
-                    hanging_number: !!this.newVehicle.hanging_number.trim(),
-                    actual_size:!!this.newVehicle.actual_size.trim(),
-                    actual_size_num:!isNaN(this.newVehicle.actual_size),
-                }
-            },
-            isValid: function() {
-                var validation = this.validation
-                return Object.keys(validation).every(function(key) {
-                    return validation[key]
-                })
-            }
+            // validation: function() {
+            //     return {
+            //         dr_name: !!this.newVehicle.dr_name.trim(),
+            //         dr_tel:!!this.newVehicle.dr_tel.trim(),
+            //         dr_tel_num: telRE.test(this.newVehicle.dr_tel),                 
+            //         dr_number: !!this.newVehicle.dr_number.trim(),
+            //         hanging_number: !!this.newVehicle.hanging_number.trim(),
+            //         actual_size:!!this.newVehicle.actual_size.trim(),
+            //         actual_size_num:!isNaN(this.newVehicle.actual_size),
+            //     }
+            // },
+            // isValid: function() {
+            //     var validation = this.validation
+            //     return Object.keys(validation).every(function(key) {
+            //         return validation[key]
+            //     })
+            // }
         },
         methods: {
             createVehicle: function() {
-                if (this.isValid) {
+                if ($('#has_vehicle_form').form('is valid')) {
+                    console.log('success!');
                     this.Vehicles.push(this.newVehicle)
                         // 添加完newPerson对象后，重置newPerson对象  
                     this.newVehicle = {
@@ -553,6 +553,56 @@
 
         }); // 
 
+//添加车辆信息表单验证
+        $('.has_vehicle_form').form({
+       on:'blur',
+       inline : true,
+         fields:{
+            dr_name :{
+                identifier:'dr_name',
+                rules:[{
+                    type   : 'empty',
+                    prompt : '请填写司机名称'
+                }]
+            },
+            dr_tel :{
+                identifier:'dr_tel',
+                rules:[{
+                    type   : 'regExp[/^[1][3,4,5,7,8][0-9]{9}$/]',
+                    prompt : '请填写联系电话'
+                }]
+            },
+            dr_number :{
+                identifier:'dr_number',
+                rules:[{
+                    type   : 'empty',
+                    prompt : '请填写车牌号'
+                }]
+            },
+            hanging_number :{
+                identifier:'hanging_number',
+                rules:[{
+                    type   : 'empty',
+                    prompt : '请填写车挂号'
+                }]
+            },
+            actual_size :{
+                identifier:'actual_size',
+                rules:[{
+                    type   : 'integer[1..100]',
+                    prompt : '请填写正确车容量'
+                }]
+            },
+         },
+         onSuccess:function(e){
+              e.preventDefault();
+            
+          }
+      
+      
+      
+
+        })
 
 
     }); //
@@ -597,9 +647,10 @@
     // 手机验证
     jQuery.validator.addMethod("isPhone", function(value, element) {
         var length = value.length;
-        var mobile = /^(((13[0-9]{1})|(15[0-9]{1}))+\d{8})$/;
-        var tel = /^\d{3,4}-?\d{7,9}$/;
-        return this.optional(element) || (tel.test(value) || mobile.test(value));
+        var mobile = /^[1][3,4,5,7,8][0-9]{9}$/;
+        // var tel = /^\d{3,4}-?\d{7,9}$/;
+        // return this.optional(element) || (tel.test(value) || mobile.test(value));
+        return this.optional(element) || (mobile.test(value));
 
     }, "请正确填写您的联系电话");
 
