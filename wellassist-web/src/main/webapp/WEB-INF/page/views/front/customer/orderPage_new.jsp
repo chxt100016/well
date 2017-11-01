@@ -630,7 +630,7 @@
                 var Sum=accMul(saleNum,saleDj)   
                 $("#saleMoneyShow").html(Sum);
 
-                $("#saleMoney").html(Sum);	
+                $("#saleMoney").val(Sum);
 
             }
         }

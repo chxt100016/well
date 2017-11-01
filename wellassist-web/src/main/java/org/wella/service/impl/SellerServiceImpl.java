@@ -352,6 +352,7 @@ public class SellerServiceImpl implements SellerService {
         updateOrderMap.put("orderState", 4);
         orderDao.updateOrderByID(updateOrderMap);
         messageServicesk.handleSendProdOverMessage(orderId);
+        waOrderServiceImpl.checkZordersConfirmed(orderId);
     }
 
     @Override

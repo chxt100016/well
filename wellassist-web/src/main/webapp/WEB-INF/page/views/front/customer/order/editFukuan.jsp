@@ -131,7 +131,7 @@
                              </div>
                         </div>
 
-                        <div class="field pd-10">
+                        <%--<div class="field pd-10">
                             <div class="ui radio checkbox">
                                 <input type="radio" name="zfMethod" onchange="bond(4)" id="offLine" value="5">
                                 <label>线下支付</label>
@@ -153,7 +153,7 @@
                                  <img id="proimg" class="yingyeimg" style="display:none" src=""  width="250px" height="180px"/>
                                
                              </div>
-                        </div>
+                        </div>--%>
                     </div>
 
                 </div>
@@ -405,7 +405,7 @@
 <script>
        $(document).ready(function(){
            $("#paySub").addClass("disabled");
-        new AjaxUpload('#profile', {
+        /*new AjaxUpload('#profile', {
             action: '${pageContext.request.contextPath}/uploadFile',
             name: 'file',
             autoSubmit:true,
@@ -425,7 +425,7 @@
                  $("#proimg").show();
                 return;
             }
-        });
+        });*/
 
 	  //获取账户余额
       const urrr = '${pageContext.request.contextPath}/finance/localBalance';

@@ -102,7 +102,7 @@
                                                      </div>
                                                 </div>
                         
-                                                <div class="field pd-10">
+                                                <%--<div class="field pd-10">
                                                     <div class="ui radio checkbox">
                                                         <input type="radio" name="zfMethod" onchange="bond(4)" id="offLine" value="5">
                                                         <label>线下支付</label>
@@ -124,7 +124,7 @@
                                                          <img id="proimg" class="yingyeimg" style="display:none" src=""  width="250px" height="180px"/>
                                                        
                                                      </div>
-                                                </div>
+                                                </div>--%>
                                             </div>
                         
                                         </div>
