@@ -65,6 +65,9 @@
             <if test="userId != null">
                 AND user_id=#{userId}
             </if>
+            <if test="state != null">
+                AND state=#{state}
+            </if>
         </where>
     </select>
 

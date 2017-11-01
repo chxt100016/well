@@ -36,6 +36,7 @@ public class BankcardServiceImpl implements BankcardService {
     public List<Bankcard> getCards(long userId) {
         Map<String,Object> query=new HashMap<>();
         query.put("userId",userId);
+        query.put("state",1);
         List<Bankcard> list=bankcardDao.queryList(query);
         return list;
     }

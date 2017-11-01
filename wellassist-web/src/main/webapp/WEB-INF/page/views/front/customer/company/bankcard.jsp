@@ -71,7 +71,7 @@
                             <span style="font-size:15px;">{{card.bankName}}</span>
                         </td>
                         <td width="15%"><span style="font-size:15px;">{{card.account}}</span></td>
-                        <td><a class="ui button red" v-on:click="delCard(card)">删除</a></td>
+                        <td><a class="ui button red" v-on:click="delCard(card.bankcardId)">删除</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -299,7 +299,7 @@
                  
                      
                      console.log(allFields)
-                   }
+                   
                     
                     //项后台发送ajax请求，完成数据存储
                     // $.post(addUrl,allFields,function (data) {
@@ -337,25 +337,28 @@
 
 
                             })
+                        }
                     $('.modal').modal('hide');
                 
 
             },
             delCard: function(card) {
+                console.log(card);
                 $.ajax({
                     type:'post',
                     url:'${pageContext.request.contextPath}/userinfo/delBankcard',
                     dataType:'json',
-                    data:card,
+                    data:{bankcardId:card},
                     success: function(r){
                         if(r.code == 0){
                             alert("成功删除");
+                            vm.Cards.splice(vm.Cards.indexOf(card), 1);
                         }else{
                             alert(r.msg);
                         }
                     }
                 });
-                vm.Cards.splice(vm.Cards.indexOf(card), 1);
+               
             },
         }
 
