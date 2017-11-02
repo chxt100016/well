@@ -9,6 +9,7 @@
     <!--valocity模板解析-->
     #parse("sys/header.html")
     <link rel="stylesheet" href="${rc.contextPath}/statics/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="${rc.contextPath}/resources/wella/front/css/loading.css">
     
     
 </head>
@@ -32,7 +33,7 @@
                     <button class="btn btn-success" v-on:click='search'>查询</button>
                     <br>
                     <div>
-                        <p>[注：借贷标志中，D为转入，C转出]</p>
+                        <p>[注：借贷标志中，C为转入，D转出]</p>
                     </div>
                     <br>
                     <table class="table table-bordered">
@@ -48,10 +49,12 @@
                                 <th>摘要</th>
                             </tr>
                             <tbody>
-                                <tr v-if='list.length==0'>
-                                    <td v-if='nodata==false' colspan="8">请等待...</td>
-                                    <td v-if='nodata==true' colspan="8">无交易数据...</td>
+                                <tr  style='display:none' class="nodata">
+                                    <td  colspan="8">无交易数据...</td>
                                 </tr>
+                               
+                                <div class="loader"></div>
+                                 
                                 
                                 <tr v-for='(item,index) in list' >
                                     <td>{{index+1}}</td>
@@ -112,6 +115,10 @@
                                                vmm.list==[];
                                             //    alert('暂无数据')
                                                vmm.nodata=true;
+                                               $('.nodata').show();
+                                           
+                                           
+                                               
                                            }else {
                                            for(var i= 0;i<vmm.list.length; i++){
                                                                
@@ -129,6 +136,7 @@
                                         else{
                                                     console.log(result.msg)
                                             }
+                                            $('.loader').hide();
                                 }
 
 
@@ -138,6 +146,7 @@
             search:()=>{
                 console.log($('#datepk').val());
                 let date= $('#datepk').val();
+                $('.loader').show();
                 $.ajax({
                         type: 'get', 
                         url:urlxx,
@@ -147,14 +156,15 @@
                                         if(result.code==0){
                                            console.log(result);
                                            vmm.list=result.list;
-                                           if(result.list==null){
+                                           if(result.list==0){
                                             vmm.list==[];
-                                            alert('暂无数据')
+                                            $('.nodata').show();
+                                            $('.loader').hide();
                                             vmm.nodata=true;
                                             vmm.$forceUpdate();
                                            }else{
 
-                                           
+                                            $('.nodata').hide();
                                            for(var i= 0;i<vmm.list.length; i++){
                                                                
                                                vmm.list[i].tRANTIME = vmm.list[i].tRANDATE+ vmm.list[i].tRANTIME;
@@ -171,6 +181,7 @@
                                         else{
                                                     console.log(result.msg)
                                             }
+                                            $('.loader').hide();
                                 }
 
 

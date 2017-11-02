@@ -117,7 +117,7 @@
                                 <label>组合支付</label>
                                 
                             </div>
-                            <div style="width:300px;margin-bottom:0px" class="inline  pd-10" id="combox">
+                            <div style="width:300px;margin-bottom:0px;height:140px" class="inline  pd-10" id="combox">
                                 <div class="field" >
                                     <label style="display:block;float:left">授信金额:</lebel>
                                         <input type="text" style="display:none">
@@ -131,7 +131,7 @@
                              </div>
                         </div>
 
-                        <%--<div class="field pd-10">
+                        <!-- <div class="field pd-10">
                             <div class="ui radio checkbox">
                                 <input type="radio" name="zfMethod" onchange="bond(4)" id="offLine" value="5">
                                 <label>线下支付</label>
@@ -153,7 +153,7 @@
                                  <img id="proimg" class="yingyeimg" style="display:none" src=""  width="250px" height="180px"/>
                                
                              </div>
-                        </div>--%>
+                        </div> -->
                     </div>
 
                 </div>
