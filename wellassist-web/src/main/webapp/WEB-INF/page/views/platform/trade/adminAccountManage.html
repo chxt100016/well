@@ -47,7 +47,7 @@
                 <select class="form-control" @change="selectVal">
     
                     <option value='0'>交易中转号</option>
-                    <option v-for='item in list'  :value ="item.id">{{item.subAccNm}}</option>
+                    <option v-for='item in list'  :value ="item.id">{{item.subAccNm}}---{{item.subAccNo}}</option>
                 </select>
                 <br>
                 <button class="btn btn-info" @click='changeAcc'>确认更换</button>
@@ -57,7 +57,7 @@
                     <select class="form-control" @change="selectVal2">
         
                         <option value='0'>还款中转户</option>
-                        <option v-for='item in list2'  :value ="item.id">{{item.subAccNm}}</option>
+                        <option v-for='item in list2'  :value ="item.id">{{item.subAccNm}}---{{item.subAccNo}}</option>
                     </select>
                     <br>
                     <button class="btn btn-info" @click='changeAcc'>确认更换</button>
@@ -189,8 +189,6 @@
                                             console.log(result.msg)
                                     }
                                         }
-
-
                 });
                 //获取中转账户
                 $.ajax({
@@ -208,8 +206,6 @@
                                             console.log(result.msg)
                                     }
                                         }
-
-
                 });
                 $.ajax({
                 type: 'get', 

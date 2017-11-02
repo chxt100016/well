@@ -136,9 +136,6 @@
         var year = $("#year").val();
         var url = $("#url").val();
         var userId=$("#userId").val();
-
-
-
         // $ajax 获取类型
         var resourceData = [];
         var resourceData1 = [];
@@ -153,23 +150,18 @@
             }),
             dataType: 'json',
             "success": function (result) {
-
                 if (result.code == 0) {
                     resourceData = result.data;
                     resourceData1 = result.data1;
-
 //                    console.log(resourceData);
 //                    console.log(resourceData1);
-
                     if(result.unit==1){
                         unit="吨";
                     }else{
                         unit="元";
                     }
-
                     var myChart = echarts.init(document.getElementById('main'));//基于准备好的demo，初始化echarts实例
                     // var resourceData = [10, 52, 200, 334, 390, 330, 220, 170, 270, 330, 550, -300]; // 通过ajax获取
-
                     var option = {
                         tooltip : {
                             trigger: 'axis',
@@ -236,7 +228,6 @@
                             }
                         ]
                     };
-
                     myChart.setOption(option);
                 }
             },

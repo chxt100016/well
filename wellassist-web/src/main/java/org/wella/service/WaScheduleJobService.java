@@ -73,6 +73,7 @@ public class WaScheduleJobService {
             for (CncbTrans cncbTrans:list){
                 String clientID=cncbTrans.getClientId();
                 try {
+                    Thread.sleep(1000);
                     Map<String,String> params=new HashMap<>();
                     params.put("clientId",clientID);
                     String result= CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"transQuery",params);

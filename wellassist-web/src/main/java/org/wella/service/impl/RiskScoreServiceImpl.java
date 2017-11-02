@@ -69,7 +69,7 @@ public class RiskScoreServiceImpl implements RiskScoreService {
     }
 
     /**
-     *功能说明：风险因子为数值类型时的风险评分模型，如果小于最小值取最小值对应的评分，如果大于最大值去最大值对应的评分
+     * 功能说明：风险因子为数值类型时的风险评分模型，如果小于最小值取最小值对应的评分，如果大于最大值去最大值对应的评分
      * 如果在中间，去前后相邻的项进行查分计算。
      * @param factorScoreMap 风险因子表中的（factor_name,factor_item,factor_score)三项封装成以factor_name为key值，value为后两项组成的map对象
      * @param factorCode 风险因子名称

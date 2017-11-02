@@ -22,8 +22,6 @@ import java.util.Map;
 @Controller
 @RequestMapping("/platform/")
 public class PlateformController {
-
-
     @Autowired
     private PlatformServiceImpl platformService;
 
@@ -112,7 +110,7 @@ public class PlateformController {
     }
 
     /**
-     * 利息
+     * 资金流量
      * @param map echart请求参数
      * @param request request
      * @return code:0成功/500异常 msg:异常信息

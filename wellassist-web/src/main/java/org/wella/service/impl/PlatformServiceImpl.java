@@ -89,9 +89,9 @@ public class PlatformServiceImpl implements PlatformService {
     public Map<String,List> fundFlow(Map map) {
         List<Map<Integer,Object>> outlist=userMoneyDao.fundFlowOut(map);
         List<Map<Integer,Object>> inlist=userMoneyDao.fundFlowIn(map);
-        Map<String,List> maplist = new HashMap<String,List>();
+        Map<String,List> maplist = new HashMap<>();
         List<BigDecimal> list=this.Transformation(outlist);
-        List<BigDecimal> fuList=new ArrayList<BigDecimal>();
+        List<BigDecimal> fuList=new ArrayList<>();
         for(BigDecimal num:list) {
             BigDecimal number=num.multiply(new BigDecimal(-1));
             fuList.add(number);
@@ -104,7 +104,7 @@ public class PlatformServiceImpl implements PlatformService {
 
 
  public static List<BigDecimal> Transformation(List<Map<Integer,Object>> list){
-        List<BigDecimal> list1=new ArrayList<BigDecimal>();
+        List<BigDecimal> list1=new ArrayList<>();
         for(int i=1;i<=12;i++){
             for(int j=0;j<list.size();j++){
                 if((int)list.get(j).get("time")==i){

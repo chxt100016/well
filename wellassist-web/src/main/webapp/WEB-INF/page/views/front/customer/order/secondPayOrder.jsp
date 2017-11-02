@@ -135,7 +135,7 @@
                                             <span>支付密码：</span> <input type="password" style="width:250px" name="pass" placeholder="别忘记输入密码哦" autocomplete = 'new-password'>
                                             </div>
                                         </div>
-                                        <div class=" ui button primary submit" id="paySure">确定支付</div> <div class="ui button " onclick=" window.location.href ='${pageContext.request.contextPath}/customer/logisticsInfoList'">返回</div>
+                                        <div class=" ui button primary submit" id="paySure">确定支付</div> <div class="ui button " onclick=" window.location.href='${pageContext.request.contextPath}/customer/orderList';">返回</div>
                                          
                         
                                     </form>
@@ -471,7 +471,7 @@
                                                     console.log(result.msg)
                                             }
                                     $("#paySub").removeClass("disabled loading");
-                                        window.history.go(-1);
+                                    window.location.href='${pageContext.request.contextPath}/customer/orderList';
                                                 }
 
 

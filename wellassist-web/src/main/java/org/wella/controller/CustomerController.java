@@ -469,7 +469,7 @@ public class CustomerController extends BaseController {
                      paramss.put("recvAccNm",orderTransfer.getSubAccNm());
                      paramss.put("tranAmt", finalBbalance.toString());
                      JSONObject memo=new JSONObject();
-                     memo.put("loanId",orderId);
+                     memo.put("orderId",orderId);
                      memo.put("logisticsInfoId",logisticsInfoId);
                      memo.put("type",3);
                      memo.put("content","物流预付款余额付款");

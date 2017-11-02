@@ -252,7 +252,7 @@
         </c:forEach>
          
             </c:if>
-        <button onclick="javascript:window.history.go(-1);" class="ui button">返回</button>
+        <button onclick="javascript:window.location.href='${pageContext.request.contextPath}/customer/orderList';" class="ui button">返回</button>
             </div>
     </div>
 </body>

@@ -176,36 +176,56 @@ public class RiskController {
         return result;
     }
 
+    /**
+     * 数据录入页面跳转
+     */
     @RequestMapping("saveBasicinfoPage")
     public String saveBasicinfo(@RequestParam(value = "isSaveAll",required = false,defaultValue = "0") int isSaveAll,Model model){
         model.addAttribute("isSaveAll",isSaveAll);
         return "views/platform/risk/save/saveBasicinfo.html";
     }
 
+    /**
+     * 数据录入页面跳转
+     */
     @RequestMapping("saveManagementinfoPage")
     public String saveManagementinfo(@RequestParam(value = "isSaveAll",required = false,defaultValue = "0") int isSaveAll,Model model){
         model.addAttribute("isSaveAll",isSaveAll);
         return "views/platform/risk/save/saveManagementinfo.html";
     }
 
+    /**
+     * 数据录入页面跳转
+     */
     @RequestMapping("saveManagerinfoPage")
     public String saveManagerinfo(@RequestParam(value = "isSaveAll",required = false,defaultValue = "0") int isSaveAll,Model model){
         model.addAttribute("isSaveAll",isSaveAll);
         return "views/platform/risk/save/saveManagerinfo.html";
     }
 
+    /**
+     * 数据录入页面跳转
+     */
     @RequestMapping("savePropertyPage")
     public String saveProperty(@RequestParam(value = "isSaveAll",required = false,defaultValue = "0") int isSaveAll,Model model){
         model.addAttribute("isSaveAll",isSaveAll);
         return "views/platform/risk/save/saveProperty.html";
     }
 
+    /**
+     * 数据录入页面跳转
+     */
     @RequestMapping("saveValuationPage")
     public String savePage(@RequestParam(value = "isSaveAll",required = false,defaultValue = "0") int isSaveAll,Model model){
         model.addAttribute("isSaveAll",isSaveAll);
         return "views/platform/risk/save/saveValuation.html";
     }
 
+    /**
+     * 数据录入
+     * @param companyBaseinfo 基本信息
+     * @return  R
+     */
     @RequestMapping("saveBasicinfo")
     @ResponseBody
     public R saveBasicinfo(@RequestBody CompanyBaseinfo companyBaseinfo){
@@ -213,6 +233,11 @@ public class RiskController {
         return R.ok();
     }
 
+    /**
+     * 数据录入
+     * @param companyManagementinfo 经营状况
+     * @return  R
+     */
     @RequestMapping("saveManagementinfo")
     @ResponseBody
     public R saveManagementinfo(@RequestBody CompanyManagementinfo companyManagementinfo){
@@ -220,6 +245,11 @@ public class RiskController {
         return R.ok();
     }
 
+    /**
+     * 数据录入
+     * @param managerInfo 管理人员信息
+     * @return  R
+     */
     @RequestMapping("saveManagerinfo")
     @ResponseBody
     public R saveManagerinfo(@RequestBody ManagerInfo managerInfo){
@@ -227,6 +257,11 @@ public class RiskController {
         return R.ok();
     }
 
+    /**
+     * 数据录入
+     * @param companyProperty 资产负债
+     * @return  R
+     */
     @RequestMapping("saveProperty")
     @ResponseBody
     public R saveProperty(@RequestBody CompanyProperty companyProperty){
@@ -234,6 +269,11 @@ public class RiskController {
         return R.ok();
     }
 
+    /**
+     * 数据录入
+     * @param companyValuation 公司评估
+     * @return
+     */
     @RequestMapping("saveValuation")
     @ResponseBody
     public R saveValuation(@RequestBody CompanyValuation companyValuation){
@@ -241,9 +281,4 @@ public class RiskController {
         return R.ok();
     }
 
-    @RequestMapping("test")
-    @ResponseBody
-    public String test(@RequestParam("time") Date time){
-        return "fuck";
-    }
 }

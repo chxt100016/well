@@ -292,7 +292,7 @@
         IFNULL(sum(sale_sj_num),0) as number
         from wa_order
         where user_id=#{userId}
-        and year(order_date)=#{year} and order_state=5
+        and year(order_date)=#{year} and order_state>=6
         group by month(order_date)
     </select>
 

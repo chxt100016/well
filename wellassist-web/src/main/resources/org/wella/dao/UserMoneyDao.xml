@@ -128,7 +128,7 @@
           FROM wa_user_money
         WHERE
             user_id=#{userId} AND
-          YEAR(jy_date)=#{year} AND (jy_type=1 OR jy_type=3) AND jy_state=1
+          YEAR(jy_date)=#{year} AND (jy_type=1 OR jy_type=3) AND jy_state=2
            GROUP BY MONTH (jy_date)
     </select>
 

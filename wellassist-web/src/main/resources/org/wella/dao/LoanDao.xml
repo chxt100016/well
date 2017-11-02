@@ -241,7 +241,7 @@
         WHERE
         user_id=#{userId} and
         YEAR(loan_date)=#{year}
-        and loan_state=3
+        and loan_state=4
         GROUP BY MONTH(loan_date)
     </select>
 
@@ -254,7 +254,7 @@
         where
         user_id=#{userId} AND
         YEAR(loan_date)=#{year}
-        and loan_state=3
+        and loan_state=4
         GROUP BY MONTH(loan_date)
     </select>
 
