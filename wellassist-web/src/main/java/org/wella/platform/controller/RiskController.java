@@ -137,7 +137,6 @@ public class RiskController {
         return res;
     }
 
-
     public double getTotalScore(List<Map<String,Object>> list){
         if (list.size() == 0){
             return 0;
