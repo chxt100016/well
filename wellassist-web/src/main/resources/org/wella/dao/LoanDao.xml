@@ -162,6 +162,12 @@
             <if test="loanIp != null" >
                 loan_ip = #{loanIp,jdbcType=VARCHAR},
             </if>
+            <if test="repayOverdueFine != null">
+                repay_overdue_fine=#{repayOverdueFine}
+            </if>
+            <if test="remainOverdueFine != null">
+                remain_overdue_fine=#{remainOverdueFine}
+            </if>
         </set>
         where loan_id = #{loanId,jdbcType=BIGINT}
     </update>

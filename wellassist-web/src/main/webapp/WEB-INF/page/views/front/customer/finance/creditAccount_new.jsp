@@ -133,13 +133,11 @@
                     </c:if>
                     <c:if test="${empty loans}">无欠款...</c:if>
                     <tfoot>
-                        
                              <th colspan="6">
                                     <div class="right-pagination">
                                      <%@ include file="../../pagination.jsp"%>
                                      </div>
                              </th>
-                       
                     </tfoot>
                     </tbody>
 

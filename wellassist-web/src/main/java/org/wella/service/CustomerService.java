@@ -204,7 +204,7 @@ public interface CustomerService {
      * @param ip 还款ip
      * @return 数据库update记录数
      */
-    int beforeRepayLoanByBalance(long userId,long loanId,BigDecimal principal,BigDecimal interest,String ip) throws Exception;
+    int beforeRepayLoanByBalance(long userId,long loanId,BigDecimal principal,BigDecimal overdueFine,BigDecimal interest,String ip) throws Exception;
 
     /**
      * 通过余额还款
@@ -214,7 +214,7 @@ public interface CustomerService {
      * @param interest 利息
      * @return 0:失败，1成功
      */
-    int repayLoanByBalance(long userId,long loanId,BigDecimal principal,BigDecimal interest,String ip);
+    int repayLoanByBalance(long userId,long loanId,BigDecimal principal,BigDecimal overdueFine,BigDecimal interest,String ip);
 
     /**
      * 单笔授信是否还清

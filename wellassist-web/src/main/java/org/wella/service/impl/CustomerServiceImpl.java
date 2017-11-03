@@ -558,10 +558,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    public int beforeRepayLoanByBalance(final long userId, final long loanId, final BigDecimal principal, final BigDecimal interest, final String ip) throws Exception {
+    public int beforeRepayLoanByBalance(final long userId, final long loanId, final BigDecimal principal,final BigDecimal overdueFine, final BigDecimal interest, final String ip) throws Exception {
         Map<String, Object> user = waUserDao.singleUserByPrimaryKey(userId);
-        BigDecimal oldUserMoney = (BigDecimal) user.get("user_money");
-        if (oldUserMoney.compareTo(principal.add(interest)) < 0) {
+        final BigDecimal oldUserMoney = (BigDecimal) user.get("user_money");
+        if (oldUserMoney.compareTo(principal.add(interest).add(overdueFine)) < 0) {
             return 0;
         }
         Map<String,Object> query=new HashMap<>();
@@ -575,7 +575,7 @@ public class CustomerServiceImpl implements CustomerService {
                 paramss.put("payAccNo",userSubAccount.getSubAccNo().toString());
                 paramss.put("recvAccNo",loanTransfer.getSubAccNo());
                 paramss.put("recvAccNm",loanTransfer.getSubAccNm());
-                paramss.put("tranAmt",principal.add(interest).toString());
+                paramss.put("tranAmt",principal.add(interest).add(overdueFine).toString());
                 JSONObject memo=new JSONObject();
                 memo.put("loanId",loanId);
                 memo.put("type",4);
@@ -598,6 +598,7 @@ public class CustomerServiceImpl implements CustomerService {
                 operationParamsObj.put("userId",userId);
                 operationParamsObj.put("loanId",loanId);
                 operationParamsObj.put("principal",principal);
+                operationParamsObj.put("overdueFine",overdueFine);
                 operationParamsObj.put("interest",interest);
                 operationParamsObj.put("ip",ip);
                 cncbTrans.setOperationParams(operationParamsObj.toJSONString());
@@ -614,7 +615,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    public int repayLoanByBalance(long userId, long loanId, BigDecimal principal, BigDecimal interest, String ip) {
+    public int repayLoanByBalance(long userId, long loanId, BigDecimal principal,BigDecimal overdueFine, BigDecimal interest, String ip) {
         Map<String, Object> user = waUserDao.singleUserByPrimaryKey(userId);
         //BigDecimal oldUserMoney = (BigDecimal) user.get("user_money");
         Map<String, Object> loan = loanDao.singleLoanByPrimaryKey(loanId);
@@ -623,8 +624,11 @@ public class CustomerServiceImpl implements CustomerService {
         updateLoan.put("loanId", loanId);
         updateLoan.put("repayMoney", ((BigDecimal) loan.get("repay_money")).add(principal));
         updateLoan.put("repayLixi", ((BigDecimal) loan.get("repay_lixi")).add(interest));
+        updateLoan.put("repayOverdueFine",((BigDecimal)loan.get("repayOverdueFine")).add(overdueFine));
         BigDecimal remainRepayMoney = ((BigDecimal) loan.get("remain_repay_money")).subtract(principal);
+        BigDecimal remainOverdueFine=((BigDecimal) loan.get("remain_overdue_fine")).subtract(overdueFine);
         updateLoan.put("remainRepayMoney", remainRepayMoney);
+        updateLoan.put("remainOverdueFine",remainOverdueFine);
         updateLoan.put("remainLixiMoney", new BigDecimal(0));
         if (new BigDecimal(0).compareTo(remainRepayMoney) == 0) {
             updateLoan.put("loanState", 3);
@@ -694,7 +698,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<Map<String, Object>> getLoansRepayDetail(Map params) {
-        params.put("inLoanState", "(2,3)");
+        params.put("inLoanState", "(2,3,4)");
         List<Map<String, Object>> res = loanDao.listLoanOrderViewByConditions(params);
         ConvertUtil.convertDataBaseMapToJavaMap(res);
         if (null != res && res.size() > 0) {
