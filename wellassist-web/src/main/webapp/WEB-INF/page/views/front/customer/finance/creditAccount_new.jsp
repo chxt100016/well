@@ -66,8 +66,8 @@
                     </tr>
                     <tr>
                         <td></td>
-                        <td></td>
                         <td><button class="ui positive button" onClick = "toURL('sxSq')">申请/修改授信额度</button></td>
+                        <td></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -103,14 +103,15 @@
                 <table class="ui celled striped  table ">
                     <thead>
                         <tr>
-                            <th colspan="6">待还款 </th>
+                            <th colspan="7">授信待还款列表（注：本平台利率为${loan.lixiRate}‱/日） </th>
                         </tr>
                         <tr class="teal-bg ">
-                            <th class="teal-bg">申请时间</th>
+                            <th class="teal-bg">申请日-还款日</th>
                             <th class="teal-bg">授信详情</th>
                              <th class="teal-bg">授信金额(元)</th>
-                            <th class="teal-bg">利率(‱/日)</th>
-                             <th class="teal-bg">尾款剩余(元)</th>
+                            <th class="teal-bg">剩余利息()</th>
+                            <th class="teal-bg">滞纳金</th>
+                             <th class="teal-bg">余款(元)</th>
                              <th class="teal-bg center aligned">操作</th>
                         </tr>
                         
@@ -122,7 +123,8 @@
                             <td><fmt:formatDate value="${loan.applyDate}" pattern="yyyy-MM-dd"/></td>
                             <td ><c:if test="${loan.loanState==2}">待还款</c:if><c:if test="${loan.loanState==21}">还款处理中</c:if></td>
                              <td><fmt:formatNumber value="${loan.loanMoney}" pattern="#,###.##" type="number"/></td>
-                             <td>${loan.lixiRate}</td>
+                             <td>23</td>
+                             <td>23</td>
                              <td><fmt:formatNumber value="${loan.remainRepayMoney+loan.remainLixiMoney}" pattern="#,###.##" type="number"/></td>
                              <td class="center aligned">
                                  <button class="ui positive button" onclick="toURL('goRepayLoan',${loan.loanId})">还款</button>
@@ -134,7 +136,7 @@
                     <c:if test="${empty loans}">无欠款...</c:if>
                     <tfoot>
                         
-                             <th colspan="6">
+                             <th colspan="7">
                                     <div class="right-pagination">
                                      <%@ include file="../../pagination.jsp"%>
                                      </div>
