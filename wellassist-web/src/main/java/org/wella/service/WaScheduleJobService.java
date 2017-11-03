@@ -465,6 +465,7 @@ public class WaScheduleJobService {
         long userId=(long)(int)params.get("userId");
         long loanId=(long)(int)params.get("loanId");
         BigDecimal principal=(BigDecimal)params.get("principal");
+        BigDecimal overdueFine=(BigDecimal)params.get("overdueFine");
         BigDecimal interest=(BigDecimal)params.get("interest");
         String ip=(String)params.get("ip");
         Map updateLoan=new HashMap();
@@ -474,7 +475,7 @@ public class WaScheduleJobService {
         update.put("statusText",entity.getStatusText());
         if(CNCBConstants.CNCB_STATUS_SUCCESS.equals(entity.getStatus())){
             update.put("state",1);
-            customerServiceImpl.repayLoanByBalance(userId,loanId,principal,interest,ip);
+            customerServiceImpl.repayLoanByBalance(userId,loanId,principal,overdueFine,interest,ip);
         }else if(entity.getStatus().startsWith("AAAAAA")){
 
         }else {

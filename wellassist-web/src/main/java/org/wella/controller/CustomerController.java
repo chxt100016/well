@@ -1165,16 +1165,19 @@ public class CustomerController extends BaseController {
     * @param request request
     * @return code:0成功/500异常 msg:异常信息
     */
-   @RequestMapping("repayLoan")
+   @RequestMapping(value = "repayLoan",method = RequestMethod.POST)
    @ResponseBody
-   public R repayLoan(@RequestParam("loanId") String loanId, @RequestParam("repayMoney") String repayMoney, @RequestParam("interest") String interest, HttpServletRequest request) {
+   public R repayLoan(@RequestParam(value = "loanId") long loanId, @RequestParam(value = "repayMoney") BigDecimal repayMoney, @RequestParam("interest") BigDecimal interest,@RequestParam("overdueFine")BigDecimal overdueFine ,HttpServletRequest request) {
       User user = (User) request.getSession().getAttribute("user");
       long userId = user.getUserId();
       String ip = IPUtils.getIpAddr(request);
-      BigDecimal bInterest = new BigDecimal(interest);
-      BigDecimal principal = new BigDecimal(repayMoney).subtract(bInterest);
+      BigDecimal zero=new BigDecimal(0);
+      BigDecimal principal=zero;
+      if (repayMoney.subtract(overdueFine).subtract(interest).compareTo(zero)>0){
+         principal=repayMoney.subtract(overdueFine).subtract(interest);
+      }
       try {
-         int res = customerServiceImpl.beforeRepayLoanByBalance(userId, Long.parseLong(loanId), principal, bInterest, ip);
+         int res = customerServiceImpl.beforeRepayLoanByBalance(userId, loanId, principal, overdueFine,interest, ip);
          if (res == 0) {
             return R.error("账户余额不足");
          }

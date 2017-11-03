@@ -34,7 +34,8 @@
         <div class="ui three  grid" v-clock>
            
                 <div class="three wide column">未还款:<span>{{repaymentInfo.Amounts}} 元</span></div>
-                <div class="three wide column">利息:{{repaymentInfo.Interest}} 元&nbsp<a href="">详情</a></div>
+                <div class="three wide column">利息:{{repaymentInfo.Interest}} 元</div>
+            <div class="three wide column">滞纳金:{{repaymentInfo.OverdueFine}} 元&nbsp<a href="">详情</a></div>
                 <div class="three wide column">还款期限:{{repaymentInfo.Deadline}}</div>
            
         </div>
@@ -117,8 +118,9 @@
 <script>
     var mockdata={
         repaymentInfo:{
-               Amounts:'${loan.remainRepayMoney+loan.remainLixiMoney}',
+               Amounts:'${loan.remainRepayMoney+loan.remainLixiMoney+loan.remainOverdueFine}',
                Interest:'${loan.remainLixiMoney}',
+               OverdueFine:'${loan.remainOverdueFine}',
                Deadline:'<fmt:formatDate value="${loan.paymentDate}" pattern="yyyy-MM-dd"/>',
                loanId:'${loan.loanId}',
         },
@@ -154,10 +156,6 @@
                     console.log("可以");
                      this.repays.Pincepal=(event.currentTarget.value-intersts).toFixed(2);
                 }
-                // let repayprins=repays-intersts;
-                // console.log(repayprins);
-                // this.repays.Pincepal= repayprins;
-                //  $("#repayprin").html
             },
             repaySubmit:function(){
                 $.post('${pageContext.request.contextPath}/customer/repayLoan',{loanId:this.repaymentInfo.loanId,repayMoney:$('#repaymentAmount').val(),interest:this.repaymentInfo.Interest},function(data){

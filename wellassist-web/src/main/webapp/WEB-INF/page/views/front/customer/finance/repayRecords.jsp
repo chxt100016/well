@@ -66,7 +66,12 @@
                  <div class="ui equal width grid">
                     <div class="column">已还本金：<span class="ft-wt-bd ft-sz-16">${loan.repayMoney}</span> 元</div>
                     <div class="column">已还利息：${loan.repayLixi} 元</div>
-                    <div class="column">尾款：${loan.remainRepayMoney+loan.remainLixiMoney} 元</div>
+                    <div class="column">已还滞纳金：${loan.repayOverdueFine} 元</div>
+                </div>
+                <div class="ui equal width grid">
+                    <div class="column">待还本金：<span class="ft-wt-bd ft-sz-16">${loan.remainRepayMoney}</span> 元</div>
+                    <div class="column">待还利息：${loan.remainLixiMoney} 元</div>
+                    <div class="column">待还滞纳金：${loan.remainOverdueFine} 元</div>
                 </div>
                 <h4 class="ui horizontal divider header"><i class="bar alarm outline icon"></i> 还款记录 </h4>
 

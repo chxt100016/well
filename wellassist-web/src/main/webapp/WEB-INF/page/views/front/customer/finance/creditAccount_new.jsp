@@ -141,7 +141,6 @@
                                      <%@ include file="../../pagination.jsp"%>
                                      </div>
                              </th>
-                       
                     </tfoot>
                     </tbody>
 
