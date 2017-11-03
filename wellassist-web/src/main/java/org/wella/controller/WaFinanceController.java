@@ -206,8 +206,7 @@ public class WaFinanceController {
     }
 
     /**
-     * 从中信银行同步余额
-     * @return
+     * 从中信银行同步余额loanRepayDetail
      */
     @RequestMapping(value = "syncBalance",method = RequestMethod.GET)
     @ResponseBody
