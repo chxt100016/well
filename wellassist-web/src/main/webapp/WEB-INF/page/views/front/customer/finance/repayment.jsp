@@ -31,7 +31,7 @@
     <div class="ui container segment" id="app1" style="width:990px">
         <h3>还款</h3>
         <div class="ui divider"></div>
-        <div class="ui three  grid" v-clock>
+        <div class="ui three  grid" v-cloak>
            
                 <div class="three wide column">未还款:<span>{{repaymentInfo.Amounts}} 元</span></div>
                 <div class="three wide column">利息:{{repaymentInfo.Interest}} 元</div>
@@ -51,7 +51,7 @@
                     </div>
                      
                 </div>
-                <span>还款本金：{{repays.Pincepal}} 元 <span id="repayprin"></span>还款利息：{{repaymentInfo.Interest}} 元</span>
+                <span>还款本金：{{repays.Pincepal}} 元  <span id='overdueFine'> ; 归还滞纳金：{{repays.overdueFine}}</span><span id="repayprin"></span> 还款利息：{{repaymentInfo.Interest}} 元</span>
             </div>
             <div class="inline fields">
                 <label>还款方式：</label>
@@ -125,7 +125,8 @@
                loanId:'${loan.loanId}',
         },
         repays:{
-                Pincepal:'0'
+                Pincepal:'0',
+                overdueFine:'0'
         }
     };
     var vm= new Vue({
@@ -136,7 +137,7 @@
                 let repays=Number(event.currentTarget.value);
                 let intersts=Number(this.repaymentInfo.Interest);
                 let amount=Number(this.repaymentInfo.Amounts);
-                
+                let overdueFine= Number(this.repaymentInfo.OverdueFine)
                 console.log(repays);
                 console.log(intersts);
                 if(repays < intersts){
@@ -154,11 +155,21 @@
                 }
                 else{
                     console.log("可以");
-                     this.repays.Pincepal=(event.currentTarget.value-intersts).toFixed(2);
+                    let repayFir=(event.currentTarget.value-intersts).toFixed(2)
+                    this.repays.overdueFine=repayFir;
+                    $('#overdueFine').val(repayFir);
+                    if(repayFir >overdueFine){
+                        this.repays.overdueFine=overdueFine;
+                        $('#overdueFine').val(overdueFine);
+                        this.repays.Pincepal=(event.currentTarget.value-intersts-overdueFine).toFixed(2);
+                    }
+                    //  this.repays.Pincepal=(event.currentTarget.value-intersts).toFixed(2);
                 }
             },
             repaySubmit:function(){
-                $.post('${pageContext.request.contextPath}/customer/repayLoan',{loanId:this.repaymentInfo.loanId,repayMoney:$('#repaymentAmount').val(),interest:this.repaymentInfo.Interest},function(data){
+                $.post('${pageContext.request.contextPath}/customer/repayLoan',
+                {loanId:this.repaymentInfo.loanId,repayMoney:$('#repaymentAmount').val(),interest:this.repaymentInfo.Interest,overdueFine:$('#overdueFine').val()},
+                function(data){
                     if(data.code==0){
                         alert("还款处理中...");
                         window.history.go(-1);
