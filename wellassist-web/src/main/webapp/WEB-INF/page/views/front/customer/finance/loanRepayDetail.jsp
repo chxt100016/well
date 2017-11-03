@@ -58,7 +58,7 @@
     $(function(){
 
     
-    const url1 ='http://localhost:8080/wellassist/finance/loanRepayDetail';
+    const url1 ='${pageContext.request.contextPath}/finance/loanRepayDetail';
     const loanId=${param.loanId};
     var vm = new Vue({
         el:'#app2',

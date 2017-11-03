@@ -114,7 +114,7 @@
 						<td style="text-align:right;">
 						<div align=center style="margin-bottom: 24px;">
 							<!-- <input type="button" value="返回" onclick="goBack();"> -->
-							<button class="ui button primary" type="submit" id="submit">充值</button>
+							<button class="ui button primary" type="submit" id="submit">充值</button> 
 								<!-- <input type="submit" id="submit" value="确认充值"> -->
 						</div></td>
 						<td></td>
