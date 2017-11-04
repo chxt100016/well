@@ -24,7 +24,6 @@
 </style>
 
 </head>
-<%--<form id="searchFrm" method="get" action="${pageContext.request.contextPath}/front/seller/SellerFinanceController-czList">--%>
 <div class="container1">
 	<div style="margin:40px 0 0 210px;" id='app'>
 		<div id = "content-rect" style="width:90%;">
@@ -51,12 +50,12 @@
 				</tr>
 			</table>
 			</form> -->
-			<form id = "infoForm" action="${pageContext.request.contextPath}/customer/rechargeApply" method="post">
+			<form id = "infoForm" action="${pageContext.request.contextPath}/finance/rechargeApply" method="post">
 			<input type = "hidden" id = "rechargeType" name = "rechargeType"/>
 			
 				
-				<div style="width:100% ;margin: 20px auto 0;">
-					 <div class="column" style="height:50px;margin:20px 0 0 60px;">
+				<div style="width:100% ;">
+					 <div class="column" style="height:50px;margin:40px 0 0 60px;">
 						<div class="caption middleAlign" style="font-size:14px;font-weight:600; width:90px">充值金额:</div>
 						<div class="middleAlign">
 							<div class = "one-fld ui input" >
@@ -66,7 +65,7 @@
 						</div>
 					 <div class="caption middleAlign" style="font-size:14px;font-weight:600; width:90px">&emsp;元</div> 
 					</div>
-					 <div class="column" style="height:50px;margin:0 0 0 60px;"  >
+					 <div class="column" style="height:50px;margin-left:60px;">
 						<div class="caption middleAlign" style="font-size:14px;font-weight:600; width:90px">充值方式:</div>
 						<div class="middleAlign">
 							<div class="ui floating labeled icon dropdown button">
@@ -84,46 +83,16 @@
 								</div>
 
 							</div>
+						</div>										
+                            <div style="margin-left:300px"> 
+							<input class="ui button primary" type="submit" id="submit" value="充值">
+							</div>
+								<!-- <input type="submit" id="submit" value="确认充值"> -->
 						</div>
 					
-					
-
-
-
-<!-- 
-					<tr>
-						<td class="caption" style="font-size:14px;font-weight:600;">充值方式</td>
-						<%--<td><img  class = "fsImg" src="<c:url value="/resources/upload/images/bank_mark/china_citic_bank.png"/>"  onclick = "selectPayFs('1', this);"></td>
-						<td><img class = "fsImg  selected" src="<c:url value="/resources/upload/images/bank_mark/xianxia.png"/>"  onclick = "selectPayFs('0', this);"></td>--%>
-						<td>
-							<div class="ui floating labeled icon dropdown button"> -->
-  								<!-- <i class="payment icon"></i> -->
-									<!-- <span class="text">选择银行卡</span>
-									<div class="menu"> -->
-										<!-- <div class="header">请选择您添加过的银行卡 </div> -->
-										<!-- <div class="item"><img class="ui avatar image" src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国银行(1158)  </div>
-										<div class="item"><img class="ui avatar image" src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国农业银行 </div>
-										<div class="item"><img class="ui avatar image" src="http://www.semantic-ui.cn/images/avatar/large/elliot.jpg"> 中国人民很行 </div>
-									</div> -->
-							<!-- </div>
-						</td>
-						<td></td> -->
-					<!-- </tr> -->
-					<tr>
-						<td></td>
-						<td style="text-align:right;">
-						<div align=center style="margin-bottom: 24px;">
-							<!-- <input type="button" value="返回" onclick="goBack();"> -->
-							<button class="ui button primary" type="submit" id="submit">充值</button> 
-								<!-- <input type="submit" id="submit" value="确认充值"> -->
-						</div></td>
-						<td></td>
-					</tr>
-				</table>
-				</div>
 		</form>
 			<div class = "row-header" style="border-bottom:1px solid #d0d0d0;padding-bottom:10px;"><span class = "header-title">充值记录</span></div>
-			<form id="searchFrm" method="get" action="${pageContext.request.contextPath}/front/seller/SellerFinanceController-czList">
+			<form id="searchFrm" method="get" action="${pageContext.request.contextPath}/customer/rechargeRecord">
 				<input type="hidden" id="page" name="page" value="${param.page}">
 				<input type="hidden" id="zfState" name="zfState" value="${param.zfState}">
 			</form>
@@ -196,37 +165,38 @@
 
 </script>
 <script type="text/javascript">
-	var rechargeType = 0;
+	var rechargeType = 1;
 	// 选择支付方式
 	function selectPayFs(selZfType, obj){
 		$(".fsImg").removeClass("selected");
 		$(obj).addClass("selected");
 		rechargeType = selZfType;
 	}
-	// $('#infoForm').form({	    
-	//     inline : true,
-	//     on     : 'blur',
-	//     fields : {
-	//     	rechargeMoney:{
-	//     		identifier: 'rechargeMoney',
-	//     		rules: [
-	// 	          {
-	// 	            type: 'empty',
-	// 	            prompt: '请输入充值金额！'
-	// 	          },
-	// 	          {
-	// 	            type: 'integer',
-	// 	            prompt: '请输入只数字形式！'
-	// 	          },
-	// 	          {
-	// 	          	type:'/^\+?[1-9]\d*$/',
-	// 	          	prompt:'充值金额不正确！'
-	// 	          },
-	// 	        ]
-	// 	    }	    	
-	//     }
-	//   })
-	// ;
+
+	// $('#infoForm')
+	// 	.form({	    	    
+	//     	fields : {
+	//     		rechargeMoney:{
+	//     			identifier: 'rechargeMoney',
+	//     			rules: [
+	// 		          {
+	// 		            type: 'empty',
+	// 		            prompt: '请输入充值金额！'
+	// 		          },
+	// 		          {
+	// 		            type: 'number',
+	// 		            prompt: '请输入只数字形式！'
+	// 		          },
+	// 		          {
+	// 		          	type:'/^\+?[1-9]\d*$/',
+	// 		          	prompt:'充值金额不正确！'
+	// 		          },
+	// 	        	]
+	// 	    	}
+	// 		},
+	// 	    inline : true,
+	// 	    on     : 'blur',
+	//   	})
 	// 初始化函数
 	$(function(){
 		// validation检查	
@@ -254,19 +224,19 @@
     	    	$.post($(form).attr("action"),$(form).serialize(),function(data){
     	    		alert(data.content);
     	            if(data.state==1 ){
-    	            	window.location.href = "${pageContext.request.contextPath}/seller/rechargeRecord";
+    	            	window.location.href = "${pageContext.request.contextPath}/customer/rechargeRecord";
     	            }
     	      	}, "json");
     	    }
     	});	
 		
-     $('.ui.dropdown')
-  .dropdown()
-;
+//      $('.ui.dropdown')
+//   .dropdown()
+// ;
   
 	
 
-	});
+// 	});
 
 	// $("td").attr("valign", "top");
 	// $(".caption").css("padding-top", "10px");
@@ -302,7 +272,7 @@ const url1="${pageContext.request.contextPath}/userinfo/getCards"
 			  var that =this;
                $.get(url1,'',function(data){
 		  if(data.code==0){
-			  console.log(data.Cards);
+			 
 			//   $("#")
 			for (var i = 0; i < data.Cards.length; i++) {
 				var str='' ,str2;
@@ -310,7 +280,7 @@ const url1="${pageContext.request.contextPath}/userinfo/getCards"
 				// str = Number(str);
 				str2 = str.substring(str.length-4);
 				data.Cards[i].bankAccount =str2;
-				console.log(data.Cards[i].bankAccount);
+			
 			}
 			
 			 that.Cards= data.Cards

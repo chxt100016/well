@@ -52,6 +52,23 @@
                             </td>
                     </tr>
                 </tbody>
+                <tfoot>
+                        <tr>
+                            <th colspan="8">
+                                
+                                <div class="ui right floated pagination menu">
+                                        <a class="icon item" @click="turnPage(-1)">
+                                             <i class="left chevron icon"></i>
+                                                </a>
+                                        <a class="item" v-for="index in indexs" v-bind:class="{ 'active': currentPage == index-1}" v-on:click="btnClick(index)">{{index}}</a>
+                                        <a class="icon item" @click="turnPage(1)">
+                                            <i class="right chevron icon"></i>
+                                            </a>
+                                </div>
+        
+                            </th>
+                        </tr>
+                    </tfoot>
 
             </table>
         </div>
