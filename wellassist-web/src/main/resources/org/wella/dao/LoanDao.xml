@@ -85,7 +85,7 @@
                 AND (customer_user_name LIKE '%${queryStr}%' OR creditor_user_name LIKE '%${queryStr}%' OR order_no LIKE '%${queryStr}%')
             </if>
             <if test="inLoanState != null">
-                AND loan_state in ${loanState}
+                AND loan_state in ${inLoanState}
             </if>
         </where>
     </select>

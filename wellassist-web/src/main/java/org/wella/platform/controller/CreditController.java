@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.wella.common.utils.ConvertUtil;
@@ -182,5 +183,23 @@ public class CreditController {
             return R.error();
         }
         return R.ok();
+    }
+
+    @RequestMapping(value = "checkLoan.html",method = RequestMethod.GET)
+    public String checkLoan(){
+        return "views/platform/credit/checkLoan.html";
+    }
+
+    @RequestMapping(value = "loanList")
+    @ResponseBody
+    public R loanList(@RequestParam Map<String,Object> params){
+        Query query=new Query(params);
+        query.put("inLoanState","(2,21,3,4)");
+        query.put("orderBy","field(loan_state,3,2,21,4),apply_date desc");
+        List list=loanDao.listLoanOrderViewByConditions(query);
+        ConvertUtil.convertDataBaseMapToJavaMap(list);
+        int totalCount=loanDao.listLoanOrderViewByConditionsCount(query);
+        PageUtils pageUtils=new PageUtils(list,totalCount,query.getLimit(),query.getPage());
+        return R.ok().put("page",pageUtils);
     }
 }
