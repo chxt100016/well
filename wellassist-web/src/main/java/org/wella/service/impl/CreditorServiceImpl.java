@@ -181,8 +181,8 @@ public class CreditorServiceImpl implements CreditorService{
         Map<String,Object> updateloan=new HashMap();
         updateloan.put("loanId",loanId);
         updateloan.put("loanDate",now);
-        updateloan.put("interestFreeDate", DateUtils.addDays(now,7));
-        updateloan.put("paymentDate",DateUtils.addDays(now,7+paymentDays));
+        updateloan.put("interestFreeDate", DateUtils.addDays(now,0));
+        updateloan.put("paymentDate",DateUtils.addDays(now,0+paymentDays));
         BigDecimal lixiRate=(BigDecimal) loan.get("lixi_rate");
         BigDecimal lixiRateFkf=lixiRate.multiply(new BigDecimal(0.9));
         updateloan.put("lixiRateFkf",lixiRateFkf);

@@ -9,6 +9,7 @@
                     <div class="column">订单编号：{{loan.order_no}}</div>
                     <div class="column">还款状态:
                          <span v-if='loan.loan_state==2'><i class="hourglass start icon redxx"></i>待还款</span>
+                        <span v-if='loan.loan_state==21'><i class="hourglass start icon redxx"></i>还款处理中</span>
                          <span  v-if='loan.loan_state==3 ||loan.loan_state==4'><i class="check circle outline icon greenxx" style="font-size:16px"></i> 已还清 </span>
                     </div>
                     <div class="column">借款时间：{{loan.loan_date}} </div>

@@ -68,7 +68,7 @@ public class WaScheduleJobService {
     /**
      * 中信银行交易请求提交后轮询交易处理结果
      */
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 10000)
     public void checkCncbTrans(){
         Map<String,Object> query=new HashMap();
         query.put("state",0);

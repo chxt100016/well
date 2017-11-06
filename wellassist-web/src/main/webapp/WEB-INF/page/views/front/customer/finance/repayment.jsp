@@ -176,7 +176,7 @@
                 function(data){
                     if(data.code==0){
                         alert("还款处理中...");
-                        window.history.go(-1);
+                        window.location.href="${pageContext.request.contextPath}/customer/creditAccount";
                     }else{
                         alert(data.msg);
                     }
