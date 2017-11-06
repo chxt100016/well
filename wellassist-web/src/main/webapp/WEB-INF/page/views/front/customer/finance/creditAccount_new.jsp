@@ -127,8 +127,11 @@
                              <td><fmt:formatNumber value="${loan.remainOverdueFine}" pattern="#,###.##" type="number"/></td>
                              <td><fmt:formatNumber value="${loan.remainRepayMoney+loan.remainLixiMoney+loan.remainOverdueFine}" pattern="#,###.##" type="number"/></td>
                              <td class="center aligned">
+                                 <c:if test="${loan.loanState==2}">
                                  <button class="ui positive button" onclick="toURL('goRepayLoan',${loan.loanId})">还款</button>
-                                 <button class="ui secondary basic button" onclick="toURL('goRepayDetail',${loan.loanId})">明细</button>   
+                                 </c:if>
+                                 <button class="ui secondary basic button" onclick="toURL('goRepayDetail',${loan.loanId})">明细</button>
+
                              </td>
                         </tr>
                         </c:forEach>
