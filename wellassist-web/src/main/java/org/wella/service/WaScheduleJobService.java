@@ -464,9 +464,9 @@ public class WaScheduleJobService {
         Map params=JSON.parseObject(operationParams,Map.class);
         long userId=(long)(int)params.get("userId");
         long loanId=(long)(int)params.get("loanId");
-        BigDecimal principal=(BigDecimal)params.get("principal");
-        BigDecimal overdueFine=(BigDecimal)params.get("overdueFine");
-        BigDecimal interest=(BigDecimal)params.get("interest");
+        BigDecimal principal=new BigDecimal(params.get("principal").toString());
+        BigDecimal overdueFine=new BigDecimal(params.get("overdueFine").toString());
+        BigDecimal interest=new BigDecimal(params.get("interest").toString());
         String ip=(String)params.get("ip");
         Map updateLoan=new HashMap();
         Map update=new HashMap();

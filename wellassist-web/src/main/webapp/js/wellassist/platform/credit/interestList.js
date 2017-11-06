@@ -1,6 +1,6 @@
  $(function() {
         $("#jqGrid").jqGrid({
-            url: './loanList',
+            url: './interestListData',
             datatype: "json",
             colModel: [{
                 label: 'id',

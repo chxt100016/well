@@ -195,6 +195,25 @@ public class CreditController {
     }
 
     /**
+     * 跳转贷款结算审核页面
+     * @param loanId loanId
+     * @param model model
+     * @return view
+     */
+    @RequestMapping(value = "loanCheck",method = RequestMethod.GET)
+    public String loanCheck(@RequestParam("loanId")long loanId,Model model){
+        model.addAttribute("loanId",loanId);
+        return "views/platform/credit/checkLoan/detail.html";
+    }
+
+    @RequestMapping(value = "settleLoan",method = RequestMethod.POST)
+    @ResponseBody
+    public R settleLoan(@RequestParam("loanId")long loanId){
+        financeServiceImpl.handleLoanRepayoff(loanId);
+        return R.ok();
+    }
+
+    /**
      * 筛选出待还款，已还款，已结算的贷款列表
      * @param params 查询参数
      * @return R
@@ -204,7 +223,7 @@ public class CreditController {
     public R loanList(@RequestParam Map<String,Object> params){
         Query query=new Query(params);
         query.put("inLoanState","(2,21,3,4)");
-        query.put("orderBy","field(loan_state,3,2,21,4),apply_date desc");
+        query.put("orderBy","field(loan_state,3,2,31,21,4),apply_date desc");
         List list=loanDao.listLoanOrderViewByConditions(query);
         ConvertUtil.convertDataBaseMapToJavaMap(list);
         int totalCount=loanDao.listLoanOrderViewByConditionsCount(query);
@@ -212,11 +231,20 @@ public class CreditController {
         return R.ok().put("page",pageUtils);
     }
 
+    /**
+     * 利息列表
+     * @return view
+     */
     @RequestMapping(value = "interestList.html",method = RequestMethod.GET)
     public String interestList(){
         return "views/platform/credit/interestList.html";
     }
 
+    /**
+     * 利息列表数据
+     * @param params 查询阐述
+     * @return R
+     */
     @RequestMapping(value ="interestListData")
     @ResponseBody
     public R interestListData(@RequestParam Map<String,Object> params){

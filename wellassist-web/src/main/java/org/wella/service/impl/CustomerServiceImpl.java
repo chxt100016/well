@@ -617,7 +617,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     public int repayLoanByBalance(long userId, long loanId, BigDecimal principal,BigDecimal overdueFine, BigDecimal interest, String ip) {
         Map<String, Object> user = waUserDao.singleUserByPrimaryKey(userId);
-        //BigDecimal oldUserMoney = (BigDecimal) user.get("user_money");
         Map<String, Object> loan = loanDao.singleLoanByPrimaryKey(loanId);
 
 
@@ -626,7 +625,7 @@ public class CustomerServiceImpl implements CustomerService {
         updateLoan.put("loanId", loanId);
         updateLoan.put("repayMoney", ((BigDecimal) loan.get("repay_money")).add(principal));
         updateLoan.put("repayLixi", ((BigDecimal) loan.get("repay_lixi")).add(interest));
-        updateLoan.put("repayOverdueFine",((BigDecimal)loan.get("repayOverdueFine")).add(overdueFine));
+        updateLoan.put("repayOverdueFine",((BigDecimal)loan.get("repay_overdue_fine")).add(overdueFine));
         BigDecimal remainRepayMoney = ((BigDecimal) loan.get("remain_repay_money")).subtract(principal);
         BigDecimal remainOverdueFine=((BigDecimal) loan.get("remain_overdue_fine")).subtract(overdueFine);
         updateLoan.put("remainRepayMoney", remainRepayMoney);
@@ -640,7 +639,7 @@ public class CustomerServiceImpl implements CustomerService {
             updateLoan.put("loanState", 3);
             updateLoan.put("settleMoney",loanMoney.add(lixiAndFine.multiply(new BigDecimal(0.9))));
             updateLoan.put("profit",lixiAndFine.multiply(new BigDecimal(0.1)));
-            financeServiceImpl.handleLoanRepayoff(loanId);
+            //financeServiceImpl.handleLoanRepayoff(loanId);
         }else {
             updateLoan.put("loanState", 2);
         }

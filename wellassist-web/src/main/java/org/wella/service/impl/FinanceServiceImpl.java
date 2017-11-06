@@ -9,6 +9,7 @@ import com.wellapay.cncb.util.CNCBConstants;
 import io.wellassist.utils.HttpContextUtils;
 import io.wellassist.utils.IPUtils;
 import io.wellassist.utils.R;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -178,9 +179,6 @@ public class FinanceServiceImpl implements FinanceService {
     @Override
     public void handleLoanRepayoff(long loanId) {
         Map<String,Object> loan=loanDao.singleLoanByPrimaryKey(loanId);
-        BigDecimal repayMoney=(BigDecimal)loan.get("repay_money");
-        //BigDecimal overdueFine=(BigDecimal)loan.get("overdue_fine");
-        BigDecimal lixiMoneyFkf=(BigDecimal)loan.get("lixi_rate_fkf");
         BigDecimal settleMoney=(BigDecimal)loan.get("settle_money");
         BigDecimal tranAmt=settleMoney;
         long creditUserId=(long)loan.get("credit_user_id");
@@ -215,6 +213,12 @@ public class FinanceServiceImpl implements FinanceService {
         operationParamsObj.put("loanId",loanId);
         cncbTrans.setOperationParams(operationParamsObj.toJSONString());
         cncbTransDao.create(cncbTrans);
+
+        //update loanState --> 31
+        Map<String,Object> update=new HashMap();
+        update.put("loanId",loanId);
+        update.put("loanState",31);
+        loanDao.updateLoanByPrimaryKey(update);
         //计算放款方余额
         calLocalBalance(creditUserId,tranAmt);
         //更新用户授信余额

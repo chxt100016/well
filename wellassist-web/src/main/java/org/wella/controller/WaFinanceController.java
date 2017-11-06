@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.wella.common.utils.ConstantUtil;
+import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.BankcardDao;
+import org.wella.dao.LoanDao;
 import org.wella.dao.WaUserDao;
 import org.wella.dao.WithdrawDAO;
 import org.wella.entity.Bankcard;
@@ -46,33 +48,32 @@ public class WaFinanceController {
     @Autowired
     private BankcardService bankcardServiceImpl;
 
-    /**
-     * 提现申请,遗留代码，要删
-     * @param params 提现金额
-     * @return code:0成功/500异常 msg:异常信息
-     */
-    /*@RequestMapping("withdrawProcess")
-    @ResponseBody
-    public R withdrawProcess(@RequestParam Map<String, Object> params) {
-        User user = (User) HttpContextUtils.getAttribute("user");
-        params.put("userId", user.getUserId());
-        params.put("withdrawIp", IPUtils.getIpAddr(HttpContextUtils.getHttpServletRequest()));
-        BigDecimal withdrawMoney=new BigDecimal((String)params.get("withdrawMoney"));
-        try {
-            int result = withdrawDAO.withdrawApply(params);
-            messageServicesk.handleWithdrawApplyMessage(user.getUserId(),withdrawMoney);
-            return R.ok().put("state", 1).put("content", "请求已经受理");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return R.ok().put("state", -1).put("content", "系统错误");
-        }
-    }*/
+    @Autowired
+    private LoanDao loanDao;
 
+    /**
+     * 获取withdraw pojo
+     * @param withdrawId withdrawId
+     * @return R
+     */
     @RequestMapping(value = "withdrawInfo",method = RequestMethod.GET)
     @ResponseBody
     public R withdrawInfo(@RequestParam("withdrawId")long withdrawId){
         Withdraw withdraw=withdrawDAO.querySingleByPk(withdrawId);
         return R.ok().put("withdraw",withdraw);
+    }
+
+    /**
+     * 获取loan pojo
+     * @param loanId loanId
+     * @return R
+     */
+    @RequestMapping(value = "loanInfo",method = RequestMethod.GET)
+    @ResponseBody
+    public R loanInfo(@RequestParam("loanId")long loanId){
+        Map<String,Object> loan=loanDao.singleLoanOrderViewByPrimaryKey(loanId);
+        ConvertUtil.convertDataBaseMapToJavaMap(loan);
+        return R.ok().put("loan",loan);
     }
 
     @RequestMapping(value = "withdrawProcess",method = RequestMethod.POST)

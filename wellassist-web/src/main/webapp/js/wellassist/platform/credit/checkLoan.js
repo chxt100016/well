@@ -46,6 +46,7 @@
                 formatter: function(value) {
                     if(value==2||value==21){return "待还款";}
                     if(value==3){return "已还清";}
+                    if(value==31){return "结算中";}
                     if(value==4){return "已结算";}
                 }
             },{
@@ -56,6 +57,8 @@
                     var loanId=row.loanId;
                     if(value==3){
                         return '<a  class="btn btn-primary" href="./loanCheck?loanId='+loanId+'">结算</a>';
+                    }else {
+                        return "无操作"
                     }
                 }
             }],

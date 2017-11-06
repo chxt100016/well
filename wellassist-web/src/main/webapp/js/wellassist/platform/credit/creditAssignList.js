@@ -61,6 +61,7 @@
                     else if (value==1){return "已指派";}
                     else if (value==2){return "已放款";}
                     else if (value==3){return "已放款";}
+                    else{return "处理中";}
                 }
             }, {
                 label: '操作',
@@ -73,7 +74,7 @@
                     else if(value==0){return '<a  class="btn btn-primary" href="./creditAssign?loanId='+loanId+'">指派</a><a  class="btn btn-warning" onclick="sayno('+loanId+')">驳回</a>';}
 
                     else if(value==1){return '<a  class="btn btn-warning" onclick="recall('+loanId+')">撤回</a>';}
-                    else if(value==2){return '无';}else if(value==3){return '无';}
+                    else if(value==2){return '无';}else{return '无';}
 
                 }
             }],

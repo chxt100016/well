@@ -861,38 +861,6 @@ public class CustomerController extends BaseController {
       return "views/front/customer/company/bankcard.jsp";
    }
 
-   /**
-    * 进入联系方式的修改页面
-    * @param model
-    * @return view
-    */
-   /*@RequestMapping("contact")
-   public String contact(Model model) {
-      HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
-      User user = (User) httpSession.getAttribute("user");
-      Userinfo userinfo = (Userinfo) httpSession.getAttribute("userInfo");
-      model.addAttribute("parentMenuNo", "4");
-      model.addAttribute("childMenuNo", "2");
-      model.addAttribute("user", user);
-      model.addAttribute("userInfo", userinfo);
-      model.addAttribute("userName", user.getUserName());
-      return "views/front/customer/company/contactMode.jsp";
-   }*/
-
-   /*@RequestMapping("updateContact")
-   @ResponseBody
-   public R updateContext(@RequestParam Map<String, Object> params) {
-      HttpSession httpSession = HttpContextUtils.getHttpServletRequest().getSession();
-      User user = (User) httpSession.getAttribute("user");
-      params.put("userId", user.getUserId());
-      try {
-         userinfoDao.updateUserinfoByUserId(params);
-         return R.ok().put("state", 1);
-      } catch (Exception e) {
-         e.printStackTrace();
-         return R.error().put("state", 0);
-      }
-   }*/
 
    @RequestMapping("withdraw")
    public String withdraw(HttpServletRequest request, Model model) {
@@ -948,9 +916,6 @@ public class CustomerController extends BaseController {
       /*model.addAttribute("zfMoney", retInfo.get("zfMoney"));*/
       return "views/front/customer/finance/czSqList.jsp";
    }
-
-
-
 
    @RequestMapping("rechargeApply")
    @ResponseBody
@@ -1167,7 +1132,7 @@ public class CustomerController extends BaseController {
     */
    @RequestMapping(value = "repayLoan",method = RequestMethod.POST)
    @ResponseBody
-   public R repayLoan(@RequestParam(value = "loanId") long loanId, @RequestParam(value = "repayMoney") BigDecimal repayMoney, @RequestParam("interest") BigDecimal interest,@RequestParam("overdueFine")BigDecimal overdueFine ,HttpServletRequest request) {
+   public R repayLoan(@RequestParam(value = "loanId") long loanId, @RequestParam(value = "repayMoney",required = false,defaultValue = "0") BigDecimal repayMoney, @RequestParam(value = "interest",required = false,defaultValue = "0") BigDecimal interest,@RequestParam(value = "overdueFine",required = false,defaultValue = "0")BigDecimal overdueFine ,HttpServletRequest request) {
       User user = (User) request.getSession().getAttribute("user");
       long userId = user.getUserId();
       String ip = IPUtils.getIpAddr(request);

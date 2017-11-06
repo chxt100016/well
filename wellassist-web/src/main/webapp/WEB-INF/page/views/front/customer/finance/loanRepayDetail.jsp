@@ -21,7 +21,7 @@
                  <div class="ui equal width grid">
                     <div class="column">已还本金：<span class="ft-wt-bd ft-sz-16">{{loan.repay_money}}</span> 元</div>
                     <div class="column">已还利息：{{loan.repay_lixi}}元</div>
-                    <div class="column">尾款：{{loan.remain_repay_money+loan.remain_lixi_money}} 元</div>
+                    <div class="column">余款：{{loan.remain_repay_money+loan.remain_lixi_money}} 元</div>
                 </div>
                 <br>
                 <table class="ui single line  table ">
