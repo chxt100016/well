@@ -8,7 +8,9 @@ import org.wella.dao.UserSubAccountDao;
 import org.wella.entity.AdminSubAccount;
 import org.wella.entity.UserSubAccount;
 import org.wella.service.AdminSubAccountService;
+import org.wella.service.FinanceService;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -24,6 +26,9 @@ public class AdminSubAccountServiceImpl implements AdminSubAccountService   {
 
     @Autowired
     private UserSubAccountDao userSubAccountDao;
+
+    @Autowired
+    private FinanceService financeServiceImpl;
 
     @Override
     public AdminSubAccount findOrderTransferAccount() {
@@ -76,6 +81,12 @@ public class AdminSubAccountServiceImpl implements AdminSubAccountService   {
     }
 
     @Override
+    public List<AdminSubAccount> findAdminSubAccounts() {
+        List<AdminSubAccount> list=adminSubAccountDao.queryList(new HashMap<String,Object>());
+        return list;
+    }
+
+    @Override
     @Transactional
     public int updateOrderTransferAccount(long id) {
         Map<String,Object> query=new HashMap<>();
@@ -112,5 +123,21 @@ public class AdminSubAccountServiceImpl implements AdminSubAccountService   {
         query.put("status",1);
         adminSubAccountDao.update(query);
         return 0;
+    }
+
+    @Override
+    public BigDecimal syncAdminSubAccountBalance(long id) throws Exception {
+        AdminSubAccount adminSubAccount=adminSubAccountDao.singlePoByPk(id);
+        BigDecimal localBalance=adminSubAccount.getBalance();
+        BigDecimal remoteBalance=financeServiceImpl.getBalance(adminSubAccount.getSubAccNo());
+        if (localBalance.compareTo(remoteBalance)==0){
+            return remoteBalance;
+        }else {
+            Map<String,Object> update=new HashMap<>();
+            update.put("id",id);
+            update.put("balance",remoteBalance);
+            adminSubAccountDao.update(update);
+            return remoteBalance;
+        }
     }
 }

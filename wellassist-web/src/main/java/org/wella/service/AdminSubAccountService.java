@@ -3,6 +3,7 @@ package org.wella.service;
 import org.wella.entity.AdminSubAccount;
 import org.wella.entity.Bill;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +48,12 @@ public interface AdminSubAccountService {
     List<AdminSubAccount> findAdminSubAccounts(int type);
 
     /**
+     * 查询所有的中转账户
+     * @return list
+     */
+    List<AdminSubAccount> findAdminSubAccounts();
+
+    /**
      * 修改订单中转账户
      * @param id 选择的中转户id
      * @return 0：成功；-1失败
@@ -59,4 +66,11 @@ public interface AdminSubAccountService {
      * @return 0：成功；-1：失败
      */
     int updateLoanTransferAccount(long id);
+
+    /**
+     * 管理员账户余额入库
+     * @param id 管理员账户id
+     * @return 管理员账户余额
+     */
+    BigDecimal syncAdminSubAccountBalance(long id) throws Exception;
 }

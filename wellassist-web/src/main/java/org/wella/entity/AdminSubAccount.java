@@ -1,5 +1,7 @@
 package org.wella.entity;
 
+import java.math.BigDecimal;
+
 public class AdminSubAccount {
     private Long id;
 
@@ -10,6 +12,8 @@ public class AdminSubAccount {
     private Byte type;
 
     private Byte status;
+
+    private BigDecimal balance;
 
     public Long getId() {
         return id;
@@ -49,5 +53,13 @@ public class AdminSubAccount {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 }

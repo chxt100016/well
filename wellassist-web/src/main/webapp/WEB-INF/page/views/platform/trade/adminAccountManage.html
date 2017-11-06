@@ -33,8 +33,8 @@
         </div>
         <br>
         <div>
-            <p>当前交易中转账户为：{{currAcc.orderAcc.subAccNm}},账号为：{{currAcc.orderAcc.subAccNo}}</p>
-            <p>当前还款中转账户为：{{currAcc.loanAcc.subAccNm}},账号为：{{currAcc.loanAcc.subAccNo}}</p>
+            <p>当前交易中转账户为：{{currAcc.orderAcc.subAccNm}},账号为：{{currAcc.orderAcc.subAccNo}},余额为：{{currAcc.orderAcc.balance}}元</p>
+            <p>当前还款中转账户为：{{currAcc.loanAcc.subAccNm}},账号为：{{currAcc.loanAcc.subAccNo}}，余额为：{{currAcc.loanAcc.balance}}元</p>
         </div>
          <!-- Nav tabs -->
      <ul class="nav nav-tabs" role="tablist" id='myTabs'>
@@ -74,10 +74,8 @@
 </body>
 <script>
     $(function(){
-
-   
     const urlcheck = '${rc.contextPath}/platform/trade/validateAdminSubAccount';
-    const addurl='${rc.contextPath}/platform/trade/addAdminSubAccount'
+    const addurl='${rc.contextPath}/platform/trade/addAdminSubAccount';
     $('#subAccForm').submit(function (e) {
         //阻止表单提交啦
         e.preventDefault();

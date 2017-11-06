@@ -1,5 +1,6 @@
 package org.wella.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import org.wella.entity.AdminSubAccount;
 import org.wella.entity.Bankcard;
@@ -46,4 +47,6 @@ public interface AdminSubAccountDao {
      * @return
      */
     int update(Map<String, Object> param);
+
+    AdminSubAccount singlePoByPk(@Param("id") long id);
 }

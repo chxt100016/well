@@ -53,6 +53,14 @@ public interface FinanceService {
     BigDecimal getBalance(long userId) throws Exception;
 
     /**
+     * 从cncb查询用户余额
+     * @param subaccno subaccno
+     * @return 查询用户余额
+     * @throws Exception
+     */
+    BigDecimal getBalance(String subaccno) throws Exception;
+
+    /**
      * 查询本地余额
      * @param userId userId
      * @return 查询用户余额

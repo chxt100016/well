@@ -19,6 +19,7 @@ import org.wella.dao.CncbTransDao;
 import org.wella.dao.LoanDao;
 import org.wella.dao.OrderDao;
 import org.wella.dao.WaUserDao;
+import org.wella.entity.AdminSubAccount;
 import org.wella.entity.CncbTrans;
 
 import java.math.BigDecimal;
@@ -59,6 +60,9 @@ public class WaScheduleJobService {
 
     @Autowired
     private FinanceService financeServiceImpl;
+
+    @Autowired
+    private AdminSubAccountService adminSubAccountServiceImpl;
 
 
     /**
@@ -141,6 +145,15 @@ public class WaScheduleJobService {
         for (Map<String,Object> user : allUser){
             long userId=(long)user.get("user_id");
             financeServiceImpl.syncBalance(userId);
+        }
+    }
+
+    @Scheduled(fixedRate = 60000)
+    public void syncAdminSubAccountBalance() throws Exception {
+        List<AdminSubAccount> adminSubAccounts=adminSubAccountServiceImpl.findAdminSubAccounts();
+        for (AdminSubAccount asa:adminSubAccounts){
+            long id=asa.getId();
+            adminSubAccountServiceImpl.syncAdminSubAccountBalance(id);
         }
     }
 

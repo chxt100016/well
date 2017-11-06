@@ -124,8 +124,13 @@ public class FinanceServiceImpl implements FinanceService {
         Map<String,Object> query=new HashMap<>();
         query.put("userId",userId);
         UserSubAccount userSubAccount=userSubAccountDao.singleQuery(query);
+        return getBalance(userSubAccount.getSubAccNo());
+    }
+
+    @Override
+    public BigDecimal getBalance(String subaccno) throws Exception {
         Map<String,String> params=new HashMap();
-        params.put("subAccNo",userSubAccount.getSubAccNo().toString());
+        params.put("subAccNo",subaccno);
         String result= org.wella.common.utils.CommonUtil.connectCNCBLocalServer(ConstantUtil.CNCB_SERVER_BASEURL+"balanceQuery",params);
         R r = JSON.parseObject(result,R.class);
         BalanceQueryOutput balanceQueryOutput=JSON.parseObject(r.get("balanceQueryOutput").toString(),BalanceQueryOutput.class);

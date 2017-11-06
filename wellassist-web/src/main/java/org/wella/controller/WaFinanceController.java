@@ -18,6 +18,7 @@ import org.wella.dao.WithdrawDAO;
 import org.wella.entity.Bankcard;
 import org.wella.entity.User;
 import org.wella.entity.Withdraw;
+import org.wella.service.AdminSubAccountService;
 import org.wella.service.BankcardService;
 import org.wella.service.FinanceService;
 import org.wella.service.MessageService;
@@ -50,6 +51,9 @@ public class WaFinanceController {
 
     @Autowired
     private LoanDao loanDao;
+
+    @Autowired
+    private AdminSubAccountService adminSubAccountServiceImpl;
 
     /**
      * 获取withdraw pojo
@@ -226,4 +230,10 @@ public class WaFinanceController {
         return R.ok().put("balance",balance);
     }
 
+    @RequestMapping(value = "syncASABalance",method = RequestMethod.GET)
+    @ResponseBody
+    public R syncASABalance(@RequestParam("id")long id) throws Exception {
+        BigDecimal balance=adminSubAccountServiceImpl.syncAdminSubAccountBalance(id);
+        return R.ok().put("balance",balance);
+    }
 }

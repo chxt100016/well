@@ -8,6 +8,7 @@
         <result column="sub_acc_nm" property="subAccNm" jdbcType="VARCHAR" />
         <result column="type" property="type" jdbcType="TINYINT" />
         <result column="status" property="status" jdbcType="TINYINT" />
+        <result column="balance" property="balance" jdbcType="DECIMAL" />
     </resultMap>
 
     <select id="singlePoByConditions" parameterType="map" resultMap="adminSubAccountMap">
@@ -56,6 +57,9 @@
             <if test="status != null" >
                 status = #{status},
             </if>
+            <if test="balance != null">
+                balance=#{balance},
+            </if>
         </set>
         <where>
             <if test="type != null">
@@ -66,5 +70,9 @@
             </if>
         </where>
     </update>
+
+    <select id="singlePoByPk" parameterType="long" resultMap="adminSubAccountMap">
+        SELECT * from wa_admin_sub_account where id=#{id}
+    </select>
 
 </mapper>
