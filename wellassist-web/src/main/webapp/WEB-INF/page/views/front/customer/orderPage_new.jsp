@@ -269,7 +269,7 @@
                         </div>
                         <div class="field ">
                             <div class="ui labeled input vh">
-                                <div class="ui label ">电话 </div>
+                                <div class="ui label ">司机电话 </div>
                                 <input type="text " class="vh number isPhone act" placeholder=" " v-model="newVehicle.dr_tel" id="dr_tel" name="dr_tel" >
                             </div>
                         </div>
@@ -280,13 +280,13 @@
                     <div class="two fields">
                            <div class="field ">
                             <div class="ui labeled input ">
-                                <div class="ui label ">车牌 </div>
+                                <div class="ui label ">车牌号码 </div>
                                 <input type="text " class="vh act" placeholder=" " v-model="newVehicle.dr_number" id="dr_number" name="dr_number" >
                             </div>
                         </div>
                          <div class="field ">
                             <div class="ui labeled input ">
-                                <div class="ui label ">车挂号 </div>
+                                <div class="ui label ">车挂号码 </div>
                                 <input type="text " class="vh act" placeholder=" " v-model="newVehicle.hanging_number" id="hanging_number" name="hanging_number">
                             </div>
                         </div>
@@ -294,7 +294,7 @@
                     <div class="two fields">
                            <div class="field ">
                             <div class="ui labeled input ">
-                                <div class="ui label ">容量 </div>
+                                <div class="ui label ">容量吨数 </div>
                                 <input type="text " class="vh act" placeholder=" " v-model="newVehicle.actual_size" id="actual_size" name="actual_size"  >
                             </div>
                         </div>

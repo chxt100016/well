@@ -47,7 +47,17 @@
                 <div class="row">
                         <div class="col-md-4">还款用户:{{loan.customerUserName}}</div>
                         <div class="col-md-4">放款用户：{{loan.creditorUserName}}</div>
-                        <div class="col-md-4">贷款状态：{{loan.loanState}}</div>
+                        <div class="col-md-4">贷款状态：
+                          
+                            <span v-if='loan.loanState==-3' >贷款取消</span>
+                            <span v-if='loan.loanState==-2' >贷款不通过</span>
+                            <span v-if='loan.loanState==-1' >拨款</span>
+                            <span v-if='loan.loanState==-0' >申请</span>
+                            <span v-if='loan.loanState==1' >已指定放款方</span>
+                            <span v-if='loan.loanState==2' >已放款</span>
+                            <span v-if='loan.loanState==3' >已还款</span>
+                            <span v-if='loan.loanState==4' >已结算</span>
+                        </div>
                 </div>
                 <div class="row">
                         <div class="col-md-4">本金：{{loan.loanMoney}}元</div>
@@ -98,6 +108,8 @@
                 success: function(result){
                     if(result.code==0){
                         that.loan = result.loan;
+                        console.log(result.loan)
+                        
                     }
                     else{
                         alert('无法获取')

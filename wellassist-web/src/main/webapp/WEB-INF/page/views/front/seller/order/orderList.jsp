@@ -122,24 +122,24 @@
                     </td>
                     <td>
                         <c:if test="${item.orderState=='0'}">
-							<span class="span_btn" onClick="toURL('confirmOrder', '${item.orderId}')">确认订单</span>
+							<span class="span_btn pointer" onClick="toURL('confirmOrder', '${item.orderId}')">确认订单</span>
 						</c:if>
 						<c:if test="${item.orderState=='1'}">
-							<span class="span_btn" onClick="toURL('editOrder', '${item.orderId}')">编辑订单</span>
+							<span class="span_btn pointer" onClick="toURL('editOrder', '${item.orderId}')">编辑订单</span>
 						</c:if>
 						<c:if test="${item.orderState=='2'}">
-							<span class="span_btn" onClick="toURL('sendProd', '${item.orderId}')">发货</span>
+							<span class="span_btn pointer" onClick="toURL('sendProd', '${item.orderId}')">发货</span>
 						</c:if>
 						<c:if test="${item.orderState=='3'}">
-							<span class="span_btn" onClick="toURL('sendProd', '${item.orderId}')">发货</span>
-							<span class="span_btn" onClick="toURL('sendProdOver', '${item.orderId}')">结束发货</span>
+							<span class="span_btn pointer" onClick="toURL('sendProd', '${item.orderId}')">发货</span>
+							<span class="span_btn pointer" onClick="toURL('sendProdOver', '${item.orderId}')">结束发货</span>
 						</c:if>
 						<c:if test="${item.orderState=='4'}">
-							<%--<span class="span_btn" onClick="toURL('editFapiao', '${item.orderId}')">开发票</span>--%>
+							<%--<span class="span_btn pointer" onClick="toURL('editFapiao', '${item.orderId}')">开发票</span>--%>
 							<%--暂无操作...--%>
 						</c:if>
 						<c:if test="${item.orderState==0 || item.orderState==1}">
-							<span class="span_btn_gray" onClick="toURL('cancelOrder', '${item.orderId}')">取消订单</span>
+							<span class="span_btn_gray pointer" onClick="toURL('cancelOrder', '${item.orderId}')">取消订单</span>
 						</c:if>
                     </td>
                     <td></td>               
