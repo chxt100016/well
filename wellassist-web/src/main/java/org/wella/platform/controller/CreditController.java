@@ -185,17 +185,44 @@ public class CreditController {
         return R.ok();
     }
 
+    /**
+     * 还款查看列表页面
+     * @return view
+     */
     @RequestMapping(value = "checkLoan.html",method = RequestMethod.GET)
     public String checkLoan(){
         return "views/platform/credit/checkLoan.html";
     }
 
+    /**
+     * 筛选出待还款，已还款，已结算的贷款列表
+     * @param params 查询参数
+     * @return R
+     */
     @RequestMapping(value = "loanList")
     @ResponseBody
     public R loanList(@RequestParam Map<String,Object> params){
         Query query=new Query(params);
         query.put("inLoanState","(2,21,3,4)");
         query.put("orderBy","field(loan_state,3,2,21,4),apply_date desc");
+        List list=loanDao.listLoanOrderViewByConditions(query);
+        ConvertUtil.convertDataBaseMapToJavaMap(list);
+        int totalCount=loanDao.listLoanOrderViewByConditionsCount(query);
+        PageUtils pageUtils=new PageUtils(list,totalCount,query.getLimit(),query.getPage());
+        return R.ok().put("page",pageUtils);
+    }
+
+    @RequestMapping(value = "interestList.html",method = RequestMethod.GET)
+    public String interestList(){
+        return "views/platform/credit/interestList.html";
+    }
+
+    @RequestMapping(value ="interestListData")
+    @ResponseBody
+    public R interestListData(@RequestParam Map<String,Object> params){
+        Query query=new Query(params);
+        query.put("loanState",4);
+        query.put("orderBy","apply_date desc");
         List list=loanDao.listLoanOrderViewByConditions(query);
         ConvertUtil.convertDataBaseMapToJavaMap(list);
         int totalCount=loanDao.listLoanOrderViewByConditionsCount(query);

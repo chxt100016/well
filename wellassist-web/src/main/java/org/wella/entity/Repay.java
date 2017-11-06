@@ -16,6 +16,8 @@ public class Repay {
 
     private BigDecimal repayMoney;
 
+    private BigDecimal repayOverdueFine;
+
     private BigDecimal repayInterestMoney;
 
     private Date repayDate;
@@ -76,6 +78,14 @@ public class Repay {
 
     public BigDecimal getRepayInterestMoney() {
         return repayInterestMoney;
+    }
+
+    public BigDecimal getRepayOverdueFine() {
+        return repayOverdueFine;
+    }
+
+    public void setRepayOverdueFine(BigDecimal repayOverdueFine) {
+        this.repayOverdueFine = repayOverdueFine;
     }
 
     public void setRepayInterestMoney(BigDecimal repayInterestMoney) {

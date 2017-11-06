@@ -5,11 +5,11 @@
 
     <insert id="createRepay" parameterType="org.wella.entity.Repay" useGeneratedKeys="true" keyProperty="repayId">
         insert into wa_repay ( money_id, loan_id,
-        credit_id, user_id, repay_money,
+        credit_id, user_id, repay_money,repay_overdue_fine,
         repay_interest_money, repay_date, repay_ip,
         content,repay_type)
         values (#{moneyId,jdbcType=BIGINT}, #{loanId,jdbcType=BIGINT},
-        #{creditId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{repayMoney,jdbcType=DECIMAL},
+        #{creditId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{repayMoney,jdbcType=DECIMAL},#{repayOverdueFine,jdbcType=DECIMAL},
         #{repayInterestMoney,jdbcType=DECIMAL}, #{repayDate,jdbcType=TIMESTAMP}, #{repayIp,jdbcType=VARCHAR},
         #{content,jdbcType=VARCHAR},#{repayType,jdbcType=TINYINT})
     </insert>

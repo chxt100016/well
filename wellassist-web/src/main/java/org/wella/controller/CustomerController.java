@@ -1188,7 +1188,6 @@ public class CustomerController extends BaseController {
       return R.ok();
    }
 
-
    /**
     * 跳转用户授信申请记录页面
     * @param model model

@@ -308,7 +308,7 @@ public class TradeServiceImpl implements TradeService{
      * @param mgrIp 管理员ip
      */
     @Override
-    public void withdrawRefuse(long withdrawId, long mgrId, String mgrIp) {
+    public void withdrawRefuse(long withdrawId, long mgrId,String comment, String mgrIp) {
         Date now=new Date();
         Withdraw withdraw=withdrawDAO.querySingleByPk(withdrawId);
         long moneyId=withdraw.getMoneyId();
@@ -317,6 +317,7 @@ public class TradeServiceImpl implements TradeService{
         update.put("withdrawId",withdrawId);
         update.put("withdrawState",-1);
         update.put("mgrUserId",mgrId);
+        update.put("content",comment);
         update.put("mgrIp",mgrIp);
         update.put("mgrDate",now);
         withdrawDAO.update(update);

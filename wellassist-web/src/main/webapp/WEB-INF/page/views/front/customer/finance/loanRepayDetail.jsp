@@ -30,6 +30,7 @@
                                     <th >还款时间</th>
                                     <th >还款方式</th>
                                     <th >还款本金</th>
+                                    <th >还款滞纳金</th>
                                     <th >还款利息</th>
                                     <th>借款利率</th>
                                 </tr>
@@ -40,6 +41,7 @@
                                             <td>{{item.repayDate}}</td>
                                             <td>余额支付</td>
                                             <td>{{item.repayMoney}}元</td>
+                                            <td>{{item.repayOverdueFine}}元</td>
                                             <td>{{item.repayInterestMoney}}元</td>
                                             <td>5‱</td>
                                         </tr>                                                                                               

@@ -84,6 +84,9 @@
             <if test="queryStr != null">
                 AND (customer_user_name LIKE '%${queryStr}%' OR creditor_user_name LIKE '%${queryStr}%' OR order_no LIKE '%${queryStr}%')
             </if>
+            <if test="loanState !=null">
+                AND loan_state=#{loanState}
+            </if>
             <if test="inLoanState != null">
                 AND loan_state in ${inLoanState}
             </if>
@@ -163,10 +166,16 @@
                 loan_ip = #{loanIp,jdbcType=VARCHAR},
             </if>
             <if test="repayOverdueFine != null">
-                repay_overdue_fine=#{repayOverdueFine}
+                repay_overdue_fine=#{repayOverdueFine},
             </if>
             <if test="remainOverdueFine != null">
-                remain_overdue_fine=#{remainOverdueFine}
+                remain_overdue_fine=#{remainOverdueFine},
+            </if>
+            <if test="settleMoney != null">
+                settle_money=#{settleMoney},
+            </if>
+            <if test="profit != null">
+                profit=#{profit},
             </if>
         </set>
         where loan_id = #{loanId,jdbcType=BIGINT}

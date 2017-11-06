@@ -35,8 +35,9 @@ $(function () {
             { label: '操作', name: 'withdrawState', width: 100, formatter:function (value,option,row) {
                 var withdrawId = row.withdrawId;
                 if(value==0){
-                    return '<a  class="btn btn-primary" onclick="vm.process('+withdrawId+',1)">通过</a>' +
-                        '<a  class="btn btn-primary" onclick="vm.process('+withdrawId+',-1)">不通过</a>';
+                    /*return '<a  class="btn btn-primary" onclick="vm.process('+withdrawId+',1)">通过</a>' +
+                        '<a  class="btn btn-primary" onclick="vm.process('+withdrawId+',-1)">不通过</a>';*/
+                    return '<a  class="btn btn-primary" onclick="vm.check('+withdrawId+')">审核</a>';
                 }else if(value ==-1){
                     return '<a  class="btn btn-primary" onclick="vm.process('+withdrawId+',-2)">删除</a>' +
                         '<a  class="btn btn-primary" onclick="vm.process('+withdrawId+',0)">再审核</a>';
@@ -127,6 +128,9 @@ var vm = new Vue({
                     vm.reload();
                 }
             }, "json");
+        },
+        check:function(withdrawId){
+            window.location.href=baseUrl+"platform/trade/checkWithdraw?id="+withdrawId;
         }
     }
 });

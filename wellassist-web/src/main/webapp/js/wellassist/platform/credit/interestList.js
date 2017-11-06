@@ -3,6 +3,10 @@
             url: './loanList',
             datatype: "json",
             colModel: [{
+                label: 'id',
+                name: 'loanId',
+                width: 20
+            },{
                 label: '还款方',
                 name: 'customerUserName',
                 width: 100
@@ -15,26 +19,29 @@
                 name:'loanMoney',
                 width: 50
             },  {
-                label: '贷款时间',
-                name:'applyDate',
-                width: 80
+                label: '总利息',
+                name:'lixiMoney',
+                width: 50,
+                formatter: function(value) {
+                    return value +" 元";
+                }
             },  {
-                label: '还款本金',
-                name:'repayMoney',
+                label: '总滞纳金',
+                name:'overdueFine',
                 width: 50,
                 formatter: function(value) {
                     return value +" 元";
                 }
             }, {
-                label: '还款滞纳金',
-                name: 'repayOverdueFine',
+                label: '结算总额',
+                name: 'settleMoney',
                 width: 50,
                 formatter: function(value) {
                     return value +" 元";
                 }
             }, {
-                label: '还款利息',
-                name: 'repayLixi',
+                label: '盈利',
+                name: 'profit',
                 width: 50,
                 formatter: function(value) {
                     return value +" 元";
@@ -48,22 +55,12 @@
                     if(value==3){return "已还清";}
                     if(value==4){return "已结算";}
                 }
-            },{
-                label: '操作',
-                name: 'loanState',
-                width: 80,
-                formatter: function(value, options, row) {
-                    var loanId=row.loanId;
-                    if(value==3){
-                        return '<a  class="btn btn-primary" href="./loanCheck?loanId='+loanId+'">结算</a>';
-                    }
-                }
             }],
             viewrecords: true,
             height: 385,
             rowNum: 10,
             rowList: [10, 30, 50],
-            rownumbers: true,
+            rownumbers: false,
             rownumWidth: 25,
             autowidth: true,
             pager: "#jqGridPager",

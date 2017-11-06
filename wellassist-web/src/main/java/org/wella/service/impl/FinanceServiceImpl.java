@@ -179,8 +179,10 @@ public class FinanceServiceImpl implements FinanceService {
     public void handleLoanRepayoff(long loanId) {
         Map<String,Object> loan=loanDao.singleLoanByPrimaryKey(loanId);
         BigDecimal repayMoney=(BigDecimal)loan.get("repay_money");
+        //BigDecimal overdueFine=(BigDecimal)loan.get("overdue_fine");
         BigDecimal lixiMoneyFkf=(BigDecimal)loan.get("lixi_rate_fkf");
-        BigDecimal tranAmt=repayMoney.add(lixiMoneyFkf);
+        BigDecimal settleMoney=(BigDecimal)loan.get("settle_money");
+        BigDecimal tranAmt=settleMoney;
         long creditUserId=(long)loan.get("credit_user_id");
         long userId=(long)loan.get("user_id");
         UserSubAccount creditor=getUserSubAccountByUserId(creditUserId);

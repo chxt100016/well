@@ -87,6 +87,7 @@
                         <%--<th >还款详情</th>--%>
                         <th >还款方式</th>
                         <th >还款本金</th>
+                        <th >还款滞纳金</th>
                         <th >还款利息</th>
                         <th>借款利率</th>
                     </tr>
@@ -100,6 +101,7 @@
                         <%--<td>还款成功</td>--%>
                         <td><c:if test="${repay.repayType==0}">余额支付</c:if><c:if test="${repay.repayType==1}">退款</c:if></td>
                         <td>${repay.repayMoney}元</td>
+                        <td>${repay.repayOverdueFine}元</td>
                         <td>${repay.repayInterestMoney}元</td>
                         <td>${loan.lixiRate}‱</td>
                     </tr>

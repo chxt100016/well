@@ -109,8 +109,8 @@
                             <th class="teal-bg">申请日-还款日</th>
                             <th class="teal-bg">授信详情</th>
                              <th class="teal-bg">授信金额(元)</th>
-                            <th class="teal-bg">剩余利息()</th>
-                            <th class="teal-bg">滞纳金</th>
+                            <th class="teal-bg">剩余利息(元)</th>
+                            <th class="teal-bg">滞纳金(元)</th>
                              <th class="teal-bg">余款(元)</th>
                              <th class="teal-bg center aligned">操作</th>
                         </tr>
@@ -123,9 +123,9 @@
                             <td><fmt:formatDate value="${loan.applyDate}" pattern="yyyy-MM-dd"/></td>
                             <td ><c:if test="${loan.loanState==2}">待还款</c:if><c:if test="${loan.loanState==21}">还款处理中</c:if></td>
                              <td><fmt:formatNumber value="${loan.loanMoney}" pattern="#,###.##" type="number"/></td>
-                             <td>23</td>
-                             <td>23</td>
-                             <td><fmt:formatNumber value="${loan.remainRepayMoney+loan.remainLixiMoney}" pattern="#,###.##" type="number"/></td>
+                             <td><fmt:formatNumber value="${loan.remainLixiMoney}" pattern="#,###.##" type="number"/></td>
+                             <td><fmt:formatNumber value="${loan.remainOverdueFine}" pattern="#,###.##" type="number"/></td>
+                             <td><fmt:formatNumber value="${loan.remainRepayMoney+loan.remainLixiMoney+loan.remainOverdueFine}" pattern="#,###.##" type="number"/></td>
                              <td class="center aligned">
                                  <button class="ui positive button" onclick="toURL('goRepayLoan',${loan.loanId})">还款</button>
                                  <button class="ui secondary basic button" onclick="toURL('goRepayDetail',${loan.loanId})">明细</button>   

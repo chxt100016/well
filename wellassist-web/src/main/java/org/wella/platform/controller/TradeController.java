@@ -1,7 +1,5 @@
 package org.wella.platform.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.wellapay.cncb.model.ForceTransferBasicInfo;
 import com.wellapay.cncb.model.output.AccountTransQuery.AccountTransQueryOutputListEntity;
 import io.wellassist.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.wella.common.ctrl.BaseController;
-import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.common.utils.DateUtil;
@@ -18,8 +15,6 @@ import org.wella.dao.OrderTransDao;
 import org.wella.dao.TradeDAO;
 import org.wella.dao.WithdrawDAO;
 import org.wella.entity.AdminSubAccount;
-import org.wella.entity.UserSubAccount;
-import org.wella.entity.Withdraw;
 import org.wella.platform.service.TradeService;
 import org.wella.service.AdminSubAccountService;
 import org.wella.service.FinanceService;
@@ -27,7 +22,6 @@ import org.wella.service.MessageService;
 
 
 import javax.servlet.http.HttpServletRequest;
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -209,11 +203,11 @@ public class TradeController extends BaseController {
 
     @RequestMapping(value = "withdrawHandle",method = RequestMethod.POST)
     @ResponseBody
-    public R withdrawHandle(@RequestParam("withdrawId")long withdrawId,@RequestParam("withdrawState")int withdrawState )throws Exception {
+    public R withdrawHandle(@RequestParam("withdrawId")long withdrawId,@RequestParam("withdrawState")int withdrawState ,@RequestParam(value = "comment",required = false,defaultValue = "")String comment)throws Exception {
         long userId=ShiroUtils.getUserId();
         String ip=IPUtils.getIpAddr(HttpContextUtils.getHttpServletRequest());
         if (-1==withdrawState){
-            tradeServiceImpl.withdrawRefuse(withdrawId,userId,ip);
+            tradeServiceImpl.withdrawRefuse(withdrawId,userId,comment,ip);
             return R.ok();
         }
         if (0==withdrawState){
@@ -273,6 +267,12 @@ public class TradeController extends BaseController {
 //        PageUtils pageUtils = new PageUtils(list,totalCount,query.getLimit(),query.getPage());
 //        return R.ok().put("page",pageUtils);
 //    }
+    @RequestMapping(value = "checkWithdraw",method = RequestMethod.GET)
+    public String checkWithdraw(@RequestParam("id")long id, Model model){
+        model.addAttribute("id",id);
+        return "views/platform/trade/withdraw/check.html";
+    }
+
 
     @RequestMapping("orders")
     @ResponseBody

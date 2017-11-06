@@ -25,7 +25,7 @@ public interface TradeService {
 
     int wlOfflinePayCheckSubmit(Map<String, Object> param);
 
-    void withdrawRefuse(long withdrawId,long mgrId,String mgrIp);
+    void withdrawRefuse(long withdrawId,long mgrId,String comment,String mgrIp);
 
     void withdrawReCheck(long withdrawId,long mgrId,String mgrIp);
 

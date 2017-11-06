@@ -15,6 +15,7 @@ import org.wella.dao.WaUserDao;
 import org.wella.dao.WithdrawDAO;
 import org.wella.entity.Bankcard;
 import org.wella.entity.User;
+import org.wella.entity.Withdraw;
 import org.wella.service.BankcardService;
 import org.wella.service.FinanceService;
 import org.wella.service.MessageService;
@@ -66,6 +67,13 @@ public class WaFinanceController {
             return R.ok().put("state", -1).put("content", "系统错误");
         }
     }*/
+
+    @RequestMapping(value = "withdrawInfo",method = RequestMethod.GET)
+    @ResponseBody
+    public R withdrawInfo(@RequestParam("withdrawId")long withdrawId){
+        Withdraw withdraw=withdrawDAO.querySingleByPk(withdrawId);
+        return R.ok().put("withdraw",withdraw);
+    }
 
     @RequestMapping(value = "withdrawProcess",method = RequestMethod.POST)
     @ResponseBody
