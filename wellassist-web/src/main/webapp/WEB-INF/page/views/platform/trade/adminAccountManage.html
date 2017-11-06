@@ -33,8 +33,8 @@
         </div>
         <br>
         <div>
-            <p>当前交易中转账户为：{{currAcc.orderAcc.subAccNm}},账号为：{{currAcc.orderAcc.subAccNo}},余额为：{{currAcc.orderAcc.balance}}元</p>
-            <p>当前还款中转账户为：{{currAcc.loanAcc.subAccNm}},账号为：{{currAcc.loanAcc.subAccNo}}，余额为：{{currAcc.loanAcc.balance}}元</p>
+            <p>当前交易中转账户为：{{currAcc.orderAcc.subAccNm}},账号为：{{currAcc.orderAcc.subAccNo}},余额为：{{currAcc.orderAcc.balance}}元   <button class="btn btn-default" @click='refresho()'>刷新</button> </p>
+            <p>当前还款中转账户为：{{currAcc.loanAcc.subAccNm}},账号为：{{currAcc.loanAcc.subAccNo}}，余额为：{{currAcc.loanAcc.balance}}元  <button class="btn btn-default" @click='refresh()'>刷新</button></p>
         </div>
          <!-- Nav tabs -->
      <ul class="nav nav-tabs" role="tablist" id='myTabs'>
@@ -148,7 +148,9 @@
             currAcc:{
                 loanAcc:'',
                 orderAcc:''
-            }
+            },
+            loanId:'',
+            orderId:''
         },
         created:function(){
             let that = this;
@@ -199,6 +201,7 @@
                                 if(result.code==0){
                                    that.currAcc.loanAcc=result.account
                                     console.log(result)
+                                   that.loanId=result.account.id
                                 }
                                 else{
                                             console.log(result.msg)
@@ -215,6 +218,7 @@
                                 if(result.code==0){
                                    that.currAcc.orderAcc=result.account
                                     console.log(result)
+                                    that.orderId=result.account.id
                                 }
                                 else{
                                             console.log(result.msg)
@@ -261,6 +265,56 @@
 
 
                 })
+        },
+        refresh:function(){
+            var urlnew='${rc.contextPath}/finance/syncASABalance';
+            // console.log(this.loanId+' '+this.orderId)
+            let loanId= this.loanId;
+            let that =this;
+            $.ajax({
+                type: 'get', 
+                url:urlnew,
+                data:{id:loanId,},
+                dataType:'json',
+                success:
+                        function(result){
+                                if(result.code==0){
+                                   that.currAcc.loanAcc.balance=result.balance
+                                    console.log(result)
+                                }
+                                else{
+                                            console.log(result.msg)
+                                    }
+                                        }
+
+
+                });
+
+        },
+        refresho:function(){
+            var urlnew='${rc.contextPath}/finance/syncASABalance';
+            // console.log(this.loanId+' '+this.orderId)
+            let orderId= this.orderId;
+            let that =this;
+            $.ajax({
+                type: 'get', 
+                url:urlnew,
+                data:{id:orderId,},
+                dataType:'json',
+                success:
+                        function(result){
+                                if(result.code==0){
+                                   that.currAcc.orderAcc.balance=result.balance
+                                    console.log(result)
+                                }
+                                else{
+                                            console.log(result.msg)
+                                    }
+                                        }
+
+
+                });
+
         }
     }
     })

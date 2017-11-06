@@ -137,7 +137,8 @@
                 let repays=Number(event.currentTarget.value);
                 let intersts=Number(this.repaymentInfo.Interest);
                 let amount=Number(this.repaymentInfo.Amounts);
-                let overdueFine= Number(this.repaymentInfo.OverdueFine)
+                let overdueFine= Number(this.repaymentInfo.OverdueFine);
+                let midDue= Number(intersts+overdueFine)
                 console.log(repays);
                 console.log(intersts);
                 if(repays < intersts){
@@ -149,8 +150,11 @@
                 }
                 if(repays > amount){
                     event.currentTarget.value = amount;
+                    
                      console.log('太多了');
-                     this.repays.Pincepal=(event.currentTarget.value-intersts).toFixed(2);
+                     this.repays.Pincepal=(event.currentTarget.value-intersts-overdueFine).toFixed(2);
+                     $('#overdueFine').val(overdueFine);
+                     this.repays.overdueFine=overdueFine;
                        
                 }
                 else{
