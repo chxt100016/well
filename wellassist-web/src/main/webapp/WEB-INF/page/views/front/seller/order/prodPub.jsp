@@ -76,16 +76,12 @@
                             <td>
                                 <div class="ui card">
                                     <img id="prodImgpath" class="" style="width:100%; height:230px" src=""/>
-                                    <input type="file" id="prodImg" name="prodImg"  class="fileManage focus imgInput" onkeypress="if(event.keyCode==13) focusNextInput(this,event);"/>
-                                    <input type="hidden"  class="fileManage"  />
+                                    <input type="file" id="prodImg"  class="fileManage focus imgInput" onkeypress="if(event.keyCode==13) focusNextInput(this,event);"/>
+                                    <input type="hidden"  class="fileManage" name="prodImg" />
                                 </div>
                                 <!-- <img class="yingyeimg focus" id="upload2" style="width:270px;height:230px ;border:1px solid #adadad" src="../img/upload.png" name="prodImg" onkeypress="if(event.keyCode==13) focusNextInput(this,event);"> -->
                             </td>
-                            <td>
-                                <!-- <input type="hidden" name="prodImg" value="${prod.prodImg}" /> --><br>
-                                <%--<input type="file" id="prodImg" name="prodImg_src" value="${prod.prodImg_src}" class="fileManage" />--%>
-                                <!-- <a class="ui button primary" >上传图片</a> -->
-                            </td>
+                            
                         </tr>
                         <br>
                         <tr>
@@ -166,6 +162,7 @@
                     return;
                 }
                 $("input[name='prodImg']").val(data.path);
+                // $("#prodImg").val(data.path);
                 $("#prodImgpath").attr("src", data.path);
                 $("#prodImgpath").show();
                 console.log(data.path);
@@ -277,6 +274,7 @@
         submitHandler: function (form) {
             var data=$(form).serialize();
             data=data+"&prodIntro="+editor.txt.html();
+            console.log(data);
             $.post("${pageContext.request.contextPath}/seller/publish", data, function (data) {
                 var obj = JSON.parse(data);
                 var code = obj.code;

@@ -574,7 +574,7 @@
                 });
             return valid;
         };
-        $.fn.form.settings.rules.isCompanyNameRegistered = function(contactemail) {
+        $.fn.form.settings.rules.isCompanyNameRegistered = function(companyname) {
             var valid = false;
             $.ajax({
                 url: '${pageContext.request.contextPath}/register/checkCompanyName',
@@ -589,7 +589,7 @@
                 });
             return valid;
         };
-        $.fn.form.settings.rules.isUserAccountRegistered = function(contactemail) {
+        $.fn.form.settings.rules.isUserAccountRegistered = function(user_name) {
             var valid = false;
             $.ajax({
                 url: '${pageContext.request.contextPath}/register/checkUserAccount',
@@ -616,7 +616,11 @@
                     {
                         type: 'maxLength[18]',
                         prompt: '长度不得多于18位'
-                    },]
+                    },{
+                        type:'isCompanyNameRegistered',
+                        prompt:'企业名称已遭到使用！'
+                    }
+                    ]
                 },
                 companyaccount: {
                     identifier: 'companyaccount',
@@ -676,7 +680,11 @@
                     {
                         type: 'maxLength[18]',
                         prompt: '长度不得多于18位'
-                    },]
+                    },
+                    {
+                        type:'isUserAccountRegistered',
+                        prompt:'用户名称已遭到使用！'
+                    }]
                 },
                 password: {
                     identifier: 'password',
