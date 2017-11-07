@@ -184,4 +184,17 @@ public class RegisterController extends BaseController{
         return object;
     }
 
+    @RequestMapping("checkUserAccount")
+    @ResponseBody
+    public Object checkUserAccount(@RequestParam("userAccount")String userAccount){
+        JSONObject object=new JSONObject();
+        Map userEmailInfo = this.getMyOneSingBO("wa_user", "user_account", userAccount);
+        if(userEmailInfo != null) {
+            object.put("result", false);
+            return object;
+        }
+        object.put("result", true);
+        return object;
+    }
+
 }
