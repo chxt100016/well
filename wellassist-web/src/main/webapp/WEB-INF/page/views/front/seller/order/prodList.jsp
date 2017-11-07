@@ -61,7 +61,7 @@
 	            		<c:if test="${item.prodType==2}">管道气</c:if>
 					</td>
 					<td width="14%">
-	                   ${item.prodPrice}
+					  <span value='${item.prodPrice}' class="pricetag"> ${item.prodPrice} </span>
 					</td>
 					<td width="14%">
 						${item.prodNum}
@@ -109,10 +109,24 @@
 <script type = "text/javascript">
 	// 初始化函数
 	$(function(){
-		$('.fancybox').fancybox();
+		// $('.fancybox').fancybox();
 		
 		var url = $("#searchFrm").attr("action")+"?"+$("#searchFrm").serialize();
  		setPageUrl(url);
+		 function validNum(){
+			var priceTag= document.getElementsByClassName('pricetag');
+			console.log(priceTag)
+			for (var i = 0; i < priceTag.length; i++) {
+				var element = priceTag[i].innerHTML;
+				 element = Number(element).toFixed(2)
+				console.log(element)
+				priceTag[i].innerHTML=element
+			}
+		
+		 };
+		 validNum();
+
+	
 	});
 
 	//进入编辑页面
