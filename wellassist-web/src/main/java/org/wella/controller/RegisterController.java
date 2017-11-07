@@ -171,4 +171,17 @@ public class RegisterController extends BaseController{
         return object;
     }
 
+    @RequestMapping("checkCompanyName")
+    @ResponseBody
+    public Object checkCompanyName(@RequestParam("companyName")String companyName){
+        JSONObject object=new JSONObject();
+        Map userEmailInfo = this.getMyOneSingBO("wa_user", "user_name", companyName);
+        if(userEmailInfo != null) {
+            object.put("result", false);
+            return object;
+        }
+        object.put("result", true);
+        return object;
+    }
+
 }
