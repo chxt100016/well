@@ -50,8 +50,9 @@
             
                         </div>
                         <div class="ui button primary submit"> 保存</div>
-                        <div class="ui button nagtive clear"> 清空</div>
-                      
+                        <div class="ui button nagtive s" onclick=clean()> 清空</div>
+
+
                     </form>
                   
             
@@ -61,6 +62,23 @@
     
 </div>
 <script>
+    function clean() {
+        var rlt=confirm("确认清空？")
+        if(rlt == true)
+        {
+            $('#adform').form('clear')
+            alert("清空成功")
+            return true;
+        }
+        else
+        {
+            alert("已取消")
+            //history.go(-1);
+            return false;
+        }
+    }
+
+
     const url1='${pageContext.request.contextPath}/customer/saveOrUpdateBillAddress';
         $(function(){
             $('#adform').form({
