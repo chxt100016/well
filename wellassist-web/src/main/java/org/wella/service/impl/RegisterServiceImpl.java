@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.dao.UserinfoDao;
@@ -42,6 +43,7 @@ public class RegisterServiceImpl implements RegisterService{
      * 1.根据注册填写的信息，注册账号信息，公司相关信息，写入表wa_user与表wa_userinfo中
      * 2.项邮箱中发送相关信息
      */
+    @Transactional
     public HashMap register(HttpServletRequest request) {
 
         // 这里可以验证各字段是否为空

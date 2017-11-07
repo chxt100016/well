@@ -20,7 +20,7 @@ public class MailUtil implements Runnable {
 		// 1.创建连接对象javax.mail.Session
 		// 2.创建邮件对象 javax.mail.Message
 		// 3.发送一封激活邮件
-		String from = "15824275713@163.com";// 发件人电子邮箱
+		String from = "zzzowdp@163.com";// 发件人电子邮箱
 		String host = "smtp.163.com"; // 指定发送邮件的主机smtp.qq.com(QQ)|smtp.163.com(网易)
 
 		Properties properties = System.getProperties();// 获取系统属性
@@ -37,9 +37,19 @@ public class MailUtil implements Runnable {
 			
 			
 			// 1.获取默认session对象
-			Session session = Session.getDefaultInstance(properties, new Authenticator() {
+			/*Session session = Session.getDefaultInstance(properties, new Authenticator() {
 				public PasswordAuthentication getPasswordAuthentication() {
 					return new PasswordAuthentication("15824275713@163.com", "shjgpslw880219"); // 发件人邮箱账号、授权码
+				}
+			});*/
+			/*Session session = Session.getDefaultInstance(properties, new Authenticator() {
+				public PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication("jianwending@wellassist.com.cn", "Jianwen123"); // 发件人邮箱账号、授权码
+				}
+			});*/
+			Session session = Session.getDefaultInstance(properties, new Authenticator() {
+				public PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication("zzzowdp@163.com", "ail19200930"); // 发件人邮箱账号、授权码
 				}
 			});
 

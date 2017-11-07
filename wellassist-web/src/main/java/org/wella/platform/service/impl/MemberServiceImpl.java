@@ -117,7 +117,7 @@ public class MemberServiceImpl implements MemberService{
             List<VilcstDataList> list=new ArrayList<>();
             RegisterList registerList=new RegisterList();
             registerList.setName("VilcstDataList");
-            VilcstDataList vilcstDataList=new VilcstDataList(userinfo.get("company_lxr").toString(),userinfo.get("company_lxr_phone").toString(),MapUtil.getStringfromMap(userinfo,"company_lxr_email"));
+            VilcstDataList vilcstDataList=new VilcstDataList(userinfo.get("company_lxr").toString(),userinfo.get("company_lxr_phone").toString(),email);
             list.add(vilcstDataList);
             registerList.setList(list);
             Register register=new Register(user.get("user_name").toString(),user.get("user_name").toString(), MapUtil.getStringfromMap(userinfo,"company_lp_name"),"0",user.get("legal_id_card").toString(),regionServiceImpl.getDetailAddress(Long.parseLong(userinfo.get("zc_region_id").toString()),userinfo.get("zc_xx_address").toString()),registerList);
