@@ -220,7 +220,7 @@
         } else return;
         $("#prodRegionId").val(regionId);
         if (regionId != '') {
-            $.post("${pageContext.request.contextPath}/front/sender/SenderLoginController-getChildRegionListInSite", { regionId: regionId }, function (data) {
+            $.post("${pageContext.request.contextPath}/region/getChildRegionListInSite", { regionId: regionId }, function (data) {
                 if (data.state == 1) {
                     html = "";
                     for (var i = 0; i < data.regionList.length; i++) {
