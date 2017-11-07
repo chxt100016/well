@@ -186,13 +186,13 @@
                             <div class="field">
                                 <div class="ui labeled input ">
                                     <div class="ui label">登录账户：</div>
-                                    <input type="text" name="user_name" placeholder="请输入登录账户" id="" class="max_text focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
+                                    <input type="text"  autocomplete="off"  name="user_name" placeholder="请输入登录账户" id="" class="max_text focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                                 </div>
                             </div>
                             <div class="field">
                                 <div class="ui labeled input ">
                                     <div class="ui label">登录密码：</div>
-                                    <input type="password" name="password" placeholder="请输入登录密码" id="" class="max_text focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
+                                    <input type="password"  autocomplete="off" name="password" placeholder="请输入登录密码" id="" class="max_text focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                                 </div>
                             </div>
                         </div>
@@ -200,7 +200,7 @@
                             <div class="field">
                                 <div class="ui labeled input ">
                                     <div class="ui label">确认密码：</div>
-                                    <input type="password" name="Confirm_password" placeholder="请确认登录密码" id="" class="max_text focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
+                                    <input type="password"  autocomplete="off" name="Confirm_password" placeholder="请确认登录密码" id="" class="max_text focus" onkeypress="if(event.keyCode==13) focusNextInput(this,event);">
                                 </div>
                             </div>
 
@@ -574,6 +574,36 @@
                 });
             return valid;
         };
+        $.fn.form.settings.rules.isCompanyNameRegistered = function(contactemail) {
+            var valid = false;
+            $.ajax({
+                url: '${pageContext.request.contextPath}/register/checkCompanyName',
+                data: {companyName: companyname},
+                type: 'GET',
+                async: false, // 同步 AJAX 请求
+                dataType:    'json',
+                contentType: 'application/json;charset=utf-8'
+            })
+                .done(function(data) {
+                    valid = data.result;
+                });
+            return valid;
+        };
+        $.fn.form.settings.rules.isUserAccountRegistered = function(contactemail) {
+            var valid = false;
+            $.ajax({
+                url: '${pageContext.request.contextPath}/register/checkUserAccount',
+                data: {userAccount: user_name},
+                type: 'GET',
+                async: false, // 同步 AJAX 请求
+                dataType:    'json',
+                contentType: 'application/json;charset=utf-8'
+            })
+                .done(function(data) {
+                    valid = data.result;
+                });
+            return valid;
+        };
         var registerForm = $('#register_form');
         $('#register_form').form({
             fields: {
@@ -803,26 +833,6 @@
                 console.log(allFields2);
                 e.preventDefault();
                 //next();
-                var flag = false;
-                var companyname =$("input[name='companyname']").val();
-                var username=$("input[name='user_name']").val();
-                $.post("${pageContext.request.contextPath}/front/sender/SenderLoginController-onCheckCompanyName", {companyname:companyname,userAccount:username},	function(data) {
-                    if(data.state == 1) {
-                        flag = true;
-                    }else{
-                        alert(data.content);
-                        return false;
-                        console.log("false!!!");
-                    }
-                    if(flag){
-                        var contactemail =$("input[name='contactemail']").val();
-                        var contactphone =$("input[name='contactphone']").val();
-                        $.post("${pageContext.request.contextPath}/front/sender/SenderLoginController-onCheckMobileEmail", {contactphone:contactphone,contactemail:contactemail},	function(data) {
-                            if(data.state == -3 || data.state == -4) {
-                                alert(data.content);
-                                return false;
-                            }else{
-                                <%--registerForm.attr("action", "<c:url value="/register/register"/>");--%>
                                 $.post("${pageContext.request.contextPath}/register/register",registerForm.serialize(),function(data){
                                     data = $.parseJSON(data);
                                     if(data.state==1){
@@ -834,10 +844,10 @@
                                     .error(function(data){
                                         alert("操作失败！")
                                     });
-                            }
-                        }, 'json');
-                    }
-                }, 'json');
+                            
+                        
+                    
+               
             }
 
         });
