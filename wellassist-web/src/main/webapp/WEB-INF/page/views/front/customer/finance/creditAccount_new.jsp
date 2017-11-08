@@ -4,13 +4,8 @@
 <html lang="en">
 
 <head>
-    <title></title>
-    <%--<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
-    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script>--%>
+    <title>申请额度</title>
+
     <style>
         .grey {
             color: rgba(0, 0, 0, .4)
@@ -32,7 +27,7 @@
                 <div class="ui divider"></div>
                 <table style="text-align:right;font-size:14px;font-weight:600;line-height:35px;margin:20px 0 40px 60px;">
                     <tr>
-                        <td width="10%">总额度</td>
+                        <td width="10%">授信总额度</td>
                         <td>
                             <span style="font-size:16px;">
                                 <c:if test="${not empty info.credit}"><fmt:formatNumber value="${info.credit.creditSjMoney}" pattern="#,###.##" type="number"/></c:if>

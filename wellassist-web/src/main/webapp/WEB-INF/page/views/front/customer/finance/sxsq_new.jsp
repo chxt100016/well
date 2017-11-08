@@ -90,7 +90,7 @@
                     <div class="row">
                         <div class="column field" >
                             <label for="">期望额度:(元)</label>
-                            <input type="text" name="creditMoney"> 
+                            <input type="text" name="creditMoney" onchange="valid()"> 
                             
                         </div>
                     </div>
@@ -293,6 +293,9 @@
                                 {
                                     type: 'empty',
                                     prompt: '请填写申请额度'
+                                },{
+                                    type:'regExp[/^([1-9][0-9]*){1,3}$/]',
+                                    prompt:'请输入正确的数字'
                                 }
                             ]
                         },
