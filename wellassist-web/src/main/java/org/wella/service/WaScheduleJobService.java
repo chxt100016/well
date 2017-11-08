@@ -138,7 +138,7 @@ public class WaScheduleJobService {
      * 定时同步数据库中的用户余额字段
      * @throws Exception
      */
-    @Scheduled(fixedRate = 3600000)
+    @Scheduled(fixedRate = 60000)
     public void syncUserBalance() throws Exception {
         Map<String,Object> param=new HashMap<>();
         List<Map<String,Object>> allUser=waUserDao.listUserByConditions(param);

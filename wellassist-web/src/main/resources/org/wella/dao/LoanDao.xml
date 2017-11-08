@@ -177,6 +177,9 @@
             <if test="profit != null">
                 profit=#{profit},
             </if>
+            <if test="profitRate != null">
+                profit_rate=#{profitRate},
+            </if>
         </set>
         where loan_id = #{loanId,jdbcType=BIGINT}
     </update>

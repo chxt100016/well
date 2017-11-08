@@ -47,6 +47,13 @@
                     return value +" 元";
                 }
             },{
+                label: '盈利比',
+                name: 'profitRate',
+                width: 50,
+                formatter: function(value) {
+                    return value*100 +"%";
+                }
+            },{
                 label: '状态',
                 name: 'loanState',
                 width: 100,

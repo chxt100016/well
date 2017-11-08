@@ -182,9 +182,18 @@ public class FinanceServiceImpl implements FinanceService {
     }
 
     @Override
-    public void handleLoanRepayoff(long loanId) {
+    @Transactional
+    public int handleLoanRepayoff(long loanId,BigDecimal profitRate) {
         Map<String,Object> loan=loanDao.singleLoanByPrimaryKey(loanId);
-        BigDecimal settleMoney=(BigDecimal)loan.get("settle_money");
+        int loanState=(int)loan.get("loan_state");
+        if (3 != loanState){
+            return -1;
+        }
+        BigDecimal repayMoney=(BigDecimal)loan.get("repay_money");
+        BigDecimal repayLixi=(BigDecimal)loan.get("repay_lixi");
+        BigDecimal repayOverdueFine=(BigDecimal)loan.get("repay_overdue_fine");
+        BigDecimal settleMoney=repayMoney.add((repayLixi.add(repayOverdueFine)).multiply(new BigDecimal(1).subtract(profitRate)).setScale(2,BigDecimal.ROUND_HALF_DOWN));
+        BigDecimal profit=(repayLixi.add(repayOverdueFine)).multiply(profitRate).setScale(2,BigDecimal.ROUND_HALF_DOWN);
         BigDecimal tranAmt=settleMoney;
         long creditUserId=(long)loan.get("credit_user_id");
         long userId=(long)loan.get("user_id");
@@ -223,11 +232,15 @@ public class FinanceServiceImpl implements FinanceService {
         Map<String,Object> update=new HashMap();
         update.put("loanId",loanId);
         update.put("loanState",31);
+        update.put("settleMoney",settleMoney);
+        update.put("profit",profit);
+        update.put("profitRate",profitRate);
         loanDao.updateLoanByPrimaryKey(update);
         //计算放款方余额
         calLocalBalance(creditUserId,tranAmt);
         //更新用户授信余额
         customerServiceImpl.updateUserCreditMoney(userId);
+        return 1;
     }
 
     @Override

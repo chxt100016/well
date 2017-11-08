@@ -4,6 +4,7 @@ import io.wellassist.utils.HttpContextUtils;
 import io.wellassist.utils.ShiroUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.ProdDao;
 import org.wella.dao.RegionDao;
@@ -27,6 +28,7 @@ public class ProductServiceImpl implements ProductService {
     private RegionDao regionDao;
 
     @Override
+    @Transactional
     public void publishProduct(Map prodMap) {
             prodMap.put("createDate",new Date());
             HttpSession session = HttpContextUtils.getHttpServletRequest().getSession();

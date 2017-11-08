@@ -106,8 +106,10 @@ public interface FinanceService {
     /**
      * 待贷款还清后从还款中转户还给放款账户
      * @param loanId wa_loan 主键
+     * @return -1 操作失败，贷款状态错误
+     * @return 1 操作成功
      */
-    void handleLoanRepayoff(long loanId);
+    int handleLoanRepayoff(long loanId,BigDecimal profitRate);
 
     /**
      * 在本地数据库中存用户余额

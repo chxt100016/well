@@ -22,6 +22,8 @@ public class MailUtil implements Runnable {
 		// 3.发送一封激活邮件
 		String from = "zzzowdp@163.com";// 发件人电子邮箱
 		String host = "smtp.163.com"; // 指定发送邮件的主机smtp.qq.com(QQ)|smtp.163.com(网易)
+		//String from = "jianwending@wellassist.com.cn";
+		//String host = "smtp.exmail.qq.com";
 
 		Properties properties = System.getProperties();// 获取系统属性
 
@@ -62,10 +64,6 @@ public class MailUtil implements Runnable {
 			// 2.3设置邮件主题
 			message.setSubject("账号激活");
 			// 2.4设置邮件内容
-//			String content = "<html><head></head><body><h1>这是一封激活邮件,激活请点击以下链接</h1><h3><a href='http://192.168.1.211:8080/RegisterDemo/ActiveServlet?code="
-//					+ code + "' target = '_blank'>http://localhost:8080/wellassist/mail/active?code=" + code
-//					+ "</href></h3></body></html>";
-
 			message.setContent(content, "text/html;charset=UTF-8");
 			// 3.发送邮件
 			Transport.send(message);

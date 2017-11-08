@@ -208,8 +208,11 @@ public class CreditController {
 
     @RequestMapping(value = "settleLoan",method = RequestMethod.POST)
     @ResponseBody
-    public R settleLoan(@RequestParam("loanId")long loanId){
-        financeServiceImpl.handleLoanRepayoff(loanId);
+    public R settleLoan(@RequestParam("loanId")long loanId,@RequestParam(value = "profitRate")BigDecimal profitRate){
+        int res=financeServiceImpl.handleLoanRepayoff(loanId,profitRate);
+        if (-1==res){
+            return R.error();
+        }
         return R.ok();
     }
 

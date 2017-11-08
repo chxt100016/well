@@ -379,8 +379,6 @@ public class SellerController extends BaseController {
     @RequestMapping("publish")
     @ResponseBody
     public R publish(@RequestParam Map<String,Object> params){
-        Map map = new HashMap();
-        map.put("userType",0);
         HttpSession session = HttpContextUtils.getHttpServletRequest().getSession();
         User user = (User) session.getAttribute("user");
         params.put("userId",user.getUserId());
