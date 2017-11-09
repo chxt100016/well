@@ -8,10 +8,8 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script>
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="${rc.contextPath}/resources/library/css/bootstrap-slider.min.css">
+    <script src="${rc.contextPath}/resources/library/js/bootstrap-slider.min.js"></script>
     <style>
         .mid_box {
             width: 1100px;
@@ -44,93 +42,123 @@
 <body>
     <div class="mid_box" id="app22">
         <div class="column pd_box">
-                <div class="row">
-                        <div class="col-md-4">还款用户:{{loan.customerUserName}}</div>
-                        <div class="col-md-4">放款用户：{{loan.creditorUserName}}</div>
-                        <div class="col-md-4">贷款状态：
-                          
-                            <span v-if='loan.loanState==-3' >贷款取消</span>
-                            <span v-if='loan.loanState==-2' >贷款不通过</span>
-                            <span v-if='loan.loanState==-1' >拨款</span>
-                            <span v-if='loan.loanState==-0' >申请</span>
-                            <span v-if='loan.loanState==1' >已指定放款方</span>
-                            <span v-if='loan.loanState==2' >已放款</span>
-                            <span v-if='loan.loanState==3' >已还款</span>
-                            <span v-if='loan.loanState==4' >已结算</span>
-                        </div>
+            <div class="row">
+                <div class="col-md-4">还款用户:{{loan.customerUserName}}</div>
+                <div class="col-md-4">放款用户：{{loan.creditorUserName}}</div>
+                <div class="col-md-4">贷款状态：
+
+                    <span v-if='loan.loanState==-3'>贷款取消</span>
+                    <span v-if='loan.loanState==-2'>贷款不通过</span>
+                    <span v-if='loan.loanState==-1'>拨款</span>
+                    <span v-if='loan.loanState==-0'>申请</span>
+                    <span v-if='loan.loanState==1'>已指定放款方</span>
+                    <span v-if='loan.loanState==2'>已放款</span>
+                    <span v-if='loan.loanState==3'>已还款</span>
+                    <span v-if='loan.loanState==4'>已结算</span>
                 </div>
-                <div class="row">
-                        <div class="col-md-4">本金：{{loan.loanMoney}}元</div>
-                        <div class="col-md-4">产生滞纳金:{{loan.overdueFine}}元</div>
-                        <div class="col-md-4">产生利息：{{loan.lixiMoney}}元</div>
-                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">本金：{{loan.loanMoney}}元</div>
+                <div class="col-md-4">产生滞纳金:{{loan.overdueFine}}元</div>
+                <div class="col-md-4">产生利息：{{loan.lixiMoney}}元</div>
+            </div>
             <div class="row">
                 <div class="col-md-4">还款本金：{{loan.repayMoney}}元</div>
-                <div class="col-md-4">还款滞纳金：{{loan.repayOverdueFine}}元</div>
+                <div class="col-md-4">还款滞纳金：<span id='repayOverdueFine'>{{loan.repayOverdueFine}}</span>元</div>
                 <div class="col-md-4">还款利息：{{loan.repayLixi}}元</div>
             </div>
-                <div class="row">
-                        <div class="col-md-4">结算金额：{{loan.settleMoney}}元</div>
-                        <div class="col-md-4">盈利：{{loan.profit}}元</div>
-                        <div class="col-md-4">时间:{{loan.applyDate}}</div>
-                </div>
+            <div class="row">
+                <div class="col-md-4">结算金额(放款方应收)：{{loan.settleMoney}}元</div>
+                <div class="col-md-4">盈利：<span >{{loan.profit}}</span>元 </div>
+                <div class="col-md-4">时间:{{loan.applyDate}}</div>
+            </div>
 
         </div>
         <div class="column pd_box" style="margin-top:10px">
-                <div class="row pd-bt-10">
-                        <div class="col-md-4">
-                                <button class="btn btn-success" @click="settle"> 结算</button>
-                            </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-primary" @click="goback"> 返回</button>
-                            </div>
+            <div class="row pd-bt-10">
+                <div class="col-md-4">
+                     
+        <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="10"/>
+        <span id="ex6CurrentSliderValLabel">盈利比为: <span id="ex6SliderVal">10</span> %</span>
                 </div>
+                <div class="col-md-4">
+                    <button class="btn btn-success" @click="settle"> 结算</button>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary" @click="goback"> 返回</button>
+                </div>
+            </div>
         </div>
+        <input type="hidden" id='profit'>
     </div>
 
 </body>
 
 </html>
 <script>
-    var vm=new Vue({
-       el:"#app22",
-        data:{
-          loanId:$loanId,
-            loan:{}
+    var vm = new Vue({
+        el: "#app22",
+        data: {
+            loanId: $loanId,
+            loan: {}
         },
-        mounted:function () {
-            let that =this;
+        mounted: function () {
+            let that = this;
             $.ajax({
-                type:'get',
-                url:baseUrl+"finance/loanInfo",
-                data:{'loanId':this.loanId},
-                dataType:'json',
-                success: function(result){
-                    if(result.code==0){
+                type: 'get',
+                url: baseUrl + "finance/loanInfo",
+                data: { 'loanId': this.loanId },
+                dataType: 'json',
+                success: function (result) {
+                    if (result.code == 0) {
                         that.loan = result.loan;
                         console.log(result.loan)
-                        
+
                     }
-                    else{
+                    else {
                         alert('无法获取')
                     }
                 }
             });
         },
-        methods:{
-           goback:function(){
-             self.location.href=baseUrl+"platform/credit/checkLoan.html";
-           },
-            settle:function(){
-                $.post(baseUrl+"platform/credit/settleLoan",{loanId:this.loanId},function(data){
-                    if (data.code==0){
+        methods: {
+            goback: function () {
+                self.location.href = baseUrl + "platform/credit/checkLoan.html";
+            },
+            settle: function () {
+                let prf=document.getElementById('profit').value;
+                $.post(baseUrl + "platform/credit/settleLoan", { loanId: this.loanId,profitRate:prf }, function (data) {
+                    if (data.code == 0) {
                         alert("结算中...");
-                        self.location.href=baseUrl+"platform/credit/checkLoan.html";
-                    }else {
+                        self.location.href = baseUrl + "platform/credit/checkLoan.html";
+                    } else {
                         alert(data.msg);
                     }
-                },'json');
+                }, 'json');
             }
         }
     });
 </script>
+ <script>
+        $('#ex1').slider({
+            // tooltip: 'always',
+            formatter: function(value) {
+                return'选取值为： ' + value;
+            }
+        });
+        $("#ex1").on("change", function(slideEvt) {
+            var sildeEvt2= $('#ex1').val();
+            let profit= sildeEvt2/100;
+            $("#ex6SliderVal").text(sildeEvt2);
+            $('#profit').val(profit);
+          vm.loan.profit=((vm.loan.repayOverdueFine+vm.loan.repayLixi)*profit).toFixed(2);
+          let x=Number(vm.loan.repayOverdueFine+vm.loan.repayLixi), y=Number(1-profit), z=Number((x*y).toFixed(2));
+          
+          vm.loan.settleMoney=Number(vm.loan.repayMoney)+z;
+          var prf=document.getElementById('profit').value;
+
+           console.log(prf);
+          
+        });
+        
+            </script>
