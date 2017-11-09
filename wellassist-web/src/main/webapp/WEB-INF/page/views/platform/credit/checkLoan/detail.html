@@ -78,7 +78,7 @@
             <div class="row pd-bt-10">
                 <div class="col-md-4">
                      
-        <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="10"/>
+        <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" v-bind:data-slider-value="loan.profitRate"/>
         <span id="ex6CurrentSliderValLabel">盈利比为: <span id="ex6SliderVal">10</span> %</span>
                 </div>
                 <div class="col-md-4">
@@ -127,14 +127,35 @@
             },
             settle: function () {
                 let prf=document.getElementById('profit').value;
-                $.post(baseUrl + "platform/credit/settleLoan", { loanId: this.loanId,profitRate:prf }, function (data) {
-                    if (data.code == 0) {
-                        alert("结算中...");
+                // $.post(baseUrl + "platform/credit/settleLoan", {loanId:this.loanId,profitRate:prf}, function (data) {
+                //     if (data.code == 0) {
+                //         alert("结算中...");
+                //         self.location.href = baseUrl + "platform/credit/checkLoan.html";
+                //     } else {
+                //         alert(data.msg);
+                //     }
+                // }, 'json');
+                $.ajax({
+                    type: 'post', 
+                    url:baseUrl + "platform/credit/settleLoan",
+                    data:{
+                        loanId:this.loanId,profitRate:prf
+                    },
+                    dataType:'json',
+                    contentType:'application/x-www-form-urlencoded',
+                    success:function(result){
+                                    if(result.code==0){
+                                        alert("结算中...");
                         self.location.href = baseUrl + "platform/credit/checkLoan.html";
-                    } else {
-                        alert(data.msg);
-                    }
-                }, 'json');
+                                    }
+                                    else{
+                                        alert(result.msg)
+                                                console.log(result.msg)
+                                        }
+                                            }
+
+
+                    })
             }
         }
     });
