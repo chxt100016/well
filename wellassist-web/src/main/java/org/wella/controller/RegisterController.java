@@ -41,6 +41,7 @@ public class RegisterController extends BaseController{
     public String registerPage(HttpServletRequest request, Model model){
         Map map = new HashMap();
         map.put("userType",0);
+        map.put("activityState",1);
         List arrayList =  waUserDao.findUser(map);
         model.addAttribute("customerList", arrayList);
         model.addAttribute("provinceList", this.getChildRegionList(0));
