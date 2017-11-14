@@ -85,7 +85,7 @@
                     <td class="right-border tx-ct" >
                         	  <span>
                         <c:if test="${not empty item.orderNumber and not empty item.orderPrice}">
-									总价：${item.orderNumber*item.orderPrice}元
+									总价：<span class="salesMoney">${item.orderNumber*item.orderPrice}</span>元
 								</c:if>
 								<c:if test="${empty item.orderNumber or empty item.orderPrice}">
 									总价：${item.saleMoney}元
@@ -207,6 +207,18 @@
 
 		 console.log("${page}");
 		 $('.ui.dropdown').dropdown();
+		 function validNum(){
+			var priceTag= document.getElementsByClassName('salesMoney');
+			console.log(priceTag)
+			for (var i = 0; i < priceTag.length; i++) {
+				var element = priceTag[i].innerHTML;
+				 element = Number(element).toFixed(2)
+				console.log(element)
+				priceTag[i].innerHTML=element
+			}
+		
+		 };
+		 validNum();
 	});
 	
 	function toURL(action, orderId){
