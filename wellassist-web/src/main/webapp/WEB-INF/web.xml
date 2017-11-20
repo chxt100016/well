@@ -124,7 +124,7 @@
 
     <error-page>
 		<error-code>404</error-code>
-		<location>/404.html</location>
+		<location>/WEB-INF/page/views/404.jsp</location>
 	</error-page>
     
 	<welcome-file-list>
