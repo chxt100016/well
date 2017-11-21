@@ -262,7 +262,7 @@ public class MessageServiceImpl implements MessageService{
     @Override
     public void handleRegisterReviewMessage(String userEmail, String reviewComment, boolean passReview) {
         if (passReview){
-            String content="<html><head></head><body><h1>您的维助供应链平台账户已通过审核</h1><h1>点击进入<a href='"+ ConstantUtil.SERVER_HOST+"'  target = '_blank'>维助供应链</a></h1></body></html>";
+            String content="<html><head></head><body><h1>您的维助供应链平台账户已通过审核,初始支付密码为您的登录密码，请及时修改。</h1><h1>点击进入<a href='"+ ConstantUtil.SERVER_HOST+"'  target = '_blank'>维助供应链</a></h1></body></html>";
             new Thread(new MailUtil(userEmail, content)).start();
         }else if (!passReview){
             String content="<html><head></head><body><h1>对不起，您的维助供应链平台账户未通过审核</h1><h1>审核意见："+reviewComment+"</h1><h1>点击进入<a href='"+ ConstantUtil.SERVER_HOST+"'  target = '_blank'>维助供应链</a></h1></body></html>";

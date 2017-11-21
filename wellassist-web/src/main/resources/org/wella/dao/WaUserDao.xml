@@ -73,12 +73,12 @@
 
 
     <!-- supply_id=${supply_id}  -->
-
     <insert id="createUser" parameterType="map">
         		insert into wa_user
         		set user_type = #{user_type},
         		create_date=NOW(),
         		user_pass = #{user_pass},
+                cz_pass= #{cz_pass},
         		user_email = #{user_email},
         		user_phone = #{user_phone},
                 user_account=#{user_account},
