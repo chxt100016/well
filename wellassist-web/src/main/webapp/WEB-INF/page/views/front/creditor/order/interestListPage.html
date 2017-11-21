@@ -15,7 +15,7 @@
       <div style="margin:40px 0 0 210px;">
     <div class="ui container" id="app1" style="width:90%;">
         <h4 class="ui header">利息列表：</h4>
-        <div class="ui right floated">（免息期为7日，包括借款当日）</div>
+        <div class="ui right floated"></div>
         <div class="ui divider"></div>
         <div>
             <table class="ui table ">
@@ -23,6 +23,7 @@
                     <th>公司名称</th>
                     <th>借出时间</th>
                     <th>利率‰</th>
+                    <th>滞纳金(元)</th>
                     <th>已产生利息(元)</th>
                     <th>备注</th>
                    
@@ -32,9 +33,10 @@
                      <tr v-for="list in lists" v-cloak>
                         <td>{{list.customerUserName }}</td>
                          <td>{{list.applyDate }}</td>
-                          <td>{{list.lixiRateFkf}}</td>
+                          <td>{{list.lixiRate}}</td>
+                         <td>{{list.overdueFine}}</td>
                           <td>{{list.lixiMoneyFkf }}</td>
-                          <td>无</td>
+                          <td>产生的盈利(滞纳金+利息)会按签约的盈利比结算给放款方</td>
                           
                     </tr>
                 </tbody>
