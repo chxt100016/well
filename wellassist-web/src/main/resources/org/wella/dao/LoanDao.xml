@@ -10,7 +10,6 @@
         <result column="credit_id" property="creditId" jdbcType="BIGINT" />
         <result column="user_id" property="userId" jdbcType="BIGINT" />
         <result column="credit_user_id" property="creditUserId" jdbcType="BIGINT" />
-        <result column="loan_money" property="loanMoney" jdbcType="DECIMAL" />
         <result column="loan_interest_money" property="loanInterestMoney" jdbcType="DECIMAL" />
         <result column="apply_date" property="applyDate" jdbcType="TIMESTAMP" />
         <result column="loan_date" property="loanDate" jdbcType="TIMESTAMP" />
@@ -18,16 +17,24 @@
         <result column="payment_date" property="paymentDate" jdbcType="TIMESTAMP" />
         <result column="lixi_rate" property="lixiRate" jdbcType="DECIMAL" />
         <result column="lixi_rate_fkf" property="lixiRateFkf" jdbcType="DECIMAL" />
+        <result column="loan_money" property="loanMoney" jdbcType="DECIMAL" />
         <result column="repay_money" property="repayMoney" jdbcType="DECIMAL" />
         <result column="remain_repay_money" property="remainRepayMoney" jdbcType="DECIMAL" />
-        <result column="lixi_money" property="lixiMoney" jdbcType="DECIMAL" />
         <result column="lixi_money_fkf" property="lixiMoneyFkf" jdbcType="DECIMAL" />
+        <result column="overdue_fine" property="overdueFine" jdbcType="DECIMAL" />
+        <result column="repay_overdue_fine" property="repayOverdueFine" jdbcType="DECIMAL" />
+        <result column="remain_overdue_fine" property="remainOverdueFine" jdbcType="DECIMAL" />
+        <result column="lixi_money" property="lixiMoney" jdbcType="DECIMAL" />
         <result column="repay_lixi" property="repayLixi" jdbcType="DECIMAL" />
         <result column="remain_lixi_money" property="remainLixiMoney" jdbcType="DECIMAL" />
         <result column="loan_state" property="loanState" jdbcType="TINYINT" />
         <result column="content" property="content" jdbcType="VARCHAR" />
         <result column="loan_ip" property="loanIp" jdbcType="VARCHAR" />
         <result column="loan_type" property="loanType" jdbcType="TINYINT" />
+        <result column="settle_money" property="settleMoney" jdbcType="DECIMAL" />
+        <result column="profit" property="profit" jdbcType="DECIMAL" />
+        <result column="profit_rate" property="profitRate" jdbcType="DECIMAL" />
+        <result column="settle_date" property="settleDate" jdbcType="TIMESTAMP" />
     </resultMap>
     
     <insert id="create" parameterType="org.wella.entity.Loan" useGeneratedKeys="true" keyProperty="loanId">
@@ -180,6 +187,9 @@
             <if test="profitRate != null">
                 profit_rate=#{profitRate},
             </if>
+            <if test="settleDate != null">
+                settle_date=#{settleDate},
+            </if>
         </set>
         where loan_id = #{loanId,jdbcType=BIGINT}
     </update>
@@ -194,7 +204,7 @@
         SELECT sum(loan_money)
         from wa_loan
         WHERE user_id=#{userId}
-        AND loan_state not in (-3,3,4);
+        AND loan_state not in (-3,3,31,4);
     </select>
 
     <select id="listLoanByConditions" parameterType="map" resultType="map">
@@ -301,5 +311,8 @@
         GROUP BY MONTH(loan_date)
     </select>
 
+    <select id="creditPrfitSum" resultType="java.math.BigDecimal">
+        select sum(profit) from wa_loan where loan_state=4
+    </select>
 
 </mapper>

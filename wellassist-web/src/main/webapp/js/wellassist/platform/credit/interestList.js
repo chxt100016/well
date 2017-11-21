@@ -62,6 +62,10 @@
                     if(value==3){return "已还清";}
                     if(value==4){return "已结算";}
                 }
+            },{
+                label: '结算日期',
+                name: 'settleDate',
+                width: 80
             }],
             viewrecords: true,
             height: 385,

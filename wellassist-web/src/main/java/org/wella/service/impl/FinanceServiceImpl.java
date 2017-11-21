@@ -235,6 +235,7 @@ public class FinanceServiceImpl implements FinanceService {
         update.put("settleMoney",settleMoney);
         update.put("profit",profit);
         update.put("profitRate",profitRate);
+        update.put("settleDate",new Date());
         loanDao.updateLoanByPrimaryKey(update);
         //计算放款方余额
         calLocalBalance(creditUserId,tranAmt);

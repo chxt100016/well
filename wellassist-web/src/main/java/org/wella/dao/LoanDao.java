@@ -48,4 +48,9 @@ public interface LoanDao {
 
     List<Map<Integer,Object>> creditorInterest(Map<String,Object> map);
 
+    /**
+     * 贷款盈利总额
+     * @return 盈利总额
+     */
+    BigDecimal creditPrfitSum();
 }
