@@ -69,7 +69,7 @@
             <div  class="bullshit__oops">OOPS!</div>
             <div  class="bullshit__headline">出错了......</div>
             <div  class="bullshit__info">请点击以下按钮返回主页或者发送错误报告</div>
-            <a   href="/wellassist/" class="bullshit__return-home">返回首页</a>
+            <a   href="${pageContext.request.contextPath}/" class="bullshit__return-home">返回首页</a>
 
         </div>
 

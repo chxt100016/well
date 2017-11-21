@@ -619,7 +619,6 @@ public class CustomerServiceImpl implements CustomerService {
         Map<String, Object> user = waUserDao.singleUserByPrimaryKey(userId);
         Map<String, Object> loan = loanDao.singleLoanByPrimaryKey(loanId);
 
-
         //update table wa_loan
         Map<String, Object> updateLoan = new HashMap<>();
         updateLoan.put("loanId", loanId);
