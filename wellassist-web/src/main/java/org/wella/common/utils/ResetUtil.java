@@ -1,6 +1,7 @@
-package org.wella.utils;
+package org.wella.common.utils;
 
 import com.sun.mail.util.MailSSLSocketFactory;
+import io.wellassist.utils.Constant;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -25,8 +26,8 @@ public class ResetUtil implements Runnable {
         // 1.创建连接对象javax.mail.Session
         // 2.创建邮件对象 javax.mail.Message
         // 3.发送一封激活邮件
-        String from = "15824275713@163.com";// 发件人电子邮箱
-        String host = "smtp.163.com"; // 指定发送邮件的主机smtp.qq.com(QQ)|smtp.163.com(网易)
+        String from = ConstantUtil.SEND_EMAIL_FROM;// 发件人电子邮箱
+        String host = ConstantUtil.SEND_EMAIL_HOST; // 指定发送邮件的主机smtp.qq.com(QQ)|smtp.163.com(网易)
 
         Properties properties = System.getProperties();// 获取系统属性
 
@@ -44,7 +45,7 @@ public class ResetUtil implements Runnable {
             // 1.获取默认session对象
             Session session = Session.getDefaultInstance(properties, new Authenticator() {
                 public PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication("15824275713@163.com", "shjgpslw880219"); // 发件人邮箱账号、授权码
+                    return new PasswordAuthentication(ConstantUtil.SEND_EMAIL_FROM, ConstantUtil.SEND_EMAIL_PASS); // 发件人邮箱账号、授权码
                 }
             });
 

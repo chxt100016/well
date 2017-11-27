@@ -103,11 +103,11 @@
 	<bean id="jedisConnectionFactory"
 		  class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
 		  destroy-method="destroy">
-		<property name="hostName" value="192.168.1.148"/>
+		<property name="hostName" value="192.168.0.138"/>
 		<property name="port" value="6379" />
 		<property name="timeout" value="15000" />
 		<property name="database" value="0" />
-		<property name="password" value="" />
+		<property name="password" value="wella" />
 		<property name="usePool" value="true" />
 		<property name="poolConfig" ref="jedisPoolConfig" />
 	</bean>

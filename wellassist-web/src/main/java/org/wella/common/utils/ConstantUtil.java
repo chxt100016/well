@@ -7,6 +7,9 @@ public class ConstantUtil {
     public static int GAP = 5;
     public static String SERVER_HOST="http://192.168.0.171:8080/wellassist/";
     public static final String CNCB_SERVER_BASEURL="http://192.168.0.171:8079/";
+    public static final String SEND_EMAIL_FROM="zzzowdp@163.com";
+    public static final String SEND_EMAIL_HOST="smtp.163.com";
+    public static final String SEND_EMAIL_PASS="ail19200930";
     public static String ERR_ROLE = "很抱歉！您没有操作权限！";
     public static String MSG_SUCCESS = "操作成功！";
     public static String MSG_FAILS = "操作失败！";

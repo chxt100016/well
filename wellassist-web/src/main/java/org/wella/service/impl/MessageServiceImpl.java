@@ -7,16 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.wella.common.utils.ConstantUtil;
+import org.wella.common.utils.DateUtil;
 import org.wella.dao.*;
 import org.wella.entity.CreditRecord;
 import org.wella.entity.Message;
 import org.wella.entity.User;
 import org.wella.entity.Userinfo;
 import org.wella.service.MessageService;
-import org.wella.utils.DateUtils;
-import org.wella.utils.MailUtil;
+import org.wella.common.utils.MailUtil;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -69,10 +70,7 @@ public class MessageServiceImpl implements MessageService{
        }catch(Exception e){
             e.printStackTrace();
         }
-
     }
-
-
 
     public List<CreditRecord> getCreditRecordList(Map<String, Object> map) {
         return messageDao.getCreditRecordList(map);
@@ -193,8 +191,8 @@ public class MessageServiceImpl implements MessageService{
         StringBuilder content=new StringBuilder();
         Date interestFreeDate=(Date)loanOrderView.get("interest_free_date");
         Date paymentDate=(Date)loanOrderView.get("payment_date");
-        String interestFreeDateStr= DateUtils.format(interestFreeDate,"yyyy 年 MM 月 dd 日");
-        String paymentDateStr=DateUtils.format(paymentDate,"yyyy 年 MM 月 dd 日");
+        String interestFreeDateStr= DateUtil.format(interestFreeDate,new SimpleDateFormat("yyyy 年 MM 月 dd 日"));
+        String paymentDateStr=DateUtil.format(paymentDate,new SimpleDateFormat("yyyy 年 MM 月 dd 日"));
         content.append("您的订单 ").append(loanOrderView.get("order_no")).append(" 生成 ").append(loanOrderView.get("loan_money")).append(" 元授信贷款,");
         content.append("账期为 ").append(interestFreeDateStr).append(" ,还款期限为 ").append(paymentDateStr).append(" 。");
         content.append("在账期内完成还款将不计您的利息，还款期限内按").append(loanOrderView.get("lixi_rate")).append("%%/日计息,逾期将按照").append(loanOrderView.get("lixi_rate")).append("%%/日利滚利的方式计息。");
@@ -274,7 +272,7 @@ public class MessageServiceImpl implements MessageService{
     public int handleResetPasswordMessage(long userId) {
         Map<String,Object> user=waUserDao.singleUserByPrimaryKey(userId);
         StringBuilder content=new StringBuilder();
-        String now=DateUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss");
+        String now=DateUtil.format(new Date(),new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         content.append(user.get("user_name")).append(" 您好,您的密码已被重置,重置密码：123456,操作时间： ").append(now).append(",请您及时修改密码。");
         return createSystemMessage(userId,"个人信息",content.toString());
     }
@@ -325,7 +323,7 @@ public class MessageServiceImpl implements MessageService{
     public int handleCreditCheck(long creditId, int flag, String comment) {
         Map<String,Object> credit=creditDao.singleCreditByPrimaryKey(creditId);
         StringBuilder content=new StringBuilder();
-        String creditApplyDateStr=DateUtils.format((Date)credit.get("credit_apply_date"),DateUtils.DATE_TIME_PATTERN);
+        String creditApplyDateStr=DateUtil.format((Date)credit.get("credit_apply_date"),new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         if (flag==1){
             content.append("您 ").append(creditApplyDateStr).append(" 提交的 ").append(credit.get("credit_money")).append(" 元授信申请已通过管理员审核，");
             content.append("审批额度为 ").append(credit.get("credit_sj_money")).append(" 元，您此前的授信额度已失效，以该额度为准。");
@@ -340,7 +338,7 @@ public class MessageServiceImpl implements MessageService{
     public int handleRepayLoanMessage(long loanId, Long repayId) {
         Map<String,Object> loan=loanDao.singleLoanByPrimaryKey(loanId);
         Map<String,Object> repay=repayDao.singleRepayByPrimaryKey(repayId);
-        String repayDateStr=DateUtils.format((Date)repay.get("repay_date"),DateUtils.DATE_TIME_PATTERN);
+        String repayDateStr=DateUtil.format((Date)repay.get("repay_date"),new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         BigDecimal repayMoney=(BigDecimal) repay.get("repay_money");
         BigDecimal repayInterestMoney=(BigDecimal)repay.get("repay_interest_money");
         BigDecimal repaytotal=repayMoney.add(repayInterestMoney);
@@ -354,7 +352,7 @@ public class MessageServiceImpl implements MessageService{
     @Override
     public int handleLoanRepayoffMessage(long loanId) {
         Map<String,Object> loan=loanDao.singleLoanByPrimaryKey(loanId);
-        String applyDateStr=DateUtils.format((Date)loan.get("apply_date"),DateUtils.DATE_PATTERN);
+        String applyDateStr=DateUtil.format((Date)loan.get("apply_date"));
         BigDecimal loanMoney=(BigDecimal)loan.get("loanMoney");
         StringBuilder content=new StringBuilder();
         content.append("您在 ").append(applyDateStr).append(" 申请的 ").append(loanMoney).append(" 元授信贷款已全部还清。");

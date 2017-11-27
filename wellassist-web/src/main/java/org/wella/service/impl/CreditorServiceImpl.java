@@ -11,13 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
+import org.wella.common.utils.DateUtil;
 import org.wella.dao.*;
 import org.wella.entity.AdminSubAccount;
 import org.wella.entity.CncbTrans;
 import org.wella.entity.CreditorAuthenticInfo;
 import org.wella.entity.UserSubAccount;
 import org.wella.service.*;
-import org.wella.utils.DateUtils;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -181,8 +181,8 @@ public class CreditorServiceImpl implements CreditorService{
         Map<String,Object> updateloan=new HashMap();
         updateloan.put("loanId",loanId);
         updateloan.put("loanDate",now);
-        updateloan.put("interestFreeDate", DateUtils.addDays(now,0));
-        updateloan.put("paymentDate",DateUtils.addDays(now,0+paymentDays));
+        updateloan.put("interestFreeDate", DateUtil.addDays(now,0));
+        updateloan.put("paymentDate",DateUtil.addDays(now,0+paymentDays));
         BigDecimal lixiRate=(BigDecimal) loan.get("lixi_rate");
         BigDecimal lixiRateFkf=lixiRate.multiply(new BigDecimal(0.9));
         updateloan.put("lixiRateFkf",lixiRateFkf);

@@ -1,4 +1,4 @@
-package org.wella.utils;
+package org.wella.common.utils;
 
 import com.wellapay.cncb.util.SSLUtil;
 

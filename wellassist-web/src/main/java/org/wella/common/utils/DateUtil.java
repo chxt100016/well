@@ -514,7 +514,11 @@ public abstract class DateUtil {
     }
 
     public static Date addDays(Date date, int i) {
-        return DateUtils.addDays(date, i);
+        Calendar rightNow = Calendar.getInstance();
+        rightNow.setTime(date);
+        rightNow.add(Calendar.DAY_OF_YEAR,i);
+        Date res=rightNow.getTime();
+        return res;
     }
 
     public static long diff(Date d1, Date d2, String field) {

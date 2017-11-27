@@ -1,6 +1,5 @@
 package org.wella.common.utils;
 
-import org.wella.utils.HttpConnectionUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;

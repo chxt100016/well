@@ -10,9 +10,9 @@ import org.wella.common.utils.ConstantUtil;
 import org.wella.dao.UserinfoDao;
 import org.wella.dao.WaUserDao;
 import org.wella.service.RegisterService;
-import org.wella.utils.CodeUtil;
-import org.wella.utils.MailUtil;
-import org.wella.utils.ResetUtil;
+import org.wella.common.utils.CodeUtil;
+import org.wella.common.utils.MailUtil;
+import org.wella.common.utils.ResetUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

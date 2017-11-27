@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.wella.common.ctrl.BaseController;
+import org.wella.common.utils.CommonUtil;
 import org.wella.dao.WaUserDao;
 import org.wella.service.impl.RegisterServiceImpl;
 
@@ -196,6 +197,15 @@ public class RegisterController extends BaseController{
         }
         object.put("result", true);
         return object;
+    }
+
+    /**
+     * 跳转找回密码页面
+     * @return view
+     */
+    @RequestMapping(value = "findPass",method = RequestMethod.GET)
+    public String getPass() {
+        return "views/front/customer/login/getPassInfo.jsp";
     }
 
 }

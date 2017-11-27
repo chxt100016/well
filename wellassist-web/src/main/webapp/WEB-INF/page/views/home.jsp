@@ -154,7 +154,7 @@
             <input placeholder="请输入你的密码" name="password" type="password">
         </div>
         <div class="ui primary submit button" style="display:list-item;" id="login" onclick="loginSubmit()">登录</div><br>
-        <span><a href="${pageContext.request.contextPath}/register/registerPage" onclick="regist();">注册</a></span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span><a href="${pageContext.request.contextPath}/front/customer/CustomerLoginCtrl-getPass?userType=1"  data-w="600">忘记密码?</a></span>
+        <span><a href="${pageContext.request.contextPath}/register/registerPage" onclick="regist();">注册</a></span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span><a href="${pageContext.request.contextPath}/register/findPass"  data-w="600">忘记密码?</a></span>
     </form>
 </div>
 <script type="text/javascript">
