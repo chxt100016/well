@@ -135,9 +135,8 @@ public class CustomerController extends BaseController {
       HashMap param1 = new HashMap();
       param1.put("parentRegionId", "0");
       List shengRegionList = customerServiceImpl.getRegionList(param1);
-
-      MyInfo myInfo = this.getMyInfo(request);
-      model.addAttribute("userName", myInfo.getUserName());
+      User user=(User)HttpContextUtils.getAttribute("user");
+      model.addAttribute("userName", user.getUserName());
       model.addAttribute("shengRegionList", shengRegionList);
       model.addAttribute("prod", prodMap);
       model.addAttribute("prodId", prodId);
