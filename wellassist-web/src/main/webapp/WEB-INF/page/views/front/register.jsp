@@ -743,8 +743,8 @@
                         type: 'email',
                         prompt: '请输入联系邮箱'
                     },{
-                        type: 'maxLength[18]',
-                        prompt: '长度不得多于18位'
+                        type: 'maxLength[30]',
+                        prompt: '长度不得多于30位'
                     },{
                         type:'isEmailRegistered',
                         prompt:'该邮箱已注册'

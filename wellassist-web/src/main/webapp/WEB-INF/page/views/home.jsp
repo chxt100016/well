@@ -1,8 +1,7 @@
 <%@ include file="header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
-
+<!DOCTYPE html>
         <html lang="en">
-
         <head>
             <title>维助供应链首页</title>
             <meta charset="UTF-8">
@@ -10,6 +9,8 @@
             <%--<link href="home.css" rel="stylesheet">--%>
           <link rel="Stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/wella/front/css/index.css" />
           <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+          <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/library/css/semantic.min.css">
+          <script src="${pageContext.request.contextPath}/resources/library/js/semantic.min.js"></script>
              <%--<link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
             <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
             <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>--%>
@@ -17,21 +18,26 @@
 
         </head>
         <body>
-<div class="ui horizontal list">
-    <div class="item">
+<div class="ui grid" style="margin-top:10px">
+    <div class="four wide column">
         <img class="ui image" href="index.html" src="${pageContext.request.contextPath}/img/logo.png" width="110" height="auto">
     </div>
-    <div class="item" style="margin:0 30px 0 485px;">
-        <div class="ui top secondary pointing menu">
-            <a class="active item" data-tab="first">首页</a>
-            <a class="item" data-tab="second">公司动态</a>
-            <a class="item" data-tab="third">技术支持</a>
-            <a class="item" data-tab="fouth">关于我们</a>
-            <a class="item" data-tab="fifth">联系我们</a>
+    <div class="ten wide column">
+        <div class="ui grid" >
+            <div class="ten wide column">
+            <div class="ui top secondary pointing menu">
+                <a class="active item" data-tab="first">首页</a>
+                <a class="item" data-tab="second">公司动态</a>
+                <a class="item" data-tab="third">技术支持</a>
+                <a class="item" data-tab="fouth">关于我们</a>
+                <a class="item" data-tab="fifth">联系我们</a>
+            </div>
+            </div>
+            <div class="six wide column right floated right aligned" id='loginbox'>
+                    <div style="cursor:pointer;display:block; margin-top: 15px;"><i class="user icon" style="color:#1a84cc; font-size:17px;"></i><span style="font-size:15px;">登录</span></div>
+            </div>
         </div>
-    </div>
-    <div class="item" id="loginbox">
-        <span style="cursor:pointer;"><i class="user icon" style="color:#1a84cc; font-size:17px;"></i><span style="font-size:15px;">登录</span></span>
+        
     </div>
 </div>
 <div class="ui bottom active tab segment" data-tab="first">
@@ -141,33 +147,33 @@
     </div>
 </footer>
 <div id="mask"></div>
-<div class="hidebox">
-    <i class="remove icon" id="cancel" style="float: right;margin: -35px 5px 50px 0;cursor:pointer;"></i>
-    <form class="ui form" method="post" id="loginForm" name="loginForm">
-        <div class="field" style="text-align:center;">
-            <img src="${pageContext.request.contextPath}/img/logo.png" width="100" height="50" alt="logo"/>
-        </div>
-        <div class="field">
-            <input placeholder="请输入你的用户名" name="username" type="text">
-        </div>
-        <div class="field">
-            <input placeholder="请输入你的密码" name="password" type="password">
-        </div>
-        <div class="ui primary submit button" style="display:list-item;" id="login" onclick="loginSubmit()">登录</div><br>
-        <span><a href="${pageContext.request.contextPath}/register/registerPage" onclick="regist();">注册</a></span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span><a href="${pageContext.request.contextPath}/front/customer/CustomerLoginCtrl-getPass?userType=1"  data-w="600">忘记密码?</a></span>
-    </form>
-</div>
+            <div class="hidebox ui segment" style="position:fixed">
+                <i class="remove icon" id="cancel" style="float: right;cursor:pointer;"></i>
+                <form class="ui form" method="post" id="loginForm" name="loginForm">
+                    <div class="field" style="text-align:center;">
+                        <img src="${pageContext.request.contextPath}/img/logo.png" width="100" height="50" alt="logo"/>
+                    </div>
+                    <div class="field">
+                        <input placeholder="请输入你的用户名" name="username" type="text">
+                    </div>
+                    <div class="field">
+                        <input placeholder="请输入你的密码" name="password" type="password">
+                    </div>
+                    <div class="ui primary submit button" style="display:list-item;" id="login" onclick="loginSubmit()">登录</div><br>
+                    <span style="display:block;float:left"><a href="${pageContext.request.contextPath}/register/registerPage" onclick="regist();">注册</a></span>
+                    <span style="display:block;float:right"><a href="${pageContext.request.contextPath}/front/customer/CustomerLoginCtrl-getPass?userType=1"  data-w="600">忘记密码?</a></span>
+                </br>
+                </form>
+            </div>
+            
 <script type="text/javascript">
 $('.menu .item').tab();
     $('.hidebox').hide();
     $('#loginbox').click(function(){
-        $('.hidebox').show(500);
-        $("#mask").css("height",$(document).height());     
-        $("#mask").css("width",$(document).width());     
-        $("#mask").show(); 
+        $(".hidebox").show(500);
     });
     $('#cancel').click(function(){
-        $('.hidebox').hide();
+        $('.hidebox').hide(1000);
         $("#mask").hide(); 
     });
 function loginSubmit() {

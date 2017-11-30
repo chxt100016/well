@@ -76,7 +76,7 @@
                             <td>
                                 <div class="ui card">
                                     <img id="prodImgpath" class="" style="width:100%; height:230px" src=""/>
-                                    <input type="file" id="prodImg"  class="fileManage focus imgInput" onkeypress="if(event.keyCode==13) focusNextInput(this,event);"/>
+                                    <input type="file" id="prodImg" accept="image/png,image/gif,image/jpeg"  class="fileManage focus imgInput" onkeypress="if(event.keyCode==13) focusNextInput(this,event);"/>
                                     <input type="hidden"  class="fileManage" name="prodImg" />
                                 </div>
                                 <!-- <img class="yingyeimg focus" id="upload2" style="width:270px;height:230px ;border:1px solid #adadad" src="../img/upload.png" name="prodImg" onkeypress="if(event.keyCode==13) focusNextInput(this,event);"> -->

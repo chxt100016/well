@@ -117,7 +117,7 @@
                                     <a href="javascript:;" class="file" >
                                          <span class="white-color">选择文件</span>
                                           <i class="upload icon white-color" ></i>
-                                         <input type="file"  id="upload1">
+                                         <input type="file"  id="upload1" accept="aplication/zip,application/x-tar,application/x-rar-compressed">
                                         <input type="hidden" name="bankBill">
                                         <%--<a id="bankBill" download="bankBill.xlsx">download</a>--%>
                                     </a>
