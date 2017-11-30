@@ -3,6 +3,18 @@
 
 <link rel="stylesheet" href="<c:url value="/resources/wella/front/css/seller/publishpage.css"/>">
 <script src="${pageContext.request.contextPath}/statics/libs/ajaxupload.js"></script>
+<style>
+    label.error {
+
+  padding-left: 16px;
+
+  padding-bottom: 2px;
+
+  font-weight: bold;
+
+  color: #EA5200;
+}
+</style>
 
 <div class="container1">
     <div style="margin:40px 0 0 210px;">
@@ -117,7 +129,12 @@
 </div>
 
 <script>
-    //表单验证
+    $(function(){
+        $.validator.addMethod("checkMobile",function(value,element,params){  
+            var checkMobile = /^1[34578]\d{9}$/;  
+            return this.optional(element)||(checkMobile.test(value));  
+        },"请输入正确的手机号码！");  
+    })
 
     //回车键跳转
     function focusNextInput(thisInput,e){
@@ -165,7 +182,8 @@
                 // $("#prodImg").val(data.path);
                 $("#prodImgpath").attr("src", data.path);
                 $("#prodImgpath").show();
-                console.log(data.path);
+                // console.log(data.path);
+                console.log('上传图片成功！')
                 return;
             },
             error: function (data) {
@@ -180,31 +198,6 @@
         $(this).attr("name", "file");
         uploadImage();
     });
-
-
-    // $(document).ready(function () {
-    //     new AjaxUpload('#upload2', {
-    //         action: '${pageContext.request.contextPath}/uploadFile',
-    //         name: 'file',
-    //         autoSubmit:true,
-    //         responseType:"json",
-    //         onSubmit:function(file, extension){
-    //             if (!(extension && /^(jpg|jpeg|png|gif)$/.test(extension.toLowerCase()))){
-    //                 alert('只支持jpg、png、gif格式的图片！');
-    //                 return false;
-    //             }
-    //         },
-    //         onComplete : function(file, data){
-    //             if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确定",""); return; }
-    //             $("input[name='prodImg']").val(data.path);
-    //             $("#upload2").prop("src", data.path);
-    //             // $("#upload2").css("background-image",url(data.path));
-    //             $("#prodImgpath").show();
-    //             return;
-    //         }
-    //     });
-    // });
-
     function selRegion(type) {
         var regionId = '';
 
@@ -234,7 +227,8 @@
                 }
             }, 'json');
         }
-    }
+    };
+  
 
     $("#product-publish").validate({
         rules: {
@@ -246,11 +240,18 @@
                 number:true,
                 range:[1,500]
                 },
-            prodPrice: { required: true },
+            prodPrice: { 
+                required: true,
+                number:true,
+                range:[1,3000]
+                 },
             regionId: "required",
             prodRegionAddr: { required: true },
             prodLxr: { required: true },
-            prodLxrPhone: { required: true },
+            prodLxrPhone: { 
+                required: true,
+                checkMobile:true
+                 },
             prodImg: "required",
             prodIntro: "required"
         },
@@ -263,11 +264,18 @@
                 number:"请输入数字",
                 range:"产品供应链应在1-500顿之间"
                 },
-            prodPrice: "请输入产品单价（元/顿）",
+            prodPrice: {
+                required: "请输入产品单价（元/顿）",
+                number: '请输入数字',
+                range: '输入的数字过大或过小'
+                },
             prodRegionId: "请选择产品区域",
             prodRegionAddr: "请输入产品详细地址",
             prodLxr: "请输入产品联系人",
-            prodLxrPhone: "请输入产品联系人电话号码",
+            prodLxrPhone: {
+                required:"请输入产品联系人电话号码",
+                checkMobile: "请输入正确的手机号码"
+                },
             prodImg: "请上传产品图片",
             prodIntro: "请填写产品简介"
         },
