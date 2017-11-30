@@ -35,8 +35,6 @@ public class UploadController extends BaseController {
         /**
          * 原有业务逻辑，文件为被保存
          */
-
-        //采用七牛云之后的业务逻辑,将返回的url传回到前台，并与相应的属性绑定
         if (file.isEmpty()) {
             throw new RRException("上传文件不能为空");
         }
