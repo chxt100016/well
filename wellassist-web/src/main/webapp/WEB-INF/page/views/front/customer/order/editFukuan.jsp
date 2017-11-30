@@ -110,7 +110,7 @@
                             </div>
                         </div>
 
-                        <div class="field pd-10">
+                        <div class="field pd-10" id="combination">
                             <div class="ui radio checkbox">
                                 <input type="radio" name="zfMethod" id="combinationPay" onchange="bond(3)"  value="4">
 
@@ -405,28 +405,16 @@
 <script>
        $(document).ready(function(){
            $("#paySub").addClass("disabled");
-        /*new AjaxUpload('#profile', {
-            action: '${pageContext.request.contextPath}/uploadFile',
-            name: 'file',
-            autoSubmit:true,
-            responseType:"json",
-            onSubmit:function(file, extension){
-                if (!(extension && /^(jpg|jpeg|png|gif)$/.test(extension.toLowerCase()))){
-                    alert('只支持jpg、png、gif格式的图片！');
-                    return false;
-                }
-            },
-            onComplete : function(file, data){
-                if(data.result=="-10") { ShowWindowAlert("提示",data.msg,"","确 定",""); return; }
-                // $("#profile").val(data.path);
-				$("#proimg").attr("src",data.path);
-                $("#prohidden").val(data.path);
-                 $("#proInfo").html( "<p>" + file + "</p>" );
-                 $("#proimg").show();
-                return;
-            }
-        });*/
-
+            const payMoney=${orderInfo.confirmPrice*orderInfo.confirmNumber};
+            const loanLeft=${orderInfo.userCreditMoney};
+            const banlanceLeft= ${orderInfo.userMoney};
+            let summary = loanLeft +banlanceLeft ;
+            console.log(summary)
+            //当余额总和低于待支付金额时，组合支付不可用
+      if(summary < payMoney){
+        $('#combination').css('display','none')
+      }
+      
 	  //获取账户余额
       const urrr = '${pageContext.request.contextPath}/finance/localBalance';
 			
