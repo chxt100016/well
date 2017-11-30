@@ -1,22 +1,21 @@
 package org.wella.service.impl;
 
-import com.sun.javafx.collections.MappingChange;
 import io.wellassist.utils.Query;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.wella.common.utils.ConvertUtil;
+import org.wella.common.utils.DateUtil;
 import org.wella.dao.*;
 import org.wella.entity.*;
 import org.wella.service.MessageService;
 import org.wella.service.RegionService;
 import org.wella.service.SellerService;
 import org.wella.service.WaOrderService;
-import org.wella.utils.DateUtils;
 
 import java.math.BigDecimal;
-import java.security.PrivateKey;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -282,7 +281,7 @@ public class SellerServiceImpl implements SellerService {
         String sendComment = (String) params.get("sendComment");
         String zorderBill = (String) params.get("zorderBill");
         String zorderDate = (String) params.get("zorderDate");
-        Date dZorderDate = DateUtils.parse(zorderDate, DateUtils.DATE_TIME_PATTERN);
+        Date dZorderDate = DateUtil.parse(zorderDate, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         List<Map<String, Object>> orderVehicles = ConvertUtil.converJSONtoArrayListMap((String) params.get("orderVehicles"));
 
         //减库存

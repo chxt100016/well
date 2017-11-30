@@ -90,13 +90,13 @@ public class LoginController extends BaseController {
             byte type  = user.getUserType();
             session.setAttribute("user",user);
             session.setAttribute("userInfo",userInfo);
-            session.setAttribute("initInfo",map.get("initInfo"));
+            //session.setAttribute("initInfo",map.get("initInfo"));
             //MyInfo历史遗留问题
-            MyInfo myInfo = new MyInfo();
+            /*MyInfo myInfo = new MyInfo();
             myInfo.setUserId(Long.toString(user.getUserId()));
             myInfo.setUserName(user.getUserName());
             myInfo.setUserName(user.getUserName());
-            session.setAttribute("MY_INFO",myInfo);
+            session.setAttribute("MY_INFO",myInfo);*/
             //验证成功标志，前端回调参数
             jsonObject.put("status",1);
             jsonObject.put("type",type);

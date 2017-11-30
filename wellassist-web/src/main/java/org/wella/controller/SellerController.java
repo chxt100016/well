@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.wellassist.utils.*;
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.tools.ant.taskdefs.condition.Http;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -143,33 +144,6 @@ public class SellerController extends BaseController {
         model.addAttribute("userName", user.getUserName());
         return "views/front/seller/order/orderList.jsp";
     }
-
-    /*@RequestMapping("orderListPage")
-    public String ordersheet_list(HttpServletRequest request, HttpServletResponse response, Model model) {
-        HttpSession session = request.getSession();
-        User user=(User)session.getAttribute("user");
-        if(user != null) {
-            Map param = this.getConditionParam(request);
-            param.put("userId", user.getUserId());
-            ArrayList<Map<String,Object>> waOrderList = this.sellerOrderMapper.getWaOrderList(param);
-            ConvertUtil.convertDataBaseMapToJavaMap(waOrderList);
-            for (Map<String,Object> waOrder:waOrderList){
-                Map<String,Object> orderlog=waOrderServiceImpl.findNewestOrderLog(Long.parseLong(waOrder.get("orderId").toString()));
-                if(orderlog!=null &&orderlog.size()>0){
-                    waOrder.putAll(orderlog);
-                }
-            }
-            model.addAttribute("waOrderList", waOrderList);
-            int totalCount = this.sellerOrderMapper.getWaOrderListCount(param);
-            this.setPagenationInfo(request, totalCount, Integer.parseInt(param.get("page").toString()));
-            model.addAttribute("parentMenuNo", "5");
-            model.addAttribute("childMenuNo", "1");
-            model.addAttribute("userName", user.getUserName());
-            return "views/front/seller/order/orderList.jsp";
-        } else {
-            return "redirect:views/login/login.jsp";
-        }
-    }*/
 
     /**
      * 跳转卖家确认订单页面
@@ -355,22 +329,6 @@ public class SellerController extends BaseController {
         return "views/front/seller/order/prodPub.jsp";
     }
 
-    /*@RequestMapping("orderList")
-    public void orderList(HttpServletRequest request, HttpServletResponse response){
-        int ret = -1;
-        JSONObject obj = new JSONObject();
-        User user= (User) request.getSession().getAttribute("user");
-        Long userId=user.getUserId();
-        Map param=getConditionParam(request);
-        param.put("supplierId",userId);
-        List<Map<String,Object>> orderList=sellerServiceImpl.getOrderList(param);
-        int orderListCount=sellerServiceImpl.getOrderListCount(param);
-        PageUtils page=new PageUtils(orderList,orderListCount,Integer.valueOf(ConstantUtil.GAP),Integer.valueOf((String) param.get("page")));
-        obj.put("code",1);
-        obj.put("page",page);
-        this.echo(response,obj);
-    }*/
-
     /**
      * 发布产品
      * @param params 产品详细
@@ -409,6 +367,68 @@ public class SellerController extends BaseController {
         model.addAttribute("childMenuNo", "2");
         model.addAttribute("waProdList", waProdList);
         return "views/front/seller/order/prodList.jsp";
+    }
+
+    @RequestMapping(
+            value = {"setProdState"},
+            method = {RequestMethod.POST}
+    )
+    @ResponseBody
+    public R setProdState(@RequestParam("prodId")long prodId) {
+        try {
+            User user=(User) HttpContextUtils.getAttribute("user");
+            if(user != null) {
+                Map<String,Object> prod=prodDao.singleProdByPrimaryKey(prodId);
+                ConvertUtil.convertDataBaseMapToJavaMap(prod);
+                if(prod != null && prod.get("userId") != null && prod.get("userId").toString().equals(user.getUserId().toString()) && prod.get("prodState") != null) {
+                    int prodState = (int)prod.get("prodState");
+                    if(prodState!=1) {
+                        if(prodState!=-2&&prodState!=0) {
+                            if(prodState==-1) {
+                                prodState =2;
+                            } else if(prodState==2) {
+                                prodState =-1;
+                            }
+                        } else {
+                            prodState = 1;
+                        }
+
+                        HashMap param = new HashMap();
+                        param.put("prodId",prodId);
+                        param.put("prodState",prodState);
+                        prodDao.updateProdByPrimaryKey(param);
+                    }
+                }
+            }
+        } catch (Exception var13) {
+            return R.error(ConstantUtil.MSG_FAILS);
+        }
+
+        return R.ok();
+    }
+
+    @RequestMapping(
+            value = {"deleteProd"},
+            method = {RequestMethod.POST}
+    )
+    @ResponseBody
+    public R deleteProd(@RequestParam("prodId")long prodId) {
+        try {
+            User user=(User) HttpContextUtils.getAttribute("user");
+            if(user != null ) {
+                Map<String,Object> prod=prodDao.singleProdByPrimaryKey(prodId);
+                ConvertUtil.convertDataBaseMapToJavaMap(prod);
+                if(prod != null && prod.get("userId") != null && prod.get("userId").toString().equals(user.getUserId().toString()) && prod.get("prodState") != null) {
+                    HashMap param = new HashMap();
+                    param.put("prodId",prodId);
+                    param.put("prodState",-3);
+                    prodDao.updateProdByPrimaryKey(param);
+                }
+            }
+        } catch (Exception var12) {
+            return R.error(ConstantUtil.MSG_FAILS);
+        }
+        return R.ok().put("msg",ConstantUtil.MSG_SUCCESS);
     }
 
     /**

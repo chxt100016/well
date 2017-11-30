@@ -136,30 +136,26 @@
 	function toURL(action, prodId){
 		if(prodId!=''){
 			if(action=='editProd'){
-				/*window.location.href = "${pageContext.request.contextPath}/seller/editPage?prodId=" + prodId;*/
                 window.location.href = "${pageContext.request.contextPath}/seller/productEditPage?prodId=" + prodId;
 			} else if(action=='deleteProd'){
 				if(confirm("你要确定删除操作吗？")){
-					$.post("${pageContext.request.contextPath}/front/seller/SellerOrderController-deleteProd",{prodId:prodId},function(data){
-			    		data = $.parseJSON(data);
-			    		alert(data.content);
-			            if(data.status=="1"){
+					$.post("${pageContext.request.contextPath}/seller/deleteProd",{prodId:prodId},function(data){
+					    if(data.code==0){
+					        alert("删除成功");
 			            	window.location.reload();
 			            }
-			      	})
-			      	.error(function(data){
+			      	},"json").error(function(){
 			      		alert("操作失败！")
 			      	});
 				}
 			} else if(action=='setProdState'){
-				$.post("${pageContext.request.contextPath}/front/seller/SellerOrderController-setProdState",{prodId:prodId},function(data){
-		    		data = $.parseJSON(data);
-		    		alert(data.content);
-		            if(data.status=="1"){
+				$.post("${pageContext.request.contextPath}/seller/setProdState",{prodId:prodId},function(data){
+		    		alert(data.msg);
+		            if(data.code==0){
 		            	window.location.reload();
 		            }
-		      	})
-		      	.error(function(data){
+		      	},"json")
+		      	.error(function(){
 		      		alert("操作失败！")
 		      	});
 			}

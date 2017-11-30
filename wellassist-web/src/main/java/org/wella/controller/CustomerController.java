@@ -727,8 +727,9 @@ public class CustomerController extends BaseController {
     * @return view
     */
    @RequestMapping("prodList")
-   public String prodList(@RequestParam Map<String, Object> map, Model model) {
-      User user = (User) HttpContextUtils.getAttribute("user");
+   public String prodList(@RequestParam Map<String, Object> map, Model model,HttpServletRequest request) {
+      /*User user = (User) HttpContextUtils.getAttribute("user");*/
+      User user=(User)request.getSession().getAttribute("user");
       map.put("userId", user.getSupplyId());
       map.put("prodState",2);
       List<Prod> prodList = prodDao.findProdByUserId(map);

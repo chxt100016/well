@@ -155,8 +155,8 @@
                         $.post("${pageContext.request.contextPath}/register/resetPassword", $("#mainData").serialize(),
                             function(data) {
                                 if (data.state != 0) {
-                                    var userName = $("#userName").val();
-                                    window.location.href = "${pageContext.request.contextPath}/login/page";
+                                    alert("密码修改成功!");
+                                    window.location.href = "${pageContext.request.contextPath}/";
                                 } else {
                                     alert(data.msg);
                                     return;

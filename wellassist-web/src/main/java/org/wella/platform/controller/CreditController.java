@@ -260,4 +260,15 @@ public class CreditController {
         PageUtils pageUtils=new PageUtils(list,totalCount,query.getLimit(),query.getPage());
         return R.ok().put("page",pageUtils);
     }
+
+    /**
+     * 授信盈利总额，益海改成从专门的授信盈利账户中读取余额
+     * @return R
+     */
+    @RequestMapping(value = "creditPrfitSum",method = RequestMethod.GET)
+    @ResponseBody
+    public R creditPrfitSum(){
+        BigDecimal sum=loanDao.creditPrfitSum();
+        return R.ok().put("data",sum);
+    }
 }

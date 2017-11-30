@@ -10,9 +10,9 @@ import org.wella.common.utils.ConstantUtil;
 import org.wella.dao.UserinfoDao;
 import org.wella.dao.WaUserDao;
 import org.wella.service.RegisterService;
-import org.wella.utils.CodeUtil;
-import org.wella.utils.MailUtil;
-import org.wella.utils.ResetUtil;
+import org.wella.common.utils.CodeUtil;
+import org.wella.common.utils.MailUtil;
+import org.wella.common.utils.ResetUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -77,6 +77,7 @@ public class RegisterServiceImpl implements RegisterService{
             String supply_id=CommonUtil.GetRequestParam(request, "supply_id", "0");
             wa_user.put("user_type", user_type);
             wa_user.put("user_pass", CommonUtil.MD5(user_pass));
+            wa_user.put("cz_pass",CommonUtil.MD5(user_pass));
             wa_user.put("user_email", user_email);
             wa_user.put("user_phone", user_phone);
             wa_user.put("user_reg_no", user_reg_no);

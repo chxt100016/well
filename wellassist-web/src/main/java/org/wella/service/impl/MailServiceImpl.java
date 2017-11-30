@@ -7,8 +7,8 @@ import org.wella.common.utils.CommonUtil;
 import org.wella.dao.UserinfoDao;
 import org.wella.dao.WaUserDao;
 import org.wella.service.MailService;
-import org.wella.utils.CodeUtil;
-import org.wella.utils.MailUtil;
+import org.wella.common.utils.CodeUtil;
+import org.wella.common.utils.MailUtil;
 
 
 import javax.servlet.http.HttpServletRequest;

@@ -14,8 +14,6 @@ public class Loan {
 
     private Long creditUserId;
 
-    private BigDecimal loanMoney;
-
     private BigDecimal loanInterestMoney;
 
     private Date applyDate;
@@ -30,13 +28,21 @@ public class Loan {
 
     private BigDecimal lixiRateFkf;
 
+    private BigDecimal loanMoney;
+
     private BigDecimal repayMoney;
 
     private BigDecimal remainRepayMoney;
 
-    private BigDecimal lixiMoney;
-
     private BigDecimal lixiMoneyFkf;
+
+    private BigDecimal overdueFine;
+
+    private BigDecimal repayOverdueFine;
+
+    private BigDecimal remainOverdueFine;
+
+    private BigDecimal lixiMoney;
 
     private BigDecimal repayLixi;
 
@@ -49,6 +55,14 @@ public class Loan {
     private String loanIp;
 
     private Byte loanType;
+
+    private BigDecimal settleMoney;
+
+    private BigDecimal profit;
+
+    private BigDecimal profitRate;
+
+    private Date settleDate;
 
     public Long getLoanId() {
         return loanId;
@@ -88,14 +102,6 @@ public class Loan {
 
     public void setCreditUserId(Long creditUserId) {
         this.creditUserId = creditUserId;
-    }
-
-    public BigDecimal getLoanMoney() {
-        return loanMoney;
-    }
-
-    public void setLoanMoney(BigDecimal loanMoney) {
-        this.loanMoney = loanMoney;
     }
 
     public BigDecimal getLoanInterestMoney() {
@@ -154,6 +160,14 @@ public class Loan {
         this.lixiRateFkf = lixiRateFkf;
     }
 
+    public BigDecimal getLoanMoney() {
+        return loanMoney;
+    }
+
+    public void setLoanMoney(BigDecimal loanMoney) {
+        this.loanMoney = loanMoney;
+    }
+
     public BigDecimal getRepayMoney() {
         return repayMoney;
     }
@@ -170,20 +184,44 @@ public class Loan {
         this.remainRepayMoney = remainRepayMoney;
     }
 
-    public BigDecimal getLixiMoney() {
-        return lixiMoney;
-    }
-
-    public void setLixiMoney(BigDecimal lixiMoney) {
-        this.lixiMoney = lixiMoney;
-    }
-
     public BigDecimal getLixiMoneyFkf() {
         return lixiMoneyFkf;
     }
 
     public void setLixiMoneyFkf(BigDecimal lixiMoneyFkf) {
         this.lixiMoneyFkf = lixiMoneyFkf;
+    }
+
+    public BigDecimal getOverdueFine() {
+        return overdueFine;
+    }
+
+    public void setOverdueFine(BigDecimal overdueFine) {
+        this.overdueFine = overdueFine;
+    }
+
+    public BigDecimal getRepayOverdueFine() {
+        return repayOverdueFine;
+    }
+
+    public void setRepayOverdueFine(BigDecimal repayOverdueFine) {
+        this.repayOverdueFine = repayOverdueFine;
+    }
+
+    public BigDecimal getRemainOverdueFine() {
+        return remainOverdueFine;
+    }
+
+    public void setRemainOverdueFine(BigDecimal remainOverdueFine) {
+        this.remainOverdueFine = remainOverdueFine;
+    }
+
+    public BigDecimal getLixiMoney() {
+        return lixiMoney;
+    }
+
+    public void setLixiMoney(BigDecimal lixiMoney) {
+        this.lixiMoney = lixiMoney;
     }
 
     public BigDecimal getRepayLixi() {
@@ -232,5 +270,37 @@ public class Loan {
 
     public void setLoanType(Byte loanType) {
         this.loanType = loanType;
+    }
+
+    public BigDecimal getSettleMoney() {
+        return settleMoney;
+    }
+
+    public void setSettleMoney(BigDecimal settleMoney) {
+        this.settleMoney = settleMoney;
+    }
+
+    public BigDecimal getProfit() {
+        return profit;
+    }
+
+    public void setProfit(BigDecimal profit) {
+        this.profit = profit;
+    }
+
+    public BigDecimal getProfitRate() {
+        return profitRate;
+    }
+
+    public void setProfitRate(BigDecimal profitRate) {
+        this.profitRate = profitRate;
+    }
+
+    public Date getSettleDate() {
+        return settleDate;
+    }
+
+    public void setSettleDate(Date settleDate) {
+        this.settleDate = settleDate;
     }
 }

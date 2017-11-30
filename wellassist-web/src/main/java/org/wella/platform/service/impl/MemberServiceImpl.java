@@ -140,7 +140,7 @@ public class MemberServiceImpl implements MemberService{
         }
 
         waUserDao.updateUserByUserId(updateMap);
-        messageServicesk.handleRegisterReviewMessage(email,comment,true);
+        messageServicesk.handleRegisterReviewMessage(email,null==comment?"":comment,true);
     }
 
     @Override

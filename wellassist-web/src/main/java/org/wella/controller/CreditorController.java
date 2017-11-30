@@ -166,7 +166,7 @@ public class CreditorController extends BaseController{
         long creditUserId = user.getUserId();
         Query query = new Query(params);
         query.put("creditUserId", creditUserId);
-        query.put("inLoanState", "(2,3)");
+        query.put("inLoanState", "(2,21,3,31,4)");
         query.put("orderBy","loan_date desc");
         List list = creditorServiceImpl.listLoanOrderViewByConditions(query);
         int totalCount = creditorServiceImpl.listLoanCount(query);
@@ -187,7 +187,7 @@ public class CreditorController extends BaseController{
         long creditUserId = user.getUserId();
         Query query = new Query(params);
         query.put("creditUserId", creditUserId);
-        query.put("loanState", 3);
+        query.put("loanState", 4);
         query.put("orderBy","loan_date desc");
         List list = creditorServiceImpl.repayOffList(query);
         int totalCount = creditorServiceImpl.listLoanCount(query);
@@ -208,7 +208,7 @@ public class CreditorController extends BaseController{
         long creditUserId = user.getUserId();
         Query query = new Query(params);
         query.put("creditUserId", creditUserId);
-        query.put("loanState", 2);
+        query.put("inLoanState", "(2,21,3,31)");
         query.put("orderBy","loan_date desc");
         List list = creditorServiceImpl.listLoanOrderViewByConditions(query);
         int totalCount = creditorServiceImpl.listLoanCount(query);

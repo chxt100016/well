@@ -26,7 +26,7 @@ public abstract class DateUtil {
     public static final FastDateFormat FAST_SECOND_FORMATETR = FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss");
     public static final FastDateFormat FAST_SHORT_FORMATETR = FastDateFormat.getInstance("yyyyMMdd");
     public static final FastDateFormat FAST_ONLY_MINUTE_FORMATETR = FastDateFormat.getInstance("HH:mm");
-    public static final long cncbTimeDive=213235200000L;
+    public static final long cncbTimeDive=213062400000L;
 
 
     public DateUtil() {
@@ -514,7 +514,11 @@ public abstract class DateUtil {
     }
 
     public static Date addDays(Date date, int i) {
-        return DateUtils.addDays(date, i);
+        Calendar rightNow = Calendar.getInstance();
+        rightNow.setTime(date);
+        rightNow.add(Calendar.DAY_OF_YEAR,i);
+        Date res=rightNow.getTime();
+        return res;
     }
 
     public static long diff(Date d1, Date d2, String field) {

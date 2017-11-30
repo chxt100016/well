@@ -2,23 +2,19 @@ package org.wella.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.sun.javafx.collections.MappingChange;
 import com.wellapay.cncb.model.ForceTransferBasicInfo;
-import io.wellassist.utils.Query;
 import io.wellassist.utils.R;
-import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.wella.common.utils.CommonUtil;
 import org.wella.common.utils.ConstantUtil;
 import org.wella.common.utils.ConvertUtil;
 import org.wella.dao.*;
 import org.wella.entity.*;
 import org.wella.service.*;
-import org.wella.utils.CommonUtil;
 
 import java.math.BigDecimal;
-import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -56,8 +52,6 @@ public class CustomerServiceImpl implements CustomerService {
     private VehicleGrabDao vehicleGrabDao;
     @Autowired
     private WaUserDao waUserDao;
-    @Autowired
-    private OrderHistoryTailDao orderHistoryTailDao;
     @Autowired
     private CreditDao creditDao;
     @Autowired
@@ -618,7 +612,6 @@ public class CustomerServiceImpl implements CustomerService {
     public int repayLoanByBalance(long userId, long loanId, BigDecimal principal,BigDecimal overdueFine, BigDecimal interest, String ip) {
         Map<String, Object> user = waUserDao.singleUserByPrimaryKey(userId);
         Map<String, Object> loan = loanDao.singleLoanByPrimaryKey(loanId);
-
 
         //update table wa_loan
         Map<String, Object> updateLoan = new HashMap<>();
