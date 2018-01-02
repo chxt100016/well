@@ -58,7 +58,7 @@
             <c:forEach var="item" items="${waOrderList}">
                 <tr class="blue-3">
                     <td colspan="5"><span><fmt:formatDate value="${item.orderDate}" pattern="yyyy-MM-dd HH:mm:ss"/> </span><span>订单号：${item.orderNo}</span></td>
-                    <td> <span  class="pointer" onClick="toURL('cancelOrder', '${item.orderId}')" style="font-size:15px"><i class="trash icon"></i></span></td>
+                    <td> <span  class="pointer" style="font-size:15px"><i class="trash icon"></i></span></td>
                 </tr>
                 <tr>
                     <td class="right-border">

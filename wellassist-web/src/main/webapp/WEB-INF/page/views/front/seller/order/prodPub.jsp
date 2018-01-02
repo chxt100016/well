@@ -109,7 +109,7 @@
                         <tr>
                             <td></td>
                             <td><input type="reset" name="reset" style="display: none;" /></td>
-                            <td><button class="ui primary button">提交</button>&emsp;<a class="ui button" href="#" role="button" type="reset">返回</a></td>                            
+                            <td><button class="ui primary button">提交</button>&emsp;<a class="ui button" href="${pageContext.request.contextPath}/seller/productList" role="button" type="reset">返回</a></td>                            
                             <td></td>
                             <td></td>
                         </tr>

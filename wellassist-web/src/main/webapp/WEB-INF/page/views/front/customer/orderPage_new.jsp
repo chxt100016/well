@@ -12,7 +12,7 @@
     <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css"> -->
 
-     <script src="https://unpkg.com/vue/dist/vue.js"></script>
+     <!-- <script src="https://unpkg.com/vue/dist/vue.js"></script> -->
      <style>
          .error-div{
         color: #900b09;
@@ -450,6 +450,10 @@
     // 初始化函数
     $(function() {
         // 检查模块
+        $.validator.addMethod("checkQQ",function(value,element,params){  
+            var checkQQ = /^[\u4E00-\u9FA5A-Za-z]+$/;  
+            return this.optional(element)||(checkQQ.test(value));  
+        },"*只能输入中文和英文！");  
 
         $("#infoForm ").validate({
             errorPlacement: function(error, element) {
@@ -475,7 +479,8 @@
                     required: true
                 },
                 contacts: {
-                    required: true
+                    required: true,
+                    checkQQ:true
                 },
                 conTel: {
                     required: true,
@@ -494,13 +499,16 @@
                 saleMoney: "请输入总价！",
                 deliverDate: "请输入发货时间",
                 reveive_date: "请输入收货时间！",
-                contacts: "请输入联系人",
+                contacts: {
+                    required: "请输入联系人"
+                    },
                 conTel: {
                     required: "请输入联系电话",
 
                 },
                 toRegionAddr: "请输入完整收货地址！",
             },
+         
             submitHandler: function(form) {
                 $("#submit").addClass("disabled");
                 var isSelfCar=$("input[type='radio'][name='isSelfCar']:checked").val();
@@ -550,9 +558,9 @@
                     }, "json");
                 }
             }
-
+            
         }); // 
-
+      
 //添加车辆信息表单验证
         $('.has_vehicle_form').form({
        on:'blur',
@@ -563,7 +571,12 @@
                 rules:[{
                     type   : 'empty',
                     prompt : '请填写司机名称'
-                }]
+                },
+                {
+                    type   : 'regExp[ /^[\u4E00-\u9FA5A-Za-z]+$/]',
+                    prompt : '请填写正确的司机名称'
+                }
+                ]
             },
             dr_tel :{
                 identifier:'dr_tel',

@@ -24,7 +24,7 @@
                             <td>{{index+1}}</td>
                             <td>{{item.customerUserName}}</td>
                             <td>{{item.billMoney}}</td>
-                            <td>{{item.orderNos}}</td>
+                            <td><div style="max-width:420px;overflow:hidden;word-wrap: break-word;">{{item.orderNos}}</div></td>
                             <td>{{item.applyDate}}</td>
                             <td>
                                 <span v-if='item.billState==-1'>收到否认</span>
