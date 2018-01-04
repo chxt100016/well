@@ -16,9 +16,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by liuwen on 2017/5/17.
- */
+
 @Controller
 @RequestMapping("/platform/")
 public class PlateformController {
