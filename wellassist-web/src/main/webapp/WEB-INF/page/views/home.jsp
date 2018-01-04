@@ -130,7 +130,7 @@
                 <img src="${pageContext.request.contextPath}/img/about-us.jpg" width="600" height="700" />
             </div>
             <div class="col-lg-6">
-                <iframe src="http://www.map-generator.org/ca443ddb-2746-4679-918b-a9715ff83784/iframe-map.aspx" scrolling="no" width="600px" height="550px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><br>
+                <!-- <iframe src="http://www.map-generator.org/ca443ddb-2746-4679-918b-a9715ff83784/iframe-map.aspx" scrolling="no" width="600px" height="550px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><br> -->
                 <div style="margin-top: 20px;font-size:15px;">
                     <h3>浙江维助供应链管理有限公司</h3>
                     <i class="marker icon"></i><span>地址：杭州市江干区九环路9号浙江省国家大学科技园D幢8楼801室</span><br>

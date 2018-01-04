@@ -573,7 +573,7 @@
                     prompt : '请填写司机名称'
                 },
                 {
-                    type   : 'regExp[ /^[\u4E00-\u9FA5A-Za-z]+$/]',
+                    type   : 'regExp[/^[\u4E00-\u9FA5A-Za-z]+$/]',
                     prompt : '请填写正确的司机名称'
                 }
                 ]
